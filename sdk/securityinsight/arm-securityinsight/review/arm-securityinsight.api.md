@@ -23,7 +23,6 @@ export interface AADCheckRequirementsProperties extends DataConnectorTenantId {
 // @public
 export interface AADDataConnector extends DataConnector {
     dataTypes?: AlertsDataTypeOfDataConnector;
-    kind: "AzureActiveDirectory";
     tenantId?: string;
 }
 
@@ -44,7 +43,6 @@ export interface AatpCheckRequirementsProperties extends DataConnectorTenantId {
 // @public
 export interface AatpDataConnector extends DataConnector {
     dataTypes?: AlertsDataTypeOfDataConnector;
-    kind: "AzureAdvancedThreatProtection";
     tenantId?: string;
 }
 
@@ -65,7 +63,6 @@ export interface AccountEntity extends Entity {
     readonly friendlyName?: string;
     readonly hostEntityId?: string;
     readonly isDomainJoined?: boolean;
-    kind: "Account";
     readonly ntDomain?: string;
     readonly objectGuid?: string;
     readonly puid?: string;
@@ -175,7 +172,6 @@ export interface ActivityCustomEntityQuery extends CustomEntityQuery {
         [propertyName: string]: string[];
     };
     inputEntityType?: EntityType;
-    kind: "Activity";
     readonly lastModifiedTimeUtc?: Date;
     queryDefinitions?: ActivityEntityQueriesPropertiesQueryDefinitions;
     requiredInputFieldsSets?: string[][];
@@ -198,7 +194,6 @@ export interface ActivityEntityQuery extends EntityQuery {
         [propertyName: string]: string[];
     };
     inputEntityType?: EntityType;
-    kind: "Activity";
     readonly lastModifiedTimeUtc?: Date;
     queryDefinitions?: ActivityEntityQueriesPropertiesQueryDefinitions;
     requiredInputFieldsSets?: string[][];
@@ -215,7 +210,6 @@ export interface ActivityEntityQueryTemplate extends EntityQueryTemplate {
         [propertyName: string]: string[];
     };
     inputEntityType?: EntityType;
-    kind: "Activity";
     queryDefinitions?: ActivityEntityQueryTemplatePropertiesQueryDefinitions;
     requiredInputFieldsSets?: string[][];
     title?: string;
@@ -246,8 +240,18 @@ export type AlertDetail = string;
 export interface AlertDetailsOverride {
     alertDescriptionFormat?: string;
     alertDisplayNameFormat?: string;
+    alertDynamicProperties?: AlertPropertyMapping[];
     alertSeverityColumnName?: string;
     alertTacticsColumnName?: string;
+}
+
+// @public
+export type AlertProperty = string;
+
+// @public
+export interface AlertPropertyMapping {
+    alertProperty?: AlertProperty;
+    value?: string;
 }
 
 // @public
@@ -385,7 +389,6 @@ export type AlertStatus = string;
 // @public
 export interface Anomalies extends Settings {
     readonly isEnabled?: boolean;
-    kind: "Anomalies";
 }
 
 // @public
@@ -398,7 +401,6 @@ export interface AnomalySecurityMLAnalyticsSettings extends SecurityMLAnalyticsS
     enabled?: boolean;
     frequency?: string;
     isDefaultSettings?: boolean;
-    kind: "Anomaly";
     readonly lastModifiedUtc?: Date;
     requiredDataConnectors?: SecurityMLAnalyticsSettingsDataSource[];
     settingsDefinitionId?: string;
@@ -435,7 +437,6 @@ export interface ASCCheckRequirements extends DataConnectorsCheckRequirements {
 // @public
 export interface ASCDataConnector extends DataConnector {
     dataTypes?: AlertsDataTypeOfDataConnector;
-    kind: "AzureSecurityCenter";
     subscriptionId?: string;
 }
 
@@ -643,7 +644,6 @@ export interface AwsCloudTrailCheckRequirements extends DataConnectorsCheckRequi
 export interface AwsCloudTrailDataConnector extends DataConnector {
     awsRoleArn?: string;
     dataTypes?: AwsCloudTrailDataConnectorDataTypes;
-    kind: "AmazonWebServicesCloudTrail";
 }
 
 // @public
@@ -664,7 +664,6 @@ export interface AwsS3CheckRequirements extends DataConnectorsCheckRequirements 
 export interface AwsS3DataConnector extends DataConnector {
     dataTypes?: AwsS3DataConnectorDataTypes;
     destinationTable?: string;
-    kind: "AmazonWebServicesS3";
     roleArn?: string;
     sqsUrls?: string[];
 }
@@ -690,7 +689,6 @@ export interface AzureResourceEntity extends Entity {
         [propertyName: string]: Record<string, unknown>;
     };
     readonly friendlyName?: string;
-    kind: "AzureResource";
     readonly resourceId?: string;
     readonly subscriptionId?: string;
 }
@@ -889,7 +887,6 @@ export interface CloudApplicationEntity extends Entity {
     readonly appName?: string;
     readonly friendlyName?: string;
     readonly instanceName?: string;
-    kind: "CloudApplication";
 }
 
 // @public
@@ -913,7 +910,6 @@ export interface CloudErrorBody {
 // @public
 export interface CodelessApiPollingDataConnector extends DataConnector {
     connectorUiConfig?: CodelessUiConnectorConfigProperties;
-    kind: "APIPolling";
     pollingConfig?: CodelessConnectorPollingConfigProperties;
 }
 
@@ -1019,7 +1015,6 @@ export interface CodelessUiConnectorConfigPropertiesSampleQueriesItem extends Sa
 // @public
 export interface CodelessUiDataConnector extends DataConnector {
     connectorUiConfig?: CodelessUiConnectorConfigProperties;
-    kind: "GenericUI";
 }
 
 // @public
@@ -1273,7 +1268,6 @@ export interface DnsEntity extends Entity {
     readonly friendlyName?: string;
     readonly hostIpAddressEntityId?: string;
     readonly ipAddressEntityIds?: string[];
-    kind: "DnsResolution";
 }
 
 // @public
@@ -1309,7 +1303,6 @@ export interface Dynamics365CheckRequirementsProperties extends DataConnectorTen
 // @public
 export interface Dynamics365DataConnector extends DataConnector {
     dataTypes?: Dynamics365DataConnectorDataTypes;
-    kind: "Dynamics365";
     tenantId?: string;
 }
 
@@ -1499,7 +1492,6 @@ export interface Entity extends Resource {
 // @public
 export interface EntityAnalytics extends Settings {
     entityProviders?: EntityProviders[];
-    kind: "EntityAnalytics";
 }
 
 // @public
@@ -1782,7 +1774,6 @@ export interface ExpansionEntityQuery extends EntityQuery {
     displayName?: string;
     inputEntityType?: EntityType;
     inputFields?: string[];
-    kind: "Expansion";
     outputEntityTypes?: EntityType[];
     queryTemplate?: string;
 }
@@ -1803,7 +1794,6 @@ export interface ExpansionResultsMetadata {
 // @public
 export interface EyesOn extends Settings {
     readonly isEnabled?: boolean;
-    kind: "EyesOn";
 }
 
 // @public
@@ -1822,7 +1812,6 @@ export interface FileEntity extends Entity {
     readonly fileName?: string;
     readonly friendlyName?: string;
     readonly hostEntityId?: string;
-    kind: "File";
 }
 
 // @public
@@ -1847,7 +1836,6 @@ export interface FileHashEntity extends Entity {
     readonly algorithm?: FileHashAlgorithm;
     readonly friendlyName?: string;
     readonly hashValue?: string;
-    kind: "FileHash";
 }
 
 // @public
@@ -1954,7 +1942,6 @@ export interface FusionAlertRule extends AlertRule {
     readonly description?: string;
     readonly displayName?: string;
     enabled?: boolean;
-    kind: "Fusion";
     readonly lastModifiedUtc?: Date;
     scenarioExclusionPatterns?: FusionScenarioExclusionPattern[];
     readonly severity?: AlertSeverity;
@@ -1969,7 +1956,6 @@ export interface FusionAlertRuleTemplate extends AlertRuleTemplate {
     readonly createdDateUTC?: Date;
     description?: string;
     displayName?: string;
-    kind: "Fusion";
     readonly lastUpdatedDateUTC?: Date;
     requiredDataConnectors?: AlertRuleTemplateDataSource[];
     severity?: AlertSeverity;
@@ -2096,7 +2082,6 @@ export interface HostEntity extends Entity {
     readonly friendlyName?: string;
     readonly hostName?: string;
     readonly isDomainJoined?: boolean;
-    kind: "Host";
     readonly netBiosName?: string;
     readonly ntDomain?: string;
     readonly omsAgentID?: string;
@@ -2128,7 +2113,6 @@ export interface HuntingBookmark extends Entity {
     eventTime?: Date;
     readonly friendlyName?: string;
     incidentInfo?: IncidentInfo;
-    kind: "Bookmark";
     labels?: string[];
     notes?: string;
     query?: string;
@@ -2567,7 +2551,6 @@ export interface IoTCheckRequirements extends DataConnectorsCheckRequirements {
 // @public
 export interface IoTDataConnector extends DataConnector {
     dataTypes?: AlertsDataTypeOfDataConnector;
-    kind: "IOT";
     subscriptionId?: string;
 }
 
@@ -2596,7 +2579,6 @@ export interface IoTDeviceEntity extends Entity {
     readonly isAuthorized?: boolean;
     readonly isProgramming?: boolean;
     readonly isScanner?: boolean;
-    kind: "IoTDevice";
     readonly macAddress?: string;
     readonly model?: string;
     readonly nicEntityIds?: string[];
@@ -2652,7 +2634,6 @@ export interface IpEntity extends Entity {
     };
     readonly address?: string;
     readonly friendlyName?: string;
-    kind: "Ip";
     readonly location?: GeoLocation;
     readonly threatIntelligence?: ThreatIntelligence[];
 }
@@ -2692,6 +2673,19 @@ export enum KnownActionType {
 export enum KnownAlertDetail {
     DisplayName = "DisplayName",
     Severity = "Severity"
+}
+
+// @public
+export enum KnownAlertProperty {
+    AlertLink = "AlertLink",
+    ConfidenceLevel = "ConfidenceLevel",
+    ConfidenceScore = "ConfidenceScore",
+    ExtendedLinks = "ExtendedLinks",
+    ProductComponentName = "ProductComponentName",
+    ProductName = "ProductName",
+    ProviderName = "ProviderName",
+    RemediationSteps = "RemediationSteps",
+    Techniques = "Techniques"
 }
 
 // @public
@@ -3305,6 +3299,14 @@ export enum KnownProviderName {
 }
 
 // @public
+export enum KnownProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownRegistryHive {
     HkeyA = "HKEY_A",
     HkeyClassesRoot = "HKEY_CLASSES_ROOT",
@@ -3377,6 +3379,12 @@ export enum KnownSourceType {
 }
 
 // @public
+export enum KnownSummaryStatus {
+    Active = "Active",
+    Deleted = "Deleted"
+}
+
+// @public
 export enum KnownSupportTier {
     Community = "Community",
     Microsoft = "Microsoft",
@@ -3415,6 +3423,12 @@ export enum KnownTriggersWhen {
 }
 
 // @public
+export enum KnownType {
+    DynamicSummary = "dynamic-summary",
+    DynamicSummaryItem = "dynamic-summary-item"
+}
+
+// @public
 export enum KnownUebaDataSources {
     AuditLogs = "AuditLogs",
     AzureActivity = "AzureActivity",
@@ -3442,7 +3456,6 @@ export interface MailboxEntity extends Entity {
     readonly displayName?: string;
     readonly externalDirectoryObjectId?: string;
     readonly friendlyName?: string;
-    kind: "Mailbox";
     readonly mailboxPrimaryAddress?: string;
     readonly upn?: string;
 }
@@ -3470,7 +3483,6 @@ export interface MailClusterEntity extends Entity {
     readonly countByThreatType?: Record<string, unknown>;
     readonly friendlyName?: string;
     readonly isVolumeAnomaly?: boolean;
-    kind: "MailCluster";
     readonly mailCount?: number;
     readonly networkMessageIds?: string[];
     readonly query?: string;
@@ -3514,7 +3526,6 @@ export interface MailMessageEntity extends Entity {
     readonly fileEntityIds?: string[];
     readonly friendlyName?: string;
     readonly internetMessageId?: string;
-    kind: "MailMessage";
     readonly language?: string;
     readonly networkMessageId?: string;
     readonly p1Sender?: string;
@@ -3569,7 +3580,6 @@ export interface MalwareEntity extends Entity {
     readonly category?: string;
     readonly fileEntityIds?: string[];
     readonly friendlyName?: string;
-    kind: "Malware";
     readonly malwareName?: string;
     readonly processEntityIds?: string[];
 }
@@ -3606,7 +3616,6 @@ export interface McasCheckRequirementsProperties extends DataConnectorTenantId {
 // @public
 export interface McasDataConnector extends DataConnector {
     dataTypes?: McasDataConnectorDataTypes;
-    kind: "MicrosoftCloudAppSecurity";
     tenantId?: string;
 }
 
@@ -3633,7 +3642,6 @@ export interface MdatpCheckRequirementsProperties extends DataConnectorTenantId 
 // @public
 export interface MdatpDataConnector extends DataConnector {
     dataTypes?: AlertsDataTypeOfDataConnector;
-    kind: "MicrosoftDefenderAdvancedThreatProtection";
     tenantId?: string;
 }
 
@@ -3795,7 +3803,6 @@ export interface MicrosoftSecurityIncidentCreationAlertRule extends AlertRule {
     displayNamesExcludeFilter?: string[];
     displayNamesFilter?: string[];
     enabled?: boolean;
-    kind: "MicrosoftSecurityIncidentCreation";
     readonly lastModifiedUtc?: Date;
     productFilter?: MicrosoftSecurityProductName;
     severitiesFilter?: AlertSeverity[];
@@ -3826,7 +3833,6 @@ export interface MicrosoftSecurityIncidentCreationAlertRuleTemplate extends Aler
     displayName?: string;
     displayNamesExcludeFilter?: string[];
     displayNamesFilter?: string[];
-    kind: "MicrosoftSecurityIncidentCreation";
     readonly lastUpdatedDateUTC?: Date;
     productFilter?: MicrosoftSecurityProductName;
     requiredDataConnectors?: AlertRuleTemplateDataSource[];
@@ -3851,7 +3857,6 @@ export interface MLBehaviorAnalyticsAlertRule extends AlertRule {
     readonly description?: string;
     readonly displayName?: string;
     enabled?: boolean;
-    kind: "MLBehaviorAnalytics";
     readonly lastModifiedUtc?: Date;
     readonly severity?: AlertSeverity;
     readonly tactics?: AttackTactic[];
@@ -3864,7 +3869,6 @@ export interface MLBehaviorAnalyticsAlertRuleTemplate extends AlertRuleTemplate 
     readonly createdDateUTC?: Date;
     description?: string;
     displayName?: string;
-    kind: "MLBehaviorAnalytics";
     readonly lastUpdatedDateUTC?: Date;
     requiredDataConnectors?: AlertRuleTemplateDataSource[];
     severity?: AlertSeverity;
@@ -3891,7 +3895,6 @@ export interface MstiCheckRequirementsProperties extends DataConnectorTenantId {
 // @public
 export interface MstiDataConnector extends DataConnector {
     dataTypes?: MstiDataConnectorDataTypes;
-    kind: "MicrosoftThreatIntelligence";
     tenantId?: string;
 }
 
@@ -3929,7 +3932,6 @@ export interface MTPCheckRequirementsProperties extends DataConnectorTenantId {
 // @public
 export interface MTPDataConnector extends DataConnector {
     dataTypes?: MTPDataConnectorDataTypes;
-    kind: "MicrosoftThreatProtection";
     tenantId?: string;
 }
 
@@ -3954,7 +3956,6 @@ export interface NicEntity extends Entity {
     };
     readonly friendlyName?: string;
     readonly ipAddressEntityId?: string;
-    kind: "Nic";
     readonly macAddress?: string;
     readonly vlans?: string[];
 }
@@ -3979,9 +3980,9 @@ export interface NrtAlertRule extends AlertRule {
     entityMappings?: EntityMapping[];
     eventGroupingSettings?: EventGroupingSettings;
     incidentConfiguration?: IncidentConfiguration;
-    kind: "NRT";
     readonly lastModifiedUtc?: Date;
     query?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     suppressionDuration?: string;
     suppressionEnabled?: boolean;
@@ -4002,10 +4003,10 @@ export interface NrtAlertRuleTemplate extends AlertRuleTemplate {
     displayName?: string;
     entityMappings?: EntityMapping[];
     eventGroupingSettings?: EventGroupingSettings;
-    kind: "NRT";
     readonly lastUpdatedDateUTC?: Date;
     query?: string;
     requiredDataConnectors?: AlertRuleTemplateDataSource[];
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     status?: TemplateStatus;
     tactics?: AttackTactic[];
@@ -4039,7 +4040,6 @@ export interface Office365ProjectConnectorDataTypesLogs extends DataConnectorDat
 // @public
 export interface Office365ProjectDataConnector extends DataConnector {
     dataTypes?: Office365ProjectConnectorDataTypes;
-    kind: "Office365Project";
     tenantId?: string;
 }
 
@@ -4061,7 +4061,6 @@ export interface OfficeATPCheckRequirementsProperties extends DataConnectorTenan
 // @public
 export interface OfficeATPDataConnector extends DataConnector {
     dataTypes?: AlertsDataTypeOfDataConnector;
-    kind: "OfficeATP";
     tenantId?: string;
 }
 
@@ -4116,7 +4115,6 @@ export type OfficeConsentsListResponse = OfficeConsentList;
 // @public
 export interface OfficeDataConnector extends DataConnector {
     dataTypes?: OfficeDataConnectorDataTypes;
-    kind: "Office365";
     tenantId?: string;
 }
 
@@ -4157,7 +4155,6 @@ export interface OfficeIRMCheckRequirementsProperties extends DataConnectorTenan
 // @public
 export interface OfficeIRMDataConnector extends DataConnector {
     dataTypes?: AlertsDataTypeOfDataConnector;
-    kind: "OfficeIRM";
     tenantId?: string;
 }
 
@@ -4187,7 +4184,6 @@ export interface OfficePowerBIConnectorDataTypesLogs extends DataConnectorDataTy
 // @public
 export interface OfficePowerBIDataConnector extends DataConnector {
     dataTypes?: OfficePowerBIConnectorDataTypes;
-    kind: "OfficePowerBI";
     tenantId?: string;
 }
 
@@ -4289,7 +4285,6 @@ export interface ProcessEntity extends Entity {
     readonly hostEntityId?: string;
     readonly hostLogonSessionEntityId?: string;
     readonly imageFileEntityId?: string;
-    kind: "Process";
     readonly parentProcessEntityId?: string;
     readonly processId?: string;
 }
@@ -4372,6 +4367,9 @@ export interface PropertyConditionProperties extends AutomationRuleCondition {
 export type ProviderName = string;
 
 // @public
+export type ProvisioningState = string;
+
+// @public
 export interface QueryBasedAlertRuleTemplateProperties {
     alertDetailsOverride?: AlertDetailsOverride;
     customDetails?: {
@@ -4380,6 +4378,7 @@ export interface QueryBasedAlertRuleTemplateProperties {
     entityMappings?: EntityMapping[];
     eventGroupingSettings?: EventGroupingSettings;
     query?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     version?: string;
 }
@@ -4395,7 +4394,6 @@ export interface RegistryKeyEntity extends Entity {
     readonly friendlyName?: string;
     readonly hive?: RegistryHive;
     readonly key?: string;
-    kind: "RegistryKey";
 }
 
 // @public
@@ -4411,7 +4409,6 @@ export interface RegistryValueEntity extends Entity {
     };
     readonly friendlyName?: string;
     readonly keyEntityId?: string;
-    kind: "RegistryValue";
     readonly valueData?: string;
     readonly valueName?: string;
     readonly valueType?: RegistryValueKind;
@@ -4523,11 +4520,11 @@ export interface ScheduledAlertRule extends AlertRule {
     entityMappings?: EntityMapping[];
     eventGroupingSettings?: EventGroupingSettings;
     incidentConfiguration?: IncidentConfiguration;
-    kind: "Scheduled";
     readonly lastModifiedUtc?: Date;
     query?: string;
     queryFrequency?: string;
     queryPeriod?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     suppressionDuration?: string;
     suppressionEnabled?: boolean;
@@ -4549,6 +4546,7 @@ export interface ScheduledAlertRuleCommonProperties {
     query?: string;
     queryFrequency?: string;
     queryPeriod?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     triggerOperator?: TriggerOperator;
     triggerThreshold?: number;
@@ -4581,12 +4579,12 @@ export interface ScheduledAlertRuleTemplate extends AlertRuleTemplate {
     displayName?: string;
     entityMappings?: EntityMapping[];
     eventGroupingSettings?: EventGroupingSettings;
-    kind: "Scheduled";
     readonly lastUpdatedDateUTC?: Date;
     query?: string;
     queryFrequency?: string;
     queryPeriod?: string;
     requiredDataConnectors?: AlertRuleTemplateDataSource[];
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     status?: TemplateStatus;
     tactics?: AttackTactic[];
@@ -4613,7 +4611,6 @@ export interface SecurityAlert extends Entity {
     readonly endTimeUtc?: Date;
     readonly friendlyName?: string;
     readonly intent?: KillChainIntent;
-    kind: "SecurityAlert";
     readonly processingEndTime?: Date;
     readonly productComponentName?: string;
     readonly productName?: string;
@@ -4672,10 +4669,12 @@ export interface SecurityAlertTimelineItem extends EntityTimelineItem {
     description?: string;
     displayName: string;
     endTimeUtc: Date;
+    readonly intent?: KillChainIntent;
     kind: "SecurityAlert";
     productName?: string;
     severity: AlertSeverity;
     startTimeUtc: Date;
+    techniques?: string[];
     timeGenerated: Date;
 }
 
@@ -4686,7 +4685,6 @@ export interface SecurityGroupEntity extends Entity {
     };
     readonly distinguishedName?: string;
     readonly friendlyName?: string;
-    kind: "SecurityGroup";
     readonly objectGuid?: string;
     readonly sid?: string;
 }
@@ -4765,6 +4763,8 @@ export class SecurityInsights extends coreClient.ServiceClient {
     sourceControls: SourceControls;
     // (undocumented)
     subscriptionId: string;
+    // (undocumented)
+    summaries: Summaries;
     // (undocumented)
     threatIntelligenceIndicator: ThreatIntelligenceIndicator;
     // (undocumented)
@@ -4846,6 +4846,11 @@ export type SecurityMLAnalyticsSettingsListResponse = SecurityMLAnalyticsSetting
 
 // @public (undocumented)
 export type SecurityMLAnalyticsSettingUnion = SecurityMLAnalyticsSetting | AnomalySecurityMLAnalyticsSettings;
+
+// @public
+export interface SentinelEntityMapping {
+    columnName?: string;
+}
 
 // @public
 export interface SentinelOnboardingState extends ResourceWithEtag {
@@ -5003,7 +5008,6 @@ export interface SubmissionMailEntity extends Entity {
         [propertyName: string]: Record<string, unknown>;
     };
     readonly friendlyName?: string;
-    kind: "SubmissionMail";
     readonly networkMessageId?: string;
     readonly recipient?: string;
     readonly reportType?: string;
@@ -5029,6 +5033,80 @@ export interface SubmissionMailEntityProperties extends EntityCommonProperties {
     readonly submitter?: string;
     readonly timestamp?: Date;
 }
+
+// @public
+export interface Summaries {
+    createOrUpdate(resourceGroupName: string, workspaceName: string, summaryId: string, summary: Summary, options?: SummariesCreateOrUpdateOptionalParams): Promise<SummariesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, workspaceName: string, summaryId: string, options?: SummariesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, workspaceName: string, summaryId: string, options?: SummariesGetOptionalParams): Promise<SummariesGetResponse>;
+    list(resourceGroupName: string, workspaceName: string, options?: SummariesListOptionalParams): PagedAsyncIterableIterator<Summary>;
+}
+
+// @public
+export interface SummariesCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface SummariesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SummariesCreateOrUpdateResponse = Summary;
+
+// @public
+export interface SummariesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SummariesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SummariesGetResponse = Summary;
+
+// @public
+export interface SummariesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SummariesListNextResponse = SummaryList;
+
+// @public
+export interface SummariesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SummariesListResponse = SummaryList;
+
+// @public
+export interface Summary extends ResourceWithEtag {
+    readonly provisioningState?: ProvisioningState;
+    rawContent?: string;
+    relationId?: string;
+    relationName?: string;
+    searchKey?: string;
+    sourceInfo?: {
+        [propertyName: string]: string;
+    };
+    summaryDescription?: string;
+    summaryId?: string;
+    summaryName?: string;
+    summaryStatus?: SummaryStatus;
+    tactics?: AttackTactic[];
+    techniques?: string[];
+    tenantId?: string;
+    typePropertiesType?: Type;
+}
+
+// @public
+export interface SummaryList {
+    readonly nextLink?: string;
+    value: Summary[];
+}
+
+// @public
+export type SummaryStatus = string;
 
 // @public
 export type SupportTier = string;
@@ -5079,7 +5157,6 @@ export interface ThreatIntelligenceAlertRule extends AlertRule {
     readonly description?: string;
     readonly displayName?: string;
     enabled?: boolean;
-    kind: "ThreatIntelligence";
     readonly lastModifiedUtc?: Date;
     readonly severity?: AlertSeverity;
     readonly tactics?: AttackTactic[];
@@ -5092,7 +5169,6 @@ export interface ThreatIntelligenceAlertRuleTemplate extends AlertRuleTemplate {
     readonly createdDateUTC?: Date;
     description?: string;
     displayName?: string;
-    kind: "ThreatIntelligence";
     readonly lastUpdatedDateUTC?: Date;
     requiredDataConnectors?: AlertRuleTemplateDataSource[];
     severity?: AlertSeverity;
@@ -5219,7 +5295,6 @@ export interface ThreatIntelligenceIndicatorModel extends ThreatIntelligenceInfo
     granularMarkings?: ThreatIntelligenceGranularMarkingModel[];
     indicatorTypes?: string[];
     killChainPhases?: ThreatIntelligenceKillChainPhase[];
-    kind: "indicator";
     labels?: string[];
     language?: string;
     lastUpdatedTimeUtc?: string;
@@ -5400,7 +5475,6 @@ export interface TICheckRequirementsProperties extends DataConnectorTenantId {
 // @public
 export interface TIDataConnector extends DataConnector {
     dataTypes?: TIDataConnectorDataTypes;
-    kind: "ThreatIntelligence";
     tenantId?: string;
     tipLookbackPeriod?: Date;
 }
@@ -5455,7 +5529,6 @@ export interface TiTaxiiDataConnector extends DataConnector {
     collectionId?: string;
     dataTypes?: TiTaxiiDataConnectorDataTypes;
     friendlyName?: string;
-    kind: "ThreatIntelligenceTaxii";
     password?: string;
     pollingFrequency?: PollingFrequency;
     taxiiLookbackPeriod?: Date;
@@ -5497,9 +5570,11 @@ export type TriggersOn = string;
 export type TriggersWhen = string;
 
 // @public
+export type Type = string;
+
+// @public
 export interface Ueba extends Settings {
     dataSources?: UebaDataSources[];
-    kind: "Ueba";
 }
 
 // @public
@@ -5511,7 +5586,6 @@ export interface UrlEntity extends Entity {
         [propertyName: string]: Record<string, unknown>;
     };
     readonly friendlyName?: string;
-    kind: "Url";
     readonly url?: string;
 }
 

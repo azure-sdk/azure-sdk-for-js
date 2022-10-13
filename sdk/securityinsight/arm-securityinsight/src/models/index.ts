@@ -1431,6 +1431,17 @@ export interface OperationDisplay {
   resource?: string;
 }
 
+/** List all the summaries. */
+export interface SummaryList {
+  /**
+   * URL to fetch the next set of summaries.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** Array of summaries. */
+  value: Summary[];
+}
+
 /** alert rule template data sources */
 export interface AlertRuleTemplateDataSource {
   /** The connector id that provides the following data types */
@@ -1479,6 +1490,8 @@ export interface QueryBasedAlertRuleTemplateProperties {
   alertDetailsOverride?: AlertDetailsOverride;
   /** The event grouping settings. */
   eventGroupingSettings?: EventGroupingSettings;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
 }
 
 /** Single entity mapping for the alert rule */
@@ -1507,12 +1520,28 @@ export interface AlertDetailsOverride {
   alertTacticsColumnName?: string;
   /** the column name to take the alert severity from */
   alertSeverityColumnName?: string;
+  /** List of additional dynamic properties to override */
+  alertDynamicProperties?: AlertPropertyMapping[];
+}
+
+/** A single alert property mapping to override */
+export interface AlertPropertyMapping {
+  /** The V3 alert property */
+  alertProperty?: AlertProperty;
+  /** the column name to use to override this property */
+  value?: string;
 }
 
 /** Event grouping settings property bag. */
 export interface EventGroupingSettings {
   /** The event grouping aggregation kinds */
   aggregationKind?: EventGroupingAggregationKind;
+}
+
+/** A single sentinel entity mapping */
+export interface SentinelEntityMapping {
+  /** the column name to be mapped to the SentinelEntities */
+  columnName?: string;
 }
 
 /** Represents a supported source signal configuration in Fusion detection. */
@@ -1656,6 +1685,8 @@ export interface ScheduledAlertRuleCommonProperties {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
 }
 
 export interface AutomationRuleBooleanCondition {
@@ -2459,6 +2490,13 @@ export interface SecurityAlertTimelineItem extends EntityTimelineItem {
   timeGenerated: Date;
   /** The name of the alert type. */
   alertType: string;
+  /**
+   * The intent of the alert.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly intent?: KillChainIntent;
+  /** The techniques of the alert. */
+  techniques?: string[];
 }
 
 /** Represents Insight Query. */
@@ -4363,11 +4401,44 @@ export interface DataConnector extends ResourceWithEtag {
   kind: DataConnectorKind;
 }
 
+/** Represents a Summary in Azure Security Insights. */
+export interface Summary extends ResourceWithEtag {
+  /** The ID (a GUID) of the summary */
+  summaryId?: string;
+  /** The name of the summary */
+  summaryName?: string;
+  /** The source info for the summary */
+  sourceInfo?: { [propertyName: string]: string };
+  /** The search key is used to optimize query performance when using summaries for joins with other data. For example, enable a column with IP addresses to be the designated SearchKey field, then use this field as the key field when joining to other event data by IP address. */
+  searchKey?: string;
+  /** A list of relevant MITRE attacks */
+  tactics?: AttackTactic[];
+  /** The list of techniques for summary */
+  techniques?: string[];
+  /** The relation name for the summary */
+  relationName?: string;
+  /** The relation ID (GUID) for the summary */
+  relationId?: string;
+  /** The description for the summary */
+  summaryDescription?: string;
+  /** The raw content that represents to summary items to create. */
+  rawContent?: string;
+  /** The type of the summary */
+  typePropertiesType?: Type;
+  /** The tenantId where the summary belongs to */
+  tenantId?: string;
+  /** The status of the Summary : Active, Deleted */
+  summaryStatus?: SummaryStatus;
+  /**
+   * The provisioning state of the Dynamic Summary resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
 /** Represents MLBehaviorAnalytics alert rule template. */
 export interface MLBehaviorAnalyticsAlertRuleTemplate
   extends AlertRuleTemplate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "MLBehaviorAnalytics";
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4398,8 +4469,6 @@ export interface MLBehaviorAnalyticsAlertRuleTemplate
 
 /** Represents Fusion alert rule template. */
 export interface FusionAlertRuleTemplate extends AlertRuleTemplate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Fusion";
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4432,8 +4501,6 @@ export interface FusionAlertRuleTemplate extends AlertRuleTemplate {
 
 /** Represents Threat Intelligence alert rule template. */
 export interface ThreatIntelligenceAlertRuleTemplate extends AlertRuleTemplate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "ThreatIntelligence";
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4465,8 +4532,6 @@ export interface ThreatIntelligenceAlertRuleTemplate extends AlertRuleTemplate {
 /** Represents MicrosoftSecurityIncidentCreation rule template. */
 export interface MicrosoftSecurityIncidentCreationAlertRuleTemplate
   extends AlertRuleTemplate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "MicrosoftSecurityIncidentCreation";
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4499,8 +4564,6 @@ export interface MicrosoftSecurityIncidentCreationAlertRuleTemplate
 
 /** Represents scheduled alert rule template. */
 export interface ScheduledAlertRuleTemplate extends AlertRuleTemplate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Scheduled";
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4547,12 +4610,12 @@ export interface ScheduledAlertRuleTemplate extends AlertRuleTemplate {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
 }
 
 /** Represents NRT alert rule template. */
 export interface NrtAlertRuleTemplate extends AlertRuleTemplate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "NRT";
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4591,12 +4654,12 @@ export interface NrtAlertRuleTemplate extends AlertRuleTemplate {
   alertDetailsOverride?: AlertDetailsOverride;
   /** The event grouping settings. */
   eventGroupingSettings?: EventGroupingSettings;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
 }
 
 /** Represents a security alert entity. */
 export interface SecurityAlert extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "SecurityAlert";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4733,8 +4796,6 @@ export interface SecurityAlert extends Entity {
 
 /** Represents a Hunting bookmark entity. */
 export interface HuntingBookmark extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Bookmark";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4771,8 +4832,6 @@ export interface HuntingBookmark extends Entity {
 
 /** Represents an account entity. */
 export interface AccountEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Account";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4847,8 +4906,6 @@ export interface AccountEntity extends Entity {
 
 /** Represents an azure resource entity. */
 export interface AzureResourceEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "AzureResource";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4873,8 +4930,6 @@ export interface AzureResourceEntity extends Entity {
 
 /** Represents a cloud application entity. */
 export interface CloudApplicationEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "CloudApplication";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4904,8 +4959,6 @@ export interface CloudApplicationEntity extends Entity {
 
 /** Represents a dns entity. */
 export interface DnsEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "DnsResolution";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4940,8 +4993,6 @@ export interface DnsEntity extends Entity {
 
 /** Represents a file entity. */
 export interface FileEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "File";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4976,8 +5027,6 @@ export interface FileEntity extends Entity {
 
 /** Represents a file hash entity. */
 export interface FileHashEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "FileHash";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5002,8 +5051,6 @@ export interface FileHashEntity extends Entity {
 
 /** Represents a host entity. */
 export interface HostEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Host";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5060,8 +5107,6 @@ export interface HostEntity extends Entity {
 
 /** Represents an IoT device entity. */
 export interface IoTDeviceEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "IoTDevice";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5213,8 +5258,6 @@ export interface IoTDeviceEntity extends Entity {
 
 /** Represents an ip entity. */
 export interface IpEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Ip";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5244,8 +5287,6 @@ export interface IpEntity extends Entity {
 
 /** Represents a mailbox entity. */
 export interface MailboxEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Mailbox";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5280,8 +5321,6 @@ export interface MailboxEntity extends Entity {
 
 /** Represents a mail cluster entity. */
 export interface MailClusterEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "MailCluster";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5371,8 +5410,6 @@ export interface MailClusterEntity extends Entity {
 
 /** Represents a mail message entity. */
 export interface MailMessageEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "MailMessage";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5488,8 +5525,6 @@ export interface MailMessageEntity extends Entity {
 
 /** Represents a malware entity. */
 export interface MalwareEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Malware";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5524,8 +5559,6 @@ export interface MalwareEntity extends Entity {
 
 /** Represents a process entity. */
 export interface ProcessEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Process";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5582,8 +5615,6 @@ export interface ProcessEntity extends Entity {
 
 /** Represents a registry key entity. */
 export interface RegistryKeyEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "RegistryKey";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5608,8 +5639,6 @@ export interface RegistryKeyEntity extends Entity {
 
 /** Represents a registry value entity. */
 export interface RegistryValueEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "RegistryValue";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5644,8 +5673,6 @@ export interface RegistryValueEntity extends Entity {
 
 /** Represents a security group entity. */
 export interface SecurityGroupEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "SecurityGroup";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5675,8 +5702,6 @@ export interface SecurityGroupEntity extends Entity {
 
 /** Represents a submission mail entity. */
 export interface SubmissionMailEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "SubmissionMail";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5741,8 +5766,6 @@ export interface SubmissionMailEntity extends Entity {
 
 /** Represents a url entity. */
 export interface UrlEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Url";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5762,8 +5785,6 @@ export interface UrlEntity extends Entity {
 
 /** Represents an network interface entity. */
 export interface NicEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Nic";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5793,8 +5814,6 @@ export interface NicEntity extends Entity {
 
 /** Represents Activity entity query. */
 export interface ActivityEntityQueryTemplate extends EntityQueryTemplate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Activity";
   /** The entity query title */
   title?: string;
   /** The entity query content to display in timeline */
@@ -5831,8 +5850,6 @@ export interface PermissionsCustomsItem extends Customs {}
 
 /** Represents MLBehaviorAnalytics alert rule. */
 export interface MLBehaviorAnalyticsAlertRule extends AlertRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "MLBehaviorAnalytics";
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /**
@@ -5871,8 +5888,6 @@ export interface MLBehaviorAnalyticsAlertRule extends AlertRule {
 
 /** Represents Fusion alert rule. */
 export interface FusionAlertRule extends AlertRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Fusion";
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /**
@@ -5915,8 +5930,6 @@ export interface FusionAlertRule extends AlertRule {
 
 /** Represents Threat Intelligence alert rule. */
 export interface ThreatIntelligenceAlertRule extends AlertRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "ThreatIntelligence";
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /**
@@ -5955,8 +5968,6 @@ export interface ThreatIntelligenceAlertRule extends AlertRule {
 
 /** Represents MicrosoftSecurityIncidentCreation rule. */
 export interface MicrosoftSecurityIncidentCreationAlertRule extends AlertRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "MicrosoftSecurityIncidentCreation";
   /** the alerts' displayNames on which the cases will be generated */
   displayNamesFilter?: string[];
   /** the alerts' displayNames on which the cases will not be generated */
@@ -5982,8 +5993,6 @@ export interface MicrosoftSecurityIncidentCreationAlertRule extends AlertRule {
 
 /** Represents scheduled alert rule. */
 export interface ScheduledAlertRule extends AlertRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Scheduled";
   /** The query that creates alerts for this rule. */
   query?: string;
   /** The frequency (in ISO 8601 duration format) for this alert rule to run. */
@@ -6004,6 +6013,8 @@ export interface ScheduledAlertRule extends AlertRule {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /** The version of the alert rule template used to create this rule - in format <a.b.c>, where all are numbers, for example 0 <1.0.2> */
@@ -6033,8 +6044,6 @@ export interface ScheduledAlertRule extends AlertRule {
 
 /** Represents NRT alert rule. */
 export interface NrtAlertRule extends AlertRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "NRT";
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /** The version of the alert rule template used to create this rule - in format <a.b.c>, where all are numbers, for example 0 <1.0.2> */
@@ -6072,12 +6081,12 @@ export interface NrtAlertRule extends AlertRule {
   alertDetailsOverride?: AlertDetailsOverride;
   /** The event grouping settings. */
   eventGroupingSettings?: EventGroupingSettings;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
 }
 
 /** Represents Expansion entity query. */
 export interface ExpansionEntityQuery extends EntityQuery {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Expansion";
   /** List of the data sources that are required to run the query */
   dataSources?: string[];
   /** The query display name */
@@ -6094,8 +6103,6 @@ export interface ExpansionEntityQuery extends EntityQuery {
 
 /** Represents Activity entity query. */
 export interface ActivityEntityQuery extends EntityQuery {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Activity";
   /** The entity query title */
   title?: string;
   /** The entity query content to display in timeline */
@@ -6128,8 +6135,6 @@ export interface ActivityEntityQuery extends EntityQuery {
 
 /** Represents Activity entity query. */
 export interface ActivityCustomEntityQuery extends CustomEntityQuery {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Activity";
   /** The entity query title */
   title?: string;
   /** The entity query content to display in timeline */
@@ -6163,8 +6168,6 @@ export interface ActivityCustomEntityQuery extends CustomEntityQuery {
 /** Represents Anomaly Security ML Analytics Settings */
 export interface AnomalySecurityMLAnalyticsSettings
   extends SecurityMLAnalyticsSetting {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Anomaly";
   /** The description of the SecurityMLAnalyticsSettings. */
   description?: string;
   /** The display name for settings created by this SecurityMLAnalyticsSettings. */
@@ -6200,8 +6203,6 @@ export interface AnomalySecurityMLAnalyticsSettings
 
 /** Settings with single toggle. */
 export interface Anomalies extends Settings {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Anomalies";
   /**
    * Determines whether the setting is enable or disabled.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -6211,8 +6212,6 @@ export interface Anomalies extends Settings {
 
 /** Settings with single toggle. */
 export interface EyesOn extends Settings {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "EyesOn";
   /**
    * Determines whether the setting is enable or disabled.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -6222,16 +6221,12 @@ export interface EyesOn extends Settings {
 
 /** Settings with single toggle. */
 export interface EntityAnalytics extends Settings {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "EntityAnalytics";
   /** The relevant entity providers that are synced */
   entityProviders?: EntityProviders[];
 }
 
 /** Settings with single toggle. */
 export interface Ueba extends Settings {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Ueba";
   /** The relevant data sources that enriched by ueba */
   dataSources?: UebaDataSources[];
 }
@@ -6239,8 +6234,6 @@ export interface Ueba extends Settings {
 /** Threat intelligence indicator entity. */
 export interface ThreatIntelligenceIndicatorModel
   extends ThreatIntelligenceInformation {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "indicator";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -6311,8 +6304,6 @@ export interface ThreatIntelligenceIndicatorModel
 
 /** Represents AAD (Azure Active Directory) data connector. */
 export interface AADDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "AzureActiveDirectory";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6321,8 +6312,6 @@ export interface AADDataConnector extends DataConnector {
 
 /** Represents Microsoft Threat Intelligence data connector. */
 export interface MstiDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "MicrosoftThreatIntelligence";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6331,8 +6320,6 @@ export interface MstiDataConnector extends DataConnector {
 
 /** Represents MTP (Microsoft Threat Protection) data connector. */
 export interface MTPDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "MicrosoftThreatProtection";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6341,8 +6328,6 @@ export interface MTPDataConnector extends DataConnector {
 
 /** Represents AATP (Azure Advanced Threat Protection) data connector. */
 export interface AatpDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "AzureAdvancedThreatProtection";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6351,8 +6336,6 @@ export interface AatpDataConnector extends DataConnector {
 
 /** Represents ASC (Azure Security Center) data connector. */
 export interface ASCDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "AzureSecurityCenter";
   /** The available data types for the connector. */
   dataTypes?: AlertsDataTypeOfDataConnector;
   /** The subscription id to connect to, and get the data from. */
@@ -6361,8 +6344,6 @@ export interface ASCDataConnector extends DataConnector {
 
 /** Represents Amazon Web Services CloudTrail data connector. */
 export interface AwsCloudTrailDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "AmazonWebServicesCloudTrail";
   /** The Aws Role Arn (with CloudTrailReadOnly policy) that is used to access the Aws account. */
   awsRoleArn?: string;
   /** The available data types for the connector. */
@@ -6371,8 +6352,6 @@ export interface AwsCloudTrailDataConnector extends DataConnector {
 
 /** Represents Amazon Web Services S3 data connector. */
 export interface AwsS3DataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "AmazonWebServicesS3";
   /** The logs destination table name in LogAnalytics. */
   destinationTable?: string;
   /** The AWS sqs urls for the connector. */
@@ -6385,8 +6364,6 @@ export interface AwsS3DataConnector extends DataConnector {
 
 /** Represents MCAS (Microsoft Cloud App Security) data connector. */
 export interface McasDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "MicrosoftCloudAppSecurity";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6395,8 +6372,6 @@ export interface McasDataConnector extends DataConnector {
 
 /** Represents Dynamics365 data connector. */
 export interface Dynamics365DataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Dynamics365";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6405,8 +6380,6 @@ export interface Dynamics365DataConnector extends DataConnector {
 
 /** Represents OfficeATP (Office 365 Advanced Threat Protection) data connector. */
 export interface OfficeATPDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "OfficeATP";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6415,8 +6388,6 @@ export interface OfficeATPDataConnector extends DataConnector {
 
 /** Represents Office Microsoft Project data connector. */
 export interface Office365ProjectDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Office365Project";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6425,8 +6396,6 @@ export interface Office365ProjectDataConnector extends DataConnector {
 
 /** Represents Office Microsoft PowerBI data connector. */
 export interface OfficePowerBIDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "OfficePowerBI";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6435,8 +6404,6 @@ export interface OfficePowerBIDataConnector extends DataConnector {
 
 /** Represents OfficeIRM (Microsoft Insider Risk Management) data connector. */
 export interface OfficeIRMDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "OfficeIRM";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6445,8 +6412,6 @@ export interface OfficeIRMDataConnector extends DataConnector {
 
 /** Represents MDATP (Microsoft Defender Advanced Threat Protection) data connector. */
 export interface MdatpDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "MicrosoftDefenderAdvancedThreatProtection";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6455,8 +6420,6 @@ export interface MdatpDataConnector extends DataConnector {
 
 /** Represents office data connector. */
 export interface OfficeDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Office365";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6465,8 +6428,6 @@ export interface OfficeDataConnector extends DataConnector {
 
 /** Represents threat intelligence data connector. */
 export interface TIDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "ThreatIntelligence";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The lookback period for the feed to be imported. */
@@ -6477,8 +6438,6 @@ export interface TIDataConnector extends DataConnector {
 
 /** Data connector to pull Threat intelligence data from TAXII 2.0/2.1 server */
 export interface TiTaxiiDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "ThreatIntelligenceTaxii";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The workspace id. */
@@ -6503,8 +6462,6 @@ export interface TiTaxiiDataConnector extends DataConnector {
 
 /** Represents IoT data connector. */
 export interface IoTDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "IOT";
   /** The available data types for the connector. */
   dataTypes?: AlertsDataTypeOfDataConnector;
   /** The subscription id to connect to, and get the data from. */
@@ -6513,16 +6470,12 @@ export interface IoTDataConnector extends DataConnector {
 
 /** Represents Codeless UI data connector. */
 export interface CodelessUiDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "GenericUI";
   /** Config to describe the instructions blade */
   connectorUiConfig?: CodelessUiConnectorConfigProperties;
 }
 
 /** Represents Codeless API Polling data connector. */
 export interface CodelessApiPollingDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "APIPolling";
   /** Config to describe the instructions blade */
   connectorUiConfig?: CodelessUiConnectorConfigProperties;
   /** Config to describe the polling instructions */
@@ -6537,6 +6490,12 @@ export interface WatchlistsDeleteHeaders {
 
 /** Defines headers for Watchlists_createOrUpdate operation. */
 export interface WatchlistsCreateOrUpdateHeaders {
+  /** Contains the status URL on which clients are expected to poll the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Summaries_createOrUpdate operation. */
+export interface SummariesCreateOrUpdateHeaders {
   /** Contains the status URL on which clients are expected to poll the status of the operation. */
   azureAsyncOperation?: string;
 }
@@ -7810,6 +7769,66 @@ export enum KnownDataConnectorLicenseState {
  */
 export type DataConnectorLicenseState = string;
 
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  /** DynamicSummary */
+  DynamicSummary = "dynamic-summary",
+  /** DynamicSummaryItem */
+  DynamicSummaryItem = "dynamic-summary-item"
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **dynamic-summary** \
+ * **dynamic-summary-item**
+ */
+export type Type = string;
+
+/** Known values of {@link SummaryStatus} that the service accepts. */
+export enum KnownSummaryStatus {
+  /** Active */
+  Active = "Active",
+  /** Deleted */
+  Deleted = "Deleted"
+}
+
+/**
+ * Defines values for SummaryStatus. \
+ * {@link KnownSummaryStatus} can be used interchangeably with SummaryStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active** \
+ * **Deleted**
+ */
+export type SummaryStatus = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** InProgress */
+  InProgress = "InProgress"
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **InProgress**
+ */
+export type ProvisioningState = string;
+
 /** Known values of {@link TemplateStatus} that the service accepts. */
 export enum KnownTemplateStatus {
   /** Alert rule template installed. and can not use more then once */
@@ -7896,6 +7915,45 @@ export enum KnownEntityMappingType {
  * **SubmissionMail**: Submission mail entity type
  */
 export type EntityMappingType = string;
+
+/** Known values of {@link AlertProperty} that the service accepts. */
+export enum KnownAlertProperty {
+  /** Alert's link */
+  AlertLink = "AlertLink",
+  /** Confidence level property */
+  ConfidenceLevel = "ConfidenceLevel",
+  /** Confidence score */
+  ConfidenceScore = "ConfidenceScore",
+  /** Extended links to the alert */
+  ExtendedLinks = "ExtendedLinks",
+  /** Product name alert property */
+  ProductName = "ProductName",
+  /** Provider name alert property */
+  ProviderName = "ProviderName",
+  /** Product component name alert property */
+  ProductComponentName = "ProductComponentName",
+  /** Remediation steps alert property */
+  RemediationSteps = "RemediationSteps",
+  /** Techniques alert property */
+  Techniques = "Techniques"
+}
+
+/**
+ * Defines values for AlertProperty. \
+ * {@link KnownAlertProperty} can be used interchangeably with AlertProperty,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AlertLink**: Alert's link \
+ * **ConfidenceLevel**: Confidence level property \
+ * **ConfidenceScore**: Confidence score \
+ * **ExtendedLinks**: Extended links to the alert \
+ * **ProductName**: Product name alert property \
+ * **ProviderName**: Provider name alert property \
+ * **ProductComponentName**: Product component name alert property \
+ * **RemediationSteps**: Remediation steps alert property \
+ * **Techniques**: Techniques alert property
+ */
+export type AlertProperty = string;
 
 /** Known values of {@link EventGroupingAggregationKind} that the service accepts. */
 export enum KnownEventGroupingAggregationKind {
@@ -9861,6 +9919,38 @@ export interface OperationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationsList;
+
+/** Optional parameters. */
+export interface SummariesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SummariesListResponse = SummaryList;
+
+/** Optional parameters. */
+export interface SummariesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SummariesGetResponse = Summary;
+
+/** Optional parameters. */
+export interface SummariesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SummariesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SummariesCreateOrUpdateResponse = Summary;
+
+/** Optional parameters. */
+export interface SummariesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SummariesListNextResponse = SummaryList;
 
 /** Optional parameters. */
 export interface SecurityInsightsOptionalParams
