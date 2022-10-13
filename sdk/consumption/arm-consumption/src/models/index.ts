@@ -16,14 +16,14 @@ export type UsageDetailUnion =
   | UsageDetail
   | LegacyUsageDetail
   | ModernUsageDetail;
-export type ReservationRecommendationUnion =
-  | ReservationRecommendation
-  | LegacyReservationRecommendation
-  | ModernReservationRecommendation;
 export type ChargeSummaryUnion =
   | ChargeSummary
   | LegacyChargeSummary
   | ModernChargeSummary;
+export type ReservationRecommendationUnion =
+  | ReservationRecommendation
+  | LegacyReservationRecommendation
+  | ModernReservationRecommendation;
 
 /** Result of listing usage details. It contains a list of available usage details in reverse chronological order by billing period. */
 export interface UsageDetailsListResult {
@@ -136,8 +136,6 @@ export interface BudgetTimePeriod {
 export interface BudgetFilter {
   /** The logical "AND" expression. Must have at least 2 items. */
   and?: BudgetFilterProperties[];
-  /** The logical "NOT" expression. */
-  not?: BudgetFilterProperties;
   /** Has comparison expression for a dimension */
   dimensions?: BudgetComparisonExpression;
   /** Has comparison expression for a tag */
@@ -1045,6 +1043,12 @@ export interface Marketplace extends Resource {
   readonly isRecurringCharge?: boolean;
 }
 
+/** A charge summary resource. */
+export interface ChargeSummary extends Resource {
+  /** Specifies the kind of charge summary. */
+  kind: ChargeSummaryKind;
+}
+
 /** A balance resource. */
 export interface Balance extends Resource {
   /**
@@ -1369,50 +1373,6 @@ export interface ManagementGroupAggregatedCostResult extends Resource {
   excludedSubscriptions?: string[];
 }
 
-/** A credit summary resource. */
-export interface CreditSummary extends Resource {
-  /**
-   * Summary of balances associated with this credit summary.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly balanceSummary?: CreditBalanceSummary;
-  /**
-   * Pending credit adjustments.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly pendingCreditAdjustments?: Amount;
-  /**
-   * Expired credit.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expiredCredit?: Amount;
-  /**
-   * Pending eligible charges.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly pendingEligibleCharges?: Amount;
-  /**
-   * The credit currency.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly creditCurrency?: string;
-  /**
-   * The billing currency.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingCurrency?: string;
-  /**
-   * Credit's reseller.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reseller?: Reseller;
-  /**
-   * The eTag for the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly eTag?: string;
-}
-
 /** A budget resource. */
 export interface Budget extends ProxyResource {
   /** The category of the budget, whether the budget tracks cost or usage. */
@@ -1453,12 +1413,6 @@ export interface TagsResult extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly previousLink?: string;
-}
-
-/** A charge summary resource. */
-export interface ChargeSummary extends ProxyResource {
-  /** Specifies the kind of charge summary. */
-  kind: ChargeSummaryKind;
 }
 
 /** An event summary resource. */
@@ -1651,6 +1605,50 @@ export interface LotSummary extends ProxyResource {
   readonly eTagPropertiesETag?: string;
 }
 
+/** A credit summary resource. */
+export interface CreditSummary extends ProxyResource {
+  /**
+   * Summary of balances associated with this credit summary.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly balanceSummary?: CreditBalanceSummary;
+  /**
+   * Pending credit adjustments.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly pendingCreditAdjustments?: Amount;
+  /**
+   * Expired credit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expiredCredit?: Amount;
+  /**
+   * Pending eligible charges.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly pendingEligibleCharges?: Amount;
+  /**
+   * The credit currency.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creditCurrency?: string;
+  /**
+   * The billing currency.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingCurrency?: string;
+  /**
+   * Credit's reseller.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reseller?: Reseller;
+  /**
+   * The eTag for the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eTagPropertiesETag?: string;
+}
+
 /** Reservation transaction resource. */
 export interface ReservationTransaction extends ReservationTransactionResource {
   /**
@@ -1669,7 +1667,7 @@ export interface ReservationTransaction extends ReservationTransactionResource {
    */
   readonly description?: string;
   /**
-   * The type of the transaction (Purchase, Cancel, etc.)
+   * The type of the transaction (Purchase, Cancel or Refund).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eventType?: string;
@@ -1814,7 +1812,7 @@ export interface ModernReservationTransaction
    */
   readonly eventDate?: Date;
   /**
-   * The type of the transaction (Purchase, Cancel, etc.)
+   * The type of the transaction (Purchase, Cancel or Refund).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eventType?: string;
@@ -1910,8 +1908,6 @@ export interface LegacySharedScopeReservationRecommendationProperties
 
 /** Legacy usage detail. */
 export interface LegacyUsageDetail extends UsageDetail {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "legacy";
   /**
    * Billing Account identifier.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2128,6 +2124,16 @@ export interface LegacyUsageDetail extends UsageDetail {
    */
   readonly payGPrice?: number;
   /**
+   * Unique identifier for the applicable benefit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly benefitId?: string;
+  /**
+   * Name of the applicable benefit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly benefitName?: string;
+  /**
    * Identifier that indicates how the meter is priced.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -2136,8 +2142,6 @@ export interface LegacyUsageDetail extends UsageDetail {
 
 /** Modern usage detail. */
 export interface ModernUsageDetail extends UsageDetail {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "modern";
   /**
    * Billing Account identifier.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2500,11 +2504,107 @@ export interface ModernUsageDetail extends UsageDetail {
   readonly costAllocationRuleName?: string;
 }
 
+/** Legacy charge summary. */
+export interface LegacyChargeSummary extends ChargeSummary {
+  /**
+   * The id of the billing period resource that the charge belongs to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingPeriodId?: string;
+  /**
+   * Usage start date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly usageStart?: string;
+  /**
+   * Usage end date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly usageEnd?: string;
+  /**
+   * Azure Charges.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly azureCharges?: number;
+  /**
+   * Charges Billed separately.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly chargesBilledSeparately?: number;
+  /**
+   * Marketplace Charges.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly azureMarketplaceCharges?: number;
+  /**
+   * Currency Code
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currency?: string;
+}
+
+/** Modern charge summary. */
+export interface ModernChargeSummary extends ChargeSummary {
+  /**
+   * The id of the billing period resource that the charge belongs to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingPeriodId?: string;
+  /**
+   * Usage start date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly usageStart?: string;
+  /**
+   * Usage end date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly usageEnd?: string;
+  /**
+   * Azure Charges.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly azureCharges?: Amount;
+  /**
+   * Charges Billed separately.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly chargesBilledSeparately?: Amount;
+  /**
+   * Marketplace Charges.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly marketplaceCharges?: Amount;
+  /**
+   * Billing Account Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountId?: string;
+  /**
+   * Billing Profile Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileId?: string;
+  /**
+   * Invoice Section Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionId?: string;
+  /**
+   * Customer Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerId?: string;
+  /**
+   * Is charge Invoiced
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isInvoiced?: boolean;
+}
+
 /** Legacy reservation recommendation. */
 export interface LegacyReservationRecommendation
   extends ReservationRecommendation {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "legacy";
   /**
    * The number of days of usage to look back for recommendation.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2582,8 +2682,6 @@ export interface LegacyReservationRecommendation
 /** Modern reservation recommendation. */
 export interface ModernReservationRecommendation
   extends ReservationRecommendation {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "modern";
   /**
    * Resource Location.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2664,108 +2762,6 @@ export interface ModernReservationRecommendation
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly skuName?: string;
-}
-
-/** Legacy charge summary. */
-export interface LegacyChargeSummary extends ChargeSummary {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "legacy";
-  /**
-   * The id of the billing period resource that the charge belongs to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingPeriodId?: string;
-  /**
-   * Usage start date.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly usageStart?: string;
-  /**
-   * Usage end date.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly usageEnd?: string;
-  /**
-   * Azure Charges.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly azureCharges?: number;
-  /**
-   * Charges Billed separately.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly chargesBilledSeparately?: number;
-  /**
-   * Marketplace Charges.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly marketplaceCharges?: number;
-  /**
-   * Currency Code
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly currency?: string;
-}
-
-/** Modern charge summary. */
-export interface ModernChargeSummary extends ChargeSummary {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "modern";
-  /**
-   * The id of the billing period resource that the charge belongs to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingPeriodId?: string;
-  /**
-   * Usage start date.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly usageStart?: string;
-  /**
-   * Usage end date.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly usageEnd?: string;
-  /**
-   * Azure Charges.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly azureCharges?: Amount;
-  /**
-   * Charges Billed separately.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly chargesBilledSeparately?: Amount;
-  /**
-   * Marketplace Charges.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly marketplaceCharges?: Amount;
-  /**
-   * Billing Account Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingAccountId?: string;
-  /**
-   * Billing Profile Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingProfileId?: string;
-  /**
-   * Invoice Section Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invoiceSectionId?: string;
-  /**
-   * Customer Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customerId?: string;
-  /**
-   * Is charge Invoiced
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isInvoiced?: boolean;
 }
 
 /** Legacy Reservation transaction resource. */
@@ -2872,11 +2868,11 @@ export type BudgetOperatorType = string;
 
 /** Known values of {@link OperatorType} that the service accepts. */
 export enum KnownOperatorType {
-  /** EqualTo */
+  /** Alert will be triggered if the evaluated cost is the same as threshold value. Note: It’s not recommended to use this OperatorType as there’s low chance of cost being exactly the same as threshold value, leading to missing of your alert. This OperatorType will be deprecated in future. */
   EqualTo = "EqualTo",
-  /** GreaterThan */
+  /** Alert will be triggered if the evaluated cost is greater than the threshold value. Note: This is the recommended OperatorType while configuring Budget Alert. */
   GreaterThan = "GreaterThan",
-  /** GreaterThanOrEqualTo */
+  /** Alert will be triggered if the evaluated cost is greater than or equal to the threshold value. */
   GreaterThanOrEqualTo = "GreaterThanOrEqualTo"
 }
 
@@ -2885,17 +2881,17 @@ export enum KnownOperatorType {
  * {@link KnownOperatorType} can be used interchangeably with OperatorType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **EqualTo** \
- * **GreaterThan** \
- * **GreaterThanOrEqualTo**
+ * **EqualTo**: Alert will be triggered if the evaluated cost is the same as threshold value. Note: It’s not recommended to use this OperatorType as there’s low chance of cost being exactly the same as threshold value, leading to missing of your alert. This OperatorType will be deprecated in future.  \
+ * **GreaterThan**: Alert will be triggered if the evaluated cost is greater than the threshold value. Note: This is the recommended OperatorType while configuring Budget Alert. \
+ * **GreaterThanOrEqualTo**: Alert will be triggered if the evaluated cost is greater than or equal to the threshold value.
  */
 export type OperatorType = string;
 
 /** Known values of {@link ThresholdType} that the service accepts. */
 export enum KnownThresholdType {
-  /** Actual */
+  /** Actual costs budget alerts notify when the actual accrued cost exceeds the allocated budget . */
   Actual = "Actual",
-  /** Forecasted */
+  /** Forecasted costs budget alerts provide advanced notification that your spending trends are likely to exceed your allocated budget, as it relies on forecasted cost predictions. */
   Forecasted = "Forecasted"
 }
 
@@ -2904,8 +2900,8 @@ export enum KnownThresholdType {
  * {@link KnownThresholdType} can be used interchangeably with ThresholdType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Actual** \
- * **Forecasted**
+ * **Actual**: Actual costs budget alerts notify when the actual accrued cost exceeds the allocated budget . \
+ * **Forecasted**: Forecasted costs budget alerts provide advanced notification that your spending trends are likely to exceed your allocated budget, as it relies on forecasted cost predictions.
  */
 export type ThresholdType = string;
 
@@ -3059,6 +3055,24 @@ export enum KnownReservationRecommendationKind {
  */
 export type ReservationRecommendationKind = string;
 
+/** Known values of {@link Scope} that the service accepts. */
+export enum KnownScope {
+  /** Single */
+  Single = "Single",
+  /** Shared */
+  Shared = "Shared"
+}
+
+/**
+ * Defines values for Scope. \
+ * {@link KnownScope} can be used interchangeably with Scope,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Single** \
+ * **Shared**
+ */
+export type Scope = string;
+
 /** Known values of {@link Term} that the service accepts. */
 export enum KnownTerm {
   /** 1 year reservation term */
@@ -3113,7 +3127,9 @@ export enum KnownEventType {
   /** UnKnown */
   UnKnown = "UnKnown",
   /** NewCredit */
-  NewCredit = "NewCredit"
+  NewCredit = "NewCredit",
+  /** CreditExpired */
+  CreditExpired = "CreditExpired"
 }
 
 /**
@@ -3127,7 +3143,8 @@ export enum KnownEventType {
  * **PendingNewCredit** \
  * **PendingExpiredCredit** \
  * **UnKnown** \
- * **NewCredit**
+ * **NewCredit** \
+ * **CreditExpired**
  */
 export type EventType = string;
 
@@ -3202,24 +3219,6 @@ export enum KnownPricingModelType {
  * **Spot**
  */
 export type PricingModelType = string;
-
-/** Known values of {@link Scope} that the service accepts. */
-export enum KnownScope {
-  /** Single */
-  Single = "Single",
-  /** Shared */
-  Shared = "Shared"
-}
-
-/**
- * Defines values for Scope. \
- * {@link KnownScope} can be used interchangeably with Scope,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Single** \
- * **Shared**
- */
-export type Scope = string;
 
 /** Optional parameters. */
 export interface UsageDetailsListOptionalParams
@@ -3521,7 +3520,7 @@ export type ReservationRecommendationDetailsGetResponse = ReservationRecommendat
 /** Optional parameters. */
 export interface ReservationTransactionsListOptionalParams
   extends coreClient.OperationOptions {
-  /** Filter reservation transactions by date range. The properties/EventDate for start date and end date. The filter supports 'le' and  'ge' */
+  /** Filter reservation transactions by date range. The properties/EventDate for start date and end date. The filter supports 'le' and  'ge'. Note: API returns data for the entire start date's and end date's billing month. For example, filter properties/eventDate+ge+2020-01-01+AND+properties/eventDate+le+2020-12-29 will include data for the entire December 2020 month (i.e. will contain records for dates December 30 and 31) */
   filter?: string;
 }
 
@@ -3531,7 +3530,7 @@ export type ReservationTransactionsListResponse = ReservationTransactionsListRes
 /** Optional parameters. */
 export interface ReservationTransactionsListByBillingProfileOptionalParams
   extends coreClient.OperationOptions {
-  /** Filter reservation transactions by date range. The properties/EventDate for start date and end date. The filter supports 'le' and  'ge' */
+  /** Filter reservation transactions by date range. The properties/EventDate for start date and end date. The filter supports 'le' and  'ge'. Note: API returns data for the entire start date's and end date's billing month. For example, filter properties/eventDate+ge+2020-01-01+AND+properties/eventDate+le+2020-12-29 will include data for entire December 2020 month (i.e. will contain records for dates December 30 and 31) */
   filter?: string;
 }
 
@@ -3541,7 +3540,7 @@ export type ReservationTransactionsListByBillingProfileResponse = ModernReservat
 /** Optional parameters. */
 export interface ReservationTransactionsListNextOptionalParams
   extends coreClient.OperationOptions {
-  /** Filter reservation transactions by date range. The properties/EventDate for start date and end date. The filter supports 'le' and  'ge' */
+  /** Filter reservation transactions by date range. The properties/EventDate for start date and end date. The filter supports 'le' and  'ge'. Note: API returns data for the entire start date's and end date's billing month. For example, filter properties/eventDate+ge+2020-01-01+AND+properties/eventDate+le+2020-12-29 will include data for the entire December 2020 month (i.e. will contain records for dates December 30 and 31) */
   filter?: string;
 }
 
@@ -3551,7 +3550,7 @@ export type ReservationTransactionsListNextResponse = ReservationTransactionsLis
 /** Optional parameters. */
 export interface ReservationTransactionsListByBillingProfileNextOptionalParams
   extends coreClient.OperationOptions {
-  /** Filter reservation transactions by date range. The properties/EventDate for start date and end date. The filter supports 'le' and  'ge' */
+  /** Filter reservation transactions by date range. The properties/EventDate for start date and end date. The filter supports 'le' and  'ge'. Note: API returns data for the entire start date's and end date's billing month. For example, filter properties/eventDate+ge+2020-01-01+AND+properties/eventDate+le+2020-12-29 will include data for entire December 2020 month (i.e. will contain records for dates December 30 and 31) */
   filter?: string;
 }
 
@@ -3669,6 +3668,16 @@ export interface LotsListByBillingAccountOptionalParams
 export type LotsListByBillingAccountResponse = Lots;
 
 /** Optional parameters. */
+export interface LotsListByCustomerOptionalParams
+  extends coreClient.OperationOptions {
+  /** May be used to filter the lots by Status, Source etc. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. Tag filter is a key value pair string where key and value is separated by a colon (:). */
+  filter?: string;
+}
+
+/** Contains response data for the listByCustomer operation. */
+export type LotsListByCustomerResponse = Lots;
+
+/** Optional parameters. */
 export interface LotsListByBillingProfileNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3684,6 +3693,16 @@ export interface LotsListByBillingAccountNextOptionalParams
 
 /** Contains response data for the listByBillingAccountNext operation. */
 export type LotsListByBillingAccountNextResponse = Lots;
+
+/** Optional parameters. */
+export interface LotsListByCustomerNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** May be used to filter the lots by Status, Source etc. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. Tag filter is a key value pair string where key and value is separated by a colon (:). */
+  filter?: string;
+}
+
+/** Contains response data for the listByCustomerNext operation. */
+export type LotsListByCustomerNextResponse = Lots;
 
 /** Optional parameters. */
 export interface CreditsGetOptionalParams extends coreClient.OperationOptions {}
