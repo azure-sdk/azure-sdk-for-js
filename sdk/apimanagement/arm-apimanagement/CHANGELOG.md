@@ -1,15 +1,31 @@
 # Release History
+    
+## 8.2.0 (2022-10-13)
+    
+**Features**
 
-## 8.1.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group GlobalSchema
+  - Added Interface GlobalSchemaCollection
+  - Added Interface GlobalSchemaContract
+  - Added Interface GlobalSchemaCreateOrUpdateHeaders
+  - Added Interface GlobalSchemaCreateOrUpdateOptionalParams
+  - Added Interface GlobalSchemaDeleteOptionalParams
+  - Added Interface GlobalSchemaGetEntityTagHeaders
+  - Added Interface GlobalSchemaGetEntityTagOptionalParams
+  - Added Interface GlobalSchemaGetHeaders
+  - Added Interface GlobalSchemaGetOptionalParams
+  - Added Interface GlobalSchemaListByServiceNextOptionalParams
+  - Added Interface GlobalSchemaListByServiceOptionalParams
+  - Added Type Alias GlobalSchemaCreateOrUpdateResponse
+  - Added Type Alias GlobalSchemaGetEntityTagResponse
+  - Added Type Alias GlobalSchemaGetResponse
+  - Added Type Alias GlobalSchemaListByServiceNextResponse
+  - Added Type Alias GlobalSchemaListByServiceResponse
+  - Added Type Alias SchemaType
+  - Interface DiagnosticContract has a new optional parameter metrics
+  - Class ApiManagementClient has a new parameter globalSchema
+  - Added Enum KnownSchemaType
+    
 ## 8.1.2 (2022-10-08)
 
 **Bugs Fixed**
