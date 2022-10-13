@@ -41,6 +41,9 @@ import {
   ProductSettingsImpl,
   SourceControlOperationsImpl,
   SourceControlsImpl,
+  GetRecommendationsImpl,
+  GetImpl,
+  UpdateImpl,
   ThreatIntelligenceIndicatorImpl,
   ThreatIntelligenceIndicatorsImpl,
   ThreatIntelligenceIndicatorMetricsImpl,
@@ -77,6 +80,9 @@ import {
   ProductSettings,
   SourceControlOperations,
   SourceControls,
+  GetRecommendations,
+  Get,
+  Update,
   ThreatIntelligenceIndicator,
   ThreatIntelligenceIndicators,
   ThreatIntelligenceIndicatorMetrics,
@@ -140,41 +146,34 @@ export class SecurityInsights extends coreClient.ServiceClient {
     };
     super(optionsWithDefaults);
 
-    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-    }
-    if (
-      !options ||
-      !options.pipeline ||
-      options.pipeline.getOrderedPolicies().length == 0 ||
-      !bearerTokenAuthenticationPolicyFound
-    ) {
-      this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-      });
-      this.pipeline.addPolicy(
-        coreRestPipeline.bearerTokenAuthenticationPolicy({
-          credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
-          challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
-      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-01-preview";
+    this.apiVersion = options.apiVersion || "2022-11-01-preview";
     this.alertRules = new AlertRulesImpl(this);
     this.actions = new ActionsImpl(this);
     this.alertRuleTemplates = new AlertRuleTemplatesImpl(this);
@@ -203,6 +202,9 @@ export class SecurityInsights extends coreClient.ServiceClient {
     this.productSettings = new ProductSettingsImpl(this);
     this.sourceControlOperations = new SourceControlOperationsImpl(this);
     this.sourceControls = new SourceControlsImpl(this);
+    this.getRecommendations = new GetRecommendationsImpl(this);
+    this.get = new GetImpl(this);
+    this.update = new UpdateImpl(this);
     this.threatIntelligenceIndicator = new ThreatIntelligenceIndicatorImpl(
       this
     );
@@ -276,6 +278,9 @@ export class SecurityInsights extends coreClient.ServiceClient {
   productSettings: ProductSettings;
   sourceControlOperations: SourceControlOperations;
   sourceControls: SourceControls;
+  getRecommendations: GetRecommendations;
+  get: Get;
+  update: Update;
   threatIntelligenceIndicator: ThreatIntelligenceIndicator;
   threatIntelligenceIndicators: ThreatIntelligenceIndicators;
   threatIntelligenceIndicatorMetrics: ThreatIntelligenceIndicatorMetrics;

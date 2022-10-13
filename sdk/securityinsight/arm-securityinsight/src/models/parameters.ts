@@ -70,7 +70,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-01-preview",
+    defaultValue: "2022-11-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -575,6 +575,34 @@ export const sourceControlId: OperationURLParameter = {
 export const sourceControl: OperationParameter = {
   parameterPath: "sourceControl",
   mapper: SourceControlMapper
+};
+
+export const recommendationId: OperationURLParameter = {
+  parameterPath: "recommendationId",
+  mapper: {
+    serializedName: "recommendationId",
+    required: true,
+    type: {
+      name: "Uuid"
+    }
+  }
+};
+
+export const recommendationPatch: OperationParameter = {
+  parameterPath: "recommendationPatch",
+  mapper: {
+    serializedName: "recommendationPatch",
+    required: true,
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "Composite",
+          className: "RecommendationPatch"
+        }
+      }
+    }
+  }
 };
 
 export const threatIntelligenceProperties: OperationParameter = {
