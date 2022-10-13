@@ -25,8 +25,8 @@ import {
   EnableRequest as EnableRequestMapper,
   MetricAlertResource as MetricAlertResourceMapper,
   MetricAlertResourcePatch as MetricAlertResourcePatchMapper,
-  LogSearchRuleResource as LogSearchRuleResourceMapper,
-  LogSearchRuleResourcePatch as LogSearchRuleResourcePatchMapper,
+  ScheduledQueryRuleResource as ScheduledQueryRuleResourceMapper,
+  ScheduledQueryRuleResourcePatch as ScheduledQueryRuleResourcePatchMapper,
   AzureMonitorPrivateLinkScope as AzureMonitorPrivateLinkScopeMapper,
   TagsResource as TagsResourceMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
@@ -554,15 +554,10 @@ export const statusName: OperationURLParameter = {
   }
 };
 
-export const parameters6: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: LogSearchRuleResourceMapper
-};
-
 export const apiVersion8: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2018-04-16",
+    defaultValue: "2022-06-15",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -571,9 +566,14 @@ export const apiVersion8: OperationQueryParameter = {
   }
 };
 
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ScheduledQueryRuleResourceMapper
+};
+
 export const parameters7: OperationParameter = {
   parameterPath: "parameters",
-  mapper: LogSearchRuleResourcePatchMapper
+  mapper: ScheduledQueryRuleResourcePatchMapper
 };
 
 export const apiVersion9: OperationQueryParameter = {
