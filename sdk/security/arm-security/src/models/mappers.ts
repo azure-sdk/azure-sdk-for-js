@@ -5066,42 +5066,6 @@ export const DefenderForServersAwsOfferingArcAutoProvisioning: coreClient.Compos
         type: {
           name: "String"
         }
-      },
-      servicePrincipalSecretMetadata: {
-        serializedName: "servicePrincipalSecretMetadata",
-        type: {
-          name: "Composite",
-          className:
-            "DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata"
-        }
-      }
-    }
-  }
-};
-
-export const DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className:
-      "DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata",
-    modelProperties: {
-      expiryDate: {
-        serializedName: "expiryDate",
-        type: {
-          name: "String"
-        }
-      },
-      parameterStoreRegion: {
-        serializedName: "parameterStoreRegion",
-        type: {
-          name: "String"
-        }
-      },
-      parameterNameInStore: {
-        serializedName: "parameterNameInStore",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -5225,7 +5189,7 @@ export const DefenderForServersAwsOfferingVmScannersConfiguration: coreClient.Co
         serializedName: "exclusionTags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -5248,39 +5212,24 @@ export const DefenderFoDatabasesAwsOfferingArcAutoProvisioning: coreClient.Compo
         type: {
           name: "String"
         }
-      },
-      servicePrincipalSecretMetadata: {
-        serializedName: "servicePrincipalSecretMetadata",
-        type: {
-          name: "Composite",
-          className:
-            "DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata"
-        }
       }
     }
   }
 };
 
-export const DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata: coreClient.CompositeMapper = {
+export const DefenderFoDatabasesAwsOfferingRds: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className:
-      "DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata",
+    className: "DefenderFoDatabasesAwsOfferingRds",
     modelProperties: {
-      expiryDate: {
-        serializedName: "expiryDate",
+      enabled: {
+        serializedName: "enabled",
         type: {
-          name: "DateTime"
+          name: "Boolean"
         }
       },
-      parameterStoreRegion: {
-        serializedName: "parameterStoreRegion",
-        type: {
-          name: "String"
-        }
-      },
-      parameterNameInStore: {
-        serializedName: "parameterNameInStore",
+      cloudRoleArn: {
+        serializedName: "cloudRoleArn",
         type: {
           name: "String"
         }
@@ -5355,35 +5304,6 @@ export const DefenderForServersGcpOfferingArcAutoProvisioning: coreClient.Compos
         serializedName: "enabled",
         type: {
           name: "Boolean"
-        }
-      },
-      configuration: {
-        serializedName: "configuration",
-        type: {
-          name: "Composite",
-          className:
-            "DefenderForServersGcpOfferingArcAutoProvisioningConfiguration"
-        }
-      }
-    }
-  }
-};
-
-export const DefenderForServersGcpOfferingArcAutoProvisioningConfiguration: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DefenderForServersGcpOfferingArcAutoProvisioningConfiguration",
-    modelProperties: {
-      clientId: {
-        serializedName: "clientId",
-        type: {
-          name: "String"
-        }
-      },
-      agentOnboardingServiceAccountNumericId: {
-        serializedName: "agentOnboardingServiceAccountNumericId",
-        type: {
-          name: "String"
         }
       }
     }
@@ -5475,36 +5395,6 @@ export const DefenderForDatabasesGcpOfferingArcAutoProvisioning: coreClient.Comp
         type: {
           name: "Boolean"
         }
-      },
-      configuration: {
-        serializedName: "configuration",
-        type: {
-          name: "Composite",
-          className:
-            "DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration"
-        }
-      }
-    }
-  }
-};
-
-export const DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className:
-      "DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration",
-    modelProperties: {
-      clientId: {
-        serializedName: "clientId",
-        type: {
-          name: "String"
-        }
-      },
-      agentOnboardingServiceAccountNumericId: {
-        serializedName: "agentOnboardingServiceAccountNumericId",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -5569,6 +5459,56 @@ export const DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection: 
         serializedName: "workloadIdentityProviderId",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DefenderCspmAwsOfferingVmScanners: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DefenderCspmAwsOfferingVmScanners",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      configuration: {
+        serializedName: "configuration",
+        type: {
+          name: "Composite",
+          className: "DefenderCspmAwsOfferingVmScannersConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const DefenderCspmAwsOfferingVmScannersConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DefenderCspmAwsOfferingVmScannersConfiguration",
+    modelProperties: {
+      cloudRoleArn: {
+        serializedName: "cloudRoleArn",
+        type: {
+          name: "String"
+        }
+      },
+      scanningMode: {
+        serializedName: "scanningMode",
+        type: {
+          name: "String"
+        }
+      },
+      exclusionTags: {
+        serializedName: "exclusionTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -9287,6 +9227,13 @@ export const DefenderFoDatabasesAwsOffering: coreClient.CompositeMapper = {
           name: "Composite",
           className: "DefenderFoDatabasesAwsOfferingArcAutoProvisioning"
         }
+      },
+      rds: {
+        serializedName: "rds",
+        type: {
+          name: "Composite",
+          className: "DefenderFoDatabasesAwsOfferingRds"
+        }
       }
     }
   }
@@ -9480,11 +9427,70 @@ export const CspmMonitorAzureDevOpsOffering: coreClient.CompositeMapper = {
   }
 };
 
-export const AWSEnvironmentData: coreClient.CompositeMapper = {
+export const DefenderCspmAwsOffering: coreClient.CompositeMapper = {
+  serializedName: "DefenderCspmAws",
+  type: {
+    name: "Composite",
+    className: "DefenderCspmAwsOffering",
+    uberParent: "CloudOffering",
+    polymorphicDiscriminator: CloudOffering.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...CloudOffering.type.modelProperties,
+      vmScanners: {
+        serializedName: "vmScanners",
+        type: {
+          name: "Composite",
+          className: "DefenderCspmAwsOfferingVmScanners"
+        }
+      }
+    }
+  }
+};
+
+export const DefenderCspmGcpOffering: coreClient.CompositeMapper = {
+  serializedName: "DefenderCspmGcp",
+  type: {
+    name: "Composite",
+    className: "DefenderCspmGcpOffering",
+    uberParent: "CloudOffering",
+    polymorphicDiscriminator: CloudOffering.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...CloudOffering.type.modelProperties
+    }
+  }
+};
+
+export const DefenderForDevOpsGithubOffering: coreClient.CompositeMapper = {
+  serializedName: "DefenderForDevOpsGithub",
+  type: {
+    name: "Composite",
+    className: "DefenderForDevOpsGithubOffering",
+    uberParent: "CloudOffering",
+    polymorphicDiscriminator: CloudOffering.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...CloudOffering.type.modelProperties
+    }
+  }
+};
+
+export const DefenderForDevOpsAzureDevOpsOffering: coreClient.CompositeMapper = {
+  serializedName: "DefenderForDevOpsAzureDevOps",
+  type: {
+    name: "Composite",
+    className: "DefenderForDevOpsAzureDevOpsOffering",
+    uberParent: "CloudOffering",
+    polymorphicDiscriminator: CloudOffering.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...CloudOffering.type.modelProperties
+    }
+  }
+};
+
+export const AwsEnvironmentData: coreClient.CompositeMapper = {
   serializedName: "AwsAccount",
   type: {
     name: "Composite",
-    className: "AWSEnvironmentData",
+    className: "AwsEnvironmentData",
     uberParent: "EnvironmentData",
     polymorphicDiscriminator: EnvironmentData.type.polymorphicDiscriminator,
     modelProperties: {
@@ -9843,9 +9849,8 @@ export const CefExternalSecuritySolution: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CefExternalSecuritySolution",
-    uberParent: "ExternalSecuritySolution",
-    polymorphicDiscriminator:
-      ExternalSecuritySolution.type.polymorphicDiscriminator,
+    uberParent: "Resource",
+    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
     modelProperties: {
       ...ExternalSecuritySolution.type.modelProperties,
       properties: {
@@ -9864,9 +9869,8 @@ export const AtaExternalSecuritySolution: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AtaExternalSecuritySolution",
-    uberParent: "ExternalSecuritySolution",
-    polymorphicDiscriminator:
-      ExternalSecuritySolution.type.polymorphicDiscriminator,
+    uberParent: "Resource",
+    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
     modelProperties: {
       ...ExternalSecuritySolution.type.modelProperties,
       properties: {
@@ -9885,9 +9889,8 @@ export const AadExternalSecuritySolution: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AadExternalSecuritySolution",
-    uberParent: "ExternalSecuritySolution",
-    polymorphicDiscriminator:
-      ExternalSecuritySolution.type.polymorphicDiscriminator,
+    uberParent: "Resource",
+    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
     modelProperties: {
       ...ExternalSecuritySolution.type.modelProperties,
       properties: {
@@ -9906,8 +9909,8 @@ export const DataExportSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataExportSettings",
-    uberParent: "Setting",
-    polymorphicDiscriminator: Setting.type.polymorphicDiscriminator,
+    uberParent: "Resource",
+    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
     modelProperties: {
       ...Setting.type.modelProperties,
       enabled: {
@@ -9925,8 +9928,8 @@ export const AlertSyncSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AlertSyncSettings",
-    uberParent: "Setting",
-    polymorphicDiscriminator: Setting.type.polymorphicDiscriminator,
+    uberParent: "Resource",
+    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
     modelProperties: {
       ...Setting.type.modelProperties,
       enabled: {
@@ -9944,7 +9947,7 @@ export const TimeWindowCustomAlertRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TimeWindowCustomAlertRule",
-    uberParent: "ThresholdCustomAlertRule",
+    uberParent: "CustomAlertRule",
     polymorphicDiscriminator: {
       serializedName: "ruleType",
       clientName: "ruleType"
@@ -9967,7 +9970,7 @@ export const AllowlistCustomAlertRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AllowlistCustomAlertRule",
-    uberParent: "ListCustomAlertRule",
+    uberParent: "CustomAlertRule",
     polymorphicDiscriminator: {
       serializedName: "ruleType",
       clientName: "ruleType"
@@ -9995,8 +9998,8 @@ export const DenylistCustomAlertRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DenylistCustomAlertRule",
-    uberParent: "ListCustomAlertRule",
-    polymorphicDiscriminator: ListCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...ListCustomAlertRule.type.modelProperties,
       denylistValues: {
@@ -10020,9 +10023,8 @@ export const OnPremiseSqlResourceDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "OnPremiseSqlResourceDetails",
-    uberParent: "OnPremiseResourceDetails",
-    polymorphicDiscriminator:
-      OnPremiseResourceDetails.type.polymorphicDiscriminator,
+    uberParent: "ResourceDetails",
+    polymorphicDiscriminator: ResourceDetails.type.polymorphicDiscriminator,
     modelProperties: {
       ...OnPremiseResourceDetails.type.modelProperties,
       serverName: {
@@ -10048,9 +10050,8 @@ export const ActiveConnectionsNotInAllowedRange: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ActiveConnectionsNotInAllowedRange",
-    uberParent: "TimeWindowCustomAlertRule",
-    polymorphicDiscriminator:
-      TimeWindowCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...TimeWindowCustomAlertRule.type.modelProperties
     }
@@ -10062,9 +10063,8 @@ export const AmqpC2DMessagesNotInAllowedRange: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AmqpC2DMessagesNotInAllowedRange",
-    uberParent: "TimeWindowCustomAlertRule",
-    polymorphicDiscriminator:
-      TimeWindowCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...TimeWindowCustomAlertRule.type.modelProperties
     }
@@ -10076,9 +10076,8 @@ export const MqttC2DMessagesNotInAllowedRange: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MqttC2DMessagesNotInAllowedRange",
-    uberParent: "TimeWindowCustomAlertRule",
-    polymorphicDiscriminator:
-      TimeWindowCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...TimeWindowCustomAlertRule.type.modelProperties
     }
@@ -10090,9 +10089,8 @@ export const HttpC2DMessagesNotInAllowedRange: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "HttpC2DMessagesNotInAllowedRange",
-    uberParent: "TimeWindowCustomAlertRule",
-    polymorphicDiscriminator:
-      TimeWindowCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...TimeWindowCustomAlertRule.type.modelProperties
     }
@@ -10104,9 +10102,8 @@ export const AmqpC2DRejectedMessagesNotInAllowedRange: coreClient.CompositeMappe
   type: {
     name: "Composite",
     className: "AmqpC2DRejectedMessagesNotInAllowedRange",
-    uberParent: "TimeWindowCustomAlertRule",
-    polymorphicDiscriminator:
-      TimeWindowCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...TimeWindowCustomAlertRule.type.modelProperties
     }
@@ -10118,9 +10115,8 @@ export const MqttC2DRejectedMessagesNotInAllowedRange: coreClient.CompositeMappe
   type: {
     name: "Composite",
     className: "MqttC2DRejectedMessagesNotInAllowedRange",
-    uberParent: "TimeWindowCustomAlertRule",
-    polymorphicDiscriminator:
-      TimeWindowCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...TimeWindowCustomAlertRule.type.modelProperties
     }
@@ -10132,9 +10128,8 @@ export const HttpC2DRejectedMessagesNotInAllowedRange: coreClient.CompositeMappe
   type: {
     name: "Composite",
     className: "HttpC2DRejectedMessagesNotInAllowedRange",
-    uberParent: "TimeWindowCustomAlertRule",
-    polymorphicDiscriminator:
-      TimeWindowCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...TimeWindowCustomAlertRule.type.modelProperties
     }
@@ -10146,9 +10141,8 @@ export const AmqpD2CMessagesNotInAllowedRange: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AmqpD2CMessagesNotInAllowedRange",
-    uberParent: "TimeWindowCustomAlertRule",
-    polymorphicDiscriminator:
-      TimeWindowCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...TimeWindowCustomAlertRule.type.modelProperties
     }
@@ -10160,9 +10154,8 @@ export const MqttD2CMessagesNotInAllowedRange: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MqttD2CMessagesNotInAllowedRange",
-    uberParent: "TimeWindowCustomAlertRule",
-    polymorphicDiscriminator:
-      TimeWindowCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...TimeWindowCustomAlertRule.type.modelProperties
     }
@@ -10174,9 +10167,8 @@ export const HttpD2CMessagesNotInAllowedRange: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "HttpD2CMessagesNotInAllowedRange",
-    uberParent: "TimeWindowCustomAlertRule",
-    polymorphicDiscriminator:
-      TimeWindowCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...TimeWindowCustomAlertRule.type.modelProperties
     }
@@ -10188,9 +10180,8 @@ export const DirectMethodInvokesNotInAllowedRange: coreClient.CompositeMapper = 
   type: {
     name: "Composite",
     className: "DirectMethodInvokesNotInAllowedRange",
-    uberParent: "TimeWindowCustomAlertRule",
-    polymorphicDiscriminator:
-      TimeWindowCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...TimeWindowCustomAlertRule.type.modelProperties
     }
@@ -10202,9 +10193,8 @@ export const FailedLocalLoginsNotInAllowedRange: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FailedLocalLoginsNotInAllowedRange",
-    uberParent: "TimeWindowCustomAlertRule",
-    polymorphicDiscriminator:
-      TimeWindowCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...TimeWindowCustomAlertRule.type.modelProperties
     }
@@ -10216,9 +10206,8 @@ export const FileUploadsNotInAllowedRange: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FileUploadsNotInAllowedRange",
-    uberParent: "TimeWindowCustomAlertRule",
-    polymorphicDiscriminator:
-      TimeWindowCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...TimeWindowCustomAlertRule.type.modelProperties
     }
@@ -10230,9 +10219,8 @@ export const QueuePurgesNotInAllowedRange: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "QueuePurgesNotInAllowedRange",
-    uberParent: "TimeWindowCustomAlertRule",
-    polymorphicDiscriminator:
-      TimeWindowCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...TimeWindowCustomAlertRule.type.modelProperties
     }
@@ -10244,9 +10232,8 @@ export const TwinUpdatesNotInAllowedRange: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TwinUpdatesNotInAllowedRange",
-    uberParent: "TimeWindowCustomAlertRule",
-    polymorphicDiscriminator:
-      TimeWindowCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...TimeWindowCustomAlertRule.type.modelProperties
     }
@@ -10258,9 +10245,8 @@ export const UnauthorizedOperationsNotInAllowedRange: coreClient.CompositeMapper
   type: {
     name: "Composite",
     className: "UnauthorizedOperationsNotInAllowedRange",
-    uberParent: "TimeWindowCustomAlertRule",
-    polymorphicDiscriminator:
-      TimeWindowCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...TimeWindowCustomAlertRule.type.modelProperties
     }
@@ -10272,9 +10258,8 @@ export const ConnectionToIpNotAllowed: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ConnectionToIpNotAllowed",
-    uberParent: "AllowlistCustomAlertRule",
-    polymorphicDiscriminator:
-      AllowlistCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...AllowlistCustomAlertRule.type.modelProperties
     }
@@ -10286,9 +10271,8 @@ export const ConnectionFromIpNotAllowed: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ConnectionFromIpNotAllowed",
-    uberParent: "AllowlistCustomAlertRule",
-    polymorphicDiscriminator:
-      AllowlistCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...AllowlistCustomAlertRule.type.modelProperties
     }
@@ -10300,9 +10284,8 @@ export const LocalUserNotAllowed: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LocalUserNotAllowed",
-    uberParent: "AllowlistCustomAlertRule",
-    polymorphicDiscriminator:
-      AllowlistCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...AllowlistCustomAlertRule.type.modelProperties
     }
@@ -10314,9 +10297,8 @@ export const ProcessNotAllowed: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ProcessNotAllowed",
-    uberParent: "AllowlistCustomAlertRule",
-    polymorphicDiscriminator:
-      AllowlistCustomAlertRule.type.polymorphicDiscriminator,
+    uberParent: "CustomAlertRule",
+    polymorphicDiscriminator: CustomAlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...AllowlistCustomAlertRule.type.modelProperties
     }
@@ -10423,7 +10405,11 @@ export let discriminators = {
   "CloudOffering.DefenderForContainersGcp": DefenderForContainersGcpOffering,
   "CloudOffering.CspmMonitorGithub": CspmMonitorGithubOffering,
   "CloudOffering.CspmMonitorAzureDevOps": CspmMonitorAzureDevOpsOffering,
-  "EnvironmentData.AwsAccount": AWSEnvironmentData,
+  "CloudOffering.DefenderCspmAws": DefenderCspmAwsOffering,
+  "CloudOffering.DefenderCspmGcp": DefenderCspmGcpOffering,
+  "CloudOffering.DefenderForDevOpsGithub": DefenderForDevOpsGithubOffering,
+  "CloudOffering.DefenderForDevOpsAzureDevOps": DefenderForDevOpsAzureDevOpsOffering,
+  "EnvironmentData.AwsAccount": AwsEnvironmentData,
   "EnvironmentData.GcpProject": GcpProjectEnvironmentData,
   "EnvironmentData.GithubScope": GithubScopeEnvironmentData,
   "EnvironmentData.AzureDevOpsScope": AzureDevOpsScopeEnvironmentData,
@@ -10431,33 +10417,33 @@ export let discriminators = {
   "AwsOrganizationalData.Member": AwsOrganizationalDataMember,
   "GcpOrganizationalData.Organization": GcpOrganizationalDataOrganization,
   "GcpOrganizationalData.Member": GcpOrganizationalDataMember,
-  "ExternalSecuritySolution.CEF": CefExternalSecuritySolution,
-  "ExternalSecuritySolution.ATA": AtaExternalSecuritySolution,
-  "ExternalSecuritySolution.AAD": AadExternalSecuritySolution,
-  "Setting.DataExportSettings": DataExportSettings,
-  "Setting.AlertSyncSettings": AlertSyncSettings,
-  "ThresholdCustomAlertRule.TimeWindowCustomAlertRule": TimeWindowCustomAlertRule,
-  "ListCustomAlertRule.AllowlistCustomAlertRule": AllowlistCustomAlertRule,
-  "ListCustomAlertRule.DenylistCustomAlertRule": DenylistCustomAlertRule,
-  "OnPremiseResourceDetails.OnPremiseSql": OnPremiseSqlResourceDetails,
-  "TimeWindowCustomAlertRule.ActiveConnectionsNotInAllowedRange": ActiveConnectionsNotInAllowedRange,
-  "TimeWindowCustomAlertRule.AmqpC2DMessagesNotInAllowedRange": AmqpC2DMessagesNotInAllowedRange,
-  "TimeWindowCustomAlertRule.MqttC2DMessagesNotInAllowedRange": MqttC2DMessagesNotInAllowedRange,
-  "TimeWindowCustomAlertRule.HttpC2DMessagesNotInAllowedRange": HttpC2DMessagesNotInAllowedRange,
-  "TimeWindowCustomAlertRule.AmqpC2DRejectedMessagesNotInAllowedRange": AmqpC2DRejectedMessagesNotInAllowedRange,
-  "TimeWindowCustomAlertRule.MqttC2DRejectedMessagesNotInAllowedRange": MqttC2DRejectedMessagesNotInAllowedRange,
-  "TimeWindowCustomAlertRule.HttpC2DRejectedMessagesNotInAllowedRange": HttpC2DRejectedMessagesNotInAllowedRange,
-  "TimeWindowCustomAlertRule.AmqpD2CMessagesNotInAllowedRange": AmqpD2CMessagesNotInAllowedRange,
-  "TimeWindowCustomAlertRule.MqttD2CMessagesNotInAllowedRange": MqttD2CMessagesNotInAllowedRange,
-  "TimeWindowCustomAlertRule.HttpD2CMessagesNotInAllowedRange": HttpD2CMessagesNotInAllowedRange,
-  "TimeWindowCustomAlertRule.DirectMethodInvokesNotInAllowedRange": DirectMethodInvokesNotInAllowedRange,
-  "TimeWindowCustomAlertRule.FailedLocalLoginsNotInAllowedRange": FailedLocalLoginsNotInAllowedRange,
-  "TimeWindowCustomAlertRule.FileUploadsNotInAllowedRange": FileUploadsNotInAllowedRange,
-  "TimeWindowCustomAlertRule.QueuePurgesNotInAllowedRange": QueuePurgesNotInAllowedRange,
-  "TimeWindowCustomAlertRule.TwinUpdatesNotInAllowedRange": TwinUpdatesNotInAllowedRange,
-  "TimeWindowCustomAlertRule.UnauthorizedOperationsNotInAllowedRange": UnauthorizedOperationsNotInAllowedRange,
-  "AllowlistCustomAlertRule.ConnectionToIpNotAllowed": ConnectionToIpNotAllowed,
-  "AllowlistCustomAlertRule.ConnectionFromIpNotAllowed": ConnectionFromIpNotAllowed,
-  "AllowlistCustomAlertRule.LocalUserNotAllowed": LocalUserNotAllowed,
-  "AllowlistCustomAlertRule.ProcessNotAllowed": ProcessNotAllowed
+  "Resource.CEF": CefExternalSecuritySolution,
+  "Resource.ATA": AtaExternalSecuritySolution,
+  "Resource.AAD": AadExternalSecuritySolution,
+  "Resource.DataExportSettings": DataExportSettings,
+  "Resource.AlertSyncSettings": AlertSyncSettings,
+  "CustomAlertRule.TimeWindowCustomAlertRule": TimeWindowCustomAlertRule,
+  "CustomAlertRule.AllowlistCustomAlertRule": AllowlistCustomAlertRule,
+  "CustomAlertRule.DenylistCustomAlertRule": DenylistCustomAlertRule,
+  "ResourceDetails.OnPremiseSql": OnPremiseSqlResourceDetails,
+  "CustomAlertRule.ActiveConnectionsNotInAllowedRange": ActiveConnectionsNotInAllowedRange,
+  "CustomAlertRule.AmqpC2DMessagesNotInAllowedRange": AmqpC2DMessagesNotInAllowedRange,
+  "CustomAlertRule.MqttC2DMessagesNotInAllowedRange": MqttC2DMessagesNotInAllowedRange,
+  "CustomAlertRule.HttpC2DMessagesNotInAllowedRange": HttpC2DMessagesNotInAllowedRange,
+  "CustomAlertRule.AmqpC2DRejectedMessagesNotInAllowedRange": AmqpC2DRejectedMessagesNotInAllowedRange,
+  "CustomAlertRule.MqttC2DRejectedMessagesNotInAllowedRange": MqttC2DRejectedMessagesNotInAllowedRange,
+  "CustomAlertRule.HttpC2DRejectedMessagesNotInAllowedRange": HttpC2DRejectedMessagesNotInAllowedRange,
+  "CustomAlertRule.AmqpD2CMessagesNotInAllowedRange": AmqpD2CMessagesNotInAllowedRange,
+  "CustomAlertRule.MqttD2CMessagesNotInAllowedRange": MqttD2CMessagesNotInAllowedRange,
+  "CustomAlertRule.HttpD2CMessagesNotInAllowedRange": HttpD2CMessagesNotInAllowedRange,
+  "CustomAlertRule.DirectMethodInvokesNotInAllowedRange": DirectMethodInvokesNotInAllowedRange,
+  "CustomAlertRule.FailedLocalLoginsNotInAllowedRange": FailedLocalLoginsNotInAllowedRange,
+  "CustomAlertRule.FileUploadsNotInAllowedRange": FileUploadsNotInAllowedRange,
+  "CustomAlertRule.QueuePurgesNotInAllowedRange": QueuePurgesNotInAllowedRange,
+  "CustomAlertRule.TwinUpdatesNotInAllowedRange": TwinUpdatesNotInAllowedRange,
+  "CustomAlertRule.UnauthorizedOperationsNotInAllowedRange": UnauthorizedOperationsNotInAllowedRange,
+  "CustomAlertRule.ConnectionToIpNotAllowed": ConnectionToIpNotAllowed,
+  "CustomAlertRule.ConnectionFromIpNotAllowed": ConnectionFromIpNotAllowed,
+  "CustomAlertRule.LocalUserNotAllowed": LocalUserNotAllowed,
+  "CustomAlertRule.ProcessNotAllowed": ProcessNotAllowed
 };

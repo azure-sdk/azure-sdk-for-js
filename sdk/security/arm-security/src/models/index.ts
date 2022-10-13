@@ -50,10 +50,14 @@ export type CloudOfferingUnion =
   | DefenderForDatabasesGcpOffering
   | DefenderForContainersGcpOffering
   | CspmMonitorGithubOffering
-  | CspmMonitorAzureDevOpsOffering;
+  | CspmMonitorAzureDevOpsOffering
+  | DefenderCspmAwsOffering
+  | DefenderCspmGcpOffering
+  | DefenderForDevOpsGithubOffering
+  | DefenderForDevOpsAzureDevOpsOffering;
 export type EnvironmentDataUnion =
   | EnvironmentData
-  | AWSEnvironmentData
+  | AwsEnvironmentData
   | GcpProjectEnvironmentData
   | GithubScopeEnvironmentData
   | AzureDevOpsScopeEnvironmentData;
@@ -1794,7 +1798,11 @@ export interface CloudOffering {
     | "DefenderForDatabasesGcp"
     | "DefenderForContainersGcp"
     | "CspmMonitorGithub"
-    | "CspmMonitorAzureDevOps";
+    | "CspmMonitorAzureDevOps"
+    | "DefenderCspmAws"
+    | "DefenderCspmGcp"
+    | "DefenderForDevOpsGithub"
+    | "DefenderForDevOpsAzureDevOps";
   /**
    * The offering description.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2068,18 +2076,6 @@ export interface DefenderForServersAwsOfferingArcAutoProvisioning {
   enabled?: boolean;
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
-  /** Metadata of Service Principal secret for autoprovisioning */
-  servicePrincipalSecretMetadata?: DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata;
-}
-
-/** Metadata of Service Principal secret for autoprovisioning */
-export interface DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata {
-  /** expiration date of service principal secret */
-  expiryDate?: string;
-  /** region of parameter store where secret is kept */
-  parameterStoreRegion?: string;
-  /** name of secret resource in parameter store */
-  parameterNameInStore?: string;
 }
 
 /** The Vulnerability Assessment autoprovisioning configuration */
@@ -2125,7 +2121,7 @@ export interface DefenderForServersAwsOfferingVmScannersConfiguration {
   /** The scanning mode for the vm scan. */
   scanningMode?: ScanningMode;
   /** VM tags that indicates that VM should not be scanned */
-  exclusionTags?: Record<string, unknown>;
+  exclusionTags?: { [propertyName: string]: string };
 }
 
 /** The ARC autoprovisioning configuration */
@@ -2134,18 +2130,14 @@ export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning {
   enabled?: boolean;
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
-  /** Metadata of Service Principal secret for autoprovisioning */
-  servicePrincipalSecretMetadata?: DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata;
 }
 
-/** Metadata of Service Principal secret for autoprovisioning */
-export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata {
-  /** expiration date of service principal secret */
-  expiryDate?: Date;
-  /** region of parameter store where secret is kept */
-  parameterStoreRegion?: string;
-  /** name of secret resource in parameter store */
-  parameterNameInStore?: string;
+/** The RDS configuration */
+export interface DefenderFoDatabasesAwsOfferingRds {
+  /** Is RDS protection enabled */
+  enabled?: boolean;
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
 }
 
 /** The native cloud connection configuration */
@@ -2174,16 +2166,6 @@ export interface DefenderForServersGcpOfferingDefenderForServers {
 export interface DefenderForServersGcpOfferingArcAutoProvisioning {
   /** Is arc auto provisioning enabled */
   enabled?: boolean;
-  /** Configuration for ARC autoprovisioning */
-  configuration?: DefenderForServersGcpOfferingArcAutoProvisioningConfiguration;
-}
-
-/** Configuration for ARC autoprovisioning */
-export interface DefenderForServersGcpOfferingArcAutoProvisioningConfiguration {
-  /** The Azure service principal client id for agent onboarding */
-  clientId?: string;
-  /** The agent onboarding service account numeric id */
-  agentOnboardingServiceAccountNumericId?: string;
 }
 
 /** The Vulnerability Assessment autoprovisioning configuration */
@@ -2218,16 +2200,6 @@ export interface DefenderForServersGcpOfferingSubPlan {
 export interface DefenderForDatabasesGcpOfferingArcAutoProvisioning {
   /** Is arc auto provisioning enabled */
   enabled?: boolean;
-  /** Configuration for ARC autoprovisioning */
-  configuration?: DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration;
-}
-
-/** Configuration for ARC autoprovisioning */
-export interface DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration {
-  /** The Azure service principal client id for agent onboarding */
-  clientId?: string;
-  /** The agent onboarding service account numeric id */
-  agentOnboardingServiceAccountNumericId?: string;
 }
 
 /** The native cloud connection configuration */
@@ -2252,6 +2224,24 @@ export interface DefenderForContainersGcpOfferingDataPipelineNativeCloudConnecti
   serviceAccountEmailAddress?: string;
   /** The data collection GCP workload identity provider id for this offering */
   workloadIdentityProviderId?: string;
+}
+
+/** The Microsoft Defender for Server VM scanning configuration */
+export interface DefenderCspmAwsOfferingVmScanners {
+  /** Is Microsoft Defender for Server VM scanning enabled */
+  enabled?: boolean;
+  /** configuration for Microsoft Defender for Server VM scanning */
+  configuration?: DefenderCspmAwsOfferingVmScannersConfiguration;
+}
+
+/** configuration for Microsoft Defender for Server VM scanning */
+export interface DefenderCspmAwsOfferingVmScannersConfiguration {
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
+  /** The scanning mode for the vm scan. */
+  scanningMode?: ScanningMode;
+  /** VM tags that indicates that VM should not be scanned */
+  exclusionTags?: { [propertyName: string]: string };
 }
 
 /** Governance rule's condition */
@@ -3832,6 +3822,8 @@ export interface DefenderFoDatabasesAwsOffering extends CloudOffering {
   offeringType: "DefenderForDatabasesAws";
   /** The ARC autoprovisioning configuration */
   arcAutoProvisioning?: DefenderFoDatabasesAwsOfferingArcAutoProvisioning;
+  /** The RDS configuration */
+  rds?: DefenderFoDatabasesAwsOfferingRds;
 }
 
 /** The information protection for AWS offering */
@@ -3904,8 +3896,34 @@ export interface CspmMonitorAzureDevOpsOffering extends CloudOffering {
   offeringType: "CspmMonitorAzureDevOps";
 }
 
+/** The CSPM P1 for Aws offering */
+export interface DefenderCspmAwsOffering extends CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "DefenderCspmAws";
+  /** The Microsoft Defender for Server VM scanning configuration */
+  vmScanners?: DefenderCspmAwsOfferingVmScanners;
+}
+
+/** The CSPM P1 for GCP offering */
+export interface DefenderCspmGcpOffering extends CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "DefenderCspmGcp";
+}
+
+/** The Defender for DevOps for Github offering */
+export interface DefenderForDevOpsGithubOffering extends CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "DefenderForDevOpsGithub";
+}
+
+/** The Defender for DevOps for Azure DevOps offering */
+export interface DefenderForDevOpsAzureDevOpsOffering extends CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "DefenderForDevOpsAzureDevOps";
+}
+
 /** The aws connector environment data */
-export interface AWSEnvironmentData extends EnvironmentData {
+export interface AwsEnvironmentData extends EnvironmentData {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   environmentType: "AwsAccount";
   /** The AWS account's organizational data */
@@ -4050,16 +4068,12 @@ export interface AadExternalSecuritySolution extends ExternalSecuritySolution {
 
 /** Represents a data export setting */
 export interface DataExportSettings extends Setting {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "DataExportSettings";
   /** Is the data export setting enabled */
   enabled?: boolean;
 }
 
 /** Represents an alert sync setting */
 export interface AlertSyncSettings extends Setting {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "AlertSyncSettings";
   /** Is the alert sync setting enabled */
   enabled?: boolean;
 }
@@ -6406,7 +6420,15 @@ export enum KnownOfferingType {
   /** DefenderForContainersGcp */
   DefenderForContainersGcp = "DefenderForContainersGcp",
   /** DefenderForDatabasesGcp */
-  DefenderForDatabasesGcp = "DefenderForDatabasesGcp"
+  DefenderForDatabasesGcp = "DefenderForDatabasesGcp",
+  /** DefenderCspmAws */
+  DefenderCspmAws = "DefenderCspmAws",
+  /** DefenderCspmGcp */
+  DefenderCspmGcp = "DefenderCspmGcp",
+  /** DefenderForDevOpsGithub */
+  DefenderForDevOpsGithub = "DefenderForDevOpsGithub",
+  /** DefenderForDevOpsAzureDevOps */
+  DefenderForDevOpsAzureDevOps = "DefenderForDevOpsAzureDevOps"
 }
 
 /**
@@ -6424,7 +6446,11 @@ export enum KnownOfferingType {
  * **CspmMonitorAzureDevOps** \
  * **DefenderForServersGcp** \
  * **DefenderForContainersGcp** \
- * **DefenderForDatabasesGcp**
+ * **DefenderForDatabasesGcp** \
+ * **DefenderCspmAws** \
+ * **DefenderCspmGcp** \
+ * **DefenderForDevOpsGithub** \
+ * **DefenderForDevOpsAzureDevOps**
  */
 export type OfferingType = string;
 
