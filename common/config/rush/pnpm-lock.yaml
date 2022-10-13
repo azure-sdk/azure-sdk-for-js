@@ -14939,17 +14939,19 @@ packages:
     dev: false
 
   file:projects/arm-streamanalytics.tgz:
-    resolution: {integrity: sha512-tyDhMW+2aoBj060An0Hzvgm6gX5+H0XqoS0JvuB35M9aFL3UZoDZtIbOhJKklr2fCmiMPss4dEPk7gHR3vUV6Q==, tarball: file:projects/arm-streamanalytics.tgz}
+    resolution: {integrity: sha512-evUQVna34qLfYk+VewvSgknHvDc0P04N4I0dNiaaZVXubrGygS4v90igYtY2SgV9YQqvljzcgh9X/L4YYNBVGA==, tarball: file:projects/arm-streamanalytics.tgz}
     name: '@rush-temp/arm-streamanalytics'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.32.0
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14961,7 +14963,6 @@ packages:
       uglify-js: 3.17.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -18680,7 +18681,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-3tvMIhTyvuOTgKK9O8L0ohZnspDLQ9sJZZxk8pbqqf+2qGbEvN2CT/VdM/Lh2d4HuFhxSkeVbJgnk9KAr99PpQ==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-FlPn+HxK47mnvSCUz513u4gm5jfgfRmy1dRwKkdWCGiRIZ4VjCYC2JxCTEd6FAA/OhEgMBcY1xm0LAYqoTiFgg==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
