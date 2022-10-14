@@ -1,15 +1,21 @@
 # Release History
+    
+## 31.0.0 (2022-10-14)
+    
+**Features**
 
-## 30.0.1 (Unreleased)
+  - Added Interface DelegationProperties
+  - Added Interface PartnerManagedResourceProperties
+  - Interface NetworkVirtualAppliance has a new optional parameter delegation
+  - Interface NetworkVirtualAppliance has a new optional parameter deploymentType
+  - Interface NetworkVirtualAppliance has a new optional parameter partnerManagedResource
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AdminRule no longer has parameter kind
+  - Interface DefaultAdminRule no longer has parameter kind
+    
+    
 ## 30.0.0 (2022-09-29)
     
 **Features**
