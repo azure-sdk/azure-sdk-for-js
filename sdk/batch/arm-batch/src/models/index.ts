@@ -755,7 +755,7 @@ export interface TaskSchedulingPolicy {
 
 /** Properties used to create a user on an Azure Batch node. */
 export interface UserAccount {
-  /** The name of the user account. */
+  /** The name of the user account. Names can contain any Unicode characters up to a maximum length of 20. */
   name: string;
   /** The password for the user account. */
   password: string;
@@ -863,7 +863,7 @@ export interface TaskContainerSettings {
   workingDirectory?: ContainerWorkingDirectory;
 }
 
-/** A reference to a certificate to be installed on compute nodes in a pool. This must exist inside the same account as the pool. */
+/** Warning: This object is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead. */
 export interface CertificateReference {
   /** The fully qualified ID of the certificate to install on the pool. This must be inside the same batch account as the pool. */
   id: string;
@@ -1221,7 +1221,7 @@ export interface Pool extends ProxyResource {
   /** Using CloudServiceConfiguration specifies that the nodes should be creating using Azure Cloud Services (PaaS), while VirtualMachineConfiguration uses Azure Virtual Machines (IaaS). */
   deploymentConfiguration?: DeploymentConfiguration;
   /**
-   * The number of compute nodes currently in the pool.
+   * The number of dedicated compute nodes currently in the pool.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly currentDedicatedNodes?: number;
@@ -1251,7 +1251,11 @@ export interface Pool extends ProxyResource {
   metadata?: MetadataItem[];
   /** In an PATCH (update) operation, this property can be set to an empty object to remove the start task from the pool. */
   startTask?: StartTask;
-  /** For Windows compute nodes, the Batch service installs the certificates to the specified certificate store and location. For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory. */
+  /**
+   * For Windows compute nodes, the Batch service installs the certificates to the specified certificate store and location. For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory.
+   *
+   * Warning: This property is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
+   */
   certificates?: CertificateReference[];
   /** Changes to application package references affect all new compute nodes joining the pool, but do not affect compute nodes that are already in the pool until they are rebooted or reimaged. There is a maximum of 10 application package references on any given pool. */
   applicationPackages?: ApplicationPackageReference[];
@@ -1264,6 +1268,13 @@ export interface Pool extends ProxyResource {
   readonly resizeOperationStatus?: ResizeOperationStatus;
   /** This supports Azure Files, NFS, CIFS/SMB, and Blobfuse. */
   mountConfiguration?: MountConfiguration[];
+  /** If omitted, the default value is Default. */
+  targetNodeCommunicationMode?: NodeCommunicationMode;
+  /**
+   * Determines how a pool communicates with the Batch service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentNodeCommunicationMode?: NodeCommunicationMode;
 }
 
 /** Contains information about an Azure Batch account. */
@@ -1591,6 +1602,8 @@ export type ContainerWorkingDirectory =
 export type CertificateStoreLocation = "CurrentUser" | "LocalMachine";
 /** Defines values for CertificateVisibility. */
 export type CertificateVisibility = "StartTask" | "Task" | "RemoteUser";
+/** Defines values for NodeCommunicationMode. */
+export type NodeCommunicationMode = "Default" | "Classic" | "Simplified";
 /** Defines values for PoolIdentityType. */
 export type PoolIdentityType = "UserAssigned" | "None";
 

@@ -1008,6 +1008,9 @@ export interface NFSMountConfiguration {
 }
 
 // @public
+export type NodeCommunicationMode = "Default" | "Classic" | "Simplified";
+
+// @public
 export interface NodePlacementConfiguration {
     policy?: NodePlacementPolicyType;
 }
@@ -1088,6 +1091,7 @@ export interface Pool extends ProxyResource {
     readonly creationTime?: Date;
     readonly currentDedicatedNodes?: number;
     readonly currentLowPriorityNodes?: number;
+    readonly currentNodeCommunicationMode?: NodeCommunicationMode;
     deploymentConfiguration?: DeploymentConfiguration;
     displayName?: string;
     identity?: BatchPoolIdentity;
@@ -1101,6 +1105,7 @@ export interface Pool extends ProxyResource {
     readonly resizeOperationStatus?: ResizeOperationStatus;
     scaleSettings?: ScaleSettings;
     startTask?: StartTask;
+    targetNodeCommunicationMode?: NodeCommunicationMode;
     taskSchedulingPolicy?: TaskSchedulingPolicy;
     taskSlotsPerNode?: number;
     userAccounts?: UserAccount[];

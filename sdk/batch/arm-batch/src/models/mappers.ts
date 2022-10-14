@@ -3358,6 +3358,22 @@ export const Pool: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      targetNodeCommunicationMode: {
+        serializedName: "properties.targetNodeCommunicationMode",
+        type: {
+          name: "Enum",
+          allowedValues: ["Default", "Classic", "Simplified"]
+        }
+      },
+      currentNodeCommunicationMode: {
+        serializedName: "properties.currentNodeCommunicationMode",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["Default", "Classic", "Simplified"]
+        }
       }
     }
   }

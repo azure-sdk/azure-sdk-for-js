@@ -1,15 +1,14 @@
 # Release History
+    
+## 7.3.0 (2022-10-14)
+    
+**Features**
 
-## 7.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias NodeCommunicationMode
+  - Interface Pool has a new optional parameter currentNodeCommunicationMode
+  - Interface Pool has a new optional parameter targetNodeCommunicationMode
+    
+    
 ## 7.2.0 (2022-07-19)
     
 **Features**
