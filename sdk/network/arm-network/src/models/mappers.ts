@@ -29767,8 +29767,8 @@ export const AdminRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AdminRule",
-    uberParent: "BaseAdminRule",
-    polymorphicDiscriminator: BaseAdminRule.type.polymorphicDiscriminator,
+    uberParent: "ChildResource",
+    polymorphicDiscriminator: ChildResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...BaseAdminRule.type.modelProperties,
       description: {
@@ -29867,8 +29867,8 @@ export const DefaultAdminRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DefaultAdminRule",
-    uberParent: "BaseAdminRule",
-    polymorphicDiscriminator: BaseAdminRule.type.polymorphicDiscriminator,
+    uberParent: "ChildResource",
+    polymorphicDiscriminator: ChildResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...BaseAdminRule.type.modelProperties,
       description: {
@@ -30108,6 +30108,6 @@ export let discriminators = {
   "FirewallPolicyRule.ApplicationRule": ApplicationRule,
   "FirewallPolicyRule.NatRule": NatRule,
   "FirewallPolicyRule.NetworkRule": NetworkRule,
-  "BaseAdminRule.Custom": AdminRule,
-  "BaseAdminRule.Default": DefaultAdminRule
+  "ChildResource.Custom": AdminRule,
+  "ChildResource.Default": DefaultAdminRule
 };
