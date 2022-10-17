@@ -19,6 +19,7 @@ specifiers:
   '@rush-temp/arm-analysisservices': file:./projects/arm-analysisservices.tgz
   '@rush-temp/arm-apimanagement': file:./projects/arm-apimanagement.tgz
   '@rush-temp/arm-app': file:./projects/arm-app.tgz
+  '@rush-temp/arm-appcomplianceautomation': file:./projects/arm-appcomplianceautomation.tgz
   '@rush-temp/arm-appconfiguration': file:./projects/arm-appconfiguration.tgz
   '@rush-temp/arm-appcontainers': file:./projects/arm-appcontainers.tgz
   '@rush-temp/arm-appinsights': file:./projects/arm-appinsights.tgz
@@ -334,6 +335,7 @@ dependencies:
   '@rush-temp/arm-analysisservices': file:projects/arm-analysisservices.tgz
   '@rush-temp/arm-apimanagement': file:projects/arm-apimanagement.tgz
   '@rush-temp/arm-app': file:projects/arm-app.tgz
+  '@rush-temp/arm-appcomplianceautomation': file:projects/arm-appcomplianceautomation.tgz
   '@rush-temp/arm-appconfiguration': file:projects/arm-appconfiguration.tgz
   '@rush-temp/arm-appcontainers': file:projects/arm-appcontainers.tgz
   '@rush-temp/arm-appinsights': file:projects/arm-appinsights.tgz
@@ -3961,7 +3963,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221016
+      typescript: 4.9.0-dev.20221017
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8958,8 +8960,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221016:
-    resolution: {integrity: sha512-5ewJzFqYCUKUku9SdWIURLJW3PlkthY8C+HDu7kfWggpUJj3Ei7XrvMa32tMdl4a4H7k90m0xHRyoiCAH7wO2A==}
+  /typescript/4.9.0-dev.20221017:
+    resolution: {integrity: sha512-Aae7UmEtGS1U+pAvYpx8a466hlcXBX3moIdQ93lEAwriqrjidTeEP4JZ7UblTJWYZAlLu9g6LKfSe9X+6XR6GA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10272,6 +10274,33 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-appcomplianceautomation.tgz:
+    resolution: {integrity: sha512-US6sQZ6Tq1rhq60yr/yztK3L1oX096NTdnL+7VRGJPJjXcm5Nfo0t+UtAb0LJnfe/JJuQ00z5FHO+eTABdngDQ==, tarball: file:projects/arm-appcomplianceautomation.tgz}
+    name: '@rush-temp/arm-appcomplianceautomation'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.17.2
+    transitivePeerDependencies:
+      - '@types/node'
       - supports-color
     dev: false
 
