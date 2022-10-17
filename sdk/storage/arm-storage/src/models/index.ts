@@ -1118,6 +1118,16 @@ export interface BlobInventoryPolicyFilter {
   includeSnapshots?: boolean;
   /** For 'Container' definition.objectType the definition.schemaFields must include 'Deleted, Version, DeletedTime and RemainingRetentionDays'. For 'Blob' definition.objectType and HNS enabled storage accounts the definition.schemaFields must include 'DeletionId, Deleted, DeletedTime and RemainingRetentionDays' and for Hns disabled accounts the definition.schemaFields must include 'Deleted and RemainingRetentionDays', else it must be excluded. */
   includeDeleted?: boolean;
+  /** ************* */
+  creationTime?: BlobInventoryPolicyFilterTime;
+  /** ************* */
+  lastModified?: BlobInventoryPolicyFilterTime;
+}
+
+/** *** */
+export interface BlobInventoryPolicyFilterTime {
+  /** ************* */
+  lastNDays?: number;
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */

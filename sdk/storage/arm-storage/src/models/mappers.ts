@@ -2865,6 +2865,35 @@ export const BlobInventoryPolicyFilter: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      creationTime: {
+        serializedName: "Creation-Time",
+        type: {
+          name: "Composite",
+          className: "BlobInventoryPolicyFilterTime"
+        }
+      },
+      lastModified: {
+        serializedName: "Last-Modified",
+        type: {
+          name: "Composite",
+          className: "BlobInventoryPolicyFilterTime"
+        }
+      }
+    }
+  }
+};
+
+export const BlobInventoryPolicyFilterTime: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BlobInventoryPolicyFilterTime",
+    modelProperties: {
+      lastNDays: {
+        serializedName: "LastNDays",
+        type: {
+          name: "Number"
+        }
       }
     }
   }

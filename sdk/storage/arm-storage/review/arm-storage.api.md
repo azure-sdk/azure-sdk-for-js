@@ -311,11 +311,18 @@ export interface BlobInventoryPolicyDefinition {
 // @public
 export interface BlobInventoryPolicyFilter {
     blobTypes?: string[];
+    creationTime?: BlobInventoryPolicyFilterTime;
     excludePrefix?: string[];
     includeBlobVersions?: boolean;
     includeDeleted?: boolean;
     includeSnapshots?: boolean;
+    lastModified?: BlobInventoryPolicyFilterTime;
     prefixMatch?: string[];
+}
+
+// @public
+export interface BlobInventoryPolicyFilterTime {
+    lastNDays?: number;
 }
 
 // @public

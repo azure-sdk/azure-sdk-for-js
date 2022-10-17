@@ -1,15 +1,14 @@
 # Release History
+    
+## 18.1.0 (2022-10-17)
+    
+**Features**
 
-## 18.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface BlobInventoryPolicyFilterTime
+  - Interface BlobInventoryPolicyFilter has a new optional parameter creationTime
+  - Interface BlobInventoryPolicyFilter has a new optional parameter lastModified
+    
+    
 ## 18.0.0 (2022-08-16)
     
 **Features**
