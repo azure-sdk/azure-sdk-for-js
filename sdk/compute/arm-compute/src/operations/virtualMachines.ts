@@ -1319,7 +1319,12 @@ export class VirtualMachinesImpl implements VirtualMachines {
   }
 
   /**
-   * Reimages the virtual machine which has an ephemeral OS disk back to its initial state.
+   * Reimages (upgrade the operating system) a virtual machine which don't have a ephemeral OS disk, for
+   * virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state. NOTE:
+   * The retaining of old OS disk depends on the value of deleteOption of OS disk. If deleteOption is
+   * detach, the old OS disk will be preserved after reimage. If deleteOption is delete, the old OS disk
+   * will be deleted after reimage. The deleteOption of the OS disk should be updated accordingly before
+   * performing the reimage.
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
@@ -1382,7 +1387,12 @@ export class VirtualMachinesImpl implements VirtualMachines {
   }
 
   /**
-   * Reimages the virtual machine which has an ephemeral OS disk back to its initial state.
+   * Reimages (upgrade the operating system) a virtual machine which don't have a ephemeral OS disk, for
+   * virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state. NOTE:
+   * The retaining of old OS disk depends on the value of deleteOption of OS disk. If deleteOption is
+   * detach, the old OS disk will be preserved after reimage. If deleteOption is delete, the old OS disk
+   * will be deleted after reimage. The deleteOption of the OS disk should be updated accordingly before
+   * performing the reimage.
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
