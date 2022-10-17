@@ -1,5 +1,129 @@
 # Release History
+    
+## 8.0.0-beta.1 (2022-10-17)
+    
+**Features**
 
+  - Added operation CustomDomains.beginDisableCustomHttps
+  - Added operation CustomDomains.beginDisableCustomHttpsAndWait
+  - Added operation CustomDomains.beginEnableCustomHttps
+  - Added operation CustomDomains.beginEnableCustomHttpsAndWait
+  - Added operation Profiles.beginMigrate
+  - Added operation Profiles.beginMigrateAndWait
+  - Added operation Profiles.beginMigrationCommit
+  - Added operation Profiles.beginMigrationCommitAndWait
+  - Added operation Profiles.canMigrate
+  - Added Interface AFDDomain
+  - Added Interface AFDDomainProperties
+  - Added Interface AFDEndpoint
+  - Added Interface AFDEndpointProperties
+  - Added Interface AFDOrigin
+  - Added Interface AFDOriginGroup
+  - Added Interface AFDOriginGroupProperties
+  - Added Interface AFDOriginProperties
+  - Added Interface AzureFirstPartyManagedCertificate
+  - Added Interface AzureFirstPartyManagedCertificateParameters
+  - Added Interface CanMigrateParameters
+  - Added Interface CanMigrateResult
+  - Added Interface CdnManagedHttpsParameters
+  - Added Interface CdnWebApplicationFirewallPolicy
+  - Added Interface CustomDomain
+  - Added Interface CustomerCertificate
+  - Added Interface CustomerCertificateParameters
+  - Added Interface DeepCreatedCustomDomain
+  - Added Interface DeliveryRuleCacheExpirationAction
+  - Added Interface DeliveryRuleCacheKeyQueryStringAction
+  - Added Interface DeliveryRuleClientPortCondition
+  - Added Interface DeliveryRuleCookiesCondition
+  - Added Interface DeliveryRuleHostNameCondition
+  - Added Interface DeliveryRuleHttpVersionCondition
+  - Added Interface DeliveryRuleIsDeviceCondition
+  - Added Interface DeliveryRulePostArgsCondition
+  - Added Interface DeliveryRuleQueryStringCondition
+  - Added Interface DeliveryRuleRemoteAddressCondition
+  - Added Interface DeliveryRuleRequestBodyCondition
+  - Added Interface DeliveryRuleRequestHeaderAction
+  - Added Interface DeliveryRuleRequestHeaderCondition
+  - Added Interface DeliveryRuleRequestMethodCondition
+  - Added Interface DeliveryRuleRequestSchemeCondition
+  - Added Interface DeliveryRuleRequestUriCondition
+  - Added Interface DeliveryRuleResponseHeaderAction
+  - Added Interface DeliveryRuleRouteConfigurationOverrideAction
+  - Added Interface DeliveryRuleServerPortCondition
+  - Added Interface DeliveryRuleSocketAddrCondition
+  - Added Interface DeliveryRuleSslProtocolCondition
+  - Added Interface DeliveryRuleUrlFileExtensionCondition
+  - Added Interface DeliveryRuleUrlFileNameCondition
+  - Added Interface DeliveryRuleUrlPathCondition
+  - Added Interface EdgeNode
+  - Added Interface Endpoint
+  - Added Interface EndpointProperties
+  - Added Interface ManagedCertificate
+  - Added Interface ManagedCertificateParameters
+  - Added Interface ManagedRuleSetDefinition
+  - Added Interface MigrateResult
+  - Added Interface MigrationErrorType
+  - Added Interface MigrationParameters
+  - Added Interface MigrationWebApplicationFirewallMapping
+  - Added Interface Origin
+  - Added Interface OriginGroup
+  - Added Interface OriginGroupOverrideAction
+  - Added Interface OriginGroupProperties
+  - Added Interface OriginProperties
+  - Added Interface Profile
+  - Added Interface ProfilesCanMigrateOptionalParams
+  - Added Interface ProfilesMigrateHeaders
+  - Added Interface ProfilesMigrateOptionalParams
+  - Added Interface ProfilesMigrationCommitHeaders
+  - Added Interface ProfilesMigrationCommitOptionalParams
+  - Added Interface ProxyResource
+  - Added Interface RateLimitRule
+  - Added Interface Route
+  - Added Interface RouteProperties
+  - Added Interface Rule
+  - Added Interface RuleProperties
+  - Added Interface RuleSet
+  - Added Interface RuleSetProperties
+  - Added Interface Secret
+  - Added Interface SecretProperties
+  - Added Interface SecurityPolicy
+  - Added Interface SecurityPolicyProperties
+  - Added Interface SecurityPolicyWebApplicationFirewallParameters
+  - Added Interface TrackedResource
+  - Added Interface UrlRedirectAction
+  - Added Interface UrlRewriteAction
+  - Added Interface UrlSigningAction
+  - Added Interface UrlSigningKeyParameters
+  - Added Interface UserManagedHttpsParameters
+  - Added Type Alias CanMigrateDefaultSku
+  - Added Type Alias EndpointProvisioningState
+  - Added Type Alias OriginGroupProvisioningState
+  - Added Type Alias OriginProvisioningState
+  - Added Type Alias ProfileProvisioningState
+  - Added Type Alias ProfilesCanMigrateResponse
+  - Added Type Alias ProfilesMigrateResponse
+  - Added Type Alias ResourceUsageUnit
+  - Interface CustomDomainsDisableCustomHttpsOptionalParams has a new optional parameter resumeFrom
+  - Interface CustomDomainsDisableCustomHttpsOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface CustomDomainsEnableCustomHttpsOptionalParams has a new optional parameter resumeFrom
+  - Interface CustomDomainsEnableCustomHttpsOptionalParams has a new optional parameter updateIntervalInMs
+  - Added Enum KnownCanMigrateDefaultSku
+  - Added Enum KnownEndpointProvisioningState
+  - Added Enum KnownOriginGroupProvisioningState
+  - Added Enum KnownOriginProvisioningState
+  - Added Enum KnownProfileProvisioningState
+  - Added Enum KnownResourceUsageUnit
+  - Enum KnownProfileResourceState has a new value AbortingMigration
+  - Enum KnownProfileResourceState has a new value CommittingMigration
+  - Enum KnownProfileResourceState has a new value Migrated
+  - Enum KnownProfileResourceState has a new value Migrating
+  - Enum KnownProfileResourceState has a new value PendingMigrationCommit
+
+**Breaking Changes**
+
+  - Removed operation CustomDomains.disableCustomHttps
+  - Removed operation CustomDomains.enableCustomHttps
+    
 ## 7.0.1 (2022-04-21)
 
 **Features**

@@ -36,6 +36,8 @@ import {
   ValidateSecretInput as ValidateSecretInputMapper,
   Profile as ProfileMapper,
   ProfileUpdateParameters as ProfileUpdateParametersMapper,
+  CanMigrateParameters as CanMigrateParametersMapper,
+  MigrationParameters as MigrationParametersMapper,
   Endpoint as EndpointMapper,
   EndpointUpdateParameters as EndpointUpdateParametersMapper,
   PurgeParameters as PurgeParametersMapper,
@@ -121,7 +123,7 @@ export const resourceGroupName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-01",
+    defaultValue: "2022-05-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -651,6 +653,16 @@ export const profile: OperationParameter = {
 export const profileUpdateParameters: OperationParameter = {
   parameterPath: "profileUpdateParameters",
   mapper: ProfileUpdateParametersMapper
+};
+
+export const canMigrateParameters: OperationParameter = {
+  parameterPath: "canMigrateParameters",
+  mapper: CanMigrateParametersMapper
+};
+
+export const migrationParameters: OperationParameter = {
+  parameterPath: "migrationParameters",
+  mapper: MigrationParametersMapper
 };
 
 export const endpoint1: OperationParameter = {
