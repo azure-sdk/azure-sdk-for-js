@@ -766,6 +766,7 @@ export const MetricSpecification: coreClient.CompositeMapper = {
       lockAggregationType: {
         serializedName: "lockAggregationType",
         readOnly: true,
+        nullable: true,
         type: {
           name: "String"
         }
@@ -1077,6 +1078,7 @@ export const GroupLevelAccessControl: coreClient.CompositeMapper = {
     modelProperties: {
       publicNetworkAccess: {
         serializedName: "publicNetworkAccess",
+        nullable: true,
         type: {
           name: "String"
         }
@@ -1246,6 +1248,7 @@ export const VideoAnalyzerUpdate: coreClient.CompositeMapper = {
       },
       publicNetworkAccess: {
         serializedName: "properties.publicNetworkAccess",
+        nullable: true,
         type: {
           name: "String"
         }
@@ -3085,6 +3088,7 @@ export const VideoAnalyzer: coreClient.CompositeMapper = {
       },
       publicNetworkAccess: {
         serializedName: "properties.publicNetworkAccess",
+        nullable: true,
         type: {
           name: "String"
         }

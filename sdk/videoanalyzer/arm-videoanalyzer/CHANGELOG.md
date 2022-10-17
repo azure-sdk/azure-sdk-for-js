@@ -1,15 +1,45 @@
 # Release History
+    
+## 1.0.0-beta.3 (2022-10-17)
+    
+**Features**
 
-## 1.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface AccessPolicyEntity
+  - Added Interface AudioEncoderAac
+  - Added Interface EccTokenKey
+  - Added Interface EdgeModuleEntity
+  - Added Interface EncoderCustomPreset
+  - Added Interface EncoderProcessor
+  - Added Interface EncoderSystemPreset
+  - Added Interface JwtAuthentication
+  - Added Interface LivePipeline
+  - Added Interface LivePipelineUpdate
+  - Added Interface PemCertificateList
+  - Added Interface PipelineJob
+  - Added Interface PipelineJobUpdate
+  - Added Interface PipelineTopology
+  - Added Interface PipelineTopologyUpdate
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface ProcessorNodeBase
+  - Added Interface ProxyResource
+  - Added Interface RsaTokenKey
+  - Added Interface RtspSource
+  - Added Interface SecureIotDeviceRemoteTunnel
+  - Added Interface SinkNodeBase
+  - Added Interface SourceNodeBase
+  - Added Interface TlsEndpoint
+  - Added Interface TrackedResource
+  - Added Interface UnsecuredEndpoint
+  - Added Interface UsernamePasswordCredentials
+  - Added Interface VideoAnalyzer
+  - Added Interface VideoEncoderH264
+  - Added Interface VideoEntity
+  - Added Interface VideoSequenceAbsoluteTimeMarkers
+  - Added Interface VideoSink
+  - Added Interface VideoSource
+    
+    
 ## 1.0.0-beta.2 (2021-12-14)
     
 **Features**
