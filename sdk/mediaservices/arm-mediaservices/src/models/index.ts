@@ -1757,7 +1757,7 @@ export interface ContentKeyPolicyFairPlayConfiguration
   extends ContentKeyPolicyConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyFairPlayConfiguration";
-  /** The key that must be used as FairPlay Application Secret key. */
+  /** The key that must be used as FairPlay Application Secret key. This needs to be base64 encoded. */
   ask: Uint8Array | null;
   /** The password encrypting FairPlay certificate in PKCS 12 (pfx) format. */
   fairPlayPfxPassword: string | null;
