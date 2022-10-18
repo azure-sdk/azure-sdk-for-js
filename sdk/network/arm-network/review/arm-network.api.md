@@ -120,7 +120,6 @@ export interface AdminRule extends BaseAdminRule {
     destinationPortRanges?: string[];
     destinations?: AddressPrefixItem[];
     direction?: SecurityConfigurationRuleDirection;
-    kind: "Custom";
     priority?: number;
     protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
@@ -3017,7 +3016,6 @@ export interface DefaultAdminRule extends BaseAdminRule {
     readonly destinations?: AddressPrefixItem[];
     readonly direction?: SecurityConfigurationRuleDirection;
     flag?: string;
-    kind: "Default";
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
@@ -3060,6 +3058,12 @@ export interface Delegation extends SubResource {
     readonly provisioningState?: ProvisioningState;
     serviceName?: string;
     type?: string;
+}
+
+// @public
+export interface DelegationProperties {
+    readonly provisioningState?: ProvisioningState;
+    serviceName?: string;
 }
 
 // @public
@@ -9449,10 +9453,13 @@ export interface NetworkVirtualAppliance extends Resource {
     bootStrapConfigurationBlobs?: string[];
     cloudInitConfiguration?: string;
     cloudInitConfigurationBlobs?: string[];
+    delegation?: DelegationProperties;
+    readonly deploymentType?: string;
     readonly etag?: string;
     identity?: ManagedServiceIdentity;
     readonly inboundSecurityRules?: SubResource[];
     nvaSku?: VirtualApplianceSkuProperties;
+    partnerManagedResource?: PartnerManagedResourceProperties;
     readonly provisioningState?: ProvisioningState;
     sshPublicKey?: string;
     virtualApplianceAsn?: number;
@@ -10204,6 +10211,13 @@ export interface Parameter {
 }
 
 // @public
+export interface PartnerManagedResourceProperties {
+    readonly id?: string;
+    readonly internalLoadBalancerId?: string;
+    readonly standardLoadBalancerId?: string;
+}
+
+// @public
 export interface PatchObject {
     tags?: {
         [propertyName: string]: string;
@@ -10311,6 +10325,8 @@ export type PfsGroup = string;
 
 // @public
 export interface PolicySettings {
+    customBlockResponseBody?: string;
+    customBlockResponseStatusCode?: number;
     fileUploadLimitInMb?: number;
     maxRequestBodySizeInKb?: number;
     mode?: WebApplicationFirewallMode;
