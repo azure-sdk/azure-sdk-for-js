@@ -9856,7 +9856,7 @@ packages:
     dev: false
 
   file:projects/ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-qmgqqgLNuhP4fosQBrAhMDAVLMuaVq6U14dwTFkO9scjJCeQ2Oz2AQVnHY0MpGI00LdcsE3id3kTOJcm1rI2XQ==, tarball: file:projects/ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-NiqVwk8rscFQJOyV1k4GTmjYs1/uotj4p/u2qkUheBYf5WXoMriqGUxmac2z+XO7hESdCBIlH0TFDp4+pxFZsw==, tarball: file:projects/ai-metrics-advisor.tgz}
     name: '@rush-temp/ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -11751,12 +11751,12 @@ packages:
     dev: false
 
   file:projects/arm-devcenter.tgz:
-    resolution: {integrity: sha512-JDzPyJDTchEgS9eBLHz4wWbWoWMKmCxU+eZTOEwpPnitw3HhUmdAsInU/zMqWVKNZQs1fLEuPtPO59leplVrEg==, tarball: file:projects/arm-devcenter.tgz}
+    resolution: {integrity: sha512-AwOM7pau2B5ArHiegmUHhB80KpkdjSUUN7V3Yhx+GHHiIETnDrdtrezExE3jsfZe5wbSHAm3Tef8jy9tVu7gxw==, tarball: file:projects/arm-devcenter.tgz}
     name: '@rush-temp/arm-devcenter'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.32.0
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11770,7 +11770,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.2.4
       uglify-js: 3.17.2
     transitivePeerDependencies:
       - '@types/node'
@@ -15681,7 +15681,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-tq1y2fIgi1y040Xw8MtF5Ut5mAYz0UfmJrZksqCqxizgc5mzQdMcR233Fw9TgyEaofmbGdcMjVBncqmEHjbGQA==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-UQIAjzokL3UPlFW+cKP3w0BnUIoku1Tix+cx0F0pxR6E7CS4u/fudugSdM7J+Ph6OGRAPLj/V1qHAhKw31vHGg==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:

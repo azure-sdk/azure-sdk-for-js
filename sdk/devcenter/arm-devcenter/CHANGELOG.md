@@ -1,15 +1,19 @@
 # Release History
+    
+## 1.0.0-beta.3 (2022-10-18)
+    
+**Features**
 
-## 1.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface OperationStatusResult
+  - Added Type Alias CatalogSyncState
+  - Added Type Alias SchedulesUpdateResponse
+  - Interface Catalog has a new optional parameter syncState
+  - Interface CatalogProperties has a new optional parameter syncState
+  - Added Enum KnownCatalogSyncState
+    
+    
 ## 1.0.0-beta.2 (2022-10-11)
     
 **Features**

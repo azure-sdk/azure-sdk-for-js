@@ -91,7 +91,7 @@ export class DevCentersImpl implements DevCenters {
 
   /**
    * Lists all devcenters in a resource group.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -157,7 +157,7 @@ export class DevCentersImpl implements DevCenters {
 
   /**
    * Lists all devcenters in a resource group.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -172,7 +172,7 @@ export class DevCentersImpl implements DevCenters {
 
   /**
    * Gets a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -189,7 +189,7 @@ export class DevCentersImpl implements DevCenters {
 
   /**
    * Creates or updates a devcenter resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param body Represents a devcenter.
    * @param options The options parameters.
@@ -260,7 +260,7 @@ export class DevCentersImpl implements DevCenters {
 
   /**
    * Creates or updates a devcenter resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param body Represents a devcenter.
    * @param options The options parameters.
@@ -282,7 +282,7 @@ export class DevCentersImpl implements DevCenters {
 
   /**
    * Partially updates a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param body Updatable devcenter properties.
    * @param options The options parameters.
@@ -353,7 +353,7 @@ export class DevCentersImpl implements DevCenters {
 
   /**
    * Partially updates a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param body Updatable devcenter properties.
    * @param options The options parameters.
@@ -375,7 +375,7 @@ export class DevCentersImpl implements DevCenters {
 
   /**
    * Deletes a devcenter
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -439,7 +439,7 @@ export class DevCentersImpl implements DevCenters {
 
   /**
    * Deletes a devcenter
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -473,7 +473,7 @@ export class DevCentersImpl implements DevCenters {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */

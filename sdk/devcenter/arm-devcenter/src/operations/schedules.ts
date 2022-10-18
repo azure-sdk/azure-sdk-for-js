@@ -25,6 +25,7 @@ import {
   SchedulesCreateOrUpdateResponse,
   ScheduleUpdate,
   SchedulesUpdateOptionalParams,
+  SchedulesUpdateResponse,
   SchedulesDeleteOptionalParams,
   SchedulesListByPoolNextResponse
 } from "../models";
@@ -44,7 +45,7 @@ export class SchedulesImpl implements Schedules {
 
   /**
    * Lists schedules for a pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param options The options parameters.
@@ -124,7 +125,7 @@ export class SchedulesImpl implements Schedules {
 
   /**
    * Lists schedules for a pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param options The options parameters.
@@ -143,7 +144,7 @@ export class SchedulesImpl implements Schedules {
 
   /**
    * Gets a schedule resource.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param scheduleName The name of the schedule that uniquely identifies it.
@@ -164,7 +165,7 @@ export class SchedulesImpl implements Schedules {
 
   /**
    * Creates or updates a Schedule.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param scheduleName The name of the schedule that uniquely identifies it.
@@ -239,7 +240,7 @@ export class SchedulesImpl implements Schedules {
 
   /**
    * Creates or updates a Schedule.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param scheduleName The name of the schedule that uniquely identifies it.
@@ -267,7 +268,7 @@ export class SchedulesImpl implements Schedules {
 
   /**
    * Partially updates a Scheduled.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param scheduleName The name of the schedule that uniquely identifies it.
@@ -281,11 +282,16 @@ export class SchedulesImpl implements Schedules {
     scheduleName: string,
     body: ScheduleUpdate,
     options?: SchedulesUpdateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<SchedulesUpdateResponse>,
+      SchedulesUpdateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<SchedulesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -337,7 +343,7 @@ export class SchedulesImpl implements Schedules {
 
   /**
    * Partially updates a Scheduled.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param scheduleName The name of the schedule that uniquely identifies it.
@@ -351,7 +357,7 @@ export class SchedulesImpl implements Schedules {
     scheduleName: string,
     body: ScheduleUpdate,
     options?: SchedulesUpdateOptionalParams
-  ): Promise<void> {
+  ): Promise<SchedulesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       projectName,
@@ -365,7 +371,7 @@ export class SchedulesImpl implements Schedules {
 
   /**
    * Deletes a Scheduled.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param scheduleName The name of the schedule that uniquely identifies it.
@@ -433,7 +439,7 @@ export class SchedulesImpl implements Schedules {
 
   /**
    * Deletes a Scheduled.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param scheduleName The name of the schedule that uniquely identifies it.
@@ -458,7 +464,7 @@ export class SchedulesImpl implements Schedules {
 
   /**
    * ListByPoolNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param nextLink The nextLink from the previous successful call to the ListByPool method.
@@ -567,10 +573,18 @@ const updateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
   httpMethod: "PATCH",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.Schedule
+    },
+    201: {
+      bodyMapper: Mappers.Schedule
+    },
+    202: {
+      bodyMapper: Mappers.Schedule
+    },
+    204: {
+      bodyMapper: Mappers.Schedule
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

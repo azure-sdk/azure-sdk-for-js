@@ -48,7 +48,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Lists the attached NetworkConnections for a Project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -119,7 +119,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Lists the attached NetworkConnections for a DevCenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -190,7 +190,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Lists the attached NetworkConnections for a Project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -207,7 +207,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Gets an attached NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param options The options parameters.
@@ -231,7 +231,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Lists the attached NetworkConnections for a DevCenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -248,7 +248,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Gets an attached NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param options The options parameters.
@@ -272,7 +272,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Creates or updates an attached NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param body Represents an attached NetworkConnection.
@@ -351,7 +351,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Creates or updates an attached NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param body Represents an attached NetworkConnection.
@@ -376,7 +376,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Un-attach a NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param options The options parameters.
@@ -447,7 +447,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Un-attach a NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param options The options parameters.
@@ -469,7 +469,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * ListByProjectNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param nextLink The nextLink from the previous successful call to the ListByProject method.
    * @param options The options parameters.
@@ -488,7 +488,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * ListByDevCenterNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param nextLink The nextLink from the previous successful call to the ListByDevCenter method.
    * @param options The options parameters.
