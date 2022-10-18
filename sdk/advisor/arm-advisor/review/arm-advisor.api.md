@@ -19,6 +19,7 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
     configurations: Configurations;
     // (undocumented)
     operations: Operations;
+    predict(predictionRequest: PredictionRequest, options?: PredictOptionalParams): Promise<PredictResponse>;
     // (undocumented)
     recommendationMetadata: RecommendationMetadata;
     // (undocumented)
@@ -27,6 +28,8 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
     subscriptionId: string;
     // (undocumented)
     suppressions: Suppressions;
+    // (undocumented)
+    twelveRecommendationssMetadata: TwelveRecommendationssMetadata;
 }
 
 // @public
@@ -51,11 +54,12 @@ export interface ARMErrorResponseBody {
 export type Category = string;
 
 // @public
-export type ConfigData = Resource & {
+export interface ConfigData extends Resource {
+    digests?: DigestConfig[];
+    duration?: Duration;
     exclude?: boolean;
     lowCpuThreshold?: CpuThreshold;
-    digests?: DigestConfig[];
-};
+}
 
 // @public
 export interface ConfigurationListResult {
@@ -126,71 +130,70 @@ export interface DigestConfig {
 export type DigestConfigState = string;
 
 // @public
+export type Duration = string;
+
+// @public
 export type Impact = string;
 
 // @public
 export enum KnownCategory {
-    // (undocumented)
     Cost = "Cost",
-    // (undocumented)
     HighAvailability = "HighAvailability",
-    // (undocumented)
     OperationalExcellence = "OperationalExcellence",
-    // (undocumented)
     Performance = "Performance",
-    // (undocumented)
     Security = "Security"
 }
 
 // @public
 export enum KnownConfigurationName {
-    // (undocumented)
     Default = "default"
 }
 
 // @public
 export enum KnownCpuThreshold {
-    // (undocumented)
     Fifteen = "15",
-    // (undocumented)
     Five = "5",
-    // (undocumented)
     Ten = "10",
-    // (undocumented)
     Twenty = "20"
 }
 
 // @public
 export enum KnownDigestConfigState {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Disabled = "Disabled"
 }
 
 // @public
+export enum KnownDuration {
+    Fourteen = "14",
+    Ninety = "90",
+    Seven = "7",
+    Sixty = "60",
+    Thirty = "30",
+    TwentyOne = "21"
+}
+
+// @public
 export enum KnownImpact {
-    // (undocumented)
     High = "High",
-    // (undocumented)
     Low = "Low",
-    // (undocumented)
     Medium = "Medium"
 }
 
 // @public
+export enum KnownPredictionType {
+    PredictiveRightsizing = "PredictiveRightsizing"
+}
+
+// @public
 export enum KnownRisk {
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Warning = "Warning"
 }
 
 // @public
 export enum KnownScenario {
-    // (undocumented)
     Alerts = "Alerts"
 }
 
@@ -257,17 +260,36 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationEntityListResult;
 
 // @public
+export interface PredictionRequest {
+    extendedProperties?: Record<string, unknown>;
+    predictionType?: PredictionType;
+}
+
+// @public
+export interface PredictionResponse {
+    category?: Category;
+    extendedProperties?: Record<string, unknown>;
+    impact?: Impact;
+    impactedField?: string;
+    lastUpdated?: Date;
+    predictionType?: PredictionType;
+    shortDescription?: ShortDescription;
+}
+
+// @public
+export type PredictionType = string;
+
+// @public
+export interface PredictOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PredictResponse = PredictionResponse;
+
+// @public
 export interface RecommendationMetadata {
-    get(name: string, options?: RecommendationMetadataGetOptionalParams): Promise<RecommendationMetadataGetResponse>;
     list(options?: RecommendationMetadataListOptionalParams): PagedAsyncIterableIterator<MetadataEntity>;
 }
-
-// @public
-export interface RecommendationMetadataGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RecommendationMetadataGetResponse = MetadataEntity;
 
 // @public
 export interface RecommendationMetadataListNextOptionalParams extends coreClient.OperationOptions {
@@ -354,37 +376,37 @@ export interface ResourceMetadata {
 }
 
 // @public
-export type ResourceRecommendationBase = Resource & {
-    category?: Category;
-    impact?: Impact;
-    impactedField?: string;
-    impactedValue?: string;
-    lastUpdated?: Date;
-    metadata?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
-    recommendationTypeId?: string;
-    risk?: Risk;
-    shortDescription?: ShortDescription;
-    suppressionIds?: string[];
-    extendedProperties?: {
-        [propertyName: string]: string;
-    };
-    resourceMetadata?: ResourceMetadata;
-    description?: string;
-    label?: string;
-    learnMoreLink?: string;
-    potentialBenefits?: string;
+export interface ResourceRecommendationBase extends Resource {
     actions?: {
         [propertyName: string]: Record<string, unknown>;
     }[];
-    remediation?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
+    category?: Category;
+    description?: string;
     exposedMetadataProperties?: {
         [propertyName: string]: Record<string, unknown>;
     };
-};
+    extendedProperties?: {
+        [propertyName: string]: string;
+    };
+    impact?: Impact;
+    impactedField?: string;
+    impactedValue?: string;
+    label?: string;
+    lastUpdated?: Date;
+    learnMoreLink?: string;
+    metadata?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+    potentialBenefits?: string;
+    recommendationTypeId?: string;
+    remediation?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+    resourceMetadata?: ResourceMetadata;
+    risk?: Risk;
+    shortDescription?: ShortDescription;
+    suppressionIds?: string[];
+}
 
 // @public
 export interface ResourceRecommendationBaseListResult {
@@ -405,11 +427,11 @@ export interface ShortDescription {
 }
 
 // @public
-export type SuppressionContract = Resource & {
+export interface SuppressionContract extends Resource {
+    readonly expirationTimeStamp?: Date;
     suppressionId?: string;
     ttl?: string;
-    readonly expirationTimeStamp?: Date;
-};
+}
 
 // @public
 export interface SuppressionContractListResult {
@@ -460,6 +482,18 @@ export interface SuppressionsListOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type SuppressionsListResponse = SuppressionContractListResult;
+
+// @public
+export interface TwelveRecommendationssMetadata {
+    get(name: string, options?: TwelveRecommendationssMetadataGetOptionalParams): Promise<TwelveRecommendationssMetadataGetResponse>;
+}
+
+// @public
+export interface TwelveRecommendationssMetadataGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TwelveRecommendationssMetadataGetResponse = MetadataEntity;
 
 // (No @packageDocumentation comment for this package)
 

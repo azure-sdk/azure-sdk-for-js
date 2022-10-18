@@ -16,8 +16,6 @@ import {
   MetadataEntity,
   RecommendationMetadataListNextOptionalParams,
   RecommendationMetadataListOptionalParams,
-  RecommendationMetadataGetOptionalParams,
-  RecommendationMetadataGetResponse,
   RecommendationMetadataListResponse,
   RecommendationMetadataListNextResponse
 } from "../models";
@@ -36,7 +34,7 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
   }
 
   /**
-   * Gets the list of metadata entities.
+   * Gets all the list of metadata entities.
    * @param options The options parameters.
    */
   public list(
@@ -78,22 +76,7 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
   }
 
   /**
-   * Gets the metadata entity.
-   * @param name Name of metadata entity.
-   * @param options The options parameters.
-   */
-  get(
-    name: string,
-    options?: RecommendationMetadataGetOptionalParams
-  ): Promise<RecommendationMetadataGetResponse> {
-    return this.client.sendOperationRequest(
-      { name, options },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * Gets the list of metadata entities.
+   * Gets all the list of metadata entities.
    * @param options The options parameters.
    */
   private _list(
@@ -120,26 +103,6 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Advisor/metadata/{name}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MetadataEntity
-    },
-    404: {
-      bodyMapper: Mappers.ARMErrorResponseBody,
-      isError: true
-    },
-    default: {
-      bodyMapper: Mappers.ArmErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.name],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Advisor/metadata",
   httpMethod: "GET",

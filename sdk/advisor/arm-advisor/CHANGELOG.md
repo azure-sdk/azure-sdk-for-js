@@ -1,15 +1,29 @@
 # Release History
+    
+## 4.0.0 (2022-10-18)
+    
+**Features**
 
-## 3.0.4 (Unreleased)
+  - Added operation group TwelveRecommendationssMetadata
+  - Added Interface ConfigData
+  - Added Interface PredictionRequest
+  - Added Interface PredictionResponse
+  - Added Interface PredictOptionalParams
+  - Added Interface ResourceRecommendationBase
+  - Added Interface SuppressionContract
+  - Added Interface TwelveRecommendationssMetadataGetOptionalParams
+  - Added Type Alias Duration
+  - Added Type Alias PredictionType
+  - Added Type Alias PredictResponse
+  - Added Type Alias TwelveRecommendationssMetadataGetResponse
+  - Class AdvisorManagementClient has a new parameter twelveRecommendationssMetadata
+  - Added Enum KnownDuration
+  - Added Enum KnownPredictionType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation RecommendationMetadata.get
+    
 ## 3.0.3 (2022-10-08)
 
 **Bugs Fixed**

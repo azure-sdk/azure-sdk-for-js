@@ -9,28 +9,17 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   MetadataEntity,
-  RecommendationMetadataListOptionalParams,
-  RecommendationMetadataGetOptionalParams,
-  RecommendationMetadataGetResponse
+  RecommendationMetadataListOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RecommendationMetadata. */
 export interface RecommendationMetadata {
   /**
-   * Gets the list of metadata entities.
+   * Gets all the list of metadata entities.
    * @param options The options parameters.
    */
   list(
     options?: RecommendationMetadataListOptionalParams
   ): PagedAsyncIterableIterator<MetadataEntity>;
-  /**
-   * Gets the metadata entity.
-   * @param name Name of metadata entity.
-   * @param options The options parameters.
-   */
-  get(
-    name: string,
-    options?: RecommendationMetadataGetOptionalParams
-  ): Promise<RecommendationMetadataGetResponse>;
 }
