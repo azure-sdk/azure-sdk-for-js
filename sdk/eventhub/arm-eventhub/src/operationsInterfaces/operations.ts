@@ -13,7 +13,7 @@ import { Operation, OperationsListOptionalParams } from "../models";
 /** Interface representing a Operations. */
 export interface Operations {
   /**
-   * Lists all of the available Event Hub REST API operations.
+   * Lists all available Relay REST API operations.
    * @param options The options parameters.
    */
   list(

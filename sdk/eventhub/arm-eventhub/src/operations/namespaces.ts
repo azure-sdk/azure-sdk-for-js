@@ -11,34 +11,18 @@ import { Namespaces } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { EventHubManagementClient } from "../eventHubManagementClient";
+import { RelayAPI } from "../relayAPI";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  EHNamespace,
+  AuthorizationRule,
+  NamespacesListAuthorizationRulesNextOptionalParams,
+  NamespacesListAuthorizationRulesOptionalParams,
+  RelayNamespace,
   NamespacesListNextOptionalParams,
   NamespacesListOptionalParams,
   NamespacesListByResourceGroupNextOptionalParams,
   NamespacesListByResourceGroupOptionalParams,
-  AuthorizationRule,
-  NamespacesListAuthorizationRulesNextOptionalParams,
-  NamespacesListAuthorizationRulesOptionalParams,
-  NamespacesListResponse,
-  NamespacesListByResourceGroupResponse,
-  NamespacesCreateOrUpdateOptionalParams,
-  NamespacesCreateOrUpdateResponse,
-  NamespacesDeleteOptionalParams,
-  NamespacesGetOptionalParams,
-  NamespacesGetResponse,
-  NamespacesUpdateOptionalParams,
-  NamespacesUpdateResponse,
-  NetworkRuleSet,
-  NamespacesCreateOrUpdateNetworkRuleSetOptionalParams,
-  NamespacesCreateOrUpdateNetworkRuleSetResponse,
-  NamespacesGetNetworkRuleSetOptionalParams,
-  NamespacesGetNetworkRuleSetResponse,
-  NamespacesListNetworkRuleSetOptionalParams,
-  NamespacesListNetworkRuleSetResponse,
   NamespacesListAuthorizationRulesResponse,
   NamespacesCreateOrUpdateAuthorizationRuleOptionalParams,
   NamespacesCreateOrUpdateAuthorizationRuleResponse,
@@ -50,126 +34,46 @@ import {
   RegenerateAccessKeyParameters,
   NamespacesRegenerateKeysOptionalParams,
   NamespacesRegenerateKeysResponse,
-  CheckNameAvailabilityParameter,
+  CheckNameAvailability,
   NamespacesCheckNameAvailabilityOptionalParams,
   NamespacesCheckNameAvailabilityResponse,
+  NamespacesListResponse,
+  NamespacesListByResourceGroupResponse,
+  NamespacesCreateOrUpdateOptionalParams,
+  NamespacesCreateOrUpdateResponse,
+  NamespacesDeleteOptionalParams,
+  NamespacesGetOptionalParams,
+  NamespacesGetResponse,
+  RelayUpdateParameters,
+  NamespacesUpdateOptionalParams,
+  NamespacesUpdateResponse,
+  NetworkRuleSet,
+  NamespacesCreateOrUpdateNetworkRuleSetOptionalParams,
+  NamespacesCreateOrUpdateNetworkRuleSetResponse,
+  NamespacesGetNetworkRuleSetOptionalParams,
+  NamespacesGetNetworkRuleSetResponse,
+  NamespacesListAuthorizationRulesNextResponse,
   NamespacesListNextResponse,
-  NamespacesListByResourceGroupNextResponse,
-  NamespacesListAuthorizationRulesNextResponse
+  NamespacesListByResourceGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Namespaces operations. */
 export class NamespacesImpl implements Namespaces {
-  private readonly client: EventHubManagementClient;
+  private readonly client: RelayAPI;
 
   /**
    * Initialize a new instance of the class Namespaces class.
    * @param client Reference to the service client
    */
-  constructor(client: EventHubManagementClient) {
+  constructor(client: RelayAPI) {
     this.client = client;
   }
 
   /**
-   * Lists all the available Namespaces within a subscription, irrespective of the resource groups.
-   * @param options The options parameters.
-   */
-  public list(
-    options?: NamespacesListOptionalParams
-  ): PagedAsyncIterableIterator<EHNamespace> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listPagingPage(options);
-      }
-    };
-  }
-
-  private async *listPagingPage(
-    options?: NamespacesListOptionalParams
-  ): AsyncIterableIterator<EHNamespace[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listPagingAll(
-    options?: NamespacesListOptionalParams
-  ): AsyncIterableIterator<EHNamespace> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Lists the available Namespaces within a resource group.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param options The options parameters.
-   */
-  public listByResourceGroup(
-    resourceGroupName: string,
-    options?: NamespacesListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<EHNamespace> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
-      }
-    };
-  }
-
-  private async *listByResourceGroupPagingPage(
-    resourceGroupName: string,
-    options?: NamespacesListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<EHNamespace[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listByResourceGroupPagingAll(
-    resourceGroupName: string,
-    options?: NamespacesListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<EHNamespace> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Gets a list of authorization rules for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
+   * Authorization rules for a namespace.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   public listAuthorizationRules(
@@ -238,7 +142,245 @@ export class NamespacesImpl implements Namespaces {
   }
 
   /**
-   * Lists all the available Namespaces within a subscription, irrespective of the resource groups.
+   * Lists all the available namespaces within the subscription regardless of the resourceGroups.
+   * @param options The options parameters.
+   */
+  public list(
+    options?: NamespacesListOptionalParams
+  ): PagedAsyncIterableIterator<RelayNamespace> {
+    const iter = this.listPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listPagingPage(options);
+      }
+    };
+  }
+
+  private async *listPagingPage(
+    options?: NamespacesListOptionalParams
+  ): AsyncIterableIterator<RelayNamespace[]> {
+    let result = await this._list(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listPagingAll(
+    options?: NamespacesListOptionalParams
+  ): AsyncIterableIterator<RelayNamespace> {
+    for await (const page of this.listPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists all the available namespaces within the ResourceGroup.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param options The options parameters.
+   */
+  public listByResourceGroup(
+    resourceGroupName: string,
+    options?: NamespacesListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<RelayNamespace> {
+    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      }
+    };
+  }
+
+  private async *listByResourceGroupPagingPage(
+    resourceGroupName: string,
+    options?: NamespacesListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<RelayNamespace[]> {
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listByResourceGroupNext(
+        resourceGroupName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listByResourceGroupPagingAll(
+    resourceGroupName: string,
+    options?: NamespacesListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<RelayNamespace> {
+    for await (const page of this.listByResourceGroupPagingPage(
+      resourceGroupName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Authorization rules for a namespace.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param options The options parameters.
+   */
+  private _listAuthorizationRules(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: NamespacesListAuthorizationRulesOptionalParams
+  ): Promise<NamespacesListAuthorizationRulesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, namespaceName, options },
+      listAuthorizationRulesOperationSpec
+    );
+  }
+
+  /**
+   * Creates or updates an authorization rule for a namespace.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param authorizationRuleName The authorization rule name.
+   * @param parameters The authorization rule parameters.
+   * @param options The options parameters.
+   */
+  createOrUpdateAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    parameters: AuthorizationRule,
+    options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams
+  ): Promise<NamespacesCreateOrUpdateAuthorizationRuleResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        authorizationRuleName,
+        parameters,
+        options
+      },
+      createOrUpdateAuthorizationRuleOperationSpec
+    );
+  }
+
+  /**
+   * Deletes a namespace authorization rule.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param authorizationRuleName The authorization rule name.
+   * @param options The options parameters.
+   */
+  deleteAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    options?: NamespacesDeleteAuthorizationRuleOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, namespaceName, authorizationRuleName, options },
+      deleteAuthorizationRuleOperationSpec
+    );
+  }
+
+  /**
+   * Authorization rule for a namespace by name.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param authorizationRuleName The authorization rule name.
+   * @param options The options parameters.
+   */
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    options?: NamespacesGetAuthorizationRuleOptionalParams
+  ): Promise<NamespacesGetAuthorizationRuleResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, namespaceName, authorizationRuleName, options },
+      getAuthorizationRuleOperationSpec
+    );
+  }
+
+  /**
+   * Primary and secondary connection strings to the namespace.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param authorizationRuleName The authorization rule name.
+   * @param options The options parameters.
+   */
+  listKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    options?: NamespacesListKeysOptionalParams
+  ): Promise<NamespacesListKeysResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, namespaceName, authorizationRuleName, options },
+      listKeysOperationSpec
+    );
+  }
+
+  /**
+   * Regenerates the primary or secondary connection strings to the namespace.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param authorizationRuleName The authorization rule name.
+   * @param parameters Parameters supplied to regenerate authorization rule.
+   * @param options The options parameters.
+   */
+  regenerateKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    parameters: RegenerateAccessKeyParameters,
+    options?: NamespacesRegenerateKeysOptionalParams
+  ): Promise<NamespacesRegenerateKeysResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        authorizationRuleName,
+        parameters,
+        options
+      },
+      regenerateKeysOperationSpec
+    );
+  }
+
+  /**
+   * Check the specified namespace name availability.
+   * @param parameters Parameters to check availability of the specified namespace name.
+   * @param options The options parameters.
+   */
+  checkNameAvailability(
+    parameters: CheckNameAvailability,
+    options?: NamespacesCheckNameAvailabilityOptionalParams
+  ): Promise<NamespacesCheckNameAvailabilityResponse> {
+    return this.client.sendOperationRequest(
+      { parameters, options },
+      checkNameAvailabilityOperationSpec
+    );
+  }
+
+  /**
+   * Lists all the available namespaces within the subscription regardless of the resourceGroups.
    * @param options The options parameters.
    */
   private _list(
@@ -248,8 +390,8 @@ export class NamespacesImpl implements Namespaces {
   }
 
   /**
-   * Lists the available Namespaces within a resource group.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * Lists all the available namespaces within the ResourceGroup.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -263,17 +405,16 @@ export class NamespacesImpl implements Namespaces {
   }
 
   /**
-   * Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This
-   * operation is idempotent.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param parameters Parameters for creating a namespace resource.
+   * Create Azure Relay namespace.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param parameters Parameters supplied to create a namespace resource.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     namespaceName: string,
-    parameters: EHNamespace,
+    parameters: RelayNamespace,
     options?: NamespacesCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -334,17 +475,16 @@ export class NamespacesImpl implements Namespaces {
   }
 
   /**
-   * Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This
-   * operation is idempotent.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param parameters Parameters for creating a namespace resource.
+   * Create Azure Relay namespace.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param parameters Parameters supplied to create a namespace resource.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     namespaceName: string,
-    parameters: EHNamespace,
+    parameters: RelayNamespace,
     options?: NamespacesCreateOrUpdateOptionalParams
   ): Promise<NamespacesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
@@ -359,8 +499,8 @@ export class NamespacesImpl implements Namespaces {
   /**
    * Deletes an existing namespace. This operation also removes all associated resources under the
    * namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   async beginDelete(
@@ -423,8 +563,8 @@ export class NamespacesImpl implements Namespaces {
   /**
    * Deletes an existing namespace. This operation also removes all associated resources under the
    * namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -441,9 +581,9 @@ export class NamespacesImpl implements Namespaces {
   }
 
   /**
-   * Gets the description of the specified namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
+   * Returns the description for the specified namespace.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   get(
@@ -460,15 +600,15 @@ export class NamespacesImpl implements Namespaces {
   /**
    * Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This
    * operation is idempotent.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
    * @param parameters Parameters for updating a namespace resource.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     namespaceName: string,
-    parameters: EHNamespace,
+    parameters: RelayUpdateParameters,
     options?: NamespacesUpdateOptionalParams
   ): Promise<NamespacesUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -479,8 +619,8 @@ export class NamespacesImpl implements Namespaces {
 
   /**
    * Create or update NetworkRuleSet for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
    * @param parameters The Namespace IpFilterRule.
    * @param options The options parameters.
    */
@@ -498,8 +638,8 @@ export class NamespacesImpl implements Namespaces {
 
   /**
    * Gets NetworkRuleSet for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   getNetworkRuleSet(
@@ -514,162 +654,21 @@ export class NamespacesImpl implements Namespaces {
   }
 
   /**
-   * Gets NetworkRuleSet for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
+   * ListAuthorizationRulesNext
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param nextLink The nextLink from the previous successful call to the ListAuthorizationRules method.
    * @param options The options parameters.
    */
-  listNetworkRuleSet(
+  private _listAuthorizationRulesNext(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesListNetworkRuleSetOptionalParams
-  ): Promise<NamespacesListNetworkRuleSetResponse> {
+    nextLink: string,
+    options?: NamespacesListAuthorizationRulesNextOptionalParams
+  ): Promise<NamespacesListAuthorizationRulesNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, options },
-      listNetworkRuleSetOperationSpec
-    );
-  }
-
-  /**
-   * Gets a list of authorization rules for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param options The options parameters.
-   */
-  private _listAuthorizationRules(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesListAuthorizationRulesOptionalParams
-  ): Promise<NamespacesListAuthorizationRulesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, options },
-      listAuthorizationRulesOperationSpec
-    );
-  }
-
-  /**
-   * Creates or updates an AuthorizationRule for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param authorizationRuleName The authorization rule name.
-   * @param parameters The shared access AuthorizationRule.
-   * @param options The options parameters.
-   */
-  createOrUpdateAuthorizationRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    authorizationRuleName: string,
-    parameters: AuthorizationRule,
-    options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams
-  ): Promise<NamespacesCreateOrUpdateAuthorizationRuleResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        authorizationRuleName,
-        parameters,
-        options
-      },
-      createOrUpdateAuthorizationRuleOperationSpec
-    );
-  }
-
-  /**
-   * Deletes an AuthorizationRule for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param authorizationRuleName The authorization rule name.
-   * @param options The options parameters.
-   */
-  deleteAuthorizationRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    authorizationRuleName: string,
-    options?: NamespacesDeleteAuthorizationRuleOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, authorizationRuleName, options },
-      deleteAuthorizationRuleOperationSpec
-    );
-  }
-
-  /**
-   * Gets an AuthorizationRule for a Namespace by rule name.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param authorizationRuleName The authorization rule name.
-   * @param options The options parameters.
-   */
-  getAuthorizationRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    authorizationRuleName: string,
-    options?: NamespacesGetAuthorizationRuleOptionalParams
-  ): Promise<NamespacesGetAuthorizationRuleResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, authorizationRuleName, options },
-      getAuthorizationRuleOperationSpec
-    );
-  }
-
-  /**
-   * Gets the primary and secondary connection strings for the Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param authorizationRuleName The authorization rule name.
-   * @param options The options parameters.
-   */
-  listKeys(
-    resourceGroupName: string,
-    namespaceName: string,
-    authorizationRuleName: string,
-    options?: NamespacesListKeysOptionalParams
-  ): Promise<NamespacesListKeysResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, authorizationRuleName, options },
-      listKeysOperationSpec
-    );
-  }
-
-  /**
-   * Regenerates the primary or secondary connection strings for the specified Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param authorizationRuleName The authorization rule name.
-   * @param parameters Parameters required to regenerate the connection string.
-   * @param options The options parameters.
-   */
-  regenerateKeys(
-    resourceGroupName: string,
-    namespaceName: string,
-    authorizationRuleName: string,
-    parameters: RegenerateAccessKeyParameters,
-    options?: NamespacesRegenerateKeysOptionalParams
-  ): Promise<NamespacesRegenerateKeysResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        authorizationRuleName,
-        parameters,
-        options
-      },
-      regenerateKeysOperationSpec
-    );
-  }
-
-  /**
-   * Check the give Namespace name availability.
-   * @param parameters Parameters to check availability of the given Namespace name
-   * @param options The options parameters.
-   */
-  checkNameAvailability(
-    parameters: CheckNameAvailabilityParameter,
-    options?: NamespacesCheckNameAvailabilityOptionalParams
-  ): Promise<NamespacesCheckNameAvailabilityResponse> {
-    return this.client.sendOperationRequest(
-      { parameters, options },
-      checkNameAvailabilityOperationSpec
+      { resourceGroupName, namespaceName, nextLink, options },
+      listAuthorizationRulesNextOperationSpec
     );
   }
 
@@ -690,7 +689,7 @@ export class NamespacesImpl implements Namespaces {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -704,36 +703,175 @@ export class NamespacesImpl implements Namespaces {
       listByResourceGroupNextOperationSpec
     );
   }
-
-  /**
-   * ListAuthorizationRulesNext
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param nextLink The nextLink from the previous successful call to the ListAuthorizationRules method.
-   * @param options The options parameters.
-   */
-  private _listAuthorizationRulesNext(
-    resourceGroupName: string,
-    namespaceName: string,
-    nextLink: string,
-    options?: NamespacesListAuthorizationRulesNextOptionalParams
-  ): Promise<NamespacesListAuthorizationRulesNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, nextLink, options },
-      listAuthorizationRulesNextOperationSpec
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
+const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.EventHub/namespaces",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/authorizationRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EHNamespaceListResult
+      bodyMapper: Mappers.AuthorizationRuleListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AuthorizationRule
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.subscriptionId,
+    Parameters.authorizationRuleName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.subscriptionId,
+    Parameters.authorizationRuleName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AuthorizationRule
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.subscriptionId,
+    Parameters.authorizationRuleName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listKeysOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}/listKeys",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AccessKeys
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.subscriptionId,
+    Parameters.authorizationRuleName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const regenerateKeysOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}/regenerateKeys",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AccessKeys
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.subscriptionId,
+    Parameters.authorizationRuleName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Relay/checkNameAvailability",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckNameAvailabilityResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Relay/namespaces",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RelayNamespaceListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -746,11 +884,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EHNamespaceListResult
+      bodyMapper: Mappers.RelayNamespaceListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -759,40 +897,40 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.EHNamespace
+      bodyMapper: Mappers.RelayNamespace
     },
     201: {
-      bodyMapper: Mappers.EHNamespace
+      bodyMapper: Mappers.RelayNamespace
     },
     202: {
-      bodyMapper: Mappers.EHNamespace
+      bodyMapper: Mappers.RelayNamespace
     },
     204: {
-      bodyMapper: Mappers.EHNamespace
+      bodyMapper: Mappers.RelayNamespace
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName
+    Parameters.namespaceName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -800,7 +938,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -814,20 +952,20 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName
+    Parameters.namespaceName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EHNamespace
+      bodyMapper: Mappers.RelayNamespace
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -836,36 +974,35 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName
+    Parameters.namespaceName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.EHNamespace
+      bodyMapper: Mappers.RelayNamespace
     },
     201: {
-      bodyMapper: Mappers.EHNamespace
+      bodyMapper: Mappers.RelayNamespace
     },
-    202: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName
+    Parameters.namespaceName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -873,7 +1010,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const createOrUpdateNetworkRuleSetOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkRuleSets/default",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/networkRuleSets/default",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -883,13 +1020,13 @@ const createOrUpdateNetworkRuleSetOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName
+    Parameters.namespaceName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -897,7 +1034,7 @@ const createOrUpdateNetworkRuleSetOperationSpec: coreClient.OperationSpec = {
 };
 const getNetworkRuleSetOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkRuleSets/default",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/networkRuleSets/default",
   httpMethod: "GET",
   responses: {
     200: {
@@ -910,38 +1047,15 @@ const getNetworkRuleSetOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName
+    Parameters.namespaceName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listNetworkRuleSetOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkRuleSets",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkRuleSetListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/authorizationRules",
+const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -954,148 +1068,12 @@ const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName
+    Parameters.namespaceName,
+    Parameters.subscriptionId,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AuthorizationRule
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.authorizationRuleName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.authorizationRuleName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AuthorizationRule
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.authorizationRuleName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}/listKeys",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AccessKeys
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.authorizationRuleName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const regenerateKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}/regenerateKeys",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AccessKeys
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters5,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.authorizationRuleName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.EventHub/checkNameAvailability",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters6,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -1103,7 +1081,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EHNamespaceListResult
+      bodyMapper: Mappers.RelayNamespaceListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1123,7 +1101,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EHNamespaceListResult
+      bodyMapper: Mappers.RelayNamespaceListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1132,31 +1110,9 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AuthorizationRuleListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.namespaceName
   ],
   headerParameters: [Parameters.accept],
   serializer
