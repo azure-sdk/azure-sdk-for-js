@@ -1,15 +1,18 @@
 # Release History
+    
+## 31.0.0 (2022-10-18)
+    
+**Features**
 
-## 30.0.1 (Unreleased)
+  - Enum KnownFirewallPolicyRuleApplicationProtocolType has a new value Mssql
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ExpressRouteGateway no longer has parameter allowNonVirtualWanTraffic
+  - Interface VirtualNetworkGateway no longer has parameter allowRemoteVnetTraffic
+  - Interface VirtualNetworkGateway no longer has parameter allowVirtualWanTraffic
+    
+    
 ## 30.0.0 (2022-09-29)
     
 **Features**

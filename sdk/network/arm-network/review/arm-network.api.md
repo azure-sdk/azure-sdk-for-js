@@ -120,7 +120,6 @@ export interface AdminRule extends BaseAdminRule {
     destinationPortRanges?: string[];
     destinations?: AddressPrefixItem[];
     direction?: SecurityConfigurationRuleDirection;
-    kind: "Custom";
     priority?: number;
     protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
@@ -3017,7 +3016,6 @@ export interface DefaultAdminRule extends BaseAdminRule {
     readonly destinations?: AddressPrefixItem[];
     readonly direction?: SecurityConfigurationRuleDirection;
     flag?: string;
-    kind: "Default";
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
@@ -4138,7 +4136,6 @@ export type ExpressRouteCrossConnectionsUpdateTagsResponse = ExpressRouteCrossCo
 
 // @public
 export interface ExpressRouteGateway extends Resource {
-    allowNonVirtualWanTraffic?: boolean;
     autoScaleConfiguration?: ExpressRouteGatewayPropertiesAutoScaleConfiguration;
     readonly etag?: string;
     expressRouteConnections?: ExpressRouteConnection[];
@@ -6458,7 +6455,8 @@ export enum KnownFirewallPolicyNatRuleCollectionActionType {
 // @public
 export enum KnownFirewallPolicyRuleApplicationProtocolType {
     Http = "Http",
-    Https = "Https"
+    Https = "Https",
+    Mssql = "Mssql"
 }
 
 // @public
@@ -13277,8 +13275,6 @@ export type VirtualNetworkEncryptionEnforcement = string;
 // @public
 export interface VirtualNetworkGateway extends Resource {
     active?: boolean;
-    allowRemoteVnetTraffic?: boolean;
-    allowVirtualWanTraffic?: boolean;
     bgpSettings?: BgpSettings;
     customRoutes?: AddressSpace;
     disableIPSecReplayProtection?: boolean;

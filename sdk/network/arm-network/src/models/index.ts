@@ -10187,10 +10187,6 @@ export interface VirtualNetworkGateway extends Resource {
   natRules?: VirtualNetworkGatewayNatRule[];
   /** EnableBgpRouteTranslationForNat flag. */
   enableBgpRouteTranslationForNat?: boolean;
-  /** Configures this gateway to accept traffic from remote Virtual WAN networks. */
-  allowVirtualWanTraffic?: boolean;
-  /** Configure this gateway to accept traffic from other Azure Virtual Networks. This configuration does not support connectivity to Azure Virtual WAN. */
-  allowRemoteVnetTraffic?: boolean;
 }
 
 /** A common class for general resource information. */
@@ -10675,8 +10671,6 @@ export interface ExpressRouteGateway extends Resource {
   readonly provisioningState?: ProvisioningState;
   /** The Virtual Hub where the ExpressRoute gateway is or will be deployed. */
   virtualHub?: VirtualHubId;
-  /** Configures this gateway to accept traffic from non Virtual WAN networks. */
-  allowNonVirtualWanTraffic?: boolean;
 }
 
 /** Defines web application firewall policy. */
@@ -11183,8 +11177,6 @@ export interface NetworkRule extends FirewallPolicyRule {
 
 /** Network admin rule. */
 export interface AdminRule extends BaseAdminRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Custom";
   /** A description for this rule. Restricted to 140 chars. */
   description?: string;
   /** Network protocol this rule applies to. */
@@ -11212,8 +11204,6 @@ export interface AdminRule extends BaseAdminRule {
 
 /** Network default admin rule. */
 export interface DefaultAdminRule extends BaseAdminRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Default";
   /**
    * A description for this rule. Restricted to 140 chars.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -15653,7 +15643,9 @@ export enum KnownFirewallPolicyRuleApplicationProtocolType {
   /** Http */
   Http = "Http",
   /** Https */
-  Https = "Https"
+  Https = "Https",
+  /** Mssql */
+  Mssql = "Mssql"
 }
 
 /**
@@ -15662,7 +15654,8 @@ export enum KnownFirewallPolicyRuleApplicationProtocolType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Http** \
- * **Https**
+ * **Https** \
+ * **Mssql**
  */
 export type FirewallPolicyRuleApplicationProtocolType = string;
 

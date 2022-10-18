@@ -27125,18 +27125,6 @@ export const VirtualNetworkGateway: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
-      },
-      allowVirtualWanTraffic: {
-        serializedName: "properties.allowVirtualWanTraffic",
-        type: {
-          name: "Boolean"
-        }
-      },
-      allowRemoteVnetTraffic: {
-        serializedName: "properties.allowRemoteVnetTraffic",
-        type: {
-          name: "Boolean"
-        }
       }
     }
   }
@@ -28267,7 +28255,7 @@ export const VirtualHub: coreClient.CompositeMapper = {
       virtualRouterAsn: {
         constraints: {
           InclusiveMaximum: 4294967295,
-          InclusiveMinimum: 0
+          InclusiveMinimum: 1
         },
         serializedName: "properties.virtualRouterAsn",
         type: {
@@ -28451,12 +28439,6 @@ export const ExpressRouteGateway: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "VirtualHubId"
-        }
-      },
-      allowNonVirtualWanTraffic: {
-        serializedName: "properties.allowNonVirtualWanTraffic",
-        type: {
-          name: "Boolean"
         }
       }
     }
@@ -29767,8 +29749,8 @@ export const AdminRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AdminRule",
-    uberParent: "BaseAdminRule",
-    polymorphicDiscriminator: BaseAdminRule.type.polymorphicDiscriminator,
+    uberParent: "ChildResource",
+    polymorphicDiscriminator: ChildResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...BaseAdminRule.type.modelProperties,
       description: {
@@ -29867,8 +29849,8 @@ export const DefaultAdminRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DefaultAdminRule",
-    uberParent: "BaseAdminRule",
-    polymorphicDiscriminator: BaseAdminRule.type.polymorphicDiscriminator,
+    uberParent: "ChildResource",
+    polymorphicDiscriminator: ChildResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...BaseAdminRule.type.modelProperties,
       description: {
@@ -30108,6 +30090,6 @@ export let discriminators = {
   "FirewallPolicyRule.ApplicationRule": ApplicationRule,
   "FirewallPolicyRule.NatRule": NatRule,
   "FirewallPolicyRule.NetworkRule": NetworkRule,
-  "BaseAdminRule.Custom": AdminRule,
-  "BaseAdminRule.Default": DefaultAdminRule
+  "ChildResource.Custom": AdminRule,
+  "ChildResource.Default": DefaultAdminRule
 };
