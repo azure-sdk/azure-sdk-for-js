@@ -1,15 +1,6 @@
 # Release History
-
-## 4.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-## 4.0.0-beta.2 (2022-08-19)
+    
+## 4.0.0-beta.3 (2022-10-19)
     
 **Features**
 
@@ -122,8 +113,6 @@
 **Breaking Changes**
 
   - Removed operation group CommunicationService
-  - Interface NameAvailabilityParameters no longer has parameter name
-  - Interface NameAvailabilityParameters no longer has parameter type
   - Class CommunicationServiceManagementClient no longer has parameter communicationService
   - Removed Enum KnownProvisioningState
     
