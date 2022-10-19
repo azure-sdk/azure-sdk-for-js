@@ -38,7 +38,7 @@ export class ProjectAllowedEnvironmentTypesImpl
 
   /**
    * Lists allowed environment types for a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -97,7 +97,7 @@ export class ProjectAllowedEnvironmentTypesImpl
 
   /**
    * Lists allowed environment types for a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -114,7 +114,7 @@ export class ProjectAllowedEnvironmentTypesImpl
 
   /**
    * Gets an allowed environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param environmentTypeName The name of the environment type.
    * @param options The options parameters.
@@ -133,7 +133,7 @@ export class ProjectAllowedEnvironmentTypesImpl
 
   /**
    * ListNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.

@@ -43,7 +43,7 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
 
   /**
    * Lists environment types for the devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -114,7 +114,7 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
 
   /**
    * Lists environment types for the devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -131,7 +131,7 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
 
   /**
    * Gets an environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param environmentTypeName The name of the environment type.
    * @param options The options parameters.
@@ -150,7 +150,7 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
 
   /**
    * Creates or updates an environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param environmentTypeName The name of the environment type.
    * @param body Represents an Environment Type.
@@ -171,7 +171,7 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
 
   /**
    * Partially updates an environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param environmentTypeName The name of the environment type.
    * @param body Updatable environment type properties.
@@ -192,7 +192,7 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
 
   /**
    * Deletes an environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param environmentTypeName The name of the environment type.
    * @param options The options parameters.
@@ -211,7 +211,7 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
 
   /**
    * ListByDevCenterNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param nextLink The nextLink from the previous successful call to the ListByDevCenter method.
    * @param options The options parameters.

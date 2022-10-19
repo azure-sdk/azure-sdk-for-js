@@ -51,7 +51,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * List Dev Box definitions for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -122,7 +122,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * List Dev Box definitions configured for a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -193,7 +193,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * List Dev Box definitions for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -210,7 +210,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Gets a Dev Box definition
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param options The options parameters.
@@ -229,7 +229,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Creates or updates a Dev Box definition.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param body Represents a Dev Box definition.
@@ -302,7 +302,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Creates or updates a Dev Box definition.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param body Represents a Dev Box definition.
@@ -327,7 +327,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Partially updates a Dev Box definition.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param body Represents a Dev Box definition.
@@ -400,7 +400,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Partially updates a Dev Box definition.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param body Represents a Dev Box definition.
@@ -425,7 +425,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Deletes a Dev Box definition
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param options The options parameters.
@@ -491,7 +491,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Deletes a Dev Box definition
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param options The options parameters.
@@ -513,7 +513,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * List Dev Box definitions configured for a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -530,7 +530,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Gets a Dev Box definition configured for a project
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param options The options parameters.
@@ -549,7 +549,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * ListByDevCenterNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param nextLink The nextLink from the previous successful call to the ListByDevCenter method.
    * @param options The options parameters.
@@ -568,7 +568,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * ListByProjectNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param nextLink The nextLink from the previous successful call to the ListByProject method.
    * @param options The options parameters.

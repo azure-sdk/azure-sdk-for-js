@@ -91,7 +91,7 @@ export class ProjectsImpl implements Projects {
 
   /**
    * Lists all projects in the resource group.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -157,7 +157,7 @@ export class ProjectsImpl implements Projects {
 
   /**
    * Lists all projects in the resource group.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -172,7 +172,7 @@ export class ProjectsImpl implements Projects {
 
   /**
    * Gets a specific project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -189,7 +189,7 @@ export class ProjectsImpl implements Projects {
 
   /**
    * Creates or updates a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param body Represents a project.
    * @param options The options parameters.
@@ -260,7 +260,7 @@ export class ProjectsImpl implements Projects {
 
   /**
    * Creates or updates a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param body Represents a project.
    * @param options The options parameters.
@@ -282,7 +282,7 @@ export class ProjectsImpl implements Projects {
 
   /**
    * Partially updates a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param body Updatable project properties.
    * @param options The options parameters.
@@ -353,7 +353,7 @@ export class ProjectsImpl implements Projects {
 
   /**
    * Partially updates a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param body Updatable project properties.
    * @param options The options parameters.
@@ -375,7 +375,7 @@ export class ProjectsImpl implements Projects {
 
   /**
    * Deletes a project resource.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -439,7 +439,7 @@ export class ProjectsImpl implements Projects {
 
   /**
    * Deletes a project resource.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -473,7 +473,7 @@ export class ProjectsImpl implements Projects {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */

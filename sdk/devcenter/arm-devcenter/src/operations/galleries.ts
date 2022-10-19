@@ -42,7 +42,7 @@ export class GalleriesImpl implements Galleries {
 
   /**
    * Lists galleries for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -113,7 +113,7 @@ export class GalleriesImpl implements Galleries {
 
   /**
    * Lists galleries for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -130,7 +130,7 @@ export class GalleriesImpl implements Galleries {
 
   /**
    * Gets a gallery
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param options The options parameters.
@@ -149,7 +149,7 @@ export class GalleriesImpl implements Galleries {
 
   /**
    * Creates or updates a gallery.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param body Represents a gallery.
@@ -222,7 +222,7 @@ export class GalleriesImpl implements Galleries {
 
   /**
    * Creates or updates a gallery.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param body Represents a gallery.
@@ -247,7 +247,7 @@ export class GalleriesImpl implements Galleries {
 
   /**
    * Deletes a gallery resource.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param options The options parameters.
@@ -313,7 +313,7 @@ export class GalleriesImpl implements Galleries {
 
   /**
    * Deletes a gallery resource.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param options The options parameters.
@@ -335,7 +335,7 @@ export class GalleriesImpl implements Galleries {
 
   /**
    * ListByDevCenterNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param nextLink The nextLink from the previous successful call to the ListByDevCenter method.
    * @param options The options parameters.

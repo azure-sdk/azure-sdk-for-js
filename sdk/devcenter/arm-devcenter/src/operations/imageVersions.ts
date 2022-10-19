@@ -37,7 +37,7 @@ export class ImageVersionsImpl implements ImageVersions {
 
   /**
    * Lists versions for an image.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param imageName The name of the image.
@@ -126,7 +126,7 @@ export class ImageVersionsImpl implements ImageVersions {
 
   /**
    * Lists versions for an image.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param imageName The name of the image.
@@ -147,7 +147,7 @@ export class ImageVersionsImpl implements ImageVersions {
 
   /**
    * Gets an image version.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param imageName The name of the image.
@@ -177,7 +177,7 @@ export class ImageVersionsImpl implements ImageVersions {
 
   /**
    * ListByImageNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param imageName The name of the image.

@@ -45,7 +45,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Lists pools for a project
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -116,7 +116,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Lists pools for a project
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -133,7 +133,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Gets a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param options The options parameters.
@@ -152,7 +152,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Creates or updates a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param body Represents a machine pool
@@ -225,7 +225,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Creates or updates a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param body Represents a machine pool
@@ -250,7 +250,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Partially updates a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param body Represents a machine pool
@@ -320,7 +320,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Partially updates a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param body Represents a machine pool
@@ -345,7 +345,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Deletes a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param options The options parameters.
@@ -411,7 +411,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Deletes a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param options The options parameters.
@@ -433,7 +433,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * ListByProjectNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param nextLink The nextLink from the previous successful call to the ListByProject method.
    * @param options The options parameters.

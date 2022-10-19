@@ -46,7 +46,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Lists catalogs for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -117,7 +117,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Lists catalogs for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -134,7 +134,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Gets a catalog
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
@@ -153,7 +153,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Creates or updates a catalog.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param body Represents a catalog.
@@ -226,7 +226,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Creates or updates a catalog.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param body Represents a catalog.
@@ -251,7 +251,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Partially updates a catalog.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param body Updatable catalog properties.
@@ -324,7 +324,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Partially updates a catalog.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param body Updatable catalog properties.
@@ -349,7 +349,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Deletes a catalog resource.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
@@ -415,7 +415,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Deletes a catalog resource.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
@@ -437,7 +437,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Syncs templates for a template source.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
@@ -495,7 +495,7 @@ export class CatalogsImpl implements Catalogs {
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -503,7 +503,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Syncs templates for a template source.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
@@ -525,7 +525,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * ListByDevCenterNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param nextLink The nextLink from the previous successful call to the ListByDevCenter method.
    * @param options The options parameters.

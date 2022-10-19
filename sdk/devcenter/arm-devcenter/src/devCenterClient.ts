@@ -64,8 +64,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the DevCenterClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Unique identifier of the Azure subscription. This is a GUID-formatted string
-   *                       (e.g. 00000000-0000-0000-0000-000000000000).
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -143,7 +142,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-01-preview";
+    this.apiVersion = options.apiVersion || "2022-10-12-preview";
     this.devCenters = new DevCentersImpl(this);
     this.projects = new ProjectsImpl(this);
     this.attachedNetworks = new AttachedNetworksImpl(this);
