@@ -312,7 +312,7 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
 
   /**
    * Returns a Azure Arc PrivateLinkScope's validation details.
-   * @param location The location of the target resource.
+   * @param location The name of Azure region.
    * @param privateLinkScopeId The id (Guid) of the Azure Arc PrivateLinkScope resource.
    * @param options The options parameters.
    */
@@ -530,7 +530,7 @@ const getValidationDetailsOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location1,
     Parameters.privateLinkScopeId
   ],
   headerParameters: [Parameters.accept],
