@@ -1,15 +1,28 @@
 # Release History
+    
+## 2.1.0 (2022-10-19)
+    
+**Features**
 
-## 2.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ImageTemplate
+  - Added Interface ImageTemplateFileCustomizer
+  - Added Interface ImageTemplateManagedImageDistributor
+  - Added Interface ImageTemplateManagedImageSource
+  - Added Interface ImageTemplatePlatformImageSource
+  - Added Interface ImageTemplatePowerShellCustomizer
+  - Added Interface ImageTemplatePowerShellValidator
+  - Added Interface ImageTemplateRestartCustomizer
+  - Added Interface ImageTemplateSharedImageDistributor
+  - Added Interface ImageTemplateSharedImageVersionSource
+  - Added Interface ImageTemplateShellCustomizer
+  - Added Interface ImageTemplateShellValidator
+  - Added Interface ImageTemplateVhdDistributor
+  - Added Interface ImageTemplateWindowsUpdateCustomizer
+  - Added Interface ProxyResource
+  - Added Interface RunOutput
+  - Added Interface TrackedResource
+    
+    
 ## 2.0.0 (2022-06-06)
     
 **Features**

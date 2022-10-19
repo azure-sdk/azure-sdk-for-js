@@ -12483,7 +12483,7 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-tWXJ7ORrDzvlnH3SflP30XARokOxyovSlOci/y+FwBuF8wpKbXNU82aDfWGXVXb8Cwzs45IKSkLBeUcck60paA==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-U5KDRBlXEKPOmll1X8qjBlEhCHwTTL5wZyGbLjkhlj22jbLNxO0Sb9PtNM/8bESN7CfHGtzwcuaAYPQN54qpyQ==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
@@ -12503,11 +12503,12 @@ packages:
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_c164e18ebb1175294129df0cff345d2e
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.2
     transitivePeerDependencies:
+      - '@types/node'
       - supports-color
     dev: false
 
@@ -18799,7 +18800,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-+mEBtT4ZtJbjN7TBwmuFKuK3U0/I8XkxXVPPox138JskqAjcK6qocjTg3xbmbkRHiFpIwbSsop8Wc8/sfbKCDA==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-4zcmjvPogb67MUSz60n54Z1iFbDUoiiuEPlgx0Z1cH16EF7qF8Lgd0TgWO5PPQayZBOHcEHucgnSA1LRgsEXkA==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
