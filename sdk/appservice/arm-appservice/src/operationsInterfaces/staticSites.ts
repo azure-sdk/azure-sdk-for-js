@@ -64,6 +64,11 @@ import {
   StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams,
   StaticSitesCreateOrUpdateStaticSiteAppSettingsOptionalParams,
   StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse,
+  StaticSitesGetStaticSiteBasicAuthOptionalParams,
+  StaticSitesGetStaticSiteBasicAuthResponse,
+  StaticSiteBasicAuthPropertiesARMResource,
+  StaticSitesCreateOrUpdateStaticSiteBasicAuthOptionalParams,
+  StaticSitesCreateOrUpdateStaticSiteBasicAuthResponse,
   StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsOptionalParams,
   StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsResponse,
   StaticSiteUserInvitationRequestResource,
@@ -596,6 +601,30 @@ export interface StaticSites {
     appSettings: StringDictionary,
     options?: StaticSitesCreateOrUpdateStaticSiteAppSettingsOptionalParams
   ): Promise<StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse>;
+  /**
+   * Gets the basic auth state of a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param options The options parameters.
+   */
+  getStaticSiteBasicAuth(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesGetStaticSiteBasicAuthOptionalParams
+  ): Promise<StaticSitesGetStaticSiteBasicAuthResponse>;
+  /**
+   * Adds or updates basic auth for a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param basicAuthEnvelope A JSON representation of the basic auth properties.
+   * @param options The options parameters.
+   */
+  createOrUpdateStaticSiteBasicAuth(
+    resourceGroupName: string,
+    name: string,
+    basicAuthEnvelope: StaticSiteBasicAuthPropertiesARMResource,
+    options?: StaticSitesCreateOrUpdateStaticSiteBasicAuthOptionalParams
+  ): Promise<StaticSitesCreateOrUpdateStaticSiteBasicAuthResponse>;
   /**
    * Description for Creates or updates the function app settings of a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.

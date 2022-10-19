@@ -1,15 +1,30 @@
 # Release History
+    
+## 14.0.0 (2022-10-19)
+    
+**Features**
 
-## 13.0.3 (Unreleased)
+  - Added operation StaticSites.createOrUpdateStaticSiteBasicAuth
+  - Added operation StaticSites.getStaticSiteBasicAuth
+  - Added Interface StaticSiteBasicAuthPropertiesARMResource
+  - Added Interface StaticSitesCreateOrUpdateStaticSiteBasicAuthOptionalParams
+  - Added Interface StaticSitesGetStaticSiteBasicAuthOptionalParams
+  - Added Type Alias ProviderOsTypeSelected
+  - Added Type Alias ProviderStackOsType
+  - Added Type Alias StaticSitesCreateOrUpdateStaticSiteBasicAuthResponse
+  - Added Type Alias StaticSitesGetStaticSiteBasicAuthResponse
+  - Added Enum KnownProviderOsTypeSelected
+  - Added Enum KnownProviderStackOsType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed Enum KnownEnum14
+  - Removed Enum KnownEnum15
+  - Removed Enum KnownEnum16
+  - Removed Enum KnownEnum17
+  - Removed Enum KnownEnum18
+  - Removed Enum KnownEnum19
+    
 ## 13.0.2 (2022-10-08)
 
 **Bugs Fixed**

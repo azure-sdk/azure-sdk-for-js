@@ -54,6 +54,7 @@ import {
   StringDictionary as StringDictionaryMapper,
   StaticSiteUserProvidedFunctionAppARMResource as StaticSiteUserProvidedFunctionAppARMResourceMapper,
   StaticSiteZipDeploymentARMResource as StaticSiteZipDeploymentARMResourceMapper,
+  StaticSiteBasicAuthPropertiesARMResource as StaticSiteBasicAuthPropertiesARMResourceMapper,
   StaticSiteUserInvitationRequestResource as StaticSiteUserInvitationRequestResourceMapper,
   StaticSiteCustomDomainRequestPropertiesARMResource as StaticSiteCustomDomainRequestPropertiesARMResourceMapper,
   StaticSiteResetPropertiesARMResource as StaticSiteResetPropertiesARMResourceMapper,
@@ -773,50 +774,6 @@ export const stackOsType: OperationQueryParameter = {
   }
 };
 
-export const stackOsType1: OperationQueryParameter = {
-  parameterPath: ["options", "stackOsType"],
-  mapper: {
-    serializedName: "stackOsType",
-    xmlName: "stackOsType",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const stackOsType2: OperationQueryParameter = {
-  parameterPath: ["options", "stackOsType"],
-  mapper: {
-    serializedName: "stackOsType",
-    xmlName: "stackOsType",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const stackOsType3: OperationQueryParameter = {
-  parameterPath: ["options", "stackOsType"],
-  mapper: {
-    serializedName: "stackOsType",
-    xmlName: "stackOsType",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const osTypeSelected1: OperationQueryParameter = {
-  parameterPath: ["options", "osTypeSelected"],
-  mapper: {
-    serializedName: "osTypeSelected",
-    xmlName: "osTypeSelected",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const featured: OperationQueryParameter = {
   parameterPath: ["options", "featured"],
   mapper: {
@@ -1106,6 +1063,11 @@ export const isForced: OperationQueryParameter = {
 export const staticSiteZipDeploymentEnvelope: OperationParameter = {
   parameterPath: "staticSiteZipDeploymentEnvelope",
   mapper: StaticSiteZipDeploymentARMResourceMapper
+};
+
+export const basicAuthEnvelope: OperationParameter = {
+  parameterPath: "basicAuthEnvelope",
+  mapper: StaticSiteBasicAuthPropertiesARMResourceMapper
 };
 
 export const staticSiteUserRolesInvitationEnvelope: OperationParameter = {

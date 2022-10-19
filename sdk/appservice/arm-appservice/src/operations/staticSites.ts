@@ -88,6 +88,11 @@ import {
   StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams,
   StaticSitesCreateOrUpdateStaticSiteAppSettingsOptionalParams,
   StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse,
+  StaticSitesGetStaticSiteBasicAuthOptionalParams,
+  StaticSitesGetStaticSiteBasicAuthResponse,
+  StaticSiteBasicAuthPropertiesARMResource,
+  StaticSitesCreateOrUpdateStaticSiteBasicAuthOptionalParams,
+  StaticSitesCreateOrUpdateStaticSiteBasicAuthResponse,
   StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsOptionalParams,
   StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsResponse,
   StaticSiteUserInvitationRequestResource,
@@ -1866,6 +1871,42 @@ export class StaticSitesImpl implements StaticSites {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, appSettings, options },
       createOrUpdateStaticSiteAppSettingsOperationSpec
+    );
+  }
+
+  /**
+   * Gets the basic auth state of a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param options The options parameters.
+   */
+  getStaticSiteBasicAuth(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesGetStaticSiteBasicAuthOptionalParams
+  ): Promise<StaticSitesGetStaticSiteBasicAuthResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      getStaticSiteBasicAuthOperationSpec
+    );
+  }
+
+  /**
+   * Adds or updates basic auth for a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param basicAuthEnvelope A JSON representation of the basic auth properties.
+   * @param options The options parameters.
+   */
+  createOrUpdateStaticSiteBasicAuth(
+    resourceGroupName: string,
+    name: string,
+    basicAuthEnvelope: StaticSiteBasicAuthPropertiesARMResource,
+    options?: StaticSitesCreateOrUpdateStaticSiteBasicAuthOptionalParams
+  ): Promise<StaticSitesCreateOrUpdateStaticSiteBasicAuthResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, basicAuthEnvelope, options },
+      createOrUpdateStaticSiteBasicAuthOperationSpec
     );
   }
 
@@ -4280,6 +4321,52 @@ const createOrUpdateStaticSiteAppSettingsOperationSpec: coreClient.OperationSpec
     }
   },
   requestBody: Parameters.appSettings,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getStaticSiteBasicAuthOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/config/basicAuth",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteBasicAuthPropertiesARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateStaticSiteBasicAuthOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/config/basicAuth",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteBasicAuthPropertiesARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.basicAuthEnvelope,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

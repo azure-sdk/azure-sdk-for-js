@@ -20387,6 +20387,60 @@ export const StaticSiteZipDeploymentARMResource: coreClient.CompositeMapper = {
   }
 };
 
+export const StaticSiteBasicAuthPropertiesARMResource: coreClient.CompositeMapper = {
+  serializedName: "StaticSiteBasicAuthPropertiesARMResource",
+  type: {
+    name: "Composite",
+    className: "StaticSiteBasicAuthPropertiesARMResource",
+    modelProperties: {
+      ...ProxyOnlyResource.type.modelProperties,
+      environments: {
+        serializedName: "properties.environments",
+        xmlName: "properties.environments",
+        xmlElementName:
+          "StaticSiteBasicAuthPropertiesARMResourcePropertiesEnvironmentsItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      password: {
+        serializedName: "properties.password",
+        xmlName: "properties.password",
+        type: {
+          name: "String"
+        }
+      },
+      secretUrl: {
+        serializedName: "properties.secretUrl",
+        xmlName: "properties.secretUrl",
+        type: {
+          name: "String"
+        }
+      },
+      applicableEnvironmentsMode: {
+        serializedName: "properties.applicableEnvironmentsMode",
+        xmlName: "properties.applicableEnvironmentsMode",
+        type: {
+          name: "String"
+        }
+      },
+      secretState: {
+        serializedName: "properties.secretState",
+        readOnly: true,
+        xmlName: "properties.secretState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const StaticSiteUserInvitationRequestResource: coreClient.CompositeMapper = {
   serializedName: "StaticSiteUserInvitationRequestResource",
   type: {

@@ -3334,24 +3334,6 @@ export interface EndpointDetail {
 export type EnterpriseGradeCdnStatus = string;
 
 // @public
-export type Enum14 = string;
-
-// @public
-export type Enum15 = string;
-
-// @public
-export type Enum16 = string;
-
-// @public
-export type Enum17 = string;
-
-// @public
-export type Enum18 = string;
-
-// @public
-export type Enum19 = string;
-
-// @public
 export interface EnvironmentVar {
     name?: string;
     secretRef?: string;
@@ -4051,52 +4033,6 @@ export enum KnownEnterpriseGradeCdnStatus {
 }
 
 // @public
-export enum KnownEnum14 {
-    All = "All",
-    Linux = "Linux",
-    LinuxFunctions = "LinuxFunctions",
-    Windows = "Windows",
-    WindowsFunctions = "WindowsFunctions"
-}
-
-// @public
-export enum KnownEnum15 {
-    All = "All",
-    Linux = "Linux",
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum16 {
-    All = "All",
-    Linux = "Linux",
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum17 {
-    All = "All",
-    Linux = "Linux",
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum18 {
-    All = "All",
-    Linux = "Linux",
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum19 {
-    All = "All",
-    Linux = "Linux",
-    LinuxFunctions = "LinuxFunctions",
-    Windows = "Windows",
-    WindowsFunctions = "WindowsFunctions"
-}
-
-// @public
 export enum KnownFtpsState {
     AllAllowed = "AllAllowed",
     Disabled = "Disabled",
@@ -4160,6 +4096,22 @@ export enum KnownParameterType {
     SecureObject = "SecureObject",
     SecureString = "SecureString",
     String = "String"
+}
+
+// @public
+export enum KnownProviderOsTypeSelected {
+    All = "All",
+    Linux = "Linux",
+    LinuxFunctions = "LinuxFunctions",
+    Windows = "Windows",
+    WindowsFunctions = "WindowsFunctions"
+}
+
+// @public
+export enum KnownProviderStackOsType {
+    All = "All",
+    Linux = "Linux",
+    Windows = "Windows"
 }
 
 // @public
@@ -5163,7 +5115,7 @@ export interface Provider {
 // @public
 export interface ProviderGetAvailableStacksNextOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum14;
+    osTypeSelected?: ProviderOsTypeSelected;
 }
 
 // @public
@@ -5172,7 +5124,7 @@ export type ProviderGetAvailableStacksNextResponse = ApplicationStackCollection;
 // @public
 export interface ProviderGetAvailableStacksOnPremNextOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum19;
+    osTypeSelected?: ProviderOsTypeSelected;
 }
 
 // @public
@@ -5181,7 +5133,7 @@ export type ProviderGetAvailableStacksOnPremNextResponse = ApplicationStackColle
 // @public
 export interface ProviderGetAvailableStacksOnPremOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum19;
+    osTypeSelected?: ProviderOsTypeSelected;
 }
 
 // @public
@@ -5190,7 +5142,7 @@ export type ProviderGetAvailableStacksOnPremResponse = ApplicationStackCollectio
 // @public
 export interface ProviderGetAvailableStacksOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum14;
+    osTypeSelected?: ProviderOsTypeSelected;
 }
 
 // @public
@@ -5198,7 +5150,7 @@ export type ProviderGetAvailableStacksResponse = ApplicationStackCollection;
 
 // @public
 export interface ProviderGetFunctionAppStacksForLocationNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum16;
+    stackOsType?: ProviderStackOsType;
 }
 
 // @public
@@ -5206,7 +5158,7 @@ export type ProviderGetFunctionAppStacksForLocationNextResponse = FunctionAppSta
 
 // @public
 export interface ProviderGetFunctionAppStacksForLocationOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum16;
+    stackOsType?: ProviderStackOsType;
 }
 
 // @public
@@ -5214,7 +5166,7 @@ export type ProviderGetFunctionAppStacksForLocationResponse = FunctionAppStackCo
 
 // @public
 export interface ProviderGetFunctionAppStacksNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum15;
+    stackOsType?: ProviderStackOsType;
 }
 
 // @public
@@ -5222,7 +5174,7 @@ export type ProviderGetFunctionAppStacksNextResponse = FunctionAppStackCollectio
 
 // @public
 export interface ProviderGetFunctionAppStacksOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum15;
+    stackOsType?: ProviderStackOsType;
 }
 
 // @public
@@ -5230,7 +5182,7 @@ export type ProviderGetFunctionAppStacksResponse = FunctionAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksForLocationNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum17;
+    stackOsType?: ProviderStackOsType;
 }
 
 // @public
@@ -5238,7 +5190,7 @@ export type ProviderGetWebAppStacksForLocationNextResponse = WebAppStackCollecti
 
 // @public
 export interface ProviderGetWebAppStacksForLocationOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum17;
+    stackOsType?: ProviderStackOsType;
 }
 
 // @public
@@ -5246,7 +5198,7 @@ export type ProviderGetWebAppStacksForLocationResponse = WebAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum18;
+    stackOsType?: ProviderStackOsType;
 }
 
 // @public
@@ -5254,7 +5206,7 @@ export type ProviderGetWebAppStacksNextResponse = WebAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum18;
+    stackOsType?: ProviderStackOsType;
 }
 
 // @public
@@ -5273,6 +5225,12 @@ export interface ProviderListOperationsOptionalParams extends coreClient.Operati
 
 // @public
 export type ProviderListOperationsResponse = CsmOperationCollection;
+
+// @public
+export type ProviderOsTypeSelected = string;
+
+// @public
+export type ProviderStackOsType = string;
 
 // @public
 export type ProvisioningState = "Succeeded" | "Failed" | "Canceled" | "InProgress" | "Deleting";
@@ -6644,6 +6602,16 @@ export interface StaticSiteARMResource extends Resource {
 }
 
 // @public
+export interface StaticSiteBasicAuthPropertiesARMResource extends ProxyOnlyResource {
+    applicableEnvironmentsMode?: string;
+    // (undocumented)
+    environments?: string[];
+    password?: string;
+    readonly secretState?: string;
+    secretUrl?: string;
+}
+
+// @public
 export interface StaticSiteBuildARMResource extends ProxyOnlyResource {
     readonly buildId?: string;
     readonly createdTimeUtc?: Date;
@@ -6798,6 +6766,7 @@ export interface StaticSites {
     beginValidateCustomDomainCanBeAddedToStaticSite(resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginValidateCustomDomainCanBeAddedToStaticSiteAndWait(resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams): Promise<void>;
     createOrUpdateStaticSiteAppSettings(resourceGroupName: string, name: string, appSettings: StringDictionary, options?: StaticSitesCreateOrUpdateStaticSiteAppSettingsOptionalParams): Promise<StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse>;
+    createOrUpdateStaticSiteBasicAuth(resourceGroupName: string, name: string, basicAuthEnvelope: StaticSiteBasicAuthPropertiesARMResource, options?: StaticSitesCreateOrUpdateStaticSiteBasicAuthOptionalParams): Promise<StaticSitesCreateOrUpdateStaticSiteBasicAuthResponse>;
     createOrUpdateStaticSiteBuildAppSettings(resourceGroupName: string, name: string, environmentName: string, appSettings: StringDictionary, options?: StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsOptionalParams): Promise<StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse>;
     createOrUpdateStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, environmentName: string, appSettings: StringDictionary, options?: StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsOptionalParams): Promise<StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse>;
     createOrUpdateStaticSiteFunctionAppSettings(resourceGroupName: string, name: string, appSettings: StringDictionary, options?: StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsOptionalParams): Promise<StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsResponse>;
@@ -6810,6 +6779,7 @@ export interface StaticSites {
     getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: StaticSitesGetPrivateEndpointConnectionOptionalParams): Promise<StaticSitesGetPrivateEndpointConnectionResponse>;
     getPrivateLinkResources(resourceGroupName: string, name: string, options?: StaticSitesGetPrivateLinkResourcesOptionalParams): Promise<StaticSitesGetPrivateLinkResourcesResponse>;
     getStaticSite(resourceGroupName: string, name: string, options?: StaticSitesGetStaticSiteOptionalParams): Promise<StaticSitesGetStaticSiteResponse>;
+    getStaticSiteBasicAuth(resourceGroupName: string, name: string, options?: StaticSitesGetStaticSiteBasicAuthOptionalParams): Promise<StaticSitesGetStaticSiteBasicAuthResponse>;
     getStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetStaticSiteBuildOptionalParams): Promise<StaticSitesGetStaticSiteBuildResponse>;
     getStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, options?: StaticSitesGetStaticSiteCustomDomainOptionalParams): Promise<StaticSitesGetStaticSiteCustomDomainResponse>;
     getUserProvidedFunctionAppForStaticSite(resourceGroupName: string, name: string, functionAppName: string, options?: StaticSitesGetUserProvidedFunctionAppForStaticSiteOptionalParams): Promise<StaticSitesGetUserProvidedFunctionAppForStaticSiteResponse>;
@@ -6855,6 +6825,13 @@ export interface StaticSitesCreateOrUpdateStaticSiteAppSettingsOptionalParams ex
 
 // @public
 export type StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse = StringDictionary;
+
+// @public
+export interface StaticSitesCreateOrUpdateStaticSiteBasicAuthOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StaticSitesCreateOrUpdateStaticSiteBasicAuthResponse = StaticSiteBasicAuthPropertiesARMResource;
 
 // @public
 export interface StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsOptionalParams extends coreClient.OperationOptions {
@@ -7028,6 +7005,13 @@ export interface StaticSitesGetPrivateLinkResourcesOptionalParams extends coreCl
 
 // @public
 export type StaticSitesGetPrivateLinkResourcesResponse = PrivateLinkResourcesWrapper;
+
+// @public
+export interface StaticSitesGetStaticSiteBasicAuthOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StaticSitesGetStaticSiteBasicAuthResponse = StaticSiteBasicAuthPropertiesARMResource;
 
 // @public
 export interface StaticSitesGetStaticSiteBuildOptionalParams extends coreClient.OperationOptions {
