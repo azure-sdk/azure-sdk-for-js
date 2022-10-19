@@ -1895,6 +1895,11 @@
       "packageName": "@azure/arm-devhub",
       "projectFolder": "sdk/devhub/arm-devhub",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/loadtestservice",
+      "projectFolder": "sdk/loadtestservice/loadtestservice-rest",
+      "versionPolicyName": "client"
     }
   ]
 }

@@ -254,6 +254,7 @@ specifiers:
   '@rush-temp/keyvault-common': file:./projects/keyvault-common.tgz
   '@rush-temp/keyvault-keys': file:./projects/keyvault-keys.tgz
   '@rush-temp/keyvault-secrets': file:./projects/keyvault-secrets.tgz
+  '@rush-temp/loadtestservice': file:./projects/loadtestservice.tgz
   '@rush-temp/logger': file:./projects/logger.tgz
   '@rush-temp/maps-common': file:./projects/maps-common.tgz
   '@rush-temp/maps-search': file:./projects/maps-search.tgz
@@ -571,6 +572,7 @@ dependencies:
   '@rush-temp/keyvault-common': file:projects/keyvault-common.tgz
   '@rush-temp/keyvault-keys': file:projects/keyvault-keys.tgz
   '@rush-temp/keyvault-secrets': file:projects/keyvault-secrets.tgz
+  '@rush-temp/loadtestservice': file:projects/loadtestservice.tgz
   '@rush-temp/logger': file:projects/logger.tgz
   '@rush-temp/maps-common': file:projects/maps-common.tgz
   '@rush-temp/maps-search': file:projects/maps-search.tgz
@@ -3965,7 +3967,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221018
+      typescript: 4.9.0-dev.20221019
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8962,8 +8964,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221018:
-    resolution: {integrity: sha512-jHigCAzVp9JXy+t9J854z8ooZTtc1luK25iKKFF48w/AfRfTbypn8HkOGWDmb7x7RuAcZxo1zYcYDk4OaUFKjw==}
+  /typescript/4.9.0-dev.20221019:
+    resolution: {integrity: sha512-FgRBDKHZQAbayBvRcfFpjtmztLCobGom2k5W5nFqCXDb/XKYn0oG/8s6O9le3lGIt3+1FC7FYMmqvR5qRW50AA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -17551,6 +17553,27 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/loadtestservice.tgz:
+    resolution: {integrity: sha512-UZTfYmpqJpi8mK6NK87zFXeHcDDpFpFSbl4iK9LIfYtD90vquG2ND6wkwJE8OxmHp3L/cuLSd4hbUsTiU2rekQ==, tarball: file:projects/loadtestservice.tgz}
+    name: '@rush-temp/loadtestservice'
+    version: 0.0.0
+    dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
+      '@microsoft/api-extractor': 7.32.0
+      '@types/node': 14.18.32
+      autorest: 3.6.2
+      dotenv: 8.6.0
+      eslint: 8.24.0
+      mkdirp: 1.0.4
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.4.0
+      typescript: 4.6.4
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/logger.tgz:
