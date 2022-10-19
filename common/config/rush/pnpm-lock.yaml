@@ -15004,7 +15004,7 @@ packages:
     dev: false
 
   file:projects/arm-streamanalytics.tgz:
-    resolution: {integrity: sha512-tyDhMW+2aoBj060An0Hzvgm6gX5+H0XqoS0JvuB35M9aFL3UZoDZtIbOhJKklr2fCmiMPss4dEPk7gHR3vUV6Q==, tarball: file:projects/arm-streamanalytics.tgz}
+    resolution: {integrity: sha512-Dr7SRcSWM6JONMSH+fRTb/yPu5bZerkLUI4NrOxxg5YkqEZud6A8wDyN8fZGrjEk+ZqczjR7h3QUMQpGTKaiIw==, tarball: file:projects/arm-streamanalytics.tgz}
     name: '@rush-temp/arm-streamanalytics'
     version: 0.0.0
     dependencies:
@@ -15015,6 +15015,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -15022,11 +15024,10 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -18799,7 +18800,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-+mEBtT4ZtJbjN7TBwmuFKuK3U0/I8XkxXVPPox138JskqAjcK6qocjTg3xbmbkRHiFpIwbSsop8Wc8/sfbKCDA==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-4zcmjvPogb67MUSz60n54Z1iFbDUoiiuEPlgx0Z1cH16EF7qF8Lgd0TgWO5PPQayZBOHcEHucgnSA1LRgsEXkA==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
