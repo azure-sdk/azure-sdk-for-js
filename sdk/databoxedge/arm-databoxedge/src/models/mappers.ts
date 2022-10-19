@@ -1018,6 +1018,385 @@ export const BandwidthSchedulesList: coreClient.CompositeMapper = {
   }
 };
 
+export const DeviceCapacityRequestInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeviceCapacityRequestInfo",
+    modelProperties: {
+      vmPlacementQuery: {
+        serializedName: "properties.vmPlacementQuery",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Sequence",
+              element: {
+                type: {
+                  name: "String"
+                }
+              }
+            }
+          }
+        }
+      },
+      vmPlacementResults: {
+        serializedName: "properties.vmPlacementResults",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VmPlacementRequestResult"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const VmPlacementRequestResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VmPlacementRequestResult",
+    modelProperties: {
+      vmSize: {
+        serializedName: "vmSize",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      isFeasible: {
+        serializedName: "isFeasible",
+        type: {
+          name: "Boolean"
+        }
+      },
+      messageCode: {
+        serializedName: "messageCode",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClusterStorageViewData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterStorageViewData",
+    modelProperties: {
+      clusterTotalStorageMb: {
+        serializedName: "clusterTotalStorageMb",
+        type: {
+          name: "Number"
+        }
+      },
+      clusterFreeStorageMb: {
+        serializedName: "clusterFreeStorageMb",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ClusterCapacityViewData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterCapacityViewData",
+    modelProperties: {
+      fqdn: {
+        serializedName: "fqdn",
+        type: {
+          name: "String"
+        }
+      },
+      gpuCapacity: {
+        serializedName: "gpuCapacity",
+        type: {
+          name: "Composite",
+          className: "ClusterGpuCapacity"
+        }
+      },
+      memoryCapacity: {
+        serializedName: "memoryCapacity",
+        type: {
+          name: "Composite",
+          className: "ClusterMemoryCapacity"
+        }
+      },
+      lastRefreshedTime: {
+        serializedName: "lastRefreshedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      totalProvisionedNonHpnCores: {
+        serializedName: "totalProvisionedNonHpnCores",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ClusterGpuCapacity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterGpuCapacity",
+    modelProperties: {
+      gpuType: {
+        serializedName: "gpuType",
+        type: {
+          name: "String"
+        }
+      },
+      gpuUsedUnitsCount: {
+        serializedName: "gpuUsedUnitsCount",
+        type: {
+          name: "Number"
+        }
+      },
+      gpuFreeUnitsCount: {
+        serializedName: "gpuFreeUnitsCount",
+        type: {
+          name: "Number"
+        }
+      },
+      gpuReservedForFailoverUnitsCount: {
+        serializedName: "gpuReservedForFailoverUnitsCount",
+        type: {
+          name: "Number"
+        }
+      },
+      gpuTotalUnitsCount: {
+        serializedName: "gpuTotalUnitsCount",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ClusterMemoryCapacity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterMemoryCapacity",
+    modelProperties: {
+      clusterFreeMemoryMb: {
+        serializedName: "clusterFreeMemoryMb",
+        type: {
+          name: "Number"
+        }
+      },
+      clusterUsedMemoryMb: {
+        serializedName: "clusterUsedMemoryMb",
+        type: {
+          name: "Number"
+        }
+      },
+      clusterFailoverMemoryMb: {
+        serializedName: "clusterFailoverMemoryMb",
+        type: {
+          name: "Number"
+        }
+      },
+      clusterFragmentationMemoryMb: {
+        serializedName: "clusterFragmentationMemoryMb",
+        type: {
+          name: "Number"
+        }
+      },
+      clusterHypervReserveMemoryMb: {
+        serializedName: "clusterHypervReserveMemoryMb",
+        type: {
+          name: "Number"
+        }
+      },
+      clusterInfraVmMemoryMb: {
+        serializedName: "clusterInfraVmMemoryMb",
+        type: {
+          name: "Number"
+        }
+      },
+      clusterTotalMemoryMb: {
+        serializedName: "clusterTotalMemoryMb",
+        type: {
+          name: "Number"
+        }
+      },
+      clusterNonFailoverVmMb: {
+        serializedName: "clusterNonFailoverVmMb",
+        type: {
+          name: "Number"
+        }
+      },
+      clusterMemoryUsedByVmsMb: {
+        serializedName: "clusterMemoryUsedByVmsMb",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const HostCapacity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HostCapacity",
+    modelProperties: {
+      hostName: {
+        serializedName: "hostName",
+        type: {
+          name: "String"
+        }
+      },
+      effectiveAvailableMemoryMbOnHost: {
+        serializedName: "effectiveAvailableMemoryMbOnHost",
+        type: {
+          name: "Number"
+        }
+      },
+      availableGpuCount: {
+        serializedName: "availableGpuCount",
+        type: {
+          name: "Number"
+        }
+      },
+      vmUsedMemory: {
+        serializedName: "vmUsedMemory",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Composite", className: "VmMemory" } }
+        }
+      },
+      gpuType: {
+        serializedName: "gpuType",
+        type: {
+          name: "String"
+        }
+      },
+      numaNodesData: {
+        serializedName: "numaNodesData",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NumaNodeData"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const VmMemory: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VmMemory",
+    modelProperties: {
+      startupMemoryMB: {
+        serializedName: "startupMemoryMB",
+        type: {
+          name: "Number"
+        }
+      },
+      currentMemoryUsageMB: {
+        serializedName: "currentMemoryUsageMB",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const NumaNodeData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NumaNodeData",
+    modelProperties: {
+      numaNodeIndex: {
+        serializedName: "numaNodeIndex",
+        type: {
+          name: "Number"
+        }
+      },
+      totalMemoryInMb: {
+        serializedName: "totalMemoryInMb",
+        type: {
+          name: "Number"
+        }
+      },
+      logicalCoreCountPerCore: {
+        serializedName: "logicalCoreCountPerCore",
+        type: {
+          name: "Number"
+        }
+      },
+      effectiveAvailableMemoryInMb: {
+        serializedName: "effectiveAvailableMemoryInMb",
+        type: {
+          name: "Number"
+        }
+      },
+      freeVCpuIndexesForHpn: {
+        serializedName: "freeVCpuIndexesForHpn",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      vCpuIndexesForHpn: {
+        serializedName: "vCpuIndexesForHpn",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      vCpuIndexesForRoot: {
+        serializedName: "vCpuIndexesForRoot",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const RemoteSupportSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3159,163 +3538,6 @@ export const PeriodicTimerSourceInfo: coreClient.CompositeMapper = {
   }
 };
 
-export const ResourceTypeSku: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ResourceTypeSku",
-    modelProperties: {
-      resourceType: {
-        serializedName: "resourceType",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      skus: {
-        serializedName: "skus",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SkuInformation"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const SkuInformation: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SkuInformation",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      tier: {
-        serializedName: "tier",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      kind: {
-        serializedName: "kind",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      family: {
-        serializedName: "family",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      costs: {
-        serializedName: "costs",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SkuCost"
-            }
-          }
-        }
-      },
-      locations: {
-        serializedName: "locations",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      locationInfo: {
-        serializedName: "locationInfo",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SkuLocationInfo"
-            }
-          }
-        }
-      },
-      requiredQuotaIds: {
-        serializedName: "requiredQuotaIds",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      requiredFeatures: {
-        serializedName: "requiredFeatures",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const SkuInformationList: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SkuInformationList",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ResourceTypeSku"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const DataBoxEdgeDevice: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3358,6 +3580,7 @@ export const DataBoxEdgeDevice: coreClient.CompositeMapper = {
       },
       kind: {
         serializedName: "kind",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -3378,6 +3601,7 @@ export const DataBoxEdgeDevice: coreClient.CompositeMapper = {
       },
       dataBoxEdgeDeviceStatus: {
         serializedName: "properties.dataBoxEdgeDeviceStatus",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -3620,6 +3844,50 @@ export const BandwidthSchedule: coreClient.CompositeMapper = {
   }
 };
 
+export const DeviceCapacityInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeviceCapacityInfo",
+    modelProperties: {
+      ...ARMBaseModel.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      timeStamp: {
+        serializedName: "properties.timeStamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      clusterStorageCapacityInfo: {
+        serializedName: "properties.clusterStorageCapacityInfo",
+        type: {
+          name: "Composite",
+          className: "ClusterStorageViewData"
+        }
+      },
+      clusterComputeCapacityInfo: {
+        serializedName: "properties.clusterComputeCapacityInfo",
+        type: {
+          name: "Composite",
+          className: "ClusterCapacityViewData"
+        }
+      },
+      nodeCapacityInfos: {
+        serializedName: "properties.nodeCapacityInfos",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Composite", className: "HostCapacity" } }
+        }
+      }
+    }
+  }
+};
+
 export const DiagnosticProactiveLogCollectionSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3679,6 +3947,13 @@ export const DataBoxEdgeDeviceExtendedInfo: coreClient.CompositeMapper = {
     className: "DataBoxEdgeDeviceExtendedInfo",
     modelProperties: {
       ...ARMBaseModel.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       encryptionKeyThumbprint: {
         serializedName: "properties.encryptionKeyThumbprint",
         type: {
@@ -3734,6 +4009,48 @@ export const DataBoxEdgeDeviceExtendedInfo: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "Composite", className: "Secret" } }
+        }
+      },
+      clusterWitnessType: {
+        serializedName: "properties.clusterWitnessType",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      fileShareWitnessLocation: {
+        serializedName: "properties.fileShareWitnessLocation",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      fileShareWitnessUsername: {
+        serializedName: "properties.fileShareWitnessUsername",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      cloudWitnessStorageAccountName: {
+        serializedName: "properties.cloudWitnessStorageAccountName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      cloudWitnessContainerName: {
+        serializedName: "properties.cloudWitnessContainerName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      cloudWitnessStorageEndpoint: {
+        serializedName: "properties.cloudWitnessStorageEndpoint",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -3835,11 +4152,25 @@ export const Order: coreClient.CompositeMapper = {
     className: "Order",
     modelProperties: {
       ...ARMBaseModel.type.modelProperties,
+      kind: {
+        serializedName: "kind",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
           className: "SystemData"
+        }
+      },
+      orderId: {
+        serializedName: "properties.orderId",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       },
       contactInformation: {
@@ -4309,18 +4640,18 @@ export const Trigger: coreClient.CompositeMapper = {
     },
     modelProperties: {
       ...ARMBaseModel.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
       kind: {
         serializedName: "kind",
         required: true,
         type: {
           name: "String"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
         }
       }
     }
@@ -4601,8 +4932,8 @@ export const CloudEdgeManagementRole: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CloudEdgeManagementRole",
-    uberParent: "ARMBaseModel",
-    polymorphicDiscriminator: ARMBaseModel.type.polymorphicDiscriminator,
+    uberParent: "Role",
+    polymorphicDiscriminator: Role.type.polymorphicDiscriminator,
     modelProperties: {
       ...Role.type.modelProperties,
       localManagementStatus: {
@@ -4634,8 +4965,8 @@ export const IoTRole: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IoTRole",
-    uberParent: "ARMBaseModel",
-    polymorphicDiscriminator: ARMBaseModel.type.polymorphicDiscriminator,
+    uberParent: "Role",
+    polymorphicDiscriminator: Role.type.polymorphicDiscriminator,
     modelProperties: {
       ...Role.type.modelProperties,
       hostPlatform: {
@@ -4706,8 +5037,8 @@ export const KubernetesRole: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KubernetesRole",
-    uberParent: "ARMBaseModel",
-    polymorphicDiscriminator: ARMBaseModel.type.polymorphicDiscriminator,
+    uberParent: "Role",
+    polymorphicDiscriminator: Role.type.polymorphicDiscriminator,
     modelProperties: {
       ...Role.type.modelProperties,
       hostPlatform: {
@@ -4759,8 +5090,8 @@ export const MECRole: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MECRole",
-    uberParent: "ARMBaseModel",
-    polymorphicDiscriminator: ARMBaseModel.type.polymorphicDiscriminator,
+    uberParent: "Role",
+    polymorphicDiscriminator: Role.type.polymorphicDiscriminator,
     modelProperties: {
       ...Role.type.modelProperties,
       connectionString: {
@@ -4797,8 +5128,8 @@ export const ArcAddon: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ArcAddon",
-    uberParent: "ARMBaseModel",
-    polymorphicDiscriminator: ARMBaseModel.type.polymorphicDiscriminator,
+    uberParent: "Addon",
+    polymorphicDiscriminator: Addon.type.polymorphicDiscriminator,
     modelProperties: {
       ...Addon.type.modelProperties,
       subscriptionId: {
@@ -4866,8 +5197,8 @@ export const IoTAddon: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IoTAddon",
-    uberParent: "ARMBaseModel",
-    polymorphicDiscriminator: ARMBaseModel.type.polymorphicDiscriminator,
+    uberParent: "Addon",
+    polymorphicDiscriminator: Addon.type.polymorphicDiscriminator,
     modelProperties: {
       ...Addon.type.modelProperties,
       ioTDeviceDetails: {
@@ -4921,8 +5252,8 @@ export const FileEventTrigger: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FileEventTrigger",
-    uberParent: "ARMBaseModel",
-    polymorphicDiscriminator: ARMBaseModel.type.polymorphicDiscriminator,
+    uberParent: "Trigger",
+    polymorphicDiscriminator: Trigger.type.polymorphicDiscriminator,
     modelProperties: {
       ...Trigger.type.modelProperties,
       sourceInfo: {
@@ -4957,8 +5288,8 @@ export const PeriodicTimerEventTrigger: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PeriodicTimerEventTrigger",
-    uberParent: "ARMBaseModel",
-    polymorphicDiscriminator: ARMBaseModel.type.polymorphicDiscriminator,
+    uberParent: "Trigger",
+    polymorphicDiscriminator: Trigger.type.polymorphicDiscriminator,
     modelProperties: {
       ...Trigger.type.modelProperties,
       sourceInfo: {
@@ -4992,12 +5323,12 @@ export let discriminators = {
   "ARMBaseModel.Role": Role,
   "ARMBaseModel.Addon": Addon,
   "ARMBaseModel.Trigger": Trigger,
-  "ARMBaseModel.CloudEdgeManagement": CloudEdgeManagementRole,
-  "ARMBaseModel.IOT": IoTRole,
-  "ARMBaseModel.Kubernetes": KubernetesRole,
-  "ARMBaseModel.MEC": MECRole,
-  "ARMBaseModel.ArcForKubernetes": ArcAddon,
-  "ARMBaseModel.IotEdge": IoTAddon,
-  "ARMBaseModel.FileEvent": FileEventTrigger,
-  "ARMBaseModel.PeriodicTimerEvent": PeriodicTimerEventTrigger
+  "Role.CloudEdgeManagement": CloudEdgeManagementRole,
+  "Role.IOT": IoTRole,
+  "Role.Kubernetes": KubernetesRole,
+  "Role.MEC": MECRole,
+  "Addon.ArcForKubernetes": ArcAddon,
+  "Addon.IotEdge": IoTAddon,
+  "Trigger.FileEvent": FileEventTrigger,
+  "Trigger.PeriodicTimerEvent": PeriodicTimerEventTrigger
 };

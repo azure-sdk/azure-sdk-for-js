@@ -1,15 +1,62 @@
 # Release History
+    
+## 2.1.0 (2022-10-19)
+    
+**Features**
 
-## 2.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group DeviceCapacityCheck
+  - Added operation group DeviceCapacityInfoOperations
+  - Added Interface Addon
+  - Added Interface Alert
+  - Added Interface ArcAddon
+  - Added Interface BandwidthSchedule
+  - Added Interface CloudEdgeManagementRole
+  - Added Interface ClusterCapacityViewData
+  - Added Interface ClusterGpuCapacity
+  - Added Interface ClusterMemoryCapacity
+  - Added Interface ClusterStorageViewData
+  - Added Interface Container
+  - Added Interface DataBoxEdgeDevice
+  - Added Interface DataBoxEdgeDeviceExtendedInfo
+  - Added Interface DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams
+  - Added Interface DeviceCapacityInfo
+  - Added Interface DeviceCapacityInfoGetDeviceCapacityInfoOptionalParams
+  - Added Interface DeviceCapacityRequestInfo
+  - Added Interface DiagnosticProactiveLogCollectionSettings
+  - Added Interface DiagnosticRemoteSupportSettings
+  - Added Interface FileEventTrigger
+  - Added Interface HostCapacity
+  - Added Interface IoTAddon
+  - Added Interface IoTRole
+  - Added Interface KubernetesRole
+  - Added Interface MECRole
+  - Added Interface MonitoringMetricConfiguration
+  - Added Interface NetworkSettings
+  - Added Interface Node_2
+  - Added Interface NumaNodeData
+  - Added Interface Order
+  - Added Interface PeriodicTimerEventTrigger
+  - Added Interface Role
+  - Added Interface SecuritySettings
+  - Added Interface Share
+  - Added Interface StorageAccount
+  - Added Interface StorageAccountCredential
+  - Added Interface Trigger
+  - Added Interface TriggerSupportPackageRequest
+  - Added Interface UpdateSummary
+  - Added Interface User
+  - Added Interface VmMemory
+  - Added Interface VmPlacementRequestResult
+  - Added Type Alias ClusterWitnessType
+  - Added Type Alias DeviceCapacityInfoGetDeviceCapacityInfoResponse
+  - Class DataBoxEdgeManagementClient has a new parameter deviceCapacityCheck
+  - Class DataBoxEdgeManagementClient has a new parameter deviceCapacityInfoOperations
+  - Added Enum KnownClusterWitnessType
+  - Enum KnownSkuName has a new value EdgeMRTCP
+  - Enum KnownSkuName has a new value EP2128GPU1Mx1W
+  - Enum KnownSkuName has a new value EP2256GPU2Mx1
+  - Enum KnownSkuName has a new value EP264Mx1W
+    
 ## 2.0.1 (2022-04-15)
 
 **features**
