@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { WebPubSubPrivateEndpointConnections } from "../operationsInterfaces";
+import { WebPubSubCustomCertificates } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,26 +15,26 @@ import { WebPubSubManagementClient } from "../webPubSubManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  PrivateEndpointConnection,
-  WebPubSubPrivateEndpointConnectionsListNextOptionalParams,
-  WebPubSubPrivateEndpointConnectionsListOptionalParams,
-  WebPubSubPrivateEndpointConnectionsListResponse,
-  WebPubSubPrivateEndpointConnectionsGetOptionalParams,
-  WebPubSubPrivateEndpointConnectionsGetResponse,
-  WebPubSubPrivateEndpointConnectionsUpdateOptionalParams,
-  WebPubSubPrivateEndpointConnectionsUpdateResponse,
-  WebPubSubPrivateEndpointConnectionsDeleteOptionalParams,
-  WebPubSubPrivateEndpointConnectionsListNextResponse
+  CustomCertificate,
+  WebPubSubCustomCertificatesListNextOptionalParams,
+  WebPubSubCustomCertificatesListOptionalParams,
+  WebPubSubCustomCertificatesListResponse,
+  WebPubSubCustomCertificatesGetOptionalParams,
+  WebPubSubCustomCertificatesGetResponse,
+  WebPubSubCustomCertificatesCreateOrUpdateOptionalParams,
+  WebPubSubCustomCertificatesCreateOrUpdateResponse,
+  WebPubSubCustomCertificatesDeleteOptionalParams,
+  WebPubSubCustomCertificatesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing WebPubSubPrivateEndpointConnections operations. */
-export class WebPubSubPrivateEndpointConnectionsImpl
-  implements WebPubSubPrivateEndpointConnections {
+/** Class containing WebPubSubCustomCertificates operations. */
+export class WebPubSubCustomCertificatesImpl
+  implements WebPubSubCustomCertificates {
   private readonly client: WebPubSubManagementClient;
 
   /**
-   * Initialize a new instance of the class WebPubSubPrivateEndpointConnections class.
+   * Initialize a new instance of the class WebPubSubCustomCertificates class.
    * @param client Reference to the service client
    */
   constructor(client: WebPubSubManagementClient) {
@@ -42,7 +42,7 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   }
 
   /**
-   * List private endpoint connections
+   * List all custom certificates.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
@@ -51,8 +51,8 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsListOptionalParams
-  ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
+    options?: WebPubSubCustomCertificatesListOptionalParams
+  ): PagedAsyncIterableIterator<CustomCertificate> {
     const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
       next() {
@@ -70,8 +70,8 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsListOptionalParams
-  ): AsyncIterableIterator<PrivateEndpointConnection[]> {
+    options?: WebPubSubCustomCertificatesListOptionalParams
+  ): AsyncIterableIterator<CustomCertificate[]> {
     let result = await this._list(resourceGroupName, resourceName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -90,8 +90,8 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsListOptionalParams
-  ): AsyncIterableIterator<PrivateEndpointConnection> {
+    options?: WebPubSubCustomCertificatesListOptionalParams
+  ): AsyncIterableIterator<CustomCertificate> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
@@ -102,7 +102,7 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   }
 
   /**
-   * List private endpoint connections
+   * List all custom certificates.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
@@ -111,8 +111,8 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsListOptionalParams
-  ): Promise<WebPubSubPrivateEndpointConnectionsListResponse> {
+    options?: WebPubSubCustomCertificatesListOptionalParams
+  ): Promise<WebPubSubCustomCertificatesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
       listOperationSpec
@@ -120,76 +120,50 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   }
 
   /**
-   * Get the specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * Get a custom certificate.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
+   * @param certificateName Custom certificate name
    * @param options The options parameters.
    */
   get(
-    privateEndpointConnectionName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsGetOptionalParams
-  ): Promise<WebPubSubPrivateEndpointConnectionsGetResponse> {
+    certificateName: string,
+    options?: WebPubSubCustomCertificatesGetOptionalParams
+  ): Promise<WebPubSubCustomCertificatesGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        privateEndpointConnectionName,
-        resourceGroupName,
-        resourceName,
-        options
-      },
+      { resourceGroupName, resourceName, certificateName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Update the state of specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * Create or update a custom certificate.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
-   * @param parameters The resource of private endpoint and its properties
+   * @param certificateName Custom certificate name
+   * @param parameters A custom certificate.
    * @param options The options parameters.
    */
-  update(
-    privateEndpointConnectionName: string,
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     resourceName: string,
-    parameters: PrivateEndpointConnection,
-    options?: WebPubSubPrivateEndpointConnectionsUpdateOptionalParams
-  ): Promise<WebPubSubPrivateEndpointConnectionsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        privateEndpointConnectionName,
-        resourceGroupName,
-        resourceName,
-        parameters,
-        options
-      },
-      updateOperationSpec
-    );
-  }
-
-  /**
-   * Delete the specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param resourceName The name of the resource.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    privateEndpointConnectionName: string,
-    resourceGroupName: string,
-    resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    certificateName: string,
+    parameters: CustomCertificate,
+    options?: WebPubSubCustomCertificatesCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<WebPubSubCustomCertificatesCreateOrUpdateResponse>,
+      WebPubSubCustomCertificatesCreateOrUpdateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<WebPubSubCustomCertificatesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -227,44 +201,61 @@ export class WebPubSubPrivateEndpointConnectionsImpl
 
     const lro = new LroImpl(
       sendOperation,
-      {
-        privateEndpointConnectionName,
-        resourceGroupName,
-        resourceName,
-        options
-      },
-      deleteOperationSpec
+      { resourceGroupName, resourceName, certificateName, parameters, options },
+      createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete the specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * Create or update a custom certificate.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
+   * @param certificateName Custom certificate name
+   * @param parameters A custom certificate.
    * @param options The options parameters.
    */
-  async beginDeleteAndWait(
-    privateEndpointConnectionName: string,
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginDelete(
-      privateEndpointConnectionName,
+    certificateName: string,
+    parameters: CustomCertificate,
+    options?: WebPubSubCustomCertificatesCreateOrUpdateOptionalParams
+  ): Promise<WebPubSubCustomCertificatesCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       resourceName,
+      certificateName,
+      parameters,
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Delete a custom certificate.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceName The name of the resource.
+   * @param certificateName Custom certificate name
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    options?: WebPubSubCustomCertificatesDeleteOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, resourceName, certificateName, options },
+      deleteOperationSpec
+    );
   }
 
   /**
@@ -279,8 +270,8 @@ export class WebPubSubPrivateEndpointConnectionsImpl
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: WebPubSubPrivateEndpointConnectionsListNextOptionalParams
-  ): Promise<WebPubSubPrivateEndpointConnectionsListNextResponse> {
+    options?: WebPubSubCustomCertificatesListNextOptionalParams
+  ): Promise<WebPubSubCustomCertificatesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
       listNextOperationSpec
@@ -292,11 +283,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/privateEndpointConnections",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customCertificates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionList
+      bodyMapper: Mappers.CustomCertificateList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -314,11 +305,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customCertificates/{certificateName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.CustomCertificate
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -330,31 +321,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.privateEndpointConnectionName
+    Parameters.certificateName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customCertificates/{certificateName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.CustomCertificate
+    },
+    201: {
+      bodyMapper: Mappers.CustomCertificate
+    },
+    202: {
+      bodyMapper: Mappers.CustomCertificate
+    },
+    204: {
+      bodyMapper: Mappers.CustomCertificate
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.privateEndpointConnectionName
+    Parameters.certificateName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -362,12 +362,10 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customCertificates/{certificateName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
-    201: {},
-    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -379,7 +377,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.privateEndpointConnectionName
+    Parameters.certificateName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -389,7 +387,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionList
+      bodyMapper: Mappers.CustomCertificateList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
