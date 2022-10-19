@@ -43,7 +43,7 @@ export class LocationImpl implements Location {
 
   /**
    * Get the usage for a subscription
-   * @param location The identifier for the physical azure location.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   public listUsage(
@@ -83,7 +83,7 @@ export class LocationImpl implements Location {
 
   /**
    * Get the list of cached images on specific OS type for a subscription in a region.
-   * @param location The identifier for the physical azure location.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   public listCachedImages(
@@ -136,7 +136,7 @@ export class LocationImpl implements Location {
 
   /**
    * Get the list of CPU/memory/GPU capabilities of a region.
-   * @param location The identifier for the physical azure location.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   public listCapabilities(
@@ -189,7 +189,7 @@ export class LocationImpl implements Location {
 
   /**
    * Get the usage for a subscription
-   * @param location The identifier for the physical azure location.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   private _listUsage(
@@ -204,7 +204,7 @@ export class LocationImpl implements Location {
 
   /**
    * Get the list of cached images on specific OS type for a subscription in a region.
-   * @param location The identifier for the physical azure location.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   private _listCachedImages(
@@ -219,7 +219,7 @@ export class LocationImpl implements Location {
 
   /**
    * Get the list of CPU/memory/GPU capabilities of a region.
-   * @param location The identifier for the physical azure location.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   private _listCapabilities(
@@ -234,7 +234,7 @@ export class LocationImpl implements Location {
 
   /**
    * ListCachedImagesNext
-   * @param location The identifier for the physical azure location.
+   * @param location The name of Azure region.
    * @param nextLink The nextLink from the previous successful call to the ListCachedImages method.
    * @param options The options parameters.
    */
@@ -251,7 +251,7 @@ export class LocationImpl implements Location {
 
   /**
    * ListCapabilitiesNext
-   * @param location The identifier for the physical azure location.
+   * @param location The name of Azure region.
    * @param nextLink The nextLink from the previous successful call to the ListCapabilities method.
    * @param options The options parameters.
    */
