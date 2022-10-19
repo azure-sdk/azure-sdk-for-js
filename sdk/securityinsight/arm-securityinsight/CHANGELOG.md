@@ -1,15 +1,44 @@
 # Release History
+    
+## 1.0.0-beta.6 (2022-10-19)
+    
+**Features**
 
-## 1.0.0-beta.6 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group Summaries
+  - Added Interface AlertPropertyMapping
+  - Added Interface SentinelEntityMapping
+  - Added Interface SummariesCreateOrUpdateHeaders
+  - Added Interface SummariesCreateOrUpdateOptionalParams
+  - Added Interface SummariesDeleteOptionalParams
+  - Added Interface SummariesGetOptionalParams
+  - Added Interface SummariesListNextOptionalParams
+  - Added Interface SummariesListOptionalParams
+  - Added Interface Summary
+  - Added Interface SummaryList
+  - Added Type Alias AlertProperty
+  - Added Type Alias ProvisioningState
+  - Added Type Alias SummariesCreateOrUpdateResponse
+  - Added Type Alias SummariesGetResponse
+  - Added Type Alias SummariesListNextResponse
+  - Added Type Alias SummariesListResponse
+  - Added Type Alias SummaryStatus
+  - Added Type Alias Type
+  - Interface AlertDetailsOverride has a new optional parameter alertDynamicProperties
+  - Interface NrtAlertRule has a new optional parameter sentinelEntitiesMappings
+  - Interface NrtAlertRuleTemplate has a new optional parameter sentinelEntitiesMappings
+  - Interface QueryBasedAlertRuleTemplateProperties has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRule has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRuleCommonProperties has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRuleTemplate has a new optional parameter sentinelEntitiesMappings
+  - Interface SecurityAlertTimelineItem has a new optional parameter intent
+  - Interface SecurityAlertTimelineItem has a new optional parameter techniques
+  - Class SecurityInsights has a new parameter summaries
+  - Added Enum KnownAlertProperty
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownSummaryStatus
+  - Added Enum KnownType
+    
+    
 ## 1.0.0-beta.5 (2022-09-27)
     
 **Features**

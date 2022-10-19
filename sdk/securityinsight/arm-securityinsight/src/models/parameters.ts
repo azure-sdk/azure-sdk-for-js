@@ -40,7 +40,8 @@ import {
   WatchlistItem as WatchlistItemMapper,
   DataConnector as DataConnectorMapper,
   DataConnectorConnectBody as DataConnectorConnectBodyMapper,
-  DataConnectorsCheckRequirements as DataConnectorsCheckRequirementsMapper
+  DataConnectorsCheckRequirements as DataConnectorsCheckRequirementsMapper,
+  Summary as SummaryMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -70,7 +71,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-01-preview",
+    defaultValue: "2023-03-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -664,4 +665,20 @@ export const connectBody: OperationParameter = {
 export const dataConnectorsCheckRequirements: OperationParameter = {
   parameterPath: "dataConnectorsCheckRequirements",
   mapper: DataConnectorsCheckRequirementsMapper
+};
+
+export const summaryId: OperationURLParameter = {
+  parameterPath: "summaryId",
+  mapper: {
+    serializedName: "summaryId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const summary: OperationParameter = {
+  parameterPath: "summary",
+  mapper: SummaryMapper
 };

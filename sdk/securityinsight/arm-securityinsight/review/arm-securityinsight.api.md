@@ -246,8 +246,18 @@ export type AlertDetail = string;
 export interface AlertDetailsOverride {
     alertDescriptionFormat?: string;
     alertDisplayNameFormat?: string;
+    alertDynamicProperties?: AlertPropertyMapping[];
     alertSeverityColumnName?: string;
     alertTacticsColumnName?: string;
+}
+
+// @public
+export type AlertProperty = string;
+
+// @public
+export interface AlertPropertyMapping {
+    alertProperty?: AlertProperty;
+    value?: string;
 }
 
 // @public
@@ -2695,6 +2705,19 @@ export enum KnownAlertDetail {
 }
 
 // @public
+export enum KnownAlertProperty {
+    AlertLink = "AlertLink",
+    ConfidenceLevel = "ConfidenceLevel",
+    ConfidenceScore = "ConfidenceScore",
+    ExtendedLinks = "ExtendedLinks",
+    ProductComponentName = "ProductComponentName",
+    ProductName = "ProductName",
+    ProviderName = "ProviderName",
+    RemediationSteps = "RemediationSteps",
+    Techniques = "Techniques"
+}
+
+// @public
 export enum KnownAlertRuleKind {
     Fusion = "Fusion",
     MicrosoftSecurityIncidentCreation = "MicrosoftSecurityIncidentCreation",
@@ -3305,6 +3328,14 @@ export enum KnownProviderName {
 }
 
 // @public
+export enum KnownProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownRegistryHive {
     HkeyA = "HKEY_A",
     HkeyClassesRoot = "HKEY_CLASSES_ROOT",
@@ -3377,6 +3408,12 @@ export enum KnownSourceType {
 }
 
 // @public
+export enum KnownSummaryStatus {
+    Active = "Active",
+    Deleted = "Deleted"
+}
+
+// @public
 export enum KnownSupportTier {
     Community = "Community",
     Microsoft = "Microsoft",
@@ -3412,6 +3449,12 @@ export enum KnownTriggersOn {
 export enum KnownTriggersWhen {
     Created = "Created",
     Updated = "Updated"
+}
+
+// @public
+export enum KnownType {
+    DynamicSummary = "dynamic-summary",
+    DynamicSummaryItem = "dynamic-summary-item"
 }
 
 // @public
@@ -3982,6 +4025,7 @@ export interface NrtAlertRule extends AlertRule {
     kind: "NRT";
     readonly lastModifiedUtc?: Date;
     query?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     suppressionDuration?: string;
     suppressionEnabled?: boolean;
@@ -4006,6 +4050,7 @@ export interface NrtAlertRuleTemplate extends AlertRuleTemplate {
     readonly lastUpdatedDateUTC?: Date;
     query?: string;
     requiredDataConnectors?: AlertRuleTemplateDataSource[];
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     status?: TemplateStatus;
     tactics?: AttackTactic[];
@@ -4372,6 +4417,9 @@ export interface PropertyConditionProperties extends AutomationRuleCondition {
 export type ProviderName = string;
 
 // @public
+export type ProvisioningState = string;
+
+// @public
 export interface QueryBasedAlertRuleTemplateProperties {
     alertDetailsOverride?: AlertDetailsOverride;
     customDetails?: {
@@ -4380,6 +4428,7 @@ export interface QueryBasedAlertRuleTemplateProperties {
     entityMappings?: EntityMapping[];
     eventGroupingSettings?: EventGroupingSettings;
     query?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     version?: string;
 }
@@ -4528,6 +4577,7 @@ export interface ScheduledAlertRule extends AlertRule {
     query?: string;
     queryFrequency?: string;
     queryPeriod?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     suppressionDuration?: string;
     suppressionEnabled?: boolean;
@@ -4549,6 +4599,7 @@ export interface ScheduledAlertRuleCommonProperties {
     query?: string;
     queryFrequency?: string;
     queryPeriod?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     triggerOperator?: TriggerOperator;
     triggerThreshold?: number;
@@ -4587,6 +4638,7 @@ export interface ScheduledAlertRuleTemplate extends AlertRuleTemplate {
     queryFrequency?: string;
     queryPeriod?: string;
     requiredDataConnectors?: AlertRuleTemplateDataSource[];
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     status?: TemplateStatus;
     tactics?: AttackTactic[];
@@ -4672,10 +4724,12 @@ export interface SecurityAlertTimelineItem extends EntityTimelineItem {
     description?: string;
     displayName: string;
     endTimeUtc: Date;
+    readonly intent?: KillChainIntent;
     kind: "SecurityAlert";
     productName?: string;
     severity: AlertSeverity;
     startTimeUtc: Date;
+    techniques?: string[];
     timeGenerated: Date;
 }
 
@@ -4766,6 +4820,8 @@ export class SecurityInsights extends coreClient.ServiceClient {
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
+    summaries: Summaries;
+    // (undocumented)
     threatIntelligenceIndicator: ThreatIntelligenceIndicator;
     // (undocumented)
     threatIntelligenceIndicatorMetrics: ThreatIntelligenceIndicatorMetrics;
@@ -4846,6 +4902,11 @@ export type SecurityMLAnalyticsSettingsListResponse = SecurityMLAnalyticsSetting
 
 // @public (undocumented)
 export type SecurityMLAnalyticsSettingUnion = SecurityMLAnalyticsSetting | AnomalySecurityMLAnalyticsSettings;
+
+// @public
+export interface SentinelEntityMapping {
+    columnName?: string;
+}
 
 // @public
 export interface SentinelOnboardingState extends ResourceWithEtag {
@@ -5029,6 +5090,83 @@ export interface SubmissionMailEntityProperties extends EntityCommonProperties {
     readonly submitter?: string;
     readonly timestamp?: Date;
 }
+
+// @public
+export interface Summaries {
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, summaryId: string, summary: Summary, options?: SummariesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SummariesCreateOrUpdateResponse>, SummariesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, summaryId: string, summary: Summary, options?: SummariesCreateOrUpdateOptionalParams): Promise<SummariesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, workspaceName: string, summaryId: string, options?: SummariesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, workspaceName: string, summaryId: string, options?: SummariesGetOptionalParams): Promise<SummariesGetResponse>;
+    list(resourceGroupName: string, workspaceName: string, options?: SummariesListOptionalParams): PagedAsyncIterableIterator<Summary>;
+}
+
+// @public
+export interface SummariesCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface SummariesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SummariesCreateOrUpdateResponse = Summary;
+
+// @public
+export interface SummariesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SummariesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SummariesGetResponse = Summary;
+
+// @public
+export interface SummariesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SummariesListNextResponse = SummaryList;
+
+// @public
+export interface SummariesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SummariesListResponse = SummaryList;
+
+// @public
+export interface Summary extends ResourceWithEtag {
+    readonly provisioningState?: ProvisioningState;
+    rawContent?: string;
+    relationId?: string;
+    relationName?: string;
+    searchKey?: string;
+    sourceInfo?: {
+        [propertyName: string]: string;
+    };
+    summaryDescription?: string;
+    summaryId?: string;
+    summaryName?: string;
+    summaryStatus?: SummaryStatus;
+    tactics?: AttackTactic[];
+    techniques?: string[];
+    tenantId?: string;
+    typePropertiesType?: Type;
+}
+
+// @public
+export interface SummaryList {
+    readonly nextLink?: string;
+    value: Summary[];
+}
+
+// @public
+export type SummaryStatus = string;
 
 // @public
 export type SupportTier = string;
@@ -5495,6 +5633,9 @@ export type TriggersOn = string;
 
 // @public
 export type TriggersWhen = string;
+
+// @public
+export type Type = string;
 
 // @public
 export interface Ueba extends Settings {

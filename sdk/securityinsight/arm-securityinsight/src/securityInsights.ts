@@ -48,7 +48,8 @@ import {
   WatchlistItemsImpl,
   DataConnectorsImpl,
   DataConnectorsCheckRequirementsOperationsImpl,
-  OperationsImpl
+  OperationsImpl,
+  SummariesImpl
 } from "./operations";
 import {
   AlertRules,
@@ -84,7 +85,8 @@ import {
   WatchlistItems,
   DataConnectors,
   DataConnectorsCheckRequirementsOperations,
-  Operations
+  Operations,
+  Summaries
 } from "./operationsInterfaces";
 import { SecurityInsightsOptionalParams } from "./models";
 
@@ -174,7 +176,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-01-preview";
+    this.apiVersion = options.apiVersion || "2023-03-01-preview";
     this.alertRules = new AlertRulesImpl(this);
     this.actions = new ActionsImpl(this);
     this.alertRuleTemplates = new AlertRuleTemplatesImpl(this);
@@ -219,6 +221,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
       this
     );
     this.operations = new OperationsImpl(this);
+    this.summaries = new SummariesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -284,4 +287,5 @@ export class SecurityInsights extends coreClient.ServiceClient {
   dataConnectors: DataConnectors;
   dataConnectorsCheckRequirementsOperations: DataConnectorsCheckRequirementsOperations;
   operations: Operations;
+  summaries: Summaries;
 }
