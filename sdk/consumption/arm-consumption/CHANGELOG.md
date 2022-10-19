@@ -1,15 +1,27 @@
 # Release History
+    
+## 10.0.0 (2022-10-19)
+    
+**Features**
 
-## 9.1.1 (Unreleased)
+  - Added operation LotsOperations.listByCustomer
+  - Added Interface LotsListByCustomerNextOptionalParams
+  - Added Interface LotsListByCustomerOptionalParams
+  - Added Type Alias LotsListByCustomerNextResponse
+  - Added Type Alias LotsListByCustomerResponse
+  - Interface CreditSummary has a new optional parameter eTagPropertiesETag
+  - Interface LegacyChargeSummary has a new optional parameter azureMarketplaceCharges
+  - Interface LegacyUsageDetail has a new optional parameter benefitId
+  - Interface LegacyUsageDetail has a new optional parameter benefitName
+  - Enum KnownEventType has a new value CreditExpired
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation ReservationRecommendationDetails.get has a new signature
+  - Interface BudgetFilter no longer has parameter not
+  - Interface LegacyChargeSummary no longer has parameter marketplaceCharges
+    
+    
 ## 9.1.0 (2022-09-05)
     
 **Features**
