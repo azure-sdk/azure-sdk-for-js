@@ -14,7 +14,7 @@ import { CommitmentTier, CommitmentTiersListOptionalParams } from "../models";
 export interface CommitmentTiers {
   /**
    * List Commitment Tiers.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   list(

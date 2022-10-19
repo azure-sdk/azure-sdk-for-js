@@ -28,7 +28,7 @@ export interface DeletedAccounts {
   ): PagedAsyncIterableIterator<Account>;
   /**
    * Returns a Cognitive Services account specified by the parameters.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param options The options parameters.
@@ -41,7 +41,7 @@ export interface DeletedAccounts {
   ): Promise<DeletedAccountsGetResponse>;
   /**
    * Deletes a Cognitive Services account from the resource group.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param options The options parameters.
@@ -54,7 +54,7 @@ export interface DeletedAccounts {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a Cognitive Services account from the resource group.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param options The options parameters.

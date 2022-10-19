@@ -35,7 +35,7 @@ export class CommitmentTiersImpl implements CommitmentTiers {
 
   /**
    * List Commitment Tiers.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   public list(
@@ -81,7 +81,7 @@ export class CommitmentTiersImpl implements CommitmentTiers {
 
   /**
    * List Commitment Tiers.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   private _list(
@@ -96,7 +96,7 @@ export class CommitmentTiersImpl implements CommitmentTiers {
 
   /**
    * ListNext
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
