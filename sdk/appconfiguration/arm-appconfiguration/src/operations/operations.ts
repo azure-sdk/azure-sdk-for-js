@@ -108,7 +108,7 @@ export class OperationsImpl implements Operations {
 
   /**
    * Checks whether the configuration store name is available for use.
-   * @param location The location in which uniqueness will be verified.
+   * @param location The name of Azure region.
    * @param checkNameAvailabilityParameters The object containing information for the availability
    *                                        request.
    * @param options The options parameters.

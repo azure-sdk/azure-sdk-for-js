@@ -10280,7 +10280,7 @@ packages:
     dev: false
 
   file:projects/arm-appconfiguration.tgz:
-    resolution: {integrity: sha512-7AkEvy0JreQzWf8hsOAMnyKnNdZ+ML56vEV+yRH3FHMa36DFRWw/Ls3Gr4SIXBXSr0XXudm+1/oS6e4mxXdUDg==, tarball: file:projects/arm-appconfiguration.tgz}
+    resolution: {integrity: sha512-jdinjARG4uFROby3c2FZ3XRIjZJVc9x6dt1uSESXrvD3t5Qj/3aIVosGfx50eE1thLuVcMw0O3gHoOEOXjWjSQ==, tarball: file:projects/arm-appconfiguration.tgz}
     name: '@rush-temp/arm-appconfiguration'
     version: 0.0.0
     dependencies:
@@ -10299,7 +10299,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.2
     transitivePeerDependencies:
       - '@types/node'
@@ -18799,7 +18799,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-+mEBtT4ZtJbjN7TBwmuFKuK3U0/I8XkxXVPPox138JskqAjcK6qocjTg3xbmbkRHiFpIwbSsop8Wc8/sfbKCDA==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-4zcmjvPogb67MUSz60n54Z1iFbDUoiiuEPlgx0Z1cH16EF7qF8Lgd0TgWO5PPQayZBOHcEHucgnSA1LRgsEXkA==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:

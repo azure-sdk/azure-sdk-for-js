@@ -640,7 +640,7 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
 
   /**
    * Gets a deleted Azure app configuration store.
-   * @param location The location in which uniqueness will be verified.
+   * @param location The name of Azure region.
    * @param configStoreName The name of the configuration store.
    * @param options The options parameters.
    */
@@ -657,7 +657,7 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
 
   /**
    * Permanently deletes the specified configuration store.
-   * @param location The location in which uniqueness will be verified.
+   * @param location The name of Azure region.
    * @param configStoreName The name of the configuration store.
    * @param options The options parameters.
    */
@@ -720,7 +720,7 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
 
   /**
    * Permanently deletes the specified configuration store.
-   * @param location The location in which uniqueness will be verified.
+   * @param location The name of Azure region.
    * @param configStoreName The name of the configuration store.
    * @param options The options parameters.
    */
