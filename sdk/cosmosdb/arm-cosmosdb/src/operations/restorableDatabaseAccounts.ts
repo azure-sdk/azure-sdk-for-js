@@ -40,7 +40,7 @@ export class RestorableDatabaseAccountsImpl
    * Lists all the restorable Azure Cosmos DB database accounts available under the subscription and in a
    * region.  This call requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/read'
    * permission.
-   * @param location Cosmos DB region, with spaces between words and each word capitalized.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   public listByLocation(
@@ -119,7 +119,7 @@ export class RestorableDatabaseAccountsImpl
    * Lists all the restorable Azure Cosmos DB database accounts available under the subscription and in a
    * region.  This call requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/read'
    * permission.
-   * @param location Cosmos DB region, with spaces between words and each word capitalized.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   private _listByLocation(
@@ -146,7 +146,7 @@ export class RestorableDatabaseAccountsImpl
   /**
    * Retrieves the properties of an existing Azure Cosmos DB restorable database account.  This call
    * requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/read/*' permission.
-   * @param location Cosmos DB region, with spaces between words and each word capitalized.
+   * @param location The name of Azure region.
    * @param instanceId The instanceId GUID of a restorable database account.
    * @param options The options parameters.
    */

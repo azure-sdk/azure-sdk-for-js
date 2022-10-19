@@ -26,7 +26,7 @@ export interface Locations {
   ): PagedAsyncIterableIterator<LocationGetResult>;
   /**
    * Get the properties of an existing Cosmos DB location
-   * @param location Cosmos DB region, with spaces between words and each word capitalized.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   get(

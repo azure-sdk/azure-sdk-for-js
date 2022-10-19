@@ -36,7 +36,7 @@ export class RestorableSqlDatabasesImpl implements RestorableSqlDatabases {
    * restorable account.  This helps in scenario where database was accidentally deleted to get the
    * deletion time.  This API requires
    * 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
-   * @param location Cosmos DB region, with spaces between words and each word capitalized.
+   * @param location The name of Azure region.
    * @param instanceId The instanceId GUID of a restorable database account.
    * @param options The options parameters.
    */
@@ -87,7 +87,7 @@ export class RestorableSqlDatabasesImpl implements RestorableSqlDatabases {
    * restorable account.  This helps in scenario where database was accidentally deleted to get the
    * deletion time.  This API requires
    * 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
-   * @param location Cosmos DB region, with spaces between words and each word capitalized.
+   * @param location The name of Azure region.
    * @param instanceId The instanceId GUID of a restorable database account.
    * @param options The options parameters.
    */

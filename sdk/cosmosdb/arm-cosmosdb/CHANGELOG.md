@@ -1,6 +1,6 @@
 # Release History
     
-## 16.0.0-beta.4 (2022-10-09)
+## 15.3.0-beta.1 (2022-10-19)
     
 **Features**
 
@@ -237,13 +237,6 @@
   - Added Enum KnownThroughputPolicyType
   - Enum KnownAuthenticationMethod has a new value Ldap
   - Enum KnownOperationType has a new value Recreate
-
-**Breaking Changes**
-
-  - Interface DatabaseAccountCreateUpdateParameters no longer has parameter identity
-  - Interface DatabaseAccountGetResults no longer has parameter identity
-  - Interface RestoreParameters no longer has parameter restoreSource
-  - Interface RestoreParameters no longer has parameter restoreTimestampInUtc
     
     
 ## 15.2.0 (2022-09-05)

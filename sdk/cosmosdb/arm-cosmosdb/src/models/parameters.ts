@@ -560,6 +560,9 @@ export const createUpdateGremlinGraphParameters: OperationParameter = {
 export const location1: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
+    constraints: {
+      MinLength: 1
+    },
     serializedName: "location",
     required: true,
     type: {

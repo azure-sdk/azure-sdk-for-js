@@ -19,7 +19,7 @@ export interface RestorableTables {
    * Show the event feed of all mutations done on all the Azure Cosmos DB Tables. This helps in scenario
    * where table was accidentally deleted. This API requires
    * 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
-   * @param location Cosmos DB region, with spaces between words and each word capitalized.
+   * @param location The name of Azure region.
    * @param instanceId The instanceId GUID of a restorable database account.
    * @param options The options parameters.
    */
