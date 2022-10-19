@@ -33,7 +33,7 @@ export interface Service {
    * This method provides the list of available skus for the given subscription, resource group and
    * location.
    * @param resourceGroupName The Resource Group Name
-   * @param location The location of the resource
+   * @param location The name of Azure region.
    * @param availableSkuRequest Filters for showing the available skus.
    * @param options The options parameters.
    */
@@ -46,7 +46,7 @@ export interface Service {
   /**
    * [DEPRECATED NOTICE: This operation will soon be removed]. This method validates the customer
    * shipping address and provide alternate addresses if any.
-   * @param location The location of the resource
+   * @param location The name of Azure region.
    * @param validateAddress Shipping address of the customer.
    * @param options The options parameters.
    */
@@ -58,7 +58,7 @@ export interface Service {
   /**
    * This method does all necessary pre-job creation validation under resource group.
    * @param resourceGroupName The Resource Group Name
-   * @param location The location of the resource
+   * @param location The name of Azure region.
    * @param validationRequest Inputs of the customer.
    * @param options The options parameters.
    */
@@ -70,7 +70,7 @@ export interface Service {
   ): Promise<ServiceValidateInputsByResourceGroupResponse>;
   /**
    * This method does all necessary pre-job creation validation under subscription.
-   * @param location The location of the resource
+   * @param location The name of Azure region.
    * @param validationRequest Inputs of the customer.
    * @param options The options parameters.
    */
@@ -81,7 +81,7 @@ export interface Service {
   ): Promise<ServiceValidateInputsResponse>;
   /**
    * This API provides configuration details specific to given region/location at Subscription level.
-   * @param location The location of the resource
+   * @param location The name of Azure region.
    * @param regionConfigurationRequest Request body to get the configuration for the region.
    * @param options The options parameters.
    */
@@ -93,7 +93,7 @@ export interface Service {
   /**
    * This API provides configuration details specific to given region/location at Resource group level.
    * @param resourceGroupName The Resource Group Name
-   * @param location The location of the resource
+   * @param location The name of Azure region.
    * @param regionConfigurationRequest Request body to get the configuration for the region at resource
    *                                   group level.
    * @param options The options parameters.

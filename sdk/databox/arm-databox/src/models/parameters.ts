@@ -51,7 +51,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-08-01-preview",
+    defaultValue: "2022-02-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -190,6 +190,9 @@ export const availableSkuRequest: OperationParameter = {
 export const location: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
+    constraints: {
+      MinLength: 1
+    },
     serializedName: "location",
     required: true,
     type: {
