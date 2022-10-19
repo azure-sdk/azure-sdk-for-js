@@ -42,7 +42,7 @@ export class LocationsImpl implements Locations {
 
   /**
    * Gets the capabilities for the specified location.
-   * @param location The Azure location (region) for which to make the request.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   getCapabilities(
@@ -57,7 +57,7 @@ export class LocationsImpl implements Locations {
 
   /**
    * Lists the usages for the specified location.
-   * @param location The Azure location (region) for which to make the request.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   listUsages(
@@ -72,7 +72,7 @@ export class LocationsImpl implements Locations {
 
   /**
    * Lists the billingSpecs for the specified subscription and location.
-   * @param location The Azure location (region) for which to make the request.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   listBillingSpecs(
@@ -87,7 +87,7 @@ export class LocationsImpl implements Locations {
 
   /**
    * Get the async operation status.
-   * @param location The Azure location (region) for which to make the request.
+   * @param location The name of Azure region.
    * @param operationId The long running operation id.
    * @param options The options parameters.
    */
@@ -104,7 +104,7 @@ export class LocationsImpl implements Locations {
 
   /**
    * Check the cluster name is available or not.
-   * @param location The Azure location (region) for which to make the request.
+   * @param location The name of Azure region.
    * @param parameters The request spec of checking name availability.
    * @param options The options parameters.
    */
@@ -121,7 +121,7 @@ export class LocationsImpl implements Locations {
 
   /**
    * Validate the cluster create request spec is valid or not.
-   * @param location The Azure location (region) for which to make the request.
+   * @param location The name of Azure region.
    * @param parameters The cluster create request specification.
    * @param options The options parameters.
    */
