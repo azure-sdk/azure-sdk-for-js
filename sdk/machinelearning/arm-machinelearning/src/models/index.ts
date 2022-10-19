@@ -30,6 +30,8 @@ export type WorkspaceConnectionPropertiesV2Union =
   | PATAuthTypeWorkspaceConnectionProperties
   | SASAuthTypeWorkspaceConnectionProperties
   | UsernamePasswordAuthTypeWorkspaceConnectionProperties
+  | AccessKeyAuthTypeWorkspaceConnectionProperties
+  | ServicePrincipalAuthTypeWorkspaceConnectionProperties
   | NoneAuthTypeWorkspaceConnectionProperties
   | ManagedIdentityAuthTypeWorkspaceConnectionProperties;
 export type AssetReferenceBaseUnion =
@@ -41,6 +43,8 @@ export type DatastoreCredentialsUnion =
   | DatastoreCredentials
   | AccountKeyDatastoreCredentials
   | CertificateDatastoreCredentials
+  | KerberosKeytabCredentials
+  | KerberosPasswordCredentials
   | NoneDatastoreCredentials
   | SasDatastoreCredentials
   | ServicePrincipalDatastoreCredentials;
@@ -48,6 +52,8 @@ export type DatastoreSecretsUnion =
   | DatastoreSecrets
   | AccountKeyDatastoreSecrets
   | CertificateDatastoreSecrets
+  | KerberosKeytabSecrets
+  | KerberosPasswordSecrets
   | SasDatastoreSecrets
   | ServicePrincipalDatastoreSecrets;
 export type IdentityConfigurationUnion =
@@ -55,10 +61,75 @@ export type IdentityConfigurationUnion =
   | AmlToken
   | ManagedIdentity
   | UserIdentity;
+export type NodesUnion = Nodes | AllNodes;
+export type LabelingJobMediaPropertiesUnion =
+  | LabelingJobMediaProperties
+  | LabelingJobImageProperties
+  | LabelingJobTextProperties;
+export type MLAssistConfigurationUnion =
+  | MLAssistConfiguration
+  | MLAssistConfigurationDisabled
+  | MLAssistConfigurationEnabled;
+export type ExportSummaryUnion =
+  | ExportSummary
+  | CocoExportSummary
+  | CsvExportSummary
+  | DatasetExportSummary;
 export type OnlineScaleSettingsUnion =
   | OnlineScaleSettings
   | DefaultScaleSettings
   | TargetUtilizationScaleSettings;
+export type ScheduleActionBaseUnion =
+  | ScheduleActionBase
+  | EndpointScheduleAction
+  | JobScheduleAction;
+export type TriggerBaseUnion = TriggerBase | CronTrigger | RecurrenceTrigger;
+export type ForecastHorizonUnion =
+  | ForecastHorizon
+  | AutoForecastHorizon
+  | CustomForecastHorizon;
+export type JobOutputUnion =
+  | JobOutput
+  | CustomModelJobOutput
+  | MLFlowModelJobOutput
+  | MLTableJobOutput
+  | TritonModelJobOutput
+  | UriFileJobOutput
+  | UriFolderJobOutput;
+export type AutoMLVerticalUnion =
+  | AutoMLVertical
+  | Classification
+  | Forecasting
+  | ImageClassification
+  | ImageClassificationMultilabel
+  | ImageInstanceSegmentation
+  | ImageObjectDetection
+  | Regression
+  | TextClassification
+  | TextClassificationMultilabel
+  | TextNer;
+export type JobInputUnion =
+  | JobInput
+  | MLTableJobInput
+  | CustomModelJobInput
+  | MLFlowModelJobInput
+  | LiteralJobInput
+  | TritonModelJobInput
+  | UriFileJobInput
+  | UriFolderJobInput;
+export type NCrossValidationsUnion =
+  | NCrossValidations
+  | AutoNCrossValidations
+  | CustomNCrossValidations;
+export type SeasonalityUnion =
+  | Seasonality
+  | AutoSeasonality
+  | CustomSeasonality;
+export type TargetLagsUnion = TargetLags | AutoTargetLags | CustomTargetLags;
+export type TargetRollingWindowSizeUnion =
+  | TargetRollingWindowSize
+  | AutoTargetRollingWindowSize
+  | CustomTargetRollingWindowSize;
 export type EarlyTerminationPolicyUnion =
   | EarlyTerminationPolicy
   | BanditPolicy
@@ -74,39 +145,30 @@ export type DistributionConfigurationUnion =
   | Mpi
   | PyTorch
   | TensorFlow;
-export type JobInputUnion =
-  | JobInput
-  | CustomModelJobInput
-  | LiteralJobInput
-  | MLFlowModelJobInput
-  | MLTableJobInput
-  | TritonModelJobInput
-  | UriFileJobInput
-  | UriFolderJobInput;
 export type JobLimitsUnion = JobLimits | CommandJobLimits | SweepJobLimits;
-export type JobOutputUnion =
-  | JobOutput
-  | CustomModelJobOutput
-  | MLFlowModelJobOutput
-  | MLTableJobOutput
-  | TritonModelJobOutput
-  | UriFileJobOutput
-  | UriFolderJobOutput;
-export type OnlineDeploymentPropertiesUnion =
-  | OnlineDeploymentProperties
-  | KubernetesOnlineDeployment
-  | ManagedOnlineDeployment;
+export type SparkJobEntryUnion =
+  | SparkJobEntry
+  | SparkJobPythonEntry
+  | SparkJobScalaEntry;
 export type DatastorePropertiesUnion =
   | DatastoreProperties
   | AzureBlobDatastore
   | AzureDataLakeGen1Datastore
   | AzureDataLakeGen2Datastore
-  | AzureFileDatastore;
+  | AzureFileDatastore
+  | HdfsDatastore;
 export type JobBasePropertiesUnion =
   | JobBaseProperties
+  | LabelingJobProperties
+  | AutoMLJob
   | CommandJob
   | PipelineJob
+  | SparkJob
   | SweepJob;
+export type OnlineDeploymentPropertiesUnion =
+  | OnlineDeploymentProperties
+  | KubernetesOnlineDeployment
+  | ManagedOnlineDeployment;
 export type DataVersionBasePropertiesUnion =
   | DataVersionBaseProperties
   | MLTableData
@@ -115,11 +177,11 @@ export type DataVersionBasePropertiesUnion =
 
 /** An array of operations supported by the resource provider. */
 export interface AmlOperationListResult {
-  /** List of AML workspace operations supported by the AML workspace resource provider. */
+  /** List of AML operations supported by the AML resource provider. */
   value?: AmlOperation[];
 }
 
-/** Azure Machine Learning workspace REST API operation */
+/** Azure Machine Learning REST API operation */
 export interface AmlOperation {
   /** Operation name: {provider}/{resource}/{operation} */
   name?: string;
@@ -384,6 +446,18 @@ export interface WorkspaceUpdateParameters {
   applicationInsights?: string;
   /** ARM id of the container registry associated with this workspace. */
   containerRegistry?: string;
+  /** The encryption settings of the workspace. */
+  encryption?: EncryptionUpdateProperties;
+}
+
+export interface EncryptionUpdateProperties {
+  /** Customer Key vault properties. */
+  keyVaultProperties: EncryptionKeyVaultUpdateProperties;
+}
+
+export interface EncryptionKeyVaultUpdateProperties {
+  /** Key Vault uri to access the encryption key. */
+  keyIdentifier: string;
 }
 
 /** The result of a request to list machine learning workspaces. */
@@ -792,7 +866,7 @@ export interface Compute {
    * The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and Failed.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: ComputeProvisioningState;
   /** The description of the Machine Learning compute. */
   description?: string;
   /**
@@ -817,8 +891,11 @@ export interface Compute {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isAttachedCompute?: boolean;
-  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
-  disableLocalAuth?: boolean;
+  /**
+   * Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly disableLocalAuth?: boolean;
 }
 
 /** AmlCompute update parameters. */
@@ -841,6 +918,100 @@ export interface ScaleSettings {
   minNodeCount?: number;
   /** Node Idle Time before scaling down amlCompute. This string needs to be in the RFC Format. */
   nodeIdleTimeBeforeScaleDown?: string;
+}
+
+/** Specifies the custom service configuration */
+export interface CustomService {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** Name of the Custom Service */
+  name?: string;
+  /** Describes the Image Specifications */
+  image?: Image;
+  /** Environment Variable for the container */
+  environmentVariables?: { [propertyName: string]: EnvironmentVariable };
+  /** Describes the docker settings for the image */
+  docker?: Docker;
+  /** Configuring the endpoints for the container */
+  endpoints?: Endpoint[];
+  /** Configuring the volumes for the container */
+  volumes?: VolumeDefinition[];
+}
+
+export interface Image {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** Type of the image. Possible values are: docker - For docker images. azureml - For AzureML images */
+  type?: ImageType;
+  /** Image reference URL */
+  reference?: string;
+}
+
+export interface EnvironmentVariable {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** Type of the Environment Variable. Possible values are: local - For local variable */
+  type?: EnvironmentVariableType;
+  /** Value of the Environment variable */
+  value?: string;
+}
+
+export interface Docker {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** Indicate whether container shall run in privileged or non-privileged mode. */
+  privileged?: boolean;
+}
+
+export interface Endpoint {
+  /** Protocol over which communication will happen over this endpoint */
+  protocol?: Protocol;
+  /** Name of the Endpoint */
+  name?: string;
+  /** Application port inside the container. */
+  target?: number;
+  /** Port over which the application is exposed from container. */
+  published?: number;
+  /** Host IP over which the application is exposed from the container */
+  hostIp?: string;
+}
+
+export interface VolumeDefinition {
+  /** Type of Volume Definition. Possible Values: bind,volume,tmpfs,npipe */
+  type?: VolumeDefinitionType;
+  /** Indicate whether to mount volume as readOnly. Default value for this is false. */
+  readOnly?: boolean;
+  /** Source of the mount. For bind mounts this is the host path. */
+  source?: string;
+  /** Target of the mount. For bind mounts this is the path in the container. */
+  target?: string;
+  /** Consistency of the volume */
+  consistency?: string;
+  /** Bind Options of the mount */
+  bind?: BindOptions;
+  /** Volume Options of the mount */
+  volume?: VolumeOptions;
+  /** tmpfs option of the mount */
+  tmpfs?: TmpfsOptions;
+}
+
+export interface BindOptions {
+  /** Type of Bind Option */
+  propagation?: string;
+  /** Indicate whether to create host path. */
+  createHostPath?: boolean;
+  /** Mention the selinux options. */
+  selinux?: string;
+}
+
+export interface VolumeOptions {
+  /** Indicate whether volume is nocopy */
+  nocopy?: boolean;
+}
+
+export interface TmpfsOptions {
+  /** Mention the Tmpfs size */
+  size?: number;
 }
 
 /** Result of AmlCompute Nodes */
@@ -916,6 +1087,12 @@ export interface ComputeSecrets {
   computeType: "AKS" | "VirtualMachine" | "Databricks";
 }
 
+/** Stops compute instance after user defined period of inactivity. */
+export interface IdleShutdownSetting {
+  /** Time is defined in ISO8601 format. Minimum is 15 min, maximum is 3 days. */
+  idleTimeBeforeShutdown?: string;
+}
+
 /** List of private endpoint connection associated with the specified workspace */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private endpoint connections */
@@ -935,9 +1112,16 @@ export interface ListStorageAccountKeysResult {
 
 export interface WorkspaceConnectionPropertiesV2 {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  authType: "PAT" | "SAS" | "UsernamePassword" | "None" | "ManagedIdentity";
+  authType:
+    | "PAT"
+    | "SAS"
+    | "UsernamePassword"
+    | "AccessKey"
+    | "ServicePrincipal"
+    | "None"
+    | "ManagedIdentity";
   /** Category of the connection */
-  category?: ConnectionCategory;
+  category?: string;
   target?: string;
   /** Value details of the workspace connection. */
   value?: string;
@@ -971,6 +1155,114 @@ export interface FqdnEndpoint {
 
 export interface FqdnEndpointDetail {
   port?: number;
+}
+
+/** A paginated list of CodeContainer entities. */
+export interface CodeContainerResourceArmPaginatedResult {
+  /** The link to the next page of CodeContainer objects. If null, there are no additional pages. */
+  nextLink?: string;
+  /** An array of objects of type CodeContainer. */
+  value?: CodeContainer[];
+}
+
+export interface ResourceBase {
+  /** The asset description text. */
+  description?: string;
+  /** The asset property dictionary. */
+  properties?: { [propertyName: string]: string | null };
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: { [propertyName: string]: string | null };
+}
+
+/** A paginated list of CodeVersion entities. */
+export interface CodeVersionResourceArmPaginatedResult {
+  /** The link to the next page of CodeVersion objects. If null, there are no additional pages. */
+  nextLink?: string;
+  /** An array of objects of type CodeVersion. */
+  value?: CodeVersion[];
+}
+
+/** A paginated list of ComponentContainer entities. */
+export interface ComponentContainerResourceArmPaginatedResult {
+  /** The link to the next page of ComponentContainer objects. If null, there are no additional pages. */
+  nextLink?: string;
+  /** An array of objects of type ComponentContainer. */
+  value?: ComponentContainer[];
+}
+
+/** A paginated list of ComponentVersion entities. */
+export interface ComponentVersionResourceArmPaginatedResult {
+  /** The link to the next page of ComponentVersion objects. If null, there are no additional pages. */
+  nextLink?: string;
+  /** An array of objects of type ComponentVersion. */
+  value?: ComponentVersion[];
+}
+
+/** A paginated list of EnvironmentContainer entities. */
+export interface EnvironmentContainerResourceArmPaginatedResult {
+  /** The link to the next page of EnvironmentContainer objects. If null, there are no additional pages. */
+  nextLink?: string;
+  /** An array of objects of type EnvironmentContainer. */
+  value?: EnvironmentContainer[];
+}
+
+/** A paginated list of EnvironmentVersion entities. */
+export interface EnvironmentVersionResourceArmPaginatedResult {
+  /** The link to the next page of EnvironmentVersion objects. If null, there are no additional pages. */
+  nextLink?: string;
+  /** An array of objects of type EnvironmentVersion. */
+  value?: EnvironmentVersion[];
+}
+
+/** Configuration settings for Docker build context */
+export interface BuildContext {
+  /**
+   * [Required] URI of the Docker build context used to build the image. Supports blob URIs on environment creation and may return blob or Git URIs.
+   * <seealso href="https://docs.docker.com/engine/reference/commandline/build/#extended-description" />
+   */
+  contextUri: string;
+  /**
+   * Path to the Dockerfile in the build context.
+   * <seealso href="https://docs.docker.com/engine/reference/builder/" />
+   */
+  dockerfilePath?: string;
+}
+
+export interface InferenceContainerProperties {
+  /** The route to check the liveness of the inference server container. */
+  livenessRoute?: Route;
+  /** The route to check the readiness of the inference server container. */
+  readinessRoute?: Route;
+  /** The port to send the scoring requests to, within the inference server container. */
+  scoringRoute?: Route;
+}
+
+export interface Route {
+  /** [Required] The path for the route. */
+  path: string;
+  /** [Required] The port for the route. */
+  port: number;
+}
+
+/** A paginated list of ModelContainer entities. */
+export interface ModelContainerResourceArmPaginatedResult {
+  /** The link to the next page of ModelContainer objects. If null, there are no additional pages. */
+  nextLink?: string;
+  /** An array of objects of type ModelContainer. */
+  value?: ModelContainer[];
+}
+
+/** A paginated list of ModelVersion entities. */
+export interface ModelVersionResourceArmPaginatedResult {
+  /** The link to the next page of ModelVersion objects. If null, there are no additional pages. */
+  nextLink?: string;
+  /** An array of objects of type ModelVersion. */
+  value?: ModelVersion[];
+}
+
+export interface FlavorData {
+  /** Model flavor-specific data. */
+  data?: { [propertyName: string]: string | null };
 }
 
 /** A paginated list of BatchEndpoint entities. */
@@ -1074,7 +1366,7 @@ export interface EndpointDeploymentPropertiesBase {
   codeConfiguration?: CodeConfiguration;
   /** Description of the endpoint deployment. */
   description?: string;
-  /** ARM resource ID or AssetId of the environment specification for the endpoint deployment. */
+  /** ARM resource ID of the environment specification for the endpoint deployment. */
   environmentId?: string;
   /** Environment variables configuration for the deployment. */
   environmentVariables?: { [propertyName: string]: string | null };
@@ -1102,47 +1394,6 @@ export interface PartialBatchDeploymentPartialMinimalTrackedResourceWithProperti
 export interface PartialBatchDeployment {
   /** Description of the endpoint deployment. */
   description?: string;
-}
-
-/** A paginated list of CodeContainer entities. */
-export interface CodeContainerResourceArmPaginatedResult {
-  /** The link to the next page of CodeContainer objects. If null, there are no additional pages. */
-  nextLink?: string;
-  /** An array of objects of type CodeContainer. */
-  value?: CodeContainer[];
-}
-
-export interface ResourceBase {
-  /** The asset description text. */
-  description?: string;
-  /** The asset property dictionary. */
-  properties?: { [propertyName: string]: string | null };
-  /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: { [propertyName: string]: string | null };
-}
-
-/** A paginated list of CodeVersion entities. */
-export interface CodeVersionResourceArmPaginatedResult {
-  /** The link to the next page of CodeVersion objects. If null, there are no additional pages. */
-  nextLink?: string;
-  /** An array of objects of type CodeVersion. */
-  value?: CodeVersion[];
-}
-
-/** A paginated list of ComponentContainer entities. */
-export interface ComponentContainerResourceArmPaginatedResult {
-  /** The link to the next page of ComponentContainer objects. If null, there are no additional pages. */
-  nextLink?: string;
-  /** An array of objects of type ComponentContainer. */
-  value?: ComponentContainer[];
-}
-
-/** A paginated list of ComponentVersion entities. */
-export interface ComponentVersionResourceArmPaginatedResult {
-  /** The link to the next page of ComponentVersion objects. If null, there are no additional pages. */
-  nextLink?: string;
-  /** An array of objects of type ComponentVersion. */
-  value?: ComponentVersion[];
 }
 
 /** A paginated list of DataContainer entities. */
@@ -1175,6 +1426,8 @@ export interface DatastoreCredentials {
   credentialsType:
     | "AccountKey"
     | "Certificate"
+    | "KerberosKeytab"
+    | "KerberosPassword"
     | "None"
     | "Sas"
     | "ServicePrincipal";
@@ -1183,53 +1436,13 @@ export interface DatastoreCredentials {
 /** Base definition for datastore secrets. */
 export interface DatastoreSecrets {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  secretsType: "AccountKey" | "Certificate" | "Sas" | "ServicePrincipal";
-}
-
-/** A paginated list of EnvironmentContainer entities. */
-export interface EnvironmentContainerResourceArmPaginatedResult {
-  /** The link to the next page of EnvironmentContainer objects. If null, there are no additional pages. */
-  nextLink?: string;
-  /** An array of objects of type EnvironmentContainer. */
-  value?: EnvironmentContainer[];
-}
-
-/** A paginated list of EnvironmentVersion entities. */
-export interface EnvironmentVersionResourceArmPaginatedResult {
-  /** The link to the next page of EnvironmentVersion objects. If null, there are no additional pages. */
-  nextLink?: string;
-  /** An array of objects of type EnvironmentVersion. */
-  value?: EnvironmentVersion[];
-}
-
-/** Configuration settings for Docker build context */
-export interface BuildContext {
-  /**
-   * [Required] URI of the Docker build context used to build the image. Supports blob URIs on environment creation and may return blob or Git URIs.
-   * <seealso href="https://docs.docker.com/engine/reference/commandline/build/#extended-description" />
-   */
-  contextUri: string;
-  /**
-   * Path to the Dockerfile in the build context.
-   * <seealso href="https://docs.docker.com/engine/reference/builder/" />
-   */
-  dockerfilePath?: string;
-}
-
-export interface InferenceContainerProperties {
-  /** The route to check the liveness of the inference server container. */
-  livenessRoute?: Route;
-  /** The route to check the readiness of the inference server container. */
-  readinessRoute?: Route;
-  /** The port to send the scoring requests to, within the inference server container. */
-  scoringRoute?: Route;
-}
-
-export interface Route {
-  /** [Required] The path for the route. */
-  path: string;
-  /** [Required] The port for the route. */
-  port: number;
+  secretsType:
+    | "AccountKey"
+    | "Certificate"
+    | "KerberosKeytab"
+    | "KerberosPassword"
+    | "Sas"
+    | "ServicePrincipal";
 }
 
 /** A paginated list of JobBase entities. */
@@ -1257,7 +1470,12 @@ export interface JobService {
   readonly errorMessage?: string;
   /** Endpoint type. */
   jobServiceType?: string;
-  /** Port for endpoint. */
+  /**
+   * Nodes that user would like to start the service on.
+   * If Nodes is not set or set to null, the service will only be started on leader node.
+   */
+  nodes?: NodesUnion;
+  /** Port for endpoint set by user. */
   port?: number;
   /** Additional properties to set on the endpoint. */
   properties?: { [propertyName: string]: string | null };
@@ -1268,25 +1486,135 @@ export interface JobService {
   readonly status?: string;
 }
 
-/** A paginated list of ModelContainer entities. */
-export interface ModelContainerResourceArmPaginatedResult {
-  /** The link to the next page of ModelContainer objects. If null, there are no additional pages. */
-  nextLink?: string;
-  /** An array of objects of type ModelContainer. */
-  value?: ModelContainer[];
+/** Abstract Nodes definition */
+export interface Nodes {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  nodesValueType: "All";
 }
 
-/** A paginated list of ModelVersion entities. */
-export interface ModelVersionResourceArmPaginatedResult {
-  /** The link to the next page of ModelVersion objects. If null, there are no additional pages. */
+/** A paginated list of LabelingJob entities. */
+export interface LabelingJobResourceArmPaginatedResult {
+  /** The link to the next page of LabelingJob objects. If null, there are no additional pages. */
   nextLink?: string;
-  /** An array of objects of type ModelVersion. */
-  value?: ModelVersion[];
+  /** An array of objects of type LabelingJob. */
+  value?: LabelingJob[];
 }
 
-export interface FlavorData {
-  /** Model flavor-specific data. */
-  data?: { [propertyName: string]: string | null };
+/** Labeling data configuration definition */
+export interface LabelingDataConfiguration {
+  /** Resource Id of the data asset to perform labeling. */
+  dataId?: string;
+  /** Indicates whether to enable incremental data refresh. */
+  incrementalDataRefreshEnabled?: boolean;
+}
+
+/** Instructions for labeling job */
+export interface LabelingJobInstructions {
+  /** The link to a page with detailed labeling instructions for labelers. */
+  uri?: string;
+}
+
+/** Label category definition */
+export interface LabelCategory {
+  /** Dictionary of label classes in this category. */
+  classes?: { [propertyName: string]: LabelClass | null };
+  /** Display name of the label category. */
+  displayName?: string;
+  /** Indicates whether it is allowed to select multiple classes in this category. */
+  multiSelectEnabled?: boolean;
+}
+
+/** Label class definition */
+export interface LabelClass {
+  /** Display name of the label class. */
+  displayName?: string;
+  /** Dictionary of subclasses of the label class. */
+  subclasses?: { [propertyName: string]: LabelClass | null };
+}
+
+/** Properties of a labeling job */
+export interface LabelingJobMediaProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mediaType: "Image" | "Text";
+}
+
+/** Labeling MLAssist configuration definition */
+export interface MLAssistConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mlAssist: "Disabled" | "Enabled";
+}
+
+/** Progress metrics definition */
+export interface ProgressMetrics {
+  /**
+   * The completed datapoint count.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly completedDatapointCount?: number;
+  /**
+   * The time of last successful incremental data refresh in UTC.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly incrementalDataLastRefreshDateTime?: Date;
+  /**
+   * The skipped datapoint count.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skippedDatapointCount?: number;
+  /**
+   * The total datapoint count.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalDatapointCount?: number;
+}
+
+/** Active message associated with project */
+export interface StatusMessage {
+  /**
+   * Service-defined message code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Time in UTC at which the message was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDateTime?: Date;
+  /**
+   * Severity level of message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly level?: StatusMessageLevel;
+  /**
+   * A human-readable representation of the message code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+export interface ExportSummary {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  format: "Coco" | "CSV" | "Dataset";
+  /**
+   * The time when the export was completed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endDateTime?: Date;
+  /**
+   * The total number of labeled datapoints exported.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly exportedRowCount?: number;
+  /**
+   * Name and identifier of the job containing exported labels.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly labelingJobId?: string;
+  /**
+   * The time when the export was requested.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startDateTime?: Date;
 }
 
 /** A paginated list of OnlineEndpoint entities. */
@@ -1427,6 +1755,37 @@ export interface EndpointAuthToken {
   tokenType?: string;
 }
 
+/** A paginated list of Schedule entities. */
+export interface ScheduleResourceArmPaginatedResult {
+  /** The link to the next page of Schedule objects. If null, there are no additional pages. */
+  nextLink?: string;
+  /** An array of objects of type Schedule. */
+  value?: Schedule[];
+}
+
+export interface ScheduleActionBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  actionType: "InvokeBatchEndpoint" | "CreateJob";
+}
+
+export interface TriggerBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  triggerType: "Cron" | "Recurrence";
+  /**
+   * Specifies end time of schedule in ISO 8601, but without a UTC offset. Refer https://en.wikipedia.org/wiki/ISO_8601.
+   * Recommented format would be "2022-06-01T00:00:01"
+   * If not present, the schedule will run indefinitely
+   */
+  endTime?: string;
+  /** Specifies start time of schedule in ISO 8601 format, but without a UTC offset. */
+  startTime?: string;
+  /**
+   * Specifies time zone in which the schedule runs.
+   * TimeZone should follow Windows time zone format. Refer: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11
+   */
+  timeZone?: string;
+}
+
 /** The List Aml user feature operation response. */
 export interface ListAmlUserFeatureResult {
   /**
@@ -1449,6 +1808,93 @@ export interface AmlUserFeature {
   displayName?: string;
   /** Describes the feature for user experience */
   description?: string;
+}
+
+/** A paginated list of Registry entities. */
+export interface RegistryTrackedResourceArmPaginatedResult {
+  /** The link to the next page of Registry objects. If null, there are no additional pages. */
+  nextLink?: string;
+  /** An array of objects of type Registry. */
+  value?: Registry[];
+}
+
+/** ARM ResourceId of a resource */
+export interface ArmResourceId {
+  /**
+   * Arm ResourceId is in the format "/subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Storage/storageAccounts/{StorageAccountName}"
+   * or "/subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{AcrName}"
+   */
+  resourceId?: string;
+}
+
+/** Details for each region the registry is in */
+export interface RegistryRegionArmDetails {
+  /** List of ACR accounts */
+  acrDetails?: AcrDetails[];
+  /** The location where the registry exists */
+  location?: string;
+  /** List of storage accounts */
+  storageAccountDetails?: StorageAccountDetails[];
+}
+
+/** Details of ACR account to be used for the Registry */
+export interface AcrDetails {
+  systemCreatedAcrAccount?: SystemCreatedAcrAccount;
+  userCreatedAcrAccount?: UserCreatedAcrAccount;
+}
+
+export interface SystemCreatedAcrAccount {
+  acrAccountSku?: string;
+  /** ARM ResourceId of a resource */
+  armResourceId?: ArmResourceId;
+}
+
+export interface UserCreatedAcrAccount {
+  /** ARM ResourceId of a resource */
+  armResourceId?: ArmResourceId;
+}
+
+/** Details of storage account to be used for the Registry */
+export interface StorageAccountDetails {
+  systemCreatedStorageAccount?: SystemCreatedStorageAccount;
+  userCreatedStorageAccount?: UserCreatedStorageAccount;
+}
+
+export interface SystemCreatedStorageAccount {
+  /** ARM ResourceId of a resource */
+  armResourceId?: ArmResourceId;
+  storageAccountHnsEnabled?: boolean;
+  /**
+   * Allowed values:
+   * "Standard_LRS",
+   * "Standard_GRS",
+   * "Standard_RAGRS",
+   * "Standard_ZRS",
+   * "Standard_GZRS",
+   * "Standard_RAGZRS",
+   * "Premium_LRS",
+   * "Premium_ZRS"
+   */
+  storageAccountType?: string;
+}
+
+export interface UserCreatedStorageAccount {
+  /** ARM ResourceId of a resource */
+  armResourceId?: ArmResourceId;
+}
+
+/** Strictly used in update requests. */
+export interface PartialRegistryPartialTrackedResource {
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: PartialManagedServiceIdentity;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
+  kind?: string;
+  /** Additional attributes of the entity. */
+  properties?: Record<string, unknown>;
+  /** Sku details required for ARM contract for Autoscaling. */
+  sku?: PartialSku;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string | null };
 }
 
 /** Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet. */
@@ -1696,8 +2142,17 @@ export interface ComputeInstanceProperties {
   subnet?: ResourceId;
   /** Policy for sharing applications on this compute instance among users of parent workspace. If Personal, only the creator can access applications on this compute instance. When Shared, any workspace user can access applications on this instance depending on his/her assigned role. */
   applicationSharingPolicy?: ApplicationSharingPolicy;
+  /** Specifies settings for autologger. */
+  autologgerSettings?: ComputeInstanceAutologgerSettings;
   /** Specifies policy and settings for SSH access. */
   sshSettings?: ComputeInstanceSshSettings;
+  /** List of Custom Services added to the compute. */
+  customServices?: CustomService[];
+  /**
+   * Returns metadata about the operating system image for this compute instance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly osImageMetadata?: ImageMetadata;
   /**
    * Describes all connectivity endpoints available for this ComputeInstance.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1739,6 +2194,8 @@ export interface ComputeInstanceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly schedules?: ComputeSchedules;
+  /** Stops compute instance after user defined period of inactivity. Time is defined in ISO8601 format. Minimum is 15 min, maximum is 3 days. */
+  idleTimeBeforeShutdown?: string;
   /** Enable or disable node public IP address provisioning. Possible values are: Possible values are: true - Indicates that the compute nodes will have public IPs provisioned. false - Indicates that the compute nodes will have a private endpoint and no public IPs. */
   enableNodePublicIp?: boolean;
   /**
@@ -1763,6 +2220,12 @@ export interface ComputeInstanceProperties {
   readonly versions?: ComputeInstanceVersion;
 }
 
+/** Specifies settings for autologger. */
+export interface ComputeInstanceAutologgerSettings {
+  /** Indicates whether mlflow autologger is enabled for notebooks. */
+  mlflowAutologger?: MlflowAutologger;
+}
+
 /** Specifies policy and settings for SSH access. */
 export interface ComputeInstanceSshSettings {
   /** State of the public SSH port. Possible values are: Disabled - Indicates that the public ssh port is closed on this instance. Enabled - Indicates that the public ssh port is open and accessible according to the VNet/subnet policy if applicable. */
@@ -1779,6 +2242,16 @@ export interface ComputeInstanceSshSettings {
   readonly sshPort?: number;
   /** Specifies the SSH rsa public key file as a string. Use "ssh-keygen -t rsa -b 2048" to generate your SSH key pairs. */
   adminPublicKey?: string;
+}
+
+/** Returns metadata about the operating system image for this compute instance. */
+export interface ImageMetadata {
+  /** Specifies the current operating system image version this compute instance is running on. */
+  currentImageVersion?: string;
+  /** Specifies the latest available operating system image version. */
+  latestImageVersion?: string;
+  /** Specifies whether this compute instance is running on the latest operating system image. */
+  isLatestOsImageVersion?: boolean;
 }
 
 /** Defines all connectivity endpoints and properties for an ComputeInstance. */
@@ -1852,7 +2325,7 @@ export interface ScriptsToExecute {
 
 /** Script reference */
 export interface ScriptReference {
-  /** The storage source of the script: inline, workspace. */
+  /** The storage source of the script: workspace. */
   scriptSource?: string;
   /** The location of scripts in the mounted volume. */
   scriptData?: string;
@@ -1883,7 +2356,7 @@ export interface ComputeSchedules {
 /** Compute start stop schedule properties */
 export interface ComputeStartStopSchedule {
   /**
-   * Schedule id.
+   * A system assigned id for the schedule.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -1892,14 +2365,69 @@ export interface ComputeStartStopSchedule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningStatus?: ProvisioningStatus;
-  /** The compute power action. */
+  /** Is the schedule enabled or disabled? */
+  status?: ScheduleStatus;
+  /** [Required] The compute power action. */
   action?: ComputePowerAction;
+  triggerType?: TriggerType;
+  /** The workflow trigger recurrence for ComputeStartStop schedule type. */
+  recurrence?: Recurrence;
+  /** The workflow trigger cron for ComputeStartStop schedule type. */
+  cron?: Cron;
+  /** [Deprecated] Not used any more. */
   schedule?: ScheduleBase;
 }
 
+/** The workflow trigger recurrence for ComputeStartStop schedule type. */
+export interface Recurrence {
+  /** [Required] The frequency to trigger schedule. */
+  frequency?: RecurrenceFrequency;
+  /** [Required] Specifies schedule interval in conjunction with frequency */
+  interval?: number;
+  /** The start time in yyyy-MM-ddTHH:mm:ss format. */
+  startTime?: string;
+  /**
+   * Specifies time zone in which the schedule runs.
+   * TimeZone should follow Windows time zone format. Refer: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11
+   */
+  timeZone?: string;
+  /** [Required] The recurrence schedule. */
+  schedule?: RecurrenceSchedule;
+}
+
+export interface RecurrenceSchedule {
+  /** [Required] List of hours for the schedule. */
+  hours: number[];
+  /** [Required] List of minutes for the schedule. */
+  minutes: number[];
+  /** List of month days for the schedule */
+  monthDays?: number[];
+  /** List of days for the schedule. */
+  weekDays?: WeekDay[];
+}
+
+/** The workflow trigger cron for ComputeStartStop schedule type. */
+export interface Cron {
+  /** The start time in yyyy-MM-ddTHH:mm:ss format. */
+  startTime?: string;
+  /**
+   * Specifies time zone in which the schedule runs.
+   * TimeZone should follow Windows time zone format. Refer: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11
+   */
+  timeZone?: string;
+  /**
+   * [Required] Specifies cron expression of schedule.
+   * The expression should follow NCronTab format.
+   */
+  expression?: string;
+}
+
 export interface ScheduleBase {
+  /** A system assigned id for the schedule. */
   id?: string;
+  /** The current deployment state of schedule. */
   provisioningStatus?: ScheduleProvisioningState;
+  /** Is the schedule enabled or disabled? */
   status?: ScheduleStatus;
 }
 
@@ -2114,6 +2642,17 @@ export interface WorkspaceConnectionSharedAccessSignature {
   sas?: string;
 }
 
+export interface WorkspaceConnectionAccessKey {
+  accessKeyId?: string;
+  secretAccessKey?: string;
+}
+
+export interface WorkspaceConnectionServicePrincipal {
+  clientId?: string;
+  clientSecret?: string;
+  tenantId?: string;
+}
+
 export interface WorkspaceConnectionManagedIdentity {
   resourceId?: string;
   clientId?: string;
@@ -2135,6 +2674,107 @@ export interface AssetJobOutput {
   uri?: string;
 }
 
+/** The desired maximum forecast horizon in units of time-series frequency. */
+export interface ForecastHorizon {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mode: "Auto" | "Custom";
+}
+
+/** Settings for Autologger. */
+export interface AutologgerSettings {
+  /** [Required] Indicates whether mlflow autologger is enabled. */
+  mlflowAutologger: MLFlowAutologgerState;
+}
+
+/** Job output definition container information on where to find job output/logs. */
+export interface JobOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobOutputType:
+    | "custom_model"
+    | "mlflow_model"
+    | "mltable"
+    | "triton_model"
+    | "uri_file"
+    | "uri_folder";
+  /** Description for the output. */
+  description?: string;
+}
+
+/**
+ * AutoML vertical class.
+ * Base class for AutoML verticals - TableVertical/ImageVertical/NLPVertical
+ */
+export interface AutoMLVertical {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  taskType:
+    | "Classification"
+    | "Forecasting"
+    | "ImageClassification"
+    | "ImageClassificationMultilabel"
+    | "ImageInstanceSegmentation"
+    | "ImageObjectDetection"
+    | "Regression"
+    | "TextClassification"
+    | "TextClassificationMultilabel"
+    | "TextNER";
+  /** Log verbosity for the job. */
+  logVerbosity?: LogVerbosity;
+  /**
+   * Target column name: This is prediction values column.
+   * Also known as label column name in context of classification tasks.
+   */
+  targetColumnName?: string;
+  /** [Required] Training data input. */
+  trainingData: MLTableJobInput;
+}
+
+/** Command job definition. */
+export interface JobInput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobInputType:
+    | "mltable"
+    | "custom_model"
+    | "mlflow_model"
+    | "literal"
+    | "triton_model"
+    | "uri_file"
+    | "uri_folder";
+  /** Description for the input. */
+  description?: string;
+}
+
+/** N-Cross validations value. */
+export interface NCrossValidations {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mode: "Auto" | "Custom";
+}
+
+/** Forecasting seasonality. */
+export interface Seasonality {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mode: "Auto" | "Custom";
+}
+
+/** The number of past periods to lag from the target column. */
+export interface TargetLags {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mode: "Auto" | "Custom";
+}
+
+/** Forecasting target rolling window size. */
+export interface TargetRollingWindowSize {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mode: "Auto" | "Custom";
+}
+
+/** Base definition for Azure datastore contents configuration. */
+export interface AzureDatastore {
+  /** Azure Resource Group name */
+  resourceGroup?: string;
+  /** Azure Subscription Id */
+  subscriptionId?: string;
+}
+
 /** Early termination policies enable canceling poor-performing runs before they complete */
 export interface EarlyTerminationPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -2154,25 +2794,213 @@ export interface SamplingAlgorithm {
   samplingAlgorithmType: "Bayesian" | "Grid" | "Random";
 }
 
+/** Training related configuration. */
+export interface TrainingSettings {
+  /** Enable recommendation of DNN models. */
+  enableDnnTraining?: boolean;
+  /** Flag to turn on explainability on best model. */
+  enableModelExplainability?: boolean;
+  /** Flag for enabling onnx compatible models. */
+  enableOnnxCompatibleModels?: boolean;
+  /** Enable stack ensemble run. */
+  enableStackEnsemble?: boolean;
+  /** Enable voting ensemble run. */
+  enableVoteEnsemble?: boolean;
+  /**
+   * During VotingEnsemble and StackEnsemble model generation, multiple fitted models from the previous child runs are downloaded.
+   * Configure this parameter with a higher value than 300 secs, if more time is needed.
+   */
+  ensembleModelDownloadTimeout?: string;
+  /** Stack ensemble settings for stack ensemble run. */
+  stackEnsembleSettings?: StackEnsembleSettings;
+}
+
+/** Advances setting to customize StackEnsemble run. */
+export interface StackEnsembleSettings {
+  /** Optional parameters to pass to the initializer of the meta-learner. */
+  stackMetaLearnerKWargs?: Record<string, unknown>;
+  /** Specifies the proportion of the training set (when choosing train and validation type of training) to be reserved for training the meta-learner. Default value is 0.2. */
+  stackMetaLearnerTrainPercentage?: number;
+  /** The meta-learner is a model trained on the output of the individual heterogeneous models. */
+  stackMetaLearnerType?: StackMetaLearnerType;
+}
+
+/** Abstract class for AutoML tasks that use table dataset as input - such as Classification/Regression/Forecasting. */
+export interface TableVertical {
+  /** Columns to use for CVSplit data. */
+  cvSplitColumnNames?: string[];
+  /** Featurization inputs needed for AutoML job. */
+  featurizationSettings?: TableVerticalFeaturizationSettings;
+  /** Model/training parameters that will remain constant throughout training. */
+  fixedParameters?: TableFixedParameters;
+  /** Execution constraints for AutoMLJob. */
+  limitSettings?: TableVerticalLimitSettings;
+  /**
+   * Number of cross validation folds to be applied on training dataset
+   * when validation dataset is not provided.
+   */
+  nCrossValidations?: NCrossValidationsUnion;
+  /** Search space for sampling different combinations of models and their hyperparameters. */
+  searchSpace?: TableParameterSubspace[];
+  /** Settings for model sweeping and hyperparameter tuning. */
+  sweepSettings?: TableSweepSettings;
+  /** Test data input. */
+  testData?: MLTableJobInput;
+  /**
+   * The fraction of test dataset that needs to be set aside for validation purpose.
+   * Values between (0.0 , 1.0)
+   * Applied when validation dataset is not provided.
+   */
+  testDataSize?: number;
+  /** Validation data inputs. */
+  validationData?: MLTableJobInput;
+  /**
+   * The fraction of training dataset that needs to be set aside for validation purpose.
+   * Values between (0.0 , 1.0)
+   * Applied when validation dataset is not provided.
+   */
+  validationDataSize?: number;
+  /** The name of the sample weight column. Automated ML supports a weighted column as an input, causing rows in the data to be weighted up or down. */
+  weightColumnName?: string;
+}
+
+/** Column transformer parameters. */
+export interface ColumnTransformer {
+  /** Fields to apply transformer logic on. */
+  fields?: string[];
+  /**
+   * Different properties to be passed to transformer.
+   * Input expected is dictionary of key,value pairs in JSON format.
+   */
+  parameters?: Record<string, unknown>;
+}
+
+/** Featurization Configuration. */
+export interface FeaturizationSettings {
+  /** Dataset language, useful for the text data. */
+  datasetLanguage?: string;
+}
+
+/** Fixed training parameters that won't be swept over during AutoML Table training. */
+export interface TableFixedParameters {
+  /** Specify the boosting type, e.g gbdt for XGBoost. */
+  booster?: string;
+  /** Specify the boosting type, e.g gbdt for LightGBM. */
+  boostingType?: string;
+  /** Specify the grow policy, which controls the way new nodes are added to the tree. */
+  growPolicy?: string;
+  /** The learning rate for the training procedure. */
+  learningRate?: number;
+  /** Specify the Maximum number of discrete bins to bucket continuous features . */
+  maxBin?: number;
+  /** Specify the max depth to limit the tree depth explicitly. */
+  maxDepth?: number;
+  /** Specify the max leaves to limit the tree leaves explicitly. */
+  maxLeaves?: number;
+  /** The minimum number of data per leaf. */
+  minDataInLeaf?: number;
+  /** Minimum loss reduction required to make a further partition on a leaf node of the tree. */
+  minSplitGain?: number;
+  /** The name of the model to train. */
+  modelName?: string;
+  /** Specify the number of trees (or rounds) in an model. */
+  nEstimators?: number;
+  /** Specify the number of leaves. */
+  numLeaves?: number;
+  /** The name of the preprocessor to use. */
+  preprocessorName?: string;
+  /** L1 regularization term on weights. */
+  regAlpha?: number;
+  /** L2 regularization term on weights. */
+  regLambda?: number;
+  /** Subsample ratio of the training instance. */
+  subsample?: number;
+  /** Frequency of subsample. */
+  subsampleFreq?: number;
+  /** Specify the tree method. */
+  treeMethod?: string;
+  /** If true, center before scaling the data with StandardScalar. */
+  withMean?: boolean;
+  /** If true, scaling the data with Unit Variance with StandardScalar. */
+  withStd?: boolean;
+}
+
+/** Job execution constraints. */
+export interface TableVerticalLimitSettings {
+  /** Enable early termination, determines whether or not if AutoMLJob will terminate early if there is no score improvement in last 20 iterations. */
+  enableEarlyTermination?: boolean;
+  /** Exit score for the AutoML job. */
+  exitScore?: number;
+  /** Maximum Concurrent iterations. */
+  maxConcurrentTrials?: number;
+  /** Max cores per iteration. */
+  maxCoresPerTrial?: number;
+  /** Number of iterations. */
+  maxTrials?: number;
+  /** Number of concurrent sweeping runs that user wants to trigger. */
+  sweepConcurrentTrials?: number;
+  /** Number of sweeping runs that user wants to trigger. */
+  sweepTrials?: number;
+  /** AutoML job timeout. */
+  timeout?: string;
+  /** Iteration timeout. */
+  trialTimeout?: string;
+}
+
+export interface TableParameterSubspace {
+  /** Specify the boosting type, e.g gbdt for XGBoost. */
+  booster?: string;
+  /** Specify the boosting type, e.g gbdt for LightGBM. */
+  boostingType?: string;
+  /** Specify the grow policy, which controls the way new nodes are added to the tree. */
+  growPolicy?: string;
+  /** The learning rate for the training procedure. */
+  learningRate?: string;
+  /** Specify the Maximum number of discrete bins to bucket continuous features . */
+  maxBin?: string;
+  /** Specify the max depth to limit the tree depth explicitly. */
+  maxDepth?: string;
+  /** Specify the max leaves to limit the tree leaves explicitly. */
+  maxLeaves?: string;
+  /** The minimum number of data per leaf. */
+  minDataInLeaf?: string;
+  /** Minimum loss reduction required to make a further partition on a leaf node of the tree. */
+  minSplitGain?: string;
+  /** The name of the model to train. */
+  modelName?: string;
+  /** Specify the number of trees (or rounds) in an model. */
+  nEstimators?: string;
+  /** Specify the number of leaves. */
+  numLeaves?: string;
+  /** The name of the preprocessor to use. */
+  preprocessorName?: string;
+  /** L1 regularization term on weights. */
+  regAlpha?: string;
+  /** L2 regularization term on weights. */
+  regLambda?: string;
+  /** Subsample ratio of the training instance. */
+  subsample?: string;
+  /** Frequency of subsample */
+  subsampleFreq?: string;
+  /** Specify the tree method. */
+  treeMethod?: string;
+  /** If true, center before scaling the data with StandardScalar. */
+  withMean?: string;
+  /** If true, scaling the data with Unit Variance with StandardScalar. */
+  withStd?: string;
+}
+
+export interface TableSweepSettings {
+  /** Type of early termination policy for the sweeping job. */
+  earlyTermination?: EarlyTerminationPolicyUnion;
+  /** [Required] Type of sampling algorithm. */
+  samplingAlgorithm: SamplingAlgorithmType;
+}
+
 /** Base definition for job distribution configuration. */
 export interface DistributionConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   distributionType: "Mpi" | "PyTorch" | "TensorFlow";
-}
-
-/** Command job definition. */
-export interface JobInput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  jobInputType:
-    | "custom_model"
-    | "literal"
-    | "mlflow_model"
-    | "mltable"
-    | "triton_model"
-    | "uri_file"
-    | "uri_folder";
-  /** Description for the input. */
-  description?: string;
 }
 
 export interface JobLimits {
@@ -2180,20 +3008,6 @@ export interface JobLimits {
   jobLimitsType: "Command" | "Sweep";
   /** The max run duration in ISO 8601 format, after which the job will be cancelled. Only supports duration with precision as low as Seconds. */
   timeout?: string;
-}
-
-/** Job output definition container information on where to find job output/logs. */
-export interface JobOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  jobOutputType:
-    | "custom_model"
-    | "mlflow_model"
-    | "mltable"
-    | "triton_model"
-    | "uri_file"
-    | "uri_folder";
-  /** Description for the output. */
-  description?: string;
 }
 
 /** Resource requirements for each container instance within an online deployment. */
@@ -2222,12 +3036,387 @@ export interface ContainerResourceSettings {
   memory?: string;
 }
 
+/** Forecasting specific parameters. */
+export interface ForecastingSettings {
+  /**
+   * Country or region for holidays for forecasting tasks.
+   * These should be ISO 3166 two-letter country/region codes, for example 'US' or 'GB'.
+   */
+  countryOrRegionForHolidays?: string;
+  /**
+   * Number of periods between the origin time of one CV fold and the next fold. For
+   * example, if `CVStepSize` = 3 for daily data, the origin time for each fold will be
+   * three days apart.
+   */
+  cvStepSize?: number;
+  /** Flag for generating lags for the numeric features with 'auto' or null. */
+  featureLags?: FeatureLags;
+  /** The desired maximum forecast horizon in units of time-series frequency. */
+  forecastHorizon?: ForecastHorizonUnion;
+  /** When forecasting, this parameter represents the period with which the forecast is desired, for example daily, weekly, yearly, etc. The forecast frequency is dataset frequency by default. */
+  frequency?: string;
+  /**
+   * Set time series seasonality as an integer multiple of the series frequency.
+   * If seasonality is set to 'auto', it will be inferred.
+   */
+  seasonality?: SeasonalityUnion;
+  /** The parameter defining how if AutoML should handle short time series. */
+  shortSeriesHandlingConfig?: ShortSeriesHandlingConfiguration;
+  /**
+   * The function to be used to aggregate the time series target column to conform to a user specified frequency.
+   * If the TargetAggregateFunction is set i.e. not 'None', but the freq parameter is not set, the error is raised. The possible target aggregation functions are: "sum", "max", "min" and "mean".
+   */
+  targetAggregateFunction?: TargetAggregationFunction;
+  /** The number of past periods to lag from the target column. */
+  targetLags?: TargetLagsUnion;
+  /** The number of past periods used to create a rolling window average of the target column. */
+  targetRollingWindowSize?: TargetRollingWindowSizeUnion;
+  /** The name of the time column. This parameter is required when forecasting to specify the datetime column in the input data used for building the time series and inferring its frequency. */
+  timeColumnName?: string;
+  /**
+   * The names of columns used to group a timeseries. It can be used to create multiple series.
+   * If grain is not defined, the data set is assumed to be one time-series. This parameter is used with task type forecasting.
+   */
+  timeSeriesIdColumnNames?: string[];
+  /** Configure STL Decomposition of the time-series target column. */
+  useStl?: UseStl;
+}
+
+/**
+ * Settings used for training the model.
+ * For more information on the available settings please visit the official documentation:
+ * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+ */
+export interface ImageModelSettings {
+  /** Settings for advanced scenarios. */
+  advancedSettings?: string;
+  /** Enable AMSGrad when optimizer is 'adam' or 'adamw'. */
+  amsGradient?: boolean;
+  /** Settings for using Augmentations. */
+  augmentations?: string;
+  /** Value of 'beta1' when optimizer is 'adam' or 'adamw'. Must be a float in the range [0, 1]. */
+  beta1?: number;
+  /** Value of 'beta2' when optimizer is 'adam' or 'adamw'. Must be a float in the range [0, 1]. */
+  beta2?: number;
+  /** Frequency to store model checkpoints. Must be a positive integer. */
+  checkpointFrequency?: number;
+  /** The pretrained checkpoint model for incremental training. */
+  checkpointModel?: MLFlowModelJobInput;
+  /** The id of a previous run that has a pretrained checkpoint for incremental training. */
+  checkpointRunId?: string;
+  /** Whether to use distributed training. */
+  distributed?: boolean;
+  /** Enable early stopping logic during training. */
+  earlyStopping?: boolean;
+  /**
+   * Minimum number of epochs or validation evaluations to wait before primary metric improvement
+   * is tracked for early stopping. Must be a positive integer.
+   */
+  earlyStoppingDelay?: number;
+  /**
+   * Minimum number of epochs or validation evaluations with no primary metric improvement before
+   * the run is stopped. Must be a positive integer.
+   */
+  earlyStoppingPatience?: number;
+  /** Enable normalization when exporting ONNX model. */
+  enableOnnxNormalization?: boolean;
+  /** Frequency to evaluate validation dataset to get metric scores. Must be a positive integer. */
+  evaluationFrequency?: number;
+  /**
+   * Gradient accumulation means running a configured number of "GradAccumulationStep" steps without
+   * updating the model weights while accumulating the gradients of those steps, and then using
+   * the accumulated gradients to compute the weight updates. Must be a positive integer.
+   */
+  gradientAccumulationStep?: number;
+  /**
+   * Number of layers to freeze for the model. Must be a positive integer.
+   * For instance, passing 2 as value for 'seresnext' means
+   * freezing layer0 and layer1. For a full list of models supported and details on layer freeze, please
+   * see: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+   */
+  layersToFreeze?: number;
+  /** Initial learning rate. Must be a float in the range [0, 1]. */
+  learningRate?: number;
+  /** Type of learning rate scheduler. Must be 'warmup_cosine' or 'step'. */
+  learningRateScheduler?: LearningRateScheduler;
+  /**
+   * Name of the model to use for training.
+   * For more information on the available models please visit the official documentation:
+   * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+   */
+  modelName?: string;
+  /** Value of momentum when optimizer is 'sgd'. Must be a float in the range [0, 1]. */
+  momentum?: number;
+  /** Enable nesterov when optimizer is 'sgd'. */
+  nesterov?: boolean;
+  /** Number of training epochs. Must be a positive integer. */
+  numberOfEpochs?: number;
+  /** Number of data loader workers. Must be a non-negative integer. */
+  numberOfWorkers?: number;
+  /** Type of optimizer. */
+  optimizer?: StochasticOptimizer;
+  /** Random seed to be used when using deterministic training. */
+  randomSeed?: number;
+  /** Value of gamma when learning rate scheduler is 'step'. Must be a float in the range [0, 1]. */
+  stepLRGamma?: number;
+  /** Value of step size when learning rate scheduler is 'step'. Must be a positive integer. */
+  stepLRStepSize?: number;
+  /** Training batch size. Must be a positive integer. */
+  trainingBatchSize?: number;
+  /** Validation batch size. Must be a positive integer. */
+  validationBatchSize?: number;
+  /** Value of cosine cycle when learning rate scheduler is 'warmup_cosine'. Must be a float in the range [0, 1]. */
+  warmupCosineLRCycles?: number;
+  /** Value of warmup epochs when learning rate scheduler is 'warmup_cosine'. Must be a positive integer. */
+  warmupCosineLRWarmupEpochs?: number;
+  /** Value of weight decay when optimizer is 'sgd', 'adam', or 'adamw'. Must be a float in the range[0, 1]. */
+  weightDecay?: number;
+}
+
+/**
+ * Distribution expressions to sweep over values of model settings.
+ * <example>
+ * Some examples are:
+ * <code>
+ * ModelName = "choice('seresnext', 'resnest50')";
+ * LearningRate = "uniform(0.001, 0.01)";
+ * LayersToFreeze = "choice(0, 2)";
+ * </code></example>
+ * All distributions can be specified as distribution_name(min, max) or choice(val1, val2, ..., valn)
+ * where distribution name can be: uniform, quniform, loguniform, etc
+ * For more details on how to compose distribution expressions please check the documentation:
+ * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-tune-hyperparameters
+ * For more information on the available settings please visit the official documentation:
+ * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+ */
+export interface ImageModelDistributionSettings {
+  /** Enable AMSGrad when optimizer is 'adam' or 'adamw'. */
+  amsGradient?: string;
+  /** Settings for using Augmentations. */
+  augmentations?: string;
+  /** Value of 'beta1' when optimizer is 'adam' or 'adamw'. Must be a float in the range [0, 1]. */
+  beta1?: string;
+  /** Value of 'beta2' when optimizer is 'adam' or 'adamw'. Must be a float in the range [0, 1]. */
+  beta2?: string;
+  /** Whether to use distributer training. */
+  distributed?: string;
+  /** Enable early stopping logic during training. */
+  earlyStopping?: string;
+  /**
+   * Minimum number of epochs or validation evaluations to wait before primary metric improvement
+   * is tracked for early stopping. Must be a positive integer.
+   */
+  earlyStoppingDelay?: string;
+  /**
+   * Minimum number of epochs or validation evaluations with no primary metric improvement before
+   * the run is stopped. Must be a positive integer.
+   */
+  earlyStoppingPatience?: string;
+  /** Enable normalization when exporting ONNX model. */
+  enableOnnxNormalization?: string;
+  /** Frequency to evaluate validation dataset to get metric scores. Must be a positive integer. */
+  evaluationFrequency?: string;
+  /**
+   * Gradient accumulation means running a configured number of "GradAccumulationStep" steps without
+   * updating the model weights while accumulating the gradients of those steps, and then using
+   * the accumulated gradients to compute the weight updates. Must be a positive integer.
+   */
+  gradientAccumulationStep?: string;
+  /**
+   * Number of layers to freeze for the model. Must be a positive integer.
+   * For instance, passing 2 as value for 'seresnext' means
+   * freezing layer0 and layer1. For a full list of models supported and details on layer freeze, please
+   * see: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+   */
+  layersToFreeze?: string;
+  /** Initial learning rate. Must be a float in the range [0, 1]. */
+  learningRate?: string;
+  /** Type of learning rate scheduler. Must be 'warmup_cosine' or 'step'. */
+  learningRateScheduler?: string;
+  /**
+   * Name of the model to use for training.
+   * For more information on the available models please visit the official documentation:
+   * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+   */
+  modelName?: string;
+  /** Value of momentum when optimizer is 'sgd'. Must be a float in the range [0, 1]. */
+  momentum?: string;
+  /** Enable nesterov when optimizer is 'sgd'. */
+  nesterov?: string;
+  /** Number of training epochs. Must be a positive integer. */
+  numberOfEpochs?: string;
+  /** Number of data loader workers. Must be a non-negative integer. */
+  numberOfWorkers?: string;
+  /** Type of optimizer. Must be either 'sgd', 'adam', or 'adamw'. */
+  optimizer?: string;
+  /** Random seed to be used when using deterministic training. */
+  randomSeed?: string;
+  /** Value of gamma when learning rate scheduler is 'step'. Must be a float in the range [0, 1]. */
+  stepLRGamma?: string;
+  /** Value of step size when learning rate scheduler is 'step'. Must be a positive integer. */
+  stepLRStepSize?: string;
+  /** Training batch size. Must be a positive integer. */
+  trainingBatchSize?: string;
+  /** Validation batch size. Must be a positive integer. */
+  validationBatchSize?: string;
+  /** Value of cosine cycle when learning rate scheduler is 'warmup_cosine'. Must be a float in the range [0, 1]. */
+  warmupCosineLRCycles?: string;
+  /** Value of warmup epochs when learning rate scheduler is 'warmup_cosine'. Must be a positive integer. */
+  warmupCosineLRWarmupEpochs?: string;
+  /** Value of weight decay when optimizer is 'sgd', 'adam', or 'adamw'. Must be a float in the range[0, 1]. */
+  weightDecay?: string;
+}
+
+/**
+ * Abstract class for AutoML tasks that train image (computer vision) models -
+ * such as Image Classification / Image Classification Multilabel / Image Object Detection / Image Instance Segmentation.
+ */
+export interface ImageVertical {
+  /** [Required] Limit settings for the AutoML job. */
+  limitSettings: ImageLimitSettings;
+  /** Model sweeping and hyperparameter sweeping related settings. */
+  sweepSettings?: ImageSweepSettings;
+  /** Validation data inputs. */
+  validationData?: MLTableJobInput;
+  /**
+   * The fraction of training dataset that needs to be set aside for validation purpose.
+   * Values between (0.0 , 1.0)
+   * Applied when validation dataset is not provided.
+   */
+  validationDataSize?: number;
+}
+
+/** Limit settings for the AutoML job. */
+export interface ImageLimitSettings {
+  /** Maximum number of concurrent AutoML iterations. */
+  maxConcurrentTrials?: number;
+  /** Maximum number of AutoML iterations. */
+  maxTrials?: number;
+  /** AutoML job timeout. */
+  timeout?: string;
+}
+
+/** Model sweeping and hyperparameter sweeping related settings. */
+export interface ImageSweepSettings {
+  /** Type of early termination policy. */
+  earlyTermination?: EarlyTerminationPolicyUnion;
+  /** [Required] Type of the hyperparameter sampling algorithms. */
+  samplingAlgorithm: SamplingAlgorithmType;
+}
+
+export interface KerberosCredentials {
+  /** [Required] IP Address or DNS HostName. */
+  kerberosKdcAddress: string;
+  /** [Required] Kerberos Username */
+  kerberosPrincipal: string;
+  /** [Required] Domain over which a Kerberos authentication server has the authority to authenticate a user, host or service. */
+  kerberosRealm: string;
+}
+
+/** Fixed training parameters that won't be swept over during AutoML NLP training. */
+export interface NlpFixedParameters {
+  /** Number of steps to accumulate gradients over before running a backward pass. */
+  gradientAccumulationSteps?: number;
+  /** The learning rate for the training procedure. */
+  learningRate?: number;
+  /** The type of learning rate schedule to use during the training procedure. */
+  learningRateScheduler?: NlpLearningRateScheduler;
+  /** The name of the model to train. */
+  modelName?: string;
+  /** Number of training epochs. */
+  numberOfEpochs?: number;
+  /** The batch size for the training procedure. */
+  trainingBatchSize?: number;
+  /** The batch size to be used during evaluation. */
+  validationBatchSize?: number;
+  /** The warmup ratio, used alongside LrSchedulerType. */
+  warmupRatio?: number;
+  /** The weight decay for the training procedure. */
+  weightDecay?: number;
+}
+
+/** Stringified search spaces for each parameter. See below examples. */
+export interface NlpParameterSubspace {
+  /** Number of steps to accumulate gradients over before running a backward pass. */
+  gradientAccumulationSteps?: string;
+  /** The learning rate for the training procedure. */
+  learningRate?: string;
+  /** The type of learning rate schedule to use during the training procedure. */
+  learningRateScheduler?: string;
+  /** The name of the model to train. */
+  modelName?: string;
+  /** Number of training epochs. */
+  numberOfEpochs?: string;
+  /** The batch size for the training procedure. */
+  trainingBatchSize?: string;
+  /** The batch size to be used during evaluation. */
+  validationBatchSize?: string;
+  /** The warmup ratio, used alongside LrSchedulerType. */
+  warmupRatio?: string;
+  /** The weight decay for the training procedure. */
+  weightDecay?: string;
+}
+
+/** Model sweeping and hyperparameter tuning related settings. */
+export interface NlpSweepSettings {
+  /** Type of early termination policy for the sweeping job. */
+  earlyTermination?: EarlyTerminationPolicyUnion;
+  /** [Required] Type of sampling algorithm. */
+  samplingAlgorithm: SamplingAlgorithmType;
+}
+
+/**
+ * Abstract class for NLP related AutoML tasks.
+ * NLP - Natural Language Processing.
+ */
+export interface NlpVertical {
+  /** Featurization inputs needed for AutoML job. */
+  featurizationSettings?: NlpVerticalFeaturizationSettings;
+  /** Model/training parameters that will remain constant throughout training. */
+  fixedParameters?: NlpFixedParameters;
+  /** Execution constraints for AutoMLJob. */
+  limitSettings?: NlpVerticalLimitSettings;
+  /** Search space for sampling different combinations of models and their hyperparameters. */
+  searchSpace?: NlpParameterSubspace[];
+  /** Settings for model sweeping and hyperparameter tuning. */
+  sweepSettings?: NlpSweepSettings;
+  /** Validation data inputs. */
+  validationData?: MLTableJobInput;
+}
+
+/** Job execution constraints. */
+export interface NlpVerticalLimitSettings {
+  /** Maximum Concurrent AutoML iterations. */
+  maxConcurrentTrials?: number;
+  /** Maximum nodes to leverage for training in any single trial. Controls multi-node distributed training. */
+  maxNodes?: number;
+  /** Number of AutoML iterations. */
+  maxTrials?: number;
+  /** AutoML job timeout. */
+  timeout?: string;
+  /** Timeout for individual HD trials. */
+  trialTimeout?: string;
+}
+
 /** Optimization objective. */
 export interface Objective {
   /** [Required] Defines supported metric goals for hyperparameter tuning */
   goal: Goal;
   /** [Required] Name of the metric to optimize. */
   primaryMetric: string;
+}
+
+/** Spark job entry point definition. */
+export interface SparkJobEntry {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  sparkJobEntryType: "SparkJobPythonEntry" | "SparkJobScalaEntry";
+}
+
+export interface SparkResourceConfiguration {
+  /** Optional type of VM used as supported by the compute target. */
+  instanceType?: string;
+  /** Version of spark runtime used for the job. */
+  runtimeVersion?: string;
 }
 
 /** Trial component definition. */
@@ -2243,7 +3432,7 @@ export interface TrialComponent {
   /** Environment variables included in the job. */
   environmentVariables?: { [propertyName: string]: string | null };
   /** Compute Resource configuration for the job. */
-  resources?: ResourceConfiguration;
+  resources?: JobResourceConfiguration;
 }
 
 /** The Private Endpoint Connection resource. */
@@ -2300,7 +3489,7 @@ export interface Workspace extends Resource {
    * The current deployment state of workspace resource. The provisioningState is to indicate states for resource provisioning.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: WorkspaceProvisioningState;
   /** The encryption settings of Azure ML workspace. */
   encryption?: EncryptionProperty;
   /** The flag to signal HBI data in the workspace and reduce diagnostic data collected by the service */
@@ -2354,6 +3543,16 @@ export interface Workspace extends Resource {
   readonly mlFlowTrackingUri?: string;
   /** Enabling v1_legacy_mode may prevent you from using features provided by the v2 API. */
   v1LegacyMode?: boolean;
+  /**
+   * The timestamp when the workspace was soft deleted
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly softDeletedAt?: string;
+  /**
+   * The timestamp when the soft deleted workspace is going to be purged
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scheduledPurgeDate?: string;
 }
 
 /** Machine Learning compute object wrapped into ARM resource envelope. */
@@ -2396,14 +3595,6 @@ export interface WorkspaceConnectionPropertiesV2BasicResource extends Resource {
   properties: WorkspaceConnectionPropertiesV2Union;
 }
 
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The geo-location where the resource lives */
-  location: string;
-}
-
 /** Azure Resource Manager resource envelope. */
 export interface CodeContainer extends Resource {
   /** [Required] Additional attributes of the entity. */
@@ -2429,6 +3620,38 @@ export interface ComponentVersion extends Resource {
 }
 
 /** Azure Resource Manager resource envelope. */
+export interface EnvironmentContainer extends Resource {
+  /** [Required] Additional attributes of the entity. */
+  properties: EnvironmentContainerProperties;
+}
+
+/** Azure Resource Manager resource envelope. */
+export interface EnvironmentVersion extends Resource {
+  /** [Required] Additional attributes of the entity. */
+  properties: EnvironmentVersionProperties;
+}
+
+/** Azure Resource Manager resource envelope. */
+export interface ModelContainer extends Resource {
+  /** [Required] Additional attributes of the entity. */
+  properties: ModelContainerProperties;
+}
+
+/** Azure Resource Manager resource envelope. */
+export interface ModelVersion extends Resource {
+  /** [Required] Additional attributes of the entity. */
+  properties: ModelVersionProperties;
+}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** Azure Resource Manager resource envelope. */
 export interface DataContainer extends Resource {
   /** [Required] Additional attributes of the entity. */
   properties: DataContainerProperties;
@@ -2447,33 +3670,21 @@ export interface Datastore extends Resource {
 }
 
 /** Azure Resource Manager resource envelope. */
-export interface EnvironmentContainer extends Resource {
-  /** [Required] Additional attributes of the entity. */
-  properties: EnvironmentContainerProperties;
-}
-
-/** Azure Resource Manager resource envelope. */
-export interface EnvironmentVersion extends Resource {
-  /** [Required] Additional attributes of the entity. */
-  properties: EnvironmentVersionProperties;
-}
-
-/** Azure Resource Manager resource envelope. */
 export interface JobBase extends Resource {
   /** [Required] Additional attributes of the entity. */
   properties: JobBasePropertiesUnion;
 }
 
 /** Azure Resource Manager resource envelope. */
-export interface ModelContainer extends Resource {
+export interface LabelingJob extends Resource {
   /** [Required] Additional attributes of the entity. */
-  properties: ModelContainerProperties;
+  properties: LabelingJobProperties;
 }
 
 /** Azure Resource Manager resource envelope. */
-export interface ModelVersion extends Resource {
+export interface Schedule extends Resource {
   /** [Required] Additional attributes of the entity. */
-  properties: ModelVersionProperties;
+  properties: ScheduleProperties;
 }
 
 /** A Machine Learning compute based on AKS. */
@@ -2582,6 +3793,20 @@ export interface UsernamePasswordAuthTypeWorkspaceConnectionProperties
   credentials?: WorkspaceConnectionUsernamePassword;
 }
 
+export interface AccessKeyAuthTypeWorkspaceConnectionProperties
+  extends WorkspaceConnectionPropertiesV2 {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType: "AccessKey";
+  credentials?: WorkspaceConnectionAccessKey;
+}
+
+export interface ServicePrincipalAuthTypeWorkspaceConnectionProperties
+  extends WorkspaceConnectionPropertiesV2 {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType: "ServicePrincipal";
+  credentials?: WorkspaceConnectionServicePrincipal;
+}
+
 export interface NoneAuthTypeWorkspaceConnectionProperties
   extends WorkspaceConnectionPropertiesV2 {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -2593,6 +3818,102 @@ export interface ManagedIdentityAuthTypeWorkspaceConnectionProperties
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "ManagedIdentity";
   credentials?: WorkspaceConnectionManagedIdentity;
+}
+
+export interface AssetContainer extends ResourceBase {
+  /** Is the asset archived? */
+  isArchived?: boolean;
+  /**
+   * The latest version inside this container.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly latestVersion?: string;
+  /**
+   * The next auto incremental version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextVersion?: string;
+}
+
+export interface AssetBase extends ResourceBase {
+  /** If the name version are system generated (anonymous registration). */
+  isAnonymous?: boolean;
+  /** Is the asset archived? */
+  isArchived?: boolean;
+}
+
+/** Base definition for datastore contents configuration. */
+export interface DatastoreProperties extends ResourceBase {
+  /** [Required] Account credentials. */
+  credentials: DatastoreCredentialsUnion;
+  /** [Required] Storage type backing the datastore. */
+  datastoreType: DatastoreType;
+  /**
+   * Readonly property to indicate if datastore is the workspace default datastore
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDefault?: boolean;
+}
+
+/** Base definition for a job. */
+export interface JobBaseProperties extends ResourceBase {
+  /** ARM resource ID of the component resource. */
+  componentId?: string;
+  /** ARM resource ID of the compute resource. */
+  computeId?: string;
+  /** Display name of job. */
+  displayName?: string;
+  /** The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment. */
+  experimentName?: string;
+  /**
+   * Identity configuration. If set, this should be one of AmlToken, ManagedIdentity, UserIdentity or null.
+   * Defaults to AmlToken if null.
+   */
+  identity?: IdentityConfigurationUnion;
+  /** Is the asset archived? */
+  isArchived?: boolean;
+  /** [Required] Specifies the type of job. */
+  jobType: JobType;
+  /**
+   * List of JobEndpoints.
+   * For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
+   */
+  services?: { [propertyName: string]: JobService | null };
+  /**
+   * Status of the job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: JobStatus;
+}
+
+/** Base definition of a schedule */
+export interface ScheduleProperties extends ResourceBase {
+  /** [Required] Specifies the action of the schedule */
+  action: ScheduleActionBaseUnion;
+  /** Display name of schedule. */
+  displayName?: string;
+  /** Is the schedule enabled? */
+  isEnabled?: boolean;
+  /**
+   * Provisioning state for the schedule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ScheduleProvisioningStatus;
+  /** [Required] Specifies the trigger details */
+  trigger: TriggerBaseUnion;
+}
+
+/** Details of the Registry */
+export interface RegistryProperties extends ResourceBase {
+  publicNetworkAccess?: string;
+  discoveryUrl?: string;
+  intellectualPropertyPublisher?: string;
+  /** Managed resource group created for the registry */
+  managedResourceGroup?: ArmResourceId;
+  mlFlowRegistryUri?: string;
+  privateLinkCount?: number;
+  /** Details of each region the registry is in */
+  regionDetails?: RegistryRegionArmDetails[];
 }
 
 /** Batch endpoint configuration. */
@@ -2613,11 +3934,15 @@ export interface OnlineEndpointProperties extends EndpointPropertiesBase {
    * optional
    */
   compute?: string;
+  /** Percentage of traffic to be mirrored to each deployment without using returned scoring. Traffic values need to sum to utmost 50. */
+  mirrorTraffic?: { [propertyName: string]: number };
   /**
    * Provisioning state for the endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: EndpointProvisioningState;
+  /** Set to "Enabled" for endpoints that should allow public access when Private Link is enabled. */
+  publicNetworkAccess?: PublicNetworkAccessType;
   /** Percentage of traffic from endpoint to divert to each deployment. Traffic values need to sum to 100. */
   traffic?: { [propertyName: string]: number };
 }
@@ -2664,6 +3989,16 @@ export interface OutputPathAssetReference extends AssetReferenceBase {
   path?: string;
 }
 
+export interface DeploymentResourceConfiguration
+  extends ResourceConfiguration {}
+
+export interface JobResourceConfiguration extends ResourceConfiguration {
+  /** Extra arguments to pass to the Docker run command. This would override any parameters that have already been set by the system, or in this section. This parameter is only supported for Azure ML compute types. */
+  dockerArgs?: string;
+  /** Size of the docker container's shared memory block. This should be in the format of (number)(unit) where number as to be greater than 0 and the unit can be one of b(bytes), k(kilobytes), m(megabytes), or g(gigabytes). */
+  shmSize?: string;
+}
+
 /** Batch inference settings per deployment. */
 export interface BatchDeploymentProperties
   extends EndpointDeploymentPropertiesBase {
@@ -2702,7 +4037,7 @@ export interface BatchDeploymentProperties
    * Indicates compute configuration for the job.
    * If not provided, will default to the defaults defined in ResourceConfiguration.
    */
-  resources?: ResourceConfiguration;
+  resources?: DeploymentResourceConfiguration;
   /**
    * Retry Settings for the batch inference operation.
    * If not provided, will default to the defaults defined in BatchRetrySettings.
@@ -2714,6 +4049,8 @@ export interface OnlineDeploymentProperties
   extends EndpointDeploymentPropertiesBase {
   /** If true, enables Application Insights logging. */
   appInsightsEnabled?: boolean;
+  /** If Enabled, allow egress public network access. If Disabled, this will create secure egress. Default: Enabled. */
+  egressPublicNetworkAccess?: EgressPublicNetworkAccessType;
   /** [Required] The compute type of the endpoint. */
   endpointComputeType: EndpointComputeType;
   /** Compute instance type. */
@@ -2742,70 +4079,6 @@ export interface OnlineDeploymentProperties
   scaleSettings?: OnlineScaleSettingsUnion;
 }
 
-export interface AssetContainer extends ResourceBase {
-  /** Is the asset archived? */
-  isArchived?: boolean;
-  /**
-   * The latest version inside this container.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly latestVersion?: string;
-  /**
-   * The next auto incremental version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextVersion?: string;
-}
-
-export interface AssetBase extends ResourceBase {
-  /** If the name version are system generated (anonymous registration). */
-  isAnonymous?: boolean;
-  /** Is the asset archived? */
-  isArchived?: boolean;
-}
-
-/** Base definition for datastore contents configuration. */
-export interface DatastoreProperties extends ResourceBase {
-  /** [Required] Account credentials. */
-  credentials: DatastoreCredentialsUnion;
-  /** [Required] Storage type backing the datastore. */
-  datastoreType: DatastoreType;
-  /**
-   * Readonly property to indicate if datastore is the workspace default datastore
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isDefault?: boolean;
-}
-
-/** Base definition for a job. */
-export interface JobBaseProperties extends ResourceBase {
-  /** ARM resource ID of the compute resource. */
-  computeId?: string;
-  /** Display name of job. */
-  displayName?: string;
-  /** The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment. */
-  experimentName?: string;
-  /**
-   * Identity configuration. If set, this should be one of AmlToken, ManagedIdentity, UserIdentity or null.
-   * Defaults to AmlToken if null.
-   */
-  identity?: IdentityConfigurationUnion;
-  /** Is the asset archived? */
-  isArchived?: boolean;
-  /** [Required] Specifies the type of job. */
-  jobType: JobType;
-  /**
-   * List of JobEndpoints.
-   * For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
-   */
-  services?: { [propertyName: string]: JobService | null };
-  /**
-   * Status of the job.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: JobStatus;
-}
-
 /** Account key datastore credentials configuration. */
 export interface AccountKeyDatastoreCredentials extends DatastoreCredentials {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -2830,6 +4103,20 @@ export interface CertificateDatastoreCredentials extends DatastoreCredentials {
   tenantId: string;
   /** [Required] Thumbprint of the certificate used for authentication. */
   thumbprint: string;
+}
+
+export interface KerberosKeytabCredentials
+  extends KerberosCredentials,
+    DatastoreCredentials {
+  /** [Required] Keytab secrets. */
+  secrets: KerberosKeytabSecrets;
+}
+
+export interface KerberosPasswordCredentials
+  extends KerberosCredentials,
+    DatastoreCredentials {
+  /** [Required] Kerberos password secrets. */
+  secrets: KerberosPasswordSecrets;
 }
 
 /** Empty/none datastore credentials. */
@@ -2879,6 +4166,20 @@ export interface CertificateDatastoreSecrets extends DatastoreSecrets {
   certificate?: string;
 }
 
+export interface KerberosKeytabSecrets extends DatastoreSecrets {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  secretsType: "KerberosKeytab";
+  /** Kerberos keytab secret. */
+  kerberosKeytab?: string;
+}
+
+export interface KerberosPasswordSecrets extends DatastoreSecrets {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  secretsType: "KerberosPassword";
+  /** Kerberos password secret. */
+  kerberosPassword?: string;
+}
+
 /** Datastore SAS secrets. */
 export interface SasDatastoreSecrets extends DatastoreSecrets {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -2919,6 +4220,84 @@ export interface UserIdentity extends IdentityConfiguration {
   identityType: "UserIdentity";
 }
 
+/** All nodes means the service will be running on all of the nodes of the job */
+export interface AllNodes extends Nodes {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  nodesValueType: "All";
+}
+
+/** Properties of a labeling job for image data */
+export interface LabelingJobImageProperties extends LabelingJobMediaProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mediaType: "Image";
+  /** Annotation type of image labeling job. */
+  annotationType?: ImageAnnotationType;
+}
+
+/** Properties of a labeling job for text data */
+export interface LabelingJobTextProperties extends LabelingJobMediaProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mediaType: "Text";
+  /** Annotation type of text labeling job. */
+  annotationType?: TextAnnotationType;
+}
+
+/** Labeling MLAssist configuration definition when MLAssist is disabled */
+export interface MLAssistConfigurationDisabled extends MLAssistConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mlAssist: "Disabled";
+}
+
+/** Labeling MLAssist configuration definition when MLAssist is enabled */
+export interface MLAssistConfigurationEnabled extends MLAssistConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mlAssist: "Enabled";
+  /** [Required] AML compute binding used in inferencing. */
+  inferencingComputeBinding: string;
+  /** [Required] AML compute binding used in training. */
+  trainingComputeBinding: string;
+}
+
+export interface CocoExportSummary extends ExportSummary {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  format: "Coco";
+  /**
+   * The container name to which the labels will be exported.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly containerName?: string;
+  /**
+   * The output path where the labels will be exported.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly snapshotPath?: string;
+}
+
+export interface CsvExportSummary extends ExportSummary {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  format: "CSV";
+  /**
+   * The container name to which the labels will be exported.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly containerName?: string;
+  /**
+   * The output path where the labels will be exported.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly snapshotPath?: string;
+}
+
+export interface DatasetExportSummary extends ExportSummary {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  format: "Dataset";
+  /**
+   * The unique name of the labeled data asset.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly labeledAssetName?: string;
+}
+
 export interface DefaultScaleSettings extends OnlineScaleSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   scaleType: "Default";
@@ -2937,11 +4316,49 @@ export interface TargetUtilizationScaleSettings extends OnlineScaleSettings {
   targetUtilizationPercentage?: number;
 }
 
+export interface EndpointScheduleAction extends ScheduleActionBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  actionType: "InvokeBatchEndpoint";
+  /**
+   * [Required] Defines Schedule action definition details.
+   * <see href="TBD" />
+   */
+  endpointInvocationDefinition: Record<string, unknown>;
+}
+
+export interface JobScheduleAction extends ScheduleActionBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  actionType: "CreateJob";
+  /** [Required] Defines Schedule action definition details. */
+  jobDefinition: JobBasePropertiesUnion;
+}
+
+export interface CronTrigger extends TriggerBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  triggerType: "Cron";
+  /**
+   * [Required] Specifies cron expression of schedule.
+   * The expression should follow NCronTab format.
+   */
+  expression: string;
+}
+
+export interface RecurrenceTrigger extends TriggerBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  triggerType: "Recurrence";
+  /** [Required] The frequency to trigger schedule. */
+  frequency: RecurrenceFrequency;
+  /** [Required] Specifies schedule interval in conjunction with frequency */
+  interval: number;
+  /** The recurrence schedule. */
+  schedule?: RecurrenceSchedule;
+}
+
+export interface MLTableJobInput extends AssetJobInput, JobInput {}
+
 export interface CustomModelJobInput extends AssetJobInput, JobInput {}
 
 export interface MLFlowModelJobInput extends AssetJobInput, JobInput {}
-
-export interface MLTableJobInput extends AssetJobInput, JobInput {}
 
 export interface TritonModelJobInput extends AssetJobInput, JobInput {}
 
@@ -2960,6 +4377,247 @@ export interface TritonModelJobOutput extends AssetJobOutput, JobOutput {}
 export interface UriFileJobOutput extends AssetJobOutput, JobOutput {}
 
 export interface UriFolderJobOutput extends AssetJobOutput, JobOutput {}
+
+/** Forecast horizon determined automatically by system. */
+export interface AutoForecastHorizon extends ForecastHorizon {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mode: "Auto";
+}
+
+/** The desired maximum forecast horizon in units of time-series frequency. */
+export interface CustomForecastHorizon extends ForecastHorizon {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mode: "Custom";
+  /** [Required] Forecast horizon value. */
+  value: number;
+}
+
+/** Classification task in AutoML Table vertical. */
+export interface Classification extends TableVertical, AutoMLVertical {
+  /** Positive label for binary metrics calculation. */
+  positiveLabel?: string;
+  /** Primary metric for the task. */
+  primaryMetric?: ClassificationPrimaryMetrics;
+  /** Inputs for training phase for an AutoML Job. */
+  trainingSettings?: ClassificationTrainingSettings;
+}
+
+/** Forecasting task in AutoML Table vertical. */
+export interface Forecasting extends TableVertical, AutoMLVertical {
+  /** Forecasting task specific inputs. */
+  forecastingSettings?: ForecastingSettings;
+  /** Primary metric for forecasting task. */
+  primaryMetric?: ForecastingPrimaryMetrics;
+  /** Inputs for training phase for an AutoML Job. */
+  trainingSettings?: ForecastingTrainingSettings;
+}
+
+/**
+ * Image Classification. Multi-class image classification is used when an image is classified with only a single label
+ * from a set of classes - e.g. each image is classified as either an image of a 'cat' or a 'dog' or a 'duck'.
+ */
+export interface ImageClassification
+  extends ImageClassificationBase,
+    AutoMLVertical {
+  /** Primary metric to optimize for this task. */
+  primaryMetric?: ClassificationPrimaryMetrics;
+}
+
+/**
+ * Image Classification Multilabel. Multi-label image classification is used when an image could have one or more labels
+ * from a set of labels - e.g. an image could be labeled with both 'cat' and 'dog'.
+ */
+export interface ImageClassificationMultilabel
+  extends ImageClassificationBase,
+    AutoMLVertical {
+  /** Primary metric to optimize for this task. */
+  primaryMetric?: ClassificationMultilabelPrimaryMetrics;
+}
+
+/**
+ * Image Instance Segmentation. Instance segmentation is used to identify objects in an image at the pixel level,
+ * drawing a polygon around each object in the image.
+ */
+export interface ImageInstanceSegmentation
+  extends ImageObjectDetectionBase,
+    AutoMLVertical {
+  /** Primary metric to optimize for this task. */
+  primaryMetric?: InstanceSegmentationPrimaryMetrics;
+}
+
+/**
+ * Image Object Detection. Object detection is used to identify objects in an image and locate each object with a
+ * bounding box e.g. locate all dogs and cats in an image and draw a bounding box around each.
+ */
+export interface ImageObjectDetection
+  extends ImageObjectDetectionBase,
+    AutoMLVertical {
+  /** Primary metric to optimize for this task. */
+  primaryMetric?: ObjectDetectionPrimaryMetrics;
+}
+
+/** Regression task in AutoML Table vertical. */
+export interface Regression extends TableVertical, AutoMLVertical {
+  /** Primary metric for regression task. */
+  primaryMetric?: RegressionPrimaryMetrics;
+  /** Inputs for training phase for an AutoML Job. */
+  trainingSettings?: RegressionTrainingSettings;
+}
+
+/**
+ * Text Classification task in AutoML NLP vertical.
+ * NLP - Natural Language Processing.
+ */
+export interface TextClassification extends NlpVertical, AutoMLVertical {
+  /** Primary metric for Text-Classification task. */
+  primaryMetric?: ClassificationPrimaryMetrics;
+}
+
+/**
+ * Text Classification Multilabel task in AutoML NLP vertical.
+ * NLP - Natural Language Processing.
+ */
+export interface TextClassificationMultilabel
+  extends NlpVertical,
+    AutoMLVertical {
+  /**
+   * Primary metric for Text-Classification-Multilabel task.
+   * Currently only Accuracy is supported as primary metric, hence user need not set it explicitly.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryMetric?: ClassificationMultilabelPrimaryMetrics;
+}
+
+/**
+ * Text-NER task in AutoML NLP vertical.
+ * NER - Named Entity Recognition.
+ * NLP - Natural Language Processing.
+ */
+export interface TextNer extends NlpVertical, AutoMLVertical {
+  /**
+   * Primary metric for Text-NER task.
+   * Only 'Accuracy' is supported for Text-NER, so user need not set this explicitly.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryMetric?: ClassificationPrimaryMetrics;
+}
+
+/** Literal input type. */
+export interface LiteralJobInput extends JobInput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobInputType: "literal";
+  /** [Required] Literal value for the input. */
+  value: string;
+}
+
+/** N-Cross validations determined automatically. */
+export interface AutoNCrossValidations extends NCrossValidations {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mode: "Auto";
+}
+
+/** N-Cross validations are specified by user. */
+export interface CustomNCrossValidations extends NCrossValidations {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mode: "Custom";
+  /** [Required] N-Cross validations value. */
+  value: number;
+}
+
+export interface AutoSeasonality extends Seasonality {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mode: "Auto";
+}
+
+export interface CustomSeasonality extends Seasonality {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mode: "Custom";
+  /** [Required] Seasonality value. */
+  value: number;
+}
+
+export interface AutoTargetLags extends TargetLags {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mode: "Auto";
+}
+
+export interface CustomTargetLags extends TargetLags {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mode: "Custom";
+  /** [Required] Set target lags values. */
+  values: number[];
+}
+
+/** Target lags rolling window determined automatically. */
+export interface AutoTargetRollingWindowSize extends TargetRollingWindowSize {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mode: "Auto";
+}
+
+export interface CustomTargetRollingWindowSize extends TargetRollingWindowSize {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  mode: "Custom";
+  /** [Required] TargetRollingWindowSize value. */
+  value: number;
+}
+
+/** Azure Blob datastore configuration. */
+export interface AzureBlobDatastore
+  extends AzureDatastore,
+    DatastoreProperties {
+  /** Storage account name. */
+  accountName?: string;
+  /** Storage account container name. */
+  containerName?: string;
+  /** Azure cloud endpoint for the storage account. */
+  endpoint?: string;
+  /** Protocol used to communicate with the storage account. */
+  protocol?: string;
+  /** Indicates which identity to use to authenticate service data access to customer's storage. */
+  serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
+}
+
+/** Azure Data Lake Gen1 datastore configuration. */
+export interface AzureDataLakeGen1Datastore
+  extends AzureDatastore,
+    DatastoreProperties {
+  /** Indicates which identity to use to authenticate service data access to customer's storage. */
+  serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
+  /** [Required] Azure Data Lake store name. */
+  storeName: string;
+}
+
+/** Azure Data Lake Gen2 datastore configuration. */
+export interface AzureDataLakeGen2Datastore
+  extends AzureDatastore,
+    DatastoreProperties {
+  /** [Required] Storage account name. */
+  accountName: string;
+  /** Azure cloud endpoint for the storage account. */
+  endpoint?: string;
+  /** [Required] The name of the Data Lake Gen2 filesystem. */
+  filesystem: string;
+  /** Protocol used to communicate with the storage account. */
+  protocol?: string;
+  /** Indicates which identity to use to authenticate service data access to customer's storage. */
+  serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
+}
+
+/** Azure File datastore configuration. */
+export interface AzureFileDatastore
+  extends AzureDatastore,
+    DatastoreProperties {
+  /** [Required] Storage account name. */
+  accountName: string;
+  /** Azure cloud endpoint for the storage account. */
+  endpoint?: string;
+  /** [Required] The name of the Azure file share that the datastore points to. */
+  fileShareName: string;
+  /** Protocol used to communicate with the storage account. */
+  protocol?: string;
+  /** Indicates which identity to use to authenticate service data access to customer's storage. */
+  serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
+}
 
 /** Defines an early termination policy based on slack criteria, and a frequency and delay interval for evaluation */
 export interface BanditPolicy extends EarlyTerminationPolicy {
@@ -3007,6 +4665,52 @@ export interface RandomSamplingAlgorithm extends SamplingAlgorithm {
   seed?: number;
 }
 
+/** Classification Training related configuration. */
+export interface ClassificationTrainingSettings extends TrainingSettings {
+  /** Allowed models for classification task. */
+  allowedTrainingAlgorithms?: ClassificationModels[];
+  /** Blocked models for classification task. */
+  blockedTrainingAlgorithms?: ClassificationModels[];
+}
+
+/** Forecasting Training related configuration. */
+export interface ForecastingTrainingSettings extends TrainingSettings {
+  /** Allowed models for forecasting task. */
+  allowedTrainingAlgorithms?: ForecastingModels[];
+  /** Blocked models for forecasting task. */
+  blockedTrainingAlgorithms?: ForecastingModels[];
+}
+
+/** Regression Training related configuration. */
+export interface RegressionTrainingSettings extends TrainingSettings {
+  /** Allowed models for regression task. */
+  allowedTrainingAlgorithms?: RegressionModels[];
+  /** Blocked models for regression task. */
+  blockedTrainingAlgorithms?: RegressionModels[];
+}
+
+/** Featurization Configuration. */
+export interface TableVerticalFeaturizationSettings
+  extends FeaturizationSettings {
+  /** These transformers shall not be used in featurization. */
+  blockedTransformers?: BlockedTransformers[];
+  /** Dictionary of column name and its type (int, float, string, datetime etc). */
+  columnNameAndTypes?: { [propertyName: string]: string | null };
+  /** Determines whether to use Dnn based featurizers for data featurization. */
+  enableDnnFeaturization?: boolean;
+  /**
+   * Featurization mode - User can keep the default 'Auto' mode and AutoML will take care of necessary transformation of the data in featurization phase.
+   * If 'Off' is selected then no featurization is done.
+   * If 'Custom' is selected then user can specify additional inputs to customize how featurization is done.
+   */
+  mode?: FeaturizationMode;
+  /** User can specify additional transformers to be used along with the columns to which it would be applied and parameters for the transformer constructor. */
+  transformerParams?: { [propertyName: string]: ColumnTransformer[] | null };
+}
+
+export interface NlpVerticalFeaturizationSettings
+  extends FeaturizationSettings {}
+
 /** MPI distribution configuration. */
 export interface Mpi extends DistributionConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -3033,14 +4737,6 @@ export interface TensorFlow extends DistributionConfiguration {
   workerCount?: number;
 }
 
-/** Literal input type. */
-export interface LiteralJobInput extends JobInput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  jobInputType: "literal";
-  /** [Required] Literal value for the input. */
-  value: string;
-}
-
 /** Command Job limit class. */
 export interface CommandJobLimits extends JobLimits {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -3057,6 +4753,235 @@ export interface SweepJobLimits extends JobLimits {
   maxTotalTrials?: number;
   /** Sweep Job Trial timeout value. */
   trialTimeout?: string;
+}
+
+/**
+ * Settings used for training the model.
+ * For more information on the available settings please visit the official documentation:
+ * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+ */
+export interface ImageModelSettingsClassification extends ImageModelSettings {
+  /** Image crop size that is input to the neural network for the training dataset. Must be a positive integer. */
+  trainingCropSize?: number;
+  /** Image crop size that is input to the neural network for the validation dataset. Must be a positive integer. */
+  validationCropSize?: number;
+  /** Image size to which to resize before cropping for validation dataset. Must be a positive integer. */
+  validationResizeSize?: number;
+  /**
+   * Weighted loss. The accepted values are 0 for no weighted loss.
+   * 1 for weighted loss with sqrt.(class_weights). 2 for weighted loss with class_weights. Must be 0 or 1 or 2.
+   */
+  weightedLoss?: number;
+}
+
+/**
+ * Settings used for training the model.
+ * For more information on the available settings please visit the official documentation:
+ * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+ */
+export interface ImageModelSettingsObjectDetection extends ImageModelSettings {
+  /**
+   * Maximum number of detections per image, for all classes. Must be a positive integer.
+   * Note: This settings is not supported for the 'yolov5' algorithm.
+   */
+  boxDetectionsPerImage?: number;
+  /**
+   * During inference, only return proposals with a classification score greater than
+   * BoxScoreThreshold. Must be a float in the range[0, 1].
+   */
+  boxScoreThreshold?: number;
+  /**
+   * Image size for train and validation. Must be a positive integer.
+   * Note: The training run may get into CUDA OOM if the size is too big.
+   * Note: This settings is only supported for the 'yolov5' algorithm.
+   */
+  imageSize?: number;
+  /**
+   * Maximum size of the image to be rescaled before feeding it to the backbone.
+   * Must be a positive integer. Note: training run may get into CUDA OOM if the size is too big.
+   * Note: This settings is not supported for the 'yolov5' algorithm.
+   */
+  maxSize?: number;
+  /**
+   * Minimum size of the image to be rescaled before feeding it to the backbone.
+   * Must be a positive integer. Note: training run may get into CUDA OOM if the size is too big.
+   * Note: This settings is not supported for the 'yolov5' algorithm.
+   */
+  minSize?: number;
+  /**
+   * Model size. Must be 'small', 'medium', 'large', or 'xlarge'.
+   * Note: training run may get into CUDA OOM if the model size is too big.
+   * Note: This settings is only supported for the 'yolov5' algorithm.
+   */
+  modelSize?: ModelSize;
+  /**
+   * Enable multi-scale image by varying image size by +/- 50%.
+   * Note: training run may get into CUDA OOM if no sufficient GPU memory.
+   * Note: This settings is only supported for the 'yolov5' algorithm.
+   */
+  multiScale?: boolean;
+  /** IOU threshold used during inference in NMS post processing. Must be a float in the range [0, 1]. */
+  nmsIouThreshold?: number;
+  /**
+   * The grid size to use for tiling each image. Note: TileGridSize must not be
+   * None to enable small object detection logic. A string containing two integers in mxn format.
+   * Note: This settings is not supported for the 'yolov5' algorithm.
+   */
+  tileGridSize?: string;
+  /**
+   * Overlap ratio between adjacent tiles in each dimension. Must be float in the range [0, 1).
+   * Note: This settings is not supported for the 'yolov5' algorithm.
+   */
+  tileOverlapRatio?: number;
+  /**
+   * The IOU threshold to use to perform NMS while merging predictions from tiles and image.
+   * Used in validation/ inference. Must be float in the range [0, 1].
+   * Note: This settings is not supported for the 'yolov5' algorithm.
+   */
+  tilePredictionsNmsThreshold?: number;
+  /** IOU threshold to use when computing validation metric. Must be float in the range [0, 1]. */
+  validationIouThreshold?: number;
+  /** Metric computation method to use for validation metrics. */
+  validationMetricType?: ValidationMetricType;
+}
+
+/**
+ * Distribution expressions to sweep over values of model settings.
+ * <example>
+ * Some examples are:
+ * <code>
+ * ModelName = "choice('seresnext', 'resnest50')";
+ * LearningRate = "uniform(0.001, 0.01)";
+ * LayersToFreeze = "choice(0, 2)";
+ * </code></example>
+ * For more details on how to compose distribution expressions please check the documentation:
+ * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-tune-hyperparameters
+ * For more information on the available settings please visit the official documentation:
+ * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+ */
+export interface ImageModelDistributionSettingsClassification
+  extends ImageModelDistributionSettings {
+  /** Image crop size that is input to the neural network for the training dataset. Must be a positive integer. */
+  trainingCropSize?: string;
+  /** Image crop size that is input to the neural network for the validation dataset. Must be a positive integer. */
+  validationCropSize?: string;
+  /** Image size to which to resize before cropping for validation dataset. Must be a positive integer. */
+  validationResizeSize?: string;
+  /**
+   * Weighted loss. The accepted values are 0 for no weighted loss.
+   * 1 for weighted loss with sqrt.(class_weights). 2 for weighted loss with class_weights. Must be 0 or 1 or 2.
+   */
+  weightedLoss?: string;
+}
+
+/**
+ * Distribution expressions to sweep over values of model settings.
+ * <example>
+ * Some examples are:
+ * <code>
+ * ModelName = "choice('seresnext', 'resnest50')";
+ * LearningRate = "uniform(0.001, 0.01)";
+ * LayersToFreeze = "choice(0, 2)";
+ * </code></example>
+ * For more details on how to compose distribution expressions please check the documentation:
+ * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-tune-hyperparameters
+ * For more information on the available settings please visit the official documentation:
+ * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+ */
+export interface ImageModelDistributionSettingsObjectDetection
+  extends ImageModelDistributionSettings {
+  /**
+   * Maximum number of detections per image, for all classes. Must be a positive integer.
+   * Note: This settings is not supported for the 'yolov5' algorithm.
+   */
+  boxDetectionsPerImage?: string;
+  /**
+   * During inference, only return proposals with a classification score greater than
+   * BoxScoreThreshold. Must be a float in the range[0, 1].
+   */
+  boxScoreThreshold?: string;
+  /**
+   * Image size for train and validation. Must be a positive integer.
+   * Note: The training run may get into CUDA OOM if the size is too big.
+   * Note: This settings is only supported for the 'yolov5' algorithm.
+   */
+  imageSize?: string;
+  /**
+   * Maximum size of the image to be rescaled before feeding it to the backbone.
+   * Must be a positive integer. Note: training run may get into CUDA OOM if the size is too big.
+   * Note: This settings is not supported for the 'yolov5' algorithm.
+   */
+  maxSize?: string;
+  /**
+   * Minimum size of the image to be rescaled before feeding it to the backbone.
+   * Must be a positive integer. Note: training run may get into CUDA OOM if the size is too big.
+   * Note: This settings is not supported for the 'yolov5' algorithm.
+   */
+  minSize?: string;
+  /**
+   * Model size. Must be 'small', 'medium', 'large', or 'xlarge'.
+   * Note: training run may get into CUDA OOM if the model size is too big.
+   * Note: This settings is only supported for the 'yolov5' algorithm.
+   */
+  modelSize?: string;
+  /**
+   * Enable multi-scale image by varying image size by +/- 50%.
+   * Note: training run may get into CUDA OOM if no sufficient GPU memory.
+   * Note: This settings is only supported for the 'yolov5' algorithm.
+   */
+  multiScale?: string;
+  /** IOU threshold used during inference in NMS post processing. Must be float in the range [0, 1]. */
+  nmsIouThreshold?: string;
+  /**
+   * The grid size to use for tiling each image. Note: TileGridSize must not be
+   * None to enable small object detection logic. A string containing two integers in mxn format.
+   * Note: This settings is not supported for the 'yolov5' algorithm.
+   */
+  tileGridSize?: string;
+  /**
+   * Overlap ratio between adjacent tiles in each dimension. Must be float in the range [0, 1).
+   * Note: This settings is not supported for the 'yolov5' algorithm.
+   */
+  tileOverlapRatio?: string;
+  /**
+   * The IOU threshold to use to perform NMS while merging predictions from tiles and image.
+   * Used in validation/ inference. Must be float in the range [0, 1].
+   * Note: This settings is not supported for the 'yolov5' algorithm.
+   * NMS: Non-maximum suppression
+   */
+  tilePredictionsNmsThreshold?: string;
+  /** IOU threshold to use when computing validation metric. Must be float in the range [0, 1]. */
+  validationIouThreshold?: string;
+  /** Metric computation method to use for validation metrics. Must be 'none', 'coco', 'voc', or 'coco_voc'. */
+  validationMetricType?: string;
+}
+
+export interface ImageClassificationBase extends ImageVertical {
+  /** Settings used for training the model. */
+  modelSettings?: ImageModelSettingsClassification;
+  /** Search space for sampling different combinations of models and their hyperparameters. */
+  searchSpace?: ImageModelDistributionSettingsClassification[];
+}
+
+export interface ImageObjectDetectionBase extends ImageVertical {
+  /** Settings used for training the model. */
+  modelSettings?: ImageModelSettingsObjectDetection;
+  /** Search space for sampling different combinations of models and their hyperparameters. */
+  searchSpace?: ImageModelDistributionSettingsObjectDetection[];
+}
+
+export interface SparkJobPythonEntry extends SparkJobEntry {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  sparkJobEntryType: "SparkJobPythonEntry";
+  /** [Required] Relative python file path for job entry point. */
+  file: string;
+}
+
+export interface SparkJobScalaEntry extends SparkJobEntry {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  sparkJobEntryType: "SparkJobScalaEntry";
+  /** [Required] Scala class name used as entry point. */
+  className: string;
 }
 
 export interface BatchEndpoint extends TrackedResource {
@@ -3103,28 +5028,54 @@ export interface OnlineDeployment extends TrackedResource {
   sku?: Sku;
 }
 
-/** Properties specific to a KubernetesOnlineDeployment. */
-export interface KubernetesOnlineDeployment extends OnlineDeploymentProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  endpointComputeType: "Kubernetes";
-  /** The resource requirements for the container (cpu and memory). */
-  containerResourceRequirements?: ContainerResourceRequirements;
-}
-
-/** Properties specific to a ManagedOnlineDeployment. */
-export interface ManagedOnlineDeployment extends OnlineDeploymentProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  endpointComputeType: "Managed";
+export interface Registry extends TrackedResource {
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ManagedServiceIdentity;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
+  kind?: string;
+  /** [Required] Additional attributes of the entity. */
+  properties: RegistryProperties;
+  /** Sku details required for ARM contract for Autoscaling. */
+  sku?: Sku;
 }
 
 /** Container for code asset versions. */
-export interface CodeContainerProperties extends AssetContainer {}
+export interface CodeContainerProperties extends AssetContainer {
+  /**
+   * Provisioning state for the code container.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: AssetProvisioningState;
+}
 
 /**
  * Component container definition.
  * <see href="https://docs.microsoft.com/en-us/azure/machine-learning/reference-yaml-component-command" />
  */
-export interface ComponentContainerProperties extends AssetContainer {}
+export interface ComponentContainerProperties extends AssetContainer {
+  /**
+   * Provisioning state for the component container.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: AssetProvisioningState;
+}
+
+/** Container for environment specification versions. */
+export interface EnvironmentContainerProperties extends AssetContainer {
+  /**
+   * Provisioning state for the environment container.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: AssetProvisioningState;
+}
+
+export interface ModelContainerProperties extends AssetContainer {
+  /**
+   * Provisioning state for the model container.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: AssetProvisioningState;
+}
 
 /** Container for data asset versions. */
 export interface DataContainerProperties extends AssetContainer {
@@ -3132,15 +5083,15 @@ export interface DataContainerProperties extends AssetContainer {
   dataType: DataType;
 }
 
-/** Container for environment specification versions. */
-export interface EnvironmentContainerProperties extends AssetContainer {}
-
-export interface ModelContainerProperties extends AssetContainer {}
-
 /** Code asset version details. */
 export interface CodeVersionProperties extends AssetBase {
   /** Uri where code is located */
   codeUri?: string;
+  /**
+   * Provisioning state for the code version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: AssetProvisioningState;
 }
 
 /** Definition of a component version: defines resources that span component types. */
@@ -3150,14 +5101,11 @@ export interface ComponentVersionProperties extends AssetBase {
    * <see href="https://docs.microsoft.com/en-us/azure/machine-learning/reference-yaml-component-command" />
    */
   componentSpec?: Record<string, unknown>;
-}
-
-/** Data version base definition */
-export interface DataVersionBaseProperties extends AssetBase {
-  /** [Required] Specifies the type of data. */
-  dataType: DataType;
-  /** [Required] Uri of the data. Usage/meaning depends on Microsoft.MachineLearning.ManagementFrontEnd.Contracts.V20220501.Assets.DataVersionBase.DataType */
-  dataUri: string;
+  /**
+   * Provisioning state for the component version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: AssetProvisioningState;
 }
 
 /** Environment version details. */
@@ -3184,6 +5132,11 @@ export interface EnvironmentVersionProperties extends AssetBase {
   inferenceConfig?: InferenceContainerProperties;
   /** The OS type of the environment. */
   osType?: OperatingSystemType;
+  /**
+   * Provisioning state for the environment version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: AssetProvisioningState;
 }
 
 /** Model asset version details. */
@@ -3196,70 +5149,102 @@ export interface ModelVersionProperties extends AssetBase {
   modelType?: string;
   /** The URI path to the model contents. */
   modelUri?: string;
+  /**
+   * Provisioning state for the model version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: AssetProvisioningState;
 }
 
-/** Azure Blob datastore configuration. */
-export interface AzureBlobDatastore extends DatastoreProperties {
+/** Data version base definition */
+export interface DataVersionBaseProperties extends AssetBase {
+  /** [Required] Specifies the type of data. */
+  dataType: DataType;
+  /** [Required] Uri of the data. Usage/meaning depends on Microsoft.MachineLearning.ManagementFrontEnd.Contracts.V20221001Preview.Assets.DataVersionBase.DataType */
+  dataUri: string;
+}
+
+export interface HdfsDatastore extends DatastoreProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  datastoreType: "AzureBlob";
-  /** Storage account name. */
-  accountName?: string;
-  /** Storage account container name. */
-  containerName?: string;
-  /** Azure cloud endpoint for the storage account. */
-  endpoint?: string;
-  /** Protocol used to communicate with the storage account. */
+  datastoreType: "Hdfs";
+  /** The TLS cert of the HDFS server. Needs to be a base64 encoded string. Required if "Https" protocol is selected. */
+  hdfsServerCertificate?: string;
+  /** [Required] IP Address or DNS HostName. */
+  nameNodeAddress: string;
+  /** Protocol used to communicate with the storage account (Https/Http). */
   protocol?: string;
-  /** Indicates which identity to use to authenticate service data access to customer's storage. */
-  serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
 }
 
-/** Azure Data Lake Gen1 datastore configuration. */
-export interface AzureDataLakeGen1Datastore extends DatastoreProperties {
+/** Labeling job definition */
+export interface LabelingJobProperties extends JobBaseProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  datastoreType: "AzureDataLakeGen1";
-  /** Indicates which identity to use to authenticate service data access to customer's storage. */
-  serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
-  /** [Required] Azure Data Lake store name. */
-  storeName: string;
+  jobType: "Labeling";
+  /**
+   * Created time of the job in UTC timezone.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDateTime?: Date;
+  /** Configuration of data used in the job. */
+  dataConfiguration?: LabelingDataConfiguration;
+  /** Labeling instructions of the job. */
+  jobInstructions?: LabelingJobInstructions;
+  /** Label categories of the job. */
+  labelCategories?: { [propertyName: string]: LabelCategory | null };
+  /** Media type specific properties in the job. */
+  labelingJobMediaProperties?: LabelingJobMediaPropertiesUnion;
+  /** Configuration of MLAssist feature in the job. */
+  mlAssistConfiguration?: MLAssistConfigurationUnion;
+  /**
+   * Progress metrics of the job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly progressMetrics?: ProgressMetrics;
+  /**
+   * Internal id of the job(Previously called project).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly projectId?: string;
+  /**
+   * Specifies the labeling job provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: JobProvisioningState;
+  /**
+   * Status messages of the job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusMessages?: StatusMessage[];
 }
 
-/** Azure Data Lake Gen2 datastore configuration. */
-export interface AzureDataLakeGen2Datastore extends DatastoreProperties {
+/**
+ * AutoMLJob class.
+ * Use this class for executing AutoML tasks like Classification/Regression etc.
+ * See TaskType enum for all the tasks supported.
+ */
+export interface AutoMLJob extends JobBaseProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  datastoreType: "AzureDataLakeGen2";
-  /** [Required] Storage account name. */
-  accountName: string;
-  /** Azure cloud endpoint for the storage account. */
-  endpoint?: string;
-  /** [Required] The name of the Data Lake Gen2 filesystem. */
-  filesystem: string;
-  /** Protocol used to communicate with the storage account. */
-  protocol?: string;
-  /** Indicates which identity to use to authenticate service data access to customer's storage. */
-  serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
-}
-
-/** Azure File datastore configuration. */
-export interface AzureFileDatastore extends DatastoreProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  datastoreType: "AzureFile";
-  /** [Required] Storage account name. */
-  accountName: string;
-  /** Azure cloud endpoint for the storage account. */
-  endpoint?: string;
-  /** [Required] The name of the Azure file share that the datastore points to. */
-  fileShareName: string;
-  /** Protocol used to communicate with the storage account. */
-  protocol?: string;
-  /** Indicates which identity to use to authenticate service data access to customer's storage. */
-  serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
+  jobType: "AutoML";
+  /**
+   * The ARM resource ID of the Environment specification for the job.
+   * This is optional value to provide, if not provided, AutoML will default this to Production AutoML curated environment version when running the job.
+   */
+  environmentId?: string;
+  /** Environment variables included in the job. */
+  environmentVariables?: { [propertyName: string]: string | null };
+  /** Mapping of output data bindings used in the job. */
+  outputs?: { [propertyName: string]: JobOutputUnion | null };
+  /** Compute Resource configuration for the job. */
+  resources?: JobResourceConfiguration;
+  /** [Required] This represents scenario which can be one of Tables/NLP/Image */
+  taskDetails: AutoMLVerticalUnion;
 }
 
 /** Command job definition. */
 export interface CommandJob extends JobBaseProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobType: "Command";
+  /** Distribution configuration of the job. If set, this should be one of Mpi, Tensorflow, PyTorch, or null. */
+  autologgerSettings?: AutologgerSettings;
   /** ARM resource ID of the code asset. */
   codeId?: string;
   /** [Required] The command to execute on startup of the job. eg. "python train.py" */
@@ -3282,7 +5267,7 @@ export interface CommandJob extends JobBaseProperties {
    */
   readonly parameters?: Record<string, unknown>;
   /** Compute Resource configuration for the job. */
-  resources?: ResourceConfiguration;
+  resources?: JobResourceConfiguration;
 }
 
 /** Pipeline Job definition: defines generic to MFE attributes. */
@@ -3297,6 +5282,38 @@ export interface PipelineJob extends JobBaseProperties {
   outputs?: { [propertyName: string]: JobOutputUnion | null };
   /** Pipeline settings, for things like ContinueRunOnStepFailure etc. */
   settings?: Record<string, unknown>;
+  /** ARM resource ID of source job. */
+  sourceJobId?: string;
+}
+
+/** Spark job definition. */
+export interface SparkJob extends JobBaseProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobType: "Spark";
+  /** Archive files used in the job. */
+  archives?: string[];
+  /** Arguments for the job. */
+  args?: string;
+  /** [Required] ARM resource ID of the code asset. */
+  codeId: string;
+  /** Spark configured properties. */
+  conf?: { [propertyName: string]: string | null };
+  /** [Required] The entry to execute on startup of the job. */
+  entry: SparkJobEntryUnion;
+  /** The ARM resource ID of the Environment specification for the job. */
+  environmentId?: string;
+  /** Files used in the job. */
+  files?: string[];
+  /** Mapping of input data bindings used in the job. */
+  inputs?: { [propertyName: string]: JobInputUnion | null };
+  /** Jar files used in the job. */
+  jars?: string[];
+  /** Mapping of output data bindings used in the job. */
+  outputs?: { [propertyName: string]: JobOutputUnion | null };
+  /** Python files used in the job. */
+  pyFiles?: string[];
+  /** Compute Resource configuration for the job. */
+  resources?: SparkResourceConfiguration;
 }
 
 /** Sweep job definition. */
@@ -3319,6 +5336,20 @@ export interface SweepJob extends JobBaseProperties {
   searchSpace: Record<string, unknown>;
   /** [Required] Trial component definition. */
   trial: TrialComponent;
+}
+
+/** Properties specific to a KubernetesOnlineDeployment. */
+export interface KubernetesOnlineDeployment extends OnlineDeploymentProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointComputeType: "Kubernetes";
+  /** The resource requirements for the container (cpu and memory). */
+  containerResourceRequirements?: ContainerResourceRequirements;
+}
+
+/** Properties specific to a ManagedOnlineDeployment. */
+export interface ManagedOnlineDeployment extends OnlineDeploymentProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointComputeType: "Managed";
 }
 
 /** MLTable data definition */
@@ -3361,6 +5392,150 @@ export interface ComputeDeleteHeaders {
   azureAsyncOperation?: string;
   /** URI to poll for asynchronous operation result. */
   location?: string;
+}
+
+/** Defines headers for RegistryCodeContainers_delete operation. */
+export interface RegistryCodeContainersDeleteHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation result. */
+  location?: string;
+  /** Duration the client should wait between requests, in seconds. */
+  retryAfter?: number;
+}
+
+/** Defines headers for RegistryCodeContainers_createOrUpdate operation. */
+export interface RegistryCodeContainersCreateOrUpdateHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for RegistryCodeVersions_delete operation. */
+export interface RegistryCodeVersionsDeleteHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation result. */
+  location?: string;
+  /** Duration the client should wait between requests, in seconds. */
+  retryAfter?: number;
+}
+
+/** Defines headers for RegistryCodeVersions_createOrUpdate operation. */
+export interface RegistryCodeVersionsCreateOrUpdateHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for RegistryComponentContainers_delete operation. */
+export interface RegistryComponentContainersDeleteHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation result. */
+  location?: string;
+  /** Duration the client should wait between requests, in seconds. */
+  retryAfter?: number;
+}
+
+/** Defines headers for RegistryComponentContainers_createOrUpdate operation. */
+export interface RegistryComponentContainersCreateOrUpdateHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for RegistryComponentVersions_delete operation. */
+export interface RegistryComponentVersionsDeleteHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation result. */
+  location?: string;
+  /** Duration the client should wait between requests, in seconds. */
+  retryAfter?: number;
+}
+
+/** Defines headers for RegistryComponentVersions_createOrUpdate operation. */
+export interface RegistryComponentVersionsCreateOrUpdateHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for RegistryEnvironmentContainers_delete operation. */
+export interface RegistryEnvironmentContainersDeleteHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation result. */
+  location?: string;
+  /** Duration the client should wait between requests, in seconds. */
+  retryAfter?: number;
+}
+
+/** Defines headers for RegistryEnvironmentContainers_createOrUpdate operation. */
+export interface RegistryEnvironmentContainersCreateOrUpdateHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for RegistryEnvironmentVersions_delete operation. */
+export interface RegistryEnvironmentVersionsDeleteHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation result. */
+  location?: string;
+  /** Duration the client should wait between requests, in seconds. */
+  retryAfter?: number;
+}
+
+/** Defines headers for RegistryEnvironmentVersions_createOrUpdate operation. */
+export interface RegistryEnvironmentVersionsCreateOrUpdateHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for RegistryModelContainers_delete operation. */
+export interface RegistryModelContainersDeleteHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation result. */
+  location?: string;
+  /** Duration the client should wait between requests, in seconds. */
+  retryAfter?: number;
+}
+
+/** Defines headers for RegistryModelContainers_createOrUpdate operation. */
+export interface RegistryModelContainersCreateOrUpdateHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for RegistryModelVersions_delete operation. */
+export interface RegistryModelVersionsDeleteHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation result. */
+  location?: string;
+  /** Duration the client should wait between requests, in seconds. */
+  retryAfter?: number;
+}
+
+/** Defines headers for RegistryModelVersions_createOrUpdate operation. */
+export interface RegistryModelVersionsCreateOrUpdateHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation status. */
+  azureAsyncOperation?: string;
 }
 
 /** Defines headers for BatchEndpoints_delete operation. */
@@ -3437,6 +5612,30 @@ export interface JobsCancelHeaders {
   retryAfter?: number;
 }
 
+/** Defines headers for LabelingJobs_createOrUpdate operation. */
+export interface LabelingJobsCreateOrUpdateHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for LabelingJobs_exportLabels operation. */
+export interface LabelingJobsExportLabelsHeaders {
+  /** URI to poll for asynchronous operation result. */
+  location?: string;
+  /** Duration the client should wait between requests, in seconds. */
+  retryAfter?: number;
+}
+
+/** Defines headers for LabelingJobs_resume operation. */
+export interface LabelingJobsResumeHeaders {
+  /** URI to poll for asynchronous operation result. */
+  location?: string;
+  /** Duration the client should wait between requests, in seconds. */
+  retryAfter?: number;
+}
+
 /** Defines headers for OnlineEndpoints_delete operation. */
 export interface OnlineEndpointsDeleteHeaders {
   /** Timeout for the client to use when polling the asynchronous operation. */
@@ -3501,8 +5700,26 @@ export interface OnlineDeploymentsCreateOrUpdateHeaders {
   azureAsyncOperation?: string;
 }
 
-/** Known values of {@link ProvisioningState} that the service accepts. */
-export enum KnownProvisioningState {
+/** Defines headers for Schedules_delete operation. */
+export interface SchedulesDeleteHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation result. */
+  location?: string;
+  /** Duration the client should wait between requests, in seconds. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Schedules_createOrUpdate operation. */
+export interface SchedulesCreateOrUpdateHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation status. */
+  azureAsyncOperation?: string;
+}
+
+/** Known values of {@link WorkspaceProvisioningState} that the service accepts. */
+export enum KnownWorkspaceProvisioningState {
   /** Unknown */
   Unknown = "Unknown",
   /** Updating */
@@ -3516,12 +5733,14 @@ export enum KnownProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
+  /** SoftDeleted */
+  SoftDeleted = "SoftDeleted"
 }
 
 /**
- * Defines values for ProvisioningState. \
- * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ * Defines values for WorkspaceProvisioningState. \
+ * {@link KnownWorkspaceProvisioningState} can be used interchangeably with WorkspaceProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Unknown** \
@@ -3530,9 +5749,10 @@ export enum KnownProvisioningState {
  * **Deleting** \
  * **Succeeded** \
  * **Failed** \
- * **Canceled**
+ * **Canceled** \
+ * **SoftDeleted**
  */
-export type ProvisioningState = string;
+export type WorkspaceProvisioningState = string;
 
 /** Known values of {@link EncryptionStatus} that the service accepts. */
 export enum KnownEncryptionStatus {
@@ -3867,6 +6087,39 @@ export enum KnownComputeType {
  */
 export type ComputeType = string;
 
+/** Known values of {@link ComputeProvisioningState} that the service accepts. */
+export enum KnownComputeProvisioningState {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Updating */
+  Updating = "Updating",
+  /** Creating */
+  Creating = "Creating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for ComputeProvisioningState. \
+ * {@link KnownComputeProvisioningState} can be used interchangeably with ComputeProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Updating** \
+ * **Creating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type ComputeProvisioningState = string;
+
 /** Known values of {@link UnderlyingResourceAction} that the service accepts. */
 export enum KnownUnderlyingResourceAction {
   /** Delete */
@@ -3884,6 +6137,84 @@ export enum KnownUnderlyingResourceAction {
  * **Detach**
  */
 export type UnderlyingResourceAction = string;
+
+/** Known values of {@link ImageType} that the service accepts. */
+export enum KnownImageType {
+  /** Docker */
+  Docker = "docker",
+  /** Azureml */
+  Azureml = "azureml"
+}
+
+/**
+ * Defines values for ImageType. \
+ * {@link KnownImageType} can be used interchangeably with ImageType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **docker** \
+ * **azureml**
+ */
+export type ImageType = string;
+
+/** Known values of {@link EnvironmentVariableType} that the service accepts. */
+export enum KnownEnvironmentVariableType {
+  /** Local */
+  Local = "local"
+}
+
+/**
+ * Defines values for EnvironmentVariableType. \
+ * {@link KnownEnvironmentVariableType} can be used interchangeably with EnvironmentVariableType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **local**
+ */
+export type EnvironmentVariableType = string;
+
+/** Known values of {@link Protocol} that the service accepts. */
+export enum KnownProtocol {
+  /** Tcp */
+  Tcp = "tcp",
+  /** Udp */
+  Udp = "udp",
+  /** Http */
+  Http = "http"
+}
+
+/**
+ * Defines values for Protocol. \
+ * {@link KnownProtocol} can be used interchangeably with Protocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **tcp** \
+ * **udp** \
+ * **http**
+ */
+export type Protocol = string;
+
+/** Known values of {@link VolumeDefinitionType} that the service accepts. */
+export enum KnownVolumeDefinitionType {
+  /** Bind */
+  Bind = "bind",
+  /** Volume */
+  Volume = "volume",
+  /** Tmpfs */
+  Tmpfs = "tmpfs",
+  /** Npipe */
+  Npipe = "npipe"
+}
+
+/**
+ * Defines values for VolumeDefinitionType. \
+ * {@link KnownVolumeDefinitionType} can be used interchangeably with VolumeDefinitionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **bind** \
+ * **volume** \
+ * **tmpfs** \
+ * **npipe**
+ */
+export type VolumeDefinitionType = string;
 
 /** Known values of {@link NodeState} that the service accepts. */
 export enum KnownNodeState {
@@ -3926,7 +6257,11 @@ export enum KnownConnectionAuthType {
   /** None */
   None = "None",
   /** SAS */
-  SAS = "SAS"
+  SAS = "SAS",
+  /** ServicePrincipal */
+  ServicePrincipal = "ServicePrincipal",
+  /** AccessKey */
+  AccessKey = "AccessKey"
 }
 
 /**
@@ -3938,30 +6273,11 @@ export enum KnownConnectionAuthType {
  * **ManagedIdentity** \
  * **UsernamePassword** \
  * **None** \
- * **SAS**
+ * **SAS** \
+ * **ServicePrincipal** \
+ * **AccessKey**
  */
 export type ConnectionAuthType = string;
-
-/** Known values of {@link ConnectionCategory} that the service accepts. */
-export enum KnownConnectionCategory {
-  /** PythonFeed */
-  PythonFeed = "PythonFeed",
-  /** ContainerRegistry */
-  ContainerRegistry = "ContainerRegistry",
-  /** Git */
-  Git = "Git"
-}
-
-/**
- * Defines values for ConnectionCategory. \
- * {@link KnownConnectionCategory} can be used interchangeably with ConnectionCategory,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **PythonFeed** \
- * **ContainerRegistry** \
- * **Git**
- */
-export type ConnectionCategory = string;
 
 /** Known values of {@link ValueFormat} that the service accepts. */
 export enum KnownValueFormat {
@@ -3977,6 +6293,93 @@ export enum KnownValueFormat {
  * **JSON**
  */
 export type ValueFormat = string;
+
+/** Known values of {@link AssetProvisioningState} that the service accepts. */
+export enum KnownAssetProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for AssetProvisioningState. \
+ * {@link KnownAssetProvisioningState} can be used interchangeably with AssetProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Creating** \
+ * **Updating** \
+ * **Deleting**
+ */
+export type AssetProvisioningState = string;
+
+/** Known values of {@link ListViewType} that the service accepts. */
+export enum KnownListViewType {
+  /** ActiveOnly */
+  ActiveOnly = "ActiveOnly",
+  /** ArchivedOnly */
+  ArchivedOnly = "ArchivedOnly",
+  /** All */
+  All = "All"
+}
+
+/**
+ * Defines values for ListViewType. \
+ * {@link KnownListViewType} can be used interchangeably with ListViewType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ActiveOnly** \
+ * **ArchivedOnly** \
+ * **All**
+ */
+export type ListViewType = string;
+
+/** Known values of {@link EnvironmentType} that the service accepts. */
+export enum KnownEnvironmentType {
+  /** Curated */
+  Curated = "Curated",
+  /** UserCreated */
+  UserCreated = "UserCreated"
+}
+
+/**
+ * Defines values for EnvironmentType. \
+ * {@link KnownEnvironmentType} can be used interchangeably with EnvironmentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Curated** \
+ * **UserCreated**
+ */
+export type EnvironmentType = string;
+
+/** Known values of {@link OperatingSystemType} that the service accepts. */
+export enum KnownOperatingSystemType {
+  /** Linux */
+  Linux = "Linux",
+  /** Windows */
+  Windows = "Windows"
+}
+
+/**
+ * Defines values for OperatingSystemType. \
+ * {@link KnownOperatingSystemType} can be used interchangeably with OperatingSystemType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Linux** \
+ * **Windows**
+ */
+export type OperatingSystemType = string;
 
 /** Known values of {@link EndpointProvisioningState} that the service accepts. */
 export enum KnownEndpointProvisioningState {
@@ -4122,27 +6525,6 @@ export enum KnownDeploymentProvisioningState {
  */
 export type DeploymentProvisioningState = string;
 
-/** Known values of {@link ListViewType} that the service accepts. */
-export enum KnownListViewType {
-  /** ActiveOnly */
-  ActiveOnly = "ActiveOnly",
-  /** ArchivedOnly */
-  ArchivedOnly = "ArchivedOnly",
-  /** All */
-  All = "All"
-}
-
-/**
- * Defines values for ListViewType. \
- * {@link KnownListViewType} can be used interchangeably with ListViewType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ActiveOnly** \
- * **ArchivedOnly** \
- * **All**
- */
-export type ListViewType = string;
-
 /** Known values of {@link DataType} that the service accepts. */
 export enum KnownDataType {
   /** UriFile */
@@ -4175,7 +6557,11 @@ export enum KnownCredentialsType {
   /** Sas */
   Sas = "Sas",
   /** ServicePrincipal */
-  ServicePrincipal = "ServicePrincipal"
+  ServicePrincipal = "ServicePrincipal",
+  /** KerberosKeytab */
+  KerberosKeytab = "KerberosKeytab",
+  /** KerberosPassword */
+  KerberosPassword = "KerberosPassword"
 }
 
 /**
@@ -4187,7 +6573,9 @@ export enum KnownCredentialsType {
  * **Certificate** \
  * **None** \
  * **Sas** \
- * **ServicePrincipal**
+ * **ServicePrincipal** \
+ * **KerberosKeytab** \
+ * **KerberosPassword**
  */
 export type CredentialsType = string;
 
@@ -4200,7 +6588,9 @@ export enum KnownDatastoreType {
   /** AzureDataLakeGen2 */
   AzureDataLakeGen2 = "AzureDataLakeGen2",
   /** AzureFile */
-  AzureFile = "AzureFile"
+  AzureFile = "AzureFile",
+  /** Hdfs */
+  Hdfs = "Hdfs"
 }
 
 /**
@@ -4211,7 +6601,8 @@ export enum KnownDatastoreType {
  * **AzureBlob** \
  * **AzureDataLakeGen1** \
  * **AzureDataLakeGen2** \
- * **AzureFile**
+ * **AzureFile** \
+ * **Hdfs**
  */
 export type DatastoreType = string;
 
@@ -4224,7 +6615,11 @@ export enum KnownSecretsType {
   /** Sas */
   Sas = "Sas",
   /** ServicePrincipal */
-  ServicePrincipal = "ServicePrincipal"
+  ServicePrincipal = "ServicePrincipal",
+  /** KerberosPassword */
+  KerberosPassword = "KerberosPassword",
+  /** KerberosKeytab */
+  KerberosKeytab = "KerberosKeytab"
 }
 
 /**
@@ -4235,45 +6630,11 @@ export enum KnownSecretsType {
  * **AccountKey** \
  * **Certificate** \
  * **Sas** \
- * **ServicePrincipal**
+ * **ServicePrincipal** \
+ * **KerberosPassword** \
+ * **KerberosKeytab**
  */
 export type SecretsType = string;
-
-/** Known values of {@link EnvironmentType} that the service accepts. */
-export enum KnownEnvironmentType {
-  /** Curated */
-  Curated = "Curated",
-  /** UserCreated */
-  UserCreated = "UserCreated"
-}
-
-/**
- * Defines values for EnvironmentType. \
- * {@link KnownEnvironmentType} can be used interchangeably with EnvironmentType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Curated** \
- * **UserCreated**
- */
-export type EnvironmentType = string;
-
-/** Known values of {@link OperatingSystemType} that the service accepts. */
-export enum KnownOperatingSystemType {
-  /** Linux */
-  Linux = "Linux",
-  /** Windows */
-  Windows = "Windows"
-}
-
-/**
- * Defines values for OperatingSystemType. \
- * {@link KnownOperatingSystemType} can be used interchangeably with OperatingSystemType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Linux** \
- * **Windows**
- */
-export type OperatingSystemType = string;
 
 /** Known values of {@link IdentityConfigurationType} that the service accepts. */
 export enum KnownIdentityConfigurationType {
@@ -4298,12 +6659,18 @@ export type IdentityConfigurationType = string;
 
 /** Known values of {@link JobType} that the service accepts. */
 export enum KnownJobType {
+  /** AutoML */
+  AutoML = "AutoML",
   /** Command */
   Command = "Command",
+  /** Labeling */
+  Labeling = "Labeling",
   /** Sweep */
   Sweep = "Sweep",
   /** Pipeline */
-  Pipeline = "Pipeline"
+  Pipeline = "Pipeline",
+  /** Spark */
+  Spark = "Spark"
 }
 
 /**
@@ -4311,11 +6678,32 @@ export enum KnownJobType {
  * {@link KnownJobType} can be used interchangeably with JobType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **AutoML** \
  * **Command** \
+ * **Labeling** \
  * **Sweep** \
- * **Pipeline**
+ * **Pipeline** \
+ * **Spark**
  */
 export type JobType = string;
+
+/** Known values of {@link NodesValueType} that the service accepts. */
+export enum KnownNodesValueType {
+  /** All */
+  All = "All",
+  /** Custom */
+  Custom = "Custom"
+}
+
+/**
+ * Defines values for NodesValueType. \
+ * {@link KnownNodesValueType} can be used interchangeably with NodesValueType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **All** \
+ * **Custom**
+ */
+export type NodesValueType = string;
 
 /** Known values of {@link JobStatus} that the service accepts. */
 export enum KnownJobStatus {
@@ -4349,7 +6737,9 @@ export enum KnownJobStatus {
   /** The job is paused by users. Some adjustment to labeling jobs can be made only in paused state. */
   Paused = "Paused",
   /** Default job status if not mapped to all other statuses */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
+  /** The job is in a scheduled state. Job is not in any active state. */
+  Scheduled = "Scheduled"
 }
 
 /**
@@ -4371,9 +6761,112 @@ export enum KnownJobStatus {
  * **NotResponding**: When heartbeat is enabled, if the run isn't updating any information to RunHistory then the run goes to NotResponding state.
  * NotResponding is the only state that is exempt from strict transition orders. A run can go from NotResponding to any of the previous states. \
  * **Paused**: The job is paused by users. Some adjustment to labeling jobs can be made only in paused state. \
- * **Unknown**: Default job status if not mapped to all other statuses
+ * **Unknown**: Default job status if not mapped to all other statuses \
+ * **Scheduled**: The job is in a scheduled state. Job is not in any active state.
  */
 export type JobStatus = string;
+
+/** Known values of {@link MediaType} that the service accepts. */
+export enum KnownMediaType {
+  /** Image */
+  Image = "Image",
+  /** Text */
+  Text = "Text"
+}
+
+/**
+ * Defines values for MediaType. \
+ * {@link KnownMediaType} can be used interchangeably with MediaType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Image** \
+ * **Text**
+ */
+export type MediaType = string;
+
+/** Known values of {@link MLAssistConfigurationType} that the service accepts. */
+export enum KnownMLAssistConfigurationType {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for MLAssistConfigurationType. \
+ * {@link KnownMLAssistConfigurationType} can be used interchangeably with MLAssistConfigurationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type MLAssistConfigurationType = string;
+
+/** Known values of {@link JobProvisioningState} that the service accepts. */
+export enum KnownJobProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** InProgress */
+  InProgress = "InProgress"
+}
+
+/**
+ * Defines values for JobProvisioningState. \
+ * {@link KnownJobProvisioningState} can be used interchangeably with JobProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **InProgress**
+ */
+export type JobProvisioningState = string;
+
+/** Known values of {@link StatusMessageLevel} that the service accepts. */
+export enum KnownStatusMessageLevel {
+  /** Error */
+  Error = "Error",
+  /** Information */
+  Information = "Information",
+  /** Warning */
+  Warning = "Warning"
+}
+
+/**
+ * Defines values for StatusMessageLevel. \
+ * {@link KnownStatusMessageLevel} can be used interchangeably with StatusMessageLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Error** \
+ * **Information** \
+ * **Warning**
+ */
+export type StatusMessageLevel = string;
+
+/** Known values of {@link ExportFormatType} that the service accepts. */
+export enum KnownExportFormatType {
+  /** Dataset */
+  Dataset = "Dataset",
+  /** Coco */
+  Coco = "Coco",
+  /** CSV */
+  CSV = "CSV"
+}
+
+/**
+ * Defines values for ExportFormatType. \
+ * {@link KnownExportFormatType} can be used interchangeably with ExportFormatType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Dataset** \
+ * **Coco** \
+ * **CSV**
+ */
+export type ExportFormatType = string;
 
 /** Known values of {@link EndpointComputeType} that the service accepts. */
 export enum KnownEndpointComputeType {
@@ -4419,6 +6912,42 @@ export enum KnownOrderString {
  * **UpdatedAtAsc**
  */
 export type OrderString = string;
+
+/** Known values of {@link PublicNetworkAccessType} that the service accepts. */
+export enum KnownPublicNetworkAccessType {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for PublicNetworkAccessType. \
+ * {@link KnownPublicNetworkAccessType} can be used interchangeably with PublicNetworkAccessType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type PublicNetworkAccessType = string;
+
+/** Known values of {@link EgressPublicNetworkAccessType} that the service accepts. */
+export enum KnownEgressPublicNetworkAccessType {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for EgressPublicNetworkAccessType. \
+ * {@link KnownEgressPublicNetworkAccessType} can be used interchangeably with EgressPublicNetworkAccessType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type EgressPublicNetworkAccessType = string;
 
 /** Known values of {@link ScaleType} that the service accepts. */
 export enum KnownScaleType {
@@ -4494,6 +7023,93 @@ export enum KnownKeyType {
  * **Secondary**
  */
 export type KeyType = string;
+
+/** Known values of {@link ScheduleListViewType} that the service accepts. */
+export enum KnownScheduleListViewType {
+  /** EnabledOnly */
+  EnabledOnly = "EnabledOnly",
+  /** DisabledOnly */
+  DisabledOnly = "DisabledOnly",
+  /** All */
+  All = "All"
+}
+
+/**
+ * Defines values for ScheduleListViewType. \
+ * {@link KnownScheduleListViewType} can be used interchangeably with ScheduleListViewType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **EnabledOnly** \
+ * **DisabledOnly** \
+ * **All**
+ */
+export type ScheduleListViewType = string;
+
+/** Known values of {@link ScheduleActionType} that the service accepts. */
+export enum KnownScheduleActionType {
+  /** CreateJob */
+  CreateJob = "CreateJob",
+  /** InvokeBatchEndpoint */
+  InvokeBatchEndpoint = "InvokeBatchEndpoint"
+}
+
+/**
+ * Defines values for ScheduleActionType. \
+ * {@link KnownScheduleActionType} can be used interchangeably with ScheduleActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CreateJob** \
+ * **InvokeBatchEndpoint**
+ */
+export type ScheduleActionType = string;
+
+/** Known values of {@link ScheduleProvisioningStatus} that the service accepts. */
+export enum KnownScheduleProvisioningStatus {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for ScheduleProvisioningStatus. \
+ * {@link KnownScheduleProvisioningStatus} can be used interchangeably with ScheduleProvisioningStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type ScheduleProvisioningStatus = string;
+
+/** Known values of {@link TriggerType} that the service accepts. */
+export enum KnownTriggerType {
+  /** Recurrence */
+  Recurrence = "Recurrence",
+  /** Cron */
+  Cron = "Cron"
+}
+
+/**
+ * Defines values for TriggerType. \
+ * {@link KnownTriggerType} can be used interchangeably with TriggerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Recurrence** \
+ * **Cron**
+ */
+export type TriggerType = string;
 
 /** Known values of {@link ClusterPurpose} that the service accepts. */
 export enum KnownClusterPurpose {
@@ -4647,6 +7263,24 @@ export enum KnownApplicationSharingPolicy {
  * **Shared**
  */
 export type ApplicationSharingPolicy = string;
+
+/** Known values of {@link MlflowAutologger} that the service accepts. */
+export enum KnownMlflowAutologger {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for MlflowAutologger. \
+ * {@link KnownMlflowAutologger} can be used interchangeably with MlflowAutologger,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type MlflowAutologger = string;
 
 /** Known values of {@link SshPublicAccess} that the service accepts. */
 export enum KnownSshPublicAccess {
@@ -4846,6 +7480,24 @@ export enum KnownProvisioningStatus {
  */
 export type ProvisioningStatus = string;
 
+/** Known values of {@link ScheduleStatus} that the service accepts. */
+export enum KnownScheduleStatus {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for ScheduleStatus. \
+ * {@link KnownScheduleStatus} can be used interchangeably with ScheduleStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ScheduleStatus = string;
+
 /** Known values of {@link ComputePowerAction} that the service accepts. */
 export enum KnownComputePowerAction {
   /** Start */
@@ -4863,6 +7515,66 @@ export enum KnownComputePowerAction {
  * **Stop**
  */
 export type ComputePowerAction = string;
+
+/** Known values of {@link RecurrenceFrequency} that the service accepts. */
+export enum KnownRecurrenceFrequency {
+  /** Minute frequency */
+  Minute = "Minute",
+  /** Hour frequency */
+  Hour = "Hour",
+  /** Day frequency */
+  Day = "Day",
+  /** Week frequency */
+  Week = "Week",
+  /** Month frequency */
+  Month = "Month"
+}
+
+/**
+ * Defines values for RecurrenceFrequency. \
+ * {@link KnownRecurrenceFrequency} can be used interchangeably with RecurrenceFrequency,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Minute**: Minute frequency \
+ * **Hour**: Hour frequency \
+ * **Day**: Day frequency \
+ * **Week**: Week frequency \
+ * **Month**: Month frequency
+ */
+export type RecurrenceFrequency = string;
+
+/** Known values of {@link WeekDay} that the service accepts. */
+export enum KnownWeekDay {
+  /** Monday weekday */
+  Monday = "Monday",
+  /** Tuesday weekday */
+  Tuesday = "Tuesday",
+  /** Wednesday weekday */
+  Wednesday = "Wednesday",
+  /** Thursday weekday */
+  Thursday = "Thursday",
+  /** Friday weekday */
+  Friday = "Friday",
+  /** Saturday weekday */
+  Saturday = "Saturday",
+  /** Sunday weekday */
+  Sunday = "Sunday"
+}
+
+/**
+ * Defines values for WeekDay. \
+ * {@link KnownWeekDay} can be used interchangeably with WeekDay,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Monday**: Monday weekday \
+ * **Tuesday**: Tuesday weekday \
+ * **Wednesday**: Wednesday weekday \
+ * **Thursday**: Thursday weekday \
+ * **Friday**: Friday weekday \
+ * **Saturday**: Saturday weekday \
+ * **Sunday**: Sunday weekday
+ */
+export type WeekDay = string;
 
 /** Known values of {@link ScheduleProvisioningState} that the service accepts. */
 export enum KnownScheduleProvisioningState {
@@ -4884,24 +7596,6 @@ export enum KnownScheduleProvisioningState {
  * **Failed**
  */
 export type ScheduleProvisioningState = string;
-
-/** Known values of {@link ScheduleStatus} that the service accepts. */
-export enum KnownScheduleStatus {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for ScheduleStatus. \
- * {@link KnownScheduleStatus} can be used interchangeably with ScheduleStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type ScheduleStatus = string;
 
 /** Known values of {@link Autosave} that the service accepts. */
 export enum KnownAutosave {
@@ -5085,7 +7779,9 @@ export enum KnownOutputDeliveryMode {
   /** ReadWriteMount */
   ReadWriteMount = "ReadWriteMount",
   /** Upload */
-  Upload = "Upload"
+  Upload = "Upload",
+  /** Direct */
+  Direct = "Direct"
 }
 
 /**
@@ -5094,9 +7790,285 @@ export enum KnownOutputDeliveryMode {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **ReadWriteMount** \
- * **Upload**
+ * **Upload** \
+ * **Direct**
  */
 export type OutputDeliveryMode = string;
+
+/** Known values of {@link ForecastHorizonMode} that the service accepts. */
+export enum KnownForecastHorizonMode {
+  /** Forecast horizon to be determined automatically. */
+  Auto = "Auto",
+  /** Use the custom forecast horizon. */
+  Custom = "Custom"
+}
+
+/**
+ * Defines values for ForecastHorizonMode. \
+ * {@link KnownForecastHorizonMode} can be used interchangeably with ForecastHorizonMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Auto**: Forecast horizon to be determined automatically. \
+ * **Custom**: Use the custom forecast horizon.
+ */
+export type ForecastHorizonMode = string;
+
+/** Known values of {@link MLFlowAutologgerState} that the service accepts. */
+export enum KnownMLFlowAutologgerState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for MLFlowAutologgerState. \
+ * {@link KnownMLFlowAutologgerState} can be used interchangeably with MLFlowAutologgerState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type MLFlowAutologgerState = string;
+
+/** Known values of {@link JobOutputType} that the service accepts. */
+export enum KnownJobOutputType {
+  /** UriFile */
+  UriFile = "uri_file",
+  /** UriFolder */
+  UriFolder = "uri_folder",
+  /** Mltable */
+  Mltable = "mltable",
+  /** CustomModel */
+  CustomModel = "custom_model",
+  /** MlflowModel */
+  MlflowModel = "mlflow_model",
+  /** TritonModel */
+  TritonModel = "triton_model"
+}
+
+/**
+ * Defines values for JobOutputType. \
+ * {@link KnownJobOutputType} can be used interchangeably with JobOutputType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **uri_file** \
+ * **uri_folder** \
+ * **mltable** \
+ * **custom_model** \
+ * **mlflow_model** \
+ * **triton_model**
+ */
+export type JobOutputType = string;
+
+/** Known values of {@link LogVerbosity} that the service accepts. */
+export enum KnownLogVerbosity {
+  /** No logs emitted. */
+  NotSet = "NotSet",
+  /** Debug and above log statements logged. */
+  Debug = "Debug",
+  /** Info and above log statements logged. */
+  Info = "Info",
+  /** Warning and above log statements logged. */
+  Warning = "Warning",
+  /** Error and above log statements logged. */
+  Error = "Error",
+  /** Only critical statements logged. */
+  Critical = "Critical"
+}
+
+/**
+ * Defines values for LogVerbosity. \
+ * {@link KnownLogVerbosity} can be used interchangeably with LogVerbosity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSet**: No logs emitted. \
+ * **Debug**: Debug and above log statements logged. \
+ * **Info**: Info and above log statements logged. \
+ * **Warning**: Warning and above log statements logged. \
+ * **Error**: Error and above log statements logged. \
+ * **Critical**: Only critical statements logged.
+ */
+export type LogVerbosity = string;
+
+/** Known values of {@link TaskType} that the service accepts. */
+export enum KnownTaskType {
+  /**
+   * Classification in machine learning and statistics is a supervised learning approach in which
+   * the computer program learns from the data given to it and make new observations or classifications.
+   */
+  Classification = "Classification",
+  /** Regression means to predict the value using the input data. Regression models are used to predict a continuous value. */
+  Regression = "Regression",
+  /**
+   * Forecasting is a special kind of regression task that deals with time-series data and creates forecasting model
+   * that can be used to predict the near future values based on the inputs.
+   */
+  Forecasting = "Forecasting",
+  /**
+   * Image Classification. Multi-class image classification is used when an image is classified with only a single label
+   * from a set of classes - e.g. each image is classified as either an image of a 'cat' or a 'dog' or a 'duck'.
+   */
+  ImageClassification = "ImageClassification",
+  /**
+   * Image Classification Multilabel. Multi-label image classification is used when an image could have one or more labels
+   * from a set of labels - e.g. an image could be labeled with both 'cat' and 'dog'.
+   */
+  ImageClassificationMultilabel = "ImageClassificationMultilabel",
+  /**
+   * Image Object Detection. Object detection is used to identify objects in an image and locate each object with a
+   * bounding box e.g. locate all dogs and cats in an image and draw a bounding box around each.
+   */
+  ImageObjectDetection = "ImageObjectDetection",
+  /**
+   * Image Instance Segmentation. Instance segmentation is used to identify objects in an image at the pixel level,
+   * drawing a polygon around each object in the image.
+   */
+  ImageInstanceSegmentation = "ImageInstanceSegmentation",
+  /**
+   * Text classification (also known as text tagging or text categorization) is the process of sorting texts into categories.
+   * Categories are mutually exclusive.
+   */
+  TextClassification = "TextClassification",
+  /** Multilabel classification task assigns each sample to a group (zero or more) of target labels. */
+  TextClassificationMultilabel = "TextClassificationMultilabel",
+  /**
+   * Text Named Entity Recognition a.k.a. TextNER.
+   * Named Entity Recognition (NER) is the ability to take free-form text and identify the occurrences of entities such as people, locations, organizations, and more.
+   */
+  TextNER = "TextNER"
+}
+
+/**
+ * Defines values for TaskType. \
+ * {@link KnownTaskType} can be used interchangeably with TaskType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Classification**: Classification in machine learning and statistics is a supervised learning approach in which
+ * the computer program learns from the data given to it and make new observations or classifications. \
+ * **Regression**: Regression means to predict the value using the input data. Regression models are used to predict a continuous value. \
+ * **Forecasting**: Forecasting is a special kind of regression task that deals with time-series data and creates forecasting model
+ * that can be used to predict the near future values based on the inputs. \
+ * **ImageClassification**: Image Classification. Multi-class image classification is used when an image is classified with only a single label
+ * from a set of classes - e.g. each image is classified as either an image of a 'cat' or a 'dog' or a 'duck'. \
+ * **ImageClassificationMultilabel**: Image Classification Multilabel. Multi-label image classification is used when an image could have one or more labels
+ * from a set of labels - e.g. an image could be labeled with both 'cat' and 'dog'. \
+ * **ImageObjectDetection**: Image Object Detection. Object detection is used to identify objects in an image and locate each object with a
+ * bounding box e.g. locate all dogs and cats in an image and draw a bounding box around each. \
+ * **ImageInstanceSegmentation**: Image Instance Segmentation. Instance segmentation is used to identify objects in an image at the pixel level,
+ * drawing a polygon around each object in the image. \
+ * **TextClassification**: Text classification (also known as text tagging or text categorization) is the process of sorting texts into categories.
+ * Categories are mutually exclusive. \
+ * **TextClassificationMultilabel**: Multilabel classification task assigns each sample to a group (zero or more) of target labels. \
+ * **TextNER**: Text Named Entity Recognition a.k.a. TextNER.
+ * Named Entity Recognition (NER) is the ability to take free-form text and identify the occurrences of entities such as people, locations, organizations, and more.
+ */
+export type TaskType = string;
+
+/** Known values of {@link JobInputType} that the service accepts. */
+export enum KnownJobInputType {
+  /** Literal */
+  Literal = "literal",
+  /** UriFile */
+  UriFile = "uri_file",
+  /** UriFolder */
+  UriFolder = "uri_folder",
+  /** Mltable */
+  Mltable = "mltable",
+  /** CustomModel */
+  CustomModel = "custom_model",
+  /** MlflowModel */
+  MlflowModel = "mlflow_model",
+  /** TritonModel */
+  TritonModel = "triton_model"
+}
+
+/**
+ * Defines values for JobInputType. \
+ * {@link KnownJobInputType} can be used interchangeably with JobInputType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **literal** \
+ * **uri_file** \
+ * **uri_folder** \
+ * **mltable** \
+ * **custom_model** \
+ * **mlflow_model** \
+ * **triton_model**
+ */
+export type JobInputType = string;
+
+/** Known values of {@link NCrossValidationsMode} that the service accepts. */
+export enum KnownNCrossValidationsMode {
+  /** Determine N-Cross validations value automatically. Supported only for 'Forecasting' AutoML task. */
+  Auto = "Auto",
+  /** Use custom N-Cross validations value. */
+  Custom = "Custom"
+}
+
+/**
+ * Defines values for NCrossValidationsMode. \
+ * {@link KnownNCrossValidationsMode} can be used interchangeably with NCrossValidationsMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Auto**: Determine N-Cross validations value automatically. Supported only for 'Forecasting' AutoML task. \
+ * **Custom**: Use custom N-Cross validations value.
+ */
+export type NCrossValidationsMode = string;
+
+/** Known values of {@link SeasonalityMode} that the service accepts. */
+export enum KnownSeasonalityMode {
+  /** Seasonality to be determined automatically. */
+  Auto = "Auto",
+  /** Use the custom seasonality value. */
+  Custom = "Custom"
+}
+
+/**
+ * Defines values for SeasonalityMode. \
+ * {@link KnownSeasonalityMode} can be used interchangeably with SeasonalityMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Auto**: Seasonality to be determined automatically. \
+ * **Custom**: Use the custom seasonality value.
+ */
+export type SeasonalityMode = string;
+
+/** Known values of {@link TargetLagsMode} that the service accepts. */
+export enum KnownTargetLagsMode {
+  /** Target lags to be determined automatically. */
+  Auto = "Auto",
+  /** Use the custom target lags. */
+  Custom = "Custom"
+}
+
+/**
+ * Defines values for TargetLagsMode. \
+ * {@link KnownTargetLagsMode} can be used interchangeably with TargetLagsMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Auto**: Target lags to be determined automatically. \
+ * **Custom**: Use the custom target lags.
+ */
+export type TargetLagsMode = string;
+
+/** Known values of {@link TargetRollingWindowSizeMode} that the service accepts. */
+export enum KnownTargetRollingWindowSizeMode {
+  /** Determine rolling windows size automatically. */
+  Auto = "Auto",
+  /** Use the specified rolling window size. */
+  Custom = "Custom"
+}
+
+/**
+ * Defines values for TargetRollingWindowSizeMode. \
+ * {@link KnownTargetRollingWindowSizeMode} can be used interchangeably with TargetRollingWindowSizeMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Auto**: Determine rolling windows size automatically. \
+ * **Custom**: Use the specified rolling window size.
+ */
+export type TargetRollingWindowSizeMode = string;
 
 /** Known values of {@link ServiceDataAccessAuthIdentity} that the service accepts. */
 export enum KnownServiceDataAccessAuthIdentity {
@@ -5161,6 +8133,237 @@ export enum KnownSamplingAlgorithmType {
  */
 export type SamplingAlgorithmType = string;
 
+/** Known values of {@link ClassificationPrimaryMetrics} that the service accepts. */
+export enum KnownClassificationPrimaryMetrics {
+  /**
+   * AUC is the Area under the curve.
+   * This metric represents arithmetic mean of the score for each class,
+   * weighted by the number of true instances in each class.
+   */
+  AUCWeighted = "AUCWeighted",
+  /** Accuracy is the ratio of predictions that exactly match the true class labels. */
+  Accuracy = "Accuracy",
+  /**
+   * Normalized macro recall is recall macro-averaged and normalized, so that random
+   * performance has a score of 0, and perfect performance has a score of 1.
+   */
+  NormMacroRecall = "NormMacroRecall",
+  /**
+   * The arithmetic mean of the average precision score for each class, weighted by
+   * the number of true instances in each class.
+   */
+  AveragePrecisionScoreWeighted = "AveragePrecisionScoreWeighted",
+  /** The arithmetic mean of precision for each class, weighted by number of true instances in each class. */
+  PrecisionScoreWeighted = "PrecisionScoreWeighted"
+}
+
+/**
+ * Defines values for ClassificationPrimaryMetrics. \
+ * {@link KnownClassificationPrimaryMetrics} can be used interchangeably with ClassificationPrimaryMetrics,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AUCWeighted**: AUC is the Area under the curve.
+ * This metric represents arithmetic mean of the score for each class,
+ * weighted by the number of true instances in each class. \
+ * **Accuracy**: Accuracy is the ratio of predictions that exactly match the true class labels. \
+ * **NormMacroRecall**: Normalized macro recall is recall macro-averaged and normalized, so that random
+ * performance has a score of 0, and perfect performance has a score of 1. \
+ * **AveragePrecisionScoreWeighted**: The arithmetic mean of the average precision score for each class, weighted by
+ * the number of true instances in each class. \
+ * **PrecisionScoreWeighted**: The arithmetic mean of precision for each class, weighted by number of true instances in each class.
+ */
+export type ClassificationPrimaryMetrics = string;
+
+/** Known values of {@link ClassificationModels} that the service accepts. */
+export enum KnownClassificationModels {
+  /**
+   * Logistic regression is a fundamental classification technique.
+   * It belongs to the group of linear classifiers and is somewhat similar to polynomial and linear regression.
+   * Logistic regression is fast and relatively uncomplicated, and it's convenient for you to interpret the results.
+   * Although it's essentially a method for binary classification, it can also be applied to multiclass problems.
+   */
+  LogisticRegression = "LogisticRegression",
+  /**
+   * SGD: Stochastic gradient descent is an optimization algorithm often used in machine learning applications
+   * to find the model parameters that correspond to the best fit between predicted and actual outputs.
+   */
+  SGD = "SGD",
+  /**
+   * The multinomial Naive Bayes classifier is suitable for classification with discrete features (e.g., word counts for text classification).
+   * The multinomial distribution normally requires integer feature counts. However, in practice, fractional counts such as tf-idf may also work.
+   */
+  MultinomialNaiveBayes = "MultinomialNaiveBayes",
+  /** Naive Bayes classifier for multivariate Bernoulli models. */
+  BernoulliNaiveBayes = "BernoulliNaiveBayes",
+  /**
+   * A support vector machine (SVM) is a supervised machine learning model that uses classification algorithms for two-group classification problems.
+   * After giving an SVM model sets of labeled training data for each category, they're able to categorize new text.
+   */
+  SVM = "SVM",
+  /**
+   * A support vector machine (SVM) is a supervised machine learning model that uses classification algorithms for two-group classification problems.
+   * After giving an SVM model sets of labeled training data for each category, they're able to categorize new text.
+   * Linear SVM performs best when input data is linear, i.e., data can be easily classified by drawing the straight line between classified values on a plotted graph.
+   */
+  LinearSVM = "LinearSVM",
+  /**
+   * K-nearest neighbors (KNN) algorithm uses 'feature similarity' to predict the values of new datapoints
+   * which further means that the new data point will be assigned a value based on how closely it matches the points in the training set.
+   */
+  KNN = "KNN",
+  /**
+   * Decision Trees are a non-parametric supervised learning method used for both classification and regression tasks.
+   * The goal is to create a model that predicts the value of a target variable by learning simple decision rules inferred from the data features.
+   */
+  DecisionTree = "DecisionTree",
+  /**
+   * Random forest is a supervised learning algorithm.
+   * The "forest" it builds, is an ensemble of decision trees, usually trained with the “bagging” method.
+   * The general idea of the bagging method is that a combination of learning models increases the overall result.
+   */
+  RandomForest = "RandomForest",
+  /** Extreme Trees is an ensemble machine learning algorithm that combines the predictions from many decision trees. It is related to the widely used random forest algorithm. */
+  ExtremeRandomTrees = "ExtremeRandomTrees",
+  /** LightGBM is a gradient boosting framework that uses tree based learning algorithms. */
+  LightGBM = "LightGBM",
+  /** The technique of transiting week learners into a strong learner is called Boosting. The gradient boosting algorithm process works on this theory of execution. */
+  GradientBoosting = "GradientBoosting",
+  /** XGBoost: Extreme Gradient Boosting Algorithm. This algorithm is used for structured data where target column values can be divided into distinct class values. */
+  XGBoostClassifier = "XGBoostClassifier"
+}
+
+/**
+ * Defines values for ClassificationModels. \
+ * {@link KnownClassificationModels} can be used interchangeably with ClassificationModels,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LogisticRegression**: Logistic regression is a fundamental classification technique.
+ * It belongs to the group of linear classifiers and is somewhat similar to polynomial and linear regression.
+ * Logistic regression is fast and relatively uncomplicated, and it's convenient for you to interpret the results.
+ * Although it's essentially a method for binary classification, it can also be applied to multiclass problems. \
+ * **SGD**: SGD: Stochastic gradient descent is an optimization algorithm often used in machine learning applications
+ * to find the model parameters that correspond to the best fit between predicted and actual outputs. \
+ * **MultinomialNaiveBayes**: The multinomial Naive Bayes classifier is suitable for classification with discrete features (e.g., word counts for text classification).
+ * The multinomial distribution normally requires integer feature counts. However, in practice, fractional counts such as tf-idf may also work. \
+ * **BernoulliNaiveBayes**: Naive Bayes classifier for multivariate Bernoulli models. \
+ * **SVM**: A support vector machine (SVM) is a supervised machine learning model that uses classification algorithms for two-group classification problems.
+ * After giving an SVM model sets of labeled training data for each category, they're able to categorize new text. \
+ * **LinearSVM**: A support vector machine (SVM) is a supervised machine learning model that uses classification algorithms for two-group classification problems.
+ * After giving an SVM model sets of labeled training data for each category, they're able to categorize new text.
+ * Linear SVM performs best when input data is linear, i.e., data can be easily classified by drawing the straight line between classified values on a plotted graph. \
+ * **KNN**: K-nearest neighbors (KNN) algorithm uses 'feature similarity' to predict the values of new datapoints
+ * which further means that the new data point will be assigned a value based on how closely it matches the points in the training set. \
+ * **DecisionTree**: Decision Trees are a non-parametric supervised learning method used for both classification and regression tasks.
+ * The goal is to create a model that predicts the value of a target variable by learning simple decision rules inferred from the data features. \
+ * **RandomForest**: Random forest is a supervised learning algorithm.
+ * The "forest" it builds, is an ensemble of decision trees, usually trained with the “bagging” method.
+ * The general idea of the bagging method is that a combination of learning models increases the overall result. \
+ * **ExtremeRandomTrees**: Extreme Trees is an ensemble machine learning algorithm that combines the predictions from many decision trees. It is related to the widely used random forest algorithm. \
+ * **LightGBM**: LightGBM is a gradient boosting framework that uses tree based learning algorithms. \
+ * **GradientBoosting**: The technique of transiting week learners into a strong learner is called Boosting. The gradient boosting algorithm process works on this theory of execution. \
+ * **XGBoostClassifier**: XGBoost: Extreme Gradient Boosting Algorithm. This algorithm is used for structured data where target column values can be divided into distinct class values.
+ */
+export type ClassificationModels = string;
+
+/** Known values of {@link StackMetaLearnerType} that the service accepts. */
+export enum KnownStackMetaLearnerType {
+  /** None */
+  None = "None",
+  /** Default meta-learners are LogisticRegression for classification tasks. */
+  LogisticRegression = "LogisticRegression",
+  /** Default meta-learners are LogisticRegression for classification task when CV is on. */
+  LogisticRegressionCV = "LogisticRegressionCV",
+  /** LightGBMClassifier */
+  LightGBMClassifier = "LightGBMClassifier",
+  /** Default meta-learners are LogisticRegression for regression task. */
+  ElasticNet = "ElasticNet",
+  /** Default meta-learners are LogisticRegression for regression task when CV is on. */
+  ElasticNetCV = "ElasticNetCV",
+  /** LightGBMRegressor */
+  LightGBMRegressor = "LightGBMRegressor",
+  /** LinearRegression */
+  LinearRegression = "LinearRegression"
+}
+
+/**
+ * Defines values for StackMetaLearnerType. \
+ * {@link KnownStackMetaLearnerType} can be used interchangeably with StackMetaLearnerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **LogisticRegression**: Default meta-learners are LogisticRegression for classification tasks. \
+ * **LogisticRegressionCV**: Default meta-learners are LogisticRegression for classification task when CV is on. \
+ * **LightGBMClassifier** \
+ * **ElasticNet**: Default meta-learners are LogisticRegression for regression task. \
+ * **ElasticNetCV**: Default meta-learners are LogisticRegression for regression task when CV is on. \
+ * **LightGBMRegressor** \
+ * **LinearRegression**
+ */
+export type StackMetaLearnerType = string;
+
+/** Known values of {@link BlockedTransformers} that the service accepts. */
+export enum KnownBlockedTransformers {
+  /** Target encoding for text data. */
+  TextTargetEncoder = "TextTargetEncoder",
+  /** Ohe hot encoding creates a binary feature transformation. */
+  OneHotEncoder = "OneHotEncoder",
+  /** Target encoding for categorical data. */
+  CatTargetEncoder = "CatTargetEncoder",
+  /** Tf-Idf stands for, term-frequency times inverse document-frequency. This is a common term weighting scheme for identifying information from documents. */
+  TfIdf = "TfIdf",
+  /** Weight of Evidence encoding is a technique used to encode categorical variables. It uses the natural log of the P(1)/P(0) to create weights. */
+  WoETargetEncoder = "WoETargetEncoder",
+  /** Label encoder converts labels/categorical variables in a numerical form. */
+  LabelEncoder = "LabelEncoder",
+  /** Word embedding helps represents words or phrases as a vector, or a series of numbers. */
+  WordEmbedding = "WordEmbedding",
+  /** Naive Bayes is a classified that is used for classification of discrete features that are categorically distributed. */
+  NaiveBayes = "NaiveBayes",
+  /** Count Vectorizer converts a collection of text documents to a matrix of token counts. */
+  CountVectorizer = "CountVectorizer",
+  /** Hashing One Hot Encoder can turn categorical variables into a limited number of new features. This is often used for high-cardinality categorical features. */
+  HashOneHotEncoder = "HashOneHotEncoder"
+}
+
+/**
+ * Defines values for BlockedTransformers. \
+ * {@link KnownBlockedTransformers} can be used interchangeably with BlockedTransformers,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TextTargetEncoder**: Target encoding for text data. \
+ * **OneHotEncoder**: Ohe hot encoding creates a binary feature transformation. \
+ * **CatTargetEncoder**: Target encoding for categorical data. \
+ * **TfIdf**: Tf-Idf stands for, term-frequency times inverse document-frequency. This is a common term weighting scheme for identifying information from documents. \
+ * **WoETargetEncoder**: Weight of Evidence encoding is a technique used to encode categorical variables. It uses the natural log of the P(1)\/P(0) to create weights. \
+ * **LabelEncoder**: Label encoder converts labels\/categorical variables in a numerical form. \
+ * **WordEmbedding**: Word embedding helps represents words or phrases as a vector, or a series of numbers. \
+ * **NaiveBayes**: Naive Bayes is a classified that is used for classification of discrete features that are categorically distributed. \
+ * **CountVectorizer**: Count Vectorizer converts a collection of text documents to a matrix of token counts. \
+ * **HashOneHotEncoder**: Hashing One Hot Encoder can turn categorical variables into a limited number of new features. This is often used for high-cardinality categorical features.
+ */
+export type BlockedTransformers = string;
+
+/** Known values of {@link FeaturizationMode} that the service accepts. */
+export enum KnownFeaturizationMode {
+  /** Auto mode, system performs featurization without any custom featurization inputs. */
+  Auto = "Auto",
+  /** Custom featurization. */
+  Custom = "Custom",
+  /** Featurization off. 'Forecasting' task cannot use this value. */
+  Off = "Off"
+}
+
+/**
+ * Defines values for FeaturizationMode. \
+ * {@link KnownFeaturizationMode} can be used interchangeably with FeaturizationMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Auto**: Auto mode, system performs featurization without any custom featurization inputs. \
+ * **Custom**: Custom featurization. \
+ * **Off**: Featurization off. 'Forecasting' task cannot use this value.
+ */
+export type FeaturizationMode = string;
+
 /** Known values of {@link DistributionType} that the service accepts. */
 export enum KnownDistributionType {
   /** PyTorch */
@@ -5182,39 +8385,6 @@ export enum KnownDistributionType {
  */
 export type DistributionType = string;
 
-/** Known values of {@link JobInputType} that the service accepts. */
-export enum KnownJobInputType {
-  /** Literal */
-  Literal = "literal",
-  /** UriFile */
-  UriFile = "uri_file",
-  /** UriFolder */
-  UriFolder = "uri_folder",
-  /** Mltable */
-  Mltable = "mltable",
-  /** CustomModel */
-  CustomModel = "custom_model",
-  /** MlflowModel */
-  MlflowModel = "mlflow_model",
-  /** TritonModel */
-  TritonModel = "triton_model"
-}
-
-/**
- * Defines values for JobInputType. \
- * {@link KnownJobInputType} can be used interchangeably with JobInputType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **literal** \
- * **uri_file** \
- * **uri_folder** \
- * **mltable** \
- * **custom_model** \
- * **mlflow_model** \
- * **triton_model**
- */
-export type JobInputType = string;
-
 /** Known values of {@link JobLimitsType} that the service accepts. */
 export enum KnownJobLimitsType {
   /** Command */
@@ -5233,35 +8403,470 @@ export enum KnownJobLimitsType {
  */
 export type JobLimitsType = string;
 
-/** Known values of {@link JobOutputType} that the service accepts. */
-export enum KnownJobOutputType {
-  /** UriFile */
-  UriFile = "uri_file",
-  /** UriFolder */
-  UriFolder = "uri_folder",
-  /** Mltable */
-  Mltable = "mltable",
-  /** CustomModel */
-  CustomModel = "custom_model",
-  /** MlflowModel */
-  MlflowModel = "mlflow_model",
-  /** TritonModel */
-  TritonModel = "triton_model"
+/** Known values of {@link FeatureLags} that the service accepts. */
+export enum KnownFeatureLags {
+  /** No feature lags generated. */
+  None = "None",
+  /** System auto-generates feature lags. */
+  Auto = "Auto"
 }
 
 /**
- * Defines values for JobOutputType. \
- * {@link KnownJobOutputType} can be used interchangeably with JobOutputType,
+ * Defines values for FeatureLags. \
+ * {@link KnownFeatureLags} can be used interchangeably with FeatureLags,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **uri_file** \
- * **uri_folder** \
- * **mltable** \
- * **custom_model** \
- * **mlflow_model** \
- * **triton_model**
+ * **None**: No feature lags generated. \
+ * **Auto**: System auto-generates feature lags.
  */
-export type JobOutputType = string;
+export type FeatureLags = string;
+
+/** Known values of {@link ShortSeriesHandlingConfiguration} that the service accepts. */
+export enum KnownShortSeriesHandlingConfiguration {
+  /** Represents no/null value. */
+  None = "None",
+  /** Short series will be padded if there are no long series, otherwise short series will be dropped. */
+  Auto = "Auto",
+  /** All the short series will be padded. */
+  Pad = "Pad",
+  /** All the short series will be dropped. */
+  Drop = "Drop"
+}
+
+/**
+ * Defines values for ShortSeriesHandlingConfiguration. \
+ * {@link KnownShortSeriesHandlingConfiguration} can be used interchangeably with ShortSeriesHandlingConfiguration,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: Represents no\/null value. \
+ * **Auto**: Short series will be padded if there are no long series, otherwise short series will be dropped. \
+ * **Pad**: All the short series will be padded. \
+ * **Drop**: All the short series will be dropped.
+ */
+export type ShortSeriesHandlingConfiguration = string;
+
+/** Known values of {@link TargetAggregationFunction} that the service accepts. */
+export enum KnownTargetAggregationFunction {
+  /** Represent no value set. */
+  None = "None",
+  /** Sum */
+  Sum = "Sum",
+  /** Max */
+  Max = "Max",
+  /** Min */
+  Min = "Min",
+  /** Mean */
+  Mean = "Mean"
+}
+
+/**
+ * Defines values for TargetAggregationFunction. \
+ * {@link KnownTargetAggregationFunction} can be used interchangeably with TargetAggregationFunction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: Represent no value set. \
+ * **Sum** \
+ * **Max** \
+ * **Min** \
+ * **Mean**
+ */
+export type TargetAggregationFunction = string;
+
+/** Known values of {@link UseStl} that the service accepts. */
+export enum KnownUseStl {
+  /** No stl decomposition. */
+  None = "None",
+  /** Season */
+  Season = "Season",
+  /** SeasonTrend */
+  SeasonTrend = "SeasonTrend"
+}
+
+/**
+ * Defines values for UseStl. \
+ * {@link KnownUseStl} can be used interchangeably with UseStl,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No stl decomposition. \
+ * **Season** \
+ * **SeasonTrend**
+ */
+export type UseStl = string;
+
+/** Known values of {@link ForecastingPrimaryMetrics} that the service accepts. */
+export enum KnownForecastingPrimaryMetrics {
+  /** The Spearman's rank coefficient of correlation is a non-parametric measure of rank correlation. */
+  SpearmanCorrelation = "SpearmanCorrelation",
+  /** The Normalized Root Mean Squared Error (NRMSE) the RMSE facilitates the comparison between models with different scales. */
+  NormalizedRootMeanSquaredError = "NormalizedRootMeanSquaredError",
+  /** The R2 score is one of the performance evaluation measures for forecasting-based machine learning models. */
+  R2Score = "R2Score",
+  /** The Normalized Mean Absolute Error (NMAE) is a validation metric to compare the Mean Absolute Error (MAE) of (time) series with different scales. */
+  NormalizedMeanAbsoluteError = "NormalizedMeanAbsoluteError"
+}
+
+/**
+ * Defines values for ForecastingPrimaryMetrics. \
+ * {@link KnownForecastingPrimaryMetrics} can be used interchangeably with ForecastingPrimaryMetrics,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SpearmanCorrelation**: The Spearman's rank coefficient of correlation is a non-parametric measure of rank correlation. \
+ * **NormalizedRootMeanSquaredError**: The Normalized Root Mean Squared Error (NRMSE) the RMSE facilitates the comparison between models with different scales. \
+ * **R2Score**: The R2 score is one of the performance evaluation measures for forecasting-based machine learning models. \
+ * **NormalizedMeanAbsoluteError**: The Normalized Mean Absolute Error (NMAE) is a validation metric to compare the Mean Absolute Error (MAE) of (time) series with different scales.
+ */
+export type ForecastingPrimaryMetrics = string;
+
+/** Known values of {@link ForecastingModels} that the service accepts. */
+export enum KnownForecastingModels {
+  /**
+   * Auto-Autoregressive Integrated Moving Average (ARIMA) model uses time-series data and statistical analysis to interpret the data and make future predictions.
+   * This model aims to explain data by using time series data on its past values and uses linear regression to make predictions.
+   */
+  AutoArima = "AutoArima",
+  /**
+   * Prophet is a procedure for forecasting time series data based on an additive model where non-linear trends are fit with yearly, weekly, and daily seasonality, plus holiday effects.
+   * It works best with time series that have strong seasonal effects and several seasons of historical data. Prophet is robust to missing data and shifts in the trend, and typically handles outliers well.
+   */
+  Prophet = "Prophet",
+  /** The Naive forecasting model makes predictions by carrying forward the latest target value for each time-series in the training data. */
+  Naive = "Naive",
+  /** The Seasonal Naive forecasting model makes predictions by carrying forward the latest season of target values for each time-series in the training data. */
+  SeasonalNaive = "SeasonalNaive",
+  /** The Average forecasting model makes predictions by carrying forward the average of the target values for each time-series in the training data. */
+  Average = "Average",
+  /** The Seasonal Average forecasting model makes predictions by carrying forward the average value of the latest season of data for each time-series in the training data. */
+  SeasonalAverage = "SeasonalAverage",
+  /** Exponential smoothing is a time series forecasting method for univariate data that can be extended to support data with a systematic trend or seasonal component. */
+  ExponentialSmoothing = "ExponentialSmoothing",
+  /**
+   * An Autoregressive Integrated Moving Average with Explanatory Variable (ARIMAX) model can be viewed as a multiple regression model with one or more autoregressive (AR) terms and/or one or more moving average (MA) terms.
+   * This method is suitable for forecasting when data is stationary/non stationary, and multivariate with any type of data pattern, i.e., level/trend /seasonality/cyclicity.
+   */
+  Arimax = "Arimax",
+  /** TCNForecaster: Temporal Convolutional Networks Forecaster. //TODO: Ask forecasting team for brief intro. */
+  TCNForecaster = "TCNForecaster",
+  /** Elastic net is a popular type of regularized linear regression that combines two popular penalties, specifically the L1 and L2 penalty functions. */
+  ElasticNet = "ElasticNet",
+  /** The technique of transiting week learners into a strong learner is called Boosting. The gradient boosting algorithm process works on this theory of execution. */
+  GradientBoosting = "GradientBoosting",
+  /**
+   * Decision Trees are a non-parametric supervised learning method used for both classification and regression tasks.
+   * The goal is to create a model that predicts the value of a target variable by learning simple decision rules inferred from the data features.
+   */
+  DecisionTree = "DecisionTree",
+  /**
+   * K-nearest neighbors (KNN) algorithm uses 'feature similarity' to predict the values of new datapoints
+   * which further means that the new data point will be assigned a value based on how closely it matches the points in the training set.
+   */
+  KNN = "KNN",
+  /** Lasso model fit with Least Angle Regression a.k.a. Lars. It is a Linear Model trained with an L1 prior as regularizer. */
+  LassoLars = "LassoLars",
+  /**
+   * SGD: Stochastic gradient descent is an optimization algorithm often used in machine learning applications
+   * to find the model parameters that correspond to the best fit between predicted and actual outputs.
+   * It's an inexact but powerful technique.
+   */
+  SGD = "SGD",
+  /**
+   * Random forest is a supervised learning algorithm.
+   * The "forest" it builds, is an ensemble of decision trees, usually trained with the “bagging” method.
+   * The general idea of the bagging method is that a combination of learning models increases the overall result.
+   */
+  RandomForest = "RandomForest",
+  /** Extreme Trees is an ensemble machine learning algorithm that combines the predictions from many decision trees. It is related to the widely used random forest algorithm. */
+  ExtremeRandomTrees = "ExtremeRandomTrees",
+  /** LightGBM is a gradient boosting framework that uses tree based learning algorithms. */
+  LightGBM = "LightGBM",
+  /** XGBoostRegressor: Extreme Gradient Boosting Regressor is a supervised machine learning model using ensemble of base learners. */
+  XGBoostRegressor = "XGBoostRegressor"
+}
+
+/**
+ * Defines values for ForecastingModels. \
+ * {@link KnownForecastingModels} can be used interchangeably with ForecastingModels,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AutoArima**: Auto-Autoregressive Integrated Moving Average (ARIMA) model uses time-series data and statistical analysis to interpret the data and make future predictions.
+ * This model aims to explain data by using time series data on its past values and uses linear regression to make predictions. \
+ * **Prophet**: Prophet is a procedure for forecasting time series data based on an additive model where non-linear trends are fit with yearly, weekly, and daily seasonality, plus holiday effects.
+ * It works best with time series that have strong seasonal effects and several seasons of historical data. Prophet is robust to missing data and shifts in the trend, and typically handles outliers well. \
+ * **Naive**: The Naive forecasting model makes predictions by carrying forward the latest target value for each time-series in the training data. \
+ * **SeasonalNaive**: The Seasonal Naive forecasting model makes predictions by carrying forward the latest season of target values for each time-series in the training data. \
+ * **Average**: The Average forecasting model makes predictions by carrying forward the average of the target values for each time-series in the training data. \
+ * **SeasonalAverage**: The Seasonal Average forecasting model makes predictions by carrying forward the average value of the latest season of data for each time-series in the training data. \
+ * **ExponentialSmoothing**: Exponential smoothing is a time series forecasting method for univariate data that can be extended to support data with a systematic trend or seasonal component. \
+ * **Arimax**: An Autoregressive Integrated Moving Average with Explanatory Variable (ARIMAX) model can be viewed as a multiple regression model with one or more autoregressive (AR) terms and\/or one or more moving average (MA) terms.
+ * This method is suitable for forecasting when data is stationary\/non stationary, and multivariate with any type of data pattern, i.e., level\/trend \/seasonality\/cyclicity. \
+ * **TCNForecaster**: TCNForecaster: Temporal Convolutional Networks Forecaster. \/\/TODO: Ask forecasting team for brief intro. \
+ * **ElasticNet**: Elastic net is a popular type of regularized linear regression that combines two popular penalties, specifically the L1 and L2 penalty functions. \
+ * **GradientBoosting**: The technique of transiting week learners into a strong learner is called Boosting. The gradient boosting algorithm process works on this theory of execution. \
+ * **DecisionTree**: Decision Trees are a non-parametric supervised learning method used for both classification and regression tasks.
+ * The goal is to create a model that predicts the value of a target variable by learning simple decision rules inferred from the data features. \
+ * **KNN**: K-nearest neighbors (KNN) algorithm uses 'feature similarity' to predict the values of new datapoints
+ * which further means that the new data point will be assigned a value based on how closely it matches the points in the training set. \
+ * **LassoLars**: Lasso model fit with Least Angle Regression a.k.a. Lars. It is a Linear Model trained with an L1 prior as regularizer. \
+ * **SGD**: SGD: Stochastic gradient descent is an optimization algorithm often used in machine learning applications
+ * to find the model parameters that correspond to the best fit between predicted and actual outputs.
+ * It's an inexact but powerful technique. \
+ * **RandomForest**: Random forest is a supervised learning algorithm.
+ * The "forest" it builds, is an ensemble of decision trees, usually trained with the “bagging” method.
+ * The general idea of the bagging method is that a combination of learning models increases the overall result. \
+ * **ExtremeRandomTrees**: Extreme Trees is an ensemble machine learning algorithm that combines the predictions from many decision trees. It is related to the widely used random forest algorithm. \
+ * **LightGBM**: LightGBM is a gradient boosting framework that uses tree based learning algorithms. \
+ * **XGBoostRegressor**: XGBoostRegressor: Extreme Gradient Boosting Regressor is a supervised machine learning model using ensemble of base learners.
+ */
+export type ForecastingModels = string;
+
+/** Known values of {@link LearningRateScheduler} that the service accepts. */
+export enum KnownLearningRateScheduler {
+  /** No learning rate scheduler selected. */
+  None = "None",
+  /** Cosine Annealing With Warmup. */
+  WarmupCosine = "WarmupCosine",
+  /** Step learning rate scheduler. */
+  Step = "Step"
+}
+
+/**
+ * Defines values for LearningRateScheduler. \
+ * {@link KnownLearningRateScheduler} can be used interchangeably with LearningRateScheduler,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No learning rate scheduler selected. \
+ * **WarmupCosine**: Cosine Annealing With Warmup. \
+ * **Step**: Step learning rate scheduler.
+ */
+export type LearningRateScheduler = string;
+
+/** Known values of {@link StochasticOptimizer} that the service accepts. */
+export enum KnownStochasticOptimizer {
+  /** No optimizer selected. */
+  None = "None",
+  /** Stochastic Gradient Descent optimizer. */
+  Sgd = "Sgd",
+  /** Adam is algorithm the optimizes stochastic objective functions based on adaptive estimates of moments */
+  Adam = "Adam",
+  /** AdamW is a variant of the optimizer Adam that has an improved implementation of weight decay. */
+  Adamw = "Adamw"
+}
+
+/**
+ * Defines values for StochasticOptimizer. \
+ * {@link KnownStochasticOptimizer} can be used interchangeably with StochasticOptimizer,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No optimizer selected. \
+ * **Sgd**: Stochastic Gradient Descent optimizer. \
+ * **Adam**: Adam is algorithm the optimizes stochastic objective functions based on adaptive estimates of moments \
+ * **Adamw**: AdamW is a variant of the optimizer Adam that has an improved implementation of weight decay.
+ */
+export type StochasticOptimizer = string;
+
+/** Known values of {@link ClassificationMultilabelPrimaryMetrics} that the service accepts. */
+export enum KnownClassificationMultilabelPrimaryMetrics {
+  /**
+   * AUC is the Area under the curve.
+   * This metric represents arithmetic mean of the score for each class,
+   * weighted by the number of true instances in each class.
+   */
+  AUCWeighted = "AUCWeighted",
+  /** Accuracy is the ratio of predictions that exactly match the true class labels. */
+  Accuracy = "Accuracy",
+  /**
+   * Normalized macro recall is recall macro-averaged and normalized, so that random
+   * performance has a score of 0, and perfect performance has a score of 1.
+   */
+  NormMacroRecall = "NormMacroRecall",
+  /**
+   * The arithmetic mean of the average precision score for each class, weighted by
+   * the number of true instances in each class.
+   */
+  AveragePrecisionScoreWeighted = "AveragePrecisionScoreWeighted",
+  /** The arithmetic mean of precision for each class, weighted by number of true instances in each class. */
+  PrecisionScoreWeighted = "PrecisionScoreWeighted",
+  /** Intersection Over Union. Intersection of predictions divided by union of predictions. */
+  IOU = "IOU"
+}
+
+/**
+ * Defines values for ClassificationMultilabelPrimaryMetrics. \
+ * {@link KnownClassificationMultilabelPrimaryMetrics} can be used interchangeably with ClassificationMultilabelPrimaryMetrics,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AUCWeighted**: AUC is the Area under the curve.
+ * This metric represents arithmetic mean of the score for each class,
+ * weighted by the number of true instances in each class. \
+ * **Accuracy**: Accuracy is the ratio of predictions that exactly match the true class labels. \
+ * **NormMacroRecall**: Normalized macro recall is recall macro-averaged and normalized, so that random
+ * performance has a score of 0, and perfect performance has a score of 1. \
+ * **AveragePrecisionScoreWeighted**: The arithmetic mean of the average precision score for each class, weighted by
+ * the number of true instances in each class. \
+ * **PrecisionScoreWeighted**: The arithmetic mean of precision for each class, weighted by number of true instances in each class. \
+ * **IOU**: Intersection Over Union. Intersection of predictions divided by union of predictions.
+ */
+export type ClassificationMultilabelPrimaryMetrics = string;
+
+/** Known values of {@link InstanceSegmentationPrimaryMetrics} that the service accepts. */
+export enum KnownInstanceSegmentationPrimaryMetrics {
+  /**
+   * Mean Average Precision (MAP) is the average of AP (Average Precision).
+   * AP is calculated for each class and averaged to get the MAP.
+   */
+  MeanAveragePrecision = "MeanAveragePrecision"
+}
+
+/**
+ * Defines values for InstanceSegmentationPrimaryMetrics. \
+ * {@link KnownInstanceSegmentationPrimaryMetrics} can be used interchangeably with InstanceSegmentationPrimaryMetrics,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MeanAveragePrecision**: Mean Average Precision (MAP) is the average of AP (Average Precision).
+ * AP is calculated for each class and averaged to get the MAP.
+ */
+export type InstanceSegmentationPrimaryMetrics = string;
+
+/** Known values of {@link ModelSize} that the service accepts. */
+export enum KnownModelSize {
+  /** No value selected. */
+  None = "None",
+  /** Small size. */
+  Small = "Small",
+  /** Medium size. */
+  Medium = "Medium",
+  /** Large size. */
+  Large = "Large",
+  /** Extra large size. */
+  ExtraLarge = "ExtraLarge"
+}
+
+/**
+ * Defines values for ModelSize. \
+ * {@link KnownModelSize} can be used interchangeably with ModelSize,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No value selected. \
+ * **Small**: Small size. \
+ * **Medium**: Medium size. \
+ * **Large**: Large size. \
+ * **ExtraLarge**: Extra large size.
+ */
+export type ModelSize = string;
+
+/** Known values of {@link ValidationMetricType} that the service accepts. */
+export enum KnownValidationMetricType {
+  /** No metric. */
+  None = "None",
+  /** Coco metric. */
+  Coco = "Coco",
+  /** Voc metric. */
+  Voc = "Voc",
+  /** CocoVoc metric. */
+  CocoVoc = "CocoVoc"
+}
+
+/**
+ * Defines values for ValidationMetricType. \
+ * {@link KnownValidationMetricType} can be used interchangeably with ValidationMetricType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No metric. \
+ * **Coco**: Coco metric. \
+ * **Voc**: Voc metric. \
+ * **CocoVoc**: CocoVoc metric.
+ */
+export type ValidationMetricType = string;
+
+/** Known values of {@link ObjectDetectionPrimaryMetrics} that the service accepts. */
+export enum KnownObjectDetectionPrimaryMetrics {
+  /**
+   * Mean Average Precision (MAP) is the average of AP (Average Precision).
+   * AP is calculated for each class and averaged to get the MAP.
+   */
+  MeanAveragePrecision = "MeanAveragePrecision"
+}
+
+/**
+ * Defines values for ObjectDetectionPrimaryMetrics. \
+ * {@link KnownObjectDetectionPrimaryMetrics} can be used interchangeably with ObjectDetectionPrimaryMetrics,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MeanAveragePrecision**: Mean Average Precision (MAP) is the average of AP (Average Precision).
+ * AP is calculated for each class and averaged to get the MAP.
+ */
+export type ObjectDetectionPrimaryMetrics = string;
+
+/** Known values of {@link ImageAnnotationType} that the service accepts. */
+export enum KnownImageAnnotationType {
+  /** Classification */
+  Classification = "Classification",
+  /** BoundingBox */
+  BoundingBox = "BoundingBox",
+  /** InstanceSegmentation */
+  InstanceSegmentation = "InstanceSegmentation"
+}
+
+/**
+ * Defines values for ImageAnnotationType. \
+ * {@link KnownImageAnnotationType} can be used interchangeably with ImageAnnotationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Classification** \
+ * **BoundingBox** \
+ * **InstanceSegmentation**
+ */
+export type ImageAnnotationType = string;
+
+/** Known values of {@link TextAnnotationType} that the service accepts. */
+export enum KnownTextAnnotationType {
+  /** Classification */
+  Classification = "Classification",
+  /** NamedEntityRecognition */
+  NamedEntityRecognition = "NamedEntityRecognition"
+}
+
+/**
+ * Defines values for TextAnnotationType. \
+ * {@link KnownTextAnnotationType} can be used interchangeably with TextAnnotationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Classification** \
+ * **NamedEntityRecognition**
+ */
+export type TextAnnotationType = string;
+
+/** Known values of {@link NlpLearningRateScheduler} that the service accepts. */
+export enum KnownNlpLearningRateScheduler {
+  /** No learning rate schedule. */
+  None = "None",
+  /** Linear warmup and decay. */
+  Linear = "Linear",
+  /** Linear warmup then cosine decay. */
+  Cosine = "Cosine",
+  /** Linear warmup, cosine decay, then restart to initial LR. */
+  CosineWithRestarts = "CosineWithRestarts",
+  /** Increase linearly then polynomially decay. */
+  Polynomial = "Polynomial",
+  /** Constant learning rate. */
+  Constant = "Constant",
+  /** Linear warmup followed by constant value. */
+  ConstantWithWarmup = "ConstantWithWarmup"
+}
+
+/**
+ * Defines values for NlpLearningRateScheduler. \
+ * {@link KnownNlpLearningRateScheduler} can be used interchangeably with NlpLearningRateScheduler,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No learning rate schedule. \
+ * **Linear**: Linear warmup and decay. \
+ * **Cosine**: Linear warmup then cosine decay. \
+ * **CosineWithRestarts**: Linear warmup, cosine decay, then restart to initial LR. \
+ * **Polynomial**: Increase linearly then polynomially decay. \
+ * **Constant**: Constant learning rate. \
+ * **ConstantWithWarmup**: Linear warmup followed by constant value.
+ */
+export type NlpLearningRateScheduler = string;
 
 /** Known values of {@link Goal} that the service accepts. */
 export enum KnownGoal {
@@ -5298,6 +8903,110 @@ export enum KnownRandomSamplingAlgorithmRule {
  * **Sobol**
  */
 export type RandomSamplingAlgorithmRule = string;
+
+/** Known values of {@link RegressionPrimaryMetrics} that the service accepts. */
+export enum KnownRegressionPrimaryMetrics {
+  /** The Spearman's rank coefficient of correlation is a nonparametric measure of rank correlation. */
+  SpearmanCorrelation = "SpearmanCorrelation",
+  /** The Normalized Root Mean Squared Error (NRMSE) the RMSE facilitates the comparison between models with different scales. */
+  NormalizedRootMeanSquaredError = "NormalizedRootMeanSquaredError",
+  /** The R2 score is one of the performance evaluation measures for forecasting-based machine learning models. */
+  R2Score = "R2Score",
+  /** The Normalized Mean Absolute Error (NMAE) is a validation metric to compare the Mean Absolute Error (MAE) of (time) series with different scales. */
+  NormalizedMeanAbsoluteError = "NormalizedMeanAbsoluteError"
+}
+
+/**
+ * Defines values for RegressionPrimaryMetrics. \
+ * {@link KnownRegressionPrimaryMetrics} can be used interchangeably with RegressionPrimaryMetrics,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SpearmanCorrelation**: The Spearman's rank coefficient of correlation is a nonparametric measure of rank correlation. \
+ * **NormalizedRootMeanSquaredError**: The Normalized Root Mean Squared Error (NRMSE) the RMSE facilitates the comparison between models with different scales. \
+ * **R2Score**: The R2 score is one of the performance evaluation measures for forecasting-based machine learning models. \
+ * **NormalizedMeanAbsoluteError**: The Normalized Mean Absolute Error (NMAE) is a validation metric to compare the Mean Absolute Error (MAE) of (time) series with different scales.
+ */
+export type RegressionPrimaryMetrics = string;
+
+/** Known values of {@link RegressionModels} that the service accepts. */
+export enum KnownRegressionModels {
+  /** Elastic net is a popular type of regularized linear regression that combines two popular penalties, specifically the L1 and L2 penalty functions. */
+  ElasticNet = "ElasticNet",
+  /** The technique of transiting week learners into a strong learner is called Boosting. The gradient boosting algorithm process works on this theory of execution. */
+  GradientBoosting = "GradientBoosting",
+  /**
+   * Decision Trees are a non-parametric supervised learning method used for both classification and regression tasks.
+   * The goal is to create a model that predicts the value of a target variable by learning simple decision rules inferred from the data features.
+   */
+  DecisionTree = "DecisionTree",
+  /**
+   * K-nearest neighbors (KNN) algorithm uses 'feature similarity' to predict the values of new datapoints
+   * which further means that the new data point will be assigned a value based on how closely it matches the points in the training set.
+   */
+  KNN = "KNN",
+  /** Lasso model fit with Least Angle Regression a.k.a. Lars. It is a Linear Model trained with an L1 prior as regularizer. */
+  LassoLars = "LassoLars",
+  /**
+   * SGD: Stochastic gradient descent is an optimization algorithm often used in machine learning applications
+   * to find the model parameters that correspond to the best fit between predicted and actual outputs.
+   * It's an inexact but powerful technique.
+   */
+  SGD = "SGD",
+  /**
+   * Random forest is a supervised learning algorithm.
+   * The "forest" it builds, is an ensemble of decision trees, usually trained with the “bagging” method.
+   * The general idea of the bagging method is that a combination of learning models increases the overall result.
+   */
+  RandomForest = "RandomForest",
+  /** Extreme Trees is an ensemble machine learning algorithm that combines the predictions from many decision trees. It is related to the widely used random forest algorithm. */
+  ExtremeRandomTrees = "ExtremeRandomTrees",
+  /** LightGBM is a gradient boosting framework that uses tree based learning algorithms. */
+  LightGBM = "LightGBM",
+  /** XGBoostRegressor: Extreme Gradient Boosting Regressor is a supervised machine learning model using ensemble of base learners. */
+  XGBoostRegressor = "XGBoostRegressor"
+}
+
+/**
+ * Defines values for RegressionModels. \
+ * {@link KnownRegressionModels} can be used interchangeably with RegressionModels,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ElasticNet**: Elastic net is a popular type of regularized linear regression that combines two popular penalties, specifically the L1 and L2 penalty functions. \
+ * **GradientBoosting**: The technique of transiting week learners into a strong learner is called Boosting. The gradient boosting algorithm process works on this theory of execution. \
+ * **DecisionTree**: Decision Trees are a non-parametric supervised learning method used for both classification and regression tasks.
+ * The goal is to create a model that predicts the value of a target variable by learning simple decision rules inferred from the data features. \
+ * **KNN**: K-nearest neighbors (KNN) algorithm uses 'feature similarity' to predict the values of new datapoints
+ * which further means that the new data point will be assigned a value based on how closely it matches the points in the training set. \
+ * **LassoLars**: Lasso model fit with Least Angle Regression a.k.a. Lars. It is a Linear Model trained with an L1 prior as regularizer. \
+ * **SGD**: SGD: Stochastic gradient descent is an optimization algorithm often used in machine learning applications
+ * to find the model parameters that correspond to the best fit between predicted and actual outputs.
+ * It's an inexact but powerful technique. \
+ * **RandomForest**: Random forest is a supervised learning algorithm.
+ * The "forest" it builds, is an ensemble of decision trees, usually trained with the “bagging” method.
+ * The general idea of the bagging method is that a combination of learning models increases the overall result. \
+ * **ExtremeRandomTrees**: Extreme Trees is an ensemble machine learning algorithm that combines the predictions from many decision trees. It is related to the widely used random forest algorithm. \
+ * **LightGBM**: LightGBM is a gradient boosting framework that uses tree based learning algorithms. \
+ * **XGBoostRegressor**: XGBoostRegressor: Extreme Gradient Boosting Regressor is a supervised machine learning model using ensemble of base learners.
+ */
+export type RegressionModels = string;
+
+/** Known values of {@link SparkJobEntryType} that the service accepts. */
+export enum KnownSparkJobEntryType {
+  /** SparkJobPythonEntry */
+  SparkJobPythonEntry = "SparkJobPythonEntry",
+  /** SparkJobScalaEntry */
+  SparkJobScalaEntry = "SparkJobScalaEntry"
+}
+
+/**
+ * Defines values for SparkJobEntryType. \
+ * {@link KnownSparkJobEntryType} can be used interchangeably with SparkJobEntryType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SparkJobPythonEntry** \
+ * **SparkJobScalaEntry**
+ */
+export type SparkJobEntryType = string;
 /** Defines values for SkuTier. */
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 
@@ -5547,6 +9256,10 @@ export interface ComputeDeleteOptionalParams
 }
 
 /** Optional parameters. */
+export interface ComputeUpdateCustomServicesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
 export interface ComputeListNodesOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -5585,6 +9298,10 @@ export interface ComputeRestartOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface ComputeUpdateIdleShutdownSettingOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ComputeListNextOptionalParams
@@ -5676,6 +9393,454 @@ export interface WorkspaceConnectionsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type WorkspaceConnectionsListNextResponse = WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface RegistryCodeContainersListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+}
+
+/** Contains response data for the list operation. */
+export type RegistryCodeContainersListResponse = CodeContainerResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface RegistryCodeContainersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface RegistryCodeContainersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RegistryCodeContainersGetResponse = CodeContainer;
+
+/** Optional parameters. */
+export interface RegistryCodeContainersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RegistryCodeContainersCreateOrUpdateResponse = CodeContainer;
+
+/** Optional parameters. */
+export interface RegistryCodeContainersListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type RegistryCodeContainersListNextResponse = CodeContainerResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface RegistryCodeVersionsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+  /** Ordering of list. */
+  orderBy?: string;
+  /** Maximum number of records to return. */
+  top?: number;
+}
+
+/** Contains response data for the list operation. */
+export type RegistryCodeVersionsListResponse = CodeVersionResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface RegistryCodeVersionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface RegistryCodeVersionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RegistryCodeVersionsGetResponse = CodeVersion;
+
+/** Optional parameters. */
+export interface RegistryCodeVersionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RegistryCodeVersionsCreateOrUpdateResponse = CodeVersion;
+
+/** Optional parameters. */
+export interface RegistryCodeVersionsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+  /** Ordering of list. */
+  orderBy?: string;
+  /** Maximum number of records to return. */
+  top?: number;
+}
+
+/** Contains response data for the listNext operation. */
+export type RegistryCodeVersionsListNextResponse = CodeVersionResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface RegistryComponentContainersListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+}
+
+/** Contains response data for the list operation. */
+export type RegistryComponentContainersListResponse = ComponentContainerResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface RegistryComponentContainersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface RegistryComponentContainersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RegistryComponentContainersGetResponse = ComponentContainer;
+
+/** Optional parameters. */
+export interface RegistryComponentContainersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RegistryComponentContainersCreateOrUpdateResponse = ComponentContainer;
+
+/** Optional parameters. */
+export interface RegistryComponentContainersListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type RegistryComponentContainersListNextResponse = ComponentContainerResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface RegistryComponentVersionsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+  /** Ordering of list. */
+  orderBy?: string;
+  /** Maximum number of records to return. */
+  top?: number;
+}
+
+/** Contains response data for the list operation. */
+export type RegistryComponentVersionsListResponse = ComponentVersionResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface RegistryComponentVersionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface RegistryComponentVersionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RegistryComponentVersionsGetResponse = ComponentVersion;
+
+/** Optional parameters. */
+export interface RegistryComponentVersionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RegistryComponentVersionsCreateOrUpdateResponse = ComponentVersion;
+
+/** Optional parameters. */
+export interface RegistryComponentVersionsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+  /** Ordering of list. */
+  orderBy?: string;
+  /** Maximum number of records to return. */
+  top?: number;
+}
+
+/** Contains response data for the listNext operation. */
+export type RegistryComponentVersionsListNextResponse = ComponentVersionResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface RegistryEnvironmentContainersListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+  /** View type for including/excluding (for example) archived entities. */
+  listViewType?: ListViewType;
+}
+
+/** Contains response data for the list operation. */
+export type RegistryEnvironmentContainersListResponse = EnvironmentContainerResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface RegistryEnvironmentContainersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface RegistryEnvironmentContainersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RegistryEnvironmentContainersGetResponse = EnvironmentContainer;
+
+/** Optional parameters. */
+export interface RegistryEnvironmentContainersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RegistryEnvironmentContainersCreateOrUpdateResponse = EnvironmentContainer;
+
+/** Optional parameters. */
+export interface RegistryEnvironmentContainersListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+  /** View type for including/excluding (for example) archived entities. */
+  listViewType?: ListViewType;
+}
+
+/** Contains response data for the listNext operation. */
+export type RegistryEnvironmentContainersListNextResponse = EnvironmentContainerResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface RegistryEnvironmentVersionsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+  /** Ordering of list. */
+  orderBy?: string;
+  /** Maximum number of records to return. */
+  top?: number;
+  /** View type for including/excluding (for example) archived entities. */
+  listViewType?: ListViewType;
+}
+
+/** Contains response data for the list operation. */
+export type RegistryEnvironmentVersionsListResponse = EnvironmentVersionResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface RegistryEnvironmentVersionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface RegistryEnvironmentVersionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RegistryEnvironmentVersionsGetResponse = EnvironmentVersion;
+
+/** Optional parameters. */
+export interface RegistryEnvironmentVersionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RegistryEnvironmentVersionsCreateOrUpdateResponse = EnvironmentVersion;
+
+/** Optional parameters. */
+export interface RegistryEnvironmentVersionsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+  /** Ordering of list. */
+  orderBy?: string;
+  /** Maximum number of records to return. */
+  top?: number;
+  /** View type for including/excluding (for example) archived entities. */
+  listViewType?: ListViewType;
+}
+
+/** Contains response data for the listNext operation. */
+export type RegistryEnvironmentVersionsListNextResponse = EnvironmentVersionResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface RegistryModelContainersListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+  /** View type for including/excluding (for example) archived entities. */
+  listViewType?: ListViewType;
+}
+
+/** Contains response data for the list operation. */
+export type RegistryModelContainersListResponse = ModelContainerResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface RegistryModelContainersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface RegistryModelContainersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RegistryModelContainersGetResponse = ModelContainer;
+
+/** Optional parameters. */
+export interface RegistryModelContainersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RegistryModelContainersCreateOrUpdateResponse = ModelContainer;
+
+/** Optional parameters. */
+export interface RegistryModelContainersListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+  /** View type for including/excluding (for example) archived entities. */
+  listViewType?: ListViewType;
+}
+
+/** Contains response data for the listNext operation. */
+export type RegistryModelContainersListNextResponse = ModelContainerResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface RegistryModelVersionsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+  /** Ordering of list. */
+  orderBy?: string;
+  /** Maximum number of records to return. */
+  top?: number;
+  /** View type for including/excluding (for example) archived entities. */
+  listViewType?: ListViewType;
+  /** Version identifier. */
+  version?: string;
+  /** Model description. */
+  description?: string;
+  /** Comma-separated list of tag names (and optionally values). Example: tag1,tag2=value2 */
+  tags?: string;
+  /** Comma-separated list of property names (and optionally values). Example: prop1,prop2=value2 */
+  properties?: string;
+}
+
+/** Contains response data for the list operation. */
+export type RegistryModelVersionsListResponse = ModelVersionResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface RegistryModelVersionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface RegistryModelVersionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RegistryModelVersionsGetResponse = ModelVersion;
+
+/** Optional parameters. */
+export interface RegistryModelVersionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RegistryModelVersionsCreateOrUpdateResponse = ModelVersion;
+
+/** Optional parameters. */
+export interface RegistryModelVersionsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+  /** Ordering of list. */
+  orderBy?: string;
+  /** Maximum number of records to return. */
+  top?: number;
+  /** View type for including/excluding (for example) archived entities. */
+  listViewType?: ListViewType;
+  /** Version identifier. */
+  version?: string;
+  /** Model description. */
+  description?: string;
+  /** Comma-separated list of tag names (and optionally values). Example: tag1,tag2=value2 */
+  tags?: string;
+  /** Comma-separated list of property names (and optionally values). Example: prop1,prop2=value2 */
+  properties?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type RegistryModelVersionsListNextResponse = ModelVersionResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface BatchEndpointsListOptionalParams
@@ -6268,6 +10433,10 @@ export interface JobsListOptionalParams extends coreClient.OperationOptions {
   jobType?: string;
   /** Jobs returned will have this tag key. */
   tag?: string;
+  /** Indicator whether the job is scheduled job. */
+  scheduled?: boolean;
+  /** The scheduled id for listing the job triggered from */
+  scheduleId?: string;
 }
 
 /** Contains response data for the list operation. */
@@ -6313,20 +10482,101 @@ export interface JobsListNextOptionalParams
   jobType?: string;
   /** Jobs returned will have this tag key. */
   tag?: string;
+  /** Indicator whether the job is scheduled job. */
+  scheduled?: boolean;
+  /** The scheduled id for listing the job triggered from */
+  scheduleId?: string;
 }
 
 /** Contains response data for the listNext operation. */
 export type JobsListNextResponse = JobBaseResourceArmPaginatedResult;
 
 /** Optional parameters. */
+export interface LabelingJobsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+  /** Number of labeling jobs to return. */
+  count?: number;
+}
+
+/** Contains response data for the list operation. */
+export type LabelingJobsListResponse = LabelingJobResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface LabelingJobsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface LabelingJobsGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** Boolean value to indicate whether to include JobInstructions in response. */
+  includeJobInstructions?: boolean;
+  /** Boolean value to indicate Whether to include LabelCategories in response. */
+  includeLabelCategories?: boolean;
+}
+
+/** Contains response data for the get operation. */
+export type LabelingJobsGetResponse = LabelingJob;
+
+/** Optional parameters. */
+export interface LabelingJobsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type LabelingJobsCreateOrUpdateResponse = LabelingJob;
+
+/** Optional parameters. */
+export interface LabelingJobsExportLabelsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the exportLabels operation. */
+export type LabelingJobsExportLabelsResponse = ExportSummaryUnion;
+
+/** Optional parameters. */
+export interface LabelingJobsPauseOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface LabelingJobsResumeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface LabelingJobsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+  /** Number of labeling jobs to return. */
+  count?: number;
+}
+
+/** Contains response data for the listNext operation. */
+export type LabelingJobsListNextResponse = LabelingJobResourceArmPaginatedResult;
+
+/** Optional parameters. */
 export interface ModelContainersListOptionalParams
   extends coreClient.OperationOptions {
   /** Continuation token for pagination. */
   skip?: string;
-  /** Maximum number of results to return. */
-  count?: number;
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListViewType;
+  /** Maximum number of results to return. */
+  count?: number;
 }
 
 /** Contains response data for the list operation. */
@@ -6355,10 +10605,10 @@ export interface ModelContainersListNextOptionalParams
   extends coreClient.OperationOptions {
   /** Continuation token for pagination. */
   skip?: string;
-  /** Maximum number of results to return. */
-  count?: number;
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListViewType;
+  /** Maximum number of results to return. */
+  count?: number;
 }
 
 /** Contains response data for the listNext operation. */
@@ -6379,12 +10629,12 @@ export interface ModelVersionsListOptionalParams
   version?: string;
   /** Model description. */
   description?: string;
-  /** Number of initial results to skip. */
-  offset?: number;
   /** Comma-separated list of tag names (and optionally values). Example: tag1,tag2=value2 */
   tags?: string;
   /** Comma-separated list of property names (and optionally values). Example: prop1,prop2=value2 */
   properties?: string;
+  /** Number of initial results to skip. */
+  offset?: number;
   /** Name of the feed. */
   feed?: string;
 }
@@ -6425,12 +10675,12 @@ export interface ModelVersionsListNextOptionalParams
   version?: string;
   /** Model description. */
   description?: string;
-  /** Number of initial results to skip. */
-  offset?: number;
   /** Comma-separated list of tag names (and optionally values). Example: tag1,tag2=value2 */
   tags?: string;
   /** Comma-separated list of property names (and optionally values). Example: prop1,prop2=value2 */
   properties?: string;
+  /** Number of initial results to skip. */
+  offset?: number;
   /** Name of the feed. */
   feed?: string;
 }
@@ -6443,12 +10693,12 @@ export interface OnlineEndpointsListOptionalParams
   extends coreClient.OperationOptions {
   /** Continuation token for pagination. */
   skip?: string;
-  /** Number of endpoints to be retrieved in a page of results. */
-  count?: number;
   /** A set of tags with which to filter the returned models. It is a comma separated string of tags key or tags key=value. Example: tagKey1,tagKey2,tagKey3=value3 . */
   tags?: string;
   /** A set of properties with which to filter the returned models. It is a comma separated string of properties key and/or properties key=value Example: propKey1,propKey2,propKey3=value3 . */
   properties?: string;
+  /** Number of endpoints to be retrieved in a page of results. */
+  count?: number;
   /** Name of the endpoint. */
   name?: string;
   /** EndpointComputeType to be filtered by. */
@@ -6528,12 +10778,12 @@ export interface OnlineEndpointsListNextOptionalParams
   extends coreClient.OperationOptions {
   /** Continuation token for pagination. */
   skip?: string;
-  /** Number of endpoints to be retrieved in a page of results. */
-  count?: number;
   /** A set of tags with which to filter the returned models. It is a comma separated string of tags key or tags key=value. Example: tagKey1,tagKey2,tagKey3=value3 . */
   tags?: string;
   /** A set of properties with which to filter the returned models. It is a comma separated string of properties key and/or properties key=value Example: propKey1,propKey2,propKey3=value3 . */
   properties?: string;
+  /** Number of endpoints to be retrieved in a page of results. */
+  count?: number;
   /** Name of the endpoint. */
   name?: string;
   /** EndpointComputeType to be filtered by. */
@@ -6645,6 +10895,58 @@ export interface OnlineDeploymentsListSkusNextOptionalParams
 export type OnlineDeploymentsListSkusNextResponse = SkuResourceArmPaginatedResult;
 
 /** Optional parameters. */
+export interface SchedulesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+  /** Status filter for schedule. */
+  listViewType?: ScheduleListViewType;
+}
+
+/** Contains response data for the list operation. */
+export type SchedulesListResponse = ScheduleResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface SchedulesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface SchedulesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SchedulesGetResponse = Schedule;
+
+/** Optional parameters. */
+export interface SchedulesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SchedulesCreateOrUpdateResponse = Schedule;
+
+/** Optional parameters. */
+export interface SchedulesListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+  /** Status filter for schedule. */
+  listViewType?: ScheduleListViewType;
+}
+
+/** Contains response data for the listNext operation. */
+export type SchedulesListNextResponse = ScheduleResourceArmPaginatedResult;
+
+/** Optional parameters. */
 export interface WorkspaceFeaturesListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -6659,7 +10961,77 @@ export interface WorkspaceFeaturesListNextOptionalParams
 export type WorkspaceFeaturesListNextResponse = ListAmlUserFeatureResult;
 
 /** Optional parameters. */
-export interface AzureMachineLearningWorkspacesOptionalParams
+export interface RegistriesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+}
+
+/** Contains response data for the listBySubscription operation. */
+export type RegistriesListBySubscriptionResponse = RegistryTrackedResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface RegistriesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+}
+
+/** Contains response data for the list operation. */
+export type RegistriesListResponse = RegistryTrackedResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface RegistriesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface RegistriesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RegistriesGetResponse = Registry;
+
+/** Optional parameters. */
+export interface RegistriesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type RegistriesUpdateResponse = Registry;
+
+/** Optional parameters. */
+export interface RegistriesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RegistriesCreateOrUpdateResponse = Registry;
+
+/** Optional parameters. */
+export interface RegistriesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type RegistriesListBySubscriptionNextResponse = RegistryTrackedResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface RegistriesListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type RegistriesListNextResponse = RegistryTrackedResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface AzureMachineLearningServicesOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;

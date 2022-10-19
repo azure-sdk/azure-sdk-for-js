@@ -8,5 +8,5 @@
 
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
-export { AzureMachineLearningWorkspaces } from "./azureMachineLearningWorkspaces";
+export { AzureMachineLearningServices } from "./azureMachineLearningServices";
 export * from "./operationsInterfaces";
