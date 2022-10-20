@@ -1905,6 +1905,11 @@
       "packageName": "@azure-rest/load-testing",
       "projectFolder": "sdk/loadtestservice/load-testing-rest",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-dataprotectionplatform",
+      "projectFolder": "sdk/dataprotectionplatform/arm-dataprotectionplatform",
+      "versionPolicyName": "management"
     }
   ]
 }
