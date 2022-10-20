@@ -8699,6 +8699,34 @@ export const CosmosCassandraDataTransferDataSourceSink: coreClient.CompositeMapp
   }
 };
 
+export const CosmosMongoDataTransferDataSourceSink: coreClient.CompositeMapper = {
+  serializedName: "CosmosDBMongo",
+  type: {
+    name: "Composite",
+    className: "CosmosMongoDataTransferDataSourceSink",
+    uberParent: "DataTransferDataSourceSink",
+    polymorphicDiscriminator:
+      DataTransferDataSourceSink.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataTransferDataSourceSink.type.modelProperties,
+      databaseName: {
+        serializedName: "databaseName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      collectionName: {
+        serializedName: "collectionName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CosmosSqlDataTransferDataSourceSink: coreClient.CompositeMapper = {
   serializedName: "CosmosDBSql",
   type: {
@@ -8992,6 +9020,7 @@ export let discriminators = {
   "BackupPolicy.Periodic": PeriodicModeBackupPolicy,
   "BackupPolicy.Continuous": ContinuousModeBackupPolicy,
   "DataTransferDataSourceSink.CosmosDBCassandra": CosmosCassandraDataTransferDataSourceSink,
+  "DataTransferDataSourceSink.CosmosDBMongo": CosmosMongoDataTransferDataSourceSink,
   "DataTransferDataSourceSink.CosmosDBSql": CosmosSqlDataTransferDataSourceSink,
   "DataTransferDataSourceSink.AzureBlobStorage": AzureBlobDataTransferDataSourceSink,
   "ServiceResourceProperties.DataTransfer": DataTransferServiceResourceProperties,
