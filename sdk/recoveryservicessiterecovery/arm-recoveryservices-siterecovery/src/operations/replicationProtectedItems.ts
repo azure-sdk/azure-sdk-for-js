@@ -319,10 +319,12 @@ export class ReplicationProtectedItemsImpl
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -414,10 +416,12 @@ export class ReplicationProtectedItemsImpl
       },
       purgeOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -514,10 +518,12 @@ export class ReplicationProtectedItemsImpl
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -615,10 +621,12 @@ export class ReplicationProtectedItemsImpl
       },
       addDisksOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -716,10 +724,12 @@ export class ReplicationProtectedItemsImpl
       },
       applyRecoveryPointOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -814,10 +824,12 @@ export class ReplicationProtectedItemsImpl
       },
       failoverCancelOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -909,10 +921,12 @@ export class ReplicationProtectedItemsImpl
       },
       failoverCommitOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1007,10 +1021,12 @@ export class ReplicationProtectedItemsImpl
       },
       plannedFailoverOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1104,10 +1120,12 @@ export class ReplicationProtectedItemsImpl
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1206,10 +1224,12 @@ export class ReplicationProtectedItemsImpl
       },
       removeDisksOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1305,10 +1325,12 @@ export class ReplicationProtectedItemsImpl
       },
       repairReplicationOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1404,10 +1426,12 @@ export class ReplicationProtectedItemsImpl
       },
       reprotectOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1505,10 +1529,12 @@ export class ReplicationProtectedItemsImpl
       },
       resolveHealthErrorsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1606,11 +1632,13 @@ export class ReplicationProtectedItemsImpl
       },
       switchProviderOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1708,10 +1736,12 @@ export class ReplicationProtectedItemsImpl
       },
       testFailoverOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1809,10 +1839,12 @@ export class ReplicationProtectedItemsImpl
       },
       testFailoverCleanupOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1910,10 +1942,12 @@ export class ReplicationProtectedItemsImpl
       },
       unplannedFailoverOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2011,10 +2045,12 @@ export class ReplicationProtectedItemsImpl
       },
       updateApplianceOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2047,15 +2083,15 @@ export class ReplicationProtectedItemsImpl
    * protected item to the latest available version.
    * @param fabricName The name of the fabric containing the protected item.
    * @param protectionContainerName The name of the container containing the protected item.
-   * @param replicationProtectedItemName The name of the protected item on which the agent is to be
-   *                                     updated.
+   * @param replicatedProtectedItemName The name of the protected item on which the agent is to be
+   *                                    updated.
    * @param updateMobilityServiceRequest Request to update the mobility service on the protected item.
    * @param options The options parameters.
    */
   async beginUpdateMobilityService(
     fabricName: string,
     protectionContainerName: string,
-    replicationProtectedItemName: string,
+    replicatedProtectedItemName: string,
     updateMobilityServiceRequest: UpdateMobilityServiceRequest,
     options?: ReplicationProtectedItemsUpdateMobilityServiceOptionalParams
   ): Promise<
@@ -2110,16 +2146,18 @@ export class ReplicationProtectedItemsImpl
       {
         fabricName,
         protectionContainerName,
-        replicationProtectedItemName,
+        replicatedProtectedItemName,
         updateMobilityServiceRequest,
         options
       },
       updateMobilityServiceOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2127,22 +2165,22 @@ export class ReplicationProtectedItemsImpl
    * protected item to the latest available version.
    * @param fabricName The name of the fabric containing the protected item.
    * @param protectionContainerName The name of the container containing the protected item.
-   * @param replicationProtectedItemName The name of the protected item on which the agent is to be
-   *                                     updated.
+   * @param replicatedProtectedItemName The name of the protected item on which the agent is to be
+   *                                    updated.
    * @param updateMobilityServiceRequest Request to update the mobility service on the protected item.
    * @param options The options parameters.
    */
   async beginUpdateMobilityServiceAndWait(
     fabricName: string,
     protectionContainerName: string,
-    replicationProtectedItemName: string,
+    replicatedProtectedItemName: string,
     updateMobilityServiceRequest: UpdateMobilityServiceRequest,
     options?: ReplicationProtectedItemsUpdateMobilityServiceOptionalParams
   ): Promise<ReplicationProtectedItemsUpdateMobilityServiceResponse> {
     const poller = await this.beginUpdateMobilityService(
       fabricName,
       protectionContainerName,
-      replicationProtectedItemName,
+      replicatedProtectedItemName,
       updateMobilityServiceRequest,
       options
     );
@@ -2803,7 +2841,7 @@ const updateApplianceOperationSpec: coreClient.OperationSpec = {
 };
 const updateMobilityServiceOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicationProtectedItemName}/updateMobilityService",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/updateMobilityService",
   httpMethod: "POST",
   responses: {
     200: {
@@ -2828,7 +2866,7 @@ const updateMobilityServiceOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.protectionContainerName,
-    Parameters.replicationProtectedItemName
+    Parameters.replicatedProtectedItemName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
