@@ -42,7 +42,6 @@
     "@azure-tools/test-credential": "^1.0.0",
     "mocha": "^7.1.1",
     "@types/chai": "^4.2.8",
-    "@types/node": "^14.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "@azure/dev-tool": "^1.0.0"
@@ -108,13 +107,5 @@
       }
     ]
   },
-  "autoPublish": true,
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-devhub?view=azure-node-preview"
-  }
+  "autoPublish": true
 }

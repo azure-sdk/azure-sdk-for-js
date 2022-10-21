@@ -308,8 +308,11 @@ export interface Workflow extends TrackedResource {
    */
   readonly prStatus?: PullRequestStatus;
   lastWorkflowRun?: WorkflowRun;
-  /** Determines the type of manifests within the repository. */
-  authStatus?: ManifestType;
+  /**
+   * Determines the authorization status of requests.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly authStatus?: AuthorizationStatus;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -413,6 +416,27 @@ export enum KnownPullRequestStatus {
  * **removed**: Workflow no longer found within repository.
  */
 export type PullRequestStatus = string;
+
+/** Known values of {@link AuthorizationStatus} that the service accepts. */
+export enum KnownAuthorizationStatus {
+  /** Requests authorized successfully */
+  Authorized = "Authorized",
+  /** Requests returned NotFound response */
+  NotFound = "NotFound",
+  /** Requests returned other error response */
+  Error = "Error"
+}
+
+/**
+ * Defines values for AuthorizationStatus. \
+ * {@link KnownAuthorizationStatus} can be used interchangeably with AuthorizationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Authorized**: Requests authorized successfully \
+ * **NotFound**: Requests returned NotFound response \
+ * **Error**: Requests returned other error response
+ */
+export type AuthorizationStatus = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
