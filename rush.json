@@ -1905,6 +1905,11 @@
       "packageName": "@azure-rest/load-testing",
       "projectFolder": "sdk/loadtestservice/load-testing-rest",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-elasticsan",
+      "projectFolder": "sdk/elasticsans/arm-elasticsan",
+      "versionPolicyName": "management"
     }
   ]
 }
