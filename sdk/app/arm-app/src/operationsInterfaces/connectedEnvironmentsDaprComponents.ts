@@ -9,82 +9,82 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   DaprComponent,
-  DaprComponentsListOptionalParams,
-  DaprComponentsGetOptionalParams,
-  DaprComponentsGetResponse,
-  DaprComponentsCreateOrUpdateOptionalParams,
-  DaprComponentsCreateOrUpdateResponse,
-  DaprComponentsDeleteOptionalParams,
-  DaprComponentsListSecretsOptionalParams,
-  DaprComponentsListSecretsResponse
+  ConnectedEnvironmentsDaprComponentsListOptionalParams,
+  ConnectedEnvironmentsDaprComponentsGetOptionalParams,
+  ConnectedEnvironmentsDaprComponentsGetResponse,
+  ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams,
+  ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse,
+  ConnectedEnvironmentsDaprComponentsDeleteOptionalParams,
+  ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams,
+  ConnectedEnvironmentsDaprComponentsListSecretsResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a DaprComponents. */
-export interface DaprComponents {
+/** Interface representing a ConnectedEnvironmentsDaprComponents. */
+export interface ConnectedEnvironmentsDaprComponents {
   /**
-   * Get the Dapr Components for a managed environment.
+   * Get the Dapr Components for a connected environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param connectedEnvironmentName Name of the connected environment.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
-    environmentName: string,
-    options?: DaprComponentsListOptionalParams
+    connectedEnvironmentName: string,
+    options?: ConnectedEnvironmentsDaprComponentsListOptionalParams
   ): PagedAsyncIterableIterator<DaprComponent>;
   /**
    * Get a dapr component.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param connectedEnvironmentName Name of the connected environment.
    * @param componentName Name of the Dapr Component.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    environmentName: string,
+    connectedEnvironmentName: string,
     componentName: string,
-    options?: DaprComponentsGetOptionalParams
-  ): Promise<DaprComponentsGetResponse>;
+    options?: ConnectedEnvironmentsDaprComponentsGetOptionalParams
+  ): Promise<ConnectedEnvironmentsDaprComponentsGetResponse>;
   /**
-   * Creates or updates a Dapr Component in a Managed Environment.
+   * Creates or updates a Dapr Component in a connected environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param connectedEnvironmentName Name of the connected environment.
    * @param componentName Name of the Dapr Component.
    * @param daprComponentEnvelope Configuration details of the Dapr Component.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
-    environmentName: string,
+    connectedEnvironmentName: string,
     componentName: string,
     daprComponentEnvelope: DaprComponent,
-    options?: DaprComponentsCreateOrUpdateOptionalParams
-  ): Promise<DaprComponentsCreateOrUpdateResponse>;
+    options?: ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams
+  ): Promise<ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse>;
   /**
-   * Delete a Dapr Component from a Managed Environment.
+   * Delete a Dapr Component from a connected environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param connectedEnvironmentName Name of the connected environment.
    * @param componentName Name of the Dapr Component.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
-    environmentName: string,
+    connectedEnvironmentName: string,
     componentName: string,
-    options?: DaprComponentsDeleteOptionalParams
+    options?: ConnectedEnvironmentsDaprComponentsDeleteOptionalParams
   ): Promise<void>;
   /**
    * List secrets for a dapr component
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param connectedEnvironmentName Name of the connected environment.
    * @param componentName Name of the Dapr Component.
    * @param options The options parameters.
    */
   listSecrets(
     resourceGroupName: string,
-    environmentName: string,
+    connectedEnvironmentName: string,
     componentName: string,
-    options?: DaprComponentsListSecretsOptionalParams
-  ): Promise<DaprComponentsListSecretsResponse>;
+    options?: ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams
+  ): Promise<ConnectedEnvironmentsDaprComponentsListSecretsResponse>;
 }
