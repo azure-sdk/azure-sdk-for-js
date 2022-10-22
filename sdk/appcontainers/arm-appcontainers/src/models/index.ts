@@ -1388,6 +1388,46 @@ export interface CertificatePatch {
   tags?: { [propertyName: string]: string };
 }
 
+/** Certificate resource specific properties */
+export interface ManagedCertificateProperties {
+  /**
+   * Provisioning state of the certificate.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: CertificateProvisioningState;
+  /** Subject name of the certificate. */
+  subjectName?: string;
+  /**
+   * Any error occurred during the certificate provision.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: string;
+  /** Selected type of domain control validation for managed certificates. */
+  domainControlValidation?: ManagedCertificateDomainControlValidation;
+  /**
+   * A TXT token used for DNS TXT domain control validation when issuing this type of managed certificates.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validationToken?: string;
+}
+
+/** A managed certificate to update */
+export interface ManagedCertificatePatch {
+  /** Application-specific metadata in the form of key-value pairs. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** Collection of Managed Certificates. */
+export interface ManagedCertificateCollection {
+  /** Collection of resources. */
+  value: ManagedCertificate[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** The check availability request body. */
 export interface CheckNameAvailabilityRequest {
   /** The name of the resource for which availability needs to be checked. */
@@ -1929,6 +1969,12 @@ export interface Certificate extends TrackedResource {
   properties?: CertificateProperties;
 }
 
+/** Managed certificates used for Custom Domain bindings of Container Apps in a Managed Environment */
+export interface ManagedCertificate extends TrackedResource {
+  /** Certificate resource specific properties */
+  properties?: ManagedCertificateProperties;
+}
+
 /** Environment Auth Token. */
 export interface EnvironmentAuthToken extends TrackedResource {
   /**
@@ -2390,6 +2436,27 @@ export enum KnownCertificateProvisioningState {
  */
 export type CertificateProvisioningState = string;
 
+/** Known values of {@link ManagedCertificateDomainControlValidation} that the service accepts. */
+export enum KnownManagedCertificateDomainControlValidation {
+  /** Cname */
+  Cname = "CNAME",
+  /** Http */
+  Http = "HTTP",
+  /** TXT */
+  TXT = "TXT"
+}
+
+/**
+ * Defines values for ManagedCertificateDomainControlValidation. \
+ * {@link KnownManagedCertificateDomainControlValidation} can be used interchangeably with ManagedCertificateDomainControlValidation,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CNAME** \
+ * **HTTP** \
+ * **TXT**
+ */
+export type ManagedCertificateDomainControlValidation = string;
+
 /** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
 export enum KnownCheckNameAvailabilityReason {
   /** Invalid */
@@ -2621,6 +2688,9 @@ export interface ContainerAppsUpdateOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the update operation. */
+export type ContainerAppsUpdateResponse = ContainerApp;
 
 /** Optional parameters. */
 export interface ContainerAppsListCustomHostNameAnalysisOptionalParams
@@ -2893,6 +2963,9 @@ export interface ManagedEnvironmentsUpdateOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the update operation. */
+export type ManagedEnvironmentsUpdateResponse = ManagedEnvironment;
+
 /** Optional parameters. */
 export interface ManagedEnvironmentsGetAuthTokenOptionalParams
   extends coreClient.OperationOptions {}
@@ -2969,6 +3042,52 @@ export interface CertificatesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type CertificatesListNextResponse = CertificateCollection;
+
+/** Optional parameters. */
+export interface ManagedCertificatesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ManagedCertificatesGetResponse = ManagedCertificate;
+
+/** Optional parameters. */
+export interface ManagedCertificatesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Managed Certificate to be created or updated */
+  managedCertificateEnvelope?: ManagedCertificate;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ManagedCertificatesCreateOrUpdateResponse = ManagedCertificate;
+
+/** Optional parameters. */
+export interface ManagedCertificatesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ManagedCertificatesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type ManagedCertificatesUpdateResponse = ManagedCertificate;
+
+/** Optional parameters. */
+export interface ManagedCertificatesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ManagedCertificatesListResponse = ManagedCertificateCollection;
+
+/** Optional parameters. */
+export interface ManagedCertificatesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ManagedCertificatesListNextResponse = ManagedCertificateCollection;
 
 /** Optional parameters. */
 export interface NamespacesCheckNameAvailabilityOptionalParams

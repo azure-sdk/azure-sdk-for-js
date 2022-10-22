@@ -17,6 +17,7 @@ export * from "./managedEnvironmentsDiagnostics";
 export * from "./operations";
 export * from "./managedEnvironments";
 export * from "./certificates";
+export * from "./managedCertificates";
 export * from "./namespaces";
 export * from "./managedEnvironmentsStorages";
 export * from "./containerAppsSourceControls";

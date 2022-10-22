@@ -18,6 +18,8 @@ import {
   ManagedEnvironment as ManagedEnvironmentMapper,
   Certificate as CertificateMapper,
   CertificatePatch as CertificatePatchMapper,
+  ManagedCertificate as ManagedCertificateMapper,
+  ManagedCertificatePatch as ManagedCertificatePatchMapper,
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   ManagedEnvironmentStorage as ManagedEnvironmentStorageMapper,
   SourceControl as SourceControlMapper,
@@ -250,6 +252,27 @@ export const certificateEnvelope: OperationParameter = {
 export const certificateEnvelope1: OperationParameter = {
   parameterPath: "certificateEnvelope",
   mapper: CertificatePatchMapper
+};
+
+export const managedCertificateName: OperationURLParameter = {
+  parameterPath: "managedCertificateName",
+  mapper: {
+    serializedName: "managedCertificateName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const managedCertificateEnvelope: OperationParameter = {
+  parameterPath: ["options", "managedCertificateEnvelope"],
+  mapper: ManagedCertificateMapper
+};
+
+export const managedCertificateEnvelope1: OperationParameter = {
+  parameterPath: "managedCertificateEnvelope",
+  mapper: ManagedCertificatePatchMapper
 };
 
 export const checkNameAvailabilityRequest: OperationParameter = {

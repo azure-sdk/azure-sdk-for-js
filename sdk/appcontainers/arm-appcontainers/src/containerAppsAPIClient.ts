@@ -26,6 +26,7 @@ import {
   OperationsImpl,
   ManagedEnvironmentsImpl,
   CertificatesImpl,
+  ManagedCertificatesImpl,
   NamespacesImpl,
   ManagedEnvironmentsStoragesImpl,
   ContainerAppsSourceControlsImpl,
@@ -48,6 +49,7 @@ import {
   Operations,
   ManagedEnvironments,
   Certificates,
+  ManagedCertificates,
   Namespaces,
   ManagedEnvironmentsStorages,
   ContainerAppsSourceControls,
@@ -92,7 +94,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appcontainers/2.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-appcontainers/1.2.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -164,6 +166,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     this.operations = new OperationsImpl(this);
     this.managedEnvironments = new ManagedEnvironmentsImpl(this);
     this.certificates = new CertificatesImpl(this);
+    this.managedCertificates = new ManagedCertificatesImpl(this);
     this.namespaces = new NamespacesImpl(this);
     this.managedEnvironmentsStorages = new ManagedEnvironmentsStoragesImpl(
       this
@@ -225,6 +228,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
   operations: Operations;
   managedEnvironments: ManagedEnvironments;
   certificates: Certificates;
+  managedCertificates: ManagedCertificates;
   namespaces: Namespaces;
   managedEnvironmentsStorages: ManagedEnvironmentsStorages;
   containerAppsSourceControls: ContainerAppsSourceControls;

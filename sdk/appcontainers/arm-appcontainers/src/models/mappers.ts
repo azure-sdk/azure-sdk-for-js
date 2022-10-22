@@ -1344,6 +1344,7 @@ export const Configuration: coreClient.CompositeMapper = {
         }
       },
       activeRevisionsMode: {
+        defaultValue: "Single",
         serializedName: "activeRevisionsMode",
         type: {
           name: "String"
@@ -1438,6 +1439,7 @@ export const Ingress: coreClient.CompositeMapper = {
         }
       },
       transport: {
+        defaultValue: "auto",
         serializedName: "transport",
         type: {
           name: "String"
@@ -1468,6 +1470,7 @@ export const Ingress: coreClient.CompositeMapper = {
         }
       },
       allowInsecure: {
+        defaultValue: false,
         serializedName: "allowInsecure",
         type: {
           name: "Boolean"
@@ -1627,6 +1630,7 @@ export const Dapr: coreClient.CompositeMapper = {
     className: "Dapr",
     modelProperties: {
       enabled: {
+        defaultValue: false,
         serializedName: "enabled",
         type: {
           name: "Boolean"
@@ -1639,6 +1643,7 @@ export const Dapr: coreClient.CompositeMapper = {
         }
       },
       appProtocol: {
+        defaultValue: "http",
         serializedName: "appProtocol",
         type: {
           name: "String"
@@ -3546,6 +3551,93 @@ export const CertificatePatch: coreClient.CompositeMapper = {
   }
 };
 
+export const ManagedCertificateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedCertificateProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      subjectName: {
+        serializedName: "subjectName",
+        type: {
+          name: "String"
+        }
+      },
+      error: {
+        serializedName: "error",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      domainControlValidation: {
+        serializedName: "domainControlValidation",
+        type: {
+          name: "String"
+        }
+      },
+      validationToken: {
+        serializedName: "validationToken",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedCertificatePatch: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedCertificatePatch",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const ManagedCertificateCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedCertificateCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedCertificate"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CheckNameAvailabilityRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4410,6 +4502,7 @@ export const DaprComponent: coreClient.CompositeMapper = {
         }
       },
       ignoreErrors: {
+        defaultValue: false,
         serializedName: "properties.ignoreErrors",
         type: {
           name: "Boolean"
@@ -4857,6 +4950,23 @@ export const Certificate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CertificateProperties"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedCertificate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedCertificate",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ManagedCertificateProperties"
         }
       }
     }
