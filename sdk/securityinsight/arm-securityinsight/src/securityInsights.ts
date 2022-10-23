@@ -19,35 +19,18 @@ import {
   ActionsImpl,
   AlertRuleTemplatesImpl,
   AutomationRulesImpl,
-  IncidentsImpl,
   BookmarksImpl,
-  BookmarkRelationsImpl,
-  BookmarkOperationsImpl,
-  IPGeodataImpl,
-  DomainWhoisImpl,
-  EntitiesImpl,
-  EntitiesGetTimelineImpl,
-  EntitiesRelationsImpl,
-  EntityRelationsImpl,
-  EntityQueriesImpl,
-  EntityQueryTemplatesImpl,
-  FileImportsImpl,
+  DataConnectorsImpl,
+  IncidentsImpl,
   IncidentCommentsImpl,
   IncidentRelationsImpl,
-  MetadataImpl,
-  OfficeConsentsImpl,
   SentinelOnboardingStatesImpl,
   SecurityMLAnalyticsSettingsImpl,
-  ProductSettingsImpl,
-  SourceControlOperationsImpl,
-  SourceControlsImpl,
   ThreatIntelligenceIndicatorImpl,
   ThreatIntelligenceIndicatorsImpl,
   ThreatIntelligenceIndicatorMetricsImpl,
   WatchlistsImpl,
   WatchlistItemsImpl,
-  DataConnectorsImpl,
-  DataConnectorsCheckRequirementsOperationsImpl,
   OperationsImpl
 } from "./operations";
 import {
@@ -55,35 +38,18 @@ import {
   Actions,
   AlertRuleTemplates,
   AutomationRules,
-  Incidents,
   Bookmarks,
-  BookmarkRelations,
-  BookmarkOperations,
-  IPGeodata,
-  DomainWhois,
-  Entities,
-  EntitiesGetTimeline,
-  EntitiesRelations,
-  EntityRelations,
-  EntityQueries,
-  EntityQueryTemplates,
-  FileImports,
+  DataConnectors,
+  Incidents,
   IncidentComments,
   IncidentRelations,
-  Metadata,
-  OfficeConsents,
   SentinelOnboardingStates,
   SecurityMLAnalyticsSettings,
-  ProductSettings,
-  SourceControlOperations,
-  SourceControls,
   ThreatIntelligenceIndicator,
   ThreatIntelligenceIndicators,
   ThreatIntelligenceIndicatorMetrics,
   Watchlists,
   WatchlistItems,
-  DataConnectors,
-  DataConnectorsCheckRequirementsOperations,
   Operations
 } from "./operationsInterfaces";
 import { SecurityInsightsOptionalParams } from "./models";
@@ -120,7 +86,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-securityinsight/1.0.0-beta.6`;
+    const packageDetails = `azsdk-js-arm-securityinsight/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -174,35 +140,20 @@ export class SecurityInsights extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-01-preview";
+    this.apiVersion = options.apiVersion || "2022-11-01";
     this.alertRules = new AlertRulesImpl(this);
     this.actions = new ActionsImpl(this);
     this.alertRuleTemplates = new AlertRuleTemplatesImpl(this);
     this.automationRules = new AutomationRulesImpl(this);
-    this.incidents = new IncidentsImpl(this);
     this.bookmarks = new BookmarksImpl(this);
-    this.bookmarkRelations = new BookmarkRelationsImpl(this);
-    this.bookmarkOperations = new BookmarkOperationsImpl(this);
-    this.iPGeodata = new IPGeodataImpl(this);
-    this.domainWhois = new DomainWhoisImpl(this);
-    this.entities = new EntitiesImpl(this);
-    this.entitiesGetTimeline = new EntitiesGetTimelineImpl(this);
-    this.entitiesRelations = new EntitiesRelationsImpl(this);
-    this.entityRelations = new EntityRelationsImpl(this);
-    this.entityQueries = new EntityQueriesImpl(this);
-    this.entityQueryTemplates = new EntityQueryTemplatesImpl(this);
-    this.fileImports = new FileImportsImpl(this);
+    this.dataConnectors = new DataConnectorsImpl(this);
+    this.incidents = new IncidentsImpl(this);
     this.incidentComments = new IncidentCommentsImpl(this);
     this.incidentRelations = new IncidentRelationsImpl(this);
-    this.metadata = new MetadataImpl(this);
-    this.officeConsents = new OfficeConsentsImpl(this);
     this.sentinelOnboardingStates = new SentinelOnboardingStatesImpl(this);
     this.securityMLAnalyticsSettings = new SecurityMLAnalyticsSettingsImpl(
       this
     );
-    this.productSettings = new ProductSettingsImpl(this);
-    this.sourceControlOperations = new SourceControlOperationsImpl(this);
-    this.sourceControls = new SourceControlsImpl(this);
     this.threatIntelligenceIndicator = new ThreatIntelligenceIndicatorImpl(
       this
     );
@@ -214,10 +165,6 @@ export class SecurityInsights extends coreClient.ServiceClient {
     );
     this.watchlists = new WatchlistsImpl(this);
     this.watchlistItems = new WatchlistItemsImpl(this);
-    this.dataConnectors = new DataConnectorsImpl(this);
-    this.dataConnectorsCheckRequirementsOperations = new DataConnectorsCheckRequirementsOperationsImpl(
-      this
-    );
     this.operations = new OperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -254,34 +201,17 @@ export class SecurityInsights extends coreClient.ServiceClient {
   actions: Actions;
   alertRuleTemplates: AlertRuleTemplates;
   automationRules: AutomationRules;
-  incidents: Incidents;
   bookmarks: Bookmarks;
-  bookmarkRelations: BookmarkRelations;
-  bookmarkOperations: BookmarkOperations;
-  iPGeodata: IPGeodata;
-  domainWhois: DomainWhois;
-  entities: Entities;
-  entitiesGetTimeline: EntitiesGetTimeline;
-  entitiesRelations: EntitiesRelations;
-  entityRelations: EntityRelations;
-  entityQueries: EntityQueries;
-  entityQueryTemplates: EntityQueryTemplates;
-  fileImports: FileImports;
+  dataConnectors: DataConnectors;
+  incidents: Incidents;
   incidentComments: IncidentComments;
   incidentRelations: IncidentRelations;
-  metadata: Metadata;
-  officeConsents: OfficeConsents;
   sentinelOnboardingStates: SentinelOnboardingStates;
   securityMLAnalyticsSettings: SecurityMLAnalyticsSettings;
-  productSettings: ProductSettings;
-  sourceControlOperations: SourceControlOperations;
-  sourceControls: SourceControls;
   threatIntelligenceIndicator: ThreatIntelligenceIndicator;
   threatIntelligenceIndicators: ThreatIntelligenceIndicators;
   threatIntelligenceIndicatorMetrics: ThreatIntelligenceIndicatorMetrics;
   watchlists: Watchlists;
   watchlistItems: WatchlistItems;
-  dataConnectors: DataConnectors;
-  dataConnectorsCheckRequirementsOperations: DataConnectorsCheckRequirementsOperations;
   operations: Operations;
 }

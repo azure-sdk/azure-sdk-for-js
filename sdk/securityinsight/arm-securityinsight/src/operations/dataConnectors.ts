@@ -22,9 +22,6 @@ import {
   DataConnectorsCreateOrUpdateOptionalParams,
   DataConnectorsCreateOrUpdateResponse,
   DataConnectorsDeleteOptionalParams,
-  DataConnectorConnectBody,
-  DataConnectorsConnectOptionalParams,
-  DataConnectorsDisconnectOptionalParams,
   DataConnectorsListNextResponse
 } from "../models";
 
@@ -183,52 +180,6 @@ export class DataConnectorsImpl implements DataConnectors {
   }
 
   /**
-   * Connects a data connector.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
-   * @param connectBody The data connector
-   * @param options The options parameters.
-   */
-  connect(
-    resourceGroupName: string,
-    workspaceName: string,
-    dataConnectorId: string,
-    connectBody: DataConnectorConnectBody,
-    options?: DataConnectorsConnectOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        dataConnectorId,
-        connectBody,
-        options
-      },
-      connectOperationSpec
-    );
-  }
-
-  /**
-   * Disconnect a data connector.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
-   * @param options The options parameters.
-   */
-  disconnect(
-    resourceGroupName: string,
-    workspaceName: string,
-    dataConnectorId: string,
-    options?: DataConnectorsDisconnectOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, dataConnectorId, options },
-      disconnectOperationSpec
-    );
-  }
-
-  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -330,50 +281,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {},
     204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.dataConnectorId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const connectOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}/connect",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.connectBody,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.dataConnectorId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const disconnectOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}/disconnect",
-  httpMethod: "POST",
-  responses: {
-    200: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
