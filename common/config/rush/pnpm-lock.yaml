@@ -10347,21 +10347,30 @@ packages:
     dev: false
 
   file:projects/arm-authorization.tgz:
-    resolution: {integrity: sha512-oG5I0FW25UWY/8ljPqLbsppt3PB54BTNzZCyWhvQY1J3b1UgUt7Ty0KemX/a6MiukKlizslI6D4DBuDChWXVBg==, tarball: file:projects/arm-authorization.tgz}
+    resolution: {integrity: sha512-InSRtYkwds1E0Y3jg8gJ3Grp1iZbJ5hdJGYZgdiYbhZN4va5isR48x/JJklsF/ejUjPdkU2D3y3rIppWSHtAPQ==, tarball: file:projects/arm-authorization.tgz}
     name: '@rush-temp/arm-authorization'
     version: 0.0.0
     dependencies:
+      '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.4
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.79.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.3
+    transitivePeerDependencies:
+      - '@types/node'
+      - supports-color
     dev: false
 
   file:projects/arm-automanage.tgz:
