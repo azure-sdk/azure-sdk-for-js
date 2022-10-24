@@ -1599,6 +1599,18 @@ export const MhsmPrivateEndpointConnectionItem: coreClient.CompositeMapper = {
     name: "Composite",
     className: "MhsmPrivateEndpointConnectionItem",
     modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
       privateEndpoint: {
         serializedName: "properties.privateEndpoint",
         type: {
@@ -1978,6 +1990,53 @@ export const MhsmPrivateLinkResourceListResult: coreClient.CompositeMapper = {
               className: "MhsmPrivateLinkResource"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const CheckMhsmNameAvailabilityParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CheckMhsmNameAvailabilityParameters",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CheckMhsmNameAvailabilityResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CheckMhsmNameAvailabilityResult",
+    modelProperties: {
+      nameAvailable: {
+        serializedName: "nameAvailable",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      reason: {
+        serializedName: "reason",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["AccountNameInvalid", "AlreadyExists"]
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -2447,6 +2506,29 @@ export const SecretListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const ManagedHSMSecurityDomainProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedHSMSecurityDomainProperties",
+    modelProperties: {
+      activationStatus: {
+        serializedName: "activationStatus",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      activationStatusMessage: {
+        serializedName: "activationStatusMessage",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Key: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2759,6 +2841,66 @@ export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper
   }
 };
 
+export const ManagedHsmsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedHsmsCreateOrUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedHsmsUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedHsmsUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedHsmsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedHsmsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedHsmsPurgeDeletedHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedHsmsPurgeDeletedHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const MhsmPrivateEndpointConnectionsPutHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2785,12 +2927,6 @@ export const MhsmPrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMa
     name: "Composite",
     className: "MhsmPrivateEndpointConnectionsDeleteHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number"
-        }
-      },
       location: {
         serializedName: "location",
         type: {
