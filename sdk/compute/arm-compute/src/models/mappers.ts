@@ -1787,6 +1787,13 @@ export const ScheduledEventsProfile: coreClient.CompositeMapper = {
           name: "Composite",
           className: "TerminateNotificationProfile"
         }
+      },
+      osImageNotificationProfile: {
+        serializedName: "osImageNotificationProfile",
+        type: {
+          name: "Composite",
+          className: "OSImageNotificationProfile"
+        }
       }
     }
   }
@@ -1796,6 +1803,27 @@ export const TerminateNotificationProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TerminateNotificationProfile",
+    modelProperties: {
+      notBeforeTimeout: {
+        serializedName: "notBeforeTimeout",
+        type: {
+          name: "String"
+        }
+      },
+      enable: {
+        serializedName: "enable",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const OSImageNotificationProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OSImageNotificationProfile",
     modelProperties: {
       notBeforeTimeout: {
         serializedName: "notBeforeTimeout",
@@ -8906,6 +8934,12 @@ export const TargetRegion: coreClient.CompositeMapper = {
           name: "Composite",
           className: "EncryptionImages"
         }
+      },
+      excludeFromLatest: {
+        serializedName: "excludeFromLatest",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -9046,7 +9080,7 @@ export const GalleryImageVersionStorageProfile: coreClient.CompositeMapper = {
         serializedName: "source",
         type: {
           name: "Composite",
-          className: "GalleryArtifactVersionSource"
+          className: "GalleryArtifactVersionFullSource"
         }
       },
       osDiskImage: {
@@ -9082,12 +9116,6 @@ export const GalleryArtifactVersionSource: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      uri: {
-        serializedName: "uri",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -9116,7 +9144,43 @@ export const GalleryDiskImage: coreClient.CompositeMapper = {
         serializedName: "source",
         type: {
           name: "Composite",
-          className: "GalleryArtifactVersionSource"
+          className: "GalleryDiskImageSource"
+        }
+      }
+    }
+  }
+};
+
+export const PolicyViolation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicyViolation",
+    modelProperties: {
+      category: {
+        serializedName: "category",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GalleryArtifactSafetyProfileBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryArtifactSafetyProfileBase",
+    modelProperties: {
+      allowDeletionOfReplicatedLocations: {
+        serializedName: "allowDeletionOfReplicatedLocations",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -9183,6 +9247,88 @@ export const RegionalReplicationStatus: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const GalleryApplicationCustomAction: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryApplicationCustomAction",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      script: {
+        serializedName: "script",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GalleryApplicationCustomActionParameter"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const GalleryApplicationCustomActionParameter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryApplicationCustomActionParameter",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      required: {
+        serializedName: "required",
+        type: {
+          name: "Boolean"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: ["String", "ConfigurationDataBlob", "LogOutputBlob"]
+        }
+      },
+      defaultValue: {
+        serializedName: "defaultValue",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
         }
       }
     }
@@ -11096,6 +11242,27 @@ export const ManagedArtifact: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LatestGalleryImageVersion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LatestGalleryImageVersion",
+    modelProperties: {
+      latestVersionName: {
+        serializedName: "latestVersionName",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
         type: {
           name: "String"
         }
@@ -14085,6 +14252,13 @@ export const GalleryImageVersion: coreClient.CompositeMapper = {
           className: "GalleryImageVersionStorageProfile"
         }
       },
+      safetyProfile: {
+        serializedName: "properties.safetyProfile",
+        type: {
+          name: "Composite",
+          className: "GalleryImageVersionSafetyProfile"
+        }
+      },
       replicationStatus: {
         serializedName: "properties.replicationStatus",
         type: {
@@ -14138,6 +14312,18 @@ export const GalleryApplication: coreClient.CompositeMapper = {
           name: "Enum",
           allowedValues: ["Windows", "Linux"]
         }
+      },
+      customActions: {
+        serializedName: "properties.customActions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GalleryApplicationCustomAction"
+            }
+          }
+        }
       }
     }
   }
@@ -14154,6 +14340,13 @@ export const GalleryApplicationVersion: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "GalleryApplicationVersionPublishingProfile"
+        }
+      },
+      safetyProfile: {
+        serializedName: "properties.safetyProfile",
+        type: {
+          name: "Composite",
+          className: "GalleryApplicationVersionSafetyProfile"
         }
       },
       provisioningState: {
@@ -15680,6 +15873,13 @@ export const GalleryImageVersionUpdate: coreClient.CompositeMapper = {
           className: "GalleryImageVersionStorageProfile"
         }
       },
+      safetyProfile: {
+        serializedName: "properties.safetyProfile",
+        type: {
+          name: "Composite",
+          className: "GalleryImageVersionSafetyProfile"
+        }
+      },
       replicationStatus: {
         serializedName: "properties.replicationStatus",
         type: {
@@ -15733,6 +15933,18 @@ export const GalleryApplicationUpdate: coreClient.CompositeMapper = {
           name: "Enum",
           allowedValues: ["Windows", "Linux"]
         }
+      },
+      customActions: {
+        serializedName: "properties.customActions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GalleryApplicationCustomAction"
+            }
+          }
+        }
       }
     }
   }
@@ -15749,6 +15961,13 @@ export const GalleryApplicationVersionUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "GalleryApplicationVersionPublishingProfile"
+        }
+      },
+      safetyProfile: {
+        serializedName: "properties.safetyProfile",
+        type: {
+          name: "Composite",
+          className: "GalleryApplicationVersionSafetyProfile"
         }
       },
       provisioningState: {
@@ -15818,6 +16037,18 @@ export const GalleryApplicationVersionPublishingProfile: coreClient.CompositeMap
         type: {
           name: "Boolean"
         }
+      },
+      customActions: {
+        serializedName: "customActions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GalleryApplicationCustomAction"
+            }
+          }
+        }
       }
     }
   }
@@ -15857,6 +16088,44 @@ export const DataDiskImageEncryption: coreClient.CompositeMapper = {
   }
 };
 
+export const GalleryArtifactVersionFullSource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryArtifactVersionFullSource",
+    modelProperties: {
+      ...GalleryArtifactVersionSource.type.modelProperties,
+      communityGalleryImageId: {
+        serializedName: "communityGalleryImageId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GalleryDiskImageSource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryDiskImageSource",
+    modelProperties: {
+      ...GalleryArtifactVersionSource.type.modelProperties,
+      uri: {
+        serializedName: "uri",
+        type: {
+          name: "String"
+        }
+      },
+      storageAccountId: {
+        serializedName: "storageAccountId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const GalleryOSDiskImage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -15880,6 +16149,46 @@ export const GalleryDataDiskImage: coreClient.CompositeMapper = {
           name: "Number"
         }
       }
+    }
+  }
+};
+
+export const GalleryImageVersionSafetyProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryImageVersionSafetyProfile",
+    modelProperties: {
+      ...GalleryArtifactSafetyProfileBase.type.modelProperties,
+      reportedForPolicyViolation: {
+        serializedName: "reportedForPolicyViolation",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      policyViolations: {
+        serializedName: "policyViolations",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PolicyViolation"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const GalleryApplicationVersionSafetyProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryApplicationVersionSafetyProfile",
+    modelProperties: {
+      ...GalleryArtifactSafetyProfileBase.type.modelProperties
     }
   }
 };
@@ -16245,6 +16554,18 @@ export const SharedGalleryImage: coreClient.CompositeMapper = {
       },
       architecture: {
         serializedName: "properties.architecture",
+        type: {
+          name: "String"
+        }
+      },
+      privacyStatementUri: {
+        serializedName: "properties.privacyStatementUri",
+        type: {
+          name: "String"
+        }
+      },
+      eula: {
+        serializedName: "properties.eula",
         type: {
           name: "String"
         }
