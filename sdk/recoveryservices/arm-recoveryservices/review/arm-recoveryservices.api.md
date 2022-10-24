@@ -153,6 +153,15 @@ export interface IdentityData {
 }
 
 // @public
+export interface ImmutabilitySettings {
+    // (undocumented)
+    state?: ImmutabilityState;
+}
+
+// @public
+export type ImmutabilityState = string;
+
+// @public
 export type InfrastructureEncryptionState = string;
 
 // @public
@@ -196,6 +205,13 @@ export enum KnownCreatedByType {
 export enum KnownCrossRegionRestore {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownImmutabilityState {
+    Disabled = "Disabled",
+    Locked = "Locked",
+    Unlocked = "Unlocked"
 }
 
 // @public
@@ -571,6 +587,11 @@ export type ResourceIdentityType = string;
 export type ResourceMoveState = string;
 
 // @public
+export interface SecuritySettings {
+    immutabilitySettings?: ImmutabilitySettings;
+}
+
+// @public
 export interface Sku {
     capacity?: string;
     family?: string;
@@ -726,6 +747,7 @@ export interface VaultProperties {
     readonly privateEndpointStateForSiteRecovery?: VaultPrivateEndpointState;
     readonly provisioningState?: string;
     redundancySettings?: VaultPropertiesRedundancySettings;
+    securitySettings?: SecuritySettings;
     upgradeDetails?: UpgradeDetails;
 }
 

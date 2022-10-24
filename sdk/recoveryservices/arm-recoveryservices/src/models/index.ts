@@ -305,6 +305,8 @@ export interface VaultProperties {
   monitoringSettings?: MonitoringSettings;
   /** The redundancy Settings of a Vault */
   redundancySettings?: VaultPropertiesRedundancySettings;
+  /** Security Settings of the vault */
+  securitySettings?: SecuritySettings;
 }
 
 /** Details for upgrading vault. */
@@ -515,6 +517,17 @@ export interface VaultPropertiesRedundancySettings {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly crossRegionRestore?: CrossRegionRestore;
+}
+
+/** Security Settings of the vault */
+export interface SecuritySettings {
+  /** Immutability Settings of a vault */
+  immutabilitySettings?: ImmutabilitySettings;
+}
+
+/** Immutability Settings of vault */
+export interface ImmutabilitySettings {
+  state?: ImmutabilityState;
 }
 
 /** Identifies the unique system identifier for each Azure resource. */
@@ -1051,6 +1064,27 @@ export enum KnownCrossRegionRestore {
  * **Disabled**
  */
 export type CrossRegionRestore = string;
+
+/** Known values of {@link ImmutabilityState} that the service accepts. */
+export enum KnownImmutabilityState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Unlocked */
+  Unlocked = "Unlocked",
+  /** Locked */
+  Locked = "Locked"
+}
+
+/**
+ * Defines values for ImmutabilityState. \
+ * {@link KnownImmutabilityState} can be used interchangeably with ImmutabilityState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Unlocked** \
+ * **Locked**
+ */
+export type ImmutabilityState = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {

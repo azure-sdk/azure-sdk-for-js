@@ -1,5 +1,16 @@
 # Release History
     
+## 5.2.0 (2022-10-24)
+    
+**Features**
+
+  - Added Interface ImmutabilitySettings
+  - Added Interface SecuritySettings
+  - Added Type Alias ImmutabilityState
+  - Interface VaultProperties has a new optional parameter securitySettings
+  - Added Enum KnownImmutabilityState
+    
+    
 ## 5.1.0 (2022-07-22)
     
 **Features**
