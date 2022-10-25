@@ -1,15 +1,23 @@
 # Release History
+    
+## 8.0.0 (2022-10-25)
+    
+**Features**
 
-## 7.2.1 (Unreleased)
+  - Added Type Alias NodeCommunicationMode
+  - Interface CifsMountConfiguration has a new optional parameter userName
+  - Interface NetworkConfiguration has a new optional parameter dynamicVnetAssignmentScope
+  - Interface Pool has a new optional parameter currentNodeCommunicationMode
+  - Interface Pool has a new optional parameter targetNodeCommunicationMode
+  - Interface PrivateLinkServiceConnectionState has a new optional parameter actionsRequired
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface CifsMountConfiguration no longer has parameter username
+  - Interface NetworkConfiguration no longer has parameter dynamicVNetAssignmentScope
+  - Interface PrivateLinkServiceConnectionState no longer has parameter actionRequired
+    
+    
 ## 7.2.0 (2022-07-19)
     
 **Features**
