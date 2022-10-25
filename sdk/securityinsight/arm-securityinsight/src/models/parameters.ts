@@ -38,6 +38,7 @@ import {
   ThreatIntelligenceAppendTags as ThreatIntelligenceAppendTagsMapper,
   Watchlist as WatchlistMapper,
   WatchlistItem as WatchlistItemMapper,
+  WorkspaceManagerConfiguration as WorkspaceManagerConfigurationMapper,
   DataConnector as DataConnectorMapper,
   DataConnectorConnectBody as DataConnectorConnectBodyMapper,
   DataConnectorsCheckRequirements as DataConnectorsCheckRequirementsMapper
@@ -70,7 +71,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-01-preview",
+    defaultValue: "2023-03-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -638,6 +639,22 @@ export const watchlistItemId: OperationURLParameter = {
 export const watchlistItem: OperationParameter = {
   parameterPath: "watchlistItem",
   mapper: WatchlistItemMapper
+};
+
+export const workspaceManagerConfigurationName: OperationURLParameter = {
+  parameterPath: "workspaceManagerConfigurationName",
+  mapper: {
+    serializedName: "workspaceManagerConfigurationName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const workspaceManagerConfiguration: OperationParameter = {
+  parameterPath: "workspaceManagerConfiguration",
+  mapper: WorkspaceManagerConfigurationMapper
 };
 
 export const dataConnectorId: OperationURLParameter = {

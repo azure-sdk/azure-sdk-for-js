@@ -246,8 +246,18 @@ export type AlertDetail = string;
 export interface AlertDetailsOverride {
     alertDescriptionFormat?: string;
     alertDisplayNameFormat?: string;
+    alertDynamicProperties?: AlertPropertyMapping[];
     alertSeverityColumnName?: string;
     alertTacticsColumnName?: string;
+}
+
+// @public
+export type AlertProperty = string;
+
+// @public
+export interface AlertPropertyMapping {
+    alertProperty?: AlertProperty;
+    value?: string;
 }
 
 // @public
@@ -682,6 +692,11 @@ export interface AwsS3DataConnectorDataTypesLogs extends DataConnectorDataTypeCo
 export interface AzureDevOpsResourceInfo {
     pipelineId?: string;
     serviceConnectionId?: string;
+}
+
+// @public
+export interface AzureEntityResource extends Resource {
+    readonly etag?: string;
 }
 
 // @public
@@ -1769,6 +1784,26 @@ export type EntityUnion = Entity | SecurityAlert | HuntingBookmark | AccountEnti
 export type Enum13 = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export type EventGroupingAggregationKind = string;
 
 // @public
@@ -2695,6 +2730,19 @@ export enum KnownAlertDetail {
 }
 
 // @public
+export enum KnownAlertProperty {
+    AlertLink = "AlertLink",
+    ConfidenceLevel = "ConfidenceLevel",
+    ConfidenceScore = "ConfidenceScore",
+    ExtendedLinks = "ExtendedLinks",
+    ProductComponentName = "ProductComponentName",
+    ProductName = "ProductName",
+    ProviderName = "ProviderName",
+    RemediationSteps = "RemediationSteps",
+    Techniques = "Techniques"
+}
+
+// @public
 export enum KnownAlertRuleKind {
     Fusion = "Fusion",
     MicrosoftSecurityIncidentCreation = "MicrosoftSecurityIncidentCreation",
@@ -3257,6 +3305,12 @@ export enum KnownMicrosoftSecurityProductName {
     MicrosoftCloudAppSecurity = "Microsoft Cloud App Security",
     MicrosoftDefenderAdvancedThreatProtection = "Microsoft Defender Advanced Threat Protection",
     Office365AdvancedThreatProtection = "Office 365 Advanced Threat Protection"
+}
+
+// @public
+export enum KnownMode {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -3879,6 +3933,9 @@ export interface MLBehaviorAnalyticsAlertRuleTemplateProperties extends AlertRul
 }
 
 // @public
+export type Mode = string;
+
+// @public
 export interface MstiCheckRequirements extends DataConnectorsCheckRequirements {
     kind: "MicrosoftThreatIntelligence";
     tenantId?: string;
@@ -3982,6 +4039,7 @@ export interface NrtAlertRule extends AlertRule {
     kind: "NRT";
     readonly lastModifiedUtc?: Date;
     query?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     suppressionDuration?: string;
     suppressionEnabled?: boolean;
@@ -4006,6 +4064,7 @@ export interface NrtAlertRuleTemplate extends AlertRuleTemplate {
     readonly lastUpdatedDateUTC?: Date;
     query?: string;
     requiredDataConnectors?: AlertRuleTemplateDataSource[];
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     status?: TemplateStatus;
     tactics?: AttackTactic[];
@@ -4380,6 +4439,7 @@ export interface QueryBasedAlertRuleTemplateProperties {
     entityMappings?: EntityMapping[];
     eventGroupingSettings?: EventGroupingSettings;
     query?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     version?: string;
 }
@@ -4528,6 +4588,7 @@ export interface ScheduledAlertRule extends AlertRule {
     query?: string;
     queryFrequency?: string;
     queryPeriod?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     suppressionDuration?: string;
     suppressionEnabled?: boolean;
@@ -4549,6 +4610,7 @@ export interface ScheduledAlertRuleCommonProperties {
     query?: string;
     queryFrequency?: string;
     queryPeriod?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     triggerOperator?: TriggerOperator;
     triggerThreshold?: number;
@@ -4587,6 +4649,7 @@ export interface ScheduledAlertRuleTemplate extends AlertRuleTemplate {
     queryFrequency?: string;
     queryPeriod?: string;
     requiredDataConnectors?: AlertRuleTemplateDataSource[];
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     status?: TemplateStatus;
     tactics?: AttackTactic[];
@@ -4672,10 +4735,12 @@ export interface SecurityAlertTimelineItem extends EntityTimelineItem {
     description?: string;
     displayName: string;
     endTimeUtc: Date;
+    readonly intent?: KillChainIntent;
     kind: "SecurityAlert";
     productName?: string;
     severity: AlertSeverity;
     startTimeUtc: Date;
+    techniques?: string[];
     timeGenerated: Date;
 }
 
@@ -4775,6 +4840,8 @@ export class SecurityInsights extends coreClient.ServiceClient {
     watchlistItems: WatchlistItems;
     // (undocumented)
     watchlists: Watchlists;
+    // (undocumented)
+    workspaceManagerConfigurations: WorkspaceManagerConfigurations;
 }
 
 // @public
@@ -4846,6 +4913,11 @@ export type SecurityMLAnalyticsSettingsListResponse = SecurityMLAnalyticsSetting
 
 // @public (undocumented)
 export type SecurityMLAnalyticsSettingUnion = SecurityMLAnalyticsSetting | AnomalySecurityMLAnalyticsSettings;
+
+// @public
+export interface SentinelEntityMapping {
+    columnName?: string;
+}
 
 // @public
 export interface SentinelOnboardingState extends ResourceWithEtag {
@@ -5695,6 +5767,63 @@ export interface Webhook {
     webhookSecretUpdateTime?: string;
     webhookUrl?: string;
 }
+
+// @public
+export interface WorkspaceManagerConfiguration extends AzureEntityResource {
+    mode?: Mode;
+}
+
+// @public
+export interface WorkspaceManagerConfigurationList {
+    readonly nextLink?: string;
+    value: WorkspaceManagerConfiguration[];
+}
+
+// @public
+export interface WorkspaceManagerConfigurations {
+    createOrUpdate(resourceGroupName: string, workspaceName: string, workspaceManagerConfigurationName: string, workspaceManagerConfiguration: WorkspaceManagerConfiguration, options?: WorkspaceManagerConfigurationsCreateOrUpdateOptionalParams): Promise<WorkspaceManagerConfigurationsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, workspaceName: string, workspaceManagerConfigurationName: string, options?: WorkspaceManagerConfigurationsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, workspaceName: string, workspaceManagerConfigurationName: string, options?: WorkspaceManagerConfigurationsGetOptionalParams): Promise<WorkspaceManagerConfigurationsGetResponse>;
+    list(resourceGroupName: string, workspaceName: string, options?: WorkspaceManagerConfigurationsListOptionalParams): PagedAsyncIterableIterator<WorkspaceManagerConfiguration>;
+}
+
+// @public
+export interface WorkspaceManagerConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspaceManagerConfigurationsCreateOrUpdateResponse = WorkspaceManagerConfiguration;
+
+// @public
+export interface WorkspaceManagerConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface WorkspaceManagerConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspaceManagerConfigurationsGetResponse = WorkspaceManagerConfiguration;
+
+// @public
+export interface WorkspaceManagerConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
+    orderby?: string;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type WorkspaceManagerConfigurationsListNextResponse = WorkspaceManagerConfigurationList;
+
+// @public
+export interface WorkspaceManagerConfigurationsListOptionalParams extends coreClient.OperationOptions {
+    orderby?: string;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type WorkspaceManagerConfigurationsListResponse = WorkspaceManagerConfigurationList;
 
 // (No @packageDocumentation comment for this package)
 

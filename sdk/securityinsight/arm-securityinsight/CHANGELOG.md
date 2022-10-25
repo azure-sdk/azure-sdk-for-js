@@ -1,15 +1,43 @@
 # Release History
+    
+## 1.0.0-beta.6 (2022-10-25)
+    
+**Features**
 
-## 1.0.0-beta.6 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group WorkspaceManagerConfigurations
+  - Added Interface AlertPropertyMapping
+  - Added Interface AzureEntityResource
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface SentinelEntityMapping
+  - Added Interface WorkspaceManagerConfiguration
+  - Added Interface WorkspaceManagerConfigurationList
+  - Added Interface WorkspaceManagerConfigurationsCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceManagerConfigurationsDeleteOptionalParams
+  - Added Interface WorkspaceManagerConfigurationsGetOptionalParams
+  - Added Interface WorkspaceManagerConfigurationsListNextOptionalParams
+  - Added Interface WorkspaceManagerConfigurationsListOptionalParams
+  - Added Type Alias AlertProperty
+  - Added Type Alias Mode
+  - Added Type Alias WorkspaceManagerConfigurationsCreateOrUpdateResponse
+  - Added Type Alias WorkspaceManagerConfigurationsGetResponse
+  - Added Type Alias WorkspaceManagerConfigurationsListNextResponse
+  - Added Type Alias WorkspaceManagerConfigurationsListResponse
+  - Interface AlertDetailsOverride has a new optional parameter alertDynamicProperties
+  - Interface NrtAlertRule has a new optional parameter sentinelEntitiesMappings
+  - Interface NrtAlertRuleTemplate has a new optional parameter sentinelEntitiesMappings
+  - Interface QueryBasedAlertRuleTemplateProperties has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRule has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRuleCommonProperties has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRuleTemplate has a new optional parameter sentinelEntitiesMappings
+  - Interface SecurityAlertTimelineItem has a new optional parameter intent
+  - Interface SecurityAlertTimelineItem has a new optional parameter techniques
+  - Class SecurityInsights has a new parameter workspaceManagerConfigurations
+  - Added Enum KnownAlertProperty
+  - Added Enum KnownMode
+    
+    
 ## 1.0.0-beta.5 (2022-09-27)
     
 **Features**
