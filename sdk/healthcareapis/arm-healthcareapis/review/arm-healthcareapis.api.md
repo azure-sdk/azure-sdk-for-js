@@ -14,23 +14,170 @@ import { PollOperationState } from '@azure/core-lro';
 export type ActionType = string;
 
 // @public
+export interface AnalyticsConnector extends TaggedResource, ServiceManagedIdentity {
+    dataDestinationConfiguration?: AnalyticsConnectorDataDestinationUnion;
+    dataMappingConfiguration?: AnalyticsConnectorMappingUnion;
+    dataSourceConfiguration?: AnalyticsConnectorDataSourceUnion;
+    readonly provisioningState?: ProvisioningState;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface AnalyticsConnectorCollection {
+    nextLink?: string;
+    value?: AnalyticsConnector[];
+}
+
+// @public
+export interface AnalyticsConnectorDataDestination {
+    [property: string]: any;
+    name?: string;
+    type: "datalake";
+}
+
+// @public
+export type AnalyticsConnectorDataDestinationType = string;
+
+// @public (undocumented)
+export type AnalyticsConnectorDataDestinationUnion = AnalyticsConnectorDataDestination | AnalyticsConnectorDataLakeDataDestination;
+
+// @public
+export interface AnalyticsConnectorDataLakeDataDestination extends AnalyticsConnectorDataDestination {
+    dataLakeName: string;
+    type: "datalake";
+}
+
+// @public
+export interface AnalyticsConnectorDataSource {
+    [property: string]: any;
+    type: "fhirservice";
+}
+
+// @public
+export type AnalyticsConnectorDataSourceType = string;
+
+// @public (undocumented)
+export type AnalyticsConnectorDataSourceUnion = AnalyticsConnectorDataSource | AnalyticsConnectorFhirServiceDataSource;
+
+// @public
+export interface AnalyticsConnectorFhirServiceDataSource extends AnalyticsConnectorDataSource {
+    kind: FhirServiceVersion;
+    type: "fhirservice";
+    url: string;
+}
+
+// @public
+export interface AnalyticsConnectorFhirToParquetMapping extends AnalyticsConnectorMapping {
+    extensionSchemaReference?: string;
+    filterConfigurationReference?: string;
+    type: "fhirToParquet";
+}
+
+// @public
+export interface AnalyticsConnectorMapping {
+    [property: string]: any;
+    type: "fhirToParquet";
+}
+
+// @public
+export type AnalyticsConnectorMappingType = string;
+
+// @public (undocumented)
+export type AnalyticsConnectorMappingUnion = AnalyticsConnectorMapping | AnalyticsConnectorFhirToParquetMapping;
+
+// @public
+export interface AnalyticsConnectorOperations {
+    beginUpdate(resourceGroupName: string, workspaceName: string, analyticsConnectorName: string, analyticsConnectorPatchResource: AnalyticsConnectorPatchResource, options?: AnalyticsConnectorUpdateOptionalParams): Promise<PollerLike<PollOperationState<AnalyticsConnectorUpdateResponse>, AnalyticsConnectorUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, workspaceName: string, analyticsConnectorName: string, analyticsConnectorPatchResource: AnalyticsConnectorPatchResource, options?: AnalyticsConnectorUpdateOptionalParams): Promise<AnalyticsConnectorUpdateResponse>;
+}
+
+// @public
+export interface AnalyticsConnectorPatchResource extends ResourceTags, ServiceManagedIdentity {
+}
+
+// @public
+export interface AnalyticsConnectors {
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, analyticsConnectorName: string, analyticsConnector: AnalyticsConnector, options?: AnalyticsConnectorsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AnalyticsConnectorsCreateOrUpdateResponse>, AnalyticsConnectorsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, analyticsConnectorName: string, analyticsConnector: AnalyticsConnector, options?: AnalyticsConnectorsCreateOrUpdateOptionalParams): Promise<AnalyticsConnectorsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, workspaceName: string, analyticsConnectorName: string, options?: AnalyticsConnectorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, analyticsConnectorName: string, options?: AnalyticsConnectorsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, workspaceName: string, analyticsConnectorName: string, options?: AnalyticsConnectorsGetOptionalParams): Promise<AnalyticsConnectorsGetResponse>;
+    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: AnalyticsConnectorsListByWorkspaceOptionalParams): PagedAsyncIterableIterator<AnalyticsConnector>;
+}
+
+// @public
+export interface AnalyticsConnectorsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AnalyticsConnectorsCreateOrUpdateResponse = AnalyticsConnector;
+
+// @public
+export interface AnalyticsConnectorsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AnalyticsConnectorsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AnalyticsConnectorsGetResponse = AnalyticsConnector;
+
+// @public
+export interface AnalyticsConnectorsListByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AnalyticsConnectorsListByWorkspaceNextResponse = AnalyticsConnectorCollection;
+
+// @public
+export interface AnalyticsConnectorsListByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AnalyticsConnectorsListByWorkspaceResponse = AnalyticsConnectorCollection;
+
+// @public
+export interface AnalyticsConnectorUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AnalyticsConnectorUpdateResponse = AnalyticsConnector;
+
+// @public
 export interface CheckNameAvailabilityParameters {
     name: string;
     type: string;
 }
 
 // @public
+export interface CorsConfiguration {
+    allowCredentials?: boolean;
+    headers?: string[];
+    maxAge?: number;
+    methods?: string[];
+    origins?: string[];
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
-export type DicomService = TaggedResource & ServiceManagedIdentity & {
-    readonly systemData?: SystemData;
-    readonly provisioningState?: ProvisioningState;
+export interface DicomService extends TaggedResource, ServiceManagedIdentity {
     authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
-    readonly serviceUrl?: string;
+    corsConfiguration?: CorsConfiguration;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
-};
+    readonly serviceUrl?: string;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface DicomServiceAuthenticationConfiguration {
@@ -45,7 +192,8 @@ export interface DicomServiceCollection {
 }
 
 // @public
-export type DicomServicePatchResource = ResourceTags & ServiceManagedIdentity & {};
+export interface DicomServicePatchResource extends ResourceTags, ServiceManagedIdentity {
+}
 
 // @public
 export interface DicomServices {
@@ -144,20 +292,21 @@ export type FhirDestinationsListByIotConnectorResponse = IotFhirDestinationColle
 export type FhirResourceVersionPolicy = string;
 
 // @public
-export type FhirService = TaggedResource & ServiceManagedIdentity & {
-    kind?: FhirServiceKind;
-    readonly systemData?: SystemData;
-    readonly provisioningState?: ProvisioningState;
+export interface FhirService extends TaggedResource, ServiceManagedIdentity {
     accessPolicies?: FhirServiceAccessPolicyEntry[];
     acrConfiguration?: FhirServiceAcrConfiguration;
     authenticationConfiguration?: FhirServiceAuthenticationConfiguration;
     corsConfiguration?: FhirServiceCorsConfiguration;
-    exportConfiguration?: FhirServiceExportConfiguration;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    publicNetworkAccess?: PublicNetworkAccess;
     readonly eventState?: ServiceEventState;
+    exportConfiguration?: FhirServiceExportConfiguration;
+    importConfiguration?: FhirServiceImportConfiguration;
+    kind?: FhirServiceKind;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
     resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface FhirServiceAccessPolicyEntry {
@@ -198,10 +347,18 @@ export interface FhirServiceExportConfiguration {
 }
 
 // @public
+export interface FhirServiceImportConfiguration {
+    enabled?: boolean;
+    initialImportMode?: boolean;
+    integrationDataStore?: string;
+}
+
+// @public
 export type FhirServiceKind = string;
 
 // @public
-export type FhirServicePatchResource = ResourceTags & ServiceManagedIdentity & {};
+export interface FhirServicePatchResource extends ResourceTags, ServiceManagedIdentity {
+}
 
 // @public
 export interface FhirServices {
@@ -260,11 +417,18 @@ export interface FhirServicesUpdateOptionalParams extends coreClient.OperationOp
 // @public
 export type FhirServicesUpdateResponse = FhirService;
 
+// @public
+export type FhirServiceVersion = string;
+
 // @public (undocumented)
 export class HealthcareApisManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: HealthcareApisManagementClientOptionalParams);
+    // (undocumented)
+    analyticsConnectorOperations: AnalyticsConnectorOperations;
+    // (undocumented)
+    analyticsConnectors: AnalyticsConnectors;
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -305,12 +469,12 @@ export interface HealthcareApisManagementClientOptionalParams extends coreClient
 }
 
 // @public
-export type IotConnector = TaggedResource & ServiceManagedIdentity & {
-    readonly systemData?: SystemData;
-    readonly provisioningState?: ProvisioningState;
-    ingestionEndpointConfiguration?: IotEventHubIngestionEndpointConfiguration;
+export interface IotConnector extends TaggedResource, ServiceManagedIdentity {
     deviceMapping?: IotMappingProperties;
-};
+    ingestionEndpointConfiguration?: IotEventHubIngestionEndpointConfiguration;
+    readonly provisioningState?: ProvisioningState;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface IotConnectorCollection {
@@ -350,7 +514,8 @@ export interface IotConnectorFhirDestinationGetOptionalParams extends coreClient
 export type IotConnectorFhirDestinationGetResponse = IotFhirDestination;
 
 // @public
-export type IotConnectorPatchResource = ResourceTags & ServiceManagedIdentity & {};
+export interface IotConnectorPatchResource extends ResourceTags, ServiceManagedIdentity {
+}
 
 // @public
 export interface IotConnectors {
@@ -422,13 +587,13 @@ export interface IotEventHubIngestionEndpointConfiguration {
 }
 
 // @public
-export type IotFhirDestination = LocationBasedResource & {
-    readonly systemData?: SystemData;
+export interface IotFhirDestination extends LocationBasedResource {
+    fhirMapping: IotMappingProperties;
+    fhirServiceResourceId: string;
     readonly provisioningState?: ProvisioningState;
     resourceIdentityResolutionType: IotIdentityResolutionType;
-    fhirServiceResourceId: string;
-    fhirMapping: IotMappingProperties;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface IotFhirDestinationCollection {
@@ -437,11 +602,11 @@ export interface IotFhirDestinationCollection {
 }
 
 // @public
-export type IotFhirDestinationProperties = IotDestinationProperties & {
-    resourceIdentityResolutionType: IotIdentityResolutionType;
-    fhirServiceResourceId: string;
+export interface IotFhirDestinationProperties extends IotDestinationProperties {
     fhirMapping: IotMappingProperties;
-};
+    fhirServiceResourceId: string;
+    resourceIdentityResolutionType: IotIdentityResolutionType;
+}
 
 // @public
 export type IotIdentityResolutionType = string;
@@ -456,149 +621,122 @@ export type Kind = "fhir" | "fhir-Stu3" | "fhir-R4";
 
 // @public
 export enum KnownActionType {
-    // (undocumented)
     Internal = "Internal"
 }
 
 // @public
+export enum KnownAnalyticsConnectorDataDestinationType {
+    Datalake = "datalake"
+}
+
+// @public
+export enum KnownAnalyticsConnectorDataSourceType {
+    Fhirservice = "fhirservice"
+}
+
+// @public
+export enum KnownAnalyticsConnectorMappingType {
+    FhirToParquet = "fhirToParquet"
+}
+
+// @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownFhirResourceVersionPolicy {
-    // (undocumented)
     NoVersion = "no-version",
-    // (undocumented)
     Versioned = "versioned",
-    // (undocumented)
     VersionedUpdate = "versioned-update"
 }
 
 // @public
 export enum KnownFhirServiceKind {
-    // (undocumented)
     FhirR4 = "fhir-R4",
-    // (undocumented)
     FhirStu3 = "fhir-Stu3"
 }
 
 // @public
+export enum KnownFhirServiceVersion {
+    R4 = "R4",
+    STU3 = "STU3"
+}
+
+// @public
 export enum KnownIotIdentityResolutionType {
-    // (undocumented)
     Create = "Create",
-    // (undocumented)
     Lookup = "Lookup"
 }
 
 // @public
 export enum KnownManagedServiceIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned"
 }
 
 // @public
 export enum KnownOperationResultStatus {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Requested = "Requested",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Deprovisioned = "Deprovisioned",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Suspended = "Suspended",
-    // (undocumented)
     SystemMaintenance = "SystemMaintenance",
-    // (undocumented)
     Updating = "Updating",
-    // (undocumented)
     Verifying = "Verifying",
-    // (undocumented)
     Warned = "Warned"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownServiceEventState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownServiceManagedIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
@@ -609,9 +747,9 @@ export interface ListOperations {
 }
 
 // @public
-export type LocationBasedResource = ResourceCore & {
+export interface LocationBasedResource extends ResourceCore {
     location?: string;
-};
+}
 
 // @public
 export interface LogSpecification {
@@ -637,8 +775,13 @@ export interface MetricSpecification {
     dimensions?: MetricDimension[];
     displayDescription?: string;
     displayName?: string;
+    enableRegionalMdmAccount?: boolean;
     fillGapWithZero?: boolean;
+    isInternal?: boolean;
+    metricFilterPattern?: string;
     name?: string;
+    resourceIdDimensionNameOverride?: string;
+    sourceMdmAccount?: string;
     sourceMdmNamespace?: string;
     supportedAggregationTypes?: string[];
     supportedTimeGrainTypes?: string[];
@@ -718,16 +861,16 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 // @public
-export type PrivateEndpointConnectionDescription = PrivateEndpointConnection & {
+export interface PrivateEndpointConnectionDescription extends PrivateEndpointConnection {
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -785,16 +928,16 @@ export type PrivateEndpointConnectionsListByServiceResponse = PrivateEndpointCon
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
-};
+}
 
 // @public
-export type PrivateLinkResourceDescription = PrivateLinkResource & {
+export interface PrivateLinkResourceDescription extends PrivateLinkResource {
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface PrivateLinkResourceListResultDescription {
@@ -906,6 +1049,13 @@ export interface ServiceExportConfigurationInfo {
 }
 
 // @public
+export interface ServiceImportConfigurationInfo {
+    enabled?: boolean;
+    initialImportMode?: boolean;
+    integrationDataStore?: string;
+}
+
+// @public
 export interface ServiceManagedIdentity {
     identity?: ServiceManagedIdentityIdentity;
 }
@@ -970,10 +1120,10 @@ export interface ServicesDeleteOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export type ServicesDescription = ServicesResource & {
+export interface ServicesDescription extends ServicesResource {
     properties?: ServicesProperties;
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface ServicesDescriptionListResult {
@@ -1045,6 +1195,7 @@ export interface ServicesProperties {
     corsConfiguration?: ServiceCorsConfigurationInfo;
     cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
     exportConfiguration?: ServiceExportConfigurationInfo;
+    importConfiguration?: ServiceImportConfigurationInfo;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -1091,7 +1242,8 @@ export interface SystemData {
 }
 
 // @public
-export type TaggedResource = ResourceTags & LocationBasedResource & {};
+export interface TaggedResource extends ResourceTags, LocationBasedResource {
+}
 
 // @public
 export interface UserAssignedIdentity {
@@ -1100,10 +1252,10 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export type Workspace = TaggedResource & {
+export interface Workspace extends TaggedResource {
     properties?: WorkspaceProperties;
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface WorkspaceList {
@@ -1112,7 +1264,8 @@ export interface WorkspaceList {
 }
 
 // @public
-export type WorkspacePatchResource = ResourceTags & {};
+export interface WorkspacePatchResource extends ResourceTags {
+}
 
 // @public
 export interface WorkspacePrivateEndpointConnections {

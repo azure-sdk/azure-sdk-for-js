@@ -1,15 +1,71 @@
 # Release History
+    
+## 2.2.0-beta.1 (2022-10-25)
+    
+**Features**
 
-## 2.1.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group AnalyticsConnectorOperations
+  - Added operation group AnalyticsConnectors
+  - Added Interface AnalyticsConnector
+  - Added Interface AnalyticsConnectorCollection
+  - Added Interface AnalyticsConnectorDataDestination
+  - Added Interface AnalyticsConnectorDataLakeDataDestination
+  - Added Interface AnalyticsConnectorDataSource
+  - Added Interface AnalyticsConnectorFhirServiceDataSource
+  - Added Interface AnalyticsConnectorFhirToParquetMapping
+  - Added Interface AnalyticsConnectorMapping
+  - Added Interface AnalyticsConnectorPatchResource
+  - Added Interface AnalyticsConnectorsCreateOrUpdateOptionalParams
+  - Added Interface AnalyticsConnectorsDeleteOptionalParams
+  - Added Interface AnalyticsConnectorsGetOptionalParams
+  - Added Interface AnalyticsConnectorsListByWorkspaceNextOptionalParams
+  - Added Interface AnalyticsConnectorsListByWorkspaceOptionalParams
+  - Added Interface AnalyticsConnectorUpdateOptionalParams
+  - Added Interface CorsConfiguration
+  - Added Interface DicomService
+  - Added Interface DicomServicePatchResource
+  - Added Interface FhirService
+  - Added Interface FhirServiceImportConfiguration
+  - Added Interface FhirServicePatchResource
+  - Added Interface IotConnector
+  - Added Interface IotConnectorPatchResource
+  - Added Interface IotFhirDestination
+  - Added Interface IotFhirDestinationProperties
+  - Added Interface LocationBasedResource
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateEndpointConnectionDescription
+  - Added Interface PrivateLinkResource
+  - Added Interface PrivateLinkResourceDescription
+  - Added Interface ServiceImportConfigurationInfo
+  - Added Interface ServicesDescription
+  - Added Interface TaggedResource
+  - Added Interface Workspace
+  - Added Interface WorkspacePatchResource
+  - Added Type Alias AnalyticsConnectorDataDestinationType
+  - Added Type Alias AnalyticsConnectorDataDestinationUnion
+  - Added Type Alias AnalyticsConnectorDataSourceType
+  - Added Type Alias AnalyticsConnectorDataSourceUnion
+  - Added Type Alias AnalyticsConnectorMappingType
+  - Added Type Alias AnalyticsConnectorMappingUnion
+  - Added Type Alias AnalyticsConnectorsCreateOrUpdateResponse
+  - Added Type Alias AnalyticsConnectorsGetResponse
+  - Added Type Alias AnalyticsConnectorsListByWorkspaceNextResponse
+  - Added Type Alias AnalyticsConnectorsListByWorkspaceResponse
+  - Added Type Alias AnalyticsConnectorUpdateResponse
+  - Added Type Alias FhirServiceVersion
+  - Interface MetricSpecification has a new optional parameter enableRegionalMdmAccount
+  - Interface MetricSpecification has a new optional parameter isInternal
+  - Interface MetricSpecification has a new optional parameter metricFilterPattern
+  - Interface MetricSpecification has a new optional parameter resourceIdDimensionNameOverride
+  - Interface MetricSpecification has a new optional parameter sourceMdmAccount
+  - Interface ServicesProperties has a new optional parameter importConfiguration
+  - Class HealthcareApisManagementClient has a new parameter analyticsConnectorOperations
+  - Class HealthcareApisManagementClient has a new parameter analyticsConnectors
+  - Added Enum KnownAnalyticsConnectorDataDestinationType
+  - Added Enum KnownAnalyticsConnectorDataSourceType
+  - Added Enum KnownAnalyticsConnectorMappingType
+  - Added Enum KnownFhirServiceVersion
+    
 ## 2.1.1 (2022-04-26)
 
 **Features**

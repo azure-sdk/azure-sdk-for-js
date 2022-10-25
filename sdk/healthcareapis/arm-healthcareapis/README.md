@@ -6,7 +6,7 @@ Azure Healthcare APIs Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthcareapis/arm-healthcareapis) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-healthcareapis) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-healthcareapis) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-healthcareapis?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

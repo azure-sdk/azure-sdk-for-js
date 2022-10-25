@@ -8,6 +8,16 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type AnalyticsConnectorDataSourceUnion =
+  | AnalyticsConnectorDataSource
+  | AnalyticsConnectorFhirServiceDataSource;
+export type AnalyticsConnectorMappingUnion =
+  | AnalyticsConnectorMapping
+  | AnalyticsConnectorFhirToParquetMapping;
+export type AnalyticsConnectorDataDestinationUnion =
+  | AnalyticsConnectorDataDestination
+  | AnalyticsConnectorDataLakeDataDestination;
+
 /** The properties of a service instance. */
 export interface ServicesProperties {
   /**
@@ -31,6 +41,8 @@ export interface ServicesProperties {
   publicNetworkAccess?: PublicNetworkAccess;
   /** The azure container registry settings used for convert data operation of the service instance. */
   acrConfiguration?: ServiceAcrConfigurationInfo;
+  /** The settings for the import operation of the service instance. */
+  importConfiguration?: ServiceImportConfigurationInfo;
 }
 
 /** An access policy entry. */
@@ -131,6 +143,16 @@ export interface ServiceOciArtifactEntry {
   imageName?: string;
   /** The artifact digest. */
   digest?: string;
+}
+
+/** Import operation configuration information */
+export interface ServiceImportConfigurationInfo {
+  /** The name of the default integration storage account. */
+  integrationDataStore?: string;
+  /** If the FHIR service is in InitialImportMode. */
+  initialImportMode?: boolean;
+  /** If the import operation is enabled. */
+  enabled?: boolean;
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -350,6 +372,20 @@ export interface DicomServiceAuthenticationConfiguration {
   readonly audiences?: string[];
 }
 
+/** The settings for the CORS configuration of the service instance. */
+export interface CorsConfiguration {
+  /** The origins to be allowed via CORS. */
+  origins?: string[];
+  /** The headers to be allowed via CORS. */
+  headers?: string[];
+  /** The methods to be allowed via CORS. */
+  methods?: string[];
+  /** The max age to be allowed via CORS. */
+  maxAge?: number;
+  /** If credentials are allowed via CORS. */
+  allowCredentials?: boolean;
+}
+
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ServiceManagedIdentity {
   /** Setting indicating whether the service has a managed identity associated with it. */
@@ -489,6 +525,50 @@ export interface ResourceVersionPolicyConfiguration {
   resourceTypeOverrides?: { [propertyName: string]: FhirResourceVersionPolicy };
 }
 
+/** Import operation configuration information */
+export interface FhirServiceImportConfiguration {
+  /** The name of the default integration storage account. */
+  integrationDataStore?: string;
+  /** If the FHIR service is in InitialImportMode. */
+  initialImportMode?: boolean;
+  /** If the import operation is enabled. */
+  enabled?: boolean;
+}
+
+/** A collection of Analytics Connectors. */
+export interface AnalyticsConnectorCollection {
+  /** The link used to get the next page of AnalyticsConnectors. */
+  nextLink?: string;
+  /** The list of Analytics Connectors. */
+  value?: AnalyticsConnector[];
+}
+
+/** Data source for Analytics Connector. The target resource must be in the same workspace with the Analytics Connector. */
+export interface AnalyticsConnectorDataSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "fhirservice";
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+}
+
+/** Data mapping configuration for Analytics Connector. */
+export interface AnalyticsConnectorMapping {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "fhirToParquet";
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+}
+
+/** Data destination configuration for Analytics Connector. */
+export interface AnalyticsConnectorDataDestination {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "datalake";
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** Name of data destination. */
+  name?: string;
+}
+
 /** Available operations of the service */
 export interface ListOperations {
   /**
@@ -599,10 +679,20 @@ export interface MetricSpecification {
   supportedTimeGrainTypes?: string[];
   /** Optional. If set to true, then zero will be returned for time duration where no metric is emitted/published. */
   fillGapWithZero?: boolean;
+  /** Pattern for the filter of the metric. */
+  metricFilterPattern?: string;
   /** Dimensions of the metric */
   dimensions?: MetricDimension[];
-  /** Name of the MDM namespace. Optional. */
+  /** Whether the metric is internal. */
+  isInternal?: boolean;
+  /** The source MDM account. */
+  sourceMdmAccount?: string;
+  /** The source MDM namespace. */
   sourceMdmNamespace?: string;
+  /** Whether regional MDM account enabled. */
+  enableRegionalMdmAccount?: boolean;
+  /** The resource Id dimension name override. */
+  resourceIdDimensionNameOverride?: string;
 }
 
 /** Specifications of the Dimension of metrics */
@@ -653,7 +743,7 @@ export interface PrivateEndpointConnectionListResult {
 }
 
 /** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
   /** The resource of private end point. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
@@ -663,10 +753,10 @@ export type PrivateEndpointConnection = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 /** A private link resource */
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -679,10 +769,10 @@ export type PrivateLinkResource = Resource & {
   readonly requiredMembers?: string[];
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
-};
+}
 
 /** The description of the service. */
-export type ServicesDescription = ServicesResource & {
+export interface ServicesDescription extends ServicesResource {
   /** The common properties of a service. */
   properties?: ServicesProperties;
   /**
@@ -690,151 +780,214 @@ export type ServicesDescription = ServicesResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-};
+}
 
 /** The common properties of tracked resources in the service. */
-export type TaggedResource = ResourceTags & LocationBasedResource & {};
+export interface TaggedResource extends ResourceTags, LocationBasedResource {}
 
 /** Workspace patch properties */
-export type WorkspacePatchResource = ResourceTags & {};
+export interface WorkspacePatchResource extends ResourceTags {}
 
 /** Dicom Service patch properties */
-export type DicomServicePatchResource = ResourceTags &
-  ServiceManagedIdentity & {};
+export interface DicomServicePatchResource
+  extends ResourceTags,
+    ServiceManagedIdentity {}
 
 /** Iot Connector patch properties */
-export type IotConnectorPatchResource = ResourceTags &
-  ServiceManagedIdentity & {};
+export interface IotConnectorPatchResource
+  extends ResourceTags,
+    ServiceManagedIdentity {}
 
 /** FhirService patch properties */
-export type FhirServicePatchResource = ResourceTags &
-  ServiceManagedIdentity & {};
+export interface FhirServicePatchResource
+  extends ResourceTags,
+    ServiceManagedIdentity {}
+
+/** AnalyticsConnector patch properties */
+export interface AnalyticsConnectorPatchResource
+  extends ResourceTags,
+    ServiceManagedIdentity {}
 
 /** The common properties for any location based resource, tracked or proxy. */
-export type LocationBasedResource = ResourceCore & {
+export interface LocationBasedResource extends ResourceCore {
   /** The resource location. */
   location?: string;
-};
+}
 
 /** The description of Dicom Service */
-export type DicomService = TaggedResource &
-  ServiceManagedIdentity & {
-    /**
-     * Metadata pertaining to creation and last modification of the resource.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly systemData?: SystemData;
-    /**
-     * The provisioning state.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly provisioningState?: ProvisioningState;
-    /** Dicom Service authentication configuration. */
-    authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
-    /**
-     * The url of the Dicom Services.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly serviceUrl?: string;
-    /**
-     * The list of private endpoint connections that are set up for this resource.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-    publicNetworkAccess?: PublicNetworkAccess;
-  };
+export interface DicomService extends TaggedResource, ServiceManagedIdentity {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Dicom Service authentication configuration. */
+  authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
+  /** Dicom Service Cors configuration. */
+  corsConfiguration?: CorsConfiguration;
+  /**
+   * The url of the Dicom Services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceUrl?: string;
+  /**
+   * The list of private endpoint connections that are set up for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
+  publicNetworkAccess?: PublicNetworkAccess;
+}
 
 /** IoT Connector definition. */
-export type IotConnector = TaggedResource &
-  ServiceManagedIdentity & {
-    /**
-     * Metadata pertaining to creation and last modification of the resource.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly systemData?: SystemData;
-    /**
-     * The provisioning state.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly provisioningState?: ProvisioningState;
-    /** Source configuration. */
-    ingestionEndpointConfiguration?: IotEventHubIngestionEndpointConfiguration;
-    /** Device Mappings. */
-    deviceMapping?: IotMappingProperties;
-  };
+export interface IotConnector extends TaggedResource, ServiceManagedIdentity {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Source configuration. */
+  ingestionEndpointConfiguration?: IotEventHubIngestionEndpointConfiguration;
+  /** Device Mappings. */
+  deviceMapping?: IotMappingProperties;
+}
 
 /** The description of Fhir Service */
-export type FhirService = TaggedResource &
-  ServiceManagedIdentity & {
-    /** The kind of the service. */
-    kind?: FhirServiceKind;
-    /**
-     * Metadata pertaining to creation and last modification of the resource.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly systemData?: SystemData;
-    /**
-     * The provisioning state.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly provisioningState?: ProvisioningState;
-    /** Fhir Service access policies. */
-    accessPolicies?: FhirServiceAccessPolicyEntry[];
-    /** Fhir Service Azure container registry configuration. */
-    acrConfiguration?: FhirServiceAcrConfiguration;
-    /** Fhir Service authentication configuration. */
-    authenticationConfiguration?: FhirServiceAuthenticationConfiguration;
-    /** Fhir Service Cors configuration. */
-    corsConfiguration?: FhirServiceCorsConfiguration;
-    /** Fhir Service export configuration. */
-    exportConfiguration?: FhirServiceExportConfiguration;
-    /**
-     * The list of private endpoint connections that are set up for this resource.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-    publicNetworkAccess?: PublicNetworkAccess;
-    /**
-     * Fhir Service event support status.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly eventState?: ServiceEventState;
-    /** Determines tracking of history for resources. */
-    resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration;
-  };
+export interface FhirService extends TaggedResource, ServiceManagedIdentity {
+  /** The kind of the service. */
+  kind?: FhirServiceKind;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Fhir Service access policies. */
+  accessPolicies?: FhirServiceAccessPolicyEntry[];
+  /** Fhir Service Azure container registry configuration. */
+  acrConfiguration?: FhirServiceAcrConfiguration;
+  /** Fhir Service authentication configuration. */
+  authenticationConfiguration?: FhirServiceAuthenticationConfiguration;
+  /** Fhir Service Cors configuration. */
+  corsConfiguration?: FhirServiceCorsConfiguration;
+  /** Fhir Service export configuration. */
+  exportConfiguration?: FhirServiceExportConfiguration;
+  /**
+   * The list of private endpoint connections that are set up for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * Fhir Service event support status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eventState?: ServiceEventState;
+  /** Determines tracking of history for resources. */
+  resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration;
+  /** Fhir Service import configuration. */
+  importConfiguration?: FhirServiceImportConfiguration;
+}
+
+/** Analytics Connector definition. */
+export interface AnalyticsConnector
+  extends TaggedResource,
+    ServiceManagedIdentity {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Data source for Analytics Connector. */
+  dataSourceConfiguration?: AnalyticsConnectorDataSourceUnion;
+  /** Data mapping configuration for Analytics Connector. */
+  dataMappingConfiguration?: AnalyticsConnectorMappingUnion;
+  /** Data destination configuration for Analytics Connector. */
+  dataDestinationConfiguration?: AnalyticsConnectorDataDestinationUnion;
+}
 
 /** IoT Connector destination properties for an Azure FHIR service. */
-export type IotFhirDestinationProperties = IotDestinationProperties & {
+export interface IotFhirDestinationProperties extends IotDestinationProperties {
   /** Determines how resource identity is resolved on the destination. */
   resourceIdentityResolutionType: IotIdentityResolutionType;
   /** Fully qualified resource id of the FHIR service to connect to. */
   fhirServiceResourceId: string;
   /** FHIR Mappings */
   fhirMapping: IotMappingProperties;
-};
+}
+
+/** The FHIR service data source for Analytics Connector. */
+export interface AnalyticsConnectorFhirServiceDataSource
+  extends AnalyticsConnectorDataSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "fhirservice";
+  /** The URL of FHIR service. */
+  url: string;
+  /** The kind of FHIR Service. */
+  kind: FhirServiceVersion;
+}
+
+/** FHIR Service data mapping configuration for Analytics Connector. */
+export interface AnalyticsConnectorFhirToParquetMapping
+  extends AnalyticsConnectorMapping {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "fhirToParquet";
+  /** Artifact reference for filter configurations. */
+  filterConfigurationReference?: string;
+  /** Artifact reference for extension schema. */
+  extensionSchemaReference?: string;
+}
+
+/** The Data Lake data destination for Analytics Connector. */
+export interface AnalyticsConnectorDataLakeDataDestination
+  extends AnalyticsConnectorDataDestination {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "datalake";
+  /** The name for the Data Lake. */
+  dataLakeName: string;
+}
 
 /** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnectionDescription = PrivateEndpointConnection & {
+export interface PrivateEndpointConnectionDescription
+  extends PrivateEndpointConnection {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-};
+}
 
 /** The Private Endpoint Connection resource. */
-export type PrivateLinkResourceDescription = PrivateLinkResource & {
+export interface PrivateLinkResourceDescription extends PrivateLinkResource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-};
+}
 
 /** Workspace resource. */
-export type Workspace = TaggedResource & {
+export interface Workspace extends TaggedResource {
   /** Workspaces resource specific properties. */
   properties?: WorkspaceProperties;
   /**
@@ -842,10 +995,10 @@ export type Workspace = TaggedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-};
+}
 
 /** IoT Connector FHIR destination definition. */
-export type IotFhirDestination = LocationBasedResource & {
+export interface IotFhirDestination extends LocationBasedResource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -862,22 +1015,35 @@ export type IotFhirDestination = LocationBasedResource & {
   fhirServiceResourceId: string;
   /** FHIR Mappings */
   fhirMapping: IotMappingProperties;
-};
+}
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Accepted */
   Accepted = "Accepted",
+  /** Verifying */
   Verifying = "Verifying",
+  /** Updating */
   Updating = "Updating",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Deprovisioned */
   Deprovisioned = "Deprovisioned",
+  /** Moving */
   Moving = "Moving",
+  /** Suspended */
   Suspended = "Suspended",
+  /** Warned */
   Warned = "Warned",
+  /** SystemMaintenance */
   SystemMaintenance = "SystemMaintenance"
 }
 
@@ -904,8 +1070,11 @@ export type ProvisioningState = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected"
 }
 
@@ -922,9 +1091,13 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -942,7 +1115,9 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -958,9 +1133,13 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -978,7 +1157,9 @@ export type CreatedByType = string;
 
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** None */
   None = "None"
 }
 
@@ -994,9 +1175,13 @@ export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link ServiceManagedIdentityType} that the service accepts. */
 export enum KnownServiceManagedIdentityType {
+  /** None */
   None = "None",
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
   SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
 }
 
@@ -1014,7 +1199,9 @@ export type ServiceManagedIdentityType = string;
 
 /** Known values of {@link IotIdentityResolutionType} that the service accepts. */
 export enum KnownIotIdentityResolutionType {
+  /** Create */
   Create = "Create",
+  /** Lookup */
   Lookup = "Lookup"
 }
 
@@ -1030,7 +1217,9 @@ export type IotIdentityResolutionType = string;
 
 /** Known values of {@link FhirServiceKind} that the service accepts. */
 export enum KnownFhirServiceKind {
+  /** FhirStu3 */
   FhirStu3 = "fhir-Stu3",
+  /** FhirR4 */
   FhirR4 = "fhir-R4"
 }
 
@@ -1046,8 +1235,11 @@ export type FhirServiceKind = string;
 
 /** Known values of {@link ServiceEventState} that the service accepts. */
 export enum KnownServiceEventState {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled",
+  /** Updating */
   Updating = "Updating"
 }
 
@@ -1064,8 +1256,11 @@ export type ServiceEventState = string;
 
 /** Known values of {@link FhirResourceVersionPolicy} that the service accepts. */
 export enum KnownFhirResourceVersionPolicy {
+  /** NoVersion */
   NoVersion = "no-version",
+  /** Versioned */
   Versioned = "versioned",
+  /** VersionedUpdate */
   VersionedUpdate = "versioned-update"
 }
 
@@ -1080,8 +1275,54 @@ export enum KnownFhirResourceVersionPolicy {
  */
 export type FhirResourceVersionPolicy = string;
 
+/** Known values of {@link AnalyticsConnectorDataSourceType} that the service accepts. */
+export enum KnownAnalyticsConnectorDataSourceType {
+  /** Fhirservice */
+  Fhirservice = "fhirservice"
+}
+
+/**
+ * Defines values for AnalyticsConnectorDataSourceType. \
+ * {@link KnownAnalyticsConnectorDataSourceType} can be used interchangeably with AnalyticsConnectorDataSourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **fhirservice**
+ */
+export type AnalyticsConnectorDataSourceType = string;
+
+/** Known values of {@link AnalyticsConnectorMappingType} that the service accepts. */
+export enum KnownAnalyticsConnectorMappingType {
+  /** FhirToParquet */
+  FhirToParquet = "fhirToParquet"
+}
+
+/**
+ * Defines values for AnalyticsConnectorMappingType. \
+ * {@link KnownAnalyticsConnectorMappingType} can be used interchangeably with AnalyticsConnectorMappingType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **fhirToParquet**
+ */
+export type AnalyticsConnectorMappingType = string;
+
+/** Known values of {@link AnalyticsConnectorDataDestinationType} that the service accepts. */
+export enum KnownAnalyticsConnectorDataDestinationType {
+  /** Datalake */
+  Datalake = "datalake"
+}
+
+/**
+ * Defines values for AnalyticsConnectorDataDestinationType. \
+ * {@link KnownAnalyticsConnectorDataDestinationType} can be used interchangeably with AnalyticsConnectorDataDestinationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **datalake**
+ */
+export type AnalyticsConnectorDataDestinationType = string;
+
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
+  /** Internal */
   Internal = "Internal"
 }
 
@@ -1096,10 +1337,15 @@ export type ActionType = string;
 
 /** Known values of {@link OperationResultStatus} that the service accepts. */
 export enum KnownOperationResultStatus {
+  /** Canceled */
   Canceled = "Canceled",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Requested */
   Requested = "Requested",
+  /** Running */
   Running = "Running"
 }
 
@@ -1115,6 +1361,24 @@ export enum KnownOperationResultStatus {
  * **Running**
  */
 export type OperationResultStatus = string;
+
+/** Known values of {@link FhirServiceVersion} that the service accepts. */
+export enum KnownFhirServiceVersion {
+  /** STU3 */
+  STU3 = "STU3",
+  /** R4 */
+  R4 = "R4"
+}
+
+/**
+ * Defines values for FhirServiceVersion. \
+ * {@link KnownFhirServiceVersion} can be used interchangeably with FhirServiceVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **STU3** \
+ * **R4**
+ */
+export type FhirServiceVersion = string;
 /** Defines values for Kind. */
 export type Kind = "fhir" | "fhir-Stu3" | "fhir-R4";
 /** Defines values for ServiceNameUnavailabilityReason. */
@@ -1564,6 +1828,60 @@ export interface WorkspacePrivateLinkResourcesGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type WorkspacePrivateLinkResourcesGetResponse = PrivateLinkResourceDescription;
+
+/** Optional parameters. */
+export interface AnalyticsConnectorsListByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWorkspace operation. */
+export type AnalyticsConnectorsListByWorkspaceResponse = AnalyticsConnectorCollection;
+
+/** Optional parameters. */
+export interface AnalyticsConnectorsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AnalyticsConnectorsGetResponse = AnalyticsConnector;
+
+/** Optional parameters. */
+export interface AnalyticsConnectorsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AnalyticsConnectorsCreateOrUpdateResponse = AnalyticsConnector;
+
+/** Optional parameters. */
+export interface AnalyticsConnectorsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface AnalyticsConnectorsListByWorkspaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWorkspaceNext operation. */
+export type AnalyticsConnectorsListByWorkspaceNextResponse = AnalyticsConnectorCollection;
+
+/** Optional parameters. */
+export interface AnalyticsConnectorUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type AnalyticsConnectorUpdateResponse = AnalyticsConnector;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
