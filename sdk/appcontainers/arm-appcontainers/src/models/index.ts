@@ -2622,6 +2622,9 @@ export interface ContainerAppsUpdateOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the update operation. */
+export type ContainerAppsUpdateResponse = ContainerApp;
+
 /** Optional parameters. */
 export interface ContainerAppsListCustomHostNameAnalysisOptionalParams
   extends coreClient.OperationOptions {
@@ -2892,6 +2895,9 @@ export interface ManagedEnvironmentsUpdateOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the update operation. */
+export type ManagedEnvironmentsUpdateResponse = ManagedEnvironment;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentsGetAuthTokenOptionalParams
