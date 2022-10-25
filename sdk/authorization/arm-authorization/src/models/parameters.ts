@@ -12,11 +12,8 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
-  RoleAssignmentScheduleRequest as RoleAssignmentScheduleRequestMapper,
-  RoleEligibilityScheduleRequest as RoleEligibilityScheduleRequestMapper,
-  RoleManagementPolicy as RoleManagementPolicyMapper,
-  RoleManagementPolicyAssignment as RoleManagementPolicyAssignmentMapper,
-  RoleAssignmentCreateParameters as RoleAssignmentCreateParametersMapper
+  Alert as AlertMapper,
+  AlertConfiguration as AlertConfigurationMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -55,43 +52,10 @@ export const scope: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const roleAssignmentScheduleName: OperationURLParameter = {
-  parameterPath: "roleAssignmentScheduleName",
+export const alertId: OperationURLParameter = {
+  parameterPath: "alertId",
   mapper: {
-    serializedName: "roleAssignmentScheduleName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2020-10-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
+    serializedName: "alertId",
     required: true,
     type: {
       name: "String"
@@ -100,11 +64,12 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const roleAssignmentScheduleInstanceName: OperationURLParameter = {
-  parameterPath: "roleAssignmentScheduleInstanceName",
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
   mapper: {
-    serializedName: "roleAssignmentScheduleInstanceName",
-    required: true,
+    defaultValue: "2022-01-07",
+    isConstant: true,
+    serializedName: "api-version",
     type: {
       name: "String"
     }
@@ -125,144 +90,30 @@ export const contentType: OperationParameter = {
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RoleAssignmentScheduleRequestMapper
+  mapper: AlertMapper
 };
 
-export const roleAssignmentScheduleRequestName: OperationURLParameter = {
-  parameterPath: "roleAssignmentScheduleRequestName",
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
   mapper: {
-    serializedName: "roleAssignmentScheduleRequestName",
+    serializedName: "nextLink",
     required: true,
     type: {
       name: "String"
     }
-  }
-};
-
-export const roleEligibilityScheduleName: OperationURLParameter = {
-  parameterPath: "roleEligibilityScheduleName",
-  mapper: {
-    serializedName: "roleEligibilityScheduleName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const roleEligibilityScheduleInstanceName: OperationURLParameter = {
-  parameterPath: "roleEligibilityScheduleInstanceName",
-  mapper: {
-    serializedName: "roleEligibilityScheduleInstanceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  },
+  skipEncoding: true
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RoleEligibilityScheduleRequestMapper
+  mapper: AlertConfigurationMapper
 };
 
-export const roleEligibilityScheduleRequestName: OperationURLParameter = {
-  parameterPath: "roleEligibilityScheduleRequestName",
+export const alertDefinitionId: OperationURLParameter = {
+  parameterPath: "alertDefinitionId",
   mapper: {
-    serializedName: "roleEligibilityScheduleRequestName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const roleManagementPolicyName: OperationURLParameter = {
-  parameterPath: "roleManagementPolicyName",
-  mapper: {
-    serializedName: "roleManagementPolicyName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: RoleManagementPolicyMapper
-};
-
-export const roleManagementPolicyAssignmentName: OperationURLParameter = {
-  parameterPath: "roleManagementPolicyAssignmentName",
-  mapper: {
-    serializedName: "roleManagementPolicyAssignmentName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters3: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: RoleManagementPolicyAssignmentMapper
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    constraints: {
-      MinLength: 1
-    },
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const filter1: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const tenantId: OperationQueryParameter = {
-  parameterPath: ["options", "tenantId"],
-  mapper: {
-    serializedName: "tenantId",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1
-    },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceProviderNamespace: OperationURLParameter = {
-  parameterPath: "resourceProviderNamespace",
-  mapper: {
-    serializedName: "resourceProviderNamespace",
+    serializedName: "alertDefinitionId",
     required: true,
     type: {
       name: "String"
@@ -271,10 +122,10 @@ export const resourceProviderNamespace: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const resourceType: OperationURLParameter = {
-  parameterPath: "resourceType",
+export const alertIncidentId: OperationURLParameter = {
+  parameterPath: "alertIncidentId",
   mapper: {
-    serializedName: "resourceType",
+    serializedName: "alertIncidentId",
     required: true,
     type: {
       name: "String"
@@ -283,39 +134,10 @@ export const resourceType: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const resourceName: OperationURLParameter = {
-  parameterPath: "resourceName",
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
   mapper: {
-    serializedName: "resourceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const roleAssignmentName: OperationURLParameter = {
-  parameterPath: "roleAssignmentName",
-  mapper: {
-    serializedName: "roleAssignmentName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const parameters4: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: RoleAssignmentCreateParametersMapper
-};
-
-export const roleAssignmentId: OperationURLParameter = {
-  parameterPath: "roleAssignmentId",
-  mapper: {
-    serializedName: "roleAssignmentId",
+    serializedName: "operationId",
     required: true,
     type: {
       name: "String"

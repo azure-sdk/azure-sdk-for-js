@@ -6,45 +6,44 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { RoleEligibilitySchedules } from "../operationsInterfaces";
+import { AlertDefinitions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AuthorizationManagementClientContext } from "../authorizationManagementClientContext";
+import { AuthorizationManagementClient } from "../authorizationManagementClient";
 import {
-  RoleEligibilitySchedule,
-  RoleEligibilitySchedulesListForScopeNextOptionalParams,
-  RoleEligibilitySchedulesListForScopeOptionalParams,
-  RoleEligibilitySchedulesGetOptionalParams,
-  RoleEligibilitySchedulesGetResponse,
-  RoleEligibilitySchedulesListForScopeResponse,
-  RoleEligibilitySchedulesListForScopeNextResponse
+  AlertDefinition,
+  AlertDefinitionsListForScopeNextOptionalParams,
+  AlertDefinitionsListForScopeOptionalParams,
+  AlertDefinitionsGetOptionalParams,
+  AlertDefinitionsGetResponse,
+  AlertDefinitionsListForScopeResponse,
+  AlertDefinitionsListForScopeNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing RoleEligibilitySchedules operations. */
-export class RoleEligibilitySchedulesImpl implements RoleEligibilitySchedules {
-  private readonly client: AuthorizationManagementClientContext;
+/** Class containing AlertDefinitions operations. */
+export class AlertDefinitionsImpl implements AlertDefinitions {
+  private readonly client: AuthorizationManagementClient;
 
   /**
-   * Initialize a new instance of the class RoleEligibilitySchedules class.
+   * Initialize a new instance of the class AlertDefinitions class.
    * @param client Reference to the service client
    */
-  constructor(client: AuthorizationManagementClientContext) {
+  constructor(client: AuthorizationManagementClient) {
     this.client = client;
   }
 
   /**
-   * Gets role eligibility schedules for a resource scope.
-   * @param scope The scope of the role eligibility schedules.
+   * Gets alert definitions for a resource scope.
+   * @param scope The scope of the alert definition.
    * @param options The options parameters.
    */
   public listForScope(
     scope: string,
-    options?: RoleEligibilitySchedulesListForScopeOptionalParams
-  ): PagedAsyncIterableIterator<RoleEligibilitySchedule> {
+    options?: AlertDefinitionsListForScopeOptionalParams
+  ): PagedAsyncIterableIterator<AlertDefinition> {
     const iter = this.listForScopePagingAll(scope, options);
     return {
       next() {
@@ -61,8 +60,8 @@ export class RoleEligibilitySchedulesImpl implements RoleEligibilitySchedules {
 
   private async *listForScopePagingPage(
     scope: string,
-    options?: RoleEligibilitySchedulesListForScopeOptionalParams
-  ): AsyncIterableIterator<RoleEligibilitySchedule[]> {
+    options?: AlertDefinitionsListForScopeOptionalParams
+  ): AsyncIterableIterator<AlertDefinition[]> {
     let result = await this._listForScope(scope, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -75,39 +74,45 @@ export class RoleEligibilitySchedulesImpl implements RoleEligibilitySchedules {
 
   private async *listForScopePagingAll(
     scope: string,
-    options?: RoleEligibilitySchedulesListForScopeOptionalParams
-  ): AsyncIterableIterator<RoleEligibilitySchedule> {
+    options?: AlertDefinitionsListForScopeOptionalParams
+  ): AsyncIterableIterator<AlertDefinition> {
     for await (const page of this.listForScopePagingPage(scope, options)) {
       yield* page;
     }
   }
 
   /**
-   * Get the specified role eligibility schedule for a resource scope
-   * @param scope The scope of the role eligibility schedule.
-   * @param roleEligibilityScheduleName The name (guid) of the role eligibility schedule to get.
+   * Get the specified alert definition.
+   * @param scope The scope of the alert definition. The scope can be any REST resource instance. For
+   *              example, use '/providers/Microsoft.Subscription/subscriptions/{subscription-id}/' for a
+   *              subscription,
+   *              '/providers/Microsoft.Subscription/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}'
+   *              for a resource group, and
+   *              '/providers/Microsoft.Subscription/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}'
+   *              for a resource.
+   * @param alertDefinitionId The name of the alert definition to get.
    * @param options The options parameters.
    */
   get(
     scope: string,
-    roleEligibilityScheduleName: string,
-    options?: RoleEligibilitySchedulesGetOptionalParams
-  ): Promise<RoleEligibilitySchedulesGetResponse> {
+    alertDefinitionId: string,
+    options?: AlertDefinitionsGetOptionalParams
+  ): Promise<AlertDefinitionsGetResponse> {
     return this.client.sendOperationRequest(
-      { scope, roleEligibilityScheduleName, options },
+      { scope, alertDefinitionId, options },
       getOperationSpec
     );
   }
 
   /**
-   * Gets role eligibility schedules for a resource scope.
-   * @param scope The scope of the role eligibility schedules.
+   * Gets alert definitions for a resource scope.
+   * @param scope The scope of the alert definition.
    * @param options The options parameters.
    */
   private _listForScope(
     scope: string,
-    options?: RoleEligibilitySchedulesListForScopeOptionalParams
-  ): Promise<RoleEligibilitySchedulesListForScopeResponse> {
+    options?: AlertDefinitionsListForScopeOptionalParams
+  ): Promise<AlertDefinitionsListForScopeResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
       listForScopeOperationSpec
@@ -116,15 +121,15 @@ export class RoleEligibilitySchedulesImpl implements RoleEligibilitySchedules {
 
   /**
    * ListForScopeNext
-   * @param scope The scope of the role eligibility schedules.
+   * @param scope The scope of the alert definition.
    * @param nextLink The nextLink from the previous successful call to the ListForScope method.
    * @param options The options parameters.
    */
   private _listForScopeNext(
     scope: string,
     nextLink: string,
-    options?: RoleEligibilitySchedulesListForScopeNextOptionalParams
-  ): Promise<RoleEligibilitySchedulesListForScopeNextResponse> {
+    options?: AlertDefinitionsListForScopeNextOptionalParams
+  ): Promise<AlertDefinitionsListForScopeNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
       listForScopeNextOperationSpec
@@ -136,11 +141,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/{scope}/providers/Microsoft.Authorization/roleEligibilitySchedules/{roleEligibilityScheduleName}",
+    "/{scope}/providers/Microsoft.Authorization/roleManagementAlerts/alertDefinitions/{alertDefinitionId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleEligibilitySchedule
+      bodyMapper: Mappers.AlertDefinition
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -150,23 +155,24 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.roleEligibilityScheduleName
+    Parameters.alertDefinitionId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const listForScopeOperationSpec: coreClient.OperationSpec = {
-  path: "/{scope}/providers/Microsoft.Authorization/roleEligibilitySchedules",
+  path:
+    "/{scope}/providers/Microsoft.Authorization/roleManagementAlerts/alertDefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleEligibilityScheduleListResult
+      bodyMapper: Mappers.AlertDefinitionListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer
@@ -176,13 +182,13 @@ const listForScopeNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleEligibilityScheduleListResult
+      bodyMapper: Mappers.AlertDefinitionListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
