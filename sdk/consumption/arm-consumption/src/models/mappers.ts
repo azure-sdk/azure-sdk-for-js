@@ -218,13 +218,6 @@ export const BudgetFilter: coreClient.CompositeMapper = {
           }
         }
       },
-      not: {
-        serializedName: "not",
-        type: {
-          name: "Composite",
-          className: "BudgetFilterProperties"
-        }
-      },
       dimensions: {
         serializedName: "dimensions",
         type: {
@@ -1839,6 +1832,29 @@ export const Marketplace: coreClient.CompositeMapper = {
   }
 };
 
+export const ChargeSummary: coreClient.CompositeMapper = {
+  serializedName: "ChargeSummary",
+  type: {
+    name: "Composite",
+    className: "ChargeSummary",
+    uberParent: "Resource",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind"
+    },
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      kind: {
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Balance: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2385,72 +2401,6 @@ export const ManagementGroupAggregatedCostResult: coreClient.CompositeMapper = {
   }
 };
 
-export const CreditSummary: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CreditSummary",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      balanceSummary: {
-        serializedName: "properties.balanceSummary",
-        type: {
-          name: "Composite",
-          className: "CreditBalanceSummary"
-        }
-      },
-      pendingCreditAdjustments: {
-        serializedName: "properties.pendingCreditAdjustments",
-        type: {
-          name: "Composite",
-          className: "Amount"
-        }
-      },
-      expiredCredit: {
-        serializedName: "properties.expiredCredit",
-        type: {
-          name: "Composite",
-          className: "Amount"
-        }
-      },
-      pendingEligibleCharges: {
-        serializedName: "properties.pendingEligibleCharges",
-        type: {
-          name: "Composite",
-          className: "Amount"
-        }
-      },
-      creditCurrency: {
-        serializedName: "properties.creditCurrency",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      billingCurrency: {
-        serializedName: "properties.billingCurrency",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      reseller: {
-        serializedName: "properties.reseller",
-        type: {
-          name: "Composite",
-          className: "Reseller"
-        }
-      },
-      eTag: {
-        serializedName: "properties.eTag",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const Budget: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2542,29 +2492,6 @@ export const TagsResult: coreClient.CompositeMapper = {
       previousLink: {
         serializedName: "properties.previousLink",
         readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ChargeSummary: coreClient.CompositeMapper = {
-  serializedName: "ChargeSummary",
-  type: {
-    name: "Composite",
-    className: "ChargeSummary",
-    uberParent: "ProxyResource",
-    polymorphicDiscriminator: {
-      serializedName: "kind",
-      clientName: "kind"
-    },
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      kind: {
-        serializedName: "kind",
-        required: true,
         type: {
           name: "String"
         }
@@ -2851,6 +2778,72 @@ export const LotSummary: coreClient.CompositeMapper = {
   }
 };
 
+export const CreditSummary: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CreditSummary",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      balanceSummary: {
+        serializedName: "properties.balanceSummary",
+        type: {
+          name: "Composite",
+          className: "CreditBalanceSummary"
+        }
+      },
+      pendingCreditAdjustments: {
+        serializedName: "properties.pendingCreditAdjustments",
+        type: {
+          name: "Composite",
+          className: "Amount"
+        }
+      },
+      expiredCredit: {
+        serializedName: "properties.expiredCredit",
+        type: {
+          name: "Composite",
+          className: "Amount"
+        }
+      },
+      pendingEligibleCharges: {
+        serializedName: "properties.pendingEligibleCharges",
+        type: {
+          name: "Composite",
+          className: "Amount"
+        }
+      },
+      creditCurrency: {
+        serializedName: "properties.creditCurrency",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      billingCurrency: {
+        serializedName: "properties.billingCurrency",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      reseller: {
+        serializedName: "properties.reseller",
+        type: {
+          name: "Composite",
+          className: "Reseller"
+        }
+      },
+      eTagPropertiesETag: {
+        serializedName: "properties.eTag",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ReservationTransaction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3023,7 +3016,6 @@ export const ReservationTransaction: coreClient.CompositeMapper = {
 };
 
 export const ModernReservationTransaction: coreClient.CompositeMapper = {
-  serializedName: "Modern",
   type: {
     name: "Composite",
     className: "ModernReservationTransaction",
@@ -3540,6 +3532,20 @@ export const LegacyUsageDetail: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number"
+        }
+      },
+      benefitId: {
+        serializedName: "properties.benefitId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      benefitName: {
+        serializedName: "properties.benefitName",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       },
       pricingModel: {
@@ -4070,6 +4076,158 @@ export const ModernUsageDetail: coreClient.CompositeMapper = {
   }
 };
 
+export const LegacyChargeSummary: coreClient.CompositeMapper = {
+  serializedName: "legacy",
+  type: {
+    name: "Composite",
+    className: "LegacyChargeSummary",
+    uberParent: "ChargeSummary",
+    polymorphicDiscriminator: ChargeSummary.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ChargeSummary.type.modelProperties,
+      billingPeriodId: {
+        serializedName: "properties.billingPeriodId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      usageStart: {
+        serializedName: "properties.usageStart",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      usageEnd: {
+        serializedName: "properties.usageEnd",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      azureCharges: {
+        serializedName: "properties.azureCharges",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      chargesBilledSeparately: {
+        serializedName: "properties.chargesBilledSeparately",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      azureMarketplaceCharges: {
+        serializedName: "properties.azureMarketplaceCharges",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      currency: {
+        serializedName: "properties.currency",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ModernChargeSummary: coreClient.CompositeMapper = {
+  serializedName: "modern",
+  type: {
+    name: "Composite",
+    className: "ModernChargeSummary",
+    uberParent: "ChargeSummary",
+    polymorphicDiscriminator: ChargeSummary.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ChargeSummary.type.modelProperties,
+      billingPeriodId: {
+        serializedName: "properties.billingPeriodId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      usageStart: {
+        serializedName: "properties.usageStart",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      usageEnd: {
+        serializedName: "properties.usageEnd",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      azureCharges: {
+        serializedName: "properties.azureCharges",
+        type: {
+          name: "Composite",
+          className: "Amount"
+        }
+      },
+      chargesBilledSeparately: {
+        serializedName: "properties.chargesBilledSeparately",
+        type: {
+          name: "Composite",
+          className: "Amount"
+        }
+      },
+      marketplaceCharges: {
+        serializedName: "properties.marketplaceCharges",
+        type: {
+          name: "Composite",
+          className: "Amount"
+        }
+      },
+      billingAccountId: {
+        serializedName: "properties.billingAccountId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      billingProfileId: {
+        serializedName: "properties.billingProfileId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      invoiceSectionId: {
+        serializedName: "properties.invoiceSectionId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      customerId: {
+        serializedName: "properties.customerId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      isInvoiced: {
+        serializedName: "properties.isInvoiced",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const LegacyReservationRecommendation: coreClient.CompositeMapper = {
   serializedName: "legacy",
   type: {
@@ -4275,6 +4433,13 @@ export const ModernReservationRecommendation: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
+      resourceType: {
+        serializedName: "properties.resourceType",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       totalCostWithReservedInstances: {
         serializedName: "properties.totalCostWithReservedInstances",
         type: {
@@ -4322,157 +4487,12 @@ export const ModernReservationRecommendation: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      }
-    }
-  }
-};
-
-export const LegacyChargeSummary: coreClient.CompositeMapper = {
-  serializedName: "legacy",
-  type: {
-    name: "Composite",
-    className: "LegacyChargeSummary",
-    uberParent: "ChargeSummary",
-    polymorphicDiscriminator: ChargeSummary.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ChargeSummary.type.modelProperties,
-      billingPeriodId: {
-        serializedName: "properties.billingPeriodId",
+      },
+      subscriptionId: {
+        serializedName: "properties.subscriptionId",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      },
-      usageStart: {
-        serializedName: "properties.usageStart",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      usageEnd: {
-        serializedName: "properties.usageEnd",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      azureCharges: {
-        serializedName: "properties.azureCharges",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      chargesBilledSeparately: {
-        serializedName: "properties.chargesBilledSeparately",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      marketplaceCharges: {
-        serializedName: "properties.marketplaceCharges",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      currency: {
-        serializedName: "properties.currency",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ModernChargeSummary: coreClient.CompositeMapper = {
-  serializedName: "modern",
-  type: {
-    name: "Composite",
-    className: "ModernChargeSummary",
-    uberParent: "ChargeSummary",
-    polymorphicDiscriminator: ChargeSummary.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ChargeSummary.type.modelProperties,
-      billingPeriodId: {
-        serializedName: "properties.billingPeriodId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      usageStart: {
-        serializedName: "properties.usageStart",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      usageEnd: {
-        serializedName: "properties.usageEnd",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      azureCharges: {
-        serializedName: "properties.azureCharges",
-        type: {
-          name: "Composite",
-          className: "Amount"
-        }
-      },
-      chargesBilledSeparately: {
-        serializedName: "properties.chargesBilledSeparately",
-        type: {
-          name: "Composite",
-          className: "Amount"
-        }
-      },
-      marketplaceCharges: {
-        serializedName: "properties.marketplaceCharges",
-        type: {
-          name: "Composite",
-          className: "Amount"
-        }
-      },
-      billingAccountId: {
-        serializedName: "properties.billingAccountId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      billingProfileId: {
-        serializedName: "properties.billingProfileId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      invoiceSectionId: {
-        serializedName: "properties.invoiceSectionId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      customerId: {
-        serializedName: "properties.customerId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      isInvoiced: {
-        serializedName: "properties.isInvoiced",
-        readOnly: true,
-        type: {
-          name: "Boolean"
+          name: "Uuid"
         }
       }
     }
@@ -4492,14 +4512,14 @@ export const LegacyReservationTransaction: coreClient.CompositeMapper = {
 export let discriminators = {
   LegacyReservationRecommendationProperties: LegacyReservationRecommendationProperties,
   "Resource.UsageDetail": UsageDetail,
+  "Resource.ChargeSummary": ChargeSummary,
   "Resource.ReservationRecommendation": ReservationRecommendation,
-  "ProxyResource.ChargeSummary": ChargeSummary,
   "LegacyReservationRecommendationProperties.Single": LegacySingleScopeReservationRecommendationProperties,
   "LegacyReservationRecommendationProperties.Shared": LegacySharedScopeReservationRecommendationProperties,
   "UsageDetail.legacy": LegacyUsageDetail,
   "UsageDetail.modern": ModernUsageDetail,
-  "ReservationRecommendation.legacy": LegacyReservationRecommendation,
-  "ReservationRecommendation.modern": ModernReservationRecommendation,
   "ChargeSummary.legacy": LegacyChargeSummary,
-  "ChargeSummary.modern": ModernChargeSummary
+  "ChargeSummary.modern": ModernChargeSummary,
+  "ReservationRecommendation.legacy": LegacyReservationRecommendation,
+  "ReservationRecommendation.modern": ModernReservationRecommendation
 };
