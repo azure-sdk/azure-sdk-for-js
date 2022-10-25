@@ -100,7 +100,7 @@ export class CertificatesImpl implements Certificates {
   }
 
   /**
-   * Get a certificate of given Nginx deployment
+   * Get a certificate of s given Nginx deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted Nginx deployment
    * @param certificateName The name of certificate
