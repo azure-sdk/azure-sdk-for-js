@@ -37,6 +37,7 @@ export * from "./threatIntelligenceIndicators";
 export * from "./threatIntelligenceIndicatorMetrics";
 export * from "./watchlists";
 export * from "./watchlistItems";
+export * from "./workspaceManagerGroups";
 export * from "./dataConnectors";
 export * from "./dataConnectorsCheckRequirementsOperations";
 export * from "./operations";
