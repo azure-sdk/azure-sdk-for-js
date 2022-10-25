@@ -1,15 +1,41 @@
 # Release History
+    
+## 1.0.0-beta.6 (2022-10-25)
+    
+**Features**
 
-## 1.0.0-beta.6 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group WorkspaceManagerGroups
+  - Added Interface AlertPropertyMapping
+  - Added Interface AzureEntityResource
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface SentinelEntityMapping
+  - Added Interface WorkspaceManagerGroup
+  - Added Interface WorkspaceManagerGroupList
+  - Added Interface WorkspaceManagerGroupsCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceManagerGroupsDeleteOptionalParams
+  - Added Interface WorkspaceManagerGroupsGetOptionalParams
+  - Added Interface WorkspaceManagerGroupsListNextOptionalParams
+  - Added Interface WorkspaceManagerGroupsListOptionalParams
+  - Added Type Alias AlertProperty
+  - Added Type Alias WorkspaceManagerGroupsCreateOrUpdateResponse
+  - Added Type Alias WorkspaceManagerGroupsGetResponse
+  - Added Type Alias WorkspaceManagerGroupsListNextResponse
+  - Added Type Alias WorkspaceManagerGroupsListResponse
+  - Interface AlertDetailsOverride has a new optional parameter alertDynamicProperties
+  - Interface NrtAlertRule has a new optional parameter sentinelEntitiesMappings
+  - Interface NrtAlertRuleTemplate has a new optional parameter sentinelEntitiesMappings
+  - Interface QueryBasedAlertRuleTemplateProperties has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRule has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRuleCommonProperties has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRuleTemplate has a new optional parameter sentinelEntitiesMappings
+  - Interface SecurityAlertTimelineItem has a new optional parameter intent
+  - Interface SecurityAlertTimelineItem has a new optional parameter techniques
+  - Class SecurityInsights has a new parameter workspaceManagerGroups
+  - Added Enum KnownAlertProperty
+    
+    
 ## 1.0.0-beta.5 (2022-09-27)
     
 **Features**
