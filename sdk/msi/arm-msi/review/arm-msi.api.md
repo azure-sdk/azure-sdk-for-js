@@ -23,6 +23,7 @@ export interface AzureResource {
     readonly subscriptionDisplayName?: string;
     readonly subscriptionId?: string;
     readonly type?: string;
+    readonly typeDisplayName?: string;
 }
 
 // @public

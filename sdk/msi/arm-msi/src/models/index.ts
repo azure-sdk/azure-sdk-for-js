@@ -118,6 +118,11 @@ export interface AzureResource {
    */
   readonly type?: string;
   /**
+   * The name of the type of this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly typeDisplayName?: string;
+  /**
    * The name of the resource group this resource belongs to.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */

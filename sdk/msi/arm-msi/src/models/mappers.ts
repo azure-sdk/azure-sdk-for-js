@@ -264,6 +264,13 @@ export const AzureResource: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      typeDisplayName: {
+        serializedName: "typeDisplayName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       resourceGroup: {
         serializedName: "resourceGroup",
         readOnly: true,
