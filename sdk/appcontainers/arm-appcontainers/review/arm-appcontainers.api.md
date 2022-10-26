@@ -62,6 +62,9 @@ export interface AppRegistration {
 }
 
 // @public
+export type AppState = string;
+
+// @public
 export interface AuthConfig extends ProxyResource {
     globalValidation?: GlobalValidation;
     httpSettings?: HttpSettings;
@@ -600,12 +603,14 @@ export interface Container extends BaseContainer {
 
 // @public
 export interface ContainerApp extends TrackedResource {
+    appState?: AppState;
     configuration?: Configuration;
     readonly customDomainVerificationId?: string;
     environmentId?: string;
     readonly eventStreamEndpoint?: string;
     extendedLocation?: ExtendedLocation;
     identity?: ManagedServiceIdentity;
+    readonly latestReadyRevisionName?: string;
     readonly latestRevisionFqdn?: string;
     readonly latestRevisionName?: string;
     managedEnvironmentId?: string;
@@ -795,12 +800,20 @@ export interface ContainerAppsDeleteOptionalParams extends coreClient.OperationO
 
 // @public
 export interface ContainerAppsDiagnostics {
+    getAuthConfigs(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDiagnosticsGetAuthConfigsOptionalParams): Promise<ContainerAppsDiagnosticsGetAuthConfigsResponse>;
     getDetector(resourceGroupName: string, containerAppName: string, detectorName: string, options?: ContainerAppsDiagnosticsGetDetectorOptionalParams): Promise<ContainerAppsDiagnosticsGetDetectorResponse>;
     getRevision(resourceGroupName: string, containerAppName: string, revisionName: string, options?: ContainerAppsDiagnosticsGetRevisionOptionalParams): Promise<ContainerAppsDiagnosticsGetRevisionResponse>;
     getRoot(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDiagnosticsGetRootOptionalParams): Promise<ContainerAppsDiagnosticsGetRootResponse>;
     listDetectors(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDiagnosticsListDetectorsOptionalParams): PagedAsyncIterableIterator<Diagnostics>;
     listRevisions(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDiagnosticsListRevisionsOptionalParams): PagedAsyncIterableIterator<Revision>;
 }
+
+// @public
+export interface ContainerAppsDiagnosticsGetAuthConfigsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsDiagnosticsGetAuthConfigsResponse = AuthConfig;
 
 // @public
 export interface ContainerAppsDiagnosticsGetDetectorOptionalParams extends coreClient.OperationOptions {
@@ -1047,6 +1060,16 @@ export interface CookieExpiration {
 
 // @public
 export type CookieExpirationConvention = "FixedTime" | "IdentityProviderDerived";
+
+// @public
+export interface CorsPolicy {
+    allowCredentials?: boolean;
+    allowedHeaders?: string[];
+    allowedMethods?: string[];
+    allowedOrigins: string[];
+    exposeHeaders?: string[];
+    maxAge?: number;
+}
 
 // @public
 export type CreatedByType = string;
@@ -1465,6 +1488,8 @@ export interface IdentityProviders {
 // @public
 export interface Ingress {
     allowInsecure?: boolean;
+    clientCertificateMode?: IngressClientCertificateMode;
+    corsPolicy?: CorsPolicy;
     customDomains?: CustomDomain[];
     exposedPort?: number;
     external?: boolean;
@@ -1474,6 +1499,9 @@ export interface Ingress {
     traffic?: TrafficWeight[];
     transport?: IngressTransportMethod;
 }
+
+// @public
+export type IngressClientCertificateMode = string;
 
 // @public
 export type IngressTransportMethod = string;
@@ -1524,6 +1552,12 @@ export enum KnownApplicability {
 export enum KnownAppProtocol {
     Grpc = "grpc",
     Http = "http"
+}
+
+// @public
+export enum KnownAppState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -1600,6 +1634,13 @@ export enum KnownEnvironmentProvisioningState {
 // @public
 export enum KnownExtendedLocationTypes {
     CustomLocation = "CustomLocation"
+}
+
+// @public
+export enum KnownIngressClientCertificateMode {
+    Accept = "accept",
+    Ignore = "ignore",
+    Require = "require"
 }
 
 // @public
@@ -1793,8 +1834,26 @@ export interface ManagedEnvironmentsDeleteOptionalParams extends coreClient.Oper
 
 // @public
 export interface ManagedEnvironmentsDiagnostics {
+    getCertificates(resourceGroupName: string, environmentName: string, certificateName: string, options?: ManagedEnvironmentsDiagnosticsGetCertificatesOptionalParams): Promise<ManagedEnvironmentsDiagnosticsGetCertificatesResponse>;
+    getDaprComponents(resourceGroupName: string, environmentName: string, componentName: string, options?: ManagedEnvironmentsDiagnosticsGetDaprComponentsOptionalParams): Promise<ManagedEnvironmentsDiagnosticsGetDaprComponentsResponse>;
     getRoot(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsDiagnosticsGetRootOptionalParams): Promise<ManagedEnvironmentsDiagnosticsGetRootResponse>;
+    listCertificates(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsDiagnosticsListCertificatesOptionalParams): PagedAsyncIterableIterator<Certificate>;
+    listDaprComponents(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsDiagnosticsListDaprComponentsOptionalParams): PagedAsyncIterableIterator<DaprComponent>;
 }
+
+// @public
+export interface ManagedEnvironmentsDiagnosticsGetCertificatesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedEnvironmentsDiagnosticsGetCertificatesResponse = Certificate;
+
+// @public
+export interface ManagedEnvironmentsDiagnosticsGetDaprComponentsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedEnvironmentsDiagnosticsGetDaprComponentsResponse = DaprComponent;
 
 // @public
 export interface ManagedEnvironmentsDiagnosticsGetRootOptionalParams extends coreClient.OperationOptions {
@@ -1802,6 +1861,34 @@ export interface ManagedEnvironmentsDiagnosticsGetRootOptionalParams extends cor
 
 // @public
 export type ManagedEnvironmentsDiagnosticsGetRootResponse = ManagedEnvironment;
+
+// @public
+export interface ManagedEnvironmentsDiagnosticsListCertificatesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedEnvironmentsDiagnosticsListCertificatesNextResponse = CertificateCollection;
+
+// @public
+export interface ManagedEnvironmentsDiagnosticsListCertificatesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedEnvironmentsDiagnosticsListCertificatesResponse = CertificateCollection;
+
+// @public
+export interface ManagedEnvironmentsDiagnosticsListDaprComponentsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedEnvironmentsDiagnosticsListDaprComponentsNextResponse = DaprComponentsCollection;
+
+// @public
+export interface ManagedEnvironmentsDiagnosticsListDaprComponentsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedEnvironmentsDiagnosticsListDaprComponentsResponse = DaprComponentsCollection;
 
 // @public
 export interface ManagedEnvironmentsGetAuthTokenOptionalParams extends coreClient.OperationOptions {

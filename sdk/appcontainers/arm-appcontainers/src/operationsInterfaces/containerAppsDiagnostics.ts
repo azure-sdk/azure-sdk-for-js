@@ -17,7 +17,9 @@ import {
   ContainerAppsDiagnosticsGetRevisionOptionalParams,
   ContainerAppsDiagnosticsGetRevisionResponse,
   ContainerAppsDiagnosticsGetRootOptionalParams,
-  ContainerAppsDiagnosticsGetRootResponse
+  ContainerAppsDiagnosticsGetRootResponse,
+  ContainerAppsDiagnosticsGetAuthConfigsOptionalParams,
+  ContainerAppsDiagnosticsGetAuthConfigsResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -82,4 +84,15 @@ export interface ContainerAppsDiagnostics {
     containerAppName: string,
     options?: ContainerAppsDiagnosticsGetRootOptionalParams
   ): Promise<ContainerAppsDiagnosticsGetRootResponse>;
+  /**
+   * Get the authentication configurations of a Container App.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param containerAppName Name of the Container App.
+   * @param options The options parameters.
+   */
+  getAuthConfigs(
+    resourceGroupName: string,
+    containerAppName: string,
+    options?: ContainerAppsDiagnosticsGetAuthConfigsOptionalParams
+  ): Promise<ContainerAppsDiagnosticsGetAuthConfigsResponse>;
 }

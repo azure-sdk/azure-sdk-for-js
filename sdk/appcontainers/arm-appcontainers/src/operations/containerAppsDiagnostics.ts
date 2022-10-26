@@ -27,6 +27,8 @@ import {
   ContainerAppsDiagnosticsGetRevisionResponse,
   ContainerAppsDiagnosticsGetRootOptionalParams,
   ContainerAppsDiagnosticsGetRootResponse,
+  ContainerAppsDiagnosticsGetAuthConfigsOptionalParams,
+  ContainerAppsDiagnosticsGetAuthConfigsResponse,
   ContainerAppsDiagnosticsListDetectorsNextResponse,
   ContainerAppsDiagnosticsListRevisionsNextResponse
 } from "../models";
@@ -276,6 +278,23 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
   }
 
   /**
+   * Get the authentication configurations of a Container App.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param containerAppName Name of the Container App.
+   * @param options The options parameters.
+   */
+  getAuthConfigs(
+    resourceGroupName: string,
+    containerAppName: string,
+    options?: ContainerAppsDiagnosticsGetAuthConfigsOptionalParams
+  ): Promise<ContainerAppsDiagnosticsGetAuthConfigsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, containerAppName, options },
+      getAuthConfigsOperationSpec
+    );
+  }
+
+  /**
    * ListDetectorsNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App for which detector info is needed.
@@ -427,6 +446,28 @@ const getRootOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerAppName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getAuthConfigsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/detectorProperties/authConfigsApi/",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AuthConfig
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.containerAppName1
   ],
   headerParameters: [Parameters.accept],
   serializer

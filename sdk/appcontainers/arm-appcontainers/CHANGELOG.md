@@ -1,16 +1,6 @@
 # Release History
-
-## 2.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.0.0-beta.1 (2022-10-12)
+    
+## 1.2.0 (2022-10-26)
     
 **Features**
 
@@ -67,6 +57,7 @@
   - Added Interface ConnectedEnvironmentStoragesCollection
   - Added Interface ConnectedEnvironmentsUpdateOptionalParams
   - Added Interface ContainerAppAuthToken
+  - Added Interface ContainerAppsDiagnosticsGetAuthConfigsOptionalParams
   - Added Interface ContainerAppsDiagnosticsGetDetectorOptionalParams
   - Added Interface ContainerAppsDiagnosticsGetRevisionOptionalParams
   - Added Interface ContainerAppsDiagnosticsGetRootOptionalParams
@@ -75,6 +66,7 @@
   - Added Interface ContainerAppsDiagnosticsListRevisionsNextOptionalParams
   - Added Interface ContainerAppsDiagnosticsListRevisionsOptionalParams
   - Added Interface ContainerAppsGetAuthTokenOptionalParams
+  - Added Interface CorsPolicy
   - Added Interface CustomDomainConfiguration
   - Added Interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo
   - Added Interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsItem
@@ -102,7 +94,13 @@
   - Added Interface ManagedEnvironmentDiagnosticsGetDetectorOptionalParams
   - Added Interface ManagedEnvironmentDiagnosticsListDetectorsOptionalParams
   - Added Interface ManagedEnvironmentOutboundSettings
+  - Added Interface ManagedEnvironmentsDiagnosticsGetCertificatesOptionalParams
+  - Added Interface ManagedEnvironmentsDiagnosticsGetDaprComponentsOptionalParams
   - Added Interface ManagedEnvironmentsDiagnosticsGetRootOptionalParams
+  - Added Interface ManagedEnvironmentsDiagnosticsListCertificatesNextOptionalParams
+  - Added Interface ManagedEnvironmentsDiagnosticsListCertificatesOptionalParams
+  - Added Interface ManagedEnvironmentsDiagnosticsListDaprComponentsNextOptionalParams
+  - Added Interface ManagedEnvironmentsDiagnosticsListDaprComponentsOptionalParams
   - Added Interface ManagedEnvironmentsGetAuthTokenOptionalParams
   - Added Interface ManagedEnvironmentsListWorkloadProfileStatesNextOptionalParams
   - Added Interface ManagedEnvironmentsListWorkloadProfileStatesOptionalParams
@@ -113,6 +111,7 @@
   - Added Interface WorkloadProfileStatesProperties
   - Added Type Alias Action
   - Added Type Alias Applicability
+  - Added Type Alias AppState
   - Added Type Alias AvailableWorkloadProfilesGetNextResponse
   - Added Type Alias AvailableWorkloadProfilesGetResponse
   - Added Type Alias BillingMetersGetResponse
@@ -139,6 +138,7 @@
   - Added Type Alias ConnectedEnvironmentsStoragesGetResponse
   - Added Type Alias ConnectedEnvironmentsStoragesListResponse
   - Added Type Alias ConnectedEnvironmentsUpdateResponse
+  - Added Type Alias ContainerAppsDiagnosticsGetAuthConfigsResponse
   - Added Type Alias ContainerAppsDiagnosticsGetDetectorResponse
   - Added Type Alias ContainerAppsDiagnosticsGetRevisionResponse
   - Added Type Alias ContainerAppsDiagnosticsGetRootResponse
@@ -148,20 +148,29 @@
   - Added Type Alias ContainerAppsDiagnosticsListRevisionsResponse
   - Added Type Alias ContainerAppsGetAuthTokenResponse
   - Added Type Alias ExtendedLocationTypes
+  - Added Type Alias IngressClientCertificateMode
   - Added Type Alias LogLevel
   - Added Type Alias ManagedEnvironmentDiagnosticsGetDetectorResponse
   - Added Type Alias ManagedEnvironmentDiagnosticsListDetectorsResponse
   - Added Type Alias ManagedEnvironmentOutBoundType
+  - Added Type Alias ManagedEnvironmentsDiagnosticsGetCertificatesResponse
+  - Added Type Alias ManagedEnvironmentsDiagnosticsGetDaprComponentsResponse
   - Added Type Alias ManagedEnvironmentsDiagnosticsGetRootResponse
+  - Added Type Alias ManagedEnvironmentsDiagnosticsListCertificatesNextResponse
+  - Added Type Alias ManagedEnvironmentsDiagnosticsListCertificatesResponse
+  - Added Type Alias ManagedEnvironmentsDiagnosticsListDaprComponentsNextResponse
+  - Added Type Alias ManagedEnvironmentsDiagnosticsListDaprComponentsResponse
   - Added Type Alias ManagedEnvironmentsGetAuthTokenResponse
   - Added Type Alias ManagedEnvironmentsListWorkloadProfileStatesNextResponse
   - Added Type Alias ManagedEnvironmentsListWorkloadProfileStatesResponse
   - Added Type Alias SkuName
   - Interface CertificateProperties has a new optional parameter subjectAlternativeNames
   - Interface Configuration has a new optional parameter maxInactiveRevisions
+  - Interface ContainerApp has a new optional parameter appState
   - Interface ContainerApp has a new optional parameter environmentId
   - Interface ContainerApp has a new optional parameter eventStreamEndpoint
   - Interface ContainerApp has a new optional parameter extendedLocation
+  - Interface ContainerApp has a new optional parameter latestReadyRevisionName
   - Interface ContainerApp has a new optional parameter workloadProfileType
   - Interface CustomHostnameAnalysisResult has a new optional parameter conflictWithEnvironmentCustomDomain
   - Interface Dapr has a new optional parameter enableApiLogging
@@ -169,6 +178,8 @@
   - Interface Dapr has a new optional parameter httpReadBufferSize
   - Interface Dapr has a new optional parameter logLevel
   - Interface DaprComponent has a new optional parameter secretStoreComponent
+  - Interface Ingress has a new optional parameter clientCertificateMode
+  - Interface Ingress has a new optional parameter corsPolicy
   - Interface Ingress has a new optional parameter exposedPort
   - Interface Ingress has a new optional parameter ipSecurityRestrictions
   - Interface ManagedEnvironment has a new optional parameter customDomainConfiguration
@@ -192,24 +203,16 @@
   - Class ContainerAppsAPIClient has a new parameter managedEnvironmentsDiagnostics
   - Added Enum KnownAction
   - Added Enum KnownApplicability
+  - Added Enum KnownAppState
   - Added Enum KnownCategory
   - Added Enum KnownConnectedEnvironmentProvisioningState
   - Added Enum KnownExtendedLocationTypes
+  - Added Enum KnownIngressClientCertificateMode
   - Added Enum KnownLogLevel
   - Added Enum KnownManagedEnvironmentOutBoundType
   - Added Enum KnownSkuName
   - Enum KnownContainerAppProvisioningState has a new value Deleting
   - Enum KnownIngressTransportMethod has a new value Tcp
-
-**Breaking Changes**
-
-  - Interface Container no longer has parameter args
-  - Interface Container no longer has parameter command
-  - Interface Container no longer has parameter env
-  - Interface Container no longer has parameter image
-  - Interface Container no longer has parameter name
-  - Interface Container no longer has parameter resources
-  - Interface Container no longer has parameter volumeMounts
     
 ## 1.1.2 (2022-10-08)
 
