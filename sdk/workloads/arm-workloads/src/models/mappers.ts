@@ -3852,6 +3852,26 @@ export const SAPInstallWithoutOSConfigSoftwareConfiguration: coreClient.Composit
   }
 };
 
+export const ExternalInstallationSoftwareConfiguration: coreClient.CompositeMapper = {
+  serializedName: "External",
+  type: {
+    name: "Composite",
+    className: "ExternalInstallationSoftwareConfiguration",
+    uberParent: "SoftwareConfiguration",
+    polymorphicDiscriminator:
+      SoftwareConfiguration.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SoftwareConfiguration.type.modelProperties,
+      centralServerVmId: {
+        serializedName: "centralServerVmId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const OperationsDefinitionDisplay: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4401,6 +4421,12 @@ export const Monitor: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      zoneRedundancyPreference: {
+        serializedName: "properties.zoneRedundancyPreference",
+        type: {
+          name: "String"
+        }
+      },
       managedResourceGroupConfiguration: {
         serializedName: "properties.managedResourceGroupConfiguration",
         type: {
@@ -4534,5 +4560,6 @@ export let discriminators = {
   "InfrastructureConfiguration.SingleServer": SingleServerConfiguration,
   "InfrastructureConfiguration.ThreeTier": ThreeTierConfiguration,
   "SoftwareConfiguration.ServiceInitiated": ServiceInitiatedSoftwareConfiguration,
-  "SoftwareConfiguration.SAPInstallWithoutOSConfig": SAPInstallWithoutOSConfigSoftwareConfiguration
+  "SoftwareConfiguration.SAPInstallWithoutOSConfig": SAPInstallWithoutOSConfigSoftwareConfiguration,
+  "SoftwareConfiguration.External": ExternalInstallationSoftwareConfiguration
 };

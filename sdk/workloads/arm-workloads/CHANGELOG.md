@@ -1,15 +1,16 @@
 # Release History
+    
+## 1.0.0-beta.3 (2022-10-26)
+    
+**Features**
 
-## 1.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ExternalInstallationSoftwareConfiguration
+  - Interface Monitor has a new optional parameter zoneRedundancyPreference
+  - Enum KnownSAPSoftwareInstallationType has a new value External
+  - Enum KnownSAPVirtualInstanceState has a new value SoftwareDetectionFailed
+  - Enum KnownSAPVirtualInstanceState has a new value SoftwareDetectionInProgress
+    
+    
 ## 1.0.0-beta.2 (2022-07-14)
     
 **Features**
