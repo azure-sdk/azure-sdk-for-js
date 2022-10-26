@@ -43,7 +43,7 @@ export class GatewayHostnameConfigurationImpl
 
   /**
    * Lists the collection of hostname configurations for the specified gateway.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -124,7 +124,7 @@ export class GatewayHostnameConfigurationImpl
 
   /**
    * Lists the collection of hostname configurations for the specified gateway.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -145,7 +145,7 @@ export class GatewayHostnameConfigurationImpl
   /**
    * Checks that hostname configuration entity specified by identifier exists for specified Gateway
    * entity.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -168,7 +168,7 @@ export class GatewayHostnameConfigurationImpl
 
   /**
    * Get details of a hostname configuration
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -191,7 +191,7 @@ export class GatewayHostnameConfigurationImpl
 
   /**
    * Creates of updates hostname configuration for a Gateway.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -216,7 +216,7 @@ export class GatewayHostnameConfigurationImpl
 
   /**
    * Deletes the specified hostname configuration from the specified Gateway.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -242,7 +242,7 @@ export class GatewayHostnameConfigurationImpl
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -359,7 +359,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters33,
+  requestBody: Parameters.parameters39,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

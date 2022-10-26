@@ -49,7 +49,7 @@ export class IdentityProviderImpl implements IdentityProvider {
 
   /**
    * Lists a collection of Identity Provider configured in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -120,7 +120,7 @@ export class IdentityProviderImpl implements IdentityProvider {
 
   /**
    * Lists a collection of Identity Provider configured in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -137,7 +137,7 @@ export class IdentityProviderImpl implements IdentityProvider {
 
   /**
    * Gets the entity state (Etag) version of the identityProvider specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param identityProviderName Identity Provider Type identifier.
    * @param options The options parameters.
@@ -156,7 +156,7 @@ export class IdentityProviderImpl implements IdentityProvider {
 
   /**
    * Gets the configuration details of the identity Provider configured in specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param identityProviderName Identity Provider Type identifier.
    * @param options The options parameters.
@@ -175,7 +175,7 @@ export class IdentityProviderImpl implements IdentityProvider {
 
   /**
    * Creates or Updates the IdentityProvider configuration.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param identityProviderName Identity Provider Type identifier.
    * @param parameters Create parameters.
@@ -202,7 +202,7 @@ export class IdentityProviderImpl implements IdentityProvider {
 
   /**
    * Updates an existing IdentityProvider configuration.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param identityProviderName Identity Provider Type identifier.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -233,7 +233,7 @@ export class IdentityProviderImpl implements IdentityProvider {
 
   /**
    * Deletes the specified identity provider configuration.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param identityProviderName Identity Provider Type identifier.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -261,7 +261,7 @@ export class IdentityProviderImpl implements IdentityProvider {
 
   /**
    * Gets the client secret details of the Identity Provider.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param identityProviderName Identity Provider Type identifier.
    * @param options The options parameters.
@@ -280,7 +280,7 @@ export class IdentityProviderImpl implements IdentityProvider {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
@@ -386,7 +386,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters38,
+  requestBody: Parameters.parameters44,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -416,7 +416,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters39,
+  requestBody: Parameters.parameters45,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

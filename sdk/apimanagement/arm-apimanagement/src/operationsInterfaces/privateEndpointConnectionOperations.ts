@@ -28,7 +28,7 @@ import {
 export interface PrivateEndpointConnectionOperations {
   /**
    * Lists all private endpoint connections of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -39,7 +39,7 @@ export interface PrivateEndpointConnectionOperations {
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Gets the details of the Private Endpoint Connection specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param privateEndpointConnectionName Name of the private endpoint connection.
    * @param options The options parameters.
@@ -52,7 +52,7 @@ export interface PrivateEndpointConnectionOperations {
   ): Promise<PrivateEndpointConnectionGetByNameResponse>;
   /**
    * Creates a new Private Endpoint Connection or updates an existing one.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param privateEndpointConnectionName Name of the private endpoint connection.
    * @param privateEndpointConnectionRequest A request to approve or reject a private endpoint connection
@@ -72,7 +72,7 @@ export interface PrivateEndpointConnectionOperations {
   >;
   /**
    * Creates a new Private Endpoint Connection or updates an existing one.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param privateEndpointConnectionName Name of the private endpoint connection.
    * @param privateEndpointConnectionRequest A request to approve or reject a private endpoint connection
@@ -87,7 +87,7 @@ export interface PrivateEndpointConnectionOperations {
   ): Promise<PrivateEndpointConnectionCreateOrUpdateResponse>;
   /**
    * Deletes the specified Private Endpoint Connection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param privateEndpointConnectionName Name of the private endpoint connection.
    * @param options The options parameters.
@@ -100,7 +100,7 @@ export interface PrivateEndpointConnectionOperations {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes the specified Private Endpoint Connection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param privateEndpointConnectionName Name of the private endpoint connection.
    * @param options The options parameters.
@@ -112,8 +112,8 @@ export interface PrivateEndpointConnectionOperations {
     options?: PrivateEndpointConnectionDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Description for Gets the private link resources
-   * @param resourceGroupName The name of the resource group.
+   * Gets the private link resources
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -123,8 +123,8 @@ export interface PrivateEndpointConnectionOperations {
     options?: PrivateEndpointConnectionListPrivateLinkResourcesOptionalParams
   ): Promise<PrivateEndpointConnectionListPrivateLinkResourcesResponse>;
   /**
-   * Description for Gets the private link resources
-   * @param resourceGroupName The name of the resource group.
+   * Gets the private link resources
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param privateLinkSubResourceName Name of the private link resource.
    * @param options The options parameters.

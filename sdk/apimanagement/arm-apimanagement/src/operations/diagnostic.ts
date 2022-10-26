@@ -44,7 +44,7 @@ export class DiagnosticImpl implements Diagnostic {
 
   /**
    * Lists all diagnostics of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -115,7 +115,7 @@ export class DiagnosticImpl implements Diagnostic {
 
   /**
    * Lists all diagnostics of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -132,7 +132,7 @@ export class DiagnosticImpl implements Diagnostic {
 
   /**
    * Gets the entity state (Etag) version of the Diagnostic specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param diagnosticId Diagnostic identifier. Must be unique in the current API Management service
    *                     instance.
@@ -152,7 +152,7 @@ export class DiagnosticImpl implements Diagnostic {
 
   /**
    * Gets the details of the Diagnostic specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param diagnosticId Diagnostic identifier. Must be unique in the current API Management service
    *                     instance.
@@ -172,7 +172,7 @@ export class DiagnosticImpl implements Diagnostic {
 
   /**
    * Creates a new Diagnostic or updates an existing one.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param diagnosticId Diagnostic identifier. Must be unique in the current API Management service
    *                     instance.
@@ -194,7 +194,7 @@ export class DiagnosticImpl implements Diagnostic {
 
   /**
    * Updates the details of the Diagnostic specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param diagnosticId Diagnostic identifier. Must be unique in the current API Management service
    *                     instance.
@@ -226,7 +226,7 @@ export class DiagnosticImpl implements Diagnostic {
 
   /**
    * Deletes the specified Diagnostic.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param diagnosticId Diagnostic identifier. Must be unique in the current API Management service
    *                     instance.
@@ -249,7 +249,7 @@ export class DiagnosticImpl implements Diagnostic {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.

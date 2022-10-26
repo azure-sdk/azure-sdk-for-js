@@ -38,7 +38,7 @@ export class TenantSettingsImpl implements TenantSettings {
 
   /**
    * Public settings.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -109,7 +109,7 @@ export class TenantSettingsImpl implements TenantSettings {
 
   /**
    * Public settings.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -126,7 +126,7 @@ export class TenantSettingsImpl implements TenantSettings {
 
   /**
    * Get tenant settings.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param settingsType The identifier of the settings.
    * @param options The options parameters.
@@ -145,7 +145,7 @@ export class TenantSettingsImpl implements TenantSettings {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.

@@ -50,7 +50,7 @@ export class ProductImpl implements Product {
 
   /**
    * Lists a collection of products in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -121,7 +121,7 @@ export class ProductImpl implements Product {
 
   /**
    * Lists a collection of products associated with tags.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -192,7 +192,7 @@ export class ProductImpl implements Product {
 
   /**
    * Lists a collection of products in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -209,7 +209,7 @@ export class ProductImpl implements Product {
 
   /**
    * Gets the entity state (Etag) version of the product specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -228,7 +228,7 @@ export class ProductImpl implements Product {
 
   /**
    * Gets the details of the product specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -247,7 +247,7 @@ export class ProductImpl implements Product {
 
   /**
    * Creates or Updates a product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param parameters Create or update parameters.
@@ -268,7 +268,7 @@ export class ProductImpl implements Product {
 
   /**
    * Update existing product details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -299,7 +299,7 @@ export class ProductImpl implements Product {
 
   /**
    * Delete product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -321,7 +321,7 @@ export class ProductImpl implements Product {
 
   /**
    * Lists a collection of products associated with tags.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -338,7 +338,7 @@ export class ProductImpl implements Product {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
@@ -357,7 +357,7 @@ export class ProductImpl implements Product {
 
   /**
    * ListByTagsNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByTags method.
    * @param options The options parameters.
@@ -470,7 +470,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters50,
+  requestBody: Parameters.parameters58,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -500,7 +500,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters51,
+  requestBody: Parameters.parameters59,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
