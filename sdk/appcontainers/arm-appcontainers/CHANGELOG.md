@@ -1,16 +1,6 @@
 # Release History
-
-## 2.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.0.0-beta.1 (2022-10-12)
+    
+## 1.2.0-beta.1 (2022-10-26)
     
 **Features**
 
@@ -21,6 +11,7 @@
   - Added operation group ConnectedEnvironmentsDaprComponents
   - Added operation group ConnectedEnvironmentsStorages
   - Added operation group ContainerAppsDiagnostics
+  - Added operation group ManagedCertificates
   - Added operation group ManagedEnvironmentDiagnostics
   - Added operation group ManagedEnvironmentsDiagnostics
   - Added operation ContainerApps.getAuthToken
@@ -99,6 +90,16 @@
   - Added Interface ExtendedLocation
   - Added Interface InitContainer
   - Added Interface IpSecurityRestrictionRule
+  - Added Interface ManagedCertificate
+  - Added Interface ManagedCertificateCollection
+  - Added Interface ManagedCertificatePatch
+  - Added Interface ManagedCertificateProperties
+  - Added Interface ManagedCertificatesCreateOrUpdateOptionalParams
+  - Added Interface ManagedCertificatesDeleteOptionalParams
+  - Added Interface ManagedCertificatesGetOptionalParams
+  - Added Interface ManagedCertificatesListNextOptionalParams
+  - Added Interface ManagedCertificatesListOptionalParams
+  - Added Interface ManagedCertificatesUpdateOptionalParams
   - Added Interface ManagedEnvironmentDiagnosticsGetDetectorOptionalParams
   - Added Interface ManagedEnvironmentDiagnosticsListDetectorsOptionalParams
   - Added Interface ManagedEnvironmentOutboundSettings
@@ -149,6 +150,12 @@
   - Added Type Alias ContainerAppsGetAuthTokenResponse
   - Added Type Alias ExtendedLocationTypes
   - Added Type Alias LogLevel
+  - Added Type Alias ManagedCertificateDomainControlValidation
+  - Added Type Alias ManagedCertificatesCreateOrUpdateResponse
+  - Added Type Alias ManagedCertificatesGetResponse
+  - Added Type Alias ManagedCertificatesListNextResponse
+  - Added Type Alias ManagedCertificatesListResponse
+  - Added Type Alias ManagedCertificatesUpdateResponse
   - Added Type Alias ManagedEnvironmentDiagnosticsGetDetectorResponse
   - Added Type Alias ManagedEnvironmentDiagnosticsListDetectorsResponse
   - Added Type Alias ManagedEnvironmentOutBoundType
@@ -188,6 +195,7 @@
   - Class ContainerAppsAPIClient has a new parameter connectedEnvironmentsDaprComponents
   - Class ContainerAppsAPIClient has a new parameter connectedEnvironmentsStorages
   - Class ContainerAppsAPIClient has a new parameter containerAppsDiagnostics
+  - Class ContainerAppsAPIClient has a new parameter managedCertificates
   - Class ContainerAppsAPIClient has a new parameter managedEnvironmentDiagnostics
   - Class ContainerAppsAPIClient has a new parameter managedEnvironmentsDiagnostics
   - Added Enum KnownAction
@@ -196,20 +204,11 @@
   - Added Enum KnownConnectedEnvironmentProvisioningState
   - Added Enum KnownExtendedLocationTypes
   - Added Enum KnownLogLevel
+  - Added Enum KnownManagedCertificateDomainControlValidation
   - Added Enum KnownManagedEnvironmentOutBoundType
   - Added Enum KnownSkuName
   - Enum KnownContainerAppProvisioningState has a new value Deleting
   - Enum KnownIngressTransportMethod has a new value Tcp
-
-**Breaking Changes**
-
-  - Interface Container no longer has parameter args
-  - Interface Container no longer has parameter command
-  - Interface Container no longer has parameter env
-  - Interface Container no longer has parameter image
-  - Interface Container no longer has parameter name
-  - Interface Container no longer has parameter resources
-  - Interface Container no longer has parameter volumeMounts
     
 ## 1.1.2 (2022-10-08)
 

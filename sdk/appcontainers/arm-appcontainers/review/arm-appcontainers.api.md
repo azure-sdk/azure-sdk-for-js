@@ -716,6 +716,8 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     // (undocumented)
     daprComponents: DaprComponents;
     // (undocumented)
+    managedCertificates: ManagedCertificates;
+    // (undocumented)
     managedEnvironmentDiagnostics: ManagedEnvironmentDiagnostics;
     // (undocumented)
     managedEnvironments: ManagedEnvironments;
@@ -1619,6 +1621,13 @@ export enum KnownLogLevel {
 }
 
 // @public
+export enum KnownManagedCertificateDomainControlValidation {
+    Cname = "CNAME",
+    Http = "HTTP",
+    TXT = "TXT"
+}
+
+// @public
 export enum KnownManagedEnvironmentOutBoundType {
     LoadBalancer = "LoadBalancer",
     UserDefinedRouting = "UserDefinedRouting"
@@ -1708,6 +1717,88 @@ export interface LoginScopes {
 
 // @public
 export type LogLevel = string;
+
+// @public
+export interface ManagedCertificate extends TrackedResource {
+    properties?: ManagedCertificateProperties;
+}
+
+// @public
+export interface ManagedCertificateCollection {
+    readonly nextLink?: string;
+    value: ManagedCertificate[];
+}
+
+// @public
+export type ManagedCertificateDomainControlValidation = string;
+
+// @public
+export interface ManagedCertificatePatch {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface ManagedCertificateProperties {
+    domainControlValidation?: ManagedCertificateDomainControlValidation;
+    readonly error?: string;
+    readonly provisioningState?: CertificateProvisioningState;
+    subjectName?: string;
+    readonly validationToken?: string;
+}
+
+// @public
+export interface ManagedCertificates {
+    beginCreateOrUpdate(resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ManagedCertificatesCreateOrUpdateResponse>, ManagedCertificatesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesCreateOrUpdateOptionalParams): Promise<ManagedCertificatesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesGetOptionalParams): Promise<ManagedCertificatesGetResponse>;
+    list(resourceGroupName: string, environmentName: string, options?: ManagedCertificatesListOptionalParams): PagedAsyncIterableIterator<ManagedCertificate>;
+    update(resourceGroupName: string, environmentName: string, managedCertificateName: string, managedCertificateEnvelope: ManagedCertificatePatch, options?: ManagedCertificatesUpdateOptionalParams): Promise<ManagedCertificatesUpdateResponse>;
+}
+
+// @public
+export interface ManagedCertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    managedCertificateEnvelope?: ManagedCertificate;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ManagedCertificatesCreateOrUpdateResponse = ManagedCertificate;
+
+// @public
+export interface ManagedCertificatesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ManagedCertificatesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedCertificatesGetResponse = ManagedCertificate;
+
+// @public
+export interface ManagedCertificatesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedCertificatesListNextResponse = ManagedCertificateCollection;
+
+// @public
+export interface ManagedCertificatesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedCertificatesListResponse = ManagedCertificateCollection;
+
+// @public
+export interface ManagedCertificatesUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedCertificatesUpdateResponse = ManagedCertificate;
 
 // @public
 export interface ManagedEnvironment extends TrackedResource {
