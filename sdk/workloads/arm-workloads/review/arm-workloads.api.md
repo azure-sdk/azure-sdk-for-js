@@ -217,6 +217,12 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface ExternalInstallationSoftwareConfiguration extends SoftwareConfiguration {
+    centralServerVmId?: string;
+    softwareInstallationType: "External";
+}
+
+// @public
 export interface FileshareProfile {
     readonly shareName?: string;
     shareSizeInGB?: number;
@@ -513,6 +519,7 @@ export enum KnownSAPProductType {
 
 // @public
 export enum KnownSAPSoftwareInstallationType {
+    External = "External",
     SAPInstallWithoutOSConfig = "SAPInstallWithoutOSConfig",
     ServiceInitiated = "ServiceInitiated"
 }
@@ -535,6 +542,8 @@ export enum KnownSAPVirtualInstanceState {
     InfrastructureDeploymentInProgress = "InfrastructureDeploymentInProgress",
     InfrastructureDeploymentPending = "InfrastructureDeploymentPending",
     RegistrationComplete = "RegistrationComplete",
+    SoftwareDetectionFailed = "SoftwareDetectionFailed",
+    SoftwareDetectionInProgress = "SoftwareDetectionInProgress",
     SoftwareInstallationFailed = "SoftwareInstallationFailed",
     SoftwareInstallationInProgress = "SoftwareInstallationInProgress",
     SoftwareInstallationPending = "SoftwareInstallationPending"
@@ -650,6 +659,7 @@ export interface Monitor extends TrackedResource {
     readonly msiArmId?: string;
     readonly provisioningState?: WorkloadMonitorProvisioningState;
     routingPreference?: RoutingPreference;
+    zoneRedundancyPreference?: string;
 }
 
 // @public
@@ -1862,11 +1872,11 @@ export interface SkuZoneDetail {
 
 // @public
 export interface SoftwareConfiguration {
-    softwareInstallationType: "ServiceInitiated" | "SAPInstallWithoutOSConfig";
+    softwareInstallationType: "ServiceInitiated" | "SAPInstallWithoutOSConfig" | "External";
 }
 
 // @public (undocumented)
-export type SoftwareConfigurationUnion = SoftwareConfiguration | ServiceInitiatedSoftwareConfiguration | SAPInstallWithoutOSConfigSoftwareConfiguration;
+export type SoftwareConfigurationUnion = SoftwareConfiguration | ServiceInitiatedSoftwareConfiguration | SAPInstallWithoutOSConfigSoftwareConfiguration | ExternalInstallationSoftwareConfiguration;
 
 // @public
 export interface SshConfiguration {
