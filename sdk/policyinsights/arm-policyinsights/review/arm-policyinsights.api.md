@@ -217,6 +217,165 @@ export interface ComponentEventDetails {
 }
 
 // @public
+export interface ComponentExpressionEvaluationDetails {
+    readonly expression?: string;
+    readonly expressionKind?: string;
+    readonly expressionValue?: Record<string, unknown>;
+    readonly operator?: string;
+    readonly path?: string;
+    result?: string;
+    readonly targetValue?: Record<string, unknown>;
+}
+
+// @public
+export interface ComponentPolicyEvaluationDetails {
+    readonly evaluatedExpressions?: ComponentExpressionEvaluationDetails[];
+    reason?: string;
+}
+
+// @public
+export interface ComponentPolicyState {
+    [property: string]: any;
+    readonly complianceState?: string;
+    readonly componentId?: string;
+    readonly componentName?: string;
+    readonly componentType?: string;
+    readonly odataContext?: string;
+    readonly odataId?: string;
+    readonly policyAssignmentId?: string;
+    readonly policyAssignmentName?: string;
+    readonly policyAssignmentOwner?: string;
+    readonly policyAssignmentParameters?: string;
+    readonly policyAssignmentScope?: string;
+    readonly policyAssignmentVersion?: string;
+    readonly policyDefinitionAction?: string;
+    readonly policyDefinitionCategory?: string;
+    readonly policyDefinitionGroupNames?: string[];
+    readonly policyDefinitionId?: string;
+    readonly policyDefinitionName?: string;
+    readonly policyDefinitionReferenceId?: string;
+    readonly policyDefinitionVersion?: string;
+    policyEvaluationDetails?: ComponentPolicyEvaluationDetails;
+    readonly policySetDefinitionCategory?: string;
+    readonly policySetDefinitionId?: string;
+    readonly policySetDefinitionName?: string;
+    readonly policySetDefinitionOwner?: string;
+    readonly policySetDefinitionParameters?: string;
+    readonly policySetDefinitionVersion?: string;
+    readonly resourceGroup?: string;
+    readonly resourceId?: string;
+    readonly resourceLocation?: string;
+    readonly resourceType?: string;
+    readonly subscriptionId?: string;
+    readonly timestamp?: Date;
+}
+
+// @public
+export interface ComponentPolicyStates {
+    listQueryResultsForPolicyDefinition(subscriptionId: string, policyDefinitionName: string, componentPolicyStatesResource: ComponentPolicyStatesResource, options?: ComponentPolicyStatesListQueryResultsForPolicyDefinitionOptionalParams): Promise<ComponentPolicyStatesListQueryResultsForPolicyDefinitionResponse>;
+    listQueryResultsForResource(resourceId: string, componentPolicyStatesResource: ComponentPolicyStatesResource, options?: ComponentPolicyStatesListQueryResultsForResourceOptionalParams): Promise<ComponentPolicyStatesListQueryResultsForResourceResponse>;
+    listQueryResultsForResourceGroup(subscriptionId: string, resourceGroupName: string, componentPolicyStatesResource: ComponentPolicyStatesResource, options?: ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams): Promise<ComponentPolicyStatesListQueryResultsForResourceGroupResponse>;
+    listQueryResultsForResourceGroupLevelPolicyAssignment(subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, componentPolicyStatesResource: ComponentPolicyStatesResource, options?: ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams): Promise<ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse>;
+    listQueryResultsForSubscription(subscriptionId: string, componentPolicyStatesResource: ComponentPolicyStatesResource, options?: ComponentPolicyStatesListQueryResultsForSubscriptionOptionalParams): Promise<ComponentPolicyStatesListQueryResultsForSubscriptionResponse>;
+    listQueryResultsForSubscriptionLevelPolicyAssignment(subscriptionId: string, policyAssignmentName: string, componentPolicyStatesResource: ComponentPolicyStatesResource, options?: ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams): Promise<ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse>;
+}
+
+// @public
+export interface ComponentPolicyStatesListQueryResultsForPolicyDefinitionOptionalParams extends coreClient.OperationOptions {
+    apply?: string;
+    filter?: string;
+    fromParam?: Date;
+    orderBy?: string;
+    select?: string;
+    to?: Date;
+    top?: number;
+}
+
+// @public
+export type ComponentPolicyStatesListQueryResultsForPolicyDefinitionResponse = ComponentPolicyStatesQueryResults;
+
+// @public
+export interface ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams extends coreClient.OperationOptions {
+    apply?: string;
+    filter?: string;
+    fromParam?: Date;
+    orderBy?: string;
+    select?: string;
+    to?: Date;
+    top?: number;
+}
+
+// @public
+export type ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse = ComponentPolicyStatesQueryResults;
+
+// @public
+export interface ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams extends coreClient.OperationOptions {
+    apply?: string;
+    filter?: string;
+    fromParam?: Date;
+    orderBy?: string;
+    select?: string;
+    to?: Date;
+    top?: number;
+}
+
+// @public
+export type ComponentPolicyStatesListQueryResultsForResourceGroupResponse = ComponentPolicyStatesQueryResults;
+
+// @public
+export interface ComponentPolicyStatesListQueryResultsForResourceOptionalParams extends coreClient.OperationOptions {
+    apply?: string;
+    expand?: string;
+    filter?: string;
+    fromParam?: Date;
+    orderBy?: string;
+    select?: string;
+    to?: Date;
+    top?: number;
+}
+
+// @public
+export type ComponentPolicyStatesListQueryResultsForResourceResponse = ComponentPolicyStatesQueryResults;
+
+// @public
+export interface ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams extends coreClient.OperationOptions {
+    apply?: string;
+    filter?: string;
+    fromParam?: Date;
+    orderBy?: string;
+    select?: string;
+    to?: Date;
+    top?: number;
+}
+
+// @public
+export type ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse = ComponentPolicyStatesQueryResults;
+
+// @public
+export interface ComponentPolicyStatesListQueryResultsForSubscriptionOptionalParams extends coreClient.OperationOptions {
+    apply?: string;
+    filter?: string;
+    fromParam?: Date;
+    orderBy?: string;
+    select?: string;
+    to?: Date;
+    top?: number;
+}
+
+// @public
+export type ComponentPolicyStatesListQueryResultsForSubscriptionResponse = ComponentPolicyStatesQueryResults;
+
+// @public
+export interface ComponentPolicyStatesQueryResults {
+    odataContext?: string;
+    odataCount?: number;
+    value?: ComponentPolicyState[];
+}
+
+// @public
+export type ComponentPolicyStatesResource = string;
+
+// @public
 export interface ComponentStateDetails {
     [property: string]: any;
     complianceState?: string;
@@ -313,6 +472,11 @@ export enum KnownComplianceState {
 }
 
 // @public
+export enum KnownComponentPolicyStatesResource {
+    Latest = "latest"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -357,6 +521,7 @@ export enum KnownResourceDiscoveryMode {
 // @public
 export interface Operation {
     display?: OperationDisplay;
+    isDataAction?: boolean;
     name?: string;
 }
 
@@ -633,6 +798,8 @@ export class PolicyInsightsClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PolicyInsightsClientOptionalParams);
     // (undocumented)
     attestations: Attestations;
+    // (undocumented)
+    componentPolicyStates: ComponentPolicyStates;
     // (undocumented)
     operations: Operations;
     // (undocumented)

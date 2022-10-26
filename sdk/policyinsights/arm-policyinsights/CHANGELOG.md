@@ -1,28 +1,39 @@
 # Release History
-
-## 6.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 6.0.0-beta.2 (2022-10-19)
+    
+## 6.0.0-beta.3 (2022-10-26)
     
 **Features**
 
+  - Added operation group ComponentPolicyStates
   - Added operation PolicyRestrictions.checkAtManagementGroupScope
   - Added Interface Attestation
   - Added Interface CheckManagementGroupRestrictionsRequest
+  - Added Interface ComponentExpressionEvaluationDetails
+  - Added Interface ComponentPolicyEvaluationDetails
+  - Added Interface ComponentPolicyState
+  - Added Interface ComponentPolicyStatesListQueryResultsForPolicyDefinitionOptionalParams
+  - Added Interface ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
+  - Added Interface ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams
+  - Added Interface ComponentPolicyStatesListQueryResultsForResourceOptionalParams
+  - Added Interface ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
+  - Added Interface ComponentPolicyStatesListQueryResultsForSubscriptionOptionalParams
+  - Added Interface ComponentPolicyStatesQueryResults
   - Added Interface PolicyMetadataProperties
   - Added Interface PolicyRestrictionsCheckAtManagementGroupScopeOptionalParams
+  - Added Type Alias ComponentPolicyStatesListQueryResultsForPolicyDefinitionResponse
+  - Added Type Alias ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse
+  - Added Type Alias ComponentPolicyStatesListQueryResultsForResourceGroupResponse
+  - Added Type Alias ComponentPolicyStatesListQueryResultsForResourceResponse
+  - Added Type Alias ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse
+  - Added Type Alias ComponentPolicyStatesListQueryResultsForSubscriptionResponse
+  - Added Type Alias ComponentPolicyStatesResource
   - Added Type Alias PolicyEventsResourceType
   - Added Type Alias PolicyRestrictionsCheckAtManagementGroupScopeResponse
   - Added Type Alias PolicyStatesSummaryResourceType
   - Added Type Alias PolicyTrackedResourcesResourceType
+  - Interface Operation has a new optional parameter isDataAction
+  - Class PolicyInsightsClient has a new parameter componentPolicyStates
+  - Added Enum KnownComponentPolicyStatesResource
   - Added Enum KnownPolicyEventsResourceType
   - Added Enum KnownPolicyStatesSummaryResourceType
   - Added Enum KnownPolicyTrackedResourcesResourceType

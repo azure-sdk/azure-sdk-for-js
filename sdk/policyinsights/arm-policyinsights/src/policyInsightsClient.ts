@@ -14,9 +14,10 @@ import {
   RemediationsImpl,
   PolicyEventsImpl,
   PolicyStatesImpl,
-  OperationsImpl,
   PolicyMetadataOperationsImpl,
   PolicyRestrictionsImpl,
+  ComponentPolicyStatesImpl,
+  OperationsImpl,
   AttestationsImpl
 } from "./operations";
 import {
@@ -24,9 +25,10 @@ import {
   Remediations,
   PolicyEvents,
   PolicyStates,
-  Operations,
   PolicyMetadataOperations,
   PolicyRestrictions,
+  ComponentPolicyStates,
+  Operations,
   Attestations
 } from "./operationsInterfaces";
 import { PolicyInsightsClientOptionalParams } from "./models";
@@ -120,9 +122,10 @@ export class PolicyInsightsClient extends coreClient.ServiceClient {
     this.remediations = new RemediationsImpl(this);
     this.policyEvents = new PolicyEventsImpl(this);
     this.policyStates = new PolicyStatesImpl(this);
-    this.operations = new OperationsImpl(this);
     this.policyMetadataOperations = new PolicyMetadataOperationsImpl(this);
     this.policyRestrictions = new PolicyRestrictionsImpl(this);
+    this.componentPolicyStates = new ComponentPolicyStatesImpl(this);
+    this.operations = new OperationsImpl(this);
     this.attestations = new AttestationsImpl(this);
   }
 
@@ -130,8 +133,9 @@ export class PolicyInsightsClient extends coreClient.ServiceClient {
   remediations: Remediations;
   policyEvents: PolicyEvents;
   policyStates: PolicyStates;
-  operations: Operations;
   policyMetadataOperations: PolicyMetadataOperations;
   policyRestrictions: PolicyRestrictions;
+  componentPolicyStates: ComponentPolicyStates;
+  operations: Operations;
   attestations: Attestations;
 }

@@ -685,34 +685,6 @@ export interface PolicyGroupSummary {
   results?: SummaryResults;
 }
 
-/** List of available operations. */
-export interface OperationsListResults {
-  /** OData entity count; represents the number of operations returned. */
-  odataCount?: number;
-  /** List of available operations. */
-  value?: Operation[];
-}
-
-/** Operation definition. */
-export interface Operation {
-  /** Operation name. */
-  name?: string;
-  /** Display metadata associated with the operation. */
-  display?: OperationDisplay;
-}
-
-/** Display metadata associated with the operation. */
-export interface OperationDisplay {
-  /** Resource provider name. */
-  provider?: string;
-  /** Resource name on which the operation is performed. */
-  resource?: string;
-  /** Operation name. */
-  operation?: string;
-  /** Operation description. */
-  description?: string;
-}
-
 /** Policy metadata resource definition. */
 export interface PolicyMetadata {
   /**
@@ -1036,6 +1008,256 @@ export interface CheckManagementGroupRestrictionsRequest {
   pendingFields?: PendingField[];
 }
 
+/** Query results. */
+export interface ComponentPolicyStatesQueryResults {
+  /** OData context string; used by OData clients to resolve type information based on metadata. */
+  odataContext?: string;
+  /** OData entity count; represents the number of policy state records returned. */
+  odataCount?: number;
+  /** Query results. */
+  value?: ComponentPolicyState[];
+}
+
+/** Component Policy State record. */
+export interface ComponentPolicyState {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /**
+   * OData entity ID; always set to null since component policy state records do not have an entity ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly odataId?: string;
+  /**
+   * OData context string; used by OData clients to resolve type information based on metadata.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly odataContext?: string;
+  /**
+   * Timestamp for the component policy state record.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timestamp?: Date;
+  /**
+   * Component Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly componentId?: string;
+  /**
+   * Component type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly componentType?: string;
+  /**
+   * Component name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly componentName?: string;
+  /**
+   * Resource ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceId?: string;
+  /**
+   * Policy assignment ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyAssignmentId?: string;
+  /**
+   * Policy definition ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyDefinitionId?: string;
+  /**
+   * Subscription ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * Resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceType?: string;
+  /**
+   * Resource location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceLocation?: string;
+  /**
+   * Resource group name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGroup?: string;
+  /**
+   * Policy assignment name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyAssignmentName?: string;
+  /**
+   * Policy assignment owner.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyAssignmentOwner?: string;
+  /**
+   * Policy assignment parameters.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyAssignmentParameters?: string;
+  /**
+   * Policy assignment scope.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyAssignmentScope?: string;
+  /**
+   * Policy definition name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyDefinitionName?: string;
+  /**
+   * Policy definition action, i.e. effect.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyDefinitionAction?: string;
+  /**
+   * Policy definition category.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyDefinitionCategory?: string;
+  /**
+   * Policy set definition ID, if the policy assignment is for a policy set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policySetDefinitionId?: string;
+  /**
+   * Policy set definition name, if the policy assignment is for a policy set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policySetDefinitionName?: string;
+  /**
+   * Policy set definition owner, if the policy assignment is for a policy set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policySetDefinitionOwner?: string;
+  /**
+   * Policy set definition category, if the policy assignment is for a policy set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policySetDefinitionCategory?: string;
+  /**
+   * Policy set definition parameters, if the policy assignment is for a policy set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policySetDefinitionParameters?: string;
+  /**
+   * Reference ID for the policy definition inside the policy set, if the policy assignment is for a policy set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyDefinitionReferenceId?: string;
+  /**
+   * Compliance state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly complianceState?: string;
+  /** Policy evaluation details. This is only included in the response if the request contains $expand=PolicyEvaluationDetails. */
+  policyEvaluationDetails?: ComponentPolicyEvaluationDetails;
+  /**
+   * Policy definition group names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyDefinitionGroupNames?: string[];
+  /**
+   * Evaluated policy definition version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyDefinitionVersion?: string;
+  /**
+   * Evaluated policy set definition version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policySetDefinitionVersion?: string;
+  /**
+   * Evaluated policy assignment version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyAssignmentVersion?: string;
+}
+
+/** Policy evaluation details. */
+export interface ComponentPolicyEvaluationDetails {
+  /**
+   * Details of the evaluated expressions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly evaluatedExpressions?: ComponentExpressionEvaluationDetails[];
+  /** Additional textual reason for the evaluation outcome. */
+  reason?: string;
+}
+
+/** Evaluation details of policy language expressions. */
+export interface ComponentExpressionEvaluationDetails {
+  /** Evaluation result. */
+  result?: string;
+  /**
+   * Expression evaluated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expression?: string;
+  /**
+   * The kind of expression that was evaluated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expressionKind?: string;
+  /**
+   * Property path if the expression is a field or an alias.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly path?: string;
+  /**
+   * Value of the expression.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expressionValue?: Record<string, unknown>;
+  /**
+   * Target value to be compared with the expression value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetValue?: Record<string, unknown>;
+  /**
+   * Operator to compare the expression value and the target value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operator?: string;
+}
+
+/** List of available operations. */
+export interface OperationsListResults {
+  /** OData entity count; represents the number of operations returned. */
+  odataCount?: number;
+  /** List of available operations. */
+  value?: Operation[];
+}
+
+/** Operation definition. */
+export interface Operation {
+  /** Operation name. */
+  name?: string;
+  /** Indicates whether the operation is a data action */
+  isDataAction?: boolean;
+  /** Display metadata associated with the operation. */
+  display?: OperationDisplay;
+}
+
+/** Display metadata associated with the operation. */
+export interface OperationDisplay {
+  /** Resource provider name. */
+  provider?: string;
+  /** Resource name on which the operation is performed. */
+  resource?: string;
+  /** Operation name. */
+  operation?: string;
+  /** Operation description. */
+  description?: string;
+}
+
 /** List of attestations. */
 export interface AttestationListResult {
   /**
@@ -1310,6 +1532,21 @@ export enum KnownFieldRestrictionResult {
  * **Deny**: The field and\/or values will be denied by policy.
  */
 export type FieldRestrictionResult = string;
+
+/** Known values of {@link ComponentPolicyStatesResource} that the service accepts. */
+export enum KnownComponentPolicyStatesResource {
+  /** Latest */
+  Latest = "latest"
+}
+
+/**
+ * Defines values for ComponentPolicyStatesResource. \
+ * {@link KnownComponentPolicyStatesResource} can be used interchangeably with ComponentPolicyStatesResource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **latest**
+ */
+export type ComponentPolicyStatesResource = string;
 
 /** Known values of {@link ComplianceState} that the service accepts. */
 export enum KnownComplianceState {
@@ -2103,13 +2340,6 @@ export interface PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignme
 export type PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse = PolicyStatesQueryResults;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationsListResults;
-
-/** Optional parameters. */
 export interface PolicyMetadataGetResourceOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2156,6 +2386,147 @@ export interface PolicyRestrictionsCheckAtManagementGroupScopeOptionalParams
 
 /** Contains response data for the checkAtManagementGroupScope operation. */
 export type PolicyRestrictionsCheckAtManagementGroupScopeResponse = CheckRestrictionsResult;
+
+/** Optional parameters. */
+export interface ComponentPolicyStatesListQueryResultsForSubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Maximum number of records to return. */
+  top?: number;
+  /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
+  orderBy?: string;
+  /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
+  select?: string;
+  /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
+  fromParam?: Date;
+  /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
+  to?: Date;
+  /** OData filter expression. */
+  filter?: string;
+  /** OData apply expression for aggregations. */
+  apply?: string;
+}
+
+/** Contains response data for the listQueryResultsForSubscription operation. */
+export type ComponentPolicyStatesListQueryResultsForSubscriptionResponse = ComponentPolicyStatesQueryResults;
+
+/** Optional parameters. */
+export interface ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Maximum number of records to return. */
+  top?: number;
+  /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
+  orderBy?: string;
+  /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
+  select?: string;
+  /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
+  fromParam?: Date;
+  /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
+  to?: Date;
+  /** OData filter expression. */
+  filter?: string;
+  /** OData apply expression for aggregations. */
+  apply?: string;
+}
+
+/** Contains response data for the listQueryResultsForResourceGroup operation. */
+export type ComponentPolicyStatesListQueryResultsForResourceGroupResponse = ComponentPolicyStatesQueryResults;
+
+/** Optional parameters. */
+export interface ComponentPolicyStatesListQueryResultsForResourceOptionalParams
+  extends coreClient.OperationOptions {
+  /** Maximum number of records to return. */
+  top?: number;
+  /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
+  orderBy?: string;
+  /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
+  select?: string;
+  /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
+  fromParam?: Date;
+  /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
+  to?: Date;
+  /** OData filter expression. */
+  filter?: string;
+  /** OData apply expression for aggregations. */
+  apply?: string;
+  /** The $expand query parameter. */
+  expand?: string;
+}
+
+/** Contains response data for the listQueryResultsForResource operation. */
+export type ComponentPolicyStatesListQueryResultsForResourceResponse = ComponentPolicyStatesQueryResults;
+
+/** Optional parameters. */
+export interface ComponentPolicyStatesListQueryResultsForPolicyDefinitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Maximum number of records to return. */
+  top?: number;
+  /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
+  orderBy?: string;
+  /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
+  select?: string;
+  /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
+  fromParam?: Date;
+  /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
+  to?: Date;
+  /** OData filter expression. */
+  filter?: string;
+  /** OData apply expression for aggregations. */
+  apply?: string;
+}
+
+/** Contains response data for the listQueryResultsForPolicyDefinition operation. */
+export type ComponentPolicyStatesListQueryResultsForPolicyDefinitionResponse = ComponentPolicyStatesQueryResults;
+
+/** Optional parameters. */
+export interface ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
+  extends coreClient.OperationOptions {
+  /** Maximum number of records to return. */
+  top?: number;
+  /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
+  orderBy?: string;
+  /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
+  select?: string;
+  /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
+  fromParam?: Date;
+  /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
+  to?: Date;
+  /** OData filter expression. */
+  filter?: string;
+  /** OData apply expression for aggregations. */
+  apply?: string;
+}
+
+/** Contains response data for the listQueryResultsForSubscriptionLevelPolicyAssignment operation. */
+export type ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse = ComponentPolicyStatesQueryResults;
+
+/** Optional parameters. */
+export interface ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
+  extends coreClient.OperationOptions {
+  /** Maximum number of records to return. */
+  top?: number;
+  /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
+  orderBy?: string;
+  /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
+  select?: string;
+  /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
+  fromParam?: Date;
+  /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
+  to?: Date;
+  /** OData filter expression. */
+  filter?: string;
+  /** OData apply expression for aggregations. */
+  apply?: string;
+}
+
+/** Contains response data for the listQueryResultsForResourceGroupLevelPolicyAssignment operation. */
+export type ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse = ComponentPolicyStatesQueryResults;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationsListResults;
 
 /** Optional parameters. */
 export interface AttestationsListForSubscriptionOptionalParams
