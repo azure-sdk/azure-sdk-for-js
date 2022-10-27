@@ -45,7 +45,7 @@ export class CertificateImpl implements Certificate {
 
   /**
    * Lists a collection of all certificates in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -116,7 +116,7 @@ export class CertificateImpl implements Certificate {
 
   /**
    * Lists a collection of all certificates in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -133,7 +133,7 @@ export class CertificateImpl implements Certificate {
 
   /**
    * Gets the entity state (Etag) version of the certificate specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param certificateId Identifier of the certificate entity. Must be unique in the current API
    *                      Management service instance.
@@ -153,7 +153,7 @@ export class CertificateImpl implements Certificate {
 
   /**
    * Gets the details of the certificate specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param certificateId Identifier of the certificate entity. Must be unique in the current API
    *                      Management service instance.
@@ -173,7 +173,7 @@ export class CertificateImpl implements Certificate {
 
   /**
    * Creates or updates the certificate being used for authentication with the backend.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param certificateId Identifier of the certificate entity. Must be unique in the current API
    *                      Management service instance.
@@ -195,7 +195,7 @@ export class CertificateImpl implements Certificate {
 
   /**
    * Deletes specific certificate.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param certificateId Identifier of the certificate entity. Must be unique in the current API
    *                      Management service instance.
@@ -218,7 +218,7 @@ export class CertificateImpl implements Certificate {
 
   /**
    * From KeyVault, Refresh the certificate being used for authentication with the backend.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param certificateId Identifier of the certificate entity. Must be unique in the current API
    *                      Management service instance.
@@ -238,7 +238,7 @@ export class CertificateImpl implements Certificate {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
@@ -350,7 +350,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters23,
+  requestBody: Parameters.parameters27,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -25,6 +25,8 @@ import {
   ApiManagementServiceGetOptionalParams,
   ApiManagementServiceGetResponse,
   ApiManagementServiceDeleteOptionalParams,
+  ApiManagementServiceMigrateToStv2OptionalParams,
+  ApiManagementServiceMigrateToStv2Response,
   ApiManagementServiceGetSsoTokenOptionalParams,
   ApiManagementServiceGetSsoTokenResponse,
   ApiManagementServiceCheckNameAvailabilityParameters,
@@ -41,7 +43,7 @@ import {
 export interface ApiManagementService {
   /**
    * List all API Management services within a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -59,7 +61,7 @@ export interface ApiManagementService {
    * Restores a backup of an API Management service created using the ApiManagementService_Backup
    * operation on the current service. This is a long running operation and could take several minutes to
    * complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param parameters Parameters supplied to the Restore API Management service from backup operation.
    * @param options The options parameters.
@@ -79,7 +81,7 @@ export interface ApiManagementService {
    * Restores a backup of an API Management service created using the ApiManagementService_Backup
    * operation on the current service. This is a long running operation and could take several minutes to
    * complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param parameters Parameters supplied to the Restore API Management service from backup operation.
    * @param options The options parameters.
@@ -93,7 +95,7 @@ export interface ApiManagementService {
   /**
    * Creates a backup of the API Management service to the given Azure Storage Account. This is long
    * running operation and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param parameters Parameters supplied to the ApiManagementService_Backup operation.
    * @param options The options parameters.
@@ -112,7 +114,7 @@ export interface ApiManagementService {
   /**
    * Creates a backup of the API Management service to the given Azure Storage Account. This is long
    * running operation and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param parameters Parameters supplied to the ApiManagementService_Backup operation.
    * @param options The options parameters.
@@ -126,7 +128,7 @@ export interface ApiManagementService {
   /**
    * Creates or updates an API Management service. This is long running operation and could take several
    * minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param parameters Parameters supplied to the CreateOrUpdate API Management service operation.
    * @param options The options parameters.
@@ -145,7 +147,7 @@ export interface ApiManagementService {
   /**
    * Creates or updates an API Management service. This is long running operation and could take several
    * minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param parameters Parameters supplied to the CreateOrUpdate API Management service operation.
    * @param options The options parameters.
@@ -158,7 +160,7 @@ export interface ApiManagementService {
   ): Promise<ApiManagementServiceCreateOrUpdateResponse>;
   /**
    * Updates an existing API Management service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param parameters Parameters supplied to the CreateOrUpdate API Management service operation.
    * @param options The options parameters.
@@ -176,7 +178,7 @@ export interface ApiManagementService {
   >;
   /**
    * Updates an existing API Management service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param parameters Parameters supplied to the CreateOrUpdate API Management service operation.
    * @param options The options parameters.
@@ -189,7 +191,7 @@ export interface ApiManagementService {
   ): Promise<ApiManagementServiceUpdateResponse>;
   /**
    * Gets an API Management service resource description.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -200,7 +202,7 @@ export interface ApiManagementService {
   ): Promise<ApiManagementServiceGetResponse>;
   /**
    * Deletes an existing API Management service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -211,7 +213,7 @@ export interface ApiManagementService {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes an existing API Management service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -221,8 +223,39 @@ export interface ApiManagementService {
     options?: ApiManagementServiceDeleteOptionalParams
   ): Promise<void>;
   /**
+   * Upgrades an API Management service to the Stv2 platform. For details refer to
+   * https://aka.ms/apim-migrate-stv2. This change is not reversible. This is long running operation and
+   * could take several minutes to complete.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  beginMigrateToStv2(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ApiManagementServiceMigrateToStv2OptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ApiManagementServiceMigrateToStv2Response>,
+      ApiManagementServiceMigrateToStv2Response
+    >
+  >;
+  /**
+   * Upgrades an API Management service to the Stv2 platform. For details refer to
+   * https://aka.ms/apim-migrate-stv2. This change is not reversible. This is long running operation and
+   * could take several minutes to complete.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  beginMigrateToStv2AndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ApiManagementServiceMigrateToStv2OptionalParams
+  ): Promise<ApiManagementServiceMigrateToStv2Response>;
+  /**
    * Gets the Single-Sign-On token for the API Management Service which is valid for 5 Minutes.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -250,7 +283,7 @@ export interface ApiManagementService {
   /**
    * Updates the Microsoft.ApiManagement resource running in the Virtual network to pick the updated DNS
    * changes.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -269,7 +302,7 @@ export interface ApiManagementService {
   /**
    * Updates the Microsoft.ApiManagement resource running in the Virtual network to pick the updated DNS
    * changes.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */

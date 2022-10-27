@@ -35,6 +35,10 @@ import {
   ApiExportImpl,
   ApiVersionSetImpl,
   AuthorizationServerImpl,
+  AuthorizationProviderImpl,
+  AuthorizationImpl,
+  AuthorizationLoginLinksImpl,
+  AuthorizationAccessPolicyImpl,
   BackendImpl,
   CacheImpl,
   CertificateImpl,
@@ -64,6 +68,8 @@ import {
   OutboundNetworkDependenciesEndpointsImpl,
   PolicyImpl,
   PolicyDescriptionImpl,
+  PolicyFragmentImpl,
+  PortalConfigImpl,
   PortalRevisionImpl,
   PortalSettingsImpl,
   SignInSettingsImpl,
@@ -79,6 +85,7 @@ import {
   QuotaByPeriodKeysImpl,
   RegionImpl,
   ReportsImpl,
+  GlobalSchemaImpl,
   TenantSettingsImpl,
   ApiManagementSkusImpl,
   SubscriptionImpl,
@@ -111,6 +118,10 @@ import {
   ApiExport,
   ApiVersionSet,
   AuthorizationServer,
+  AuthorizationProvider,
+  Authorization,
+  AuthorizationLoginLinks,
+  AuthorizationAccessPolicy,
   Backend,
   Cache,
   Certificate,
@@ -140,6 +151,8 @@ import {
   OutboundNetworkDependenciesEndpoints,
   Policy,
   PolicyDescription,
+  PolicyFragment,
+  PortalConfig,
   PortalRevision,
   PortalSettings,
   SignInSettings,
@@ -155,6 +168,7 @@ import {
   QuotaByPeriodKeys,
   Region,
   Reports,
+  GlobalSchema,
   TenantSettings,
   ApiManagementSkus,
   Subscription,
@@ -185,8 +199,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the ApiManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Subscription credentials which uniquely identify Microsoft Azure subscription.
-   *                       The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -210,7 +223,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-apimanagement/8.1.3`;
+    const packageDetails = `azsdk-js-arm-apimanagement/9.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -264,7 +277,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-08-01";
+    this.apiVersion = options.apiVersion || "2022-08-01";
     this.api = new ApiImpl(this);
     this.apiRevision = new ApiRevisionImpl(this);
     this.apiRelease = new ApiReleaseImpl(this);
@@ -283,6 +296,10 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.apiExport = new ApiExportImpl(this);
     this.apiVersionSet = new ApiVersionSetImpl(this);
     this.authorizationServer = new AuthorizationServerImpl(this);
+    this.authorizationProvider = new AuthorizationProviderImpl(this);
+    this.authorization = new AuthorizationImpl(this);
+    this.authorizationLoginLinks = new AuthorizationLoginLinksImpl(this);
+    this.authorizationAccessPolicy = new AuthorizationAccessPolicyImpl(this);
     this.backend = new BackendImpl(this);
     this.cache = new CacheImpl(this);
     this.certificate = new CertificateImpl(this);
@@ -318,6 +335,8 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     );
     this.policy = new PolicyImpl(this);
     this.policyDescription = new PolicyDescriptionImpl(this);
+    this.policyFragment = new PolicyFragmentImpl(this);
+    this.portalConfig = new PortalConfigImpl(this);
     this.portalRevision = new PortalRevisionImpl(this);
     this.portalSettings = new PortalSettingsImpl(this);
     this.signInSettings = new SignInSettingsImpl(this);
@@ -335,6 +354,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.quotaByPeriodKeys = new QuotaByPeriodKeysImpl(this);
     this.region = new RegionImpl(this);
     this.reports = new ReportsImpl(this);
+    this.globalSchema = new GlobalSchemaImpl(this);
     this.tenantSettings = new TenantSettingsImpl(this);
     this.apiManagementSkus = new ApiManagementSkusImpl(this);
     this.subscription = new SubscriptionImpl(this);
@@ -381,7 +401,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   /**
    * Performs a connectivity check between the API Management service and a given destination, and
    * returns metrics for the connection, as well as errors encountered while trying to establish it.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param connectivityCheckRequestParams Connectivity Check request parameters.
    * @param options The options parameters.
@@ -458,7 +478,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   /**
    * Performs a connectivity check between the API Management service and a given destination, and
    * returns metrics for the connection, as well as errors encountered while trying to establish it.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param connectivityCheckRequestParams Connectivity Check request parameters.
    * @param options The options parameters.
@@ -496,6 +516,10 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   apiExport: ApiExport;
   apiVersionSet: ApiVersionSet;
   authorizationServer: AuthorizationServer;
+  authorizationProvider: AuthorizationProvider;
+  authorization: Authorization;
+  authorizationLoginLinks: AuthorizationLoginLinks;
+  authorizationAccessPolicy: AuthorizationAccessPolicy;
   backend: Backend;
   cache: Cache;
   certificate: Certificate;
@@ -525,6 +549,8 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   outboundNetworkDependenciesEndpoints: OutboundNetworkDependenciesEndpoints;
   policy: Policy;
   policyDescription: PolicyDescription;
+  policyFragment: PolicyFragment;
+  portalConfig: PortalConfig;
   portalRevision: PortalRevision;
   portalSettings: PortalSettings;
   signInSettings: SignInSettings;
@@ -540,6 +566,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   quotaByPeriodKeys: QuotaByPeriodKeys;
   region: Region;
   reports: Reports;
+  globalSchema: GlobalSchema;
   tenantSettings: TenantSettings;
   apiManagementSkus: ApiManagementSkus;
   subscription: Subscription;

@@ -44,7 +44,7 @@ export class ApiSchemaImpl implements ApiSchema {
 
   /**
    * Get the schema configuration at the API level.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -125,7 +125,7 @@ export class ApiSchemaImpl implements ApiSchema {
 
   /**
    * Get the schema configuration at the API level.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -145,12 +145,11 @@ export class ApiSchemaImpl implements ApiSchema {
 
   /**
    * Gets the entity state (Etag) version of the schema specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param schemaId Schema identifier within an API. Must be unique in the current API Management
-   *                 service instance.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
    */
   getEntityTag(
@@ -168,12 +167,11 @@ export class ApiSchemaImpl implements ApiSchema {
 
   /**
    * Get the schema configuration at the API level.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param schemaId Schema identifier within an API. Must be unique in the current API Management
-   *                 service instance.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
    */
   get(
@@ -191,12 +189,11 @@ export class ApiSchemaImpl implements ApiSchema {
 
   /**
    * Creates or updates schema configuration for the API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param schemaId Schema identifier within an API. Must be unique in the current API Management
-   *                 service instance.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param parameters The schema contents to apply.
    * @param options The options parameters.
    */
@@ -268,12 +265,11 @@ export class ApiSchemaImpl implements ApiSchema {
 
   /**
    * Creates or updates schema configuration for the API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param schemaId Schema identifier within an API. Must be unique in the current API Management
-   *                 service instance.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param parameters The schema contents to apply.
    * @param options The options parameters.
    */
@@ -298,12 +294,11 @@ export class ApiSchemaImpl implements ApiSchema {
 
   /**
    * Deletes the schema configuration at the Api.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param schemaId Schema identifier within an API. Must be unique in the current API Management
-   *                 service instance.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    *                response of the GET request or it should be * for unconditional update.
    * @param options The options parameters.
@@ -324,7 +319,7 @@ export class ApiSchemaImpl implements ApiSchema {
 
   /**
    * ListByApiNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.

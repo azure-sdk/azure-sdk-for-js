@@ -1,15 +1,178 @@
 # Release History
+    
+## 9.0.0 (2022-10-27)
+    
+**Features**
 
-## 8.1.3 (Unreleased)
+  - Added operation group Authorization
+  - Added operation group AuthorizationAccessPolicy
+  - Added operation group AuthorizationLoginLinks
+  - Added operation group AuthorizationProvider
+  - Added operation group GlobalSchema
+  - Added operation group PolicyFragment
+  - Added operation group PortalConfig
+  - Added operation ApiManagementService.beginMigrateToStv2
+  - Added operation ApiManagementService.beginMigrateToStv2AndWait
+  - Added Interface ApiManagementServiceMigrateToStv2OptionalParams
+  - Added Interface AuthorizationAccessPolicyCollection
+  - Added Interface AuthorizationAccessPolicyContract
+  - Added Interface AuthorizationAccessPolicyCreateOrUpdateHeaders
+  - Added Interface AuthorizationAccessPolicyCreateOrUpdateOptionalParams
+  - Added Interface AuthorizationAccessPolicyDeleteOptionalParams
+  - Added Interface AuthorizationAccessPolicyGetHeaders
+  - Added Interface AuthorizationAccessPolicyGetOptionalParams
+  - Added Interface AuthorizationAccessPolicyListByAuthorizationNextOptionalParams
+  - Added Interface AuthorizationAccessPolicyListByAuthorizationOptionalParams
+  - Added Interface AuthorizationCollection
+  - Added Interface AuthorizationContract
+  - Added Interface AuthorizationCreateOrUpdateHeaders
+  - Added Interface AuthorizationCreateOrUpdateOptionalParams
+  - Added Interface AuthorizationDeleteOptionalParams
+  - Added Interface AuthorizationError
+  - Added Interface AuthorizationGetHeaders
+  - Added Interface AuthorizationGetOptionalParams
+  - Added Interface AuthorizationListByAuthorizationProviderNextOptionalParams
+  - Added Interface AuthorizationListByAuthorizationProviderOptionalParams
+  - Added Interface AuthorizationLoginLinksPostHeaders
+  - Added Interface AuthorizationLoginLinksPostOptionalParams
+  - Added Interface AuthorizationLoginRequestContract
+  - Added Interface AuthorizationLoginResponseContract
+  - Added Interface AuthorizationProviderCollection
+  - Added Interface AuthorizationProviderContract
+  - Added Interface AuthorizationProviderCreateOrUpdateHeaders
+  - Added Interface AuthorizationProviderCreateOrUpdateOptionalParams
+  - Added Interface AuthorizationProviderDeleteOptionalParams
+  - Added Interface AuthorizationProviderGetHeaders
+  - Added Interface AuthorizationProviderGetOptionalParams
+  - Added Interface AuthorizationProviderListByServiceNextOptionalParams
+  - Added Interface AuthorizationProviderListByServiceOptionalParams
+  - Added Interface AuthorizationProviderOAuth2GrantTypes
+  - Added Interface AuthorizationProviderOAuth2Settings
+  - Added Interface GlobalSchemaCollection
+  - Added Interface GlobalSchemaContract
+  - Added Interface GlobalSchemaCreateOrUpdateHeaders
+  - Added Interface GlobalSchemaCreateOrUpdateOptionalParams
+  - Added Interface GlobalSchemaDeleteOptionalParams
+  - Added Interface GlobalSchemaGetEntityTagHeaders
+  - Added Interface GlobalSchemaGetEntityTagOptionalParams
+  - Added Interface GlobalSchemaGetHeaders
+  - Added Interface GlobalSchemaGetOptionalParams
+  - Added Interface GlobalSchemaListByServiceNextOptionalParams
+  - Added Interface GlobalSchemaListByServiceOptionalParams
+  - Added Interface PolicyFragmentCollection
+  - Added Interface PolicyFragmentContract
+  - Added Interface PolicyFragmentCreateOrUpdateHeaders
+  - Added Interface PolicyFragmentCreateOrUpdateOptionalParams
+  - Added Interface PolicyFragmentDeleteOptionalParams
+  - Added Interface PolicyFragmentGetEntityTagHeaders
+  - Added Interface PolicyFragmentGetEntityTagOptionalParams
+  - Added Interface PolicyFragmentGetHeaders
+  - Added Interface PolicyFragmentGetOptionalParams
+  - Added Interface PolicyFragmentListByServiceOptionalParams
+  - Added Interface PolicyFragmentListReferencesOptionalParams
+  - Added Interface PortalConfigCollection
+  - Added Interface PortalConfigContract
+  - Added Interface PortalConfigCorsProperties
+  - Added Interface PortalConfigCreateOrUpdateOptionalParams
+  - Added Interface PortalConfigCspProperties
+  - Added Interface PortalConfigDelegationProperties
+  - Added Interface PortalConfigGetEntityTagHeaders
+  - Added Interface PortalConfigGetEntityTagOptionalParams
+  - Added Interface PortalConfigGetHeaders
+  - Added Interface PortalConfigGetOptionalParams
+  - Added Interface PortalConfigListByServiceOptionalParams
+  - Added Interface PortalConfigPropertiesSignin
+  - Added Interface PortalConfigPropertiesSignup
+  - Added Interface PortalConfigTermsOfServiceProperties
+  - Added Interface PortalConfigUpdateOptionalParams
+  - Added Interface ProxyResource
+  - Added Interface ResourceCollection
+  - Added Interface ResourceCollectionValueItem
+  - Added Type Alias ApiManagementServiceMigrateToStv2Response
+  - Added Type Alias AuthorizationAccessPolicyCreateOrUpdateResponse
+  - Added Type Alias AuthorizationAccessPolicyGetResponse
+  - Added Type Alias AuthorizationAccessPolicyListByAuthorizationNextResponse
+  - Added Type Alias AuthorizationAccessPolicyListByAuthorizationResponse
+  - Added Type Alias AuthorizationCreateOrUpdateResponse
+  - Added Type Alias AuthorizationGetResponse
+  - Added Type Alias AuthorizationListByAuthorizationProviderNextResponse
+  - Added Type Alias AuthorizationListByAuthorizationProviderResponse
+  - Added Type Alias AuthorizationLoginLinksPostResponse
+  - Added Type Alias AuthorizationProviderCreateOrUpdateResponse
+  - Added Type Alias AuthorizationProviderGetResponse
+  - Added Type Alias AuthorizationProviderListByServiceNextResponse
+  - Added Type Alias AuthorizationProviderListByServiceResponse
+  - Added Type Alias AuthorizationType
+  - Added Type Alias GlobalSchemaCreateOrUpdateResponse
+  - Added Type Alias GlobalSchemaGetEntityTagResponse
+  - Added Type Alias GlobalSchemaGetResponse
+  - Added Type Alias GlobalSchemaListByServiceNextResponse
+  - Added Type Alias GlobalSchemaListByServiceResponse
+  - Added Type Alias NatGatewayState
+  - Added Type Alias OAuth2GrantType
+  - Added Type Alias PolicyFragmentContentFormat
+  - Added Type Alias PolicyFragmentCreateOrUpdateResponse
+  - Added Type Alias PolicyFragmentGetEntityTagResponse
+  - Added Type Alias PolicyFragmentGetResponse
+  - Added Type Alias PolicyFragmentListByServiceResponse
+  - Added Type Alias PolicyFragmentListReferencesResponse
+  - Added Type Alias PortalConfigCreateOrUpdateResponse
+  - Added Type Alias PortalConfigGetEntityTagResponse
+  - Added Type Alias PortalConfigGetResponse
+  - Added Type Alias PortalConfigListByServiceResponse
+  - Added Type Alias PortalConfigUpdateResponse
+  - Added Type Alias PortalSettingsCspMode
+  - Added Type Alias SchemaType
+  - Added Type Alias TranslateRequiredQueryParametersConduct
+  - Interface AdditionalLocation has a new optional parameter natGatewayState
+  - Interface AdditionalLocation has a new optional parameter outboundPublicIPAddresses
+  - Interface ApiCreateOrUpdateParameter has a new optional parameter translateRequiredQueryParametersConduct
+  - Interface ApiCreateOrUpdateProperties has a new optional parameter translateRequiredQueryParametersConduct
+  - Interface ApiManagementServiceBaseProperties has a new optional parameter natGatewayState
+  - Interface ApiManagementServiceBaseProperties has a new optional parameter outboundPublicIPAddresses
+  - Interface ApiManagementServiceResource has a new optional parameter natGatewayState
+  - Interface ApiManagementServiceResource has a new optional parameter outboundPublicIPAddresses
+  - Interface ApiManagementServiceUpdateParameters has a new optional parameter natGatewayState
+  - Interface ApiManagementServiceUpdateParameters has a new optional parameter outboundPublicIPAddresses
+  - Interface AuthenticationSettingsContract has a new optional parameter oAuth2AuthenticationSettings
+  - Interface AuthenticationSettingsContract has a new optional parameter openidAuthenticationSettings
+  - Interface AuthorizationServerContract has a new optional parameter useInApiDocumentation
+  - Interface AuthorizationServerContract has a new optional parameter useInTestConsole
+  - Interface AuthorizationServerContractProperties has a new optional parameter useInApiDocumentation
+  - Interface AuthorizationServerContractProperties has a new optional parameter useInTestConsole
+  - Interface AuthorizationServerUpdateContract has a new optional parameter useInApiDocumentation
+  - Interface AuthorizationServerUpdateContract has a new optional parameter useInTestConsole
+  - Interface AuthorizationServerUpdateContractProperties has a new optional parameter useInApiDocumentation
+  - Interface AuthorizationServerUpdateContractProperties has a new optional parameter useInTestConsole
+  - Interface ContentTypeCreateOrUpdateOptionalParams has a new optional parameter parameters
+  - Interface DiagnosticContract has a new optional parameter metrics
+  - Interface IdentityProviderBaseParameters has a new optional parameter clientLibrary
+  - Interface IdentityProviderContract has a new optional parameter clientLibrary
+  - Interface IdentityProviderCreateContract has a new optional parameter clientLibrary
+  - Interface IdentityProviderUpdateParameters has a new optional parameter clientLibrary
+  - Interface OpenidConnectProviderContract has a new optional parameter useInApiDocumentation
+  - Interface OpenidConnectProviderContract has a new optional parameter useInTestConsole
+  - Interface OpenidConnectProviderUpdateContract has a new optional parameter useInApiDocumentation
+  - Interface OpenidConnectProviderUpdateContract has a new optional parameter useInTestConsole
+  - Class ApiManagementClient has a new parameter authorization
+  - Class ApiManagementClient has a new parameter authorizationAccessPolicy
+  - Class ApiManagementClient has a new parameter authorizationLoginLinks
+  - Class ApiManagementClient has a new parameter authorizationProvider
+  - Class ApiManagementClient has a new parameter globalSchema
+  - Class ApiManagementClient has a new parameter policyFragment
+  - Class ApiManagementClient has a new parameter portalConfig
+  - Added Enum KnownAuthorizationType
+  - Added Enum KnownNatGatewayState
+  - Added Enum KnownOAuth2GrantType
+  - Added Enum KnownPolicyFragmentContentFormat
+  - Added Enum KnownPortalSettingsCspMode
+  - Added Enum KnownSchemaType
+  - Added Enum KnownTranslateRequiredQueryParametersConduct
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed Enum KnownApiVersionSetContractDetailsVersioningScheme
+    
 ## 8.1.2 (2022-10-08)
 
 **Bugs Fixed**
