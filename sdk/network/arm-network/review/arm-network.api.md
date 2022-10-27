@@ -1948,6 +1948,7 @@ export interface BastionHost extends Resource {
     readonly provisioningState?: ProvisioningState;
     scaleUnits?: number;
     sku?: Sku;
+    virtualNetwork?: SubResource;
 }
 
 // @public
@@ -3060,6 +3061,12 @@ export interface Delegation extends SubResource {
     readonly provisioningState?: ProvisioningState;
     serviceName?: string;
     type?: string;
+}
+
+// @public
+export interface DelegationProperties {
+    readonly provisioningState?: ProvisioningState;
+    serviceName?: string;
 }
 
 // @public
@@ -9449,10 +9456,13 @@ export interface NetworkVirtualAppliance extends Resource {
     bootStrapConfigurationBlobs?: string[];
     cloudInitConfiguration?: string;
     cloudInitConfigurationBlobs?: string[];
+    delegation?: DelegationProperties;
+    readonly deploymentType?: string;
     readonly etag?: string;
     identity?: ManagedServiceIdentity;
     readonly inboundSecurityRules?: SubResource[];
     nvaSku?: VirtualApplianceSkuProperties;
+    partnerManagedResource?: PartnerManagedResourceProperties;
     readonly provisioningState?: ProvisioningState;
     sshPublicKey?: string;
     virtualApplianceAsn?: number;
@@ -10204,6 +10214,13 @@ export interface Parameter {
 }
 
 // @public
+export interface PartnerManagedResourceProperties {
+    readonly id?: string;
+    readonly internalLoadBalancerId?: string;
+    readonly standardLoadBalancerId?: string;
+}
+
+// @public
 export interface PatchObject {
     tags?: {
         [propertyName: string]: string;
@@ -10311,6 +10328,8 @@ export type PfsGroup = string;
 
 // @public
 export interface PolicySettings {
+    customBlockResponseBody?: string;
+    customBlockResponseStatusCode?: number;
     fileUploadLimitInMb?: number;
     maxRequestBodySizeInKb?: number;
     mode?: WebApplicationFirewallMode;
