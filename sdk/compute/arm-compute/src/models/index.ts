@@ -3419,6 +3419,8 @@ export interface TargetRegion {
   storageAccountType?: StorageAccountType;
   /** Optional. Allows users to provide customer managed keys for encrypting the OS and data disks in the gallery artifact. */
   encryption?: EncryptionImages;
+  /** Contains the flag setting to hide an image when users specify version='latest' */
+  excludeFromLatest?: boolean;
 }
 
 /** Optional. Allows users to provide customer managed keys for encrypting the OS and data disks in the gallery artifact. */
@@ -3465,8 +3467,8 @@ export interface GalleryExtendedLocation {
 
 /** This is the storage profile of a Gallery Image Version. */
 export interface GalleryImageVersionStorageProfile {
-  /** The gallery artifact version source. */
-  source?: GalleryArtifactVersionSource;
+  /** The source of the gallery artifact version. */
+  source?: GalleryArtifactVersionFullSource;
   /** This is the OS disk image. */
   osDiskImage?: GalleryOSDiskImage;
   /** A list of data disk images. */
@@ -3477,8 +3479,6 @@ export interface GalleryImageVersionStorageProfile {
 export interface GalleryArtifactVersionSource {
   /** The id of the gallery artifact version source. Can specify a disk uri, snapshot uri, user image or storage account resource. */
   id?: string;
-  /** The uri of the gallery artifact version source. Currently used to specify vhd/blob source. */
-  uri?: string;
 }
 
 /** This is the disk image base class. */
@@ -3490,8 +3490,22 @@ export interface GalleryDiskImage {
   readonly sizeInGB?: number;
   /** The host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite' */
   hostCaching?: HostCaching;
-  /** The gallery artifact version source. */
-  source?: GalleryArtifactVersionSource;
+  /** The source for the disk image. */
+  source?: GalleryDiskImageSource;
+}
+
+/** A policy violation reported against a gallery artifact. */
+export interface PolicyViolation {
+  /** Describes the nature of the policy violation. */
+  category?: PolicyViolationCategory;
+  /** Describes specific details about why this policy violation was reported. */
+  details?: string;
+}
+
+/** This is the safety profile of the Gallery Artifact Version. */
+export interface GalleryArtifactSafetyProfileBase {
+  /** Indicates whether or not removing this Gallery Image Version from replicated regions is allowed. */
+  allowDeletionOfReplicatedLocations?: boolean;
 }
 
 /** This is the replication status of the gallery image version. */
@@ -3530,6 +3544,32 @@ export interface RegionalReplicationStatus {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly progress?: number;
+}
+
+/** A custom action that can be performed with a Gallery Application Version. */
+export interface GalleryApplicationCustomAction {
+  /** The name of the custom action.  Must be unique within the Gallery Application Version. */
+  name: string;
+  /** The script to run when executing this custom action. */
+  script: string;
+  /** Description to help the users understand what this custom action does. */
+  description?: string;
+  /** The parameters that this custom action uses */
+  parameters?: GalleryApplicationCustomActionParameter[];
+}
+
+/** The definition of a parameter that can be passed to a custom action of a Gallery Application Version. */
+export interface GalleryApplicationCustomActionParameter {
+  /** The name of the custom action.  Must be unique within the Gallery Application Version. */
+  name: string;
+  /** Indicates whether this parameter must be passed when running the custom action. */
+  required?: boolean;
+  /** Specifies the type of the custom action parameter. Possible values are: String, ConfigurationDataBlob or LogOutputBlob */
+  type?: GalleryApplicationCustomActionParameterType;
+  /** The default value of the parameter.  Only applies to string types */
+  defaultValue?: string;
+  /** A description to help users understand what this parameter means */
+  description?: string;
 }
 
 /** The source image from which the Image Version is going to be created. */
@@ -4338,6 +4378,14 @@ export interface GalleryArtifactSource {
 export interface ManagedArtifact {
   /** The managed artifact id. */
   id: string;
+}
+
+/** The gallery image version with latest version in a particular region. */
+export interface LatestGalleryImageVersion {
+  /** The name of the latest version in the region. */
+  latestVersionName?: string;
+  /** region of the Gallery Image Version. */
+  location?: string;
 }
 
 /** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set when you create the scale set. */
@@ -5487,6 +5535,8 @@ export interface GalleryImageVersion extends Resource {
   readonly provisioningState?: GalleryProvisioningState;
   /** This is the storage profile of a Gallery Image Version. */
   storageProfile?: GalleryImageVersionStorageProfile;
+  /** This is the safety profile of the Gallery Image Version. */
+  safetyProfile?: GalleryImageVersionSafetyProfile;
   /**
    * This is the replication status of the gallery image version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5508,12 +5558,16 @@ export interface GalleryApplication extends Resource {
   endOfLifeDate?: Date;
   /** This property allows you to specify the supported type of the OS that application is built for. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
   supportedOSType?: OperatingSystemTypes;
+  /** A list of custom actions that can be performed with all of the Gallery Application Versions within this Gallery Application. */
+  customActions?: GalleryApplicationCustomAction[];
 }
 
 /** Specifies information about the gallery Application Version that you want to create or update. */
 export interface GalleryApplicationVersion extends Resource {
   /** The publishing profile of a gallery image version. */
   publishingProfile?: GalleryApplicationVersionPublishingProfile;
+  /** The safety profile of the Gallery Application Version. */
+  safetyProfile?: GalleryApplicationVersionSafetyProfile;
   /**
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -6115,6 +6169,8 @@ export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
   readonly provisioningState?: GalleryProvisioningState;
   /** This is the storage profile of a Gallery Image Version. */
   storageProfile?: GalleryImageVersionStorageProfile;
+  /** This is the safety profile of the Gallery Image Version. */
+  safetyProfile?: GalleryImageVersionSafetyProfile;
   /**
    * This is the replication status of the gallery image version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -6136,6 +6192,8 @@ export interface GalleryApplicationUpdate extends UpdateResourceDefinition {
   endOfLifeDate?: Date;
   /** This property allows you to specify the supported type of the OS that application is built for. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
   supportedOSType?: OperatingSystemTypes;
+  /** A list of custom actions that can be performed with all of the Gallery Application Versions within this Gallery Application. */
+  customActions?: GalleryApplicationCustomAction[];
 }
 
 /** Specifies information about the gallery Application Version that you want to update. */
@@ -6143,6 +6201,8 @@ export interface GalleryApplicationVersionUpdate
   extends UpdateResourceDefinition {
   /** The publishing profile of a gallery image version. */
   publishingProfile?: GalleryApplicationVersionPublishingProfile;
+  /** The safety profile of the Gallery Application Version. */
+  safetyProfile?: GalleryApplicationVersionSafetyProfile;
   /**
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -6171,6 +6231,8 @@ export interface GalleryApplicationVersionPublishingProfile
   advancedSettings?: { [propertyName: string]: string };
   /** Optional. Whether or not this application reports health. */
   enableHealthCheck?: boolean;
+  /** A list of custom actions that can be performed with this Gallery Application Version. */
+  customActions?: GalleryApplicationCustomAction[];
 }
 
 /** Contains encryption settings for an OS disk image. */
@@ -6185,6 +6247,21 @@ export interface DataDiskImageEncryption extends DiskImageEncryption {
   lun: number;
 }
 
+/** The source of the gallery artifact version. */
+export interface GalleryArtifactVersionFullSource
+  extends GalleryArtifactVersionSource {
+  /** The resource Id of the source Community Gallery Image.  Only required when using Community Gallery Image as a source. */
+  communityGalleryImageId?: string;
+}
+
+/** The source for the disk image. */
+export interface GalleryDiskImageSource extends GalleryArtifactVersionSource {
+  /** The uri of the gallery artifact version source. Currently used to specify vhd/blob source. */
+  uri?: string;
+  /** The Storage Account Id that contains the vhd blob being used as a source for this artifact version. */
+  storageAccountId?: string;
+}
+
 /** This is the OS disk image. */
 export interface GalleryOSDiskImage extends GalleryDiskImage {}
 
@@ -6193,6 +6270,25 @@ export interface GalleryDataDiskImage extends GalleryDiskImage {
   /** This property specifies the logical unit number of the data disk. This value is used to identify data disks within the Virtual Machine and therefore must be unique for each data disk attached to the Virtual Machine. */
   lun: number;
 }
+
+/** This is the safety profile of the Gallery Image Version. */
+export interface GalleryImageVersionSafetyProfile
+  extends GalleryArtifactSafetyProfileBase {
+  /**
+   * Indicates whether this image has been reported as violating Microsoft's policies.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reportedForPolicyViolation?: boolean;
+  /**
+   * A list of Policy Violations that have been reported for this Gallery Image Version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyViolations?: PolicyViolation[];
+}
+
+/** The safety profile of the Gallery Application Version. */
+export interface GalleryApplicationVersionSafetyProfile
+  extends GalleryArtifactSafetyProfileBase {}
 
 /** Base information about the shared gallery resource in pir. */
 export interface PirSharedGalleryResource extends PirResource {
@@ -6303,6 +6399,10 @@ export interface SharedGalleryImage extends PirSharedGalleryResource {
   purchasePlan?: ImagePurchasePlan;
   /** The architecture of the image. Applicable to OS disks only. */
   architecture?: Architecture;
+  /** Privacy statement uri for the current community gallery image. */
+  privacyStatementUri?: string;
+  /** End-user license agreement for the current community gallery image. */
+  eula?: string;
 }
 
 /** Specifies information about the gallery image version that you want to create or update. */
@@ -8421,7 +8521,9 @@ export enum KnownStorageAccountType {
   /** StandardZRS */
   StandardZRS = "Standard_ZRS",
   /** PremiumLRS */
-  PremiumLRS = "Premium_LRS"
+  PremiumLRS = "Premium_LRS",
+  /** StandardSSDLRS */
+  StandardSSDLRS = "StandardSSD_LRS"
 }
 
 /**
@@ -8431,7 +8533,8 @@ export enum KnownStorageAccountType {
  * ### Known values supported by the service
  * **Standard_LRS** \
  * **Standard_ZRS** \
- * **Premium_LRS**
+ * **Premium_LRS** \
+ * **StandardSSD_LRS**
  */
 export type StorageAccountType = string;
 
@@ -8491,6 +8594,30 @@ export enum KnownGalleryExtendedLocationType {
  * **Unknown**
  */
 export type GalleryExtendedLocationType = string;
+
+/** Known values of {@link PolicyViolationCategory} that the service accepts. */
+export enum KnownPolicyViolationCategory {
+  /** Other */
+  Other = "Other",
+  /** ImageFlaggedUnsafe */
+  ImageFlaggedUnsafe = "ImageFlaggedUnsafe",
+  /** CopyrightValidation */
+  CopyrightValidation = "CopyrightValidation",
+  /** IpTheft */
+  IpTheft = "IpTheft"
+}
+
+/**
+ * Defines values for PolicyViolationCategory. \
+ * {@link KnownPolicyViolationCategory} can be used interchangeably with PolicyViolationCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **ImageFlaggedUnsafe** \
+ * **CopyrightValidation** \
+ * **IpTheft**
+ */
+export type PolicyViolationCategory = string;
 
 /** Known values of {@link AggregatedReplicationState} that the service accepts. */
 export enum KnownAggregatedReplicationState {
@@ -8738,6 +8865,11 @@ export type ResourceSkuRestrictionsReasonCode =
   | "NotAvailableForSubscription";
 /** Defines values for HostCaching. */
 export type HostCaching = "None" | "ReadOnly" | "ReadWrite";
+/** Defines values for GalleryApplicationCustomActionParameterType. */
+export type GalleryApplicationCustomActionParameterType =
+  | "String"
+  | "ConfigurationDataBlob"
+  | "LogOutputBlob";
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
