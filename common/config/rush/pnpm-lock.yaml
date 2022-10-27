@@ -4132,7 +4132,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221025
+      typescript: 4.9.0-dev.20221026
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9209,8 +9209,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221025:
-    resolution: {integrity: sha512-3TZlt+3jGBjPRVFcNX6BmlajqwNExRm4rhG4llSH5WSMX/eQ54PSueTJ5UhLn9+6/byL31/WRmJJ/7W0j+gCtQ==}
+  /typescript/4.9.0-dev.20221026:
+    resolution: {integrity: sha512-Iy2S0JPIKVsT5vHeRdKPTTz8VHBp7kC12Ur430Fba4a7kEh6Caa09pZGzaB0+erx2gGNn/82JDiAEN+yVeRo5Q==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11559,7 +11559,7 @@ packages:
     dev: false
 
   file:projects/arm-containerregistry.tgz:
-    resolution: {integrity: sha512-J7rwwYvTIrkGnu5nvmIKhC49sB8GUHjBDEdiMtmioHjbJm0ECiRG8BSnprmse9j1KdueB+jjeRh2JAOEH9rXkQ==, tarball: file:projects/arm-containerregistry.tgz}
+    resolution: {integrity: sha512-y0HcBDLAGVQ/bJevf3VYIY9370GiPNeawzy7ej2RVeXjjpanlJ3izOBgKlCNkOFs5enu8bp+/kJ0G7178xVV4w==, tarball: file:projects/arm-containerregistry.tgz}
     name: '@rush-temp/arm-containerregistry'
     version: 0.0.0
     dependencies:
@@ -11571,6 +11571,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11578,11 +11580,10 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
