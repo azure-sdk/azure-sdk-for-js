@@ -6,29 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  DiagnosticSettingsResource,
-  DiagnosticSettingsListOptionalParams,
   DiagnosticSettingsGetOptionalParams,
   DiagnosticSettingsGetResponse,
+  DiagnosticSettingsResource,
   DiagnosticSettingsCreateOrUpdateOptionalParams,
   DiagnosticSettingsCreateOrUpdateResponse,
-  DiagnosticSettingsDeleteOptionalParams
+  DiagnosticSettingsDeleteOptionalParams,
+  DiagnosticSettingsListOptionalParams,
+  DiagnosticSettingsListResponse
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a DiagnosticSettings. */
 export interface DiagnosticSettings {
-  /**
-   * Gets the active diagnostic settings list for the specified resource.
-   * @param resourceUri The identifier of the resource.
-   * @param options The options parameters.
-   */
-  list(
-    resourceUri: string,
-    options?: DiagnosticSettingsListOptionalParams
-  ): PagedAsyncIterableIterator<DiagnosticSettingsResource>;
   /**
    * Gets the active diagnostic settings for the specified resource.
    * @param resourceUri The identifier of the resource.
@@ -64,4 +54,13 @@ export interface DiagnosticSettings {
     name: string,
     options?: DiagnosticSettingsDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Gets the active diagnostic settings list for the specified resource.
+   * @param resourceUri The identifier of the resource.
+   * @param options The options parameters.
+   */
+  list(
+    resourceUri: string,
+    options?: DiagnosticSettingsListOptionalParams
+  ): Promise<DiagnosticSettingsListResponse>;
 }

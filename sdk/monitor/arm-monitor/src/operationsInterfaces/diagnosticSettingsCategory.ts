@@ -6,26 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  DiagnosticSettingsCategoryResource,
-  DiagnosticSettingsCategoryListOptionalParams,
   DiagnosticSettingsCategoryGetOptionalParams,
-  DiagnosticSettingsCategoryGetResponse
+  DiagnosticSettingsCategoryGetResponse,
+  DiagnosticSettingsCategoryListOptionalParams,
+  DiagnosticSettingsCategoryListResponse
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a DiagnosticSettingsCategory. */
 export interface DiagnosticSettingsCategory {
-  /**
-   * Lists the diagnostic settings categories for the specified resource.
-   * @param resourceUri The identifier of the resource.
-   * @param options The options parameters.
-   */
-  list(
-    resourceUri: string,
-    options?: DiagnosticSettingsCategoryListOptionalParams
-  ): PagedAsyncIterableIterator<DiagnosticSettingsCategoryResource>;
   /**
    * Gets the diagnostic settings category for the specified resource.
    * @param resourceUri The identifier of the resource.
@@ -37,4 +26,13 @@ export interface DiagnosticSettingsCategory {
     name: string,
     options?: DiagnosticSettingsCategoryGetOptionalParams
   ): Promise<DiagnosticSettingsCategoryGetResponse>;
+  /**
+   * Lists the diagnostic settings categories for the specified resource.
+   * @param resourceUri The identifier of the resource.
+   * @param options The options parameters.
+   */
+  list(
+    resourceUri: string,
+    options?: DiagnosticSettingsCategoryListOptionalParams
+  ): Promise<DiagnosticSettingsCategoryListResponse>;
 }

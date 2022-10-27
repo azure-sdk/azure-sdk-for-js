@@ -6,13 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  PrivateLinkResource,
   PrivateLinkResourcesListByPrivateLinkScopeOptionalParams,
-  PrivateLinkResourcesListByPrivateLinkScopeResponse,
   PrivateLinkResourcesGetOptionalParams,
   PrivateLinkResourcesGetResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateLinkResources. */
 export interface PrivateLinkResources {
   /**
@@ -25,7 +27,7 @@ export interface PrivateLinkResources {
     resourceGroupName: string,
     scopeName: string,
     options?: PrivateLinkResourcesListByPrivateLinkScopeOptionalParams
-  ): Promise<PrivateLinkResourcesListByPrivateLinkScopeResponse>;
+  ): PagedAsyncIterableIterator<PrivateLinkResource>;
   /**
    * Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

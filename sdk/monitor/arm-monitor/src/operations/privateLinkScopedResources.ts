@@ -361,9 +361,6 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ScopedResource
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion11],
@@ -393,9 +390,6 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.ScopedResource
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   requestBody: Parameters.parameters9,
@@ -415,15 +409,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/privateLinkScopes/{scopeName}/scopedResources/{name}",
   httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
@@ -432,7 +418,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.name,
     Parameters.scopeName
   ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listByPrivateLinkScopeOperationSpec: coreClient.OperationSpec = {
@@ -442,9 +427,6 @@ const listByPrivateLinkScopeOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ScopedResourceListResult
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion11],
@@ -463,9 +445,6 @@ const listByPrivateLinkScopeNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ScopedResourceListResult
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion11],

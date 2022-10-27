@@ -353,9 +353,6 @@ const listOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.AzureMonitorPrivateLinkScopeListResult
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion11],
@@ -370,9 +367,6 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.AzureMonitorPrivateLinkScopeListResult
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion11],
@@ -388,15 +382,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/privateLinkScopes/{scopeName}",
   httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
@@ -404,7 +390,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.scopeName
   ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
@@ -414,9 +399,6 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.AzureMonitorPrivateLinkScope
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion11],
@@ -439,9 +421,6 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     201: {
       bodyMapper: Mappers.AzureMonitorPrivateLinkScope
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   requestBody: Parameters.azureMonitorPrivateLinkScopePayload,
@@ -463,9 +442,6 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.AzureMonitorPrivateLinkScope
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   requestBody: Parameters.privateLinkScopeTags,
@@ -486,9 +462,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.AzureMonitorPrivateLinkScopeListResult
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion11],
@@ -506,9 +479,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.AzureMonitorPrivateLinkScopeListResult
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion11],

@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PrivateEndpointConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -14,16 +15,19 @@ import { MonitorClient } from "../monitorClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
+  PrivateEndpointConnection,
+  PrivateEndpointConnectionsListByPrivateLinkScopeNextOptionalParams,
+  PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsGetResponse,
-  PrivateEndpointConnection,
   PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   PrivateEndpointConnectionsCreateOrUpdateResponse,
   PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams,
-  PrivateEndpointConnectionsListByPrivateLinkScopeResponse
+  PrivateEndpointConnectionsListByPrivateLinkScopeResponse,
+  PrivateEndpointConnectionsListByPrivateLinkScopeNextResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateEndpointConnections operations. */
 export class PrivateEndpointConnectionsImpl
   implements PrivateEndpointConnections {
@@ -35,6 +39,77 @@ export class PrivateEndpointConnectionsImpl
    */
   constructor(client: MonitorClient) {
     this.client = client;
+  }
+
+  /**
+   * Gets all private endpoint connections on a private link scope.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param scopeName The name of the Azure Monitor PrivateLinkScope resource.
+   * @param options The options parameters.
+   */
+  public listByPrivateLinkScope(
+    resourceGroupName: string,
+    scopeName: string,
+    options?: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams
+  ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
+    const iter = this.listByPrivateLinkScopePagingAll(
+      resourceGroupName,
+      scopeName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listByPrivateLinkScopePagingPage(
+          resourceGroupName,
+          scopeName,
+          options
+        );
+      }
+    };
+  }
+
+  private async *listByPrivateLinkScopePagingPage(
+    resourceGroupName: string,
+    scopeName: string,
+    options?: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams
+  ): AsyncIterableIterator<PrivateEndpointConnection[]> {
+    let result = await this._listByPrivateLinkScope(
+      resourceGroupName,
+      scopeName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listByPrivateLinkScopeNext(
+        resourceGroupName,
+        scopeName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listByPrivateLinkScopePagingAll(
+    resourceGroupName: string,
+    scopeName: string,
+    options?: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams
+  ): AsyncIterableIterator<PrivateEndpointConnection> {
+    for await (const page of this.listByPrivateLinkScopePagingPage(
+      resourceGroupName,
+      scopeName,
+      options
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -61,7 +136,7 @@ export class PrivateEndpointConnectionsImpl
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param scopeName The name of the Azure Monitor PrivateLinkScope resource.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
-   * @param parameters The Private Endpoint Connection resource.
+   * @param parameters A private endpoint connection
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
@@ -139,7 +214,7 @@ export class PrivateEndpointConnectionsImpl
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param scopeName The name of the Azure Monitor PrivateLinkScope resource.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
-   * @param parameters The Private Endpoint Connection resource.
+   * @param parameters A private endpoint connection
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
@@ -252,7 +327,7 @@ export class PrivateEndpointConnectionsImpl
    * @param scopeName The name of the Azure Monitor PrivateLinkScope resource.
    * @param options The options parameters.
    */
-  listByPrivateLinkScope(
+  private _listByPrivateLinkScope(
     resourceGroupName: string,
     scopeName: string,
     options?: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams
@@ -260,6 +335,25 @@ export class PrivateEndpointConnectionsImpl
     return this.client.sendOperationRequest(
       { resourceGroupName, scopeName, options },
       listByPrivateLinkScopeOperationSpec
+    );
+  }
+
+  /**
+   * ListByPrivateLinkScopeNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param scopeName The name of the Azure Monitor PrivateLinkScope resource.
+   * @param nextLink The nextLink from the previous successful call to the ListByPrivateLinkScope method.
+   * @param options The options parameters.
+   */
+  private _listByPrivateLinkScopeNext(
+    resourceGroupName: string,
+    scopeName: string,
+    nextLink: string,
+    options?: PrivateEndpointConnectionsListByPrivateLinkScopeNextOptionalParams
+  ): Promise<PrivateEndpointConnectionsListByPrivateLinkScopeNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, scopeName, nextLink, options },
+      listByPrivateLinkScopeNextOperationSpec
     );
   }
 }
@@ -273,9 +367,6 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnection
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion11],
@@ -305,9 +396,6 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.PrivateEndpointConnection
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   requestBody: Parameters.parameters8,
@@ -327,15 +415,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/privateLinkScopes/{scopeName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
@@ -344,7 +424,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.scopeName,
     Parameters.privateEndpointConnectionName
   ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listByPrivateLinkScopeOperationSpec: coreClient.OperationSpec = {
@@ -354,9 +433,6 @@ const listByPrivateLinkScopeOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnectionListResult
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion11],
@@ -364,6 +440,25 @@ const listByPrivateLinkScopeOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.scopeName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByPrivateLinkScopeNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+    }
+  },
+  queryParameters: [Parameters.apiVersion11],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.scopeName
   ],
   headerParameters: [Parameters.accept],

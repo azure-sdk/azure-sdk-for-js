@@ -296,7 +296,7 @@ export const resourceUri: OperationURLParameter = {
 export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-05-01-preview",
+    defaultValue: "2017-05-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -613,7 +613,7 @@ export const apiVersion10: OperationQueryParameter = {
 export const apiVersion11: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-07-01-preview",
+    defaultValue: "2019-10-17-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
