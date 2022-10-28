@@ -10996,7 +10996,7 @@ packages:
     dev: false
 
   file:projects/arm-billing.tgz:
-    resolution: {integrity: sha512-pixcGqnKIclwdcGnvbl4+3HBNPEF1ahE7owiJIVuQJxnlp5ISJfrSg8PIMA1xzkW1HTe2x1GSVGFhd1V72SviA==, tarball: file:projects/arm-billing.tgz}
+    resolution: {integrity: sha512-knFeE24WM5ZDI1g9EW+9KBOnuKg9fuBmmIndynwlAJRZjo/vgAOzSPTn1sPWJIVtautZGpvi7GnQJW93Nc9Ziw==, tarball: file:projects/arm-billing.tgz}
     name: '@rush-temp/arm-billing'
     version: 0.0.0
     dependencies:
@@ -11008,6 +11008,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11015,11 +11017,10 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
