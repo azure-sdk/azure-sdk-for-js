@@ -10730,7 +10730,7 @@ packages:
     dev: false
 
   file:projects/arm-attestation.tgz:
-    resolution: {integrity: sha512-TeVCKFr8yjQaTss4IQ6Z7PQSIxHnj0jM94LL5zN7g8Ur6XFTUIt62/MnY+Zf5b72mVtuVpwYyz8DOOdBhvEPsw==, tarball: file:projects/arm-attestation.tgz}
+    resolution: {integrity: sha512-HK+abneaIRhw4wSFPaK3E1m/EKQ/5LbehD/S5gU9MMku2lQ7Mwf4gRE6qcuDWdEMSFHwkX7hAMM+QqTDK3N7fA==, tarball: file:projects/arm-attestation.tgz}
     name: '@rush-temp/arm-attestation'
     version: 0.0.0
     dependencies:
@@ -10741,6 +10741,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -10748,11 +10750,10 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
