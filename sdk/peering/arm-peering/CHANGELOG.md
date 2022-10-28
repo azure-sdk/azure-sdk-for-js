@@ -1,15 +1,39 @@
 # Release History
+    
+## 2.1.0 (2022-10-28)
+    
+**Features**
 
-## 2.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group RpUnbilledPrefixes
+  - Added operation RegisteredPrefixes.validate
+  - Added Interface CdnPeeringPrefix
+  - Added Interface ConnectionMonitorTest
+  - Added Interface PeerAsn
+  - Added Interface Peering
+  - Added Interface PeeringLocation
+  - Added Interface PeeringRegisteredAsn
+  - Added Interface PeeringRegisteredPrefix
+  - Added Interface PeeringService
+  - Added Interface PeeringServiceCountry
+  - Added Interface PeeringServiceLocation
+  - Added Interface PeeringServicePrefix
+  - Added Interface PeeringServiceProvider
+  - Added Interface RegisteredPrefixesValidateOptionalParams
+  - Added Interface RpUnbilledPrefix
+  - Added Interface RpUnbilledPrefixesListNextOptionalParams
+  - Added Interface RpUnbilledPrefixesListOptionalParams
+  - Added Interface RpUnbilledPrefixListResult
+  - Added Type Alias RegisteredPrefixesValidateResponse
+  - Added Type Alias RpUnbilledPrefixesListNextResponse
+  - Added Type Alias RpUnbilledPrefixesListResponse
+  - Interface LegacyPeeringsListNextOptionalParams has a new optional parameter directPeeringType
+  - Interface LegacyPeeringsListOptionalParams has a new optional parameter directPeeringType
+  - Class PeeringManagementClient has a new parameter rpUnbilledPrefixes
+  - Enum KnownConnectionState has a new value TypeChangeInProgress
+  - Enum KnownConnectionState has a new value TypeChangeRequested
+  - Enum KnownDirectPeeringType has a new value EdgeZoneForOperators
+  - Enum KnownPeeringLocationsDirectPeeringType has a new value EdgeZoneForOperators
+    
 ## 2.0.1 (2022-04-27)
 
 **Features**

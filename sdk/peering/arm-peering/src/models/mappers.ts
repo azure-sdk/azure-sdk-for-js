@@ -1358,6 +1358,63 @@ export const PeeringServiceListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const RpUnbilledPrefixListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RpUnbilledPrefixListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RpUnbilledPrefix"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RpUnbilledPrefix: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RpUnbilledPrefix",
+    modelProperties: {
+      prefix: {
+        serializedName: "prefix",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      azureRegion: {
+        serializedName: "azureRegion",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      peerAsn: {
+        serializedName: "peerAsn",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const CdnPeeringPrefix: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
