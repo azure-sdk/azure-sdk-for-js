@@ -3087,6 +3087,80 @@ export const PublicIPAddressListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const SwapResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SwapResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "SwapResourceProperties"
+        }
+      }
+    }
+  }
+};
+
+export const SwapResourceProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SwapResourceProperties",
+    modelProperties: {
+      slotType: {
+        serializedName: "slotType",
+        type: {
+          name: "Enum",
+          allowedValues: ["Production", "Staging"]
+        }
+      }
+    }
+  }
+};
+
+export const SwapResourceListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SwapResourceListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SwapResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const CustomIpPrefixListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -15945,80 +16019,6 @@ export const ManagedRuleOverride: coreClient.CompositeMapper = {
   }
 };
 
-export const SwapResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SwapResource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "SwapResourceProperties"
-        }
-      }
-    }
-  }
-};
-
-export const SwapResourceProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SwapResourceProperties",
-    modelProperties: {
-      slotType: {
-        serializedName: "slotType",
-        type: {
-          name: "Enum",
-          allowedValues: ["Production", "Staging"]
-        }
-      }
-    }
-  }
-};
-
-export const SwapResourceListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SwapResourceListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SwapResource"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const FirewallPolicyNatRuleCollectionAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -26929,6 +26929,19 @@ export const VirtualNetwork: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "SubResource"
+            }
+          }
+        }
+      },
+      flowLogs: {
+        serializedName: "properties.flowLogs",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FlowLog"
             }
           }
         }

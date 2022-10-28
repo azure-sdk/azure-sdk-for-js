@@ -1,15 +1,12 @@
 # Release History
+    
+## 30.1.0 (2022-10-28)
+    
+**Features**
 
-## 30.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface VirtualNetwork has a new optional parameter flowLogs
+    
+    
 ## 30.0.0 (2022-09-29)
     
 **Features**

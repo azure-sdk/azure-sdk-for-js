@@ -13240,6 +13240,7 @@ export interface VirtualNetwork extends Resource {
     encryption?: VirtualNetworkEncryption;
     readonly etag?: string;
     extendedLocation?: ExtendedLocation;
+    readonly flowLogs?: FlowLog[];
     flowTimeoutInMinutes?: number;
     ipAllocations?: SubResource[];
     readonly provisioningState?: ProvisioningState;
