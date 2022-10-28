@@ -39,8 +39,14 @@ export interface SystemData {
 export interface OperationsDefinition {
   /** Name of the operation. */
   name?: string;
+  /** Indicates whether the operation is a data action */
+  isDataAction?: boolean;
   /** Display object with properties of the operation. */
   display?: OperationsDisplayDefinition;
+  /** Origin of the operation */
+  origin?: string;
+  /** Properties of the operation */
+  properties?: OperationProperties;
 }
 
 /** Display object with properties of the operation. */
@@ -53,6 +59,26 @@ export interface OperationsDisplayDefinition {
   operation?: string;
   /** Description of the operation. */
   description?: string;
+}
+
+/** Extra Operation properties */
+export interface OperationProperties {
+  /** Service specifications of the operation */
+  serviceSpecification?: ServiceSpecification;
+}
+
+/** Service specification payload */
+export interface ServiceSpecification {
+  /** Specifications of the Log for Microsoft Azure Attestation */
+  logSpecifications?: LogSpecification[];
+}
+
+/** Specifications of the Log for Microsoft Azure Attestation */
+export interface LogSpecification {
+  /** Name of the log */
+  name?: string;
+  /** Localized friendly display name of the log */
+  displayName?: string;
 }
 
 /** An error response from Attestation. */
@@ -230,7 +256,7 @@ export interface AttestationProviderListResult {
 }
 
 /** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
   /** The resource of private end point. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
@@ -240,18 +266,18 @@ export type PrivateEndpointConnection = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** Attestation service response message. */
-export type AttestationProvider = TrackedResource & {
+export interface AttestationProvider extends TrackedResource {
   /**
    * The system metadata relating to this resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -268,13 +294,17 @@ export type AttestationProvider = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+}
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -292,8 +322,11 @@ export type CreatedByType = string;
 
 /** Known values of {@link AttestationServiceStatus} that the service accepts. */
 export enum KnownAttestationServiceStatus {
+  /** Ready */
   Ready = "Ready",
+  /** NotReady */
   NotReady = "NotReady",
+  /** Error */
   Error = "Error"
 }
 
@@ -310,8 +343,11 @@ export type AttestationServiceStatus = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected"
 }
 
@@ -328,9 +364,13 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
