@@ -10574,7 +10574,7 @@ packages:
     dev: false
 
   file:projects/arm-appinsights.tgz:
-    resolution: {integrity: sha512-pPpY7vB1WhGCmsKnwW+AFVblBYJWBAyTQ4QkhH7kLEn4VtBoWuGplanfVVmcCxkc+WT3dSr1g/oFx9pjRJOFAA==, tarball: file:projects/arm-appinsights.tgz}
+    resolution: {integrity: sha512-X0PcdahTH5XBte9tzNSIMWce53HQ7Z7ZczejL2XwVezHCSe2hepZgnWMxOSgag011ZRSabnaFQKqv6OJr4GfJw==, tarball: file:projects/arm-appinsights.tgz}
     name: '@rush-temp/arm-appinsights'
     version: 0.0.0
     dependencies:
@@ -10593,7 +10593,7 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
