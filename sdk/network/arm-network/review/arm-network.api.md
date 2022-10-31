@@ -3386,7 +3386,7 @@ export interface ErrorModel {
 
 // @public
 export interface ErrorResponse {
-    error?: ErrorDetails;
+    error?: ErrorModel;
 }
 
 // @public
@@ -9567,6 +9567,7 @@ export type NetworkVirtualAppliancesUpdateTagsResponse = NetworkVirtualAppliance
 export interface NetworkWatcher extends Resource {
     readonly etag?: string;
     readonly provisioningState?: ProvisioningState;
+    runningOperationIds?: number[];
 }
 
 // @public

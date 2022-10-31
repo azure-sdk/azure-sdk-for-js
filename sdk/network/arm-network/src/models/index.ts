@@ -2624,7 +2624,7 @@ export interface InboundSecurityRules {
 /** The error object. */
 export interface ErrorResponse {
   /** The error details object. */
-  error?: ErrorDetails;
+  error?: ErrorModel;
 }
 
 /** Response for ListNetworkWatchers API service call. */
@@ -9966,6 +9966,8 @@ export interface NetworkWatcher extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /** List of running operation IDs. */
+  runningOperationIds?: number[];
 }
 
 /** Public IP prefix resource. */

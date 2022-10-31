@@ -7466,7 +7466,7 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorDetails"
+          className: "ErrorModel"
         }
       }
     }
@@ -26547,6 +26547,17 @@ export const NetworkWatcher: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      runningOperationIds: {
+        serializedName: "properties.runningOperationIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
         }
       }
     }
