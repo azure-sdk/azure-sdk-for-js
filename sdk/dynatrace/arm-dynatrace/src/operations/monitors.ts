@@ -1193,6 +1193,7 @@ const getSSODetailsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SSODetailsResponse
     },
     401: {
+      bodyMapper: Mappers.ErrorResponse,
       isError: true
     },
     default: {
