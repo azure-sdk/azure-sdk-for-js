@@ -1172,6 +1172,90 @@ export interface Deployment {
   deploymentLogsUrl?: string;
 }
 
+/** A list of recommendations */
+export interface RecommendationList {
+  /** An list of recommendations */
+  value?: Recommendation[];
+}
+
+/** Recommendation object. */
+export interface Recommendation {
+  /** id of recommendation. */
+  id: string;
+  /** Instructions of the recommendation. */
+  instructions: Instructions;
+  /** Content of the recommendation. */
+  content?: Content;
+  /** Id of the resource this recommendation refers to. */
+  resourceId?: string;
+  /** Collection of additional properties for the recommendation. */
+  additionalProperties?: { [propertyName: string]: string };
+  /** Title of the recommendation. */
+  title: string;
+  /** Description of the recommendation. */
+  description: string;
+  /** Title of the recommendation type. */
+  recommendationTypeTitle: string;
+  /** Id of the recommendation type. */
+  recommendationTypeId: string;
+  /** Category of the recommendation. */
+  category: Category;
+  /** Context of the recommendation. */
+  context: Context;
+  /** Id of the workspace this recommendation refers to. */
+  workspaceId: string;
+  /** List of actions to take for this recommendation. */
+  actions: RecommendedAction[];
+  /** State of the recommendation. */
+  state: State;
+  /** Priority of the recommendation. */
+  priority: Priority;
+  /** The time stamp (UTC) when the recommendation was last evaluated. */
+  lastEvaluatedTimeUtc: Date;
+  /** The time stamp (UTC) when the recommendation should be displayed again. */
+  hideUntilTimeUtc?: Date;
+  /** The timestamp (UTC) after which the recommendation should not be displayed anymore. */
+  displayUntilTimeUtc?: Date;
+  /** Value indicating if the recommendation should be displayed or not. */
+  visible?: boolean;
+}
+
+/** Instructions section of a recommendation. */
+export interface Instructions {
+  /** What actions should be taken to complete the recommendation. */
+  actionsToBePerformed: string;
+  /** Explains why the recommendation is important. */
+  recommendationImportance: string;
+  /** How should the user complete the recommendation. */
+  howToPerformActionDetails?: string;
+}
+
+/** Content section of the recommendation. */
+export interface Content {
+  /** Title of the content. */
+  title: string;
+  /** Description of the content. */
+  description: string;
+}
+
+/** What actions should be taken to complete the recommendation. */
+export interface RecommendedAction {
+  /** Text of the link to complete the action. */
+  linkText: string;
+  /** The Link to complete the action. */
+  linkUrl: string;
+  /** The state of the action. */
+  state?: Priority;
+}
+
+/** Recommendation Fields to update. */
+export interface RecommendationPatch {
+  /** State of the recommendation. */
+  state?: State;
+  /** The time stamp (UTC) when the recommendation should be displayed again. */
+  hideUntilTimeUtc?: Date;
+}
+
 /** Describes threat kill chain phase entity */
 export interface ThreatIntelligenceKillChainPhase {
   /** Kill chainName name */
@@ -1479,6 +1563,8 @@ export interface QueryBasedAlertRuleTemplateProperties {
   alertDetailsOverride?: AlertDetailsOverride;
   /** The event grouping settings. */
   eventGroupingSettings?: EventGroupingSettings;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
 }
 
 /** Single entity mapping for the alert rule */
@@ -1507,12 +1593,28 @@ export interface AlertDetailsOverride {
   alertTacticsColumnName?: string;
   /** the column name to take the alert severity from */
   alertSeverityColumnName?: string;
+  /** List of additional dynamic properties to override */
+  alertDynamicProperties?: AlertPropertyMapping[];
+}
+
+/** A single alert property mapping to override */
+export interface AlertPropertyMapping {
+  /** The V3 alert property */
+  alertProperty?: AlertProperty;
+  /** the column name to use to override this property */
+  value?: string;
 }
 
 /** Event grouping settings property bag. */
 export interface EventGroupingSettings {
   /** The event grouping aggregation kinds */
   aggregationKind?: EventGroupingAggregationKind;
+}
+
+/** A single sentinel entity mapping */
+export interface SentinelEntityMapping {
+  /** the column name to be mapped to the SentinelEntities */
+  columnName?: string;
 }
 
 /** Represents a supported source signal configuration in Fusion detection. */
@@ -1656,6 +1758,8 @@ export interface ScheduledAlertRuleCommonProperties {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
 }
 
 export interface AutomationRuleBooleanCondition {
@@ -2459,6 +2563,13 @@ export interface SecurityAlertTimelineItem extends EntityTimelineItem {
   timeGenerated: Date;
   /** The name of the alert type. */
   alertType: string;
+  /**
+   * The intent of the alert.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly intent?: KillChainIntent;
+  /** The techniques of the alert. */
+  techniques?: string[];
 }
 
 /** Represents Insight Query. */
@@ -4547,6 +4658,8 @@ export interface ScheduledAlertRuleTemplate extends AlertRuleTemplate {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
 }
 
 /** Represents NRT alert rule template. */
@@ -4591,6 +4704,8 @@ export interface NrtAlertRuleTemplate extends AlertRuleTemplate {
   alertDetailsOverride?: AlertDetailsOverride;
   /** The event grouping settings. */
   eventGroupingSettings?: EventGroupingSettings;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
 }
 
 /** Represents a security alert entity. */
@@ -6004,6 +6119,8 @@ export interface ScheduledAlertRule extends AlertRule {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /** The version of the alert rule template used to create this rule - in format <a.b.c>, where all are numbers, for example 0 <1.0.2> */
@@ -6072,6 +6189,8 @@ export interface NrtAlertRule extends AlertRule {
   alertDetailsOverride?: AlertDetailsOverride;
   /** The event grouping settings. */
   eventGroupingSettings?: EventGroupingSettings;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
 }
 
 /** Represents Expansion entity query. */
@@ -7624,6 +7743,105 @@ export enum KnownDeploymentResult {
  */
 export type DeploymentResult = string;
 
+/** Known values of {@link Category} that the service accepts. */
+export enum KnownCategory {
+  /** Onboarding recommendation. */
+  Onboarding = "Onboarding",
+  /** New feature recommendation. */
+  NewFeature = "NewFeature",
+  /** Soc Efficiency recommendation. */
+  SocEfficiency = "SocEfficiency",
+  /** Cost optimization recommendation. */
+  CostOptimization = "CostOptimization",
+  /** Demo recommendation. */
+  Demo = "Demo"
+}
+
+/**
+ * Defines values for Category. \
+ * {@link KnownCategory} can be used interchangeably with Category,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Onboarding**: Onboarding recommendation. \
+ * **NewFeature**: New feature recommendation. \
+ * **SocEfficiency**: Soc Efficiency recommendation. \
+ * **CostOptimization**: Cost optimization recommendation. \
+ * **Demo**: Demo recommendation.
+ */
+export type Category = string;
+
+/** Known values of {@link Context} that the service accepts. */
+export enum KnownContext {
+  /** Analytics context. */
+  Analytics = "Analytics",
+  /** Incidents context. */
+  Incidents = "Incidents",
+  /** Overview context. */
+  Overview = "Overview",
+  /** No context. */
+  None = "None"
+}
+
+/**
+ * Defines values for Context. \
+ * {@link KnownContext} can be used interchangeably with Context,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Analytics**: Analytics context. \
+ * **Incidents**: Incidents context. \
+ * **Overview**: Overview context. \
+ * **None**: No context.
+ */
+export type Context = string;
+
+/** Known values of {@link Priority} that the service accepts. */
+export enum KnownPriority {
+  /** Low priority for recommendation. */
+  Low = "Low",
+  /** Medium priority for recommendation. */
+  Medium = "Medium",
+  /** High priority for recommendation. */
+  High = "High"
+}
+
+/**
+ * Defines values for Priority. \
+ * {@link KnownPriority} can be used interchangeably with Priority,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Low**: Low priority for recommendation. \
+ * **Medium**: Medium priority for recommendation. \
+ * **High**: High priority for recommendation.
+ */
+export type Priority = string;
+
+/** Known values of {@link State} that the service accepts. */
+export enum KnownState {
+  /** Recommendation is active. */
+  Active = "Active",
+  /** Recommendation is disabled. */
+  Disabled = "Disabled",
+  /** Recommendation has been completed by user. */
+  CompletedByUser = "CompletedByUser",
+  /** Recommendation has been completed by action. */
+  CompletedByAction = "CompletedByAction",
+  /** Recommendation is hidden. */
+  Hidden = "Hidden"
+}
+
+/**
+ * Defines values for State. \
+ * {@link KnownState} can be used interchangeably with State,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active**: Recommendation is active. \
+ * **Disabled**: Recommendation is disabled. \
+ * **CompletedByUser**: Recommendation has been completed by user. \
+ * **CompletedByAction**: Recommendation has been completed by action. \
+ * **Hidden**: Recommendation is hidden.
+ */
+export type State = string;
+
 /** Known values of {@link ThreatIntelligenceResourceKindEnum} that the service accepts. */
 export enum KnownThreatIntelligenceResourceKindEnum {
   /** Entity represents threat intelligence indicator in the system. */
@@ -7896,6 +8114,45 @@ export enum KnownEntityMappingType {
  * **SubmissionMail**: Submission mail entity type
  */
 export type EntityMappingType = string;
+
+/** Known values of {@link AlertProperty} that the service accepts. */
+export enum KnownAlertProperty {
+  /** Alert's link */
+  AlertLink = "AlertLink",
+  /** Confidence level property */
+  ConfidenceLevel = "ConfidenceLevel",
+  /** Confidence score */
+  ConfidenceScore = "ConfidenceScore",
+  /** Extended links to the alert */
+  ExtendedLinks = "ExtendedLinks",
+  /** Product name alert property */
+  ProductName = "ProductName",
+  /** Provider name alert property */
+  ProviderName = "ProviderName",
+  /** Product component name alert property */
+  ProductComponentName = "ProductComponentName",
+  /** Remediation steps alert property */
+  RemediationSteps = "RemediationSteps",
+  /** Techniques alert property */
+  Techniques = "Techniques"
+}
+
+/**
+ * Defines values for AlertProperty. \
+ * {@link KnownAlertProperty} can be used interchangeably with AlertProperty,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AlertLink**: Alert's link \
+ * **ConfidenceLevel**: Confidence level property \
+ * **ConfidenceScore**: Confidence score \
+ * **ExtendedLinks**: Extended links to the alert \
+ * **ProductName**: Product name alert property \
+ * **ProviderName**: Provider name alert property \
+ * **ProductComponentName**: Product component name alert property \
+ * **RemediationSteps**: Remediation steps alert property \
+ * **Techniques**: Techniques alert property
+ */
+export type AlertProperty = string;
 
 /** Known values of {@link EventGroupingAggregationKind} that the service accepts. */
 export enum KnownEventGroupingAggregationKind {
@@ -9632,6 +9889,32 @@ export interface SourceControlsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type SourceControlsListNextResponse = SourceControlList;
+
+/** Optional parameters. */
+export interface GetRecommendationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type GetRecommendationsListResponse = RecommendationList;
+
+/** Optional parameters. */
+export interface GetSingleRecommendationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the singleRecommendation operation. */
+export type GetSingleRecommendationResponse = Recommendation;
+
+/** Optional parameters. */
+export interface UpdateRecommendationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the recommendation operation. */
+export type UpdateRecommendationResponse = Recommendation;
 
 /** Optional parameters. */
 export interface ThreatIntelligenceIndicatorCreateIndicatorOptionalParams

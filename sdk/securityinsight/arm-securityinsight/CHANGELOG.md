@@ -1,15 +1,50 @@
 # Release History
+    
+## 1.0.0-beta.6 (2022-10-31)
+    
+**Features**
 
-## 1.0.0-beta.6 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group Get
+  - Added operation group GetRecommendations
+  - Added operation group Update
+  - Added Interface AlertPropertyMapping
+  - Added Interface Content
+  - Added Interface GetRecommendationsListOptionalParams
+  - Added Interface GetSingleRecommendationOptionalParams
+  - Added Interface Instructions
+  - Added Interface Recommendation
+  - Added Interface RecommendationList
+  - Added Interface RecommendationPatch
+  - Added Interface RecommendedAction
+  - Added Interface SentinelEntityMapping
+  - Added Interface UpdateRecommendationOptionalParams
+  - Added Type Alias AlertProperty
+  - Added Type Alias Category
+  - Added Type Alias Context
+  - Added Type Alias GetRecommendationsListResponse
+  - Added Type Alias GetSingleRecommendationResponse
+  - Added Type Alias Priority
+  - Added Type Alias State
+  - Added Type Alias UpdateRecommendationResponse
+  - Interface AlertDetailsOverride has a new optional parameter alertDynamicProperties
+  - Interface NrtAlertRule has a new optional parameter sentinelEntitiesMappings
+  - Interface NrtAlertRuleTemplate has a new optional parameter sentinelEntitiesMappings
+  - Interface QueryBasedAlertRuleTemplateProperties has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRule has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRuleCommonProperties has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRuleTemplate has a new optional parameter sentinelEntitiesMappings
+  - Interface SecurityAlertTimelineItem has a new optional parameter intent
+  - Interface SecurityAlertTimelineItem has a new optional parameter techniques
+  - Class SecurityInsights has a new parameter get
+  - Class SecurityInsights has a new parameter getRecommendations
+  - Class SecurityInsights has a new parameter update
+  - Added Enum KnownAlertProperty
+  - Added Enum KnownCategory
+  - Added Enum KnownContext
+  - Added Enum KnownPriority
+  - Added Enum KnownState
+    
+    
 ## 1.0.0-beta.5 (2022-09-27)
     
 **Features**
