@@ -37,7 +37,7 @@ export class IssueImpl implements Issue {
 
   /**
    * Lists a collection of issues in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -108,7 +108,7 @@ export class IssueImpl implements Issue {
 
   /**
    * Lists a collection of issues in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -125,7 +125,7 @@ export class IssueImpl implements Issue {
 
   /**
    * Gets API Management issue details
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -144,7 +144,7 @@ export class IssueImpl implements Issue {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.

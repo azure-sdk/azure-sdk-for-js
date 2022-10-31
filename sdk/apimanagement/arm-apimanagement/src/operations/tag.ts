@@ -78,7 +78,7 @@ export class TagImpl implements Tag {
 
   /**
    * Lists all Tags associated with the Operation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -169,7 +169,7 @@ export class TagImpl implements Tag {
 
   /**
    * Lists all Tags associated with the API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -250,7 +250,7 @@ export class TagImpl implements Tag {
 
   /**
    * Lists all Tags associated with the Product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -330,7 +330,7 @@ export class TagImpl implements Tag {
 
   /**
    * Lists a collection of tags defined within a service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -401,7 +401,7 @@ export class TagImpl implements Tag {
 
   /**
    * Lists all Tags associated with the Operation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -424,7 +424,7 @@ export class TagImpl implements Tag {
 
   /**
    * Gets the entity state version of the tag specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -449,7 +449,7 @@ export class TagImpl implements Tag {
 
   /**
    * Get tag associated with the Operation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -474,7 +474,7 @@ export class TagImpl implements Tag {
 
   /**
    * Assign tag to the Operation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -499,7 +499,7 @@ export class TagImpl implements Tag {
 
   /**
    * Detach the tag from the Operation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -524,7 +524,7 @@ export class TagImpl implements Tag {
 
   /**
    * Lists all Tags associated with the API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -544,7 +544,7 @@ export class TagImpl implements Tag {
 
   /**
    * Gets the entity state version of the tag specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -566,7 +566,7 @@ export class TagImpl implements Tag {
 
   /**
    * Get tag associated with the API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -588,7 +588,7 @@ export class TagImpl implements Tag {
 
   /**
    * Assign tag to the Api.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -610,7 +610,7 @@ export class TagImpl implements Tag {
 
   /**
    * Detach the tag from the Api.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -632,7 +632,7 @@ export class TagImpl implements Tag {
 
   /**
    * Lists all Tags associated with the Product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -651,7 +651,7 @@ export class TagImpl implements Tag {
 
   /**
    * Gets the entity state version of the tag specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
@@ -672,7 +672,7 @@ export class TagImpl implements Tag {
 
   /**
    * Get tag associated with the Product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
@@ -693,7 +693,7 @@ export class TagImpl implements Tag {
 
   /**
    * Assign tag to the Product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
@@ -714,7 +714,7 @@ export class TagImpl implements Tag {
 
   /**
    * Detach the tag from the Product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
@@ -735,7 +735,7 @@ export class TagImpl implements Tag {
 
   /**
    * Lists a collection of tags defined within a service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -752,7 +752,7 @@ export class TagImpl implements Tag {
 
   /**
    * Gets the entity state version of the tag specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -771,7 +771,7 @@ export class TagImpl implements Tag {
 
   /**
    * Gets the details of the tag specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -790,7 +790,7 @@ export class TagImpl implements Tag {
 
   /**
    * Creates a tag.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
    * @param parameters Create parameters.
@@ -811,7 +811,7 @@ export class TagImpl implements Tag {
 
   /**
    * Updates the details of the tag specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -835,7 +835,7 @@ export class TagImpl implements Tag {
 
   /**
    * Deletes specific tag of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -857,7 +857,7 @@ export class TagImpl implements Tag {
 
   /**
    * ListByOperationNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -882,7 +882,7 @@ export class TagImpl implements Tag {
 
   /**
    * ListByApiNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -904,7 +904,7 @@ export class TagImpl implements Tag {
 
   /**
    * ListByProductNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param nextLink The nextLink from the previous successful call to the ListByProduct method.
@@ -925,7 +925,7 @@ export class TagImpl implements Tag {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.

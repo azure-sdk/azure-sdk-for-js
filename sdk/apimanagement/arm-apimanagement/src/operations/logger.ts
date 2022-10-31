@@ -45,7 +45,7 @@ export class LoggerImpl implements Logger {
 
   /**
    * Lists a collection of loggers in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -116,7 +116,7 @@ export class LoggerImpl implements Logger {
 
   /**
    * Lists a collection of loggers in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -133,7 +133,7 @@ export class LoggerImpl implements Logger {
 
   /**
    * Gets the entity state (Etag) version of the logger specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param loggerId Logger identifier. Must be unique in the API Management service instance.
    * @param options The options parameters.
@@ -152,7 +152,7 @@ export class LoggerImpl implements Logger {
 
   /**
    * Gets the details of the logger specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param loggerId Logger identifier. Must be unique in the API Management service instance.
    * @param options The options parameters.
@@ -171,7 +171,7 @@ export class LoggerImpl implements Logger {
 
   /**
    * Creates or Updates a logger.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param loggerId Logger identifier. Must be unique in the API Management service instance.
    * @param parameters Create parameters.
@@ -192,7 +192,7 @@ export class LoggerImpl implements Logger {
 
   /**
    * Updates an existing logger.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param loggerId Logger identifier. Must be unique in the API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -223,7 +223,7 @@ export class LoggerImpl implements Logger {
 
   /**
    * Deletes the specified logger.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param loggerId Logger identifier. Must be unique in the API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -245,7 +245,7 @@ export class LoggerImpl implements Logger {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
@@ -356,7 +356,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters40,
+  requestBody: Parameters.parameters46,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -386,7 +386,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters41,
+  requestBody: Parameters.parameters47,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
