@@ -366,6 +366,13 @@ export const EncryptionEntitiesDefinition: coreClient.CompositeMapper = {
           name: "Composite",
           className: "EncryptionV2"
         }
+      },
+      managedDisk: {
+        serializedName: "managedDisk",
+        type: {
+          name: "Composite",
+          className: "ManagedDiskEncryption"
+        }
       }
     }
   }
@@ -398,6 +405,65 @@ export const EncryptionV2KeyVaultProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EncryptionV2KeyVaultProperties",
+    modelProperties: {
+      keyVaultUri: {
+        serializedName: "keyVaultUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      keyName: {
+        serializedName: "keyName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      keyVersion: {
+        serializedName: "keyVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedDiskEncryption: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedDiskEncryption",
+    modelProperties: {
+      keySource: {
+        serializedName: "keySource",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultProperties: {
+        serializedName: "keyVaultProperties",
+        type: {
+          name: "Composite",
+          className: "ManagedDiskEncryptionKeyVaultProperties"
+        }
+      },
+      rotationToLatestKeyVersionEnabled: {
+        serializedName: "rotationToLatestKeyVersionEnabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedDiskEncryptionKeyVaultProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedDiskEncryptionKeyVaultProperties",
     modelProperties: {
       keyVaultUri: {
         serializedName: "keyVaultUri",
@@ -1189,6 +1255,102 @@ export const VirtualNetworkPeeringList: coreClient.CompositeMapper = {
   }
 };
 
+export const IdentityData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IdentityData",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AccessConnectorProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessConnectorProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AccessConnectorUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessConnectorUpdate",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "IdentityData"
+        }
+      }
+    }
+  }
+};
+
+export const AccessConnectorListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessConnectorListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AccessConnector"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const TrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1331,6 +1493,19 @@ export const Workspace: coreClient.CompositeMapper = {
           className: "ManagedIdentityConfiguration"
         }
       },
+      managedDiskIdentity: {
+        serializedName: "properties.managedDiskIdentity",
+        type: {
+          name: "Composite",
+          className: "ManagedIdentityConfiguration"
+        }
+      },
+      diskEncryptionSetId: {
+        serializedName: "properties.diskEncryptionSetId",
+        type: {
+          name: "String"
+        }
+      },
       encryption: {
         serializedName: "properties.encryption",
         type: {
@@ -1361,6 +1536,30 @@ export const Workspace: coreClient.CompositeMapper = {
         serializedName: "properties.requiredNsgRules",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AccessConnector: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessConnector",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "IdentityData"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "AccessConnectorProperties"
         }
       }
     }

@@ -15,7 +15,9 @@ import {
   Workspace as WorkspaceMapper,
   WorkspaceUpdate as WorkspaceUpdateMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
-  VirtualNetworkPeering as VirtualNetworkPeeringMapper
+  VirtualNetworkPeering as VirtualNetworkPeeringMapper,
+  AccessConnector as AccessConnectorMapper,
+  AccessConnectorUpdate as AccessConnectorUpdateMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -76,7 +78,7 @@ export const workspaceName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-04-01-preview",
+    defaultValue: "2022-04-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -171,4 +173,29 @@ export const peeringName: OperationURLParameter = {
 export const virtualNetworkPeeringParameters: OperationParameter = {
   parameterPath: "virtualNetworkPeeringParameters",
   mapper: VirtualNetworkPeeringMapper
+};
+
+export const connectorName: OperationURLParameter = {
+  parameterPath: "connectorName",
+  mapper: {
+    constraints: {
+      MaxLength: 64,
+      MinLength: 3
+    },
+    serializedName: "connectorName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters2: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: AccessConnectorMapper
+};
+
+export const parameters3: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: AccessConnectorUpdateMapper
 };

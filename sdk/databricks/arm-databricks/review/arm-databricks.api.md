@@ -11,6 +11,103 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
+export interface AccessConnector extends TrackedResource {
+    identity?: IdentityData;
+    properties?: AccessConnectorProperties;
+}
+
+// @public
+export interface AccessConnectorListResult {
+    nextLink?: string;
+    value?: AccessConnector[];
+}
+
+// @public (undocumented)
+export interface AccessConnectorProperties {
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface AccessConnectors {
+    beginCreateOrUpdate(resourceGroupName: string, connectorName: string, parameters: AccessConnector, options?: AccessConnectorsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AccessConnectorsCreateOrUpdateResponse>, AccessConnectorsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, connectorName: string, parameters: AccessConnector, options?: AccessConnectorsCreateOrUpdateOptionalParams): Promise<AccessConnectorsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, connectorName: string, options?: AccessConnectorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, connectorName: string, options?: AccessConnectorsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, connectorName: string, parameters: AccessConnectorUpdate, options?: AccessConnectorsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AccessConnectorsUpdateResponse>, AccessConnectorsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, connectorName: string, parameters: AccessConnectorUpdate, options?: AccessConnectorsUpdateOptionalParams): Promise<AccessConnectorsUpdateResponse>;
+    get(resourceGroupName: string, connectorName: string, options?: AccessConnectorsGetOptionalParams): Promise<AccessConnectorsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: AccessConnectorsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AccessConnector>;
+    listBySubscription(options?: AccessConnectorsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AccessConnector>;
+}
+
+// @public
+export interface AccessConnectorsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AccessConnectorsCreateOrUpdateResponse = AccessConnector;
+
+// @public
+export interface AccessConnectorsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AccessConnectorsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessConnectorsGetResponse = AccessConnector;
+
+// @public
+export interface AccessConnectorsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessConnectorsListByResourceGroupNextResponse = AccessConnectorListResult;
+
+// @public
+export interface AccessConnectorsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessConnectorsListByResourceGroupResponse = AccessConnectorListResult;
+
+// @public
+export interface AccessConnectorsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessConnectorsListBySubscriptionNextResponse = AccessConnectorListResult;
+
+// @public
+export interface AccessConnectorsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessConnectorsListBySubscriptionResponse = AccessConnectorListResult;
+
+// @public
+export interface AccessConnectorsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AccessConnectorsUpdateResponse = AccessConnector;
+
+// @public
+export interface AccessConnectorUpdate {
+    identity?: IdentityData;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export interface AddressSpace {
     addressPrefixes?: string[];
 }
@@ -20,6 +117,8 @@ export class AzureDatabricksManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureDatabricksManagementClientOptionalParams);
+    // (undocumented)
+    accessConnectors: AccessConnectors;
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -68,6 +167,7 @@ export interface Encryption {
 
 // @public
 export interface EncryptionEntitiesDefinition {
+    managedDisk?: ManagedDiskEncryption;
     managedServices?: EncryptionV2;
 }
 
@@ -122,9 +222,9 @@ export interface ErrorResponse {
 }
 
 // @public
-export type GroupIdInformation = Resource & {
+export interface GroupIdInformation extends Resource {
     properties: GroupIdInformationProperties;
-};
+}
 
 // @public
 export interface GroupIdInformationProperties {
@@ -134,134 +234,122 @@ export interface GroupIdInformationProperties {
 }
 
 // @public
+export interface IdentityData {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: IdentityType;
+}
+
+// @public
+export type IdentityType = string;
+
+// @public
 export type KeySource = string;
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownCustomParameterType {
-    // (undocumented)
     Bool = "Bool",
-    // (undocumented)
     Object = "Object",
-    // (undocumented)
     String = "String"
 }
 
 // @public
 export enum KnownEncryptionKeySource {
-    // (undocumented)
     MicrosoftKeyvault = "Microsoft.Keyvault"
 }
 
 // @public
+export enum KnownIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned"
+}
+
+// @public
 export enum KnownKeySource {
-    // (undocumented)
     Default = "Default",
-    // (undocumented)
     MicrosoftKeyvault = "Microsoft.Keyvault"
 }
 
 // @public
 export enum KnownPeeringProvisioningState {
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPeeringState {
-    // (undocumented)
     Connected = "Connected",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Initiated = "Initiated"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPrivateLinkServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Created = "Created",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Ready = "Ready",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownRequiredNsgRules {
-    // (undocumented)
     AllRules = "AllRules",
-    // (undocumented)
     NoAzureDatabricksRules = "NoAzureDatabricksRules",
-    // (undocumented)
     NoAzureServiceRules = "NoAzureServiceRules"
+}
+
+// @public
+export interface ManagedDiskEncryption {
+    keySource: EncryptionKeySource;
+    keyVaultProperties: ManagedDiskEncryptionKeyVaultProperties;
+    rotationToLatestKeyVersionEnabled?: boolean;
+}
+
+// @public
+export interface ManagedDiskEncryptionKeyVaultProperties {
+    keyName: string;
+    keyVaultUri: string;
+    keyVersion: string;
 }
 
 // @public
@@ -484,12 +572,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface VirtualNetworkPeering {
@@ -571,25 +659,27 @@ export interface VNetPeeringListByWorkspaceOptionalParams extends coreClient.Ope
 export type VNetPeeringListByWorkspaceResponse = VirtualNetworkPeeringList;
 
 // @public
-export type Workspace = TrackedResource & {
-    sku?: Sku;
-    readonly systemData?: SystemData;
-    managedResourceGroupId: string;
-    parameters?: WorkspaceCustomParameters;
-    readonly provisioningState?: ProvisioningState;
-    uiDefinitionUri?: string;
+export interface Workspace extends TrackedResource {
     authorizations?: WorkspaceProviderAuthorization[];
     createdBy?: CreatedBy;
-    updatedBy?: CreatedBy;
     readonly createdDateTime?: Date;
-    readonly workspaceId?: string;
-    readonly workspaceUrl?: string;
-    storageAccountIdentity?: ManagedIdentityConfiguration;
+    diskEncryptionSetId?: string;
     encryption?: WorkspacePropertiesEncryption;
+    managedDiskIdentity?: ManagedIdentityConfiguration;
+    managedResourceGroupId: string;
+    parameters?: WorkspaceCustomParameters;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
     requiredNsgRules?: RequiredNsgRules;
-};
+    sku?: Sku;
+    storageAccountIdentity?: ManagedIdentityConfiguration;
+    readonly systemData?: SystemData;
+    uiDefinitionUri?: string;
+    updatedBy?: CreatedBy;
+    readonly workspaceId?: string;
+    readonly workspaceUrl?: string;
+}
 
 // @public
 export interface WorkspaceCustomBooleanParameter {
