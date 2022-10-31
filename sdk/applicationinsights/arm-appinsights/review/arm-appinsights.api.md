@@ -148,35 +148,35 @@ export interface APIKeysListOptionalParams extends coreClient.OperationOptions {
 export type APIKeysListResponse = ApplicationInsightsComponentAPIKeyListResult;
 
 // @public
-export type ApplicationInsightsComponent = ComponentsResource & {
-    kind: string;
-    etag?: string;
-    readonly applicationId?: string;
+export interface ApplicationInsightsComponent extends ComponentsResource {
     readonly appId?: string;
-    readonly namePropertiesName?: string;
+    readonly applicationId?: string;
     applicationType?: ApplicationType;
-    flowType?: FlowType;
-    requestSource?: RequestSource;
-    readonly instrumentationKey?: string;
+    readonly connectionString?: string;
     readonly creationDate?: Date;
-    readonly tenantId?: string;
+    disableIpMasking?: boolean;
+    disableLocalAuth?: boolean;
+    etag?: string;
+    flowType?: FlowType;
+    forceCustomerStorageForProfiler?: boolean;
     hockeyAppId?: string;
     readonly hockeyAppToken?: string;
-    readonly provisioningState?: string;
-    samplingPercentage?: number;
-    readonly connectionString?: string;
-    retentionInDays?: number;
-    disableIpMasking?: boolean;
     immediatePurgeDataOn30Days?: boolean;
-    workspaceResourceId?: string;
+    ingestionMode?: IngestionMode;
+    readonly instrumentationKey?: string;
+    kind: string;
     readonly laMigrationDate?: Date;
+    readonly namePropertiesName?: string;
     readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
+    readonly provisioningState?: string;
     publicNetworkAccessForIngestion?: PublicNetworkAccessType;
     publicNetworkAccessForQuery?: PublicNetworkAccessType;
-    ingestionMode?: IngestionMode;
-    disableLocalAuth?: boolean;
-    forceCustomerStorageForProfiler?: boolean;
-};
+    requestSource?: RequestSource;
+    retentionInDays?: number;
+    samplingPercentage?: number;
+    readonly tenantId?: string;
+    workspaceResourceId?: string;
+}
 
 // @public
 export interface ApplicationInsightsComponentAnalyticsItem {
@@ -399,6 +399,8 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
     // (undocumented)
     myWorkbooks: MyWorkbooks;
     // (undocumented)
+    operations: Operations;
+    // (undocumented)
     proactiveDetectionConfigurations: ProactiveDetectionConfigurations;
     // (undocumented)
     subscriptionId: string;
@@ -476,9 +478,9 @@ export interface ComponentFeatureCapabilitiesGetOptionalParams extends coreClien
 export type ComponentFeatureCapabilitiesGetResponse = ApplicationInsightsComponentFeatureCapabilities;
 
 // @public
-export type ComponentLinkedStorageAccounts = ProxyResource & {
+export interface ComponentLinkedStorageAccounts extends ProxyResource {
     linkedStorageAccount?: string;
-};
+}
 
 // @public
 export interface ComponentLinkedStorageAccountsCreateAndUpdateOptionalParams extends coreClient.OperationOptions {
@@ -655,8 +657,16 @@ export interface ErrorDefinition {
 }
 
 // @public
+export interface ErrorFieldContract {
+    code?: string;
+    message?: string;
+    target?: string;
+}
+
+// @public
 export interface ErrorResponse {
     code?: string;
+    details?: ErrorFieldContract[];
     message?: string;
 }
 
@@ -781,6 +791,12 @@ export type FavoriteType = "shared" | "user";
 export type FlowType = string;
 
 // @public
+export interface HeaderField {
+    headerFieldName?: string;
+    headerFieldValue?: string;
+}
+
+// @public
 export type IngestionMode = string;
 
 // @public
@@ -811,139 +827,96 @@ export type Kind = string;
 
 // @public
 export enum KnownApplicationType {
-    // (undocumented)
     Other = "other",
-    // (undocumented)
     Web = "web"
 }
 
 // @public
 export enum KnownCategoryType {
-    // (undocumented)
     Performance = "performance",
-    // (undocumented)
     Retention = "retention",
-    // (undocumented)
     TSG = "TSG",
-    // (undocumented)
     Workbook = "workbook"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownFavoriteSourceType {
-    // (undocumented)
     Events = "events",
-    // (undocumented)
     Funnel = "funnel",
-    // (undocumented)
     Impact = "impact",
-    // (undocumented)
     Notebook = "notebook",
-    // (undocumented)
     Retention = "retention",
-    // (undocumented)
     Segmentation = "segmentation",
-    // (undocumented)
     Sessions = "sessions",
-    // (undocumented)
     Userflows = "userflows"
 }
 
 // @public
 export enum KnownFlowType {
-    // (undocumented)
     Bluefield = "Bluefield"
 }
 
 // @public
 export enum KnownIngestionMode {
-    // (undocumented)
     ApplicationInsights = "ApplicationInsights",
-    // (undocumented)
     ApplicationInsightsWithDiagnosticSettings = "ApplicationInsightsWithDiagnosticSettings",
-    // (undocumented)
     LogAnalytics = "LogAnalytics"
 }
 
 // @public
 export enum KnownItemScope {
-    // (undocumented)
     Shared = "shared",
-    // (undocumented)
     User = "user"
 }
 
 // @public
 export enum KnownItemScopePath {
-    // (undocumented)
     AnalyticsItems = "analyticsItems",
-    // (undocumented)
     MyanalyticsItems = "myanalyticsItems"
 }
 
 // @public
 export enum KnownItemType {
-    // (undocumented)
     Function = "function",
-    // (undocumented)
     None = "none",
-    // (undocumented)
     Query = "query",
-    // (undocumented)
     Recent = "recent"
 }
 
 // @public
 export enum KnownItemTypeParameter {
-    // (undocumented)
     Folder = "folder",
-    // (undocumented)
     Function = "function",
-    // (undocumented)
     None = "none",
-    // (undocumented)
     Query = "query",
-    // (undocumented)
     Recent = "recent"
 }
 
 // @public
 export enum KnownKind {
-    // (undocumented)
     Shared = "shared",
-    // (undocumented)
     User = "user"
 }
 
 // @public
 export enum KnownManagedServiceIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownMyWorkbookManagedIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
@@ -955,33 +928,27 @@ export enum KnownPublicNetworkAccessType {
 
 // @public
 export enum KnownPurgeState {
-    // (undocumented)
     Completed = "completed",
-    // (undocumented)
     Pending = "pending"
 }
 
 // @public
 export enum KnownRequestSource {
-    // (undocumented)
     Rest = "rest"
 }
 
 // @public
 export enum KnownStorageType {
-    // (undocumented)
     ServiceProfiler = "ServiceProfiler"
 }
 
 // @public
 export enum KnownWorkbookSharedTypeKind {
-    // (undocumented)
     Shared = "shared"
 }
 
 // @public
 export enum KnownWorkbookUpdateSharedTypeKind {
-    // (undocumented)
     Shared = "shared"
 }
 
@@ -1016,19 +983,19 @@ export interface ManagedServiceIdentity {
 export type ManagedServiceIdentityType = string;
 
 // @public
-export type MyWorkbook = MyWorkbookResource & {
-    kind?: Kind;
-    readonly systemData?: SystemData;
-    displayName?: string;
-    serializedData?: string;
-    version?: string;
-    readonly timeModified?: string;
+export interface MyWorkbook extends MyWorkbookResource {
     category?: string;
-    tagsPropertiesTags?: string[];
-    readonly userId?: string;
+    displayName?: string;
+    kind?: Kind;
+    serializedData?: string;
     sourceId?: string;
     storageUri?: string;
-};
+    readonly systemData?: SystemData;
+    tagsPropertiesTags?: string[];
+    readonly timeModified?: string;
+    readonly userId?: string;
+    version?: string;
+}
 
 // @public
 export interface MyWorkbookError {
@@ -1184,6 +1151,25 @@ export interface OperationLive {
 }
 
 // @public
+export interface Operations {
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+}
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListResponse = OperationListResult;
+
+// @public
 export interface OperationsListResult {
     nextLink?: string;
     value?: OperationLive[];
@@ -1224,7 +1210,8 @@ export interface ProactiveDetectionConfigurationsUpdateOptionalParams extends co
 export type ProactiveDetectionConfigurationsUpdateResponse = ApplicationInsightsComponentProactiveDetectionConfiguration;
 
 // @public
-export type ProxyResource = Resource;
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type PublicNetworkAccessType = string;
@@ -1263,12 +1250,12 @@ export interface TagsResource {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface UserAssignedIdentity {
@@ -1277,20 +1264,22 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export type WebTest = WebtestsResource & {
-    kind?: WebTestKind;
-    syntheticMonitorId?: string;
-    webTestName?: string;
+export interface WebTest extends WebtestsResource {
+    configuration?: WebTestPropertiesConfiguration;
     description?: string;
     enabled?: boolean;
     frequency?: number;
-    timeout?: number;
-    webTestKind?: WebTestKind;
-    retryEnabled?: boolean;
+    kind?: WebTestKind;
     locations?: WebTestGeolocation[];
-    configuration?: WebTestPropertiesConfiguration;
     readonly provisioningState?: string;
-};
+    request?: WebTestPropertiesRequest;
+    retryEnabled?: boolean;
+    syntheticMonitorId?: string;
+    timeout?: number;
+    validationRules?: WebTestPropertiesValidationRules;
+    webTestKind?: WebTestKind;
+    webTestName?: string;
+}
 
 // @public
 export interface WebTestGeolocation {
@@ -1298,7 +1287,7 @@ export interface WebTestGeolocation {
 }
 
 // @public
-export type WebTestKind = "ping" | "multistep";
+export type WebTestKind = "ping" | "multistep" | "standard";
 
 // @public
 export interface WebTestListResult {
@@ -1321,6 +1310,32 @@ export type WebTestLocationsListResponse = ApplicationInsightsWebTestLocationsLi
 // @public
 export interface WebTestPropertiesConfiguration {
     webTest?: string;
+}
+
+// @public
+export interface WebTestPropertiesRequest {
+    followRedirects?: boolean;
+    headers?: HeaderField[];
+    httpVerb?: string;
+    parseDependentRequests?: boolean;
+    requestBody?: string;
+    requestUrl?: string;
+}
+
+// @public
+export interface WebTestPropertiesValidationRules {
+    contentValidation?: WebTestPropertiesValidationRulesContentValidation;
+    expectedHttpStatusCode?: number;
+    ignoreHttpsStatusCode?: boolean;
+    sSLCertRemainingLifetimeCheck?: number;
+    sSLCheck?: boolean;
+}
+
+// @public
+export interface WebTestPropertiesValidationRulesContentValidation {
+    contentMatch?: string;
+    ignoreCase?: boolean;
+    passIfTextFound?: boolean;
 }
 
 // @public
@@ -1413,20 +1428,20 @@ export interface WebTestsUpdateTagsOptionalParams extends coreClient.OperationOp
 export type WebTestsUpdateTagsResponse = WebTest;
 
 // @public
-export type Workbook = WorkbookResource & {
-    readonly systemData?: SystemData;
-    displayName?: string;
-    serializedData?: string;
-    version?: string;
-    readonly timeModified?: Date;
+export interface Workbook extends WorkbookResource {
     category?: string;
-    tagsPropertiesTags?: string[];
-    readonly userId?: string;
+    description?: string;
+    displayName?: string;
+    readonly revision?: string;
+    serializedData?: string;
     sourceId?: string;
     storageUri?: string;
-    description?: string;
-    readonly revision?: string;
-};
+    readonly systemData?: SystemData;
+    tagsPropertiesTags?: string[];
+    readonly timeModified?: Date;
+    readonly userId?: string;
+    version?: string;
+}
 
 // @public
 export interface WorkbookError {
@@ -1436,7 +1451,7 @@ export interface WorkbookError {
 // @public
 export interface WorkbookErrorDefinition {
     readonly code?: string;
-    readonly innerError?: any;
+    readonly innerError?: WorkbookInnerErrorTrace;
     readonly message?: string;
 }
 
@@ -1446,14 +1461,15 @@ export interface WorkbookInnerErrorTrace {
 }
 
 // @public
-export type WorkbookResource = TrackedResource & {
+export interface WorkbookResource extends TrackedResource {
+    etag?: string;
     identity?: WorkbookResourceIdentity;
     kind?: WorkbookSharedTypeKind;
-    etag?: string;
-};
+}
 
 // @public
-export type WorkbookResourceIdentity = ManagedServiceIdentity;
+export interface WorkbookResourceIdentity extends ManagedServiceIdentity {
+}
 
 // @public
 export interface Workbooks {
@@ -1566,15 +1582,15 @@ export interface WorkbooksUpdateOptionalParams extends coreClient.OperationOptio
 export type WorkbooksUpdateResponse = Workbook;
 
 // @public
-export type WorkbookTemplate = WorkbookTemplateResource & {
-    priority?: number;
+export interface WorkbookTemplate extends WorkbookTemplateResource {
     author?: string;
-    templateData?: Record<string, unknown>;
     galleries?: WorkbookTemplateGallery[];
     localized?: {
         [propertyName: string]: WorkbookTemplateLocalizedGallery[];
     };
-};
+    priority?: number;
+    templateData?: Record<string, unknown>;
+}
 
 // @public
 export interface WorkbookTemplateError {
