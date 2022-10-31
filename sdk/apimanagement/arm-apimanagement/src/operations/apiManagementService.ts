@@ -33,6 +33,8 @@ import {
   ApiManagementServiceGetOptionalParams,
   ApiManagementServiceGetResponse,
   ApiManagementServiceDeleteOptionalParams,
+  ApiManagementServiceMigrateToStv2OptionalParams,
+  ApiManagementServiceMigrateToStv2Response,
   ApiManagementServiceListByResourceGroupResponse,
   ApiManagementServiceListResponse,
   ApiManagementServiceGetSsoTokenOptionalParams,
@@ -63,7 +65,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
 
   /**
    * List all API Management services within a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -160,7 +162,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
    * Restores a backup of an API Management service created using the ApiManagementService_Backup
    * operation on the current service. This is a long running operation and could take several minutes to
    * complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param parameters Parameters supplied to the Restore API Management service from backup operation.
    * @param options The options parameters.
@@ -233,7 +235,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
    * Restores a backup of an API Management service created using the ApiManagementService_Backup
    * operation on the current service. This is a long running operation and could take several minutes to
    * complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param parameters Parameters supplied to the Restore API Management service from backup operation.
    * @param options The options parameters.
@@ -256,7 +258,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   /**
    * Creates a backup of the API Management service to the given Azure Storage Account. This is long
    * running operation and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param parameters Parameters supplied to the ApiManagementService_Backup operation.
    * @param options The options parameters.
@@ -328,7 +330,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   /**
    * Creates a backup of the API Management service to the given Azure Storage Account. This is long
    * running operation and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param parameters Parameters supplied to the ApiManagementService_Backup operation.
    * @param options The options parameters.
@@ -351,7 +353,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   /**
    * Creates or updates an API Management service. This is long running operation and could take several
    * minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param parameters Parameters supplied to the CreateOrUpdate API Management service operation.
    * @param options The options parameters.
@@ -422,7 +424,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   /**
    * Creates or updates an API Management service. This is long running operation and could take several
    * minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param parameters Parameters supplied to the CreateOrUpdate API Management service operation.
    * @param options The options parameters.
@@ -444,7 +446,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
 
   /**
    * Updates an existing API Management service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param parameters Parameters supplied to the CreateOrUpdate API Management service operation.
    * @param options The options parameters.
@@ -514,7 +516,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
 
   /**
    * Updates an existing API Management service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param parameters Parameters supplied to the CreateOrUpdate API Management service operation.
    * @param options The options parameters.
@@ -536,7 +538,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
 
   /**
    * Gets an API Management service resource description.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -553,7 +555,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
 
   /**
    * Deletes an existing API Management service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -616,7 +618,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
 
   /**
    * Deletes an existing API Management service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -634,8 +636,100 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   }
 
   /**
+   * Upgrades an API Management service to the Stv2 platform. For details refer to
+   * https://aka.ms/apim-migrate-stv2. This change is not reversible. This is long running operation and
+   * could take several minutes to complete.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  async beginMigrateToStv2(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ApiManagementServiceMigrateToStv2OptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ApiManagementServiceMigrateToStv2Response>,
+      ApiManagementServiceMigrateToStv2Response
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ApiManagementServiceMigrateToStv2Response> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, serviceName, options },
+      migrateToStv2OperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Upgrades an API Management service to the Stv2 platform. For details refer to
+   * https://aka.ms/apim-migrate-stv2. This change is not reversible. This is long running operation and
+   * could take several minutes to complete.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  async beginMigrateToStv2AndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ApiManagementServiceMigrateToStv2OptionalParams
+  ): Promise<ApiManagementServiceMigrateToStv2Response> {
+    const poller = await this.beginMigrateToStv2(
+      resourceGroupName,
+      serviceName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * List all API Management services within a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -660,7 +754,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
 
   /**
    * Gets the Single-Sign-On token for the API Management Service which is valid for 5 Minutes.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -706,7 +800,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   /**
    * Updates the Microsoft.ApiManagement resource running in the Virtual network to pick the updated DNS
    * changes.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -778,7 +872,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   /**
    * Updates the Microsoft.ApiManagement resource running in the Virtual network to pick the updated DNS
    * changes.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -797,7 +891,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -851,7 +945,7 @@ const restoreOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters24,
+  requestBody: Parameters.parameters31,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -884,7 +978,7 @@ const backupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters24,
+  requestBody: Parameters.parameters31,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -917,7 +1011,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters25,
+  requestBody: Parameters.parameters32,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -950,7 +1044,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters26,
+  requestBody: Parameters.parameters33,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -993,6 +1087,37 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     201: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const migrateToStv2OperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/migrateToStv2",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiManagementServiceResource
+    },
+    201: {
+      bodyMapper: Mappers.ApiManagementServiceResource
+    },
+    202: {
+      bodyMapper: Mappers.ApiManagementServiceResource
+    },
+    204: {
+      bodyMapper: Mappers.ApiManagementServiceResource
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -1079,7 +1204,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters27,
+  requestBody: Parameters.parameters34,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -1124,7 +1249,7 @@ const applyNetworkConfigurationUpdatesOperationSpec: coreClient.OperationSpec = 
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters28,
+  requestBody: Parameters.parameters35,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

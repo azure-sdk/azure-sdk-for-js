@@ -40,7 +40,7 @@ export class GroupUserImpl implements GroupUser {
 
   /**
    * Lists a collection of user entities associated with the group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -120,7 +120,7 @@ export class GroupUserImpl implements GroupUser {
 
   /**
    * Lists a collection of user entities associated with the group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -139,7 +139,7 @@ export class GroupUserImpl implements GroupUser {
 
   /**
    * Checks that user entity specified by identifier is associated with the group entity.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
    * @param userId User identifier. Must be unique in the current API Management service instance.
@@ -160,7 +160,7 @@ export class GroupUserImpl implements GroupUser {
 
   /**
    * Add existing user to existing group
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
    * @param userId User identifier. Must be unique in the current API Management service instance.
@@ -181,7 +181,7 @@ export class GroupUserImpl implements GroupUser {
 
   /**
    * Remove existing user from existing group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
    * @param userId User identifier. Must be unique in the current API Management service instance.
@@ -202,7 +202,7 @@ export class GroupUserImpl implements GroupUser {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
    * @param nextLink The nextLink from the previous successful call to the List method.

@@ -35,7 +35,7 @@ export class ProductSubscriptionsImpl implements ProductSubscriptions {
 
   /**
    * Lists the collection of subscriptions to the specified product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -115,7 +115,7 @@ export class ProductSubscriptionsImpl implements ProductSubscriptions {
 
   /**
    * Lists the collection of subscriptions to the specified product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -134,7 +134,7 @@ export class ProductSubscriptionsImpl implements ProductSubscriptions {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param nextLink The nextLink from the previous successful call to the List method.

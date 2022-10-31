@@ -53,7 +53,7 @@ export class ApiImpl implements Api {
 
   /**
    * Lists all APIs of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -124,7 +124,7 @@ export class ApiImpl implements Api {
 
   /**
    * Lists a collection of apis associated with tags.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -195,7 +195,7 @@ export class ApiImpl implements Api {
 
   /**
    * Lists all APIs of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -212,7 +212,7 @@ export class ApiImpl implements Api {
 
   /**
    * Gets the entity state (Etag) version of the API specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -232,7 +232,7 @@ export class ApiImpl implements Api {
 
   /**
    * Gets the details of the API specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -252,7 +252,7 @@ export class ApiImpl implements Api {
 
   /**
    * Creates new or updates existing specified API of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -326,7 +326,7 @@ export class ApiImpl implements Api {
 
   /**
    * Creates new or updates existing specified API of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -352,7 +352,7 @@ export class ApiImpl implements Api {
 
   /**
    * Updates the specified API of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -377,7 +377,7 @@ export class ApiImpl implements Api {
 
   /**
    * Deletes the specified API of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -400,7 +400,7 @@ export class ApiImpl implements Api {
 
   /**
    * Lists a collection of apis associated with tags.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -417,7 +417,7 @@ export class ApiImpl implements Api {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
@@ -436,7 +436,7 @@ export class ApiImpl implements Api {
 
   /**
    * ListByTagsNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByTags method.
    * @param options The options parameters.

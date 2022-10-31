@@ -45,7 +45,7 @@ export class ApiIssueImpl implements ApiIssue {
 
   /**
    * Lists all issues associated with the specified API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -125,7 +125,7 @@ export class ApiIssueImpl implements ApiIssue {
 
   /**
    * Lists all issues associated with the specified API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -144,7 +144,7 @@ export class ApiIssueImpl implements ApiIssue {
 
   /**
    * Gets the entity state (Etag) version of the Issue for an API specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -165,7 +165,7 @@ export class ApiIssueImpl implements ApiIssue {
 
   /**
    * Gets the details of the Issue for an API specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -186,7 +186,7 @@ export class ApiIssueImpl implements ApiIssue {
 
   /**
    * Creates a new Issue for an API or updates an existing one.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -209,7 +209,7 @@ export class ApiIssueImpl implements ApiIssue {
 
   /**
    * Updates an existing issue for an API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -243,7 +243,7 @@ export class ApiIssueImpl implements ApiIssue {
 
   /**
    * Deletes the specified Issue from an API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -267,7 +267,7 @@ export class ApiIssueImpl implements ApiIssue {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
@@ -387,7 +387,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -418,7 +418,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -51,7 +51,7 @@ export class UserImpl implements User {
 
   /**
    * Lists a collection of registered users in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -122,7 +122,7 @@ export class UserImpl implements User {
 
   /**
    * Lists a collection of registered users in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -139,7 +139,7 @@ export class UserImpl implements User {
 
   /**
    * Gets the entity state (Etag) version of the user specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -158,7 +158,7 @@ export class UserImpl implements User {
 
   /**
    * Gets the details of the user specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -177,7 +177,7 @@ export class UserImpl implements User {
 
   /**
    * Creates or Updates a user.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param parameters Create or update parameters.
@@ -198,7 +198,7 @@ export class UserImpl implements User {
 
   /**
    * Updates the details of the user specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -222,7 +222,7 @@ export class UserImpl implements User {
 
   /**
    * Deletes specific user.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -245,7 +245,7 @@ export class UserImpl implements User {
   /**
    * Retrieves a redirection URL containing an authentication token for signing a given user into the
    * developer portal.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -264,7 +264,7 @@ export class UserImpl implements User {
 
   /**
    * Gets the Shared Access Authorization Token for the User.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param parameters Create Authorization Token parameters.
@@ -285,7 +285,7 @@ export class UserImpl implements User {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
@@ -397,7 +397,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters59,
+  requestBody: Parameters.parameters69,
   queryParameters: [Parameters.apiVersion, Parameters.notify],
   urlParameters: [
     Parameters.$host,
@@ -427,7 +427,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters60,
+  requestBody: Parameters.parameters70,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -506,7 +506,7 @@ const getSharedAccessTokenOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters61,
+  requestBody: Parameters.parameters71,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

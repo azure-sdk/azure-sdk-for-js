@@ -44,7 +44,7 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
 
   /**
    * Lists all diagnostics of an API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -124,7 +124,7 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
 
   /**
    * Lists all diagnostics of an API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -143,7 +143,7 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
 
   /**
    * Gets the entity state (Etag) version of the Diagnostic for an API specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param diagnosticId Diagnostic identifier. Must be unique in the current API Management service
@@ -165,7 +165,7 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
 
   /**
    * Gets the details of the Diagnostic for an API specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param diagnosticId Diagnostic identifier. Must be unique in the current API Management service
@@ -187,7 +187,7 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
 
   /**
    * Creates a new Diagnostic for an API or updates an existing one.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param diagnosticId Diagnostic identifier. Must be unique in the current API Management service
@@ -218,7 +218,7 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
 
   /**
    * Updates the details of the Diagnostic for an API specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param diagnosticId Diagnostic identifier. Must be unique in the current API Management service
@@ -253,7 +253,7 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
 
   /**
    * Deletes the specified Diagnostic from an API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param diagnosticId Diagnostic identifier. Must be unique in the current API Management service
@@ -278,7 +278,7 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
@@ -394,7 +394,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -425,7 +425,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
