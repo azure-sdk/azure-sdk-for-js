@@ -1,15 +1,57 @@
 # Release History
+    
+## 14.1.0 (2022-10-31)
+    
+**Features**
 
-## 14.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface AzureFunctionEventSubscriptionDestination
+  - Added Interface BoolEqualsAdvancedFilter
+  - Added Interface Channel
+  - Added Interface Domain
+  - Added Interface DomainTopic
+  - Added Interface DynamicDeliveryAttributeMapping
+  - Added Interface EventHubEventSubscriptionDestination
+  - Added Interface EventSubscription
+  - Added Interface EventType
+  - Added Interface ExtensionTopic
+  - Added Interface HybridConnectionEventSubscriptionDestination
+  - Added Interface IsNotNullAdvancedFilter
+  - Added Interface IsNullOrUndefinedAdvancedFilter
+  - Added Interface JsonInputSchemaMapping
+  - Added Interface NumberGreaterThanAdvancedFilter
+  - Added Interface NumberGreaterThanOrEqualsAdvancedFilter
+  - Added Interface NumberInAdvancedFilter
+  - Added Interface NumberInRangeAdvancedFilter
+  - Added Interface NumberLessThanAdvancedFilter
+  - Added Interface NumberLessThanOrEqualsAdvancedFilter
+  - Added Interface NumberNotInAdvancedFilter
+  - Added Interface NumberNotInRangeAdvancedFilter
+  - Added Interface PartnerConfiguration
+  - Added Interface PartnerNamespace
+  - Added Interface PartnerRegistration
+  - Added Interface PartnerTopic
+  - Added Interface PrivateEndpointConnection
+  - Added Interface ServiceBusQueueEventSubscriptionDestination
+  - Added Interface ServiceBusTopicEventSubscriptionDestination
+  - Added Interface StaticDeliveryAttributeMapping
+  - Added Interface StorageBlobDeadLetterDestination
+  - Added Interface StorageQueueEventSubscriptionDestination
+  - Added Interface StringBeginsWithAdvancedFilter
+  - Added Interface StringContainsAdvancedFilter
+  - Added Interface StringEndsWithAdvancedFilter
+  - Added Interface StringInAdvancedFilter
+  - Added Interface StringNotBeginsWithAdvancedFilter
+  - Added Interface StringNotContainsAdvancedFilter
+  - Added Interface StringNotEndsWithAdvancedFilter
+  - Added Interface StringNotInAdvancedFilter
+  - Added Interface SystemTopic
+  - Added Interface Topic
+  - Added Interface TopicTypeInfo
+  - Added Interface TrackedResource
+  - Added Interface VerifiedPartner
+  - Added Interface WebHookEventSubscriptionDestination
+    
+    
 ## 14.0.0 (2022-06-17)
     
 **Features**

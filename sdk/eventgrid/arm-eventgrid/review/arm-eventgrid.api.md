@@ -23,30 +23,30 @@ export type AdvancedFilterOperatorType = string;
 export type AdvancedFilterUnion = AdvancedFilter | NumberInAdvancedFilter | NumberNotInAdvancedFilter | NumberLessThanAdvancedFilter | NumberGreaterThanAdvancedFilter | NumberLessThanOrEqualsAdvancedFilter | NumberGreaterThanOrEqualsAdvancedFilter | BoolEqualsAdvancedFilter | StringInAdvancedFilter | StringNotInAdvancedFilter | StringBeginsWithAdvancedFilter | StringEndsWithAdvancedFilter | StringContainsAdvancedFilter | NumberInRangeAdvancedFilter | NumberNotInRangeAdvancedFilter | StringNotBeginsWithAdvancedFilter | StringNotEndsWithAdvancedFilter | StringNotContainsAdvancedFilter | IsNullOrUndefinedAdvancedFilter | IsNotNullAdvancedFilter;
 
 // @public
-export type AzureFunctionEventSubscriptionDestination = EventSubscriptionDestination & {
+export interface AzureFunctionEventSubscriptionDestination extends EventSubscriptionDestination {
+    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
     endpointType: "AzureFunction";
-    resourceId?: string;
     maxEventsPerBatch?: number;
     preferredBatchSizeInKilobytes?: number;
-    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-};
+    resourceId?: string;
+}
 
 // @public
-export type BoolEqualsAdvancedFilter = AdvancedFilter & {
+export interface BoolEqualsAdvancedFilter extends AdvancedFilter {
     operatorType: "BoolEquals";
     value?: boolean;
-};
+}
 
 // @public
-export type Channel = Resource & {
-    readonly systemData?: SystemData;
+export interface Channel extends Resource {
     channelType?: ChannelType;
-    partnerTopicInfo?: PartnerTopicInfo;
+    expirationTimeIfNotActivatedUtc?: Date;
     messageForActivation?: string;
+    partnerTopicInfo?: PartnerTopicInfo;
     provisioningState?: ChannelProvisioningState;
     readinessState?: ReadinessState;
-    expirationTimeIfNotActivatedUtc?: Date;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export type ChannelProvisioningState = string;
@@ -180,22 +180,22 @@ export interface DeliveryWithResourceIdentity {
 }
 
 // @public
-export type Domain = TrackedResource & {
-    readonly systemData?: SystemData;
-    identity?: IdentityInfo;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly provisioningState?: DomainProvisioningState;
-    readonly endpoint?: string;
-    inputSchema?: InputSchema;
-    inputSchemaMapping?: InputSchemaMappingUnion;
-    readonly metricResourceId?: string;
-    publicNetworkAccess?: PublicNetworkAccess;
-    inboundIpRules?: InboundIpRule[];
-    disableLocalAuth?: boolean;
+export interface Domain extends TrackedResource {
     autoCreateTopicWithFirstSubscription?: boolean;
     autoDeleteTopicWithLastSubscription?: boolean;
     dataResidencyBoundary?: DataResidencyBoundary;
-};
+    disableLocalAuth?: boolean;
+    readonly endpoint?: string;
+    identity?: IdentityInfo;
+    inboundIpRules?: InboundIpRule[];
+    inputSchema?: InputSchema;
+    inputSchemaMapping?: InputSchemaMappingUnion;
+    readonly metricResourceId?: string;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: DomainProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface DomainEventSubscriptions {
@@ -388,10 +388,10 @@ export interface DomainsUpdateOptionalParams extends coreClient.OperationOptions
 }
 
 // @public
-export type DomainTopic = Resource & {
-    readonly systemData?: SystemData;
+export interface DomainTopic extends Resource {
     readonly provisioningState?: DomainTopicProvisioningState;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface DomainTopicEventSubscriptions {
@@ -544,10 +544,10 @@ export interface DomainUpdateParameters {
 }
 
 // @public
-export type DynamicDeliveryAttributeMapping = DeliveryAttributeMapping & {
-    type: "Dynamic";
+export interface DynamicDeliveryAttributeMapping extends DeliveryAttributeMapping {
     sourceField?: string;
-};
+    type: "Dynamic";
+}
 
 // @public
 export type EndpointType = string;
@@ -619,27 +619,27 @@ export interface EventGridManagementClientOptionalParams extends coreClient.Serv
 }
 
 // @public
-export type EventHubEventSubscriptionDestination = EventSubscriptionDestination & {
+export interface EventHubEventSubscriptionDestination extends EventSubscriptionDestination {
+    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
     endpointType: "EventHub";
     resourceId?: string;
-    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-};
+}
 
 // @public
-export type EventSubscription = Resource & {
-    readonly systemData?: SystemData;
-    readonly topic?: string;
-    readonly provisioningState?: EventSubscriptionProvisioningState;
-    destination?: EventSubscriptionDestinationUnion;
-    deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
-    filter?: EventSubscriptionFilter;
-    labels?: string[];
-    expirationTimeUtc?: Date;
-    eventDeliverySchema?: EventDeliverySchema;
-    retryPolicy?: RetryPolicy;
+export interface EventSubscription extends Resource {
     deadLetterDestination?: DeadLetterDestinationUnion;
     deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
-};
+    deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
+    destination?: EventSubscriptionDestinationUnion;
+    eventDeliverySchema?: EventDeliverySchema;
+    expirationTimeUtc?: Date;
+    filter?: EventSubscriptionFilter;
+    labels?: string[];
+    readonly provisioningState?: EventSubscriptionProvisioningState;
+    retryPolicy?: RetryPolicy;
+    readonly systemData?: SystemData;
+    readonly topic?: string;
+}
 
 // @public
 export interface EventSubscriptionDestination {
@@ -944,12 +944,12 @@ export interface EventSubscriptionUpdateParameters {
 }
 
 // @public
-export type EventType = Resource & {
-    displayName?: string;
+export interface EventType extends Resource {
     description?: string;
-    schemaUrl?: string;
+    displayName?: string;
     isInDefaultSet?: boolean;
-};
+    schemaUrl?: string;
+}
 
 // @public
 export interface EventTypeInfo {
@@ -965,11 +965,11 @@ export interface EventTypesListResult {
 }
 
 // @public
-export type ExtensionTopic = Resource & {
-    readonly systemData?: SystemData;
+export interface ExtensionTopic extends Resource {
     description?: string;
+    readonly systemData?: SystemData;
     systemTopic?: string;
-};
+}
 
 // @public
 export interface ExtensionTopics {
@@ -984,11 +984,11 @@ export interface ExtensionTopicsGetOptionalParams extends coreClient.OperationOp
 export type ExtensionTopicsGetResponse = ExtensionTopic;
 
 // @public
-export type HybridConnectionEventSubscriptionDestination = EventSubscriptionDestination & {
+export interface HybridConnectionEventSubscriptionDestination extends EventSubscriptionDestination {
+    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
     endpointType: "HybridConnection";
     resourceId?: string;
-    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-};
+}
 
 // @public
 export interface IdentityInfo {
@@ -1035,14 +1035,14 @@ export type InputSchemaMappingUnion = InputSchemaMapping | JsonInputSchemaMappin
 export type IpActionType = string;
 
 // @public
-export type IsNotNullAdvancedFilter = AdvancedFilter & {
+export interface IsNotNullAdvancedFilter extends AdvancedFilter {
     operatorType: "IsNotNull";
-};
+}
 
 // @public
-export type IsNullOrUndefinedAdvancedFilter = AdvancedFilter & {
+export interface IsNullOrUndefinedAdvancedFilter extends AdvancedFilter {
     operatorType: "IsNullOrUndefined";
-};
+}
 
 // @public
 export interface JsonField {
@@ -1056,495 +1056,347 @@ export interface JsonFieldWithDefault {
 }
 
 // @public
-export type JsonInputSchemaMapping = InputSchemaMapping & {
-    inputSchemaMappingType: "Json";
-    id?: JsonField;
-    topic?: JsonField;
+export interface JsonInputSchemaMapping extends InputSchemaMapping {
+    dataVersion?: JsonFieldWithDefault;
     eventTime?: JsonField;
     eventType?: JsonFieldWithDefault;
+    id?: JsonField;
+    inputSchemaMappingType: "Json";
     subject?: JsonFieldWithDefault;
-    dataVersion?: JsonFieldWithDefault;
-};
+    topic?: JsonField;
+}
 
 // @public
 export enum KnownAdvancedFilterOperatorType {
-    // (undocumented)
     BoolEquals = "BoolEquals",
-    // (undocumented)
     IsNotNull = "IsNotNull",
-    // (undocumented)
     IsNullOrUndefined = "IsNullOrUndefined",
-    // (undocumented)
     NumberGreaterThan = "NumberGreaterThan",
-    // (undocumented)
     NumberGreaterThanOrEquals = "NumberGreaterThanOrEquals",
-    // (undocumented)
     NumberIn = "NumberIn",
-    // (undocumented)
     NumberInRange = "NumberInRange",
-    // (undocumented)
     NumberLessThan = "NumberLessThan",
-    // (undocumented)
     NumberLessThanOrEquals = "NumberLessThanOrEquals",
-    // (undocumented)
     NumberNotIn = "NumberNotIn",
-    // (undocumented)
     NumberNotInRange = "NumberNotInRange",
-    // (undocumented)
     StringBeginsWith = "StringBeginsWith",
-    // (undocumented)
     StringContains = "StringContains",
-    // (undocumented)
     StringEndsWith = "StringEndsWith",
-    // (undocumented)
     StringIn = "StringIn",
-    // (undocumented)
     StringNotBeginsWith = "StringNotBeginsWith",
-    // (undocumented)
     StringNotContains = "StringNotContains",
-    // (undocumented)
     StringNotEndsWith = "StringNotEndsWith",
-    // (undocumented)
     StringNotIn = "StringNotIn"
 }
 
 // @public
 export enum KnownChannelProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     IdleDueToMirroredPartnerTopicDeletion = "IdleDueToMirroredPartnerTopicDeletion",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownChannelType {
-    // (undocumented)
     PartnerTopic = "PartnerTopic"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDataResidencyBoundary {
-    // (undocumented)
     WithinGeopair = "WithinGeopair",
-    // (undocumented)
     WithinRegion = "WithinRegion"
 }
 
 // @public
 export enum KnownDeadLetterEndPointType {
-    // (undocumented)
     StorageBlob = "StorageBlob"
 }
 
 // @public
 export enum KnownDeliveryAttributeMappingType {
-    // (undocumented)
     Dynamic = "Dynamic",
-    // (undocumented)
     Static = "Static"
 }
 
 // @public
 export enum KnownDomainProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownDomainTopicProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownEndpointType {
-    // (undocumented)
     AzureFunction = "AzureFunction",
-    // (undocumented)
     EventHub = "EventHub",
-    // (undocumented)
     HybridConnection = "HybridConnection",
-    // (undocumented)
     ServiceBusQueue = "ServiceBusQueue",
-    // (undocumented)
     ServiceBusTopic = "ServiceBusTopic",
-    // (undocumented)
     StorageQueue = "StorageQueue",
-    // (undocumented)
     WebHook = "WebHook"
 }
 
 // @public
 export enum KnownEventDefinitionKind {
-    // (undocumented)
     Inline = "Inline"
 }
 
 // @public
 export enum KnownEventDeliverySchema {
-    // (undocumented)
     CloudEventSchemaV10 = "CloudEventSchemaV1_0",
-    // (undocumented)
     CustomInputSchema = "CustomInputSchema",
-    // (undocumented)
     EventGridSchema = "EventGridSchema"
 }
 
 // @public
 export enum KnownEventSubscriptionIdentityType {
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownEventSubscriptionProvisioningState {
-    // (undocumented)
     AwaitingManualAction = "AwaitingManualAction",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownInputSchema {
-    // (undocumented)
     CloudEventSchemaV10 = "CloudEventSchemaV1_0",
-    // (undocumented)
     CustomEventSchema = "CustomEventSchema",
-    // (undocumented)
     EventGridSchema = "EventGridSchema"
 }
 
 // @public
 export enum KnownInputSchemaMappingType {
-    // (undocumented)
     Json = "Json"
 }
 
 // @public
 export enum KnownIpActionType {
-    // (undocumented)
     Allow = "Allow"
 }
 
 // @public
 export enum KnownPartnerConfigurationProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPartnerNamespaceProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPartnerRegistrationProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPartnerTopicActivationState {
-    // (undocumented)
     Activated = "Activated",
-    // (undocumented)
     Deactivated = "Deactivated",
-    // (undocumented)
     NeverActivated = "NeverActivated"
 }
 
 // @public
 export enum KnownPartnerTopicProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     IdleDueToMirroredChannelResourceDeletion = "IdleDueToMirroredChannelResourceDeletion",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPartnerTopicRoutingMode {
-    // (undocumented)
     ChannelNameHeader = "ChannelNameHeader",
-    // (undocumented)
     SourceEventAttribute = "SourceEventAttribute"
 }
 
 // @public
 export enum KnownPersistedConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionsParentType {
-    // (undocumented)
     Domains = "domains",
-    // (undocumented)
     PartnerNamespaces = "partnerNamespaces",
-    // (undocumented)
     Topics = "topics"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownReadinessState {
-    // (undocumented)
     Activated = "Activated",
-    // (undocumented)
     NeverActivated = "NeverActivated"
 }
 
 // @public
 export enum KnownResourceProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownResourceRegionType {
-    // (undocumented)
     GlobalResource = "GlobalResource",
-    // (undocumented)
     RegionalResource = "RegionalResource"
 }
 
 // @public
 export enum KnownTopicProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownTopicTypeProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownTopicTypeSourceScope {
-    // (undocumented)
     AzureSubscription = "AzureSubscription",
-    // (undocumented)
     ManagementGroup = "ManagementGroup",
-    // (undocumented)
     Resource = "Resource",
-    // (undocumented)
     ResourceGroup = "ResourceGroup"
 }
 
 // @public
 export enum KnownVerifiedPartnerProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
-export type NumberGreaterThanAdvancedFilter = AdvancedFilter & {
+export interface NumberGreaterThanAdvancedFilter extends AdvancedFilter {
     operatorType: "NumberGreaterThan";
     value?: number;
-};
+}
 
 // @public
-export type NumberGreaterThanOrEqualsAdvancedFilter = AdvancedFilter & {
+export interface NumberGreaterThanOrEqualsAdvancedFilter extends AdvancedFilter {
     operatorType: "NumberGreaterThanOrEquals";
     value?: number;
-};
+}
 
 // @public
-export type NumberInAdvancedFilter = AdvancedFilter & {
+export interface NumberInAdvancedFilter extends AdvancedFilter {
     operatorType: "NumberIn";
     values?: number[];
-};
+}
 
 // @public
-export type NumberInRangeAdvancedFilter = AdvancedFilter & {
+export interface NumberInRangeAdvancedFilter extends AdvancedFilter {
     operatorType: "NumberInRange";
     values?: number[][];
-};
+}
 
 // @public
-export type NumberLessThanAdvancedFilter = AdvancedFilter & {
+export interface NumberLessThanAdvancedFilter extends AdvancedFilter {
     operatorType: "NumberLessThan";
     value?: number;
-};
+}
 
 // @public
-export type NumberLessThanOrEqualsAdvancedFilter = AdvancedFilter & {
+export interface NumberLessThanOrEqualsAdvancedFilter extends AdvancedFilter {
     operatorType: "NumberLessThanOrEquals";
     value?: number;
-};
+}
 
 // @public
-export type NumberNotInAdvancedFilter = AdvancedFilter & {
+export interface NumberNotInAdvancedFilter extends AdvancedFilter {
     operatorType: "NumberNotIn";
     values?: number[];
-};
+}
 
 // @public
-export type NumberNotInRangeAdvancedFilter = AdvancedFilter & {
+export interface NumberNotInRangeAdvancedFilter extends AdvancedFilter {
     operatorType: "NumberNotInRange";
     values?: number[][];
-};
+}
 
 // @public
 export interface Operation {
@@ -1594,15 +1446,15 @@ export interface PartnerAuthorization {
 }
 
 // @public
-export type PartnerConfiguration = Resource & {
-    readonly systemData?: SystemData;
+export interface PartnerConfiguration extends Resource {
     location?: string;
+    partnerAuthorization?: PartnerAuthorization;
+    provisioningState?: PartnerConfigurationProvisioningState;
+    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
-    partnerAuthorization?: PartnerAuthorization;
-    provisioningState?: PartnerConfigurationProvisioningState;
-};
+}
 
 // @public
 export type PartnerConfigurationProvisioningState = string;
@@ -1714,17 +1566,17 @@ export interface PartnerDetails {
 }
 
 // @public
-export type PartnerNamespace = TrackedResource & {
-    readonly systemData?: SystemData;
+export interface PartnerNamespace extends TrackedResource {
+    disableLocalAuth?: boolean;
+    readonly endpoint?: string;
+    inboundIpRules?: InboundIpRule[];
+    partnerRegistrationFullyQualifiedId?: string;
+    partnerTopicRoutingMode?: PartnerTopicRoutingMode;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: PartnerNamespaceProvisioningState;
-    partnerRegistrationFullyQualifiedId?: string;
-    readonly endpoint?: string;
     publicNetworkAccess?: PublicNetworkAccess;
-    inboundIpRules?: InboundIpRule[];
-    disableLocalAuth?: boolean;
-    partnerTopicRoutingMode?: PartnerTopicRoutingMode;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export type PartnerNamespaceProvisioningState = string;
@@ -1850,11 +1702,11 @@ export interface PartnerNamespaceUpdateParameters {
 }
 
 // @public
-export type PartnerRegistration = TrackedResource & {
-    readonly systemData?: SystemData;
-    readonly provisioningState?: PartnerRegistrationProvisioningState;
+export interface PartnerRegistration extends TrackedResource {
     partnerRegistrationImmutableId?: string;
-};
+    readonly provisioningState?: PartnerRegistrationProvisioningState;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export type PartnerRegistrationProvisioningState = string;
@@ -1950,18 +1802,18 @@ export interface PartnerRegistrationUpdateParameters {
 }
 
 // @public
-export type PartnerTopic = TrackedResource & {
-    readonly systemData?: SystemData;
-    identity?: IdentityInfo;
-    partnerRegistrationImmutableId?: string;
-    source?: string;
+export interface PartnerTopic extends TrackedResource {
+    activationState?: PartnerTopicActivationState;
     eventTypeInfo?: EventTypeInfo;
     expirationTimeIfNotActivatedUtc?: Date;
-    readonly provisioningState?: PartnerTopicProvisioningState;
-    activationState?: PartnerTopicActivationState;
-    partnerTopicFriendlyDescription?: string;
+    identity?: IdentityInfo;
     messageForActivation?: string;
-};
+    partnerRegistrationImmutableId?: string;
+    partnerTopicFriendlyDescription?: string;
+    readonly provisioningState?: PartnerTopicProvisioningState;
+    source?: string;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export type PartnerTopicActivationState = string;
@@ -2176,12 +2028,12 @@ export interface PrivateEndpoint {
 }
 
 // @public (undocumented)
-export type PrivateEndpointConnection = Resource & {
-    privateEndpoint?: PrivateEndpoint;
+export interface PrivateEndpointConnection extends Resource {
     groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: ConnectionState;
     provisioningState?: ResourceProvisioningState;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -2320,88 +2172,88 @@ export interface RetryPolicy {
 }
 
 // @public
-export type ServiceBusQueueEventSubscriptionDestination = EventSubscriptionDestination & {
+export interface ServiceBusQueueEventSubscriptionDestination extends EventSubscriptionDestination {
+    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
     endpointType: "ServiceBusQueue";
     resourceId?: string;
-    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-};
+}
 
 // @public
-export type ServiceBusTopicEventSubscriptionDestination = EventSubscriptionDestination & {
+export interface ServiceBusTopicEventSubscriptionDestination extends EventSubscriptionDestination {
+    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
     endpointType: "ServiceBusTopic";
     resourceId?: string;
-    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-};
+}
 
 // @public
-export type StaticDeliveryAttributeMapping = DeliveryAttributeMapping & {
+export interface StaticDeliveryAttributeMapping extends DeliveryAttributeMapping {
+    isSecret?: boolean;
     type: "Static";
     value?: string;
-    isSecret?: boolean;
-};
+}
 
 // @public
-export type StorageBlobDeadLetterDestination = DeadLetterDestination & {
+export interface StorageBlobDeadLetterDestination extends DeadLetterDestination {
+    blobContainerName?: string;
     endpointType: "StorageBlob";
     resourceId?: string;
-    blobContainerName?: string;
-};
+}
 
 // @public
-export type StorageQueueEventSubscriptionDestination = EventSubscriptionDestination & {
+export interface StorageQueueEventSubscriptionDestination extends EventSubscriptionDestination {
     endpointType: "StorageQueue";
-    resourceId?: string;
-    queueName?: string;
     queueMessageTimeToLiveInSeconds?: number;
-};
+    queueName?: string;
+    resourceId?: string;
+}
 
 // @public
-export type StringBeginsWithAdvancedFilter = AdvancedFilter & {
+export interface StringBeginsWithAdvancedFilter extends AdvancedFilter {
     operatorType: "StringBeginsWith";
     values?: string[];
-};
+}
 
 // @public
-export type StringContainsAdvancedFilter = AdvancedFilter & {
+export interface StringContainsAdvancedFilter extends AdvancedFilter {
     operatorType: "StringContains";
     values?: string[];
-};
+}
 
 // @public
-export type StringEndsWithAdvancedFilter = AdvancedFilter & {
+export interface StringEndsWithAdvancedFilter extends AdvancedFilter {
     operatorType: "StringEndsWith";
     values?: string[];
-};
+}
 
 // @public
-export type StringInAdvancedFilter = AdvancedFilter & {
+export interface StringInAdvancedFilter extends AdvancedFilter {
     operatorType: "StringIn";
     values?: string[];
-};
+}
 
 // @public
-export type StringNotBeginsWithAdvancedFilter = AdvancedFilter & {
+export interface StringNotBeginsWithAdvancedFilter extends AdvancedFilter {
     operatorType: "StringNotBeginsWith";
     values?: string[];
-};
+}
 
 // @public
-export type StringNotContainsAdvancedFilter = AdvancedFilter & {
+export interface StringNotContainsAdvancedFilter extends AdvancedFilter {
     operatorType: "StringNotContains";
     values?: string[];
-};
+}
 
 // @public
-export type StringNotEndsWithAdvancedFilter = AdvancedFilter & {
+export interface StringNotEndsWithAdvancedFilter extends AdvancedFilter {
     operatorType: "StringNotEndsWith";
     values?: string[];
-};
+}
 
 // @public
-export type StringNotInAdvancedFilter = AdvancedFilter & {
+export interface StringNotInAdvancedFilter extends AdvancedFilter {
     operatorType: "StringNotIn";
     values?: string[];
-};
+}
 
 // @public
 export interface SystemData {
@@ -2414,14 +2266,14 @@ export interface SystemData {
 }
 
 // @public
-export type SystemTopic = TrackedResource & {
+export interface SystemTopic extends TrackedResource {
     identity?: IdentityInfo;
-    readonly systemData?: SystemData;
+    readonly metricResourceId?: string;
     readonly provisioningState?: ResourceProvisioningState;
     source?: string;
+    readonly systemData?: SystemData;
     topicType?: string;
-    readonly metricResourceId?: string;
-};
+}
 
 // @public
 export interface SystemTopicEventSubscriptions {
@@ -2595,20 +2447,20 @@ export interface SystemTopicUpdateParameters {
 }
 
 // @public
-export type Topic = TrackedResource & {
-    identity?: IdentityInfo;
-    readonly systemData?: SystemData;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly provisioningState?: TopicProvisioningState;
+export interface Topic extends TrackedResource {
+    dataResidencyBoundary?: DataResidencyBoundary;
+    disableLocalAuth?: boolean;
     readonly endpoint?: string;
+    identity?: IdentityInfo;
+    inboundIpRules?: InboundIpRule[];
     inputSchema?: InputSchema;
     inputSchemaMapping?: InputSchemaMappingUnion;
     readonly metricResourceId?: string;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: TopicProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
-    inboundIpRules?: InboundIpRule[];
-    disableLocalAuth?: boolean;
-    dataResidencyBoundary?: DataResidencyBoundary;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface TopicEventSubscriptions {
@@ -2812,16 +2664,16 @@ export interface TopicsUpdateOptionalParams extends coreClient.OperationOptions 
 }
 
 // @public
-export type TopicTypeInfo = Resource & {
-    provider?: string;
-    displayName?: string;
+export interface TopicTypeInfo extends Resource {
     description?: string;
-    resourceRegionType?: ResourceRegionType;
+    displayName?: string;
+    provider?: string;
     provisioningState?: TopicTypeProvisioningState;
-    supportedLocations?: string[];
+    resourceRegionType?: ResourceRegionType;
     sourceResourceFormat?: string;
+    supportedLocations?: string[];
     supportedScopesForSource?: TopicTypeSourceScope[];
-};
+}
 
 // @public
 export type TopicTypeProvisioningState = string;
@@ -2875,12 +2727,12 @@ export interface TopicUpdateParameters {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
     location: string;
     tags?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
 export interface UserIdentityProperties {
@@ -2889,14 +2741,14 @@ export interface UserIdentityProperties {
 }
 
 // @public
-export type VerifiedPartner = Resource & {
-    readonly systemData?: SystemData;
-    partnerRegistrationImmutableId?: string;
+export interface VerifiedPartner extends Resource {
     organizationName?: string;
     partnerDisplayName?: string;
+    partnerRegistrationImmutableId?: string;
     partnerTopicDetails?: PartnerDetails;
     provisioningState?: VerifiedPartnerProvisioningState;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export type VerifiedPartnerProvisioningState = string;
@@ -2939,16 +2791,16 @@ export interface VerifiedPartnersListResult {
 }
 
 // @public
-export type WebHookEventSubscriptionDestination = EventSubscriptionDestination & {
+export interface WebHookEventSubscriptionDestination extends EventSubscriptionDestination {
+    azureActiveDirectoryApplicationIdOrUri?: string;
+    azureActiveDirectoryTenantId?: string;
+    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
+    readonly endpointBaseUrl?: string;
     endpointType: "WebHook";
     endpointUrl?: string;
-    readonly endpointBaseUrl?: string;
     maxEventsPerBatch?: number;
     preferredBatchSizeInKilobytes?: number;
-    azureActiveDirectoryTenantId?: string;
-    azureActiveDirectoryApplicationIdOrUri?: string;
-    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-};
+}
 
 // (No @packageDocumentation comment for this package)
 
