@@ -4123,7 +4123,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221027
+      typescript: 4.9.0-dev.20221031
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9196,8 +9196,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221027:
-    resolution: {integrity: sha512-CIkuppg1AjXN2O+njxomS97BHqIMH+NqXXD661ViFdVvesx9YLsNjiATUlfIkeVtVyG0PGpzES8lmzIhoSaniA==}
+  /typescript/4.9.0-dev.20221031:
+    resolution: {integrity: sha512-jCNHTa9twe5d/5Pfob2BhOLwHS6kxMcGyc3fIWDGGkEdkyYYbiXD2czz1U6jVOB+9QaVxVNUQuDfN42H5DGZZg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -15087,7 +15087,7 @@ packages:
     dev: false
 
   file:projects/arm-servicelinker.tgz:
-    resolution: {integrity: sha512-HCv6wXEe8KfBGdx1MvI12pDmPAZDbdGYxtmZlnhOcpgXwruDp917grsMcLch+u0J3aSQVohuHQ/rXZHojKOF5Q==, tarball: file:projects/arm-servicelinker.tgz}
+    resolution: {integrity: sha512-BcAZV1UBBnH5Sw4naGJV1cD8N4YaoQ3TQtTQq0H1V0BMqe3wmyPHOPPG+ZiI+E28ntZHAUuGodbcs0cL2i7dRw==, tarball: file:projects/arm-servicelinker.tgz}
     name: '@rush-temp/arm-servicelinker'
     version: 0.0.0
     dependencies:
@@ -15099,6 +15099,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -15106,11 +15108,10 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
