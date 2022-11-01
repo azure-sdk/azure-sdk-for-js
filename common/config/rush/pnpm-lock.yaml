@@ -33,6 +33,7 @@ specifiers:
   '@rush-temp/arm-automation': file:./projects/arm-automation.tgz
   '@rush-temp/arm-avs': file:./projects/arm-avs.tgz
   '@rush-temp/arm-azureadexternalidentities': file:./projects/arm-azureadexternalidentities.tgz
+  '@rush-temp/arm-azurearcdata': file:./projects/arm-azurearcdata.tgz
   '@rush-temp/arm-azurestack': file:./projects/arm-azurestack.tgz
   '@rush-temp/arm-azurestackhci': file:./projects/arm-azurestackhci.tgz
   '@rush-temp/arm-batch': file:./projects/arm-batch.tgz
@@ -354,6 +355,7 @@ dependencies:
   '@rush-temp/arm-automation': file:projects/arm-automation.tgz
   '@rush-temp/arm-avs': file:projects/arm-avs.tgz
   '@rush-temp/arm-azureadexternalidentities': file:projects/arm-azureadexternalidentities.tgz
+  '@rush-temp/arm-azurearcdata': file:projects/arm-azurearcdata.tgz
   '@rush-temp/arm-azurestack': file:projects/arm-azurestack.tgz
   '@rush-temp/arm-azurestackhci': file:projects/arm-azurestackhci.tgz
   '@rush-temp/arm-batch': file:projects/arm-batch.tgz
@@ -4123,7 +4125,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221027
+      typescript: 5.0.0-dev.20221101
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9196,8 +9198,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221027:
-    resolution: {integrity: sha512-CIkuppg1AjXN2O+njxomS97BHqIMH+NqXXD661ViFdVvesx9YLsNjiATUlfIkeVtVyG0PGpzES8lmzIhoSaniA==}
+  /typescript/5.0.0-dev.20221101:
+    resolution: {integrity: sha512-toPkTrYmviWyzo9Vj/fEG0iWkVTo6wB5HHaZu8eV070sOA8yON5vKKsROt0AyeveDhSfzPX8MXEc5oiNeDCGeA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10325,7 +10327,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-fKOda1/Pg3Y3PDVROg4wzHR4RAbGwWOjUP1DuYWdan/zJ/I1Zmx71XxHLWrb3ekRKeG1IMieYlFk2cymIjYUig==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-nDE3NgLXXXxuvcwjzKjg0a710dW3gDK4ZPj0eDANOaSKnrtzGOd0A1g3AAMvG6J62ob9qOMxmSAGhJbKDe5baQ==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -10372,7 +10374,6 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -10908,6 +10909,33 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-azurearcdata.tgz:
+    resolution: {integrity: sha512-vKmLoE+zJsrRF5FUchGFBbQturSrWjbTMNr+GsvR/eB4ceUniuCWZl6tgFKJ/6OwN53EVeinYU9FaD+ToJgNBQ==, tarball: file:projects/arm-azurearcdata.tgz}
+    name: '@rush-temp/arm-azurearcdata'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.31.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
+      tslib: 2.4.0
+      typescript: 4.6.4
+      uglify-js: 3.16.3
+    transitivePeerDependencies:
+      - '@types/node'
       - supports-color
     dev: false
 
