@@ -23,7 +23,10 @@ import {
   UploadCertificateRequest,
   ClustersUploadCertificateOptionalParams,
   ClustersCreateIdentityOptionalParams,
-  ClustersCreateIdentityResponse
+  ClustersCreateIdentityResponse,
+  SoftwareAssuranceChangeRequest,
+  ClustersExtendSoftwareAssuranceBenefitOptionalParams,
+  ClustersExtendSoftwareAssuranceBenefitResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -157,4 +160,35 @@ export interface Clusters {
     clusterName: string,
     options?: ClustersCreateIdentityOptionalParams
   ): Promise<ClustersCreateIdentityResponse>;
+  /**
+   * Extends Software Assurance Benefit to a cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param softwareAssuranceChangeRequest Software Assurance Change Request Payload
+   * @param options The options parameters.
+   */
+  beginExtendSoftwareAssuranceBenefit(
+    resourceGroupName: string,
+    clusterName: string,
+    softwareAssuranceChangeRequest: SoftwareAssuranceChangeRequest,
+    options?: ClustersExtendSoftwareAssuranceBenefitOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ClustersExtendSoftwareAssuranceBenefitResponse>,
+      ClustersExtendSoftwareAssuranceBenefitResponse
+    >
+  >;
+  /**
+   * Extends Software Assurance Benefit to a cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param softwareAssuranceChangeRequest Software Assurance Change Request Payload
+   * @param options The options parameters.
+   */
+  beginExtendSoftwareAssuranceBenefitAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    softwareAssuranceChangeRequest: SoftwareAssuranceChangeRequest,
+    options?: ClustersExtendSoftwareAssuranceBenefitOptionalParams
+  ): Promise<ClustersExtendSoftwareAssuranceBenefitResponse>;
 }
