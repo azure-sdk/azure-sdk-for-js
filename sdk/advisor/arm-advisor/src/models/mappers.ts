@@ -466,6 +466,81 @@ export const SuppressionContractListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const PredictionRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PredictionRequest",
+    modelProperties: {
+      predictionType: {
+        serializedName: "properties.predictionType",
+        type: {
+          name: "String"
+        }
+      },
+      extendedProperties: {
+        serializedName: "properties.extendedProperties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const PredictionResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PredictionResponse",
+    modelProperties: {
+      extendedProperties: {
+        serializedName: "properties.extendedProperties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      predictionType: {
+        serializedName: "properties.predictionType",
+        type: {
+          name: "String"
+        }
+      },
+      category: {
+        serializedName: "properties.category",
+        type: {
+          name: "String"
+        }
+      },
+      impact: {
+        serializedName: "properties.impact",
+        type: {
+          name: "String"
+        }
+      },
+      impactedField: {
+        serializedName: "properties.impactedField",
+        type: {
+          name: "String"
+        }
+      },
+      lastUpdated: {
+        serializedName: "properties.lastUpdated",
+        type: {
+          name: "DateTime"
+        }
+      },
+      shortDescription: {
+        serializedName: "properties.shortDescription",
+        type: {
+          name: "Composite",
+          className: "ShortDescription"
+        }
+      }
+    }
+  }
+};
+
 export const ConfigData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -480,6 +555,12 @@ export const ConfigData: coreClient.CompositeMapper = {
       },
       lowCpuThreshold: {
         serializedName: "properties.lowCpuThreshold",
+        type: {
+          name: "String"
+        }
+      },
+      duration: {
+        serializedName: "properties.duration",
         type: {
           name: "String"
         }
