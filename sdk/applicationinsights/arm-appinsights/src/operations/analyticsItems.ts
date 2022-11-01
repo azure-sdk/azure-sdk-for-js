@@ -141,15 +141,15 @@ const listOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.scope,
     Parameters.typeParam,
     Parameters.includeContent
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.scopePath
   ],
@@ -165,11 +165,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApplicationInsightsComponentAnalyticsItem
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.id, Parameters.name],
+  queryParameters: [Parameters.apiVersion1, Parameters.id, Parameters.name],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.scopePath
   ],
@@ -186,11 +186,11 @@ const putOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.itemProperties,
-  queryParameters: [Parameters.apiVersion, Parameters.overrideItem],
+  queryParameters: [Parameters.apiVersion1, Parameters.overrideItem],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.scopePath
   ],
@@ -203,11 +203,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}/item",
   httpMethod: "DELETE",
   responses: { 200: {} },
-  queryParameters: [Parameters.apiVersion, Parameters.id, Parameters.name],
+  queryParameters: [Parameters.apiVersion1, Parameters.id, Parameters.name],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.scopePath
   ],
