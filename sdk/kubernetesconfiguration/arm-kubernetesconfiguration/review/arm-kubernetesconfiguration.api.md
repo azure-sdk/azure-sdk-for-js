@@ -14,6 +14,32 @@ import { PollOperationState } from '@azure/core-lro';
 export type AKSIdentityType = "SystemAssigned" | "UserAssigned";
 
 // @public
+export interface AzureBlobDefinition {
+    accountKey?: string;
+    containerName?: string;
+    localAuthRef?: string;
+    managedIdentity?: ManagedIdentityDefinition;
+    sasToken?: string;
+    servicePrincipal?: ServicePrincipalDefinition;
+    syncIntervalInSeconds?: number;
+    timeoutInSeconds?: number;
+    url?: string;
+}
+
+// @public
+export interface AzureBlobPatchDefinition {
+    accountKey?: string;
+    containerName?: string;
+    localAuthRef?: string;
+    managedIdentity?: ManagedIdentityPatchDefinition;
+    sasToken?: string;
+    servicePrincipal?: ServicePrincipalPatchDefinition;
+    syncIntervalInSeconds?: number;
+    timeoutInSeconds?: number;
+    url?: string;
+}
+
+// @public
 export interface BucketDefinition {
     accessKey?: string;
     bucketName?: string;
@@ -70,30 +96,32 @@ export interface ErrorResponse {
 }
 
 // @public
-export type Extension = ProxyResource & {
-    identity?: Identity;
-    readonly systemData?: SystemData;
-    extensionType?: string;
+export interface Extension extends ProxyResource {
+    aksAssignedIdentity?: ExtensionPropertiesAksAssignedIdentity;
     autoUpgradeMinorVersion?: boolean;
-    releaseTrain?: string;
-    version?: string;
-    scope?: Scope;
-    configurationSettings?: {
-        [propertyName: string]: string;
-    };
     configurationProtectedSettings?: {
         [propertyName: string]: string;
     };
-    readonly installedVersion?: string;
-    readonly provisioningState?: ProvisioningState;
-    statuses?: ExtensionStatus[];
-    readonly errorInfo?: ErrorDetail;
+    configurationSettings?: {
+        [propertyName: string]: string;
+    };
+    readonly currentVersion?: string;
     readonly customLocationSettings?: {
         [propertyName: string]: string;
     };
+    readonly errorInfo?: ErrorDetail;
+    extensionType?: string;
+    identity?: Identity;
+    readonly isSystemExtension?: boolean;
     readonly packageUri?: string;
-    aksAssignedIdentity?: ExtensionPropertiesAksAssignedIdentity;
-};
+    plan?: Plan;
+    readonly provisioningState?: ProvisioningState;
+    releaseTrain?: string;
+    scope?: Scope;
+    statuses?: ExtensionStatus[];
+    readonly systemData?: SystemData;
+    version?: string;
+}
 
 // @public
 export interface ExtensionPropertiesAksAssignedIdentity {
@@ -191,32 +219,34 @@ export interface FluxConfigOperationStatusGetOptionalParams extends coreClient.O
 export type FluxConfigOperationStatusGetResponse = OperationStatusResult;
 
 // @public
-export type FluxConfiguration = ProxyResource & {
-    readonly systemData?: SystemData;
-    scope?: ScopeType;
-    namespace?: string;
-    sourceKind?: SourceKindType;
-    suspend?: boolean;
-    gitRepository?: GitRepositoryDefinition;
+export interface FluxConfiguration extends ProxyResource {
+    azureBlob?: AzureBlobDefinition;
     bucket?: BucketDefinition;
-    kustomizations?: {
-        [propertyName: string]: KustomizationDefinition | null;
-    };
+    readonly complianceState?: FluxComplianceState;
     configurationProtectedSettings?: {
         [propertyName: string]: string;
     };
-    readonly statuses?: (ObjectStatusDefinition | null)[];
+    readonly errorMessage?: string;
+    gitRepository?: GitRepositoryDefinition;
+    kustomizations?: {
+        [propertyName: string]: KustomizationDefinition | null;
+    };
+    namespace?: string;
+    readonly provisioningState?: ProvisioningState;
     readonly repositoryPublicKey?: string;
+    scope?: ScopeType;
+    sourceKind?: SourceKindType;
     readonly sourceSyncedCommitId?: string;
     readonly sourceUpdatedAt?: Date;
+    readonly statuses?: (ObjectStatusDefinition | null)[];
     readonly statusUpdatedAt?: Date;
-    readonly complianceState?: FluxComplianceState;
-    readonly provisioningState?: ProvisioningState;
-    readonly errorMessage?: string;
-};
+    suspend?: boolean;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface FluxConfigurationPatch {
+    azureBlob?: AzureBlobPatchDefinition;
     bucket?: BucketPatchDefinition;
     configurationProtectedSettings?: {
         [propertyName: string]: string;
@@ -341,131 +371,91 @@ export interface Identity {
 
 // @public
 export enum KnownComplianceStateType {
-    // (undocumented)
     Compliant = "Compliant",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Installed = "Installed",
-    // (undocumented)
     Noncompliant = "Noncompliant",
-    // (undocumented)
     Pending = "Pending"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownFluxComplianceState {
-    // (undocumented)
     Compliant = "Compliant",
-    // (undocumented)
     NonCompliant = "Non-Compliant",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Suspended = "Suspended",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownKustomizationValidationType {
-    // (undocumented)
     Client = "client",
-    // (undocumented)
     None = "none",
-    // (undocumented)
     Server = "server"
 }
 
 // @public
 export enum KnownLevelType {
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Information = "Information",
-    // (undocumented)
     Warning = "Warning"
 }
 
 // @public
 export enum KnownMessageLevelType {
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Information = "Information",
-    // (undocumented)
     Warning = "Warning"
 }
 
 // @public
 export enum KnownOperatorScopeType {
-    // (undocumented)
     Cluster = "cluster",
-    // (undocumented)
     Namespace = "namespace"
 }
 
 // @public
 export enum KnownOperatorType {
-    // (undocumented)
     Flux = "Flux"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownProvisioningStateType {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownScopeType {
-    // (undocumented)
     Cluster = "cluster",
-    // (undocumented)
     Namespace = "namespace"
 }
 
 // @public
 export enum KnownSourceKindType {
-    // (undocumented)
+    AzureBlob = "AzureBlob",
     Bucket = "Bucket",
-    // (undocumented)
     GitRepository = "GitRepository"
 }
 
@@ -497,6 +487,16 @@ export type KustomizationValidationType = string;
 
 // @public
 export type LevelType = string;
+
+// @public
+export interface ManagedIdentityDefinition {
+    clientId?: string;
+}
+
+// @public
+export interface ManagedIdentityPatchDefinition {
+    clientId?: string;
+}
 
 // @public
 export type MessageLevelType = string;
@@ -610,13 +610,23 @@ export interface PatchExtension {
 }
 
 // @public
+export interface Plan {
+    name: string;
+    product: string;
+    promotionCode?: string;
+    publisher: string;
+    version?: string;
+}
+
+// @public
 export type ProvisioningState = string;
 
 // @public
 export type ProvisioningStateType = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface RepositoryRefDefinition {
@@ -675,24 +685,44 @@ export interface ScopeNamespace {
 export type ScopeType = string;
 
 // @public
-export type SourceControlConfiguration = ProxyResource & {
-    readonly systemData?: SystemData;
-    repositoryUrl?: string;
-    operatorNamespace?: string;
-    operatorInstanceName?: string;
-    operatorType?: OperatorType;
-    operatorParams?: string;
+export interface ServicePrincipalDefinition {
+    clientCertificate?: string;
+    clientCertificatePassword?: string;
+    clientCertificateSendChain?: boolean;
+    clientId?: string;
+    clientSecret?: string;
+    tenantId?: string;
+}
+
+// @public
+export interface ServicePrincipalPatchDefinition {
+    clientCertificate?: string;
+    clientCertificatePassword?: string;
+    clientCertificateSendChain?: boolean;
+    clientId?: string;
+    clientSecret?: string;
+    tenantId?: string;
+}
+
+// @public
+export interface SourceControlConfiguration extends ProxyResource {
+    readonly complianceStatus?: ComplianceStatus;
     configurationProtectedSettings?: {
         [propertyName: string]: string;
     };
-    operatorScope?: OperatorScopeType;
-    readonly repositoryPublicKey?: string;
-    sshKnownHostsContents?: string;
     enableHelmOperator?: boolean;
     helmOperatorProperties?: HelmOperatorProperties;
+    operatorInstanceName?: string;
+    operatorNamespace?: string;
+    operatorParams?: string;
+    operatorScope?: OperatorScopeType;
+    operatorType?: OperatorType;
     readonly provisioningState?: ProvisioningStateType;
-    readonly complianceStatus?: ComplianceStatus;
-};
+    readonly repositoryPublicKey?: string;
+    repositoryUrl?: string;
+    sshKnownHostsContents?: string;
+    readonly systemData?: SystemData;
+}
 
 // @public (undocumented)
 export class SourceControlConfigurationClient extends coreClient.ServiceClient {
