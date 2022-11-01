@@ -1344,6 +1344,7 @@ export const Configuration: coreClient.CompositeMapper = {
         }
       },
       activeRevisionsMode: {
+        defaultValue: "Single",
         serializedName: "activeRevisionsMode",
         type: {
           name: "String"
@@ -1438,6 +1439,7 @@ export const Ingress: coreClient.CompositeMapper = {
         }
       },
       transport: {
+        defaultValue: "auto",
         serializedName: "transport",
         type: {
           name: "String"
@@ -1468,6 +1470,7 @@ export const Ingress: coreClient.CompositeMapper = {
         }
       },
       allowInsecure: {
+        defaultValue: false,
         serializedName: "allowInsecure",
         type: {
           name: "Boolean"
@@ -1627,6 +1630,7 @@ export const Dapr: coreClient.CompositeMapper = {
     className: "Dapr",
     modelProperties: {
       enabled: {
+        defaultValue: false,
         serializedName: "enabled",
         type: {
           name: "Boolean"
@@ -1639,6 +1643,7 @@ export const Dapr: coreClient.CompositeMapper = {
         }
       },
       appProtocol: {
+        defaultValue: "http",
         serializedName: "appProtocol",
         type: {
           name: "String"
@@ -4410,6 +4415,7 @@ export const DaprComponent: coreClient.CompositeMapper = {
         }
       },
       ignoreErrors: {
+        defaultValue: false,
         serializedName: "properties.ignoreErrors",
         type: {
           name: "Boolean"
