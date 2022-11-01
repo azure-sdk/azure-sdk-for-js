@@ -46,7 +46,9 @@ export class CertificateOperationsImpl implements CertificateOperations {
   }
 
   /**
-   * Lists all of the certificates in the specified account.
+   * Warning: This operation is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param options The options parameters.
@@ -117,7 +119,9 @@ export class CertificateOperationsImpl implements CertificateOperations {
   }
 
   /**
-   * Lists all of the certificates in the specified account.
+   * Warning: This operation is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param options The options parameters.
@@ -134,7 +138,9 @@ export class CertificateOperationsImpl implements CertificateOperations {
   }
 
   /**
-   * Creates a new certificate inside the specified account.
+   * Warning: This operation is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param certificateName The identifier for the certificate. This must be made up of algorithm and
@@ -157,7 +163,9 @@ export class CertificateOperationsImpl implements CertificateOperations {
   }
 
   /**
-   * Updates the properties of an existing certificate.
+   * Warning: This operation is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param certificateName The identifier for the certificate. This must be made up of algorithm and
@@ -180,7 +188,9 @@ export class CertificateOperationsImpl implements CertificateOperations {
   }
 
   /**
-   * Deletes the specified certificate.
+   * Warning: This operation is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param certificateName The identifier for the certificate. This must be made up of algorithm and
@@ -248,7 +258,9 @@ export class CertificateOperationsImpl implements CertificateOperations {
   }
 
   /**
-   * Deletes the specified certificate.
+   * Warning: This operation is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param certificateName The identifier for the certificate. This must be made up of algorithm and
@@ -272,7 +284,9 @@ export class CertificateOperationsImpl implements CertificateOperations {
   }
 
   /**
-   * Gets information about the specified certificate.
+   * Warning: This operation is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param certificateName The identifier for the certificate. This must be made up of algorithm and
@@ -299,6 +313,10 @@ export class CertificateOperationsImpl implements CertificateOperations {
    * delete the certificate, you do not need to run this operation after the deletion failed. You must
    * make sure that the certificate is not being used by any resources, and then you can try again to
    * delete the certificate.
+   *
+   * Warning: This operation is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param certificateName The identifier for the certificate. This must be made up of algorithm and
