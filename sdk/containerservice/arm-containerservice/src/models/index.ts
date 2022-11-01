@@ -8,6 +8,162 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** The FleetHubProfile configures the fleet hub. */
+export interface FleetHubProfile {
+  /** DNS prefix used to create the FQDN for the Fleet hub. */
+  dnsPrefix?: string;
+  /**
+   * The FQDN of the Fleet hub.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fqdn?: string;
+  /**
+   * The Kubernetes version of the Fleet hub.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kubernetesVersion?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** Properties of a Fleet that can be patched. */
+export interface FleetPatch {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The response from the List Fleets operation. */
+export interface FleetListResult {
+  /** The list of Fleets. */
+  value?: Fleet[];
+  /**
+   * The URL to get the next page of Fleets.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The response from the List FleetMembers operation. */
+export interface FleetMembersListResult {
+  /** The list of members in a given Fleet. */
+  value?: FleetMember[];
+  /**
+   * The URL to get the next page of Fleet members.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The list credential result response. */
+export interface FleetCredentialResults {
+  /**
+   * Base64-encoded Kubernetes configuration file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kubeconfigs?: FleetCredentialResult[];
+}
+
+/** The credential result response. */
+export interface FleetCredentialResult {
+  /**
+   * The name of the credential.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Base64-encoded Kubernetes configuration file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Uint8Array;
+}
+
 /** The List Operation response. */
 export interface OperationListResult {
   /**
@@ -233,7 +389,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
   availabilityZones?: string[];
   /** Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false. */
   enableNodePublicIP?: boolean;
-  /** When set to true, AKS deploys a daemonset and host services to sync custom certificate authorities from a user-provided config map into node trust stores. Defaults to false. */
+  /** When set to true, AKS adds a label to the node indicating that the feature is enabled and deploys a daemonset along with host services to sync custom certificate authorities from user-provided list of base64 encoded certificates into node trust stores. Defaults to false. */
   enableCustomCATrust?: boolean;
   /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName} */
   nodePublicIPPrefixID?: string;
@@ -389,6 +545,10 @@ export interface AgentPoolWindowsProfile {
 export interface AgentPoolNetworkProfile {
   /** IPTags of instance-level public IPs. */
   nodePublicIPTags?: IPTag[];
+  /** The port ranges that are allowed to access. The specified ranges are allowed to overlap. */
+  allowedHostPorts?: PortRange[];
+  /** The IDs of the application security groups which agent pool will associate when created. */
+  applicationSecurityGroups?: string[];
 }
 
 /** Contains the IPTag associated with the object. */
@@ -397,6 +557,16 @@ export interface IPTag {
   ipTagType?: string;
   /** The value of the IP tag associated with the public IP. Example: Internet. */
   tag?: string;
+}
+
+/** The port range. */
+export interface PortRange {
+  /** The minimum port that is included in the range. It should be ranged from 1 to 65535, and be less than or equal to portEnd. */
+  portStart?: number;
+  /** The maximum port that is included in the range. It should be ranged from 1 to 65535, and be greater than or equal to portStart. */
+  portEnd?: number;
+  /** The network protocol of the port. */
+  protocol?: Protocol;
 }
 
 /** Profile for Linux VMs in the container service cluster. */
@@ -559,6 +729,8 @@ export interface ContainerServiceNetworkProfile {
   networkPolicy?: NetworkPolicy;
   /** This cannot be specified if networkPlugin is anything other than 'azure'. */
   networkMode?: NetworkMode;
+  /** The eBPF dataplane used for building the Kubernetes network. */
+  ebpfDataplane?: EbpfDataplane;
   /** A CIDR notation IP range from which to assign pod IPs when kubenet is used. */
   podCidr?: string;
   /** A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges. */
@@ -691,6 +863,8 @@ export interface ManagedClusterAADProfile {
 export interface ManagedClusterAutoUpgradeProfile {
   /** For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel). */
   upgradeChannel?: UpgradeChannel;
+  /** The default is Unmanaged, but may change to either NodeImage or SecurityPatch at GA. */
+  nodeOSUpgradeChannel?: NodeOSUpgradeChannel;
 }
 
 /** Parameters to be applied to the cluster-autoscaler when enabled */
@@ -797,6 +971,8 @@ export interface ManagedClusterSecurityProfile {
   imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
   /** [Node Restriction](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#noderestriction) settings for the security profile. */
   nodeRestriction?: ManagedClusterSecurityProfileNodeRestriction;
+  /** A list of up to 10 base64 encoded CAs that will be added to the trust store on nodes with the Custom CA Trust feature enabled. For more information see [Custom CA Trust Certificates](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority) */
+  customCATrustCertificates?: Uint8Array[];
 }
 
 /** Microsoft Defender settings for the security profile. */
@@ -954,46 +1130,6 @@ export interface GuardrailsProfile {
   level: Level;
   /** List of namespaces excluded from guardrails checks */
   excludedNamespaces?: string[];
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
 }
 
 /** The list of available upgrades for compute pools. */
@@ -1454,122 +1590,6 @@ export interface TrustedAccessRoleBindingListResult {
   readonly nextLink?: string;
 }
 
-/** The FleetHubProfile configures the fleet hub. */
-export interface FleetHubProfile {
-  /** DNS prefix used to create the FQDN for the Fleet hub. */
-  dnsPrefix?: string;
-  /**
-   * The FQDN of the Fleet hub.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fqdn?: string;
-  /**
-   * The Kubernetes version of the Fleet hub.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly kubernetesVersion?: string;
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
-}
-
-/** Properties of a Fleet that can be patched. */
-export interface FleetPatch {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-}
-
-/** The response from the List Fleets operation. */
-export interface FleetListResult {
-  /** The list of Fleets. */
-  value?: Fleet[];
-  /**
-   * The URL to get the next page of Fleets.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The response from the List FleetMembers operation. */
-export interface FleetMembersListResult {
-  /** The list of members in a given Fleet. */
-  value?: FleetMember[];
-  /**
-   * The URL to get the next page of Fleet members.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The list credential result response. */
-export interface FleetCredentialResults {
-  /**
-   * Base64-encoded Kubernetes configuration file.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly kubeconfigs?: FleetCredentialResult[];
-}
-
-/** The credential result response. */
-export interface FleetCredentialResult {
-  /**
-   * The name of the credential.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Base64-encoded Kubernetes configuration file.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Uint8Array;
-}
-
 /** Profile for the container service master. */
 export interface ContainerServiceMasterProfile {
   /** Number of masters (VMs) in the container service cluster. Allowed values are 1, 3, and 5. The default value is 1. */
@@ -1610,23 +1630,21 @@ export interface ContainerServiceVMDiagnostics {
   readonly storageUri?: string;
 }
 
-/** Profile for the container service agent pool. */
-export interface ManagedClusterAgentPoolProfile
-  extends ManagedClusterAgentPoolProfileProperties {
-  /** Windows agent pool names must be 6 characters or less. */
-  name: string;
-}
-
-/** Information of user assigned identity used by this add-on. */
-export interface ManagedClusterAddonProfileIdentity
-  extends UserAssignedIdentity {}
-
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
+}
+
+/** The resource model definition for an Azure Resource Manager resource with an etag. */
+export interface AzureEntityResource extends Resource {
+  /**
+   * Resource Etag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
 }
 
 /** Defines binding between a resource and role */
@@ -1642,14 +1660,16 @@ export interface TrustedAccessRoleBinding extends Resource {
   roles: string[];
 }
 
-/** The resource model definition for an Azure Resource Manager resource with an etag. */
-export interface AzureEntityResource extends Resource {
-  /**
-   * Resource Etag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
+/** Profile for the container service agent pool. */
+export interface ManagedClusterAgentPoolProfile
+  extends ManagedClusterAgentPoolProfileProperties {
+  /** Windows agent pool names must be 6 characters or less. */
+  name: string;
 }
+
+/** Information of user assigned identity used by this add-on. */
+export interface ManagedClusterAddonProfileIdentity
+  extends UserAssignedIdentity {}
 
 /** See [planned maintenance](https://docs.microsoft.com/azure/aks/planned-maintenance) for more information about planned maintenance. */
 export interface MaintenanceConfiguration extends SubResource {
@@ -1727,7 +1747,7 @@ export interface AgentPool extends SubResource {
   availabilityZones?: string[];
   /** Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false. */
   enableNodePublicIP?: boolean;
-  /** When set to true, AKS deploys a daemonset and host services to sync custom certificate authorities from a user-provided config map into node trust stores. Defaults to false. */
+  /** When set to true, AKS adds a label to the node indicating that the feature is enabled and deploys a daemonset along with host services to sync custom certificate authorities from user-provided list of base64 encoded certificates into node trust stores. Defaults to false. */
   enableCustomCATrust?: boolean;
   /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName} */
   nodePublicIPPrefixID?: string;
@@ -1767,6 +1787,22 @@ export interface AgentPool extends SubResource {
   windowsProfile?: AgentPoolWindowsProfile;
   /** Network-related settings of an agent pool. */
   networkProfile?: AgentPoolNetworkProfile;
+}
+
+/** The Fleet resource which contains multiple Kubernetes clusters as its members. */
+export interface Fleet extends TrackedResource {
+  /**
+   * Resource Etag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** The FleetHubProfile configures the Fleet's hub. */
+  hubProfile?: FleetHubProfile;
+  /**
+   * The provisioning state of the last accepted operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: FleetProvisioningState;
 }
 
 /** Managed cluster. */
@@ -1935,22 +1971,6 @@ export interface ManagedClusterSnapshot extends TrackedResource {
   readonly managedClusterPropertiesReadOnly?: ManagedClusterPropertiesForSnapshot;
 }
 
-/** The Fleet resource which contains multiple Kubernetes clusters as its members. */
-export interface Fleet extends TrackedResource {
-  /**
-   * Resource Etag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** The FleetHubProfile configures the Fleet's hub. */
-  hubProfile?: FleetHubProfile;
-  /**
-   * The provisioning state of the last accepted operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: FleetProvisioningState;
-}
-
 /** A member of the Fleet. It contains a reference to an existing Kubernetes cluster on Azure. */
 export interface FleetMember extends AzureEntityResource {
   /** The ARM resource id of the cluster that joins the Fleet. Must be a valid Azure resource id. e.g.: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{clusterName}'. */
@@ -1962,11 +1982,105 @@ export interface FleetMember extends AzureEntityResource {
   readonly provisioningState?: FleetMemberProvisioningState;
 }
 
+/** Defines headers for Fleets_delete operation. */
+export interface FleetsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for FleetMembers_delete operation. */
+export interface FleetMembersDeleteHeaders {
+  location?: string;
+}
+
 /** Defines headers for AgentPools_upgradeNodeImageVersion operation. */
 export interface AgentPoolsUpgradeNodeImageVersionHeaders {
   /** URL to query for status of the operation. */
   azureAsyncOperation?: string;
 }
+
+/** Known values of {@link FleetProvisioningState} that the service accepts. */
+export enum KnownFleetProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Creating */
+  Creating = "Creating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Updating */
+  Updating = "Updating"
+}
+
+/**
+ * Defines values for FleetProvisioningState. \
+ * {@link KnownFleetProvisioningState} can be used interchangeably with FleetProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Creating** \
+ * **Deleting** \
+ * **Updating**
+ */
+export type FleetProvisioningState = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link FleetMemberProvisioningState} that the service accepts. */
+export enum KnownFleetMemberProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Joining */
+  Joining = "Joining",
+  /** Leaving */
+  Leaving = "Leaving",
+  /** Updating */
+  Updating = "Updating"
+}
+
+/**
+ * Defines values for FleetMemberProvisioningState. \
+ * {@link KnownFleetMemberProvisioningState} can be used interchangeably with FleetMemberProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Joining** \
+ * **Leaving** \
+ * **Updating**
+ */
+export type FleetMemberProvisioningState = string;
 
 /** Known values of {@link ManagedClusterSKUName} that the service accepts. */
 export enum KnownManagedClusterSKUName {
@@ -2250,6 +2364,24 @@ export enum KnownGPUInstanceProfile {
  */
 export type GPUInstanceProfile = string;
 
+/** Known values of {@link Protocol} that the service accepts. */
+export enum KnownProtocol {
+  /** TCP protocol. */
+  TCP = "TCP",
+  /** UDP protocol. */
+  UDP = "UDP"
+}
+
+/**
+ * Defines values for Protocol. \
+ * {@link KnownProtocol} can be used interchangeably with Protocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TCP**: TCP protocol. \
+ * **UDP**: UDP protocol.
+ */
+export type Protocol = string;
+
 /** Known values of {@link LicenseType} that the service accepts. */
 export enum KnownLicenseType {
   /** No additional licensing is applied. */
@@ -2363,6 +2495,21 @@ export enum KnownNetworkMode {
  * **bridge**: This is no longer supported
  */
 export type NetworkMode = string;
+
+/** Known values of {@link EbpfDataplane} that the service accepts. */
+export enum KnownEbpfDataplane {
+  /** Use Cilium for networking in the Kubernetes cluster. */
+  Cilium = "cilium"
+}
+
+/**
+ * Defines values for EbpfDataplane. \
+ * {@link KnownEbpfDataplane} can be used interchangeably with EbpfDataplane,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **cilium**: Use Cilium for networking in the Kubernetes cluster.
+ */
+export type EbpfDataplane = string;
 
 /** Known values of {@link OutboundType} that the service accepts. */
 export enum KnownOutboundType {
@@ -2486,7 +2633,7 @@ export enum KnownUpgradeChannel {
   Stable = "stable",
   /** Automatically upgrade the cluster to the latest supported patch version when it becomes available while keeping the minor version the same. For example, if a cluster is running version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, your cluster is upgraded to 1.17.9. */
   Patch = "patch",
-  /** Automatically upgrade the node image to the latest version available. Microsoft provides patches and new images for image nodes frequently (usually weekly), but your running nodes won't get the new images unless you do a node image upgrade. Turning on the node-image channel will automatically update your node images whenever a new version is available. */
+  /** Automatically upgrade the node image to the latest version available. Consider using nodeOSUpgradeChannel instead as that allows you to configure node OS patching separate from Kubernetes version patching */
   NodeImage = "node-image",
   /** Disables auto-upgrades and keeps the cluster at its current version of Kubernetes. */
   None = "none"
@@ -2500,10 +2647,34 @@ export enum KnownUpgradeChannel {
  * **rapid**: Automatically upgrade the cluster to the latest supported patch release on the latest supported minor version. In cases where the cluster is at a version of Kubernetes that is at an N-2 minor version where N is the latest supported minor version, the cluster first upgrades to the latest supported patch version on N-1 minor version. For example, if a cluster is running version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, your cluster first is upgraded to 1.18.6, then is upgraded to 1.19.1. \
  * **stable**: Automatically upgrade the cluster to the latest supported patch release on minor version N-1, where N is the latest supported minor version. For example, if a cluster is running version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, your cluster is upgraded to 1.18.6. \
  * **patch**: Automatically upgrade the cluster to the latest supported patch version when it becomes available while keeping the minor version the same. For example, if a cluster is running version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, your cluster is upgraded to 1.17.9. \
- * **node-image**: Automatically upgrade the node image to the latest version available. Microsoft provides patches and new images for image nodes frequently (usually weekly), but your running nodes won't get the new images unless you do a node image upgrade. Turning on the node-image channel will automatically update your node images whenever a new version is available. \
+ * **node-image**: Automatically upgrade the node image to the latest version available. Consider using nodeOSUpgradeChannel instead as that allows you to configure node OS patching separate from Kubernetes version patching \
  * **none**: Disables auto-upgrades and keeps the cluster at its current version of Kubernetes.
  */
 export type UpgradeChannel = string;
+
+/** Known values of {@link NodeOSUpgradeChannel} that the service accepts. */
+export enum KnownNodeOSUpgradeChannel {
+  /** No attempt to update your machines OS will be made either by OS or by rolling VHDs. This means you are responsible for your security updates */
+  None = "None",
+  /** OS updates will be applied automatically through the OS built-in patching infrastructure. Newly scaled in machines will be unpatched initially and will be patched at some point by the OS's infrastructure. Behavior of this option depends on the OS in question. Ubuntu and Mariner apply security patches through unattended upgrade roughly once a day around 06:00 UTC. Windows does not apply security patches automatically and so for them this option is equivalent to None till further notice */
+  Unmanaged = "Unmanaged",
+  /** AKS will update the nodes VHD with patches from the image maintainer labelled "security only" on a regular basis. Where possible, patches will also be applied without reimaging to existing nodes. Some patches, such as kernel patches, cannot be applied to existing nodes without disruption. For such patches, the VHD will be updated, and machines will be rolling reimaged to that VHD following maintenance windows and surge settings. This option incurs the extra cost of hosting the VHDs in your node resource group. */
+  SecurityPatch = "SecurityPatch",
+  /** AKS will update the nodes with a newly patched VHD containing security fixes and bugfixes on a weekly cadence. With the VHD update machines will be rolling reimaged to that VHD following maintenance windows and surge settings. No extra VHD cost is incurred when choosing this option as AKS hosts the images. */
+  NodeImage = "NodeImage"
+}
+
+/**
+ * Defines values for NodeOSUpgradeChannel. \
+ * {@link KnownNodeOSUpgradeChannel} can be used interchangeably with NodeOSUpgradeChannel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No attempt to update your machines OS will be made either by OS or by rolling VHDs. This means you are responsible for your security updates \
+ * **Unmanaged**: OS updates will be applied automatically through the OS built-in patching infrastructure. Newly scaled in machines will be unpatched initially and will be patched at some point by the OS's infrastructure. Behavior of this option depends on the OS in question. Ubuntu and Mariner apply security patches through unattended upgrade roughly once a day around 06:00 UTC. Windows does not apply security patches automatically and so for them this option is equivalent to None till further notice \
+ * **SecurityPatch**: AKS will update the nodes VHD with patches from the image maintainer labelled "security only" on a regular basis. Where possible, patches will also be applied without reimaging to existing nodes. Some patches, such as kernel patches, cannot be applied to existing nodes without disruption. For such patches, the VHD will be updated, and machines will be rolling reimaged to that VHD following maintenance windows and surge settings. This option incurs the extra cost of hosting the VHDs in your node resource group. \
+ * **NodeImage**: AKS will update the nodes with a newly patched VHD containing security fixes and bugfixes on a weekly cadence. With the VHD update machines will be rolling reimaged to that VHD following maintenance windows and surge settings. No extra VHD cost is incurred when choosing this option as AKS hosts the images.
+ */
+export type NodeOSUpgradeChannel = string;
 
 /** Known values of {@link Expander} that the service accepts. */
 export enum KnownExpander {
@@ -2630,30 +2801,6 @@ export enum KnownLevel {
  * **Enforcement**
  */
 export type Level = string;
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
 
 /** Known values of {@link Format} that the service accepts. */
 export enum KnownFormat {
@@ -2795,66 +2942,6 @@ export enum KnownTrustedAccessRoleBindingProvisioningState {
  * **Deleting**
  */
 export type TrustedAccessRoleBindingProvisioningState = string;
-
-/** Known values of {@link FleetProvisioningState} that the service accepts. */
-export enum KnownFleetProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Creating */
-  Creating = "Creating",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Updating */
-  Updating = "Updating"
-}
-
-/**
- * Defines values for FleetProvisioningState. \
- * {@link KnownFleetProvisioningState} can be used interchangeably with FleetProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Creating** \
- * **Deleting** \
- * **Updating**
- */
-export type FleetProvisioningState = string;
-
-/** Known values of {@link FleetMemberProvisioningState} that the service accepts. */
-export enum KnownFleetMemberProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Joining */
-  Joining = "Joining",
-  /** Leaving */
-  Leaving = "Leaving",
-  /** Updating */
-  Updating = "Updating"
-}
-
-/**
- * Defines values for FleetMemberProvisioningState. \
- * {@link KnownFleetMemberProvisioningState} can be used interchangeably with FleetMemberProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Joining** \
- * **Leaving** \
- * **Updating**
- */
-export type FleetMemberProvisioningState = string;
 
 /** Known values of {@link ContainerServiceVMSizeTypes} that the service accepts. */
 export enum KnownContainerServiceVMSizeTypes {
@@ -3413,6 +3500,133 @@ export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 export type Count = 1 | 3 | 5;
 
 /** Optional parameters. */
+export interface FleetsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+  /** Set to '*' to allow a new resource to be created and prevent updating an existing resource. Other values will result in a 412 Pre-condition Failed response. */
+  ifNoneMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type FleetsCreateOrUpdateResponse = Fleet;
+
+/** Optional parameters. */
+export interface FleetsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+  /** The properties of a Fleet to update. */
+  parameters?: FleetPatch;
+}
+
+/** Contains response data for the update operation. */
+export type FleetsUpdateResponse = Fleet;
+
+/** Optional parameters. */
+export interface FleetsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FleetsGetResponse = Fleet;
+
+/** Optional parameters. */
+export interface FleetsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface FleetsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type FleetsListByResourceGroupResponse = FleetListResult;
+
+/** Optional parameters. */
+export interface FleetsListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type FleetsListResponse = FleetListResult;
+
+/** Optional parameters. */
+export interface FleetsListCredentialsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listCredentials operation. */
+export type FleetsListCredentialsResponse = FleetCredentialResults;
+
+/** Optional parameters. */
+export interface FleetsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type FleetsListByResourceGroupNextResponse = FleetListResult;
+
+/** Optional parameters. */
+export interface FleetsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type FleetsListNextResponse = FleetListResult;
+
+/** Optional parameters. */
+export interface FleetMembersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+  /** Set to '*' to allow a new resource to be created and prevent updating an existing resource. Other values will result in a 412 Pre-condition Failed response. */
+  ifNoneMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type FleetMembersCreateOrUpdateResponse = FleetMember;
+
+/** Optional parameters. */
+export interface FleetMembersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FleetMembersGetResponse = FleetMember;
+
+/** Optional parameters. */
+export interface FleetMembersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface FleetMembersListByFleetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFleet operation. */
+export type FleetMembersListByFleetResponse = FleetMembersListResult;
+
+/** Optional parameters. */
+export interface FleetMembersListByFleetNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFleetNext operation. */
+export type FleetMembersListByFleetNextResponse = FleetMembersListResult;
+
+/** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3936,137 +4150,12 @@ export interface TrustedAccessRoleBindingsListNextOptionalParams
 export type TrustedAccessRoleBindingsListNextResponse = TrustedAccessRoleBindingListResult;
 
 /** Optional parameters. */
-export interface FleetsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new resource to be created and prevent updating an existing resource. Other values will result in a 412 Pre-condition Failed response. */
-  ifNoneMatch?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type FleetsCreateOrUpdateResponse = Fleet;
-
-/** Optional parameters. */
-export interface FleetsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** The properties of a Fleet to update. */
-  parameters?: FleetPatch;
-}
-
-/** Contains response data for the update operation. */
-export type FleetsUpdateResponse = Fleet;
-
-/** Optional parameters. */
-export interface FleetsGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type FleetsGetResponse = Fleet;
-
-/** Optional parameters. */
-export interface FleetsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface FleetsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type FleetsListByResourceGroupResponse = FleetListResult;
-
-/** Optional parameters. */
-export interface FleetsListOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type FleetsListResponse = FleetListResult;
-
-/** Optional parameters. */
-export interface FleetsListCredentialsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listCredentials operation. */
-export type FleetsListCredentialsResponse = FleetCredentialResults;
-
-/** Optional parameters. */
-export interface FleetsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type FleetsListByResourceGroupNextResponse = FleetListResult;
-
-/** Optional parameters. */
-export interface FleetsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type FleetsListNextResponse = FleetListResult;
-
-/** Optional parameters. */
-export interface FleetMembersCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new resource to be created and prevent updating an existing resource. Other values will result in a 412 Pre-condition Failed response. */
-  ifNoneMatch?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type FleetMembersCreateOrUpdateResponse = FleetMember;
-
-/** Optional parameters. */
-export interface FleetMembersGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type FleetMembersGetResponse = FleetMember;
-
-/** Optional parameters. */
-export interface FleetMembersDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface FleetMembersListByFleetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByFleet operation. */
-export type FleetMembersListByFleetResponse = FleetMembersListResult;
-
-/** Optional parameters. */
-export interface FleetMembersListByFleetNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByFleetNext operation. */
-export type FleetMembersListByFleetNextResponse = FleetMembersListResult;
-
-/** Optional parameters. */
 export interface ContainerServiceClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
+  /** Api Version */
+  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

@@ -278,7 +278,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.trustedAccessRoleBindingName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -320,8 +320,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
   serializer
