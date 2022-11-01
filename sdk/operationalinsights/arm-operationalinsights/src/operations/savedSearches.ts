@@ -6,22 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SavedSearches } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
 import {
-  SavedSearchesDeleteOptionalParams,
   SavedSearch,
+  SavedSearchesListByWorkspaceOptionalParams,
+  SavedSearchesDeleteOptionalParams,
   SavedSearchesCreateOrUpdateOptionalParams,
   SavedSearchesCreateOrUpdateResponse,
   SavedSearchesGetOptionalParams,
   SavedSearchesGetResponse,
-  SavedSearchesListByWorkspaceOptionalParams,
   SavedSearchesListByWorkspaceResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing SavedSearches operations. */
 export class SavedSearchesImpl implements SavedSearches {
   private readonly client: OperationalInsightsManagementClient;
@@ -32,6 +34,66 @@ export class SavedSearchesImpl implements SavedSearches {
    */
   constructor(client: OperationalInsightsManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * Gets the saved searches for a given Log Analytics Workspace
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param options The options parameters.
+   */
+  public listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: SavedSearchesListByWorkspaceOptionalParams
+  ): PagedAsyncIterableIterator<SavedSearch> {
+    const iter = this.listByWorkspacePagingAll(
+      resourceGroupName,
+      workspaceName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listByWorkspacePagingPage(
+          resourceGroupName,
+          workspaceName,
+          options
+        );
+      }
+    };
+  }
+
+  private async *listByWorkspacePagingPage(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: SavedSearchesListByWorkspaceOptionalParams
+  ): AsyncIterableIterator<SavedSearch[]> {
+    let result = await this._listByWorkspace(
+      resourceGroupName,
+      workspaceName,
+      options
+    );
+    yield result.value || [];
+  }
+
+  private async *listByWorkspacePagingAll(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: SavedSearchesListByWorkspaceOptionalParams
+  ): AsyncIterableIterator<SavedSearch> {
+    for await (const page of this.listByWorkspacePagingPage(
+      resourceGroupName,
+      workspaceName,
+      options
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -99,7 +161,7 @@ export class SavedSearchesImpl implements SavedSearches {
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
    */
-  listByWorkspace(
+  private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
     options?: SavedSearchesListByWorkspaceOptionalParams
@@ -117,7 +179,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches/{savedSearchId}",
   httpMethod: "DELETE",
-  responses: { 200: {} },
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -126,6 +193,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.workspaceName,
     Parameters.savedSearchId
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
@@ -135,6 +203,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SavedSearch
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters5,
@@ -157,6 +228,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SavedSearch
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion1],
@@ -177,6 +251,9 @@ const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SavedSearchesListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion1],

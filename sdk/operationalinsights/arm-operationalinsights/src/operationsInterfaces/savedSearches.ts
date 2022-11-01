@@ -6,19 +6,31 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  SavedSearchesDeleteOptionalParams,
   SavedSearch,
+  SavedSearchesListByWorkspaceOptionalParams,
+  SavedSearchesDeleteOptionalParams,
   SavedSearchesCreateOrUpdateOptionalParams,
   SavedSearchesCreateOrUpdateResponse,
   SavedSearchesGetOptionalParams,
-  SavedSearchesGetResponse,
-  SavedSearchesListByWorkspaceOptionalParams,
-  SavedSearchesListByWorkspaceResponse
+  SavedSearchesGetResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a SavedSearches. */
 export interface SavedSearches {
+  /**
+   * Gets the saved searches for a given Log Analytics Workspace
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param options The options parameters.
+   */
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: SavedSearchesListByWorkspaceOptionalParams
+  ): PagedAsyncIterableIterator<SavedSearch>;
   /**
    * Deletes the specified saved search in a given workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -60,15 +72,4 @@ export interface SavedSearches {
     savedSearchId: string,
     options?: SavedSearchesGetOptionalParams
   ): Promise<SavedSearchesGetResponse>;
-  /**
-   * Gets the saved searches for a given Log Analytics Workspace
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param options The options parameters.
-   */
-  listByWorkspace(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: SavedSearchesListByWorkspaceOptionalParams
-  ): Promise<SavedSearchesListByWorkspaceResponse>;
 }

@@ -20,6 +20,8 @@ import {
   QueryPacksListByResourceGroupOptionalParams,
   QueryPacksListResponse,
   QueryPacksListByResourceGroupResponse,
+  QueryPacksCreateOrUpdateWithoutNameOptionalParams,
+  QueryPacksCreateOrUpdateWithoutNameResponse,
   QueryPacksDeleteOptionalParams,
   QueryPacksGetOptionalParams,
   QueryPacksGetResponse,
@@ -162,6 +164,25 @@ export class QueryPacksImpl implements QueryPacks {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
+    );
+  }
+
+  /**
+   * Creates a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey
+   * nor AppId in the Put operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param logAnalyticsQueryPackPayload Properties that need to be specified to create or update a Log
+   *                                     Analytics QueryPack.
+   * @param options The options parameters.
+   */
+  createOrUpdateWithoutName(
+    resourceGroupName: string,
+    logAnalyticsQueryPackPayload: LogAnalyticsQueryPack,
+    options?: QueryPacksCreateOrUpdateWithoutNameOptionalParams
+  ): Promise<QueryPacksCreateOrUpdateWithoutNameResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, logAnalyticsQueryPackPayload, options },
+      createOrUpdateWithoutNameOperationSpec
     );
   }
 
@@ -317,6 +338,29 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const createOrUpdateWithoutNameOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks",
+  httpMethod: "PUT",
+  responses: {
+    201: {
+      bodyMapper: Mappers.LogAnalyticsQueryPack
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.logAnalyticsQueryPackPayload,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}",
@@ -366,6 +410,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
+      bodyMapper: Mappers.LogAnalyticsQueryPack
+    },
+    201: {
       bodyMapper: Mappers.LogAnalyticsQueryPack
     },
     default: {
