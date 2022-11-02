@@ -1,15 +1,56 @@
 # Release History
+    
+## 14.0.0 (2022-11-02)
+    
+**Features**
 
-## 13.0.3 (Unreleased)
+  - Added operation WebApps.deployWorkflowArtifacts
+  - Added operation WebApps.deployWorkflowArtifactsSlot
+  - Added operation WebApps.getInstanceWorkflowSlot
+  - Added operation WebApps.getWorkflow
+  - Added operation WebApps.listInstanceWorkflowsConfigurationConnectionsSlot
+  - Added operation WebApps.listInstanceWorkflowsSlot
+  - Added operation WebApps.listWorkflows
+  - Added operation WebApps.listWorkflowsConfiguration
+  - Added Interface WebAppsDeployWorkflowArtifactsOptionalParams
+  - Added Interface WebAppsDeployWorkflowArtifactsSlotOptionalParams
+  - Added Interface WebAppsGetInstanceWorkflowSlotOptionalParams
+  - Added Interface WebAppsGetWorkflowOptionalParams
+  - Added Interface WebAppsListInstanceWorkflowsConfigurationConnectionsSlotOptionalParams
+  - Added Interface WebAppsListInstanceWorkflowsSlotNextOptionalParams
+  - Added Interface WebAppsListInstanceWorkflowsSlotOptionalParams
+  - Added Interface WebAppsListWorkflowsConfigurationOptionalParams
+  - Added Interface WebAppsListWorkflowsNextOptionalParams
+  - Added Interface WebAppsListWorkflowsOptionalParams
+  - Added Interface WorkflowArtifacts
+  - Added Interface WorkflowEnvelope
+  - Added Interface WorkflowEnvelopeCollection
+  - Added Interface WorkflowEnvelopeProperties
+  - Added Interface WorkflowHealth
+  - Added Type Alias ProviderOsTypeSelected
+  - Added Type Alias ProviderStackOsType
+  - Added Type Alias WebAppsGetInstanceWorkflowSlotResponse
+  - Added Type Alias WebAppsGetWorkflowResponse
+  - Added Type Alias WebAppsListInstanceWorkflowsConfigurationConnectionsSlotResponse
+  - Added Type Alias WebAppsListInstanceWorkflowsSlotNextResponse
+  - Added Type Alias WebAppsListInstanceWorkflowsSlotResponse
+  - Added Type Alias WebAppsListWorkflowsConfigurationResponse
+  - Added Type Alias WebAppsListWorkflowsNextResponse
+  - Added Type Alias WebAppsListWorkflowsResponse
+  - Added Type Alias WorkflowHealthState
+  - Added Enum KnownProviderOsTypeSelected
+  - Added Enum KnownProviderStackOsType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed Enum KnownEnum14
+  - Removed Enum KnownEnum15
+  - Removed Enum KnownEnum16
+  - Removed Enum KnownEnum17
+  - Removed Enum KnownEnum18
+  - Removed Enum KnownEnum19
+  - Removed Enum KnownWorkflowState
+    
 ## 13.0.2 (2022-10-08)
 
 **Bugs Fixed**

@@ -172,6 +172,11 @@ import {
   WebAppsListUsagesOptionalParams,
   WebAppsListWebJobsNextOptionalParams,
   WebAppsListWebJobsOptionalParams,
+  WorkflowEnvelope,
+  WebAppsListInstanceWorkflowsSlotNextOptionalParams,
+  WebAppsListInstanceWorkflowsSlotOptionalParams,
+  WebAppsListWorkflowsNextOptionalParams,
+  WebAppsListWorkflowsOptionalParams,
   WebAppsListResponse,
   WebAppsListByResourceGroupResponse,
   WebAppsGetOptionalParams,
@@ -849,6 +854,18 @@ import {
   WebAppsListWebJobsResponse,
   WebAppsGetWebJobOptionalParams,
   WebAppsGetWebJobResponse,
+  WebAppsDeployWorkflowArtifactsOptionalParams,
+  WebAppsDeployWorkflowArtifactsSlotOptionalParams,
+  WebAppsListInstanceWorkflowsSlotResponse,
+  WebAppsGetInstanceWorkflowSlotOptionalParams,
+  WebAppsGetInstanceWorkflowSlotResponse,
+  WebAppsListInstanceWorkflowsConfigurationConnectionsSlotOptionalParams,
+  WebAppsListInstanceWorkflowsConfigurationConnectionsSlotResponse,
+  WebAppsListWorkflowsResponse,
+  WebAppsGetWorkflowOptionalParams,
+  WebAppsGetWorkflowResponse,
+  WebAppsListWorkflowsConfigurationOptionalParams,
+  WebAppsListWorkflowsConfigurationResponse,
   WebAppsListNextResponse,
   WebAppsListByResourceGroupNextResponse,
   WebAppsListBackupsNextResponse,
@@ -913,7 +930,9 @@ import {
   WebAppsListTriggeredWebJobsNextResponse,
   WebAppsListTriggeredWebJobHistoryNextResponse,
   WebAppsListUsagesNextResponse,
-  WebAppsListWebJobsNextResponse
+  WebAppsListWebJobsNextResponse,
+  WebAppsListInstanceWorkflowsSlotNextResponse,
+  WebAppsListWorkflowsNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -5875,6 +5894,145 @@ export class WebAppsImpl implements WebApps {
     options?: WebAppsListWebJobsOptionalParams
   ): AsyncIterableIterator<WebJob> {
     for await (const page of this.listWebJobsPagingPage(
+      resourceGroupName,
+      name,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List the workflows for a web site, or a deployment slot.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Site name.
+   * @param slot Name of the deployment slot.
+   * @param options The options parameters.
+   */
+  public listInstanceWorkflowsSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsListInstanceWorkflowsSlotOptionalParams
+  ): PagedAsyncIterableIterator<WorkflowEnvelope> {
+    const iter = this.listInstanceWorkflowsSlotPagingAll(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listInstanceWorkflowsSlotPagingPage(
+          resourceGroupName,
+          name,
+          slot,
+          options
+        );
+      }
+    };
+  }
+
+  private async *listInstanceWorkflowsSlotPagingPage(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsListInstanceWorkflowsSlotOptionalParams
+  ): AsyncIterableIterator<WorkflowEnvelope[]> {
+    let result = await this._listInstanceWorkflowsSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listInstanceWorkflowsSlotNext(
+        resourceGroupName,
+        name,
+        slot,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listInstanceWorkflowsSlotPagingAll(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsListInstanceWorkflowsSlotOptionalParams
+  ): AsyncIterableIterator<WorkflowEnvelope> {
+    for await (const page of this.listInstanceWorkflowsSlotPagingPage(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List the workflows for a web site, or a deployment slot.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Site name.
+   * @param options The options parameters.
+   */
+  public listWorkflows(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsListWorkflowsOptionalParams
+  ): PagedAsyncIterableIterator<WorkflowEnvelope> {
+    const iter = this.listWorkflowsPagingAll(resourceGroupName, name, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listWorkflowsPagingPage(resourceGroupName, name, options);
+      }
+    };
+  }
+
+  private async *listWorkflowsPagingPage(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsListWorkflowsOptionalParams
+  ): AsyncIterableIterator<WorkflowEnvelope[]> {
+    let result = await this._listWorkflows(resourceGroupName, name, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listWorkflowsNext(
+        resourceGroupName,
+        name,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listWorkflowsPagingAll(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsListWorkflowsOptionalParams
+  ): AsyncIterableIterator<WorkflowEnvelope> {
+    for await (const page of this.listWorkflowsPagingPage(
       resourceGroupName,
       name,
       options
@@ -16767,6 +16925,156 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
+   * Description for Creates the artifacts for web site, or a deployment slot.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Site name.
+   * @param options The options parameters.
+   */
+  deployWorkflowArtifacts(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsDeployWorkflowArtifactsOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      deployWorkflowArtifactsOperationSpec
+    );
+  }
+
+  /**
+   * Description for Creates the artifacts for web site, or a deployment slot.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Site name.
+   * @param slot Name of the deployment slot.
+   * @param options The options parameters.
+   */
+  deployWorkflowArtifactsSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsDeployWorkflowArtifactsSlotOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, slot, options },
+      deployWorkflowArtifactsSlotOperationSpec
+    );
+  }
+
+  /**
+   * List the workflows for a web site, or a deployment slot.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Site name.
+   * @param slot Name of the deployment slot.
+   * @param options The options parameters.
+   */
+  private _listInstanceWorkflowsSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsListInstanceWorkflowsSlotOptionalParams
+  ): Promise<WebAppsListInstanceWorkflowsSlotResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, slot, options },
+      listInstanceWorkflowsSlotOperationSpec
+    );
+  }
+
+  /**
+   * Get workflow information by its ID for web site, or a deployment slot.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Site name.
+   * @param slot Name of the deployment slot.
+   * @param workflowName Workflow name.
+   * @param options The options parameters.
+   */
+  getInstanceWorkflowSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    workflowName: string,
+    options?: WebAppsGetInstanceWorkflowSlotOptionalParams
+  ): Promise<WebAppsGetInstanceWorkflowSlotResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, slot, workflowName, options },
+      getInstanceWorkflowSlotOperationSpec
+    );
+  }
+
+  /**
+   * Get workflow app's configurations connections information by its ID for web site, or a deployment
+   * slot.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Site name.
+   * @param slot Name of the deployment slot.
+   * @param options The options parameters.
+   */
+  listInstanceWorkflowsConfigurationConnectionsSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsListInstanceWorkflowsConfigurationConnectionsSlotOptionalParams
+  ): Promise<WebAppsListInstanceWorkflowsConfigurationConnectionsSlotResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, slot, options },
+      listInstanceWorkflowsConfigurationConnectionsSlotOperationSpec
+    );
+  }
+
+  /**
+   * List the workflows for a web site, or a deployment slot.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Site name.
+   * @param options The options parameters.
+   */
+  private _listWorkflows(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsListWorkflowsOptionalParams
+  ): Promise<WebAppsListWorkflowsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      listWorkflowsOperationSpec
+    );
+  }
+
+  /**
+   * Get workflow information by its ID for web site, or a deployment slot.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Site name.
+   * @param workflowName Workflow name.
+   * @param options The options parameters.
+   */
+  getWorkflow(
+    resourceGroupName: string,
+    name: string,
+    workflowName: string,
+    options?: WebAppsGetWorkflowOptionalParams
+  ): Promise<WebAppsGetWorkflowResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, workflowName, options },
+      getWorkflowOperationSpec
+    );
+  }
+
+  /**
+   * Get workflow app's configurations connections information by its ID for web site, or a deployment
+   * slot.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Site name.
+   * @param options The options parameters.
+   */
+  listWorkflowsConfiguration(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsListWorkflowsConfigurationOptionalParams
+  ): Promise<WebAppsListWorkflowsConfigurationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      listWorkflowsConfigurationOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -18168,6 +18476,47 @@ export class WebAppsImpl implements WebApps {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, nextLink, options },
       listWebJobsNextOperationSpec
+    );
+  }
+
+  /**
+   * ListInstanceWorkflowsSlotNext
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Site name.
+   * @param slot Name of the deployment slot.
+   * @param nextLink The nextLink from the previous successful call to the ListInstanceWorkflowsSlot
+   *                 method.
+   * @param options The options parameters.
+   */
+  private _listInstanceWorkflowsSlotNext(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    nextLink: string,
+    options?: WebAppsListInstanceWorkflowsSlotNextOptionalParams
+  ): Promise<WebAppsListInstanceWorkflowsSlotNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, slot, nextLink, options },
+      listInstanceWorkflowsSlotNextOperationSpec
+    );
+  }
+
+  /**
+   * ListWorkflowsNext
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Site name.
+   * @param nextLink The nextLink from the previous successful call to the ListWorkflows method.
+   * @param options The options parameters.
+   */
+  private _listWorkflowsNext(
+    resourceGroupName: string,
+    name: string,
+    nextLink: string,
+    options?: WebAppsListWorkflowsNextOptionalParams
+  ): Promise<WebAppsListWorkflowsNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, nextLink, options },
+      listWorkflowsNextOperationSpec
     );
   }
 }
@@ -28224,6 +28573,194 @@ const getWebJobOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const deployWorkflowArtifactsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/deployWorkflowArtifacts",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.workflowArtifacts,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deployWorkflowArtifactsSlotOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/deployWorkflowArtifacts",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.workflowArtifacts,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const listInstanceWorkflowsSlotOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/workflows",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkflowEnvelopeCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getInstanceWorkflowSlotOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/workflows/{workflowName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkflowEnvelope
+    },
+    404: {
+      isError: true
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.workflowName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listInstanceWorkflowsConfigurationConnectionsSlotOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/workflowsConfiguration/connections",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkflowEnvelope
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listWorkflowsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/workflows",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkflowEnvelopeCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getWorkflowOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/workflows/{workflowName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkflowEnvelope
+    },
+    404: {
+      isError: true
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.workflowName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listWorkflowsConfigurationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/workflowsConfiguration/connections",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkflowEnvelope
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -29738,6 +30275,51 @@ const listWebJobsNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.WebJobCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listInstanceWorkflowsSlotNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkflowEnvelopeCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+    Parameters.slot
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listWorkflowsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkflowEnvelopeCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
