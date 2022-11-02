@@ -49,9 +49,9 @@ import {
   ManagedClustersResetServicePrincipalProfileOptionalParams,
   ManagedClusterAADProfile,
   ManagedClustersResetAADProfileOptionalParams,
+  ManagedClustersAbortLatestOperationOptionalParams,
   ManagedClustersRotateClusterCertificatesOptionalParams,
   ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
-  ManagedClustersRotateServiceAccountSigningKeysResponse,
   ManagedClustersStopOptionalParams,
   ManagedClustersStartOptionalParams,
   RunCommandRequest,
@@ -834,6 +834,27 @@ export class ManagedClustersImpl implements ManagedClusters {
   }
 
   /**
+   * Aborting last running operation on managed cluster.  We return a 204 no content code here to
+   * indicate that the operation has been accepted and an abort will be attempted but is not guaranteed
+   * to complete successfully. Please look up the provisioning state of the managed cluster to keep track
+   * of whether it changes to Canceled. A canceled provisioning state indicates that the abort was
+   * successful
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  abortLatestOperation(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, resourceName, options },
+      abortLatestOperationOperationSpec
+    );
+  }
+
+  /**
    * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
    * details about rotating managed cluster certificates.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -927,18 +948,11 @@ export class ManagedClustersImpl implements ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<
-        ManagedClustersRotateServiceAccountSigningKeysResponse
-      >,
-      ManagedClustersRotateServiceAccountSigningKeysResponse
-    >
-  > {
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ManagedClustersRotateServiceAccountSigningKeysResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -981,8 +995,7 @@ export class ManagedClustersImpl implements ManagedClusters {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -998,7 +1011,7 @@ export class ManagedClustersImpl implements ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams
-  ): Promise<ManagedClustersRotateServiceAccountSigningKeysResponse> {
+  ): Promise<void> {
     const poller = await this.beginRotateServiceAccountSigningKeys(
       resourceGroupName,
       resourceName,
@@ -1588,7 +1601,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1596,7 +1609,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1621,7 +1634,7 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1629,7 +1642,7 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1646,7 +1659,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.ignorePodDisruptionBudget
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1669,7 +1685,7 @@ const resetServicePrincipalProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1677,7 +1693,7 @@ const resetServicePrincipalProfileOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1694,7 +1710,7 @@ const resetAADProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1702,8 +1718,28 @@ const resetAADProfileOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
+  serializer
+};
+const abortLatestOperationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclusters/{resourceName}/abort",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const rotateClusterCertificatesOperationSpec: coreClient.OperationSpec = {
@@ -1734,22 +1770,10 @@ const rotateServiceAccountSigningKeysOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateServiceAccountSigningKeys",
   httpMethod: "POST",
   responses: {
-    200: {
-      headersMapper:
-        Mappers.ManagedClustersRotateServiceAccountSigningKeysHeaders
-    },
-    201: {
-      headersMapper:
-        Mappers.ManagedClustersRotateServiceAccountSigningKeysHeaders
-    },
-    202: {
-      headersMapper:
-        Mappers.ManagedClustersRotateServiceAccountSigningKeysHeaders
-    },
-    204: {
-      headersMapper:
-        Mappers.ManagedClustersRotateServiceAccountSigningKeysHeaders
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -1839,7 +1863,7 @@ const runCommandOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1946,8 +1970,8 @@ const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.Oper
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
   serializer

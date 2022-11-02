@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./fleets";
+export * from "./fleetMembers";
 export * from "./operations";
 export * from "./managedClusters";
 export * from "./maintenanceConfigurations";
@@ -14,3 +16,6 @@ export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
 export * from "./resolvePrivateLinkServiceId";
 export * from "./snapshots";
+export * from "./managedClusterSnapshots";
+export * from "./trustedAccessRoles";
+export * from "./trustedAccessRoleBindings";

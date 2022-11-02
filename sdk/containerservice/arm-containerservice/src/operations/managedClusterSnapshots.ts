@@ -7,38 +7,38 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Snapshots } from "../operationsInterfaces";
+import { ManagedClusterSnapshots } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerServiceClient } from "../containerServiceClient";
 import {
-  Snapshot,
-  SnapshotsListNextOptionalParams,
-  SnapshotsListOptionalParams,
-  SnapshotsListByResourceGroupNextOptionalParams,
-  SnapshotsListByResourceGroupOptionalParams,
-  SnapshotsListResponse,
-  SnapshotsListByResourceGroupResponse,
-  SnapshotsGetOptionalParams,
-  SnapshotsGetResponse,
-  SnapshotsCreateOrUpdateOptionalParams,
-  SnapshotsCreateOrUpdateResponse,
+  ManagedClusterSnapshot,
+  ManagedClusterSnapshotsListNextOptionalParams,
+  ManagedClusterSnapshotsListOptionalParams,
+  ManagedClusterSnapshotsListByResourceGroupNextOptionalParams,
+  ManagedClusterSnapshotsListByResourceGroupOptionalParams,
+  ManagedClusterSnapshotsListResponse,
+  ManagedClusterSnapshotsListByResourceGroupResponse,
+  ManagedClusterSnapshotsGetOptionalParams,
+  ManagedClusterSnapshotsGetResponse,
+  ManagedClusterSnapshotsCreateOrUpdateOptionalParams,
+  ManagedClusterSnapshotsCreateOrUpdateResponse,
   TagsObject,
-  SnapshotsUpdateTagsOptionalParams,
-  SnapshotsUpdateTagsResponse,
-  SnapshotsDeleteOptionalParams,
-  SnapshotsListNextResponse,
-  SnapshotsListByResourceGroupNextResponse
+  ManagedClusterSnapshotsUpdateTagsOptionalParams,
+  ManagedClusterSnapshotsUpdateTagsResponse,
+  ManagedClusterSnapshotsDeleteOptionalParams,
+  ManagedClusterSnapshotsListNextResponse,
+  ManagedClusterSnapshotsListByResourceGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Snapshots operations. */
-export class SnapshotsImpl implements Snapshots {
+/** Class containing ManagedClusterSnapshots operations. */
+export class ManagedClusterSnapshotsImpl implements ManagedClusterSnapshots {
   private readonly client: ContainerServiceClient;
 
   /**
-   * Initialize a new instance of the class Snapshots class.
+   * Initialize a new instance of the class ManagedClusterSnapshots class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerServiceClient) {
@@ -46,12 +46,12 @@ export class SnapshotsImpl implements Snapshots {
   }
 
   /**
-   * Gets a list of snapshots in the specified subscription.
+   * Gets a list of managed cluster snapshots in the specified subscription.
    * @param options The options parameters.
    */
   public list(
-    options?: SnapshotsListOptionalParams
-  ): PagedAsyncIterableIterator<Snapshot> {
+    options?: ManagedClusterSnapshotsListOptionalParams
+  ): PagedAsyncIterableIterator<ManagedClusterSnapshot> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -67,8 +67,8 @@ export class SnapshotsImpl implements Snapshots {
   }
 
   private async *listPagingPage(
-    options?: SnapshotsListOptionalParams
-  ): AsyncIterableIterator<Snapshot[]> {
+    options?: ManagedClusterSnapshotsListOptionalParams
+  ): AsyncIterableIterator<ManagedClusterSnapshot[]> {
     let result = await this._list(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -80,22 +80,22 @@ export class SnapshotsImpl implements Snapshots {
   }
 
   private async *listPagingAll(
-    options?: SnapshotsListOptionalParams
-  ): AsyncIterableIterator<Snapshot> {
+    options?: ManagedClusterSnapshotsListOptionalParams
+  ): AsyncIterableIterator<ManagedClusterSnapshot> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists snapshots in the specified subscription and resource group.
+   * Lists managed cluster snapshots in the specified subscription and resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: SnapshotsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<Snapshot> {
+    options?: ManagedClusterSnapshotsListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<ManagedClusterSnapshot> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -112,8 +112,8 @@ export class SnapshotsImpl implements Snapshots {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: SnapshotsListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<Snapshot[]> {
+    options?: ManagedClusterSnapshotsListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<ManagedClusterSnapshot[]> {
     let result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -130,8 +130,8 @@ export class SnapshotsImpl implements Snapshots {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: SnapshotsListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<Snapshot> {
+    options?: ManagedClusterSnapshotsListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<ManagedClusterSnapshot> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options
@@ -141,24 +141,24 @@ export class SnapshotsImpl implements Snapshots {
   }
 
   /**
-   * Gets a list of snapshots in the specified subscription.
+   * Gets a list of managed cluster snapshots in the specified subscription.
    * @param options The options parameters.
    */
   private _list(
-    options?: SnapshotsListOptionalParams
-  ): Promise<SnapshotsListResponse> {
+    options?: ManagedClusterSnapshotsListOptionalParams
+  ): Promise<ManagedClusterSnapshotsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
-   * Lists snapshots in the specified subscription and resource group.
+   * Lists managed cluster snapshots in the specified subscription and resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: SnapshotsListByResourceGroupOptionalParams
-  ): Promise<SnapshotsListByResourceGroupResponse> {
+    options?: ManagedClusterSnapshotsListByResourceGroupOptionalParams
+  ): Promise<ManagedClusterSnapshotsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
@@ -166,7 +166,7 @@ export class SnapshotsImpl implements Snapshots {
   }
 
   /**
-   * Gets a snapshot.
+   * Gets a managed cluster snapshot.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
@@ -174,8 +174,8 @@ export class SnapshotsImpl implements Snapshots {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: SnapshotsGetOptionalParams
-  ): Promise<SnapshotsGetResponse> {
+    options?: ManagedClusterSnapshotsGetOptionalParams
+  ): Promise<ManagedClusterSnapshotsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
       getOperationSpec
@@ -183,18 +183,18 @@ export class SnapshotsImpl implements Snapshots {
   }
 
   /**
-   * Creates or updates a snapshot.
+   * Creates or updates a managed cluster snapshot.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param parameters The snapshot to create or update.
+   * @param parameters The managed cluster snapshot to create or update.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     resourceName: string,
-    parameters: Snapshot,
-    options?: SnapshotsCreateOrUpdateOptionalParams
-  ): Promise<SnapshotsCreateOrUpdateResponse> {
+    parameters: ManagedClusterSnapshot,
+    options?: ManagedClusterSnapshotsCreateOrUpdateOptionalParams
+  ): Promise<ManagedClusterSnapshotsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, parameters, options },
       createOrUpdateOperationSpec
@@ -202,18 +202,18 @@ export class SnapshotsImpl implements Snapshots {
   }
 
   /**
-   * Updates tags on a snapshot.
+   * Updates tags on a managed cluster snapshot.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param parameters Parameters supplied to the Update snapshot Tags operation.
+   * @param parameters Parameters supplied to the Update managed cluster snapshot Tags operation.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
     resourceName: string,
     parameters: TagsObject,
-    options?: SnapshotsUpdateTagsOptionalParams
-  ): Promise<SnapshotsUpdateTagsResponse> {
+    options?: ManagedClusterSnapshotsUpdateTagsOptionalParams
+  ): Promise<ManagedClusterSnapshotsUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, parameters, options },
       updateTagsOperationSpec
@@ -221,7 +221,7 @@ export class SnapshotsImpl implements Snapshots {
   }
 
   /**
-   * Deletes a snapshot.
+   * Deletes a managed cluster snapshot.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
@@ -229,7 +229,7 @@ export class SnapshotsImpl implements Snapshots {
   delete(
     resourceGroupName: string,
     resourceName: string,
-    options?: SnapshotsDeleteOptionalParams
+    options?: ManagedClusterSnapshotsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
@@ -244,8 +244,8 @@ export class SnapshotsImpl implements Snapshots {
    */
   private _listNext(
     nextLink: string,
-    options?: SnapshotsListNextOptionalParams
-  ): Promise<SnapshotsListNextResponse> {
+    options?: ManagedClusterSnapshotsListNextOptionalParams
+  ): Promise<ManagedClusterSnapshotsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
@@ -261,8 +261,8 @@ export class SnapshotsImpl implements Snapshots {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: SnapshotsListByResourceGroupNextOptionalParams
-  ): Promise<SnapshotsListByResourceGroupNextResponse> {
+    options?: ManagedClusterSnapshotsListByResourceGroupNextOptionalParams
+  ): Promise<ManagedClusterSnapshotsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
@@ -274,11 +274,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/snapshots",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedclustersnapshots",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SnapshotListResult
+      bodyMapper: Mappers.ManagedClusterSnapshotListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -291,11 +291,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclustersnapshots",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SnapshotListResult
+      bodyMapper: Mappers.ManagedClusterSnapshotListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -312,11 +312,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclustersnapshots/{resourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Snapshot
+      bodyMapper: Mappers.ManagedClusterSnapshot
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -334,20 +334,20 @@ const getOperationSpec: coreClient.OperationSpec = {
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclustersnapshots/{resourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Snapshot
+      bodyMapper: Mappers.ManagedClusterSnapshot
     },
     201: {
-      bodyMapper: Mappers.Snapshot
+      bodyMapper: Mappers.ManagedClusterSnapshot
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -361,11 +361,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclustersnapshots/{resourceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Snapshot
+      bodyMapper: Mappers.ManagedClusterSnapshot
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -385,7 +385,7 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclustersnapshots/{resourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -409,7 +409,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SnapshotListResult
+      bodyMapper: Mappers.ManagedClusterSnapshotListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -429,7 +429,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SnapshotListResult
+      bodyMapper: Mappers.ManagedClusterSnapshotListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
