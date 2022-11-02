@@ -11,7 +11,7 @@ import { OnlineEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
+import { AzureMachineLearningServices } from "../azureMachineLearningServices";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -39,13 +39,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing OnlineEndpoints operations. */
 export class OnlineEndpointsImpl implements OnlineEndpoints {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServices;
 
   /**
    * Initialize a new instance of the class OnlineEndpoints class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServices) {
     this.client = client;
   }
 
@@ -593,9 +593,9 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.skip,
-    Parameters.count,
-    Parameters.tags1,
+    Parameters.tags,
     Parameters.properties1,
+    Parameters.count,
     Parameters.name2,
     Parameters.computeType,
     Parameters.orderBy2
@@ -677,7 +677,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body,
+  requestBody: Parameters.body8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -711,7 +711,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body16,
+  requestBody: Parameters.body18,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -760,7 +760,7 @@ const regenerateKeysOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body17,
+  requestBody: Parameters.body19,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -810,9 +810,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.skip,
-    Parameters.count,
-    Parameters.tags1,
+    Parameters.tags,
     Parameters.properties1,
+    Parameters.count,
     Parameters.name2,
     Parameters.computeType,
     Parameters.orderBy2
