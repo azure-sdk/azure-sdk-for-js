@@ -1,15 +1,18 @@
 # Release History
+    
+## 30.1.0 (2022-11-02)
+    
+**Features**
 
-## 30.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface DelegationProperties
+  - Added Interface PartnerManagedResourceProperties
+  - Interface NetworkVirtualAppliance has a new optional parameter delegation
+  - Interface NetworkVirtualAppliance has a new optional parameter deploymentType
+  - Interface NetworkVirtualAppliance has a new optional parameter partnerManagedResource
+  - Interface PolicySettings has a new optional parameter customBlockResponseBody
+  - Interface PolicySettings has a new optional parameter customBlockResponseStatusCode
+    
+    
 ## 30.0.0 (2022-09-29)
     
 **Features**
