@@ -10465,21 +10465,30 @@ packages:
     dev: false
 
   file:projects/arm-authorization.tgz:
-    resolution: {integrity: sha512-oG5I0FW25UWY/8ljPqLbsppt3PB54BTNzZCyWhvQY1J3b1UgUt7Ty0KemX/a6MiukKlizslI6D4DBuDChWXVBg==, tarball: file:projects/arm-authorization.tgz}
+    resolution: {integrity: sha512-InSRtYkwds1E0Y3jg8gJ3Grp1iZbJ5hdJGYZgdiYbhZN4va5isR48x/JJklsF/ejUjPdkU2D3y3rIppWSHtAPQ==, tarball: file:projects/arm-authorization.tgz}
     name: '@rush-temp/arm-authorization'
     version: 0.0.0
     dependencies:
+      '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.5
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.79.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@types/node'
+      - supports-color
     dev: false
 
   file:projects/arm-automanage.tgz:
@@ -15551,7 +15560,7 @@ packages:
     dev: false
 
   file:projects/communication-email.tgz:
-    resolution: {integrity: sha512-RhI+WjqfaBqh0U8veuoa5ZrFNTH/LJzWkOM3Q85xPYbUjbnSRYz4EoAMjHQqVmj9hZvhSbouIUKVsBQ2oQM8jA==, tarball: file:projects/communication-email.tgz}
+    resolution: {integrity: sha512-JUM2HfVa7yIVOHZ2hdb4QjOe3EA0XgNw+8TTjKDJ4319hEcss0cdw4lSg6kBG/S1EGL+yjS+xY86YWkY68xw+g==, tarball: file:projects/communication-email.tgz}
     name: '@rush-temp/communication-email'
     version: 0.0.0
     dependencies:
@@ -17312,7 +17321,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-zt5Iu56m9r0icm/kPw+dSYGCDhXP9YvUODLIlCinUSBZ8/dhcr2ovf57pb/5Ojqjuaxo2Lpj4ON9Q2Moc1pPYw==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-qegEv0paVx7dHJIGMtm8fTGiVf0AKTLUquBP7seg/SwQ2X1SMJR0O5XOJrIyfX1VBG7L+TSr04adfr/1TIR2YQ==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -18129,7 +18138,7 @@ packages:
     dev: false
 
   file:projects/perf-app-configuration.tgz:
-    resolution: {integrity: sha512-BzR9fvBllxo1pEws5GZiMxuzWLQ7KjDJMfrzlcfwWZIldYlntxGolkUbdVYKsQlxiiq6W+aq/OY8j3AGqI7cwQ==, tarball: file:projects/perf-app-configuration.tgz}
+    resolution: {integrity: sha512-b33BULpxOX6J9dR9f56lJ7afd7XBXxEQZBtZwG3pq0Slu6LjWh717zNT0t+HV/uNPpDTUySako6JAzVPT5yJWQ==, tarball: file:projects/perf-app-configuration.tgz}
     name: '@rush-temp/perf-app-configuration'
     version: 0.0.0
     dependencies:
@@ -18512,7 +18521,7 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-CR7LZ2mTcTzlarWLzMt5NaXWF8Wqyxkq9XPVS7BXzPMLAUx2sjTkZtDBuNK0UQ+lGJ3uqhpokEQO6A6jw9fwtg==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-vkGuclIBHH0EYig/IAlJuKXo0FPxnqH3LWulE/Ibe4LUnjHFEv6qTEtps9HpSL/UhkERBiBJo5o7wsNO/ElgwA==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
