@@ -146,6 +146,7 @@ export interface ContainerGroupProperties {
     diagnostics?: ContainerGroupDiagnostics;
     dnsConfig?: DnsConfiguration;
     encryptionProperties?: EncryptionProperties;
+    extensions?: DeploymentExtensionSpec[];
     identity?: ContainerGroupIdentity;
     imageRegistryCredentials?: ImageRegistryCredential[];
     initContainers?: InitContainerDefinition[];
@@ -387,6 +388,15 @@ export interface ContainerState {
 }
 
 // @public
+export interface DeploymentExtensionSpec {
+    extensionType?: string;
+    name: string;
+    protectedSettings?: Record<string, unknown>;
+    settings?: Record<string, unknown>;
+    version?: string;
+}
+
+// @public
 export interface DnsConfiguration {
     nameServers: string[];
     options?: string;
@@ -398,6 +408,7 @@ export type DnsNameLabelReusePolicy = string;
 
 // @public
 export interface EncryptionProperties {
+    identity?: string;
     keyName: string;
     keyVersion: string;
     vaultBaseUrl: string;

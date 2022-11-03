@@ -222,6 +222,18 @@ export const ContainerGroupProperties: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      extensions: {
+        serializedName: "properties.extensions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeploymentExtensionSpec"
+            }
+          }
+        }
       }
     }
   }
@@ -1238,6 +1250,12 @@ export const EncryptionProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1344,6 +1362,48 @@ export const InitContainerPropertiesDefinitionInstanceView: coreClient.Composite
               className: "Event"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const DeploymentExtensionSpec: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeploymentExtensionSpec",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      extensionType: {
+        serializedName: "properties.extensionType",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "properties.version",
+        type: {
+          name: "String"
+        }
+      },
+      settings: {
+        serializedName: "properties.settings",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      protectedSettings: {
+        serializedName: "properties.protectedSettings",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
