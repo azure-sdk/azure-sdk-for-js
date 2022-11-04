@@ -809,9 +809,9 @@ export interface DeploymentWhatIf {
 }
 
 // @public
-export type DeploymentWhatIfProperties = DeploymentProperties & {
+export interface DeploymentWhatIfProperties extends DeploymentProperties {
     whatIfSettings?: DeploymentWhatIfSettings;
-};
+}
 
 // @public
 export interface DeploymentWhatIfSettings {
@@ -857,21 +857,21 @@ export interface ExtendedLocation {
 export type ExtendedLocationType = string;
 
 // @public
-export type GenericResource = Resource & {
-    plan?: Plan;
-    properties?: Record<string, unknown>;
+export interface GenericResource extends Resource {
+    identity?: Identity;
     kind?: string;
     managedBy?: string;
+    plan?: Plan;
+    properties?: Record<string, unknown>;
     sku?: Sku;
-    identity?: Identity;
-};
+}
 
 // @public
-export type GenericResourceExpanded = GenericResource & {
-    readonly createdTime?: Date;
+export interface GenericResourceExpanded extends GenericResource {
     readonly changedTime?: Date;
+    readonly createdTime?: Date;
     readonly provisioningState?: string;
-};
+}
 
 // @public
 export interface GenericResourceFilter {
@@ -921,57 +921,37 @@ export enum KnownAliasPathTokenType {
 
 // @public
 export enum KnownExpressionEvaluationOptionsScopeType {
-    // (undocumented)
     Inner = "Inner",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Outer = "Outer"
 }
 
 // @public
 export enum KnownExtendedLocationType {
-    // (undocumented)
     EdgeZone = "EdgeZone"
 }
 
 // @public
 export enum KnownProviderAuthorizationConsentState {
-    // (undocumented)
     Consented = "Consented",
-    // (undocumented)
     NotRequired = "NotRequired",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Required = "Required"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Created = "Created",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Ready = "Ready",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
@@ -1664,7 +1644,14 @@ export interface Tags {
 }
 
 // @public
+export interface TagsCreateOrUpdateAtScopeHeaders {
+    location?: string;
+}
+
+// @public
 export interface TagsCreateOrUpdateAtScopeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1685,7 +1672,14 @@ export interface TagsCreateOrUpdateValueOptionalParams extends coreClient.Operat
 export type TagsCreateOrUpdateValueResponse = TagValue;
 
 // @public
+export interface TagsDeleteAtScopeHeaders {
+    location?: string;
+}
+
+// @public
 export interface TagsDeleteAtScopeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1725,15 +1719,18 @@ export interface TagsListResult {
 
 // @public
 export interface TagsOperations {
+    beginCreateOrUpdateAtScope(scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams): Promise<PollerLike<PollOperationState<TagsCreateOrUpdateAtScopeResponse>, TagsCreateOrUpdateAtScopeResponse>>;
+    beginCreateOrUpdateAtScopeAndWait(scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams): Promise<TagsCreateOrUpdateAtScopeResponse>;
+    beginDeleteAtScope(scope: string, options?: TagsDeleteAtScopeOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAtScopeAndWait(scope: string, options?: TagsDeleteAtScopeOptionalParams): Promise<void>;
+    beginUpdateAtScope(scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams): Promise<PollerLike<PollOperationState<TagsUpdateAtScopeResponse>, TagsUpdateAtScopeResponse>>;
+    beginUpdateAtScopeAndWait(scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams): Promise<TagsUpdateAtScopeResponse>;
     createOrUpdate(tagName: string, options?: TagsCreateOrUpdateOptionalParams): Promise<TagsCreateOrUpdateResponse>;
-    createOrUpdateAtScope(scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams): Promise<TagsCreateOrUpdateAtScopeResponse>;
     createOrUpdateValue(tagName: string, tagValue: string, options?: TagsCreateOrUpdateValueOptionalParams): Promise<TagsCreateOrUpdateValueResponse>;
     delete(tagName: string, options?: TagsDeleteOptionalParams): Promise<void>;
-    deleteAtScope(scope: string, options?: TagsDeleteAtScopeOptionalParams): Promise<void>;
     deleteValue(tagName: string, tagValue: string, options?: TagsDeleteValueOptionalParams): Promise<void>;
     getAtScope(scope: string, options?: TagsGetAtScopeOptionalParams): Promise<TagsGetAtScopeResponse>;
     list(options?: TagsListOptionalParams): PagedAsyncIterableIterator<TagDetails>;
-    updateAtScope(scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams): Promise<TagsUpdateAtScopeResponse>;
 }
 
 // @public
@@ -1754,7 +1751,14 @@ export interface TagsResource {
 }
 
 // @public
+export interface TagsUpdateAtScopeHeaders {
+    location?: string;
+}
+
+// @public
 export interface TagsUpdateAtScopeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public

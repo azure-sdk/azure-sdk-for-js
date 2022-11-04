@@ -1071,13 +1071,13 @@ export interface SubResource {
 }
 
 /** Deployment What-if properties. */
-export type DeploymentWhatIfProperties = DeploymentProperties & {
+export interface DeploymentWhatIfProperties extends DeploymentProperties {
   /** Optional What-If operation settings. */
   whatIfSettings?: DeploymentWhatIfSettings;
-};
+}
 
 /** Resource information. */
-export type GenericResource = Resource & {
+export interface GenericResource extends Resource {
   /** The plan of the resource. */
   plan?: Plan;
   /** The resource properties. */
@@ -1090,10 +1090,10 @@ export type GenericResource = Resource & {
   sku?: Sku;
   /** The identity of the resource. */
   identity?: Identity;
-};
+}
 
 /** Resource information. */
-export type GenericResourceExpanded = GenericResource & {
+export interface GenericResourceExpanded extends GenericResource {
   /**
    * The created time of the resource. This is only present if requested via the $expand query parameter.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1109,7 +1109,7 @@ export type GenericResourceExpanded = GenericResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** Defines headers for Deployments_whatIfAtTenantScope operation. */
 export interface DeploymentsWhatIfAtTenantScopeHeaders {
@@ -1143,10 +1143,31 @@ export interface DeploymentsWhatIfHeaders {
   retryAfter?: string;
 }
 
+/** Defines headers for Tags_createOrUpdateAtScope operation. */
+export interface TagsCreateOrUpdateAtScopeHeaders {
+  /** URL to get status of this long-running operation. */
+  location?: string;
+}
+
+/** Defines headers for Tags_updateAtScope operation. */
+export interface TagsUpdateAtScopeHeaders {
+  /** URL to get status of this long-running operation. */
+  location?: string;
+}
+
+/** Defines headers for Tags_deleteAtScope operation. */
+export interface TagsDeleteAtScopeHeaders {
+  /** URL to get status of this long-running operation. */
+  location?: string;
+}
+
 /** Known values of {@link ExpressionEvaluationOptionsScopeType} that the service accepts. */
 export enum KnownExpressionEvaluationOptionsScopeType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Outer */
   Outer = "Outer",
+  /** Inner */
   Inner = "Inner"
 }
 
@@ -1163,17 +1184,29 @@ export type ExpressionEvaluationOptionsScopeType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Accepted */
   Accepted = "Accepted",
+  /** Running */
   Running = "Running",
+  /** Ready */
   Ready = "Ready",
+  /** Creating */
   Creating = "Creating",
+  /** Created */
   Created = "Created",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Updating */
   Updating = "Updating"
 }
 
@@ -1253,9 +1286,13 @@ export type AliasPathAttributes = string;
 
 /** Known values of {@link ProviderAuthorizationConsentState} that the service accepts. */
 export enum KnownProviderAuthorizationConsentState {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Required */
   Required = "Required",
+  /** NotRequired */
   NotRequired = "NotRequired",
+  /** Consented */
   Consented = "Consented"
 }
 
@@ -1273,6 +1310,7 @@ export type ProviderAuthorizationConsentState = string;
 
 /** Known values of {@link ExtendedLocationType} that the service accepts. */
 export enum KnownExtendedLocationType {
+  /** EdgeZone */
   EdgeZone = "EdgeZone"
 }
 
@@ -1974,7 +2012,7 @@ export interface ResourcesListOptionalParams
   extends coreClient.OperationOptions {
   /** The filter to apply on the operation.<br><br>Filter comparison operators include `eq` (equals) and `ne` (not equals) and may be used with the following properties: `location`, `resourceType`, `name`, `resourceGroup`, `identity`, `identity/principalId`, `plan`, `plan/publisher`, `plan/product`, `plan/name`, `plan/version`, and `plan/promotionCode`.<br><br>For example, to filter by a resource type, use `$filter=resourceType eq 'Microsoft.Network/virtualNetworks'`<br><br><br>`substringof(value, property)` can  be used to filter for substrings of the following currently-supported properties: `name` and `resourceGroup`<br><br>For example, to get all resources with 'demo' anywhere in the resource name, use `$filter=substringof('demo', name)`<br><br>Multiple substring operations can also be combined using `and`/`or` operators.<br><br>Note that any truncated number of results queried via `$top` may also not be compatible when using a filter.<br><br><br>Resources can be filtered by tag names and values. For example, to filter for a tag name and value, use `$filter=tagName eq 'tag1' and tagValue eq 'Value1'`. Note that when resources are filtered by tag name and value, <b>the original tags for each resource will not be returned in the results.</b> Any list of additional properties queried via `$expand` may also not be compatible when filtering by tag names/values. <br><br>For tag names only, resources can be filtered by prefix using the following syntax: `$filter=startswith(tagName, 'depart')`. This query will return all resources with a tag name prefixed by the phrase `depart` (i.e.`department`, `departureDate`, `departureTime`, etc.)<br><br><br>Note that some properties can be combined when filtering resources, which include the following: `substringof() and/or resourceType`, `plan and plan/publisher and plan/name`, and `identity and identity/principalId`. */
   filter?: string;
-  /** The number of results to return. If null is passed, returns all resources. */
+  /** The number of recommendations per page if a paged version of this API is being used. */
   top?: number;
   /** Comma-separated list of additional properties to be included in the response. Valid values include `createdTime`, `changedTime` and `provisioningState`. For example, `$expand=createdTime,changedTime`. */
   expand?: string;
@@ -2100,7 +2138,7 @@ export interface ResourcesListNextOptionalParams
   extends coreClient.OperationOptions {
   /** The filter to apply on the operation.<br><br>Filter comparison operators include `eq` (equals) and `ne` (not equals) and may be used with the following properties: `location`, `resourceType`, `name`, `resourceGroup`, `identity`, `identity/principalId`, `plan`, `plan/publisher`, `plan/product`, `plan/name`, `plan/version`, and `plan/promotionCode`.<br><br>For example, to filter by a resource type, use `$filter=resourceType eq 'Microsoft.Network/virtualNetworks'`<br><br><br>`substringof(value, property)` can  be used to filter for substrings of the following currently-supported properties: `name` and `resourceGroup`<br><br>For example, to get all resources with 'demo' anywhere in the resource name, use `$filter=substringof('demo', name)`<br><br>Multiple substring operations can also be combined using `and`/`or` operators.<br><br>Note that any truncated number of results queried via `$top` may also not be compatible when using a filter.<br><br><br>Resources can be filtered by tag names and values. For example, to filter for a tag name and value, use `$filter=tagName eq 'tag1' and tagValue eq 'Value1'`. Note that when resources are filtered by tag name and value, <b>the original tags for each resource will not be returned in the results.</b> Any list of additional properties queried via `$expand` may also not be compatible when filtering by tag names/values. <br><br>For tag names only, resources can be filtered by prefix using the following syntax: `$filter=startswith(tagName, 'depart')`. This query will return all resources with a tag name prefixed by the phrase `depart` (i.e.`department`, `departureDate`, `departureTime`, etc.)<br><br><br>Note that some properties can be combined when filtering resources, which include the following: `substringof() and/or resourceType`, `plan and plan/publisher and plan/name`, and `identity and identity/principalId`. */
   filter?: string;
-  /** The number of results to return. If null is passed, returns all resources. */
+  /** The number of recommendations per page if a paged version of this API is being used. */
   top?: number;
   /** Comma-separated list of additional properties to be included in the response. Valid values include `createdTime`, `changedTime` and `provisioningState`. For example, `$expand=createdTime,changedTime`. */
   expand?: string;
@@ -2215,14 +2253,24 @@ export type TagsListResponse = TagsListResult;
 
 /** Optional parameters. */
 export interface TagsCreateOrUpdateAtScopeOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the createOrUpdateAtScope operation. */
 export type TagsCreateOrUpdateAtScopeResponse = TagsResource;
 
 /** Optional parameters. */
 export interface TagsUpdateAtScopeOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the updateAtScope operation. */
 export type TagsUpdateAtScopeResponse = TagsResource;
@@ -2236,7 +2284,12 @@ export type TagsGetAtScopeResponse = TagsResource;
 
 /** Optional parameters. */
 export interface TagsDeleteAtScopeOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface TagsListNextOptionalParams
