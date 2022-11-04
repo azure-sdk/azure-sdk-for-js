@@ -46,9 +46,9 @@ export interface ChangeResourceListResult {
 }
 
 // @public
-export type ChangeResourceResult = Resource & {
+export interface ChangeResourceResult extends Resource {
     properties?: ChangeProperties;
-};
+}
 
 // @public
 export interface Changes {
