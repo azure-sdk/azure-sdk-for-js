@@ -11,17 +11,21 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   DataPolicyManifestsImpl,
-  PolicyAssignmentsImpl,
   PolicyDefinitionsImpl,
   PolicySetDefinitionsImpl,
-  PolicyExemptionsImpl
+  PolicyAssignmentsImpl,
+  PolicyExemptionsImpl,
+  VariablesImpl,
+  VariableValuesImpl
 } from "./operations";
 import {
   DataPolicyManifests,
-  PolicyAssignments,
   PolicyDefinitions,
   PolicySetDefinitions,
-  PolicyExemptions
+  PolicyAssignments,
+  PolicyExemptions,
+  Variables,
+  VariableValues
 } from "./operationsInterfaces";
 import { PolicyClientOptionalParams } from "./models";
 
@@ -56,7 +60,7 @@ export class PolicyClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-policy/5.0.3`;
+    const packageDetails = `azsdk-js-arm-policy/5.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -76,27 +80,34 @@ export class PolicyClient extends coreClient.ServiceClient {
     };
     super(optionsWithDefaults);
 
+    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
+    }
+    if (
+      !options ||
+      !options.pipeline ||
+      options.pipeline.getOrderedPolicies().length == 0 ||
+      !bearerTokenAuthenticationPolicyFound
+    ) {
+      this.pipeline.removePolicy({
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+      });
+      this.pipeline.addPolicy(
+        coreRestPipeline.bearerTokenAuthenticationPolicy({
+          credential: credentials,
+          scopes: `${optionsWithDefaults.credentialScopes}`,
+          challengeCallbacks: {
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge
+          }
+        })
+      );
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
@@ -104,15 +115,19 @@ export class PolicyClient extends coreClient.ServiceClient {
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.dataPolicyManifests = new DataPolicyManifestsImpl(this);
-    this.policyAssignments = new PolicyAssignmentsImpl(this);
     this.policyDefinitions = new PolicyDefinitionsImpl(this);
     this.policySetDefinitions = new PolicySetDefinitionsImpl(this);
+    this.policyAssignments = new PolicyAssignmentsImpl(this);
     this.policyExemptions = new PolicyExemptionsImpl(this);
+    this.variables = new VariablesImpl(this);
+    this.variableValues = new VariableValuesImpl(this);
   }
 
   dataPolicyManifests: DataPolicyManifests;
-  policyAssignments: PolicyAssignments;
   policyDefinitions: PolicyDefinitions;
   policySetDefinitions: PolicySetDefinitions;
+  policyAssignments: PolicyAssignments;
   policyExemptions: PolicyExemptions;
+  variables: Variables;
+  variableValues: VariableValues;
 }
