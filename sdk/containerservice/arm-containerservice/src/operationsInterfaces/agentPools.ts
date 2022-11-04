@@ -11,6 +11,7 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   AgentPool,
   AgentPoolsListOptionalParams,
+  AgentPoolsAbortLatestOperationOptionalParams,
   AgentPoolsGetOptionalParams,
   AgentPoolsGetResponse,
   AgentPoolsCreateOrUpdateOptionalParams,
@@ -37,6 +38,36 @@ export interface AgentPools {
     resourceName: string,
     options?: AgentPoolsListOptionalParams
   ): PagedAsyncIterableIterator<AgentPool>;
+  /**
+   * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
+   * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param options The options parameters.
+   */
+  beginAbortLatestOperation(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    options?: AgentPoolsAbortLatestOperationOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
+   * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param options The options parameters.
+   */
+  beginAbortLatestOperationAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    options?: AgentPoolsAbortLatestOperationOptionalParams
+  ): Promise<void>;
   /**
    * Gets the specified managed cluster agent pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
