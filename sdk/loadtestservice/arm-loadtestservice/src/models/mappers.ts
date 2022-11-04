@@ -414,6 +414,7 @@ export const EncryptionPropertiesIdentity: coreClient.CompositeMapper = {
       },
       resourceId: {
         serializedName: "resourceId",
+        nullable: true,
         type: {
           name: "String"
         }
@@ -491,9 +492,10 @@ export const LoadTestResourcePatchRequestBody: coreClient.CompositeMapper = {
     modelProperties: {
       tags: {
         serializedName: "tags",
+        nullable: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
+          value: { type: { name: "String" } }
         }
       },
       identity: {

@@ -222,7 +222,9 @@ export interface ManagedServiceIdentity {
   /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
 }
 
 /** User assigned identity properties */
@@ -242,7 +244,7 @@ export interface UserAssignedIdentity {
 /** LoadTest resource patch request body. */
 export interface LoadTestResourcePatchRequestBody {
   /** Resource tags. */
-  tags?: Record<string, unknown>;
+  tags?: { [propertyName: string]: string | null };
   /** The type of identity used for the resource. */
   identity?: ManagedServiceIdentity;
   /** Description of the resource. */

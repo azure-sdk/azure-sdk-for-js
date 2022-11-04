@@ -152,7 +152,9 @@ export interface LoadTestResourcePatchRequestBody {
     description?: string;
     encryption?: EncryptionProperties;
     identity?: ManagedServiceIdentity;
-    tags?: Record<string, unknown>;
+    tags?: {
+        [propertyName: string]: string | null;
+    };
 }
 
 // @public
@@ -248,7 +250,7 @@ export interface ManagedServiceIdentity {
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
     userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
+        [propertyName: string]: UserAssignedIdentity | null;
     };
 }
 
