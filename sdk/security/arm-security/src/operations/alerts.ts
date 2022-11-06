@@ -376,21 +376,21 @@ export class AlertsImpl implements Alerts {
 
   /**
    * Get an alert that is associated a resource group or a resource in a resource group
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
    * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
    *                    Get locations
    * @param alertName Name of the alert object
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
    * @param options The options parameters.
    */
   getResourceGroupLevel(
-    resourceGroupName: string,
     ascLocation: string,
     alertName: string,
+    resourceGroupName: string,
     options?: AlertsGetResourceGroupLevelOptionalParams
   ): Promise<AlertsGetResourceGroupLevelResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, ascLocation, alertName, options },
+      { ascLocation, alertName, resourceGroupName, options },
       getResourceGroupLevelOperationSpec
     );
   }
@@ -469,84 +469,84 @@ export class AlertsImpl implements Alerts {
 
   /**
    * Update the alert's state
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
    * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
    *                    Get locations
    * @param alertName Name of the alert object
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
    * @param options The options parameters.
    */
   updateResourceGroupLevelStateToResolve(
-    resourceGroupName: string,
     ascLocation: string,
     alertName: string,
+    resourceGroupName: string,
     options?: AlertsUpdateResourceGroupLevelStateToResolveOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, ascLocation, alertName, options },
+      { ascLocation, alertName, resourceGroupName, options },
       updateResourceGroupLevelStateToResolveOperationSpec
     );
   }
 
   /**
    * Update the alert's state
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
    * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
    *                    Get locations
    * @param alertName Name of the alert object
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
    * @param options The options parameters.
    */
   updateResourceGroupLevelStateToDismiss(
-    resourceGroupName: string,
     ascLocation: string,
     alertName: string,
+    resourceGroupName: string,
     options?: AlertsUpdateResourceGroupLevelStateToDismissOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, ascLocation, alertName, options },
+      { ascLocation, alertName, resourceGroupName, options },
       updateResourceGroupLevelStateToDismissOperationSpec
     );
   }
 
   /**
    * Update the alert's state
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
    * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
    *                    Get locations
    * @param alertName Name of the alert object
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
    * @param options The options parameters.
    */
   updateResourceGroupLevelStateToActivate(
-    resourceGroupName: string,
     ascLocation: string,
     alertName: string,
+    resourceGroupName: string,
     options?: AlertsUpdateResourceGroupLevelStateToActivateOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, ascLocation, alertName, options },
+      { ascLocation, alertName, resourceGroupName, options },
       updateResourceGroupLevelStateToActivateOperationSpec
     );
   }
 
   /**
    * Update the alert's state
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
    * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
    *                    Get locations
    * @param alertName Name of the alert object
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
    * @param options The options parameters.
    */
   updateResourceGroupLevelStateToInProgress(
-    resourceGroupName: string,
     ascLocation: string,
     alertName: string,
+    resourceGroupName: string,
     options?: AlertsUpdateResourceGroupLevelStateToInProgressOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, ascLocation, alertName, options },
+      { ascLocation, alertName, resourceGroupName, options },
       updateResourceGroupLevelStateToInProgressOperationSpec
     );
   }
