@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for AutomanageClient.",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "engines": {
     "node": ">=14.0.0"
   },
@@ -107,13 +107,5 @@
       }
     ]
   },
-  "autoPublish": true,
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-automanage?view=azure-node-preview"
-  }
+  "autoPublish": true
 }

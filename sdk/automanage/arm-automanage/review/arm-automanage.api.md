@@ -11,6 +11,20 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 // @public
 export type ActionType = string;
 
+// @public
+export interface AssignmentReportProperties {
+    readonly configurationProfile?: string;
+    readonly duration?: string;
+    endTime?: string;
+    readonly error?: ErrorDetail;
+    readonly lastModifiedTime?: string;
+    readonly reportFormatVersion?: string;
+    readonly resources?: ReportResource[];
+    startTime?: string;
+    readonly status?: string;
+    readonly type?: string;
+}
+
 // @public (undocumented)
 export class AutomanageClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -55,9 +69,9 @@ export interface AutomanageClientOptionalParams extends coreClient.ServiceClient
 
 // @public
 export interface BestPractice {
-    configuration?: Record<string, unknown>;
     readonly id?: string;
     readonly name?: string;
+    properties?: ConfigurationProfileProperties;
     readonly systemData?: SystemData;
     readonly type?: string;
 }
@@ -471,17 +485,8 @@ export interface ProxyResource extends Resource {
 
 // @public
 export interface Report extends ProxyResource {
-    readonly configurationProfile?: string;
-    readonly duration?: string;
-    endTime?: string;
-    readonly error?: ErrorDetail;
-    readonly lastModifiedTime?: string;
-    readonly reportFormatVersion?: string;
-    readonly resources?: ReportResource[];
-    startTime?: string;
-    readonly status?: string;
+    properties?: AssignmentReportProperties;
     readonly systemData?: SystemData;
-    readonly typePropertiesType?: string;
 }
 
 // @public
@@ -527,14 +532,19 @@ export interface Resource {
 
 // @public
 export interface ServicePrincipal extends ProxyResource {
-    readonly authorizationSet?: boolean;
-    readonly servicePrincipalId?: string;
+    properties?: ServicePrincipalProperties;
     readonly systemData?: SystemData;
 }
 
 // @public
 export interface ServicePrincipalListResult {
     value?: ServicePrincipal[];
+}
+
+// @public
+export interface ServicePrincipalProperties {
+    readonly authorizationSet?: boolean;
+    readonly servicePrincipalId?: string;
 }
 
 // @public
