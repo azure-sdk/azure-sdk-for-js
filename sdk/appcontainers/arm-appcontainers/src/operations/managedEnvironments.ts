@@ -31,6 +31,7 @@ import {
   ManagedEnvironmentsCreateOrUpdateResponse,
   ManagedEnvironmentsDeleteOptionalParams,
   ManagedEnvironmentsUpdateOptionalParams,
+  ManagedEnvironmentsUpdateResponse,
   ManagedEnvironmentsGetAuthTokenOptionalParams,
   ManagedEnvironmentsGetAuthTokenResponse,
   ManagedEnvironmentsListWorkloadProfileStatesResponse,
@@ -449,11 +450,16 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
     environmentName: string,
     environmentEnvelope: ManagedEnvironment,
     options?: ManagedEnvironmentsUpdateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedEnvironmentsUpdateResponse>,
+      ManagedEnvironmentsUpdateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<ManagedEnvironmentsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -514,7 +520,7 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
     environmentName: string,
     environmentEnvelope: ManagedEnvironment,
     options?: ManagedEnvironmentsUpdateOptionalParams
-  ): Promise<void> {
+  ): Promise<ManagedEnvironmentsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       environmentName,
@@ -694,7 +700,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.environmentEnvelope,
+  requestBody: Parameters.environmentEnvelope1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -734,15 +740,23 @@ const updateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}",
   httpMethod: "PATCH",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.ManagedEnvironment
+    },
+    201: {
+      bodyMapper: Mappers.ManagedEnvironment
+    },
+    202: {
+      bodyMapper: Mappers.ManagedEnvironment
+    },
+    204: {
+      bodyMapper: Mappers.ManagedEnvironment
+    },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.environmentEnvelope,
+  requestBody: Parameters.environmentEnvelope1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
