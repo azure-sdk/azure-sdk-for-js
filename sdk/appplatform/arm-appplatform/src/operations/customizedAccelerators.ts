@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Gateways } from "../operationsInterfaces";
+import { CustomizedAccelerators } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,30 +15,28 @@ import { AppPlatformManagementClient } from "../appPlatformManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  GatewayResource,
-  GatewaysListNextOptionalParams,
-  GatewaysListOptionalParams,
-  GatewaysGetOptionalParams,
-  GatewaysGetResponse,
-  GatewaysCreateOrUpdateOptionalParams,
-  GatewaysCreateOrUpdateResponse,
-  GatewaysDeleteOptionalParams,
-  GatewaysListEnvSecretsOptionalParams,
-  GatewaysListEnvSecretsResponse,
-  GatewaysListResponse,
-  CustomDomainValidatePayload,
-  GatewaysValidateDomainOptionalParams,
-  GatewaysValidateDomainResponse,
-  GatewaysListNextResponse
+  CustomizedAcceleratorResource,
+  CustomizedAcceleratorsListNextOptionalParams,
+  CustomizedAcceleratorsListOptionalParams,
+  CustomizedAcceleratorsListResponse,
+  CustomizedAcceleratorsGetOptionalParams,
+  CustomizedAcceleratorsGetResponse,
+  CustomizedAcceleratorsCreateOrUpdateOptionalParams,
+  CustomizedAcceleratorsCreateOrUpdateResponse,
+  CustomizedAcceleratorsDeleteOptionalParams,
+  CustomizedAcceleratorProperties,
+  CustomizedAcceleratorsValidateOptionalParams,
+  CustomizedAcceleratorsValidateResponse,
+  CustomizedAcceleratorsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Gateways operations. */
-export class GatewaysImpl implements Gateways {
+/** Class containing CustomizedAccelerators operations. */
+export class CustomizedAcceleratorsImpl implements CustomizedAccelerators {
   private readonly client: AppPlatformManagementClient;
 
   /**
-   * Initialize a new instance of the class Gateways class.
+   * Initialize a new instance of the class CustomizedAccelerators class.
    * @param client Reference to the service client
    */
   constructor(client: AppPlatformManagementClient) {
@@ -46,18 +44,25 @@ export class GatewaysImpl implements Gateways {
   }
 
   /**
-   * Handles requests to list all resources in a Service.
+   * Handle requests to list all customized accelerators.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
+   * @param applicationAcceleratorName The name of the application accelerator.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: GatewaysListOptionalParams
-  ): PagedAsyncIterableIterator<GatewayResource> {
-    const iter = this.listPagingAll(resourceGroupName, serviceName, options);
+    applicationAcceleratorName: string,
+    options?: CustomizedAcceleratorsListOptionalParams
+  ): PagedAsyncIterableIterator<CustomizedAcceleratorResource> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      serviceName,
+      applicationAcceleratorName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -66,7 +71,12 @@ export class GatewaysImpl implements Gateways {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(resourceGroupName, serviceName, options);
+        return this.listPagingPage(
+          resourceGroupName,
+          serviceName,
+          applicationAcceleratorName,
+          options
+        );
       }
     };
   }
@@ -74,15 +84,22 @@ export class GatewaysImpl implements Gateways {
   private async *listPagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: GatewaysListOptionalParams
-  ): AsyncIterableIterator<GatewayResource[]> {
-    let result = await this._list(resourceGroupName, serviceName, options);
+    applicationAcceleratorName: string,
+    options?: CustomizedAcceleratorsListOptionalParams
+  ): AsyncIterableIterator<CustomizedAcceleratorResource[]> {
+    let result = await this._list(
+      resourceGroupName,
+      serviceName,
+      applicationAcceleratorName,
+      options
+    );
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
         serviceName,
+        applicationAcceleratorName,
         continuationToken,
         options
       );
@@ -94,11 +111,13 @@ export class GatewaysImpl implements Gateways {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: GatewaysListOptionalParams
-  ): AsyncIterableIterator<GatewayResource> {
+    applicationAcceleratorName: string,
+    options?: CustomizedAcceleratorsListOptionalParams
+  ): AsyncIterableIterator<CustomizedAcceleratorResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
+      applicationAcceleratorName,
       options
     )) {
       yield* page;
@@ -106,50 +125,80 @@ export class GatewaysImpl implements Gateways {
   }
 
   /**
-   * Get the Spring Cloud Gateway and its properties.
+   * Handle requests to list all customized accelerators.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param applicationAcceleratorName The name of the application accelerator.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    serviceName: string,
+    applicationAcceleratorName: string,
+    options?: CustomizedAcceleratorsListOptionalParams
+  ): Promise<CustomizedAcceleratorsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, applicationAcceleratorName, options },
+      listOperationSpec
+    );
+  }
+
+  /**
+   * Get the customized accelerator.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param applicationAcceleratorName The name of the application accelerator.
+   * @param customizedAcceleratorName The name of the customized accelerator.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    gatewayName: string,
-    options?: GatewaysGetOptionalParams
-  ): Promise<GatewaysGetResponse> {
+    applicationAcceleratorName: string,
+    customizedAcceleratorName: string,
+    options?: CustomizedAcceleratorsGetOptionalParams
+  ): Promise<CustomizedAcceleratorsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, gatewayName, options },
+      {
+        resourceGroupName,
+        serviceName,
+        applicationAcceleratorName,
+        customizedAcceleratorName,
+        options
+      },
       getOperationSpec
     );
   }
 
   /**
-   * Create the default Spring Cloud Gateway or update the existing Spring Cloud Gateway.
+   * Create or update the customized accelerator.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param gatewayName The name of Spring Cloud Gateway.
-   * @param gatewayResource The gateway for the create or update operation
+   * @param applicationAcceleratorName The name of the application accelerator.
+   * @param customizedAcceleratorName The name of the customized accelerator.
+   * @param customizedAcceleratorResource The customized accelerator for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    gatewayName: string,
-    gatewayResource: GatewayResource,
-    options?: GatewaysCreateOrUpdateOptionalParams
+    applicationAcceleratorName: string,
+    customizedAcceleratorName: string,
+    customizedAcceleratorResource: CustomizedAcceleratorResource,
+    options?: CustomizedAcceleratorsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<GatewaysCreateOrUpdateResponse>,
-      GatewaysCreateOrUpdateResponse
+      PollOperationState<CustomizedAcceleratorsCreateOrUpdateResponse>,
+      CustomizedAcceleratorsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<GatewaysCreateOrUpdateResponse> => {
+    ): Promise<CustomizedAcceleratorsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -187,7 +236,14 @@ export class GatewaysImpl implements Gateways {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, serviceName, gatewayName, gatewayResource, options },
+      {
+        resourceGroupName,
+        serviceName,
+        applicationAcceleratorName,
+        customizedAcceleratorName,
+        customizedAcceleratorResource,
+        options
+      },
       createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -199,44 +255,49 @@ export class GatewaysImpl implements Gateways {
   }
 
   /**
-   * Create the default Spring Cloud Gateway or update the existing Spring Cloud Gateway.
+   * Create or update the customized accelerator.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param gatewayName The name of Spring Cloud Gateway.
-   * @param gatewayResource The gateway for the create or update operation
+   * @param applicationAcceleratorName The name of the application accelerator.
+   * @param customizedAcceleratorName The name of the customized accelerator.
+   * @param customizedAcceleratorResource The customized accelerator for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    gatewayName: string,
-    gatewayResource: GatewayResource,
-    options?: GatewaysCreateOrUpdateOptionalParams
-  ): Promise<GatewaysCreateOrUpdateResponse> {
+    applicationAcceleratorName: string,
+    customizedAcceleratorName: string,
+    customizedAcceleratorResource: CustomizedAcceleratorResource,
+    options?: CustomizedAcceleratorsCreateOrUpdateOptionalParams
+  ): Promise<CustomizedAcceleratorsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
-      gatewayName,
-      gatewayResource,
+      applicationAcceleratorName,
+      customizedAcceleratorName,
+      customizedAcceleratorResource,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Disable the default Spring Cloud Gateway.
+   * Delete the customized accelerator.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param applicationAcceleratorName The name of the application accelerator.
+   * @param customizedAcceleratorName The name of the customized accelerator.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    gatewayName: string,
-    options?: GatewaysDeleteOptionalParams
+    applicationAcceleratorName: string,
+    customizedAcceleratorName: string,
+    options?: CustomizedAcceleratorsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -279,7 +340,13 @@ export class GatewaysImpl implements Gateways {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, serviceName, gatewayName, options },
+      {
+        resourceGroupName,
+        serviceName,
+        applicationAcceleratorName,
+        customizedAcceleratorName,
+        options
+      },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -291,85 +358,59 @@ export class GatewaysImpl implements Gateways {
   }
 
   /**
-   * Disable the default Spring Cloud Gateway.
+   * Delete the customized accelerator.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param applicationAcceleratorName The name of the application accelerator.
+   * @param customizedAcceleratorName The name of the customized accelerator.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    gatewayName: string,
-    options?: GatewaysDeleteOptionalParams
+    applicationAcceleratorName: string,
+    customizedAcceleratorName: string,
+    options?: CustomizedAcceleratorsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
-      gatewayName,
+      applicationAcceleratorName,
+      customizedAcceleratorName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * List sensitive environment variables of Spring Cloud Gateway.
+   * Check the customized accelerator are valid.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param applicationAcceleratorName The name of the application accelerator.
+   * @param customizedAcceleratorName The name of the customized accelerator.
+   * @param properties Customized accelerator properties to be validated
    * @param options The options parameters.
    */
-  listEnvSecrets(
+  validate(
     resourceGroupName: string,
     serviceName: string,
-    gatewayName: string,
-    options?: GatewaysListEnvSecretsOptionalParams
-  ): Promise<GatewaysListEnvSecretsResponse> {
+    applicationAcceleratorName: string,
+    customizedAcceleratorName: string,
+    properties: CustomizedAcceleratorProperties,
+    options?: CustomizedAcceleratorsValidateOptionalParams
+  ): Promise<CustomizedAcceleratorsValidateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, gatewayName, options },
-      listEnvSecretsOperationSpec
-    );
-  }
-
-  /**
-   * Handles requests to list all resources in a Service.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: GatewaysListOptionalParams
-  ): Promise<GatewaysListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, options },
-      listOperationSpec
-    );
-  }
-
-  /**
-   * Check the domains are valid as well as not in use.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param gatewayName The name of Spring Cloud Gateway.
-   * @param validatePayload Custom domain payload to be validated
-   * @param options The options parameters.
-   */
-  validateDomain(
-    resourceGroupName: string,
-    serviceName: string,
-    gatewayName: string,
-    validatePayload: CustomDomainValidatePayload,
-    options?: GatewaysValidateDomainOptionalParams
-  ): Promise<GatewaysValidateDomainResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, gatewayName, validatePayload, options },
-      validateDomainOperationSpec
+      {
+        resourceGroupName,
+        serviceName,
+        applicationAcceleratorName,
+        customizedAcceleratorName,
+        properties,
+        options
+      },
+      validateOperationSpec
     );
   }
 
@@ -378,17 +419,25 @@ export class GatewaysImpl implements Gateways {
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
+   * @param applicationAcceleratorName The name of the application accelerator.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     serviceName: string,
+    applicationAcceleratorName: string,
     nextLink: string,
-    options?: GatewaysListNextOptionalParams
-  ): Promise<GatewaysListNextResponse> {
+    options?: CustomizedAcceleratorsListNextOptionalParams
+  ): Promise<CustomizedAcceleratorsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, nextLink, options },
+      {
+        resourceGroupName,
+        serviceName,
+        applicationAcceleratorName,
+        nextLink,
+        options
+      },
       listNextOperationSpec
     );
   }
@@ -396,13 +445,13 @@ export class GatewaysImpl implements Gateways {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}/customizedAccelerators",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayResource
+      bodyMapper: Mappers.CustomizedAcceleratorResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -414,40 +463,65 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.gatewayName
+    Parameters.applicationAcceleratorName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}/customizedAccelerators/{customizedAcceleratorName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CustomizedAcceleratorResource
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.applicationAcceleratorName,
+    Parameters.customizedAcceleratorName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}/customizedAccelerators/{customizedAcceleratorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayResource
+      bodyMapper: Mappers.CustomizedAcceleratorResource
     },
     201: {
-      bodyMapper: Mappers.GatewayResource
+      bodyMapper: Mappers.CustomizedAcceleratorResource
     },
     202: {
-      bodyMapper: Mappers.GatewayResource
+      bodyMapper: Mappers.CustomizedAcceleratorResource
     },
     204: {
-      bodyMapper: Mappers.GatewayResource
+      bodyMapper: Mappers.CustomizedAcceleratorResource
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.gatewayResource,
+  requestBody: Parameters.customizedAcceleratorResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.gatewayName
+    Parameters.applicationAcceleratorName,
+    Parameters.customizedAcceleratorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -455,7 +529,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}/customizedAccelerators/{customizedAcceleratorName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -472,78 +546,34 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.gatewayName
+    Parameters.applicationAcceleratorName,
+    Parameters.customizedAcceleratorName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listEnvSecretsOperationSpec: coreClient.OperationSpec = {
+const validateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/listEnvSecrets",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}/customizedAccelerators/{customizedAcceleratorName}/validate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "String" } } }
-      }
+      bodyMapper: Mappers.CustomizedAcceleratorValidateResult
     },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
+  requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.gatewayName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GatewayResourceCollection
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const validateDomainOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/validateDomain",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CustomDomainValidateResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.validatePayload,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.gatewayName
+    Parameters.applicationAcceleratorName,
+    Parameters.customizedAcceleratorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -554,7 +584,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayResourceCollection
+      bodyMapper: Mappers.CustomizedAcceleratorResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -566,7 +596,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.applicationAcceleratorName
   ],
   headerParameters: [Parameters.accept],
   serializer
