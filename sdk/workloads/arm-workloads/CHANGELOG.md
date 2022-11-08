@@ -1,15 +1,25 @@
 # Release History
+    
+## 1.0.0-beta.3 (2022-11-08)
+    
+**Features**
 
-## 1.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface CreateAndMountFileShareConfiguration
+  - Added Interface ExternalInstallationSoftwareConfiguration
+  - Added Interface FileShareConfiguration
+  - Added Interface MountFileShareConfiguration
+  - Added Interface SkipFileShareConfiguration
+  - Added Interface StorageConfiguration
+  - Added Type Alias ConfigurationType
+  - Added Type Alias FileShareConfigurationUnion
+  - Interface Monitor has a new optional parameter zoneRedundancyPreference
+  - Interface ThreeTierConfiguration has a new optional parameter storageConfiguration
+  - Added Enum KnownConfigurationType
+  - Enum KnownSAPSoftwareInstallationType has a new value External
+  - Enum KnownSAPVirtualInstanceState has a new value SoftwareDetectionFailed
+  - Enum KnownSAPVirtualInstanceState has a new value SoftwareDetectionInProgress
+    
+    
 ## 1.0.0-beta.2 (2022-07-14)
     
 **Features**

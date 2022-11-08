@@ -2694,6 +2694,43 @@ export const HighAvailabilityConfiguration: coreClient.CompositeMapper = {
   }
 };
 
+export const FileShareConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FileShareConfiguration",
+    uberParent: "FileShareConfiguration",
+    polymorphicDiscriminator: {
+      serializedName: "configurationType",
+      clientName: "configurationType"
+    },
+    modelProperties: {
+      configurationType: {
+        serializedName: "configurationType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StorageConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageConfiguration",
+    modelProperties: {
+      transportFileShareConfiguration: {
+        serializedName: "transportFileShareConfiguration",
+        type: {
+          name: "Composite",
+          className: "FileShareConfiguration"
+        }
+      }
+    }
+  }
+};
+
 export const SoftwareConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3749,6 +3786,81 @@ export const ThreeTierConfiguration: coreClient.CompositeMapper = {
           name: "Composite",
           className: "HighAvailabilityConfiguration"
         }
+      },
+      storageConfiguration: {
+        serializedName: "storageConfiguration",
+        type: {
+          name: "Composite",
+          className: "StorageConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const SkipFileShareConfiguration: coreClient.CompositeMapper = {
+  serializedName: "Skip",
+  type: {
+    name: "Composite",
+    className: "SkipFileShareConfiguration",
+    uberParent: "FileShareConfiguration",
+    polymorphicDiscriminator:
+      FileShareConfiguration.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...FileShareConfiguration.type.modelProperties
+    }
+  }
+};
+
+export const CreateAndMountFileShareConfiguration: coreClient.CompositeMapper = {
+  serializedName: "CreateAndMount",
+  type: {
+    name: "Composite",
+    className: "CreateAndMountFileShareConfiguration",
+    uberParent: "FileShareConfiguration",
+    polymorphicDiscriminator:
+      FileShareConfiguration.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...FileShareConfiguration.type.modelProperties,
+      resourceGroup: {
+        serializedName: "resourceGroup",
+        type: {
+          name: "String"
+        }
+      },
+      storageAccountName: {
+        serializedName: "storageAccountName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MountFileShareConfiguration: coreClient.CompositeMapper = {
+  serializedName: "Mount",
+  type: {
+    name: "Composite",
+    className: "MountFileShareConfiguration",
+    uberParent: "FileShareConfiguration",
+    polymorphicDiscriminator:
+      FileShareConfiguration.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...FileShareConfiguration.type.modelProperties,
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      privateEndpointId: {
+        serializedName: "privateEndpointId",
+        required: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3846,6 +3958,26 @@ export const SAPInstallWithoutOSConfigSoftwareConfiguration: coreClient.Composit
         type: {
           name: "Composite",
           className: "HighAvailabilitySoftwareConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const ExternalInstallationSoftwareConfiguration: coreClient.CompositeMapper = {
+  serializedName: "External",
+  type: {
+    name: "Composite",
+    className: "ExternalInstallationSoftwareConfiguration",
+    uberParent: "SoftwareConfiguration",
+    polymorphicDiscriminator:
+      SoftwareConfiguration.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SoftwareConfiguration.type.modelProperties,
+      centralServerVmId: {
+        serializedName: "centralServerVmId",
+        type: {
+          name: "String"
         }
       }
     }
@@ -4401,6 +4533,12 @@ export const Monitor: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      zoneRedundancyPreference: {
+        serializedName: "properties.zoneRedundancyPreference",
+        type: {
+          name: "String"
+        }
+      },
       managedResourceGroupConfiguration: {
         serializedName: "properties.managedResourceGroupConfiguration",
         type: {
@@ -4517,6 +4655,7 @@ export let discriminators = {
   ProviderSpecificProperties: ProviderSpecificProperties,
   OSConfiguration: OSConfiguration,
   InfrastructureConfiguration: InfrastructureConfiguration,
+  FileShareConfiguration: FileShareConfiguration,
   SoftwareConfiguration: SoftwareConfiguration,
   "SAPSizingRecommendationResult.SingleServer": SingleServerRecommendationResult,
   "SAPSizingRecommendationResult.ThreeTier": ThreeTierRecommendationResult,
@@ -4533,6 +4672,10 @@ export let discriminators = {
   "OSConfiguration.Linux": LinuxConfiguration,
   "InfrastructureConfiguration.SingleServer": SingleServerConfiguration,
   "InfrastructureConfiguration.ThreeTier": ThreeTierConfiguration,
+  "FileShareConfiguration.Skip": SkipFileShareConfiguration,
+  "FileShareConfiguration.CreateAndMount": CreateAndMountFileShareConfiguration,
+  "FileShareConfiguration.Mount": MountFileShareConfiguration,
   "SoftwareConfiguration.ServiceInitiated": ServiceInitiatedSoftwareConfiguration,
-  "SoftwareConfiguration.SAPInstallWithoutOSConfig": SAPInstallWithoutOSConfigSoftwareConfiguration
+  "SoftwareConfiguration.SAPInstallWithoutOSConfig": SAPInstallWithoutOSConfigSoftwareConfiguration,
+  "SoftwareConfiguration.External": ExternalInstallationSoftwareConfiguration
 };

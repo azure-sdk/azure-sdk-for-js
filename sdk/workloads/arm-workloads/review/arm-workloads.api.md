@@ -58,6 +58,16 @@ export interface CentralServerVmDetails {
 }
 
 // @public
+export type ConfigurationType = string;
+
+// @public
+export interface CreateAndMountFileShareConfiguration extends FileShareConfiguration {
+    configurationType: "CreateAndMount";
+    resourceGroup?: string;
+    storageAccountName?: string;
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -217,6 +227,20 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface ExternalInstallationSoftwareConfiguration extends SoftwareConfiguration {
+    centralServerVmId?: string;
+    softwareInstallationType: "External";
+}
+
+// @public
+export interface FileShareConfiguration {
+    configurationType: "Skip" | "CreateAndMount" | "Mount";
+}
+
+// @public (undocumented)
+export type FileShareConfigurationUnion = FileShareConfiguration | SkipFileShareConfiguration | CreateAndMountFileShareConfiguration | MountFileShareConfiguration;
+
+// @public
 export interface FileshareProfile {
     readonly shareName?: string;
     shareSizeInGB?: number;
@@ -315,6 +339,13 @@ export enum KnownCentralServerVirtualMachineType {
     Secondary = "Secondary",
     Standby = "Standby",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownConfigurationType {
+    CreateAndMount = "CreateAndMount",
+    Mount = "Mount",
+    Skip = "Skip"
 }
 
 // @public
@@ -513,6 +544,7 @@ export enum KnownSAPProductType {
 
 // @public
 export enum KnownSAPSoftwareInstallationType {
+    External = "External",
     SAPInstallWithoutOSConfig = "SAPInstallWithoutOSConfig",
     ServiceInitiated = "ServiceInitiated"
 }
@@ -535,6 +567,8 @@ export enum KnownSAPVirtualInstanceState {
     InfrastructureDeploymentInProgress = "InfrastructureDeploymentInProgress",
     InfrastructureDeploymentPending = "InfrastructureDeploymentPending",
     RegistrationComplete = "RegistrationComplete",
+    SoftwareDetectionFailed = "SoftwareDetectionFailed",
+    SoftwareDetectionInProgress = "SoftwareDetectionInProgress",
     SoftwareInstallationFailed = "SoftwareInstallationFailed",
     SoftwareInstallationInProgress = "SoftwareInstallationInProgress",
     SoftwareInstallationPending = "SoftwareInstallationPending"
@@ -650,6 +684,7 @@ export interface Monitor extends TrackedResource {
     readonly msiArmId?: string;
     readonly provisioningState?: WorkloadMonitorProvisioningState;
     routingPreference?: RoutingPreference;
+    zoneRedundancyPreference?: string;
 }
 
 // @public
@@ -733,6 +768,13 @@ export interface MonitorsUpdateOptionalParams extends coreClient.OperationOption
 
 // @public
 export type MonitorsUpdateResponse = Monitor;
+
+// @public
+export interface MountFileShareConfiguration extends FileShareConfiguration {
+    configurationType: "Mount";
+    id: string;
+    privateEndpointId: string;
+}
 
 // @public
 export interface MsSqlServerProviderInstanceProperties extends ProviderSpecificProperties {
@@ -1755,6 +1797,11 @@ export interface SiteProfile {
 }
 
 // @public
+export interface SkipFileShareConfiguration extends FileShareConfiguration {
+    configurationType: "Skip";
+}
+
+// @public
 export interface Sku {
     capacity?: number;
     family?: string;
@@ -1862,11 +1909,11 @@ export interface SkuZoneDetail {
 
 // @public
 export interface SoftwareConfiguration {
-    softwareInstallationType: "ServiceInitiated" | "SAPInstallWithoutOSConfig";
+    softwareInstallationType: "ServiceInitiated" | "SAPInstallWithoutOSConfig" | "External";
 }
 
 // @public (undocumented)
-export type SoftwareConfigurationUnion = SoftwareConfiguration | ServiceInitiatedSoftwareConfiguration | SAPInstallWithoutOSConfigSoftwareConfiguration;
+export type SoftwareConfigurationUnion = SoftwareConfiguration | ServiceInitiatedSoftwareConfiguration | SAPInstallWithoutOSConfigSoftwareConfiguration | ExternalInstallationSoftwareConfiguration;
 
 // @public
 export interface SshConfiguration {
@@ -1887,6 +1934,11 @@ export interface SshPublicKey {
 // @public
 export interface StopRequest {
     hardStop?: boolean;
+}
+
+// @public
+export interface StorageConfiguration {
+    transportFileShareConfiguration?: FileShareConfigurationUnion;
 }
 
 // @public
@@ -1914,6 +1966,7 @@ export interface ThreeTierConfiguration extends InfrastructureConfiguration {
     deploymentType: "ThreeTier";
     highAvailabilityConfig?: HighAvailabilityConfiguration;
     networkConfiguration?: NetworkConfiguration;
+    storageConfiguration?: StorageConfiguration;
 }
 
 // @public
