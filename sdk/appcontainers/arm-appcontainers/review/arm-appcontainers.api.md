@@ -62,6 +62,9 @@ export interface AppRegistration {
 }
 
 // @public
+export type AppState = string;
+
+// @public
 export interface AuthConfig extends ProxyResource {
     globalValidation?: GlobalValidation;
     httpSettings?: HttpSettings;
@@ -600,12 +603,14 @@ export interface Container extends BaseContainer {
 
 // @public
 export interface ContainerApp extends TrackedResource {
+    appState?: AppState;
     configuration?: Configuration;
     readonly customDomainVerificationId?: string;
     environmentId?: string;
     readonly eventStreamEndpoint?: string;
     extendedLocation?: ExtendedLocation;
     identity?: ManagedServiceIdentity;
+    readonly latestReadyRevisionName?: string;
     readonly latestRevisionFqdn?: string;
     readonly latestRevisionName?: string;
     managedEnvironmentId?: string;
@@ -1049,6 +1054,16 @@ export interface CookieExpiration {
 export type CookieExpirationConvention = "FixedTime" | "IdentityProviderDerived";
 
 // @public
+export interface CorsPolicy {
+    allowCredentials?: boolean;
+    allowedHeaders?: string[];
+    allowedMethods?: string[];
+    allowedOrigins: string[];
+    exposeHeaders?: string[];
+    maxAge?: number;
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -1060,7 +1075,7 @@ export interface CustomDomain {
 
 // @public
 export interface CustomDomainConfiguration {
-    certificatePassword?: Uint8Array;
+    certificatePassword?: string;
     certificateValue?: Uint8Array;
     readonly customDomainVerificationId?: string;
     dnsSuffix?: string;
@@ -1465,6 +1480,8 @@ export interface IdentityProviders {
 // @public
 export interface Ingress {
     allowInsecure?: boolean;
+    clientCertificateMode?: IngressClientCertificateMode;
+    corsPolicy?: CorsPolicy;
     customDomains?: CustomDomain[];
     exposedPort?: number;
     external?: boolean;
@@ -1474,6 +1491,9 @@ export interface Ingress {
     traffic?: TrafficWeight[];
     transport?: IngressTransportMethod;
 }
+
+// @public
+export type IngressClientCertificateMode = string;
 
 // @public
 export type IngressTransportMethod = string;
@@ -1524,6 +1544,12 @@ export enum KnownApplicability {
 export enum KnownAppProtocol {
     Grpc = "grpc",
     Http = "http"
+}
+
+// @public
+export enum KnownAppState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -1600,6 +1626,13 @@ export enum KnownEnvironmentProvisioningState {
 // @public
 export enum KnownExtendedLocationTypes {
     CustomLocation = "CustomLocation"
+}
+
+// @public
+export enum KnownIngressClientCertificateMode {
+    Accept = "accept",
+    Ignore = "ignore",
+    Require = "require"
 }
 
 // @public
