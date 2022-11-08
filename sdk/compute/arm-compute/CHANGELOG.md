@@ -1,15 +1,39 @@
 # Release History
+    
+## 20.0.0 (2022-11-08)
+    
+**Features**
 
-## 19.2.1 (Unreleased)
+  - Added Interface GalleryApplicationCustomAction
+  - Added Interface GalleryApplicationCustomActionParameter
+  - Added Interface GalleryApplicationVersionSafetyProfile
+  - Added Interface GalleryArtifactSafetyProfileBase
+  - Added Interface GalleryArtifactVersionFullSource
+  - Added Interface GalleryDiskImageSource
+  - Added Interface GalleryImageVersionSafetyProfile
+  - Added Interface LatestGalleryImageVersion
+  - Added Interface PolicyViolation
+  - Added Type Alias GalleryApplicationCustomActionParameterType
+  - Added Type Alias PolicyViolationCategory
+  - Interface GalleryApplication has a new optional parameter customActions
+  - Interface GalleryApplicationUpdate has a new optional parameter customActions
+  - Interface GalleryApplicationVersion has a new optional parameter safetyProfile
+  - Interface GalleryApplicationVersionPublishingProfile has a new optional parameter customActions
+  - Interface GalleryApplicationVersionUpdate has a new optional parameter safetyProfile
+  - Interface GalleryImageVersion has a new optional parameter safetyProfile
+  - Interface GalleryImageVersionUpdate has a new optional parameter safetyProfile
+  - Interface SharedGalleryImage has a new optional parameter eula
+  - Interface SharedGalleryImage has a new optional parameter privacyStatementUri
+  - Interface TargetRegion has a new optional parameter excludeFromLatest
+  - Interface VirtualMachineScaleSet has a new optional parameter constrainedMaximumCapacity
+  - Interface VirtualMachineScaleSetOSProfile has a new optional parameter requireGuestProvisionSignal
+  - Added Enum KnownPolicyViolationCategory
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface GalleryArtifactVersionSource no longer has parameter uri
+    
+    
 ## 19.2.0 (2022-09-21)
     
 **Features**
