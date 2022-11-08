@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   Certificate,
   CertificatesListOptionalParams,
@@ -54,7 +55,25 @@ export interface Certificates {
    * @param certificateName Name of the Certificate.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    environmentName: string,
+    certificateName: string,
+    options?: CertificatesCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CertificatesCreateOrUpdateResponse>,
+      CertificatesCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Create or Update a Certificate.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Managed Environment.
+   * @param certificateName Name of the Certificate.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     environmentName: string,
     certificateName: string,
@@ -67,7 +86,20 @@ export interface Certificates {
    * @param certificateName Name of the Certificate.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
+    resourceGroupName: string,
+    environmentName: string,
+    certificateName: string,
+    options?: CertificatesDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Deletes the specified Certificate.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Managed Environment.
+   * @param certificateName Name of the Certificate.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
     resourceGroupName: string,
     environmentName: string,
     certificateName: string,

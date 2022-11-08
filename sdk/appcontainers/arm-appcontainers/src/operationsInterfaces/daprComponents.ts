@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   DaprComponent,
   DaprComponentsListOptionalParams,
@@ -54,7 +55,27 @@ export interface DaprComponents {
    * @param daprComponentEnvelope Configuration details of the Dapr Component.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    environmentName: string,
+    componentName: string,
+    daprComponentEnvelope: DaprComponent,
+    options?: DaprComponentsCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<DaprComponentsCreateOrUpdateResponse>,
+      DaprComponentsCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Creates or updates a Dapr Component in a Managed Environment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Managed Environment.
+   * @param componentName Name of the Dapr Component.
+   * @param daprComponentEnvelope Configuration details of the Dapr Component.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     environmentName: string,
     componentName: string,
@@ -68,7 +89,20 @@ export interface DaprComponents {
    * @param componentName Name of the Dapr Component.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
+    resourceGroupName: string,
+    environmentName: string,
+    componentName: string,
+    options?: DaprComponentsDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Delete a Dapr Component from a Managed Environment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Managed Environment.
+   * @param componentName Name of the Dapr Component.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
     resourceGroupName: string,
     environmentName: string,
     componentName: string,

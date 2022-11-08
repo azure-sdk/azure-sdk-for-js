@@ -1,16 +1,6 @@
 # Release History
-
-## 2.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.0.0-beta.1 (2022-10-12)
+    
+## 2.0.0-beta.2 (2022-11-08)
     
 **Features**
 
@@ -23,9 +13,21 @@
   - Added operation group ContainerAppsDiagnostics
   - Added operation group ManagedEnvironmentDiagnostics
   - Added operation group ManagedEnvironmentsDiagnostics
+  - Added operation Certificates.beginCreateOrUpdate
+  - Added operation Certificates.beginCreateOrUpdateAndWait
+  - Added operation Certificates.beginDelete
+  - Added operation Certificates.beginDeleteAndWait
   - Added operation ContainerApps.getAuthToken
+  - Added operation DaprComponents.beginCreateOrUpdate
+  - Added operation DaprComponents.beginCreateOrUpdateAndWait
+  - Added operation DaprComponents.beginDelete
+  - Added operation DaprComponents.beginDeleteAndWait
   - Added operation ManagedEnvironments.getAuthToken
   - Added operation ManagedEnvironments.listWorkloadProfileStates
+  - Added operation ManagedEnvironmentsStorages.beginCreateOrUpdate
+  - Added operation ManagedEnvironmentsStorages.beginCreateOrUpdateAndWait
+  - Added operation ManagedEnvironmentsStorages.beginDelete
+  - Added operation ManagedEnvironmentsStorages.beginDeleteAndWait
   - Added Interface AvailableWorkloadProfile
   - Added Interface AvailableWorkloadProfileProperties
   - Added Interface AvailableWorkloadProfilesCollection
@@ -147,6 +149,7 @@
   - Added Type Alias ContainerAppsDiagnosticsListRevisionsNextResponse
   - Added Type Alias ContainerAppsDiagnosticsListRevisionsResponse
   - Added Type Alias ContainerAppsGetAuthTokenResponse
+  - Added Type Alias DaprComponentProvisioningState
   - Added Type Alias ExtendedLocationTypes
   - Added Type Alias LogLevel
   - Added Type Alias ManagedEnvironmentDiagnosticsGetDetectorResponse
@@ -157,7 +160,12 @@
   - Added Type Alias ManagedEnvironmentsListWorkloadProfileStatesNextResponse
   - Added Type Alias ManagedEnvironmentsListWorkloadProfileStatesResponse
   - Added Type Alias SkuName
+  - Added Type Alias StorageProvisioningState
   - Interface CertificateProperties has a new optional parameter subjectAlternativeNames
+  - Interface CertificatesCreateOrUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface CertificatesCreateOrUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface CertificatesDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface CertificatesDeleteOptionalParams has a new optional parameter updateIntervalInMs
   - Interface Configuration has a new optional parameter maxInactiveRevisions
   - Interface ContainerApp has a new optional parameter environmentId
   - Interface ContainerApp has a new optional parameter eventStreamEndpoint
@@ -168,13 +176,23 @@
   - Interface Dapr has a new optional parameter httpMaxRequestSize
   - Interface Dapr has a new optional parameter httpReadBufferSize
   - Interface Dapr has a new optional parameter logLevel
+  - Interface DaprComponent has a new optional parameter provisioningState
   - Interface DaprComponent has a new optional parameter secretStoreComponent
+  - Interface DaprComponentsCreateOrUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface DaprComponentsCreateOrUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface DaprComponentsDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface DaprComponentsDeleteOptionalParams has a new optional parameter updateIntervalInMs
   - Interface Ingress has a new optional parameter exposedPort
   - Interface Ingress has a new optional parameter ipSecurityRestrictions
   - Interface ManagedEnvironment has a new optional parameter customDomainConfiguration
   - Interface ManagedEnvironment has a new optional parameter eventStreamEndpoint
   - Interface ManagedEnvironment has a new optional parameter sku
   - Interface ManagedEnvironment has a new optional parameter workloadProfiles
+  - Interface ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ManagedEnvironmentsStoragesDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface ManagedEnvironmentsStoragesDeleteOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ManagedEnvironmentStorageProperties has a new optional parameter provisioningState
   - Interface ReplicaContainer has a new optional parameter execEndpoint
   - Interface ReplicaContainer has a new optional parameter logStreamEndpoint
   - Interface Revision has a new optional parameter lastActiveTime
@@ -194,22 +212,23 @@
   - Added Enum KnownApplicability
   - Added Enum KnownCategory
   - Added Enum KnownConnectedEnvironmentProvisioningState
+  - Added Enum KnownDaprComponentProvisioningState
   - Added Enum KnownExtendedLocationTypes
   - Added Enum KnownLogLevel
   - Added Enum KnownManagedEnvironmentOutBoundType
   - Added Enum KnownSkuName
+  - Added Enum KnownStorageProvisioningState
   - Enum KnownContainerAppProvisioningState has a new value Deleting
   - Enum KnownIngressTransportMethod has a new value Tcp
 
 **Breaking Changes**
 
-  - Interface Container no longer has parameter args
-  - Interface Container no longer has parameter command
-  - Interface Container no longer has parameter env
-  - Interface Container no longer has parameter image
-  - Interface Container no longer has parameter name
-  - Interface Container no longer has parameter resources
-  - Interface Container no longer has parameter volumeMounts
+  - Removed operation Certificates.createOrUpdate
+  - Removed operation Certificates.delete
+  - Removed operation DaprComponents.createOrUpdate
+  - Removed operation DaprComponents.delete
+  - Removed operation ManagedEnvironmentsStorages.createOrUpdate
+  - Removed operation ManagedEnvironmentsStorages.delete
     
 ## 1.1.2 (2022-10-08)
 

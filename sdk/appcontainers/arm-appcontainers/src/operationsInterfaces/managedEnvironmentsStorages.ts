@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   ManagedEnvironmentsStoragesListOptionalParams,
   ManagedEnvironmentsStoragesListResponse,
@@ -51,7 +52,27 @@ export interface ManagedEnvironmentsStorages {
    * @param storageEnvelope Configuration details of storage.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    environmentName: string,
+    storageName: string,
+    storageEnvelope: ManagedEnvironmentStorage,
+    options?: ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedEnvironmentsStoragesCreateOrUpdateResponse>,
+      ManagedEnvironmentsStoragesCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Create or update storage for a managedEnvironment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Environment.
+   * @param storageName Name of the storage.
+   * @param storageEnvelope Configuration details of storage.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     environmentName: string,
     storageName: string,
@@ -65,7 +86,20 @@ export interface ManagedEnvironmentsStorages {
    * @param storageName Name of the storage.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
+    resourceGroupName: string,
+    environmentName: string,
+    storageName: string,
+    options?: ManagedEnvironmentsStoragesDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Delete storage for a managedEnvironment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Environment.
+   * @param storageName Name of the storage.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
     resourceGroupName: string,
     environmentName: string,
     storageName: string,
