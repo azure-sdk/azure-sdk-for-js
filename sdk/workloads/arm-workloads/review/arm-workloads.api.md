@@ -106,6 +106,8 @@ export interface DB2ProviderInstanceProperties extends ProviderSpecificPropertie
     hostname?: string;
     providerType: "Db2";
     sapSid?: string;
+    sslCertificateUri?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
@@ -217,6 +219,12 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface ExternalInstallationSoftwareConfiguration extends SoftwareConfiguration {
+    centralServerVmId?: string;
+    softwareInstallationType: "External";
+}
+
+// @public
 export interface FileshareProfile {
     readonly shareName?: string;
     shareSizeInGB?: number;
@@ -251,7 +259,9 @@ export interface HanaDbProviderInstanceProperties extends ProviderSpecificProper
     instanceNumber?: string;
     providerType: "SapHana";
     sqlPort?: string;
+    sslCertificateUri?: string;
     sslHostNameInCertificate?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
@@ -513,6 +523,7 @@ export enum KnownSAPProductType {
 
 // @public
 export enum KnownSAPSoftwareInstallationType {
+    External = "External",
     SAPInstallWithoutOSConfig = "SAPInstallWithoutOSConfig",
     ServiceInitiated = "ServiceInitiated"
 }
@@ -535,6 +546,8 @@ export enum KnownSAPVirtualInstanceState {
     InfrastructureDeploymentInProgress = "InfrastructureDeploymentInProgress",
     InfrastructureDeploymentPending = "InfrastructureDeploymentPending",
     RegistrationComplete = "RegistrationComplete",
+    SoftwareDetectionFailed = "SoftwareDetectionFailed",
+    SoftwareDetectionInProgress = "SoftwareDetectionInProgress",
     SoftwareInstallationFailed = "SoftwareInstallationFailed",
     SoftwareInstallationInProgress = "SoftwareInstallationInProgress",
     SoftwareInstallationPending = "SoftwareInstallationPending"
@@ -574,6 +587,13 @@ export enum KnownSkuScaleType {
     Automatic = "Automatic",
     Manual = "Manual",
     None = "None"
+}
+
+// @public
+export enum KnownSslPreference {
+    Disabled = "Disabled",
+    RootCertificate = "RootCertificate",
+    ServerCertificate = "ServerCertificate"
 }
 
 // @public
@@ -650,6 +670,8 @@ export interface Monitor extends TrackedResource {
     readonly msiArmId?: string;
     readonly provisioningState?: WorkloadMonitorProvisioningState;
     routingPreference?: RoutingPreference;
+    readonly storageAccountArmId?: string;
+    zoneRedundancyPreference?: string;
 }
 
 // @public
@@ -743,6 +765,8 @@ export interface MsSqlServerProviderInstanceProperties extends ProviderSpecificP
     hostname?: string;
     providerType: "MsSqlServer";
     sapSid?: string;
+    sslCertificateUri?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
@@ -1048,12 +1072,16 @@ export interface PrometheusHaClusterProviderInstanceProperties extends ProviderS
     prometheusUrl?: string;
     providerType: "PrometheusHaCluster";
     sid?: string;
+    sslCertificateUri?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
 export interface PrometheusOSProviderInstanceProperties extends ProviderSpecificProperties {
     prometheusUrl?: string;
     providerType: "PrometheusOS";
+    sslCertificateUri?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
@@ -1517,6 +1545,8 @@ export interface SapNetWeaverProviderInstanceProperties extends ProviderSpecific
     sapSid?: string;
     sapSslCertificateUri?: string;
     sapUsername?: string;
+    sslCertificateUri?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
@@ -1862,11 +1892,11 @@ export interface SkuZoneDetail {
 
 // @public
 export interface SoftwareConfiguration {
-    softwareInstallationType: "ServiceInitiated" | "SAPInstallWithoutOSConfig";
+    softwareInstallationType: "ServiceInitiated" | "SAPInstallWithoutOSConfig" | "External";
 }
 
 // @public (undocumented)
-export type SoftwareConfigurationUnion = SoftwareConfiguration | ServiceInitiatedSoftwareConfiguration | SAPInstallWithoutOSConfigSoftwareConfiguration;
+export type SoftwareConfigurationUnion = SoftwareConfiguration | ServiceInitiatedSoftwareConfiguration | SAPInstallWithoutOSConfigSoftwareConfiguration | ExternalInstallationSoftwareConfiguration;
 
 // @public
 export interface SshConfiguration {
@@ -1883,6 +1913,9 @@ export interface SshKeyPair {
 export interface SshPublicKey {
     keyData?: string;
 }
+
+// @public
+export type SslPreference = string;
 
 // @public
 export interface StopRequest {
