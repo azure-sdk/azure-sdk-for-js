@@ -13,16 +13,16 @@ import {
 } from "@azure/core-client";
 import {
   AuthConfig as AuthConfigMapper,
-  ContainerApp as ContainerAppMapper,
-  DaprComponent as DaprComponentMapper,
-  ManagedEnvironment as ManagedEnvironmentMapper,
+  ConnectedEnvironment as ConnectedEnvironmentMapper,
+  CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   Certificate as CertificateMapper,
   CertificatePatch as CertificatePatchMapper,
-  CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
+  DaprComponent as DaprComponentMapper,
+  ConnectedEnvironmentStorage as ConnectedEnvironmentStorageMapper,
+  ContainerApp as ContainerAppMapper,
+  ManagedEnvironment as ManagedEnvironmentMapper,
   ManagedEnvironmentStorage as ManagedEnvironmentStorageMapper,
-  SourceControl as SourceControlMapper,
-  ConnectedEnvironment as ConnectedEnvironmentMapper,
-  ConnectedEnvironmentStorage as ConnectedEnvironmentStorageMapper
+  SourceControl as SourceControlMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -92,7 +92,7 @@ export const containerAppName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-06-01-preview",
+    defaultValue: "2022-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -139,6 +139,94 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const location: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    constraints: {
+      MinLength: 1
+    },
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const connectedEnvironmentName: OperationURLParameter = {
+  parameterPath: "connectedEnvironmentName",
+  mapper: {
+    serializedName: "connectedEnvironmentName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const environmentEnvelope: OperationParameter = {
+  parameterPath: "environmentEnvelope",
+  mapper: ConnectedEnvironmentMapper
+};
+
+export const checkNameAvailabilityRequest: OperationParameter = {
+  parameterPath: "checkNameAvailabilityRequest",
+  mapper: CheckNameAvailabilityRequestMapper
+};
+
+export const certificateName: OperationURLParameter = {
+  parameterPath: "certificateName",
+  mapper: {
+    serializedName: "certificateName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const certificateEnvelope: OperationParameter = {
+  parameterPath: ["options", "certificateEnvelope"],
+  mapper: CertificateMapper
+};
+
+export const certificateEnvelope1: OperationParameter = {
+  parameterPath: "certificateEnvelope",
+  mapper: CertificatePatchMapper
+};
+
+export const componentName: OperationURLParameter = {
+  parameterPath: "componentName",
+  mapper: {
+    serializedName: "componentName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const daprComponentEnvelope: OperationParameter = {
+  parameterPath: "daprComponentEnvelope",
+  mapper: DaprComponentMapper
+};
+
+export const storageName: OperationURLParameter = {
+  parameterPath: "storageName",
+  mapper: {
+    serializedName: "storageName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const storageEnvelope: OperationParameter = {
+  parameterPath: "storageEnvelope",
+  mapper: ConnectedEnvironmentStorageMapper
 };
 
 export const containerAppEnvelope: OperationParameter = {
@@ -188,33 +276,6 @@ export const replicaName: OperationURLParameter = {
   }
 };
 
-export const environmentName: OperationURLParameter = {
-  parameterPath: "environmentName",
-  mapper: {
-    serializedName: "environmentName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const componentName: OperationURLParameter = {
-  parameterPath: "componentName",
-  mapper: {
-    serializedName: "componentName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const daprComponentEnvelope: OperationParameter = {
-  parameterPath: "daprComponentEnvelope",
-  mapper: DaprComponentMapper
-};
-
 export const detectorName: OperationURLParameter = {
   parameterPath: "detectorName",
   mapper: {
@@ -226,49 +287,23 @@ export const detectorName: OperationURLParameter = {
   }
 };
 
-export const environmentEnvelope: OperationParameter = {
+export const environmentName: OperationURLParameter = {
+  parameterPath: "environmentName",
+  mapper: {
+    serializedName: "environmentName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const environmentEnvelope1: OperationParameter = {
   parameterPath: "environmentEnvelope",
   mapper: ManagedEnvironmentMapper
 };
 
-export const certificateName: OperationURLParameter = {
-  parameterPath: "certificateName",
-  mapper: {
-    serializedName: "certificateName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const certificateEnvelope: OperationParameter = {
-  parameterPath: ["options", "certificateEnvelope"],
-  mapper: CertificateMapper
-};
-
-export const certificateEnvelope1: OperationParameter = {
-  parameterPath: "certificateEnvelope",
-  mapper: CertificatePatchMapper
-};
-
-export const checkNameAvailabilityRequest: OperationParameter = {
-  parameterPath: "checkNameAvailabilityRequest",
-  mapper: CheckNameAvailabilityRequestMapper
-};
-
-export const storageName: OperationURLParameter = {
-  parameterPath: "storageName",
-  mapper: {
-    serializedName: "storageName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const storageEnvelope: OperationParameter = {
+export const storageEnvelope1: OperationParameter = {
   parameterPath: "storageEnvelope",
   mapper: ManagedEnvironmentStorageMapper
 };
@@ -287,39 +322,4 @@ export const sourceControlName: OperationURLParameter = {
 export const sourceControlEnvelope: OperationParameter = {
   parameterPath: "sourceControlEnvelope",
   mapper: SourceControlMapper
-};
-
-export const connectedEnvironmentName: OperationURLParameter = {
-  parameterPath: "connectedEnvironmentName",
-  mapper: {
-    serializedName: "connectedEnvironmentName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const environmentEnvelope1: OperationParameter = {
-  parameterPath: "environmentEnvelope",
-  mapper: ConnectedEnvironmentMapper
-};
-
-export const storageEnvelope1: OperationParameter = {
-  parameterPath: "storageEnvelope",
-  mapper: ConnectedEnvironmentStorageMapper
-};
-
-export const location: OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    constraints: {
-      MinLength: 1
-    },
-    serializedName: "location",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };
