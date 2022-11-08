@@ -1037,7 +1037,21 @@ export interface DaprMetadata {
 /** Dapr component Secrets Collection for ListSecrets Action. */
 export interface DaprSecretsCollection {
   /** Collection of secrets used by a Dapr component */
-  value: Secret[];
+  value: DaprSecret[];
+}
+
+/** Dapr component Secret for ListSecrets Action */
+export interface DaprSecret {
+  /**
+   * Secret Name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Secret Value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string;
 }
 
 /** Diagnostics data collection for a resource. */
@@ -1615,20 +1629,6 @@ export interface BillingMeterProperties {
   meterType?: string;
   /** The everyday name of the billing meter. */
   displayName?: string;
-}
-
-/** Dapr component Secret for ListSecrets Action */
-export interface DaprSecret {
-  /**
-   * Secret Name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Secret Value.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: string;
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
@@ -2622,6 +2622,9 @@ export interface ContainerAppsUpdateOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the update operation. */
+export type ContainerAppsUpdateResponse = ContainerApp;
+
 /** Optional parameters. */
 export interface ContainerAppsListCustomHostNameAnalysisOptionalParams
   extends coreClient.OperationOptions {
@@ -2892,6 +2895,9 @@ export interface ManagedEnvironmentsUpdateOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the update operation. */
+export type ManagedEnvironmentsUpdateResponse = ManagedEnvironment;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentsGetAuthTokenOptionalParams
