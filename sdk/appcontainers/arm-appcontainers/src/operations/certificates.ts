@@ -12,6 +12,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   Certificate,
   CertificatesListNextOptionalParams,
@@ -147,16 +149,89 @@ export class CertificatesImpl implements Certificates {
    * @param certificateName Name of the Certificate.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
+    resourceGroupName: string,
+    environmentName: string,
+    certificateName: string,
+    options?: CertificatesCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CertificatesCreateOrUpdateResponse>,
+      CertificatesCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<CertificatesCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, environmentName, certificateName, options },
+      createOrUpdateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create or Update a Certificate.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Managed Environment.
+   * @param certificateName Name of the Certificate.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     environmentName: string,
     certificateName: string,
     options?: CertificatesCreateOrUpdateOptionalParams
   ): Promise<CertificatesCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, certificateName, options },
-      createOrUpdateOperationSpec
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      environmentName,
+      certificateName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -166,16 +241,84 @@ export class CertificatesImpl implements Certificates {
    * @param certificateName Name of the Certificate.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
+    resourceGroupName: string,
+    environmentName: string,
+    certificateName: string,
+    options?: CertificatesDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, environmentName, certificateName, options },
+      deleteOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes the specified Certificate.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Managed Environment.
+   * @param certificateName Name of the Certificate.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
     resourceGroupName: string,
     environmentName: string,
     certificateName: string,
     options?: CertificatesDeleteOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, certificateName, options },
-      deleteOperationSpec
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      environmentName,
+      certificateName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -266,8 +409,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
-    Parameters.certificateName
+    Parameters.certificateName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -280,6 +423,15 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.Certificate
     },
+    201: {
+      bodyMapper: Mappers.Certificate
+    },
+    202: {
+      bodyMapper: Mappers.Certificate
+    },
+    204: {
+      bodyMapper: Mappers.Certificate
+    },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
@@ -290,8 +442,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
-    Parameters.certificateName
+    Parameters.certificateName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -303,6 +455,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
+    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -313,8 +467,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
-    Parameters.certificateName
+    Parameters.certificateName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -337,8 +491,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
-    Parameters.certificateName
+    Parameters.certificateName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

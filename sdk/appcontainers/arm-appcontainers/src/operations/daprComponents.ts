@@ -12,6 +12,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   DaprComponent,
   DaprComponentsListNextOptionalParams,
@@ -147,14 +149,59 @@ export class DaprComponentsImpl implements DaprComponents {
    * @param daprComponentEnvelope Configuration details of the Dapr Component.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     environmentName: string,
     componentName: string,
     daprComponentEnvelope: DaprComponent,
     options?: DaprComponentsCreateOrUpdateOptionalParams
-  ): Promise<DaprComponentsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
+  ): Promise<
+    PollerLike<
+      PollOperationState<DaprComponentsCreateOrUpdateResponse>,
+      DaprComponentsCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<DaprComponentsCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
       {
         resourceGroupName,
         environmentName,
@@ -164,6 +211,37 @@ export class DaprComponentsImpl implements DaprComponents {
       },
       createOrUpdateOperationSpec
     );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Creates or updates a Dapr Component in a Managed Environment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Managed Environment.
+   * @param componentName Name of the Dapr Component.
+   * @param daprComponentEnvelope Configuration details of the Dapr Component.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    environmentName: string,
+    componentName: string,
+    daprComponentEnvelope: DaprComponent,
+    options?: DaprComponentsCreateOrUpdateOptionalParams
+  ): Promise<DaprComponentsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      environmentName,
+      componentName,
+      daprComponentEnvelope,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -173,16 +251,84 @@ export class DaprComponentsImpl implements DaprComponents {
    * @param componentName Name of the Dapr Component.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
+    resourceGroupName: string,
+    environmentName: string,
+    componentName: string,
+    options?: DaprComponentsDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, environmentName, componentName, options },
+      deleteOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Delete a Dapr Component from a Managed Environment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Managed Environment.
+   * @param componentName Name of the Dapr Component.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
     resourceGroupName: string,
     environmentName: string,
     componentName: string,
     options?: DaprComponentsDeleteOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, componentName, options },
-      deleteOperationSpec
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      environmentName,
+      componentName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -265,8 +411,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
-    Parameters.componentName
+    Parameters.componentName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -279,6 +425,15 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.DaprComponent
     },
+    201: {
+      bodyMapper: Mappers.DaprComponent
+    },
+    202: {
+      bodyMapper: Mappers.DaprComponent
+    },
+    204: {
+      bodyMapper: Mappers.DaprComponent
+    },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
@@ -289,8 +444,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
-    Parameters.componentName
+    Parameters.componentName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -302,6 +457,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
+    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -312,8 +469,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
-    Parameters.componentName
+    Parameters.componentName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -335,8 +492,8 @@ const listSecretsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
-    Parameters.componentName
+    Parameters.componentName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept],
   serializer

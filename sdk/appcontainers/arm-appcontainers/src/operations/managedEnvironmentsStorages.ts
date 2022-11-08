@@ -11,6 +11,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   ManagedEnvironmentsStoragesListOptionalParams,
   ManagedEnvironmentsStoragesListResponse,
@@ -79,14 +81,59 @@ export class ManagedEnvironmentsStoragesImpl
    * @param storageEnvelope Configuration details of storage.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     environmentName: string,
     storageName: string,
     storageEnvelope: ManagedEnvironmentStorage,
     options?: ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams
-  ): Promise<ManagedEnvironmentsStoragesCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedEnvironmentsStoragesCreateOrUpdateResponse>,
+      ManagedEnvironmentsStoragesCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ManagedEnvironmentsStoragesCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
       {
         resourceGroupName,
         environmentName,
@@ -96,6 +143,37 @@ export class ManagedEnvironmentsStoragesImpl
       },
       createOrUpdateOperationSpec
     );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create or update storage for a managedEnvironment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Environment.
+   * @param storageName Name of the storage.
+   * @param storageEnvelope Configuration details of storage.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    environmentName: string,
+    storageName: string,
+    storageEnvelope: ManagedEnvironmentStorage,
+    options?: ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams
+  ): Promise<ManagedEnvironmentsStoragesCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      environmentName,
+      storageName,
+      storageEnvelope,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -105,16 +183,84 @@ export class ManagedEnvironmentsStoragesImpl
    * @param storageName Name of the storage.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
+    resourceGroupName: string,
+    environmentName: string,
+    storageName: string,
+    options?: ManagedEnvironmentsStoragesDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, environmentName, storageName, options },
+      deleteOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Delete storage for a managedEnvironment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Environment.
+   * @param storageName Name of the storage.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
     resourceGroupName: string,
     environmentName: string,
     storageName: string,
     options?: ManagedEnvironmentsStoragesDeleteOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, storageName, options },
-      deleteOperationSpec
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      environmentName,
+      storageName,
+      options
     );
+    return poller.pollUntilDone();
   }
 }
 // Operation Specifications
@@ -159,8 +305,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
-    Parameters.storageName
+    Parameters.storageName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -173,18 +319,27 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ManagedEnvironmentStorage
     },
+    201: {
+      bodyMapper: Mappers.ManagedEnvironmentStorage
+    },
+    202: {
+      bodyMapper: Mappers.ManagedEnvironmentStorage
+    },
+    204: {
+      bodyMapper: Mappers.ManagedEnvironmentStorage
+    },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.storageEnvelope,
+  requestBody: Parameters.storageEnvelope1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
-    Parameters.storageName
+    Parameters.storageName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -196,6 +351,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
+    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -206,8 +363,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
-    Parameters.storageName
+    Parameters.storageName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept],
   serializer

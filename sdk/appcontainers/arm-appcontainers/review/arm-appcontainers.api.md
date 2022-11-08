@@ -272,8 +272,10 @@ export type CertificateProvisioningState = string;
 
 // @public
 export interface Certificates {
-    createOrUpdate(resourceGroupName: string, environmentName: string, certificateName: string, options?: CertificatesCreateOrUpdateOptionalParams): Promise<CertificatesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, environmentName: string, certificateName: string, options?: CertificatesDeleteOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, environmentName: string, certificateName: string, options?: CertificatesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<CertificatesCreateOrUpdateResponse>, CertificatesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, environmentName: string, certificateName: string, options?: CertificatesCreateOrUpdateOptionalParams): Promise<CertificatesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, environmentName: string, certificateName: string, options?: CertificatesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, environmentName: string, certificateName: string, options?: CertificatesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, environmentName: string, certificateName: string, options?: CertificatesGetOptionalParams): Promise<CertificatesGetResponse>;
     list(resourceGroupName: string, environmentName: string, options?: CertificatesListOptionalParams): PagedAsyncIterableIterator<Certificate>;
     update(resourceGroupName: string, environmentName: string, certificateName: string, certificateEnvelope: CertificatePatch, options?: CertificatesUpdateOptionalParams): Promise<CertificatesUpdateResponse>;
@@ -282,6 +284,8 @@ export interface Certificates {
 // @public
 export interface CertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     certificateEnvelope?: Certificate;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -289,6 +293,8 @@ export type CertificatesCreateOrUpdateResponse = Certificate;
 
 // @public
 export interface CertificatesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -609,7 +615,7 @@ export interface ContainerApp extends TrackedResource {
     readonly latestRevisionFqdn?: string;
     readonly latestRevisionName?: string;
     managedEnvironmentId?: string;
-    readonly outboundIpAddresses?: string[];
+    readonly outboundIPAddresses?: string[];
     readonly provisioningState?: ContainerAppProvisioningState;
     template?: Template;
     workloadProfileType?: string;
@@ -1060,7 +1066,7 @@ export interface CustomDomain {
 
 // @public
 export interface CustomDomainConfiguration {
-    certificatePassword?: Uint8Array;
+    certificatePassword?: string;
     certificateValue?: Uint8Array;
     readonly customDomainVerificationId?: string;
     dnsSuffix?: string;
@@ -1134,6 +1140,7 @@ export interface DaprComponent extends ProxyResource {
     ignoreErrors?: boolean;
     initTimeout?: string;
     metadata?: DaprMetadata[];
+    readonly provisioningState?: DaprComponentProvisioningState;
     scopes?: string[];
     secrets?: Secret[];
     secretStoreComponent?: string;
@@ -1141,9 +1148,14 @@ export interface DaprComponent extends ProxyResource {
 }
 
 // @public
+export type DaprComponentProvisioningState = string;
+
+// @public
 export interface DaprComponents {
-    createOrUpdate(resourceGroupName: string, environmentName: string, componentName: string, daprComponentEnvelope: DaprComponent, options?: DaprComponentsCreateOrUpdateOptionalParams): Promise<DaprComponentsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, environmentName: string, componentName: string, options?: DaprComponentsDeleteOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, environmentName: string, componentName: string, daprComponentEnvelope: DaprComponent, options?: DaprComponentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DaprComponentsCreateOrUpdateResponse>, DaprComponentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, environmentName: string, componentName: string, daprComponentEnvelope: DaprComponent, options?: DaprComponentsCreateOrUpdateOptionalParams): Promise<DaprComponentsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, environmentName: string, componentName: string, options?: DaprComponentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, environmentName: string, componentName: string, options?: DaprComponentsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, environmentName: string, componentName: string, options?: DaprComponentsGetOptionalParams): Promise<DaprComponentsGetResponse>;
     list(resourceGroupName: string, environmentName: string, options?: DaprComponentsListOptionalParams): PagedAsyncIterableIterator<DaprComponent>;
     listSecrets(resourceGroupName: string, environmentName: string, componentName: string, options?: DaprComponentsListSecretsOptionalParams): Promise<DaprComponentsListSecretsResponse>;
@@ -1157,6 +1169,8 @@ export interface DaprComponentsCollection {
 
 // @public
 export interface DaprComponentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1164,6 +1178,8 @@ export type DaprComponentsCreateOrUpdateResponse = DaprComponent;
 
 // @public
 export interface DaprComponentsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1584,6 +1600,14 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDaprComponentProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownEnvironmentProvisioningState {
     Canceled = "Canceled",
     Failed = "Failed",
@@ -1662,6 +1686,14 @@ export enum KnownSkuName {
 
 // @public
 export enum KnownSourceControlOperationState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownStorageProvisioningState {
     Canceled = "Canceled",
     Failed = "Failed",
     InProgress = "InProgress",
@@ -1861,14 +1893,18 @@ export type ManagedEnvironmentsListWorkloadProfileStatesResponse = WorkloadProfi
 
 // @public
 export interface ManagedEnvironmentsStorages {
-    createOrUpdate(resourceGroupName: string, environmentName: string, storageName: string, storageEnvelope: ManagedEnvironmentStorage, options?: ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams): Promise<ManagedEnvironmentsStoragesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, environmentName: string, storageName: string, options?: ManagedEnvironmentsStoragesDeleteOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, environmentName: string, storageName: string, storageEnvelope: ManagedEnvironmentStorage, options?: ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ManagedEnvironmentsStoragesCreateOrUpdateResponse>, ManagedEnvironmentsStoragesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, environmentName: string, storageName: string, storageEnvelope: ManagedEnvironmentStorage, options?: ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams): Promise<ManagedEnvironmentsStoragesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, environmentName: string, storageName: string, options?: ManagedEnvironmentsStoragesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, environmentName: string, storageName: string, options?: ManagedEnvironmentsStoragesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, environmentName: string, storageName: string, options?: ManagedEnvironmentsStoragesGetOptionalParams): Promise<ManagedEnvironmentsStoragesGetResponse>;
     list(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsStoragesListOptionalParams): Promise<ManagedEnvironmentsStoragesListResponse>;
 }
 
 // @public
 export interface ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1876,6 +1912,8 @@ export type ManagedEnvironmentsStoragesCreateOrUpdateResponse = ManagedEnvironme
 
 // @public
 export interface ManagedEnvironmentsStoragesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1900,6 +1938,7 @@ export interface ManagedEnvironmentStorage extends ProxyResource {
 // @public
 export interface ManagedEnvironmentStorageProperties {
     azureFile?: AzureFileProperties;
+    readonly provisioningState?: StorageProvisioningState;
 }
 
 // @public
@@ -2144,6 +2183,9 @@ export interface SourceControlCollection {
 
 // @public
 export type SourceControlOperationState = string;
+
+// @public
+export type StorageProvisioningState = string;
 
 // @public
 export type StorageType = string;
