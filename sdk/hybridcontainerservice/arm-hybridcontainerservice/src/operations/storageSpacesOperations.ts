@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { StorageSpacesOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,10 +18,8 @@ import {
   StorageSpaces,
   StorageSpacesListByResourceGroupNextOptionalParams,
   StorageSpacesListByResourceGroupOptionalParams,
-  StorageSpacesListByResourceGroupResponse,
   StorageSpacesListBySubscriptionNextOptionalParams,
   StorageSpacesListBySubscriptionOptionalParams,
-  StorageSpacesListBySubscriptionResponse,
   StorageSpacesRetrieveOptionalParams,
   StorageSpacesRetrieveResponse,
   StorageSpacesCreateOrUpdateOptionalParams,
@@ -31,6 +28,8 @@ import {
   StorageSpacesPatch,
   StorageSpacesUpdateOptionalParams,
   StorageSpacesUpdateResponse,
+  StorageSpacesListByResourceGroupResponse,
+  StorageSpacesListBySubscriptionResponse,
   StorageSpacesListByResourceGroupNextResponse,
   StorageSpacesListBySubscriptionNextResponse
 } from "../models";
@@ -65,33 +64,19 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: StorageSpacesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: StorageSpacesListByResourceGroupOptionalParams
   ): AsyncIterableIterator<StorageSpaces[]> {
-    let result: StorageSpacesListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -99,9 +84,7 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -132,34 +115,22 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
+      byPage: () => {
+        return this.listBySubscriptionPagingPage(options);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: StorageSpacesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    options?: StorageSpacesListBySubscriptionOptionalParams
   ): AsyncIterableIterator<StorageSpaces[]> {
-    let result: StorageSpacesListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBySubscription(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
