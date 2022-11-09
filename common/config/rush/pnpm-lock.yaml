@@ -14122,7 +14122,7 @@ packages:
     dev: false
 
   file:projects/arm-resourceconnector.tgz:
-    resolution: {integrity: sha512-z8Lyx1xdSk6nnnbXKSUadhp6tbY4jKso3vHjvvHbQcb5nI1Tt+tM2bBM22LvIAKG/Y8eNqtp66Yvymwd29vs2w==, tarball: file:projects/arm-resourceconnector.tgz}
+    resolution: {integrity: sha512-sypdA+uVOMIU2x1OPRF6Zl3wRIrHFUeHgc7a686K09WozeXUwKVSgbuIUSyhIEnZ2+rLy4qmTksSsK6c7RJOPg==, tarball: file:projects/arm-resourceconnector.tgz}
     name: '@rush-temp/arm-resourceconnector'
     version: 0.0.0
     dependencies:
@@ -14141,7 +14141,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@types/node'
