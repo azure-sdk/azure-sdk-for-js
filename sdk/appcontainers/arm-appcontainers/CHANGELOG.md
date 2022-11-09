@@ -1,16 +1,6 @@
 # Release History
-
-## 2.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.0.0-beta.1 (2022-10-12)
+    
+## 1.2.0 (2022-11-09)
     
 **Features**
 
@@ -75,6 +65,7 @@
   - Added Interface ContainerAppsDiagnosticsListRevisionsNextOptionalParams
   - Added Interface ContainerAppsDiagnosticsListRevisionsOptionalParams
   - Added Interface ContainerAppsGetAuthTokenOptionalParams
+  - Added Interface CorsPolicy
   - Added Interface CustomDomainConfiguration
   - Added Interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo
   - Added Interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsItem
@@ -148,6 +139,7 @@
   - Added Type Alias ContainerAppsDiagnosticsListRevisionsResponse
   - Added Type Alias ContainerAppsGetAuthTokenResponse
   - Added Type Alias ExtendedLocationTypes
+  - Added Type Alias IngressClientCertificateMode
   - Added Type Alias LogLevel
   - Added Type Alias ManagedEnvironmentDiagnosticsGetDetectorResponse
   - Added Type Alias ManagedEnvironmentDiagnosticsListDetectorsResponse
@@ -162,6 +154,7 @@
   - Interface ContainerApp has a new optional parameter environmentId
   - Interface ContainerApp has a new optional parameter eventStreamEndpoint
   - Interface ContainerApp has a new optional parameter extendedLocation
+  - Interface ContainerApp has a new optional parameter latestReadyRevisionName
   - Interface ContainerApp has a new optional parameter workloadProfileType
   - Interface CustomHostnameAnalysisResult has a new optional parameter conflictWithEnvironmentCustomDomain
   - Interface Dapr has a new optional parameter enableApiLogging
@@ -169,6 +162,8 @@
   - Interface Dapr has a new optional parameter httpReadBufferSize
   - Interface Dapr has a new optional parameter logLevel
   - Interface DaprComponent has a new optional parameter secretStoreComponent
+  - Interface Ingress has a new optional parameter clientCertificateMode
+  - Interface Ingress has a new optional parameter corsPolicy
   - Interface Ingress has a new optional parameter exposedPort
   - Interface Ingress has a new optional parameter ipSecurityRestrictions
   - Interface ManagedEnvironment has a new optional parameter customDomainConfiguration
@@ -195,21 +190,12 @@
   - Added Enum KnownCategory
   - Added Enum KnownConnectedEnvironmentProvisioningState
   - Added Enum KnownExtendedLocationTypes
+  - Added Enum KnownIngressClientCertificateMode
   - Added Enum KnownLogLevel
   - Added Enum KnownManagedEnvironmentOutBoundType
   - Added Enum KnownSkuName
   - Enum KnownContainerAppProvisioningState has a new value Deleting
   - Enum KnownIngressTransportMethod has a new value Tcp
-
-**Breaking Changes**
-
-  - Interface Container no longer has parameter args
-  - Interface Container no longer has parameter command
-  - Interface Container no longer has parameter env
-  - Interface Container no longer has parameter image
-  - Interface Container no longer has parameter name
-  - Interface Container no longer has parameter resources
-  - Interface Container no longer has parameter volumeMounts
     
 ## 1.1.2 (2022-10-08)
 
