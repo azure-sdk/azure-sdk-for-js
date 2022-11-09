@@ -45,7 +45,9 @@ import {
   AppServiceCertificateOrdersRetrieveCertificateActionsOptionalParams,
   AppServiceCertificateOrdersRetrieveCertificateActionsResponse,
   AppServiceCertificateOrdersRetrieveCertificateEmailHistoryOptionalParams,
-  AppServiceCertificateOrdersRetrieveCertificateEmailHistoryResponse
+  AppServiceCertificateOrdersRetrieveCertificateEmailHistoryResponse,
+  AppServiceCertificateOrdersRetrieveCertificateOrderContactOptionalParams,
+  AppServiceCertificateOrdersRetrieveCertificateOrderContactResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -335,5 +337,18 @@ export interface AppServiceCertificateOrders {
     options?: AppServiceCertificateOrdersRetrieveCertificateEmailHistoryOptionalParams
   ): Promise<
     AppServiceCertificateOrdersRetrieveCertificateEmailHistoryResponse
+  >;
+  /**
+   * Return contactadmin namefirst,namelast,phone.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the certificate order.
+   * @param options The options parameters.
+   */
+  retrieveCertificateOrderContact(
+    resourceGroupName: string,
+    name: string,
+    options?: AppServiceCertificateOrdersRetrieveCertificateOrderContactOptionalParams
+  ): Promise<
+    AppServiceCertificateOrdersRetrieveCertificateOrderContactResponse
   >;
 }

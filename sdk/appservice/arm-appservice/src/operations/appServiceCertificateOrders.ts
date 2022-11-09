@@ -58,6 +58,8 @@ import {
   AppServiceCertificateOrdersRetrieveCertificateActionsResponse,
   AppServiceCertificateOrdersRetrieveCertificateEmailHistoryOptionalParams,
   AppServiceCertificateOrdersRetrieveCertificateEmailHistoryResponse,
+  AppServiceCertificateOrdersRetrieveCertificateOrderContactOptionalParams,
+  AppServiceCertificateOrdersRetrieveCertificateOrderContactResponse,
   AppServiceCertificateOrdersListNextResponse,
   AppServiceCertificateOrdersListByResourceGroupNextResponse,
   AppServiceCertificateOrdersListCertificatesNextResponse
@@ -789,6 +791,25 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
+   * Return contactadmin namefirst,namelast,phone.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the certificate order.
+   * @param options The options parameters.
+   */
+  retrieveCertificateOrderContact(
+    resourceGroupName: string,
+    name: string,
+    options?: AppServiceCertificateOrdersRetrieveCertificateOrderContactOptionalParams
+  ): Promise<
+    AppServiceCertificateOrdersRetrieveCertificateOrderContactResponse
+  > {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      retrieveCertificateOrderContactOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -1296,6 +1317,28 @@ const retrieveCertificateEmailHistoryOperationSpec: coreClient.OperationSpec = {
           }
         }
       }
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const retrieveCertificateOrderContactOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{name}/retrieveCertificateOrderContact",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CertificateOrderContact
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
