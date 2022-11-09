@@ -14,6 +14,8 @@ import {
   Appliance,
   AppliancesListBySubscriptionOptionalParams,
   AppliancesListByResourceGroupOptionalParams,
+  AppliancesGetTelemetryConfigOptionalParams,
+  AppliancesGetTelemetryConfigResponse,
   AppliancesGetOptionalParams,
   AppliancesGetResponse,
   AppliancesCreateOrUpdateOptionalParams,
@@ -21,10 +23,10 @@ import {
   AppliancesDeleteOptionalParams,
   AppliancesUpdateOptionalParams,
   AppliancesUpdateResponse,
-  AppliancesListClusterCustomerUserCredentialOptionalParams,
-  AppliancesListClusterCustomerUserCredentialResponse,
   AppliancesListClusterUserCredentialOptionalParams,
   AppliancesListClusterUserCredentialResponse,
+  AppliancesListKeysOptionalParams,
+  AppliancesListKeysResponse,
   AppliancesGetUpgradeGraphOptionalParams,
   AppliancesGetUpgradeGraphResponse
 } from "../models";
@@ -57,6 +59,13 @@ export interface Appliances {
     resourceGroupName: string,
     options?: AppliancesListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<Appliance>;
+  /**
+   * Gets the telemetry config.
+   * @param options The options parameters.
+   */
+  getTelemetryConfig(
+    options?: AppliancesGetTelemetryConfigOptionalParams
+  ): Promise<AppliancesGetTelemetryConfigResponse>;
   /**
    * Gets the details of an Appliance with a specified resource group and name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -134,17 +143,6 @@ export interface Appliances {
     options?: AppliancesUpdateOptionalParams
   ): Promise<AppliancesUpdateResponse>;
   /**
-   * Returns the cluster customer user credentials for the dedicated appliance.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName Appliances name.
-   * @param options The options parameters.
-   */
-  listClusterCustomerUserCredential(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: AppliancesListClusterCustomerUserCredentialOptionalParams
-  ): Promise<AppliancesListClusterCustomerUserCredentialResponse>;
-  /**
    * Returns the cluster user credentials for the dedicated appliance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName Appliances name.
@@ -155,6 +153,17 @@ export interface Appliances {
     resourceName: string,
     options?: AppliancesListClusterUserCredentialOptionalParams
   ): Promise<AppliancesListClusterUserCredentialResponse>;
+  /**
+   * Returns the cluster customer credentials for the dedicated appliance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName Appliances name.
+   * @param options The options parameters.
+   */
+  listKeys(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: AppliancesListKeysOptionalParams
+  ): Promise<AppliancesListKeysResponse>;
   /**
    * Gets the upgrade graph of an Appliance with a specified resource group and name and specific release
    * train.
