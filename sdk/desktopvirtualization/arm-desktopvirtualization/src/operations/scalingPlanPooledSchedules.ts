@@ -7,33 +7,34 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Applications } from "../operationsInterfaces";
+import { ScalingPlanPooledSchedules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient";
 import {
-  Application,
-  ApplicationsListNextOptionalParams,
-  ApplicationsListOptionalParams,
-  ApplicationsGetOptionalParams,
-  ApplicationsGetResponse,
-  ApplicationsCreateOrUpdateOptionalParams,
-  ApplicationsCreateOrUpdateResponse,
-  ApplicationsDeleteOptionalParams,
-  ApplicationsUpdateOptionalParams,
-  ApplicationsUpdateResponse,
-  ApplicationsListResponse,
-  ApplicationsListNextResponse
+  ScalingPlanPooledSchedule,
+  ScalingPlanPooledSchedulesListNextOptionalParams,
+  ScalingPlanPooledSchedulesListOptionalParams,
+  ScalingPlanPooledSchedulesGetOptionalParams,
+  ScalingPlanPooledSchedulesGetResponse,
+  ScalingPlanPooledSchedulesCreateOptionalParams,
+  ScalingPlanPooledSchedulesCreateResponse,
+  ScalingPlanPooledSchedulesDeleteOptionalParams,
+  ScalingPlanPooledSchedulesUpdateOptionalParams,
+  ScalingPlanPooledSchedulesUpdateResponse,
+  ScalingPlanPooledSchedulesListResponse,
+  ScalingPlanPooledSchedulesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Applications operations. */
-export class ApplicationsImpl implements Applications {
+/** Class containing ScalingPlanPooledSchedules operations. */
+export class ScalingPlanPooledSchedulesImpl
+  implements ScalingPlanPooledSchedules {
   private readonly client: DesktopVirtualizationAPIClient;
 
   /**
-   * Initialize a new instance of the class Applications class.
+   * Initialize a new instance of the class ScalingPlanPooledSchedules class.
    * @param client Reference to the service client
    */
   constructor(client: DesktopVirtualizationAPIClient) {
@@ -41,19 +42,19 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
-   * List applications.
+   * List ScalingPlanPooledSchedules.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param applicationGroupName The name of the application group
+   * @param scalingPlanName The name of the scaling plan.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
-    applicationGroupName: string,
-    options?: ApplicationsListOptionalParams
-  ): PagedAsyncIterableIterator<Application> {
+    scalingPlanName: string,
+    options?: ScalingPlanPooledSchedulesListOptionalParams
+  ): PagedAsyncIterableIterator<ScalingPlanPooledSchedule> {
     const iter = this.listPagingAll(
       resourceGroupName,
-      applicationGroupName,
+      scalingPlanName,
       options
     );
     return {
@@ -64,31 +65,23 @@ export class ApplicationsImpl implements Applications {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(
-          resourceGroupName,
-          applicationGroupName,
-          options
-        );
+        return this.listPagingPage(resourceGroupName, scalingPlanName, options);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    applicationGroupName: string,
-    options?: ApplicationsListOptionalParams
-  ): AsyncIterableIterator<Application[]> {
-    let result = await this._list(
-      resourceGroupName,
-      applicationGroupName,
-      options
-    );
+    scalingPlanName: string,
+    options?: ScalingPlanPooledSchedulesListOptionalParams
+  ): AsyncIterableIterator<ScalingPlanPooledSchedule[]> {
+    let result = await this._list(resourceGroupName, scalingPlanName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
-        applicationGroupName,
+        scalingPlanName,
         continuationToken,
         options
       );
@@ -99,12 +92,12 @@ export class ApplicationsImpl implements Applications {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    applicationGroupName: string,
-    options?: ApplicationsListOptionalParams
-  ): AsyncIterableIterator<Application> {
+    scalingPlanName: string,
+    options?: ScalingPlanPooledSchedulesListOptionalParams
+  ): AsyncIterableIterator<ScalingPlanPooledSchedule> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
-      applicationGroupName,
+      scalingPlanName,
       options
     )) {
       yield* page;
@@ -112,102 +105,102 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
-   * Get an application.
+   * Get a ScalingPlanPooledSchedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param applicationGroupName The name of the application group
-   * @param applicationName The name of the application within the specified application group
+   * @param scalingPlanName The name of the scaling plan.
+   * @param scalingPlanScheduleName The name of the ScalingPlanSchedule
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    applicationGroupName: string,
-    applicationName: string,
-    options?: ApplicationsGetOptionalParams
-  ): Promise<ApplicationsGetResponse> {
+    scalingPlanName: string,
+    scalingPlanScheduleName: string,
+    options?: ScalingPlanPooledSchedulesGetOptionalParams
+  ): Promise<ScalingPlanPooledSchedulesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, applicationGroupName, applicationName, options },
+      { resourceGroupName, scalingPlanName, scalingPlanScheduleName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or update an application.
+   * Create or update a ScalingPlanPooledSchedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param applicationGroupName The name of the application group
-   * @param applicationName The name of the application within the specified application group
-   * @param application Object containing Application definitions.
+   * @param scalingPlanName The name of the scaling plan.
+   * @param scalingPlanScheduleName The name of the ScalingPlanSchedule
+   * @param scalingPlanSchedule Object containing ScalingPlanPooledSchedule definitions.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  create(
     resourceGroupName: string,
-    applicationGroupName: string,
-    applicationName: string,
-    application: Application,
-    options?: ApplicationsCreateOrUpdateOptionalParams
-  ): Promise<ApplicationsCreateOrUpdateResponse> {
+    scalingPlanName: string,
+    scalingPlanScheduleName: string,
+    scalingPlanSchedule: ScalingPlanPooledSchedule,
+    options?: ScalingPlanPooledSchedulesCreateOptionalParams
+  ): Promise<ScalingPlanPooledSchedulesCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        applicationGroupName,
-        applicationName,
-        application,
+        scalingPlanName,
+        scalingPlanScheduleName,
+        scalingPlanSchedule,
         options
       },
-      createOrUpdateOperationSpec
+      createOperationSpec
     );
   }
 
   /**
-   * Remove an application.
+   * Remove a ScalingPlanPooledSchedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param applicationGroupName The name of the application group
-   * @param applicationName The name of the application within the specified application group
+   * @param scalingPlanName The name of the scaling plan.
+   * @param scalingPlanScheduleName The name of the ScalingPlanSchedule
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
-    applicationGroupName: string,
-    applicationName: string,
-    options?: ApplicationsDeleteOptionalParams
+    scalingPlanName: string,
+    scalingPlanScheduleName: string,
+    options?: ScalingPlanPooledSchedulesDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, applicationGroupName, applicationName, options },
+      { resourceGroupName, scalingPlanName, scalingPlanScheduleName, options },
       deleteOperationSpec
     );
   }
 
   /**
-   * Update an application.
+   * Update a ScalingPlanPooledSchedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param applicationGroupName The name of the application group
-   * @param applicationName The name of the application within the specified application group
+   * @param scalingPlanName The name of the scaling plan.
+   * @param scalingPlanScheduleName The name of the ScalingPlanSchedule
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
-    applicationGroupName: string,
-    applicationName: string,
-    options?: ApplicationsUpdateOptionalParams
-  ): Promise<ApplicationsUpdateResponse> {
+    scalingPlanName: string,
+    scalingPlanScheduleName: string,
+    options?: ScalingPlanPooledSchedulesUpdateOptionalParams
+  ): Promise<ScalingPlanPooledSchedulesUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, applicationGroupName, applicationName, options },
+      { resourceGroupName, scalingPlanName, scalingPlanScheduleName, options },
       updateOperationSpec
     );
   }
 
   /**
-   * List applications.
+   * List ScalingPlanPooledSchedules.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param applicationGroupName The name of the application group
+   * @param scalingPlanName The name of the scaling plan.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
-    applicationGroupName: string,
-    options?: ApplicationsListOptionalParams
-  ): Promise<ApplicationsListResponse> {
+    scalingPlanName: string,
+    options?: ScalingPlanPooledSchedulesListOptionalParams
+  ): Promise<ScalingPlanPooledSchedulesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, applicationGroupName, options },
+      { resourceGroupName, scalingPlanName, options },
       listOperationSpec
     );
   }
@@ -215,18 +208,18 @@ export class ApplicationsImpl implements Applications {
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param applicationGroupName The name of the application group
+   * @param scalingPlanName The name of the scaling plan.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
-    applicationGroupName: string,
+    scalingPlanName: string,
     nextLink: string,
-    options?: ApplicationsListNextOptionalParams
-  ): Promise<ApplicationsListNextResponse> {
+    options?: ScalingPlanPooledSchedulesListNextOptionalParams
+  ): Promise<ScalingPlanPooledSchedulesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, applicationGroupName, nextLink, options },
+      { resourceGroupName, scalingPlanName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -236,11 +229,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/applications/{applicationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules/{scalingPlanScheduleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Application
+      bodyMapper: Mappers.ScalingPlanPooledSchedule
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -251,35 +244,35 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationGroupName,
-    Parameters.applicationName
+    Parameters.scalingPlanName,
+    Parameters.scalingPlanScheduleName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/applications/{applicationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules/{scalingPlanScheduleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Application
+      bodyMapper: Mappers.ScalingPlanPooledSchedule
     },
     201: {
-      bodyMapper: Mappers.Application
+      bodyMapper: Mappers.ScalingPlanPooledSchedule
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.application,
+  requestBody: Parameters.scalingPlanSchedule,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationGroupName,
-    Parameters.applicationName
+    Parameters.scalingPlanName,
+    Parameters.scalingPlanScheduleName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -287,7 +280,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/applications/{applicationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules/{scalingPlanScheduleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -301,32 +294,32 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationGroupName,
-    Parameters.applicationName
+    Parameters.scalingPlanName,
+    Parameters.scalingPlanScheduleName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/applications/{applicationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules/{scalingPlanScheduleName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Application
+      bodyMapper: Mappers.ScalingPlanPooledSchedule
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.application1,
+  requestBody: Parameters.scalingPlanSchedule1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationGroupName,
-    Parameters.applicationName
+    Parameters.scalingPlanName,
+    Parameters.scalingPlanScheduleName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -334,11 +327,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/applications",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationList
+      bodyMapper: Mappers.ScalingPlanPooledScheduleList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -354,7 +347,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationGroupName
+    Parameters.scalingPlanName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -364,7 +357,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationList
+      bodyMapper: Mappers.ScalingPlanPooledScheduleList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -381,7 +374,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationGroupName
+    Parameters.scalingPlanName
   ],
   headerParameters: [Parameters.accept],
   serializer
