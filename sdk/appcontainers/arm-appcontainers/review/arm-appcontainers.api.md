@@ -1060,7 +1060,7 @@ export interface CustomDomain {
 
 // @public
 export interface CustomDomainConfiguration {
-    certificatePassword?: Uint8Array;
+    certificatePassword?: string;
     certificateValue?: Uint8Array;
     readonly customDomainVerificationId?: string;
     dnsSuffix?: string;
