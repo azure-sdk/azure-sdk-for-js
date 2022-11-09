@@ -1049,6 +1049,16 @@ export interface CookieExpiration {
 export type CookieExpirationConvention = "FixedTime" | "IdentityProviderDerived";
 
 // @public
+export interface CorsPolicy {
+    allowCredentials?: boolean;
+    allowedHeaders?: string[];
+    allowedMethods?: string[];
+    allowedOrigins: string[];
+    exposeHeaders?: string[];
+    maxAge?: number;
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -1060,7 +1070,7 @@ export interface CustomDomain {
 
 // @public
 export interface CustomDomainConfiguration {
-    certificatePassword?: Uint8Array;
+    certificatePassword?: string;
     certificateValue?: Uint8Array;
     readonly customDomainVerificationId?: string;
     dnsSuffix?: string;
@@ -1465,6 +1475,8 @@ export interface IdentityProviders {
 // @public
 export interface Ingress {
     allowInsecure?: boolean;
+    clientCertificateMode?: IngressClientCertificateMode;
+    corsPolicy?: CorsPolicy;
     customDomains?: CustomDomain[];
     exposedPort?: number;
     external?: boolean;
@@ -1474,6 +1486,9 @@ export interface Ingress {
     traffic?: TrafficWeight[];
     transport?: IngressTransportMethod;
 }
+
+// @public
+export type IngressClientCertificateMode = string;
 
 // @public
 export type IngressTransportMethod = string;
@@ -1600,6 +1615,13 @@ export enum KnownEnvironmentProvisioningState {
 // @public
 export enum KnownExtendedLocationTypes {
     CustomLocation = "CustomLocation"
+}
+
+// @public
+export enum KnownIngressClientCertificateMode {
+    Accept = "accept",
+    Ignore = "ignore",
+    Require = "require"
 }
 
 // @public
