@@ -1930,6 +1930,11 @@
       "packageName": "@azure/arm-elastic",
       "projectFolder": "sdk/elastic/arm-elastic",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/confidentialledger-test",
+      "projectFolder": "sdk/confidentialledger/azure-confidentialledger-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
