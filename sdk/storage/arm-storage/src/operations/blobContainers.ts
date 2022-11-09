@@ -622,7 +622,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.apiVersion,
     Parameters.maxpagesize,
     Parameters.filter,
-    Parameters.include
+    Parameters.include1
   ],
   urlParameters: [
     Parameters.$host,
@@ -938,7 +938,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.apiVersion,
     Parameters.maxpagesize,
     Parameters.filter,
-    Parameters.include
+    Parameters.include1
   ],
   urlParameters: [
     Parameters.$host,

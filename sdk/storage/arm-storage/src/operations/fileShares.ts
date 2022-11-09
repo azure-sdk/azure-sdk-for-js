@@ -420,7 +420,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.include1],
+  queryParameters: [Parameters.apiVersion, Parameters.include2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
