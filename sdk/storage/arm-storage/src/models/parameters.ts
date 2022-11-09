@@ -19,6 +19,7 @@ import {
   AccountSasParameters as AccountSasParametersMapper,
   ServiceSasParameters as ServiceSasParametersMapper,
   BlobRestoreParameters as BlobRestoreParametersMapper,
+  StorageAccountMigration as StorageAccountMigrationMapper,
   ManagementPolicy as ManagementPolicyMapper,
   BlobInventoryPolicy as BlobInventoryPolicyMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
@@ -67,7 +68,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-05-01",
+    defaultValue: "2022-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -185,6 +186,18 @@ export const parameters3: OperationParameter = {
   mapper: ServiceSasParametersMapper
 };
 
+export const failoverType: OperationQueryParameter = {
+  parameterPath: ["options", "failoverType"],
+  mapper: {
+    defaultValue: "Planned",
+    isConstant: true,
+    serializedName: "failoverType",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const requestType: OperationQueryParameter = {
   parameterPath: "requestType",
   mapper: {
@@ -239,6 +252,22 @@ export const location: OperationURLParameter = {
   }
 };
 
+export const accountMigrationName: OperationURLParameter = {
+  parameterPath: "accountMigrationName",
+  mapper: {
+    serializedName: "accountMigrationName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const properties: OperationParameter = {
+  parameterPath: "properties",
+  mapper: StorageAccountMigrationMapper
+};
+
 export const managementPolicyName: OperationURLParameter = {
   parameterPath: "managementPolicyName",
   mapper: {
@@ -250,7 +279,7 @@ export const managementPolicyName: OperationURLParameter = {
   }
 };
 
-export const properties: OperationParameter = {
+export const properties1: OperationParameter = {
   parameterPath: "properties",
   mapper: ManagementPolicyMapper
 };
@@ -266,7 +295,7 @@ export const blobInventoryPolicyName: OperationURLParameter = {
   }
 };
 
-export const properties1: OperationParameter = {
+export const properties2: OperationParameter = {
   parameterPath: "properties",
   mapper: BlobInventoryPolicyMapper
 };
@@ -282,7 +311,7 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   }
 };
 
-export const properties2: OperationParameter = {
+export const properties3: OperationParameter = {
   parameterPath: "properties",
   mapper: PrivateEndpointConnectionMapper
 };
@@ -301,7 +330,7 @@ export const objectReplicationPolicyId: OperationURLParameter = {
   }
 };
 
-export const properties3: OperationParameter = {
+export const properties4: OperationParameter = {
   parameterPath: "properties",
   mapper: ObjectReplicationPolicyMapper
 };
@@ -321,7 +350,7 @@ export const username: OperationURLParameter = {
   }
 };
 
-export const properties4: OperationParameter = {
+export const properties5: OperationParameter = {
   parameterPath: "properties",
   mapper: LocalUserMapper
 };
@@ -340,23 +369,6 @@ export const encryptionScopeName: OperationURLParameter = {
     },
     serializedName: "encryptionScopeName",
     required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters5: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: BlobServicePropertiesMapper
-};
-
-export const blobServicesName: OperationURLParameter = {
-  parameterPath: "blobServicesName",
-  mapper: {
-    defaultValue: "default",
-    isConstant: true,
-    serializedName: "BlobServicesName",
     type: {
       name: "String"
     }
@@ -384,6 +396,33 @@ export const filter: OperationQueryParameter = {
 };
 
 export const include: OperationQueryParameter = {
+  parameterPath: ["options", "include"],
+  mapper: {
+    serializedName: "$include",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters5: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: BlobServicePropertiesMapper
+};
+
+export const blobServicesName: OperationURLParameter = {
+  parameterPath: "blobServicesName",
+  mapper: {
+    defaultValue: "default",
+    isConstant: true,
+    serializedName: "BlobServicesName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const include1: OperationQueryParameter = {
   parameterPath: ["options", "include"],
   mapper: {
     serializedName: "$include",
@@ -518,7 +557,7 @@ export const xMsSnapshot: OperationParameter = {
   }
 };
 
-export const include1: OperationQueryParameter = {
+export const include2: OperationQueryParameter = {
   parameterPath: ["options", "include"],
   mapper: {
     serializedName: "$include",

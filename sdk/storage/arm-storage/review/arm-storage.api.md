@@ -31,6 +31,29 @@ export interface AccountImmutabilityPolicyProperties {
 export type AccountImmutabilityPolicyState = string;
 
 // @public
+export type AccountMigrationName = string;
+
+// @public
+export interface AccountMigrations {
+    beginPut(resourceGroupName: string, accountName: string, accountMigrationName: AccountMigrationName, properties: StorageAccountMigration, options?: AccountMigrationsPutOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginPutAndWait(resourceGroupName: string, accountName: string, accountMigrationName: AccountMigrationName, properties: StorageAccountMigration, options?: AccountMigrationsPutOptionalParams): Promise<void>;
+    get(resourceGroupName: string, accountName: string, accountMigrationName: AccountMigrationName, options?: AccountMigrationsGetOptionalParams): Promise<AccountMigrationsGetResponse>;
+}
+
+// @public
+export interface AccountMigrationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccountMigrationsGetResponse = StorageAccountMigration;
+
+// @public
+export interface AccountMigrationsPutOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface AccountSasParameters {
     iPAddressOrRange?: string;
     keyToSign?: string;
@@ -604,6 +627,9 @@ export type EncryptionScopesGetResponse = EncryptionScope;
 
 // @public
 export interface EncryptionScopesListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    include?: ListEncryptionScopesInclude;
+    maxpagesize?: string;
 }
 
 // @public
@@ -611,6 +637,9 @@ export type EncryptionScopesListNextResponse = EncryptionScopeListResult;
 
 // @public
 export interface EncryptionScopesListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    include?: ListEncryptionScopesInclude;
+    maxpagesize?: string;
 }
 
 // @public
@@ -979,6 +1008,11 @@ export enum KnownAccountImmutabilityPolicyState {
 }
 
 // @public
+export enum KnownAccountMigrationName {
+    Default = "default"
+}
+
+// @public
 export enum KnownAccountType {
     Computer = "Computer",
     User = "User"
@@ -1191,6 +1225,13 @@ export enum KnownListContainersInclude {
 }
 
 // @public
+export enum KnownListEncryptionScopesInclude {
+    All = "All",
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownManagementPolicyName {
     Default = "default"
 }
@@ -1199,6 +1240,15 @@ export enum KnownManagementPolicyName {
 export enum KnownMigrationState {
     Completed = "Completed",
     InProgress = "InProgress"
+}
+
+// @public
+export enum KnownMigrationStatus {
+    Complete = "Complete",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Invalid = "Invalid",
+    SubmittedForConversion = "SubmittedForConversion"
 }
 
 // @public
@@ -1361,6 +1411,16 @@ export enum KnownState {
 }
 
 // @public
+export enum KnownTargetSkuName {
+    StandardGRS = "Standard_GRS",
+    StandardGzrs = "Standard_GZRS",
+    StandardLRS = "Standard_LRS",
+    StandardRagrs = "Standard_RAGRS",
+    StandardRagzrs = "Standard_RAGZRS",
+    StandardZRS = "Standard_ZRS"
+}
+
+// @public
 export type LargeFileSharesState = string;
 
 // @public
@@ -1473,6 +1533,9 @@ export interface ListContainerItems {
 
 // @public
 export type ListContainersInclude = string;
+
+// @public
+export type ListEncryptionScopesInclude = string;
 
 // @public (undocumented)
 export interface ListQueue extends Resource {
@@ -1628,7 +1691,9 @@ export interface ManagementPolicyBaseBlob {
     delete?: DateAfterModification;
     enableAutoTierToHotFromCool?: boolean;
     tierToArchive?: DateAfterModification;
+    tierToCold?: DateAfterModification;
     tierToCool?: DateAfterModification;
+    tierToHot?: DateAfterModification;
 }
 
 // @public
@@ -1664,14 +1729,18 @@ export interface ManagementPolicySchema {
 export interface ManagementPolicySnapShot {
     delete?: DateAfterCreation;
     tierToArchive?: DateAfterCreation;
+    tierToCold?: DateAfterCreation;
     tierToCool?: DateAfterCreation;
+    tierToHot?: DateAfterCreation;
 }
 
 // @public
 export interface ManagementPolicyVersion {
     delete?: DateAfterCreation;
     tierToArchive?: DateAfterCreation;
+    tierToCold?: DateAfterCreation;
     tierToCool?: DateAfterCreation;
+    tierToHot?: DateAfterCreation;
 }
 
 // @public
@@ -1689,6 +1758,9 @@ export interface MetricSpecification {
 
 // @public
 export type MigrationState = string;
+
+// @public
+export type MigrationStatus = string;
 
 // @public
 export type MinimumTlsVersion = string;
@@ -2183,6 +2255,7 @@ export type State = string;
 // @public
 export interface StorageAccount extends TrackedResource {
     readonly accessTier?: AccessTier;
+    readonly accountMigrationInProgress?: boolean;
     allowBlobPublicAccess?: boolean;
     allowCrossTenantReplication?: boolean;
     allowedCopyScope?: AllowedCopyScope;
@@ -2204,6 +2277,7 @@ export interface StorageAccount extends TrackedResource {
     isHnsEnabled?: boolean;
     isLocalUserEnabled?: boolean;
     isSftpEnabled?: boolean;
+    readonly isSkuConversionBlocked?: boolean;
     readonly keyCreationTime?: KeyCreationTime;
     readonly keyPolicy?: KeyPolicy;
     readonly kind?: Kind;
@@ -2305,6 +2379,18 @@ export interface StorageAccountMicrosoftEndpoints {
     readonly queue?: string;
     readonly table?: string;
     readonly web?: string;
+}
+
+// @public
+export interface StorageAccountMigration extends Resource {
+    properties?: StorageAccountMigrationProperties;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface StorageAccountMigrationProperties {
+    readonly migrationStatus?: MigrationStatus;
+    targetSkuName: TargetSkuName;
 }
 
 // @public
@@ -2504,6 +2590,8 @@ export class StorageManagementClient extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: StorageManagementClientOptionalParams);
     // (undocumented)
+    accountMigrations: AccountMigrations;
+    // (undocumented)
     apiVersion: string;
     // (undocumented)
     blobContainers: BlobContainers;
@@ -2696,6 +2784,9 @@ export interface TagProperty {
     readonly timestamp?: Date;
     readonly upn?: string;
 }
+
+// @public
+export type TargetSkuName = string;
 
 // @public
 export interface TrackedResource extends Resource {

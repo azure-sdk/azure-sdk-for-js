@@ -955,6 +955,51 @@ export interface ListServiceSasResponse {
   readonly serviceSasToken?: string;
 }
 
+/** The parameters or status associated with an ongoing or enqueued storage account migration in order to update its current SKU or region. */
+export interface StorageAccountMigrationProperties {
+  /** The target sku name to migrate. */
+  targetSkuName: TargetSkuName;
+  /**
+   * Current status of migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationStatus?: MigrationStatus;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** An error response from the Storage service. */
+export interface CloudError {
+  /** An error response from the Storage service. */
+  error?: CloudErrorBody;
+}
+
+/** An error response from the Storage service. */
+export interface CloudErrorBody {
+  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
+  code?: string;
+  /** A message describing the error, intended to be suitable for display in a user interface. */
+  message?: string;
+  /** The target of the particular error. For example, the name of the property in error. */
+  target?: string;
+  /** A list of additional details about the error. */
+  details?: CloudErrorBody[];
+}
+
 /** The Storage Account ManagementPolicies Rules. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts. */
 export interface ManagementPolicySchema {
   /** The Storage Account ManagementPolicies Rules. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts. */
@@ -993,10 +1038,14 @@ export interface ManagementPolicyAction {
 
 /** Management policy action for base blob. */
 export interface ManagementPolicyBaseBlob {
-  /** The function to tier blobs to cool storage. Support blobs currently at Hot tier */
+  /** The function to tier blobs to cool storage. */
   tierToCool?: DateAfterModification;
-  /** The function to tier blobs to archive storage. Support blobs currently at Hot or Cool tier */
+  /** The function to tier blobs to archive storage. */
   tierToArchive?: DateAfterModification;
+  /** The function to tier blobs to cold storage. */
+  tierToCold?: DateAfterModification;
+  /** The function to tier blobs to hot storage. This action can only be used with Premium Block Blob Storage Accounts */
+  tierToHot?: DateAfterModification;
   /** The function to delete the blob */
   delete?: DateAfterModification;
   /** This property enables auto tiering of a blob from cool to hot on a blob access. This property requires tierToCool.daysAfterLastAccessTimeGreaterThan. */
@@ -1017,10 +1066,14 @@ export interface DateAfterModification {
 
 /** Management policy action for snapshot. */
 export interface ManagementPolicySnapShot {
-  /** The function to tier blob snapshot to cool storage. Support blob snapshot currently at Hot tier */
+  /** The function to tier blob snapshot to cool storage. */
   tierToCool?: DateAfterCreation;
-  /** The function to tier blob snapshot to archive storage. Support blob snapshot currently at Hot or Cool tier */
+  /** The function to tier blob snapshot to archive storage. */
   tierToArchive?: DateAfterCreation;
+  /** The function to tier blobs to cold storage. */
+  tierToCold?: DateAfterCreation;
+  /** The function to tier blobs to hot storage. This action can only be used with Premium Block Blob Storage Accounts */
+  tierToHot?: DateAfterCreation;
   /** The function to delete the blob snapshot */
   delete?: DateAfterCreation;
 }
@@ -1035,10 +1088,14 @@ export interface DateAfterCreation {
 
 /** Management policy action for blob version. */
 export interface ManagementPolicyVersion {
-  /** The function to tier blob version to cool storage. Support blob version currently at Hot tier */
+  /** The function to tier blob version to cool storage. */
   tierToCool?: DateAfterCreation;
-  /** The function to tier blob version to archive storage. Support blob version currently at Hot or Cool tier */
+  /** The function to tier blob version to archive storage. */
   tierToArchive?: DateAfterCreation;
+  /** The function to tier blobs to cold storage. */
+  tierToCold?: DateAfterCreation;
+  /** The function to tier blobs to hot storage. This action can only be used with Premium Block Blob Storage Accounts */
+  tierToHot?: DateAfterCreation;
   /** The function to delete the blob version */
   delete?: DateAfterCreation;
 }
@@ -1118,40 +1175,6 @@ export interface BlobInventoryPolicyFilter {
   includeSnapshots?: boolean;
   /** For 'Container' definition.objectType the definition.schemaFields must include 'Deleted, Version, DeletedTime and RemainingRetentionDays'. For 'Blob' definition.objectType and HNS enabled storage accounts the definition.schemaFields must include 'DeletionId, Deleted, DeletedTime and RemainingRetentionDays' and for Hns disabled accounts the definition.schemaFields must include 'Deleted and RemainingRetentionDays', else it must be excluded. */
   includeDeleted?: boolean;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-/** An error response from the Storage service. */
-export interface CloudError {
-  /** An error response from the Storage service. */
-  error?: CloudErrorBody;
-}
-
-/** An error response from the Storage service. */
-export interface CloudErrorBody {
-  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
-  code?: string;
-  /** A message describing the error, intended to be suitable for display in a user interface. */
-  message?: string;
-  /** The target of the particular error. For example, the name of the property in error. */
-  target?: string;
-  /** A list of additional details about the error. */
-  details?: CloudErrorBody[];
 }
 
 /** List of blob inventory policies returned. */
@@ -1710,6 +1733,17 @@ export interface TrackedResource extends Resource {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
+/** The object encapsulating storage account migration properties. */
+export interface StorageAccountMigration extends Resource {
+  /** The parameters or status associated with an ongoing or enqueued storage account migration in order to update its current SKU or region. */
+  properties?: StorageAccountMigrationProperties;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
 /** The Get Storage Account ManagementPolicies operation response. */
 export interface ManagementPolicy extends Resource {
   /**
@@ -2062,6 +2096,16 @@ export interface StorageAccount extends TrackedResource {
   storageAccountSkuConversionStatus?: StorageAccountSkuConversionStatus;
   /** Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of accounts in a single subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an alphanumeric DNS Zone identifier. */
   dnsEndpointType?: DnsEndpointType;
+  /**
+   * This property value will be set as true or false as migration progresses. Default value is null.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isSkuConversionBlocked?: boolean;
+  /**
+   * If customer initiated account migration is in progress, the value will be true else it will be null.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountMigrationInProgress?: boolean;
 }
 
 /** Deleted storage account */
@@ -3085,6 +3129,102 @@ export enum KnownSignedResource {
  */
 export type SignedResource = string;
 
+/** Known values of {@link AccountMigrationName} that the service accepts. */
+export enum KnownAccountMigrationName {
+  /** Default */
+  Default = "default"
+}
+
+/**
+ * Defines values for AccountMigrationName. \
+ * {@link KnownAccountMigrationName} can be used interchangeably with AccountMigrationName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**
+ */
+export type AccountMigrationName = string;
+
+/** Known values of {@link TargetSkuName} that the service accepts. */
+export enum KnownTargetSkuName {
+  /** StandardLRS */
+  StandardLRS = "Standard_LRS",
+  /** StandardGRS */
+  StandardGRS = "Standard_GRS",
+  /** StandardRagrs */
+  StandardRagrs = "Standard_RAGRS",
+  /** StandardZRS */
+  StandardZRS = "Standard_ZRS",
+  /** StandardGzrs */
+  StandardGzrs = "Standard_GZRS",
+  /** StandardRagzrs */
+  StandardRagzrs = "Standard_RAGZRS"
+}
+
+/**
+ * Defines values for TargetSkuName. \
+ * {@link KnownTargetSkuName} can be used interchangeably with TargetSkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard_LRS** \
+ * **Standard_GRS** \
+ * **Standard_RAGRS** \
+ * **Standard_ZRS** \
+ * **Standard_GZRS** \
+ * **Standard_RAGZRS**
+ */
+export type TargetSkuName = string;
+
+/** Known values of {@link MigrationStatus} that the service accepts. */
+export enum KnownMigrationStatus {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** SubmittedForConversion */
+  SubmittedForConversion = "SubmittedForConversion",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Complete */
+  Complete = "Complete",
+  /** Failed */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for MigrationStatus. \
+ * {@link KnownMigrationStatus} can be used interchangeably with MigrationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **SubmittedForConversion** \
+ * **InProgress** \
+ * **Complete** \
+ * **Failed**
+ */
+export type MigrationStatus = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
 /** Known values of {@link ManagementPolicyName} that the service accepts. */
 export enum KnownManagementPolicyName {
   /** Default */
@@ -3199,30 +3339,6 @@ export enum KnownObjectType {
  */
 export type ObjectType = string;
 
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
 /** Known values of {@link EncryptionScopeSource} that the service accepts. */
 export enum KnownEncryptionScopeSource {
   /** MicrosoftStorage */
@@ -3258,6 +3374,27 @@ export enum KnownEncryptionScopeState {
  * **Disabled**
  */
 export type EncryptionScopeState = string;
+
+/** Known values of {@link ListEncryptionScopesInclude} that the service accepts. */
+export enum KnownListEncryptionScopesInclude {
+  /** All */
+  All = "All",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for ListEncryptionScopesInclude. \
+ * {@link KnownListEncryptionScopesInclude} can be used interchangeably with ListEncryptionScopesInclude,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **All** \
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ListEncryptionScopesInclude = string;
 
 /** Known values of {@link AllowedMethods} that the service accepts. */
 export enum KnownAllowedMethods {
@@ -3771,6 +3908,22 @@ export interface UsagesListByLocationOptionalParams
 export type UsagesListByLocationResponse = UsageListResult;
 
 /** Optional parameters. */
+export interface AccountMigrationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AccountMigrationsGetResponse = StorageAccountMigration;
+
+/** Optional parameters. */
+export interface AccountMigrationsPutOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
 export interface ManagementPoliciesGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3932,14 +4085,28 @@ export type EncryptionScopesGetResponse = EncryptionScope;
 
 /** Optional parameters. */
 export interface EncryptionScopesListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Optional, specifies the maximum number of encryption scopes that will be included in the list response. */
+  maxpagesize?: string;
+  /** Optional. When specified, only encryption scope names starting with the filter will be listed. */
+  filter?: string;
+  /** Optional, when specified, will list encryption scopes with the specific state. Defaults to All */
+  include?: ListEncryptionScopesInclude;
+}
 
 /** Contains response data for the list operation. */
 export type EncryptionScopesListResponse = EncryptionScopeListResult;
 
 /** Optional parameters. */
 export interface EncryptionScopesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Optional, specifies the maximum number of encryption scopes that will be included in the list response. */
+  maxpagesize?: string;
+  /** Optional. When specified, only encryption scope names starting with the filter will be listed. */
+  filter?: string;
+  /** Optional, when specified, will list encryption scopes with the specific state. Defaults to All */
+  include?: ListEncryptionScopesInclude;
+}
 
 /** Contains response data for the listNext operation. */
 export type EncryptionScopesListNextResponse = EncryptionScopeListResult;

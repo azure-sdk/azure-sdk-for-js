@@ -2314,6 +2314,129 @@ export const ListServiceSasResponse: coreClient.CompositeMapper = {
   }
 };
 
+export const StorageAccountMigrationProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageAccountMigrationProperties",
+    modelProperties: {
+      targetSkuName: {
+        serializedName: "targetSkuName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      migrationStatus: {
+        serializedName: "migrationStatus",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const CloudError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudError",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "CloudErrorBody"
+        }
+      }
+    }
+  }
+};
+
+export const CloudErrorBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudErrorBody",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CloudErrorBody"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ManagementPolicySchema: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2444,6 +2567,20 @@ export const ManagementPolicyBaseBlob: coreClient.CompositeMapper = {
           className: "DateAfterModification"
         }
       },
+      tierToCold: {
+        serializedName: "tierToCold",
+        type: {
+          name: "Composite",
+          className: "DateAfterModification"
+        }
+      },
+      tierToHot: {
+        serializedName: "tierToHot",
+        type: {
+          name: "Composite",
+          className: "DateAfterModification"
+        }
+      },
       delete: {
         serializedName: "delete",
         type: {
@@ -2529,6 +2666,20 @@ export const ManagementPolicySnapShot: coreClient.CompositeMapper = {
           className: "DateAfterCreation"
         }
       },
+      tierToCold: {
+        serializedName: "tierToCold",
+        type: {
+          name: "Composite",
+          className: "DateAfterCreation"
+        }
+      },
+      tierToHot: {
+        serializedName: "tierToHot",
+        type: {
+          name: "Composite",
+          className: "DateAfterCreation"
+        }
+      },
       delete: {
         serializedName: "delete",
         type: {
@@ -2584,6 +2735,20 @@ export const ManagementPolicyVersion: coreClient.CompositeMapper = {
       },
       tierToArchive: {
         serializedName: "tierToArchive",
+        type: {
+          name: "Composite",
+          className: "DateAfterCreation"
+        }
+      },
+      tierToCold: {
+        serializedName: "tierToCold",
+        type: {
+          name: "Composite",
+          className: "DateAfterCreation"
+        }
+      },
+      tierToHot: {
+        serializedName: "tierToHot",
         type: {
           name: "Composite",
           className: "DateAfterCreation"
@@ -2864,106 +3029,6 @@ export const BlobInventoryPolicyFilter: coreClient.CompositeMapper = {
         serializedName: "includeDeleted",
         type: {
           name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const SystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const CloudError: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CloudError",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "CloudErrorBody"
-        }
-      }
-    }
-  }
-};
-
-export const CloudErrorBody: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CloudErrorBody",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CloudErrorBody"
-            }
-          }
         }
       }
     }
@@ -4381,6 +4446,30 @@ export const ProxyResource: coreClient.CompositeMapper = {
   }
 };
 
+export const StorageAccountMigration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageAccountMigration",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "StorageAccountMigrationProperties"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
 export const ManagementPolicy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5175,6 +5264,20 @@ export const StorageAccount: coreClient.CompositeMapper = {
         serializedName: "properties.dnsEndpointType",
         type: {
           name: "String"
+        }
+      },
+      isSkuConversionBlocked: {
+        serializedName: "properties.isSkuConversionBlocked",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      accountMigrationInProgress: {
+        serializedName: "properties.accountMigrationInProgress",
+        readOnly: true,
+        type: {
+          name: "Boolean"
         }
       }
     }

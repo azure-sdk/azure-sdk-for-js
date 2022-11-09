@@ -1,15 +1,40 @@
 # Release History
+    
+## 18.1.0 (2022-11-09)
+    
+**Features**
 
-## 18.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group AccountMigrations
+  - Added Interface AccountMigrationsGetOptionalParams
+  - Added Interface AccountMigrationsPutOptionalParams
+  - Added Interface StorageAccountMigration
+  - Added Interface StorageAccountMigrationProperties
+  - Added Type Alias AccountMigrationName
+  - Added Type Alias AccountMigrationsGetResponse
+  - Added Type Alias ListEncryptionScopesInclude
+  - Added Type Alias MigrationStatus
+  - Added Type Alias TargetSkuName
+  - Interface EncryptionScopesListNextOptionalParams has a new optional parameter filter
+  - Interface EncryptionScopesListNextOptionalParams has a new optional parameter include
+  - Interface EncryptionScopesListNextOptionalParams has a new optional parameter maxpagesize
+  - Interface EncryptionScopesListOptionalParams has a new optional parameter filter
+  - Interface EncryptionScopesListOptionalParams has a new optional parameter include
+  - Interface EncryptionScopesListOptionalParams has a new optional parameter maxpagesize
+  - Interface ManagementPolicyBaseBlob has a new optional parameter tierToCold
+  - Interface ManagementPolicyBaseBlob has a new optional parameter tierToHot
+  - Interface ManagementPolicySnapShot has a new optional parameter tierToCold
+  - Interface ManagementPolicySnapShot has a new optional parameter tierToHot
+  - Interface ManagementPolicyVersion has a new optional parameter tierToCold
+  - Interface ManagementPolicyVersion has a new optional parameter tierToHot
+  - Interface StorageAccount has a new optional parameter accountMigrationInProgress
+  - Interface StorageAccount has a new optional parameter isSkuConversionBlocked
+  - Class StorageManagementClient has a new parameter accountMigrations
+  - Added Enum KnownAccountMigrationName
+  - Added Enum KnownListEncryptionScopesInclude
+  - Added Enum KnownMigrationStatus
+  - Added Enum KnownTargetSkuName
+    
+    
 ## 18.0.0 (2022-08-16)
     
 **Features**
