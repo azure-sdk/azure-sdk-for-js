@@ -24,7 +24,7 @@ import {
   IncidentsCreateOrUpdateOptionalParams,
   IncidentsCreateOrUpdateResponse,
   IncidentsDeleteOptionalParams,
-  TeamProperties,
+  TeamInformation,
   IncidentsCreateTeamOptionalParams,
   IncidentsCreateTeamResponse,
   IncidentsListAlertsOptionalParams,
@@ -216,7 +216,7 @@ export class IncidentsImpl implements Incidents {
     resourceGroupName: string,
     workspaceName: string,
     incidentId: string,
-    teamProperties: TeamProperties,
+    teamProperties: TeamInformation,
     options?: IncidentsCreateTeamOptionalParams
   ): Promise<IncidentsCreateTeamResponse> {
     return this.client.sendOperationRequest(

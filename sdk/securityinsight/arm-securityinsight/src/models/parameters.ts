@@ -17,7 +17,7 @@ import {
   AutomationRule as AutomationRuleMapper,
   ManualTriggerRequestBody as ManualTriggerRequestBodyMapper,
   Incident as IncidentMapper,
-  TeamProperties as TeamPropertiesMapper,
+  TeamInformation as TeamInformationMapper,
   Bookmark as BookmarkMapper,
   Relation as RelationMapper,
   BookmarkExpandParameters as BookmarkExpandParametersMapper,
@@ -70,7 +70,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-01-preview",
+    defaultValue: "2022-12-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -280,7 +280,7 @@ export const incident: OperationParameter = {
 
 export const teamProperties: OperationParameter = {
   parameterPath: "teamProperties",
-  mapper: TeamPropertiesMapper
+  mapper: TeamInformationMapper
 };
 
 export const bookmarkId: OperationURLParameter = {
@@ -516,6 +516,34 @@ export const sentinelOnboardingStateName: OperationURLParameter = {
 export const sentinelOnboardingStateParameter: OperationParameter = {
   parameterPath: ["options", "sentinelOnboardingStateParameter"],
   mapper: SentinelOnboardingStateMapper
+};
+
+export const recommendationId: OperationURLParameter = {
+  parameterPath: "recommendationId",
+  mapper: {
+    serializedName: "recommendationId",
+    required: true,
+    type: {
+      name: "Uuid"
+    }
+  }
+};
+
+export const recommendationPatch: OperationParameter = {
+  parameterPath: "recommendationPatch",
+  mapper: {
+    serializedName: "recommendationPatch",
+    required: true,
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "Composite",
+          className: "RecommendationPatch"
+        }
+      }
+    }
+  }
 };
 
 export const settingsResourceName: OperationURLParameter = {

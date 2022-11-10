@@ -246,8 +246,18 @@ export type AlertDetail = string;
 export interface AlertDetailsOverride {
     alertDescriptionFormat?: string;
     alertDisplayNameFormat?: string;
+    alertDynamicProperties?: AlertPropertyMapping[];
     alertSeverityColumnName?: string;
     alertTacticsColumnName?: string;
+}
+
+// @public
+export type AlertProperty = string;
+
+// @public
+export interface AlertPropertyMapping {
+    alertProperty?: AlertProperty;
+    value?: string;
 }
 
 // @public
@@ -873,6 +883,9 @@ export interface BooleanConditionProperties extends AutomationRuleCondition {
 }
 
 // @public
+export type Category = string;
+
+// @public
 export interface ClientInfo {
     email?: string;
     name?: string;
@@ -1056,6 +1069,12 @@ export interface ConnectorInstructionModelBase {
 }
 
 // @public
+export interface Content {
+    description: string;
+    title: string;
+}
+
+// @public
 export interface ContentPathMap {
     contentType?: ContentType;
     path?: string;
@@ -1063,6 +1082,9 @@ export interface ContentPathMap {
 
 // @public
 export type ContentType = string;
+
+// @public
+export type Context = string;
 
 // @public
 export type CreatedByType = string;
@@ -2043,6 +2065,11 @@ export interface GeoLocation {
 }
 
 // @public
+export interface Get {
+    singleRecommendation(resourceGroupName: string, workspaceName: string, recommendationId: string, options?: GetSingleRecommendationOptionalParams): Promise<GetSingleRecommendationResponse>;
+}
+
+// @public
 export type GetInsightsError = string;
 
 // @public
@@ -2062,6 +2089,25 @@ export interface GetInsightsResultsMetadata {
 export interface GetQueriesResponse {
     value?: EntityQueryItemUnion[];
 }
+
+// @public
+export interface GetRecommendations {
+    list(resourceGroupName: string, workspaceName: string, options?: GetRecommendationsListOptionalParams): Promise<GetRecommendationsListResponse>;
+}
+
+// @public
+export interface GetRecommendationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetRecommendationsListResponse = RecommendationList;
+
+// @public
+export interface GetSingleRecommendationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetSingleRecommendationResponse = Recommendation;
 
 // @public
 export interface GitHubResourceInfo {
@@ -2152,7 +2198,7 @@ export interface HuntingBookmarkProperties extends EntityCommonProperties {
     updatedBy?: UserInfo;
 }
 
-// @public
+// @public (undocumented)
 export interface Incident extends ResourceWithEtag {
     readonly additionalData?: IncidentAdditionalData;
     classification?: IncidentClassification;
@@ -2189,12 +2235,12 @@ export interface IncidentAdditionalData {
 
 // @public
 export interface IncidentAlertList {
-    value: SecurityAlert[];
+    value?: SecurityAlert[];
 }
 
 // @public
 export interface IncidentBookmarkList {
-    value: HuntingBookmark[];
+    value?: HuntingBookmark[];
 }
 
 // @public
@@ -2211,9 +2257,11 @@ export interface IncidentComment extends ResourceWithEtag {
     message?: string;
 }
 
-// @public
+// @public (undocumented)
 export interface IncidentCommentList {
-    readonly nextLink?: string;
+    // (undocumented)
+    nextLink?: string;
+    // (undocumented)
     value: IncidentComment[];
 }
 
@@ -2303,6 +2351,7 @@ export type IncidentLabelType = string;
 // @public
 export interface IncidentList {
     readonly nextLink?: string;
+    // (undocumented)
     value: Incident[];
 }
 
@@ -2377,7 +2426,7 @@ export type IncidentRelationsListResponse = RelationList;
 // @public
 export interface Incidents {
     createOrUpdate(resourceGroupName: string, workspaceName: string, incidentId: string, incident: Incident, options?: IncidentsCreateOrUpdateOptionalParams): Promise<IncidentsCreateOrUpdateResponse>;
-    createTeam(resourceGroupName: string, workspaceName: string, incidentId: string, teamProperties: TeamProperties, options?: IncidentsCreateTeamOptionalParams): Promise<IncidentsCreateTeamResponse>;
+    createTeam(resourceGroupName: string, workspaceName: string, incidentId: string, teamProperties: TeamInformation, options?: IncidentsCreateTeamOptionalParams): Promise<IncidentsCreateTeamResponse>;
     delete(resourceGroupName: string, workspaceName: string, incidentId: string, options?: IncidentsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, incidentId: string, options?: IncidentsGetOptionalParams): Promise<IncidentsGetResponse>;
     list(resourceGroupName: string, workspaceName: string, options?: IncidentsListOptionalParams): PagedAsyncIterableIterator<Incident>;
@@ -2548,6 +2597,13 @@ export interface InsightsTableResultColumnsItem {
 }
 
 // @public
+export interface Instructions {
+    actionsToBePerformed: string;
+    howToPerformActionDetails?: string;
+    recommendationImportance: string;
+}
+
+// @public
 export interface InstructionSteps {
     description?: string;
     instructions?: InstructionStepsInstructionsItem[];
@@ -2692,6 +2748,19 @@ export enum KnownActionType {
 export enum KnownAlertDetail {
     DisplayName = "DisplayName",
     Severity = "Severity"
+}
+
+// @public
+export enum KnownAlertProperty {
+    AlertLink = "AlertLink",
+    ConfidenceLevel = "ConfidenceLevel",
+    ConfidenceScore = "ConfidenceScore",
+    ExtendedLinks = "ExtendedLinks",
+    ProductComponentName = "ProductComponentName",
+    ProductName = "ProductName",
+    ProviderName = "ProviderName",
+    RemediationSteps = "RemediationSteps",
+    Techniques = "Techniques"
 }
 
 // @public
@@ -2868,6 +2937,15 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
 }
 
 // @public
+export enum KnownCategory {
+    CostOptimization = "CostOptimization",
+    Demo = "Demo",
+    NewFeature = "NewFeature",
+    Onboarding = "Onboarding",
+    SocEfficiency = "SocEfficiency"
+}
+
+// @public
 export enum KnownConditionType {
     Boolean = "Boolean",
     Property = "Property",
@@ -2907,6 +2985,14 @@ export enum KnownConnectivityType {
 export enum KnownContentType {
     AnalyticRule = "AnalyticRule",
     Workbook = "Workbook"
+}
+
+// @public
+export enum KnownContext {
+    Analytics = "Analytics",
+    Incidents = "Incidents",
+    None = "None",
+    Overview = "Overview"
 }
 
 // @public
@@ -3295,6 +3381,13 @@ export enum KnownPollingFrequency {
 }
 
 // @public
+export enum KnownPriority {
+    High = "High",
+    Low = "Low",
+    Medium = "Medium"
+}
+
+// @public
 export enum KnownProviderName {
     MicrosoftAadiamDiagnosticSettings = "microsoft.aadiam/diagnosticSettings",
     MicrosoftAuthorizationPolicyAssignments = "Microsoft.Authorization/policyAssignments",
@@ -3374,6 +3467,15 @@ export enum KnownSourceKind {
 export enum KnownSourceType {
     LocalFile = "Local file",
     RemoteStorage = "Remote storage"
+}
+
+// @public
+export enum KnownState {
+    Active = "Active",
+    CompletedByAction = "CompletedByAction",
+    CompletedByUser = "CompletedByUser",
+    Disabled = "Disabled",
+    Hidden = "Hidden"
 }
 
 // @public
@@ -3982,6 +4084,7 @@ export interface NrtAlertRule extends AlertRule {
     kind: "NRT";
     readonly lastModifiedUtc?: Date;
     query?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     suppressionDuration?: string;
     suppressionEnabled?: boolean;
@@ -4006,6 +4109,7 @@ export interface NrtAlertRuleTemplate extends AlertRuleTemplate {
     readonly lastUpdatedDateUTC?: Date;
     query?: string;
     requiredDataConnectors?: AlertRuleTemplateDataSource[];
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     status?: TemplateStatus;
     tactics?: AttackTactic[];
@@ -4277,6 +4381,9 @@ export interface PlaybookActionProperties {
 export type PollingFrequency = string;
 
 // @public
+export type Priority = string;
+
+// @public
 export interface ProcessEntity extends Entity {
     readonly accountEntityId?: string;
     readonly additionalData?: {
@@ -4380,8 +4487,52 @@ export interface QueryBasedAlertRuleTemplateProperties {
     entityMappings?: EntityMapping[];
     eventGroupingSettings?: EventGroupingSettings;
     query?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     version?: string;
+}
+
+// @public
+export interface Recommendation {
+    actions: RecommendedAction[];
+    additionalProperties?: {
+        [propertyName: string]: string;
+    };
+    category: Category;
+    content?: Content;
+    context: Context;
+    description: string;
+    displayUntilTimeUtc?: Date;
+    hideUntilTimeUtc?: Date;
+    id: string;
+    instructions: Instructions;
+    lastEvaluatedTimeUtc: Date;
+    priority: Priority;
+    recommendationTypeId: string;
+    recommendationTypeTitle: string;
+    resourceId?: string;
+    state: State;
+    title: string;
+    visible?: boolean;
+    workspaceId: string;
+}
+
+// @public
+export interface RecommendationList {
+    value?: Recommendation[];
+}
+
+// @public
+export interface RecommendationPatch {
+    hideUntilTimeUtc?: Date;
+    state?: State;
+}
+
+// @public
+export interface RecommendedAction {
+    linkText: string;
+    linkUrl: string;
+    state?: Priority;
 }
 
 // @public
@@ -4528,6 +4679,7 @@ export interface ScheduledAlertRule extends AlertRule {
     query?: string;
     queryFrequency?: string;
     queryPeriod?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     suppressionDuration?: string;
     suppressionEnabled?: boolean;
@@ -4549,6 +4701,7 @@ export interface ScheduledAlertRuleCommonProperties {
     query?: string;
     queryFrequency?: string;
     queryPeriod?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     triggerOperator?: TriggerOperator;
     triggerThreshold?: number;
@@ -4587,6 +4740,7 @@ export interface ScheduledAlertRuleTemplate extends AlertRuleTemplate {
     queryFrequency?: string;
     queryPeriod?: string;
     requiredDataConnectors?: AlertRuleTemplateDataSource[];
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     status?: TemplateStatus;
     tactics?: AttackTactic[];
@@ -4672,10 +4826,12 @@ export interface SecurityAlertTimelineItem extends EntityTimelineItem {
     description?: string;
     displayName: string;
     endTimeUtc: Date;
+    readonly intent?: KillChainIntent;
     kind: "SecurityAlert";
     productName?: string;
     severity: AlertSeverity;
     startTimeUtc: Date;
+    techniques?: string[];
     timeGenerated: Date;
 }
 
@@ -4740,6 +4896,10 @@ export class SecurityInsights extends coreClient.ServiceClient {
     // (undocumented)
     fileImports: FileImports;
     // (undocumented)
+    get: Get;
+    // (undocumented)
+    getRecommendations: GetRecommendations;
+    // (undocumented)
     incidentComments: IncidentComments;
     // (undocumented)
     incidentRelations: IncidentRelations;
@@ -4771,6 +4931,8 @@ export class SecurityInsights extends coreClient.ServiceClient {
     threatIntelligenceIndicatorMetrics: ThreatIntelligenceIndicatorMetrics;
     // (undocumented)
     threatIntelligenceIndicators: ThreatIntelligenceIndicators;
+    // (undocumented)
+    update: Update;
     // (undocumented)
     watchlistItems: WatchlistItems;
     // (undocumented)
@@ -4846,6 +5008,11 @@ export type SecurityMLAnalyticsSettingsListResponse = SecurityMLAnalyticsSetting
 
 // @public (undocumented)
 export type SecurityMLAnalyticsSettingUnion = SecurityMLAnalyticsSetting | AnomalySecurityMLAnalyticsSettings;
+
+// @public
+export interface SentinelEntityMapping {
+    columnName?: string;
+}
 
 // @public
 export interface SentinelOnboardingState extends ResourceWithEtag {
@@ -4996,6 +5163,9 @@ export type SourceKind = string;
 
 // @public
 export type SourceType = string;
+
+// @public
+export type State = string;
 
 // @public
 export interface SubmissionMailEntity extends Entity {
@@ -5504,6 +5674,21 @@ export interface Ueba extends Settings {
 
 // @public
 export type UebaDataSources = string;
+
+// @public
+export interface Update {
+    beginRecommendation(resourceGroupName: string, workspaceName: string, recommendationId: string, recommendationPatch: RecommendationPatch[], options?: UpdateRecommendationOptionalParams): Promise<PollerLike<PollOperationState<UpdateRecommendationResponse>, UpdateRecommendationResponse>>;
+    beginRecommendationAndWait(resourceGroupName: string, workspaceName: string, recommendationId: string, recommendationPatch: RecommendationPatch[], options?: UpdateRecommendationOptionalParams): Promise<UpdateRecommendationResponse>;
+}
+
+// @public
+export interface UpdateRecommendationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type UpdateRecommendationResponse = Recommendation;
 
 // @public
 export interface UrlEntity extends Entity {
