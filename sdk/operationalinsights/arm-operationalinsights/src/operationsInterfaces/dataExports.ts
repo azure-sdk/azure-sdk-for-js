@@ -14,7 +14,8 @@ import {
   DataExportsCreateOrUpdateResponse,
   DataExportsGetOptionalParams,
   DataExportsGetResponse,
-  DataExportsDeleteOptionalParams
+  DataExportsDeleteOptionalParams,
+  DataExportsDeleteResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -71,5 +72,5 @@ export interface DataExports {
     workspaceName: string,
     dataExportName: string,
     options?: DataExportsDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<DataExportsDeleteResponse>;
 }

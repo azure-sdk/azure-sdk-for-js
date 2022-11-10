@@ -62,6 +62,9 @@ const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
           }
         }
       }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion1],

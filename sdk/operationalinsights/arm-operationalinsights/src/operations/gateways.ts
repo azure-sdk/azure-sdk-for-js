@@ -51,7 +51,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/gateways/{gatewayId}",
   httpMethod: "DELETE",
-  responses: { 200: {} },
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -60,5 +65,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.workspaceName,
     Parameters.gatewayId
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };

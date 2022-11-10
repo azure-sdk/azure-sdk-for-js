@@ -20,7 +20,8 @@ import {
   DataExportsCreateOrUpdateResponse,
   DataExportsGetOptionalParams,
   DataExportsGetResponse,
-  DataExportsDeleteOptionalParams
+  DataExportsDeleteOptionalParams,
+  DataExportsDeleteResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -165,7 +166,7 @@ export class DataExportsImpl implements DataExports {
     workspaceName: string,
     dataExportName: string,
     options?: DataExportsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<DataExportsDeleteResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, dataExportName, options },
       deleteOperationSpec
@@ -254,7 +255,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
-    404: {},
+    404: {
+      bodyMapper: Mappers.ErrorResponse
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
