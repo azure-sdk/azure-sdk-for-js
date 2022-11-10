@@ -3880,7 +3880,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221109
+      typescript: 5.0.0-dev.20221110
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8828,8 +8828,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221109:
-    resolution: {integrity: sha512-DAVRpl2535lb8CL7WjpHAb0dnhsbsTUVLQW5jBxS4RyRYA5Tq17kDGYQTvT0JryOwp6PksgjDdUKG2B9ElU5wg==}
+  /typescript/5.0.0-dev.20221110:
+    resolution: {integrity: sha512-2ErQCfMJ/il4ipW6NRIqJdQvJ84k8nafDIXGCpjaedCdnF/ejRmtHAhPuS5m54AKhRz/uc31LxzKpcSOxVuJHQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12720,7 +12720,7 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-dA1SMN8GHZj+2vmT2rgeid6pvkP3DUoWQdzbhxPrJ5QgAgjA1dZ4yckeIgZEo8z93ZWD9LP8/QJVWHccEEdwVA==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-Vdb/Dd+9IFLd8/yto66fCWhX5yjLE+N/v5pxRCYm6PaaUfLPJLXLxHgnqRlEAl++bMBr5CF0qRZPPBo3X/TNLQ==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
@@ -14198,7 +14198,7 @@ packages:
     dev: false
 
   file:projects/arm-resourceconnector.tgz:
-    resolution: {integrity: sha512-z8Lyx1xdSk6nnnbXKSUadhp6tbY4jKso3vHjvvHbQcb5nI1Tt+tM2bBM22LvIAKG/Y8eNqtp66Yvymwd29vs2w==, tarball: file:projects/arm-resourceconnector.tgz}
+    resolution: {integrity: sha512-sypdA+uVOMIU2x1OPRF6Zl3wRIrHFUeHgc7a686K09WozeXUwKVSgbuIUSyhIEnZ2+rLy4qmTksSsK6c7RJOPg==, tarball: file:projects/arm-resourceconnector.tgz}
     name: '@rush-temp/arm-resourceconnector'
     version: 0.0.0
     dependencies:
@@ -14217,7 +14217,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@types/node'
