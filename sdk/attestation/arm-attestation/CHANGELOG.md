@@ -1,15 +1,17 @@
 # Release History
+    
+## 2.1.0 (2022-11-10)
+    
+**Features**
 
-## 2.0.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface AttestationProvider
+  - Added Interface LogSpecification
+  - Added Interface OperationProperties
+  - Added Interface PrivateEndpointConnection
+  - Added Interface ServiceSpecification
+  - Added Interface TrackedResource
+  - Interface OperationsDefinition has a new optional parameter properties
+    
 ## 2.0.2 (2022-10-08)
 
 **Bugs Fixed**
