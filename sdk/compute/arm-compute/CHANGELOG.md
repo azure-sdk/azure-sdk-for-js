@@ -1,15 +1,42 @@
 # Release History
+    
+## 20.0.0 (2022-11-10)
+    
+**Features**
 
-## 19.2.1 (Unreleased)
+  - Added Interface GalleryApplicationCustomAction
+  - Added Interface GalleryApplicationCustomActionParameter
+  - Added Interface GalleryApplicationVersionSafetyProfile
+  - Added Interface GalleryArtifactSafetyProfileBase
+  - Added Interface GalleryArtifactVersionFullSource
+  - Added Interface GalleryDiskImageSource
+  - Added Interface GalleryImageVersionSafetyProfile
+  - Added Interface LatestGalleryImageVersion
+  - Added Interface LoadBalancerFrontendIpConfiguration
+  - Added Interface LoadBalancerFrontendIpConfigurationProperties
+  - Added Interface PolicyViolation
+  - Added Type Alias GalleryApplicationCustomActionParameterType
+  - Added Type Alias PolicyViolationCategory
+  - Interface CloudService has a new optional parameter zones
+  - Interface GalleryApplication has a new optional parameter customActions
+  - Interface GalleryApplicationUpdate has a new optional parameter customActions
+  - Interface GalleryApplicationVersion has a new optional parameter safetyProfile
+  - Interface GalleryApplicationVersionPublishingProfile has a new optional parameter customActions
+  - Interface GalleryApplicationVersionUpdate has a new optional parameter safetyProfile
+  - Interface GalleryImageVersion has a new optional parameter safetyProfile
+  - Interface GalleryImageVersionUpdate has a new optional parameter safetyProfile
+  - Interface SharedGalleryImage has a new optional parameter eula
+  - Interface SharedGalleryImage has a new optional parameter privacyStatementUri
+  - Interface TargetRegion has a new optional parameter excludeFromLatest
+  - Added Enum KnownPolicyViolationCategory
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface GalleryArtifactVersionSource no longer has parameter uri
+  - Interface LoadBalancerConfigurationProperties no longer has parameter frontendIPConfigurations
+  - Interface LoadBalancerConfigurationProperties has a new required parameter frontendIpConfigurations
+    
+    
 ## 19.2.0 (2022-09-21)
     
 **Features**
