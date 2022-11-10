@@ -661,7 +661,7 @@ export interface CifsMountConfiguration {
     password: string;
     relativeMountPath: string;
     source: string;
-    username: string;
+    userName: string;
 }
 
 // @public
@@ -977,7 +977,7 @@ export type NameAvailabilityReason = "Invalid" | "AlreadyExists";
 
 // @public
 export interface NetworkConfiguration {
-    dynamicVNetAssignmentScope?: DynamicVNetAssignmentScope;
+    dynamicVnetAssignmentScope?: DynamicVNetAssignmentScope;
     endpointConfiguration?: PoolEndpointConfiguration;
     publicIPAddressConfiguration?: PublicIPAddressConfiguration;
     subnetId?: string;
@@ -1006,6 +1006,9 @@ export interface NFSMountConfiguration {
     relativeMountPath: string;
     source: string;
 }
+
+// @public
+export type NodeCommunicationMode = "Default" | "Classic" | "Simplified";
 
 // @public
 export interface NodePlacementConfiguration {
@@ -1088,6 +1091,7 @@ export interface Pool extends ProxyResource {
     readonly creationTime?: Date;
     readonly currentDedicatedNodes?: number;
     readonly currentLowPriorityNodes?: number;
+    readonly currentNodeCommunicationMode?: NodeCommunicationMode;
     deploymentConfiguration?: DeploymentConfiguration;
     displayName?: string;
     identity?: BatchPoolIdentity;
@@ -1101,6 +1105,7 @@ export interface Pool extends ProxyResource {
     readonly resizeOperationStatus?: ResizeOperationStatus;
     scaleSettings?: ScaleSettings;
     startTask?: StartTask;
+    targetNodeCommunicationMode?: NodeCommunicationMode;
     taskSchedulingPolicy?: TaskSchedulingPolicy;
     taskSlotsPerNode?: number;
     userAccounts?: UserAccount[];
@@ -1346,7 +1351,7 @@ export interface PrivateLinkResourceOperations {
 
 // @public
 export interface PrivateLinkServiceConnectionState {
-    readonly actionRequired?: string;
+    readonly actionsRequired?: string;
     description?: string;
     status: PrivateLinkServiceConnectionStatus;
 }
