@@ -8,6 +8,216 @@
 
 import * as coreClient from "@azure/core-client";
 
+export const CacheRulesListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CacheRulesListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CacheRule"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProxyResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProxyResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorResponseBody"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponseBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponseBody",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InnerErrorDescription"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const InnerErrorDescription: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InnerErrorDescription",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CacheRuleUpdateParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CacheRuleUpdateParameters",
+    modelProperties: {
+      credentialSetResourceId: {
+        serializedName: "properties.credentialSetResourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ConnectedRegistryListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -258,174 +468,6 @@ export const StatusDetailProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const ProxyResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ProxyResource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
-};
-
-export const SystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorResponseBody"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorResponseBody: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorResponseBody",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "InnerErrorDescription"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const InnerErrorDescription: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "InnerErrorDescription",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ConnectedRegistryUpdateParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -498,10 +540,10 @@ export const SyncUpdateProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const ExportPipelineListResult: coreClient.CompositeMapper = {
+export const CredentialSetListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ExportPipelineListResult",
+    className: "CredentialSetListResult",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -510,7 +552,7 @@ export const ExportPipelineListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ExportPipeline"
+              className: "CredentialSet"
             }
           }
         }
@@ -580,6 +622,115 @@ export const UserIdentityProperties: coreClient.CompositeMapper = {
       },
       clientId: {
         serializedName: "clientId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AuthCredential: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AuthCredential",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      usernameSecretIdentifier: {
+        serializedName: "usernameSecretIdentifier",
+        type: {
+          name: "String"
+        }
+      },
+      passwordSecretIdentifier: {
+        serializedName: "passwordSecretIdentifier",
+        type: {
+          name: "String"
+        }
+      },
+      credentialHealth: {
+        serializedName: "credentialHealth",
+        type: {
+          name: "Composite",
+          className: "CredentialHealth"
+        }
+      }
+    }
+  }
+};
+
+export const CredentialHealth: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CredentialHealth",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      errorCode: {
+        serializedName: "errorCode",
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        serializedName: "errorMessage",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CredentialSetUpdateParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CredentialSetUpdateParameters",
+    modelProperties: {
+      authCredentials: {
+        serializedName: "properties.authCredentials",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AuthCredential"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ExportPipelineListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExportPipelineListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExportPipeline"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String"
         }
@@ -4345,6 +4496,48 @@ export const OverrideTaskStepProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const CacheRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CacheRule",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      credentialSetResourceId: {
+        serializedName: "properties.credentialSetResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      sourceRepository: {
+        serializedName: "properties.sourceRepository",
+        type: {
+          name: "String"
+        }
+      },
+      targetRepository: {
+        serializedName: "properties.targetRepository",
+        type: {
+          name: "String"
+        }
+      },
+      creationDate: {
+        serializedName: "properties.creationDate",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ConnectedRegistry: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4446,6 +4639,55 @@ export const ConnectedRegistry: coreClient.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const CredentialSet: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CredentialSet",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "IdentityProperties"
+        }
+      },
+      loginServer: {
+        serializedName: "properties.loginServer",
+        type: {
+          name: "String"
+        }
+      },
+      authCredentials: {
+        serializedName: "properties.authCredentials",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AuthCredential"
+            }
+          }
+        }
+      },
+      creationDate: {
+        serializedName: "properties.creationDate",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
