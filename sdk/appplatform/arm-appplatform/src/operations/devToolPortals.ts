@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Gateways } from "../operationsInterfaces";
+import { DevToolPortals } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,30 +15,25 @@ import { AppPlatformManagementClient } from "../appPlatformManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  GatewayResource,
-  GatewaysListNextOptionalParams,
-  GatewaysListOptionalParams,
-  GatewaysGetOptionalParams,
-  GatewaysGetResponse,
-  GatewaysCreateOrUpdateOptionalParams,
-  GatewaysCreateOrUpdateResponse,
-  GatewaysDeleteOptionalParams,
-  GatewaysListEnvSecretsOptionalParams,
-  GatewaysListEnvSecretsResponse,
-  GatewaysListResponse,
-  CustomDomainValidatePayload,
-  GatewaysValidateDomainOptionalParams,
-  GatewaysValidateDomainResponse,
-  GatewaysListNextResponse
+  DevToolPortalResource,
+  DevToolPortalsListNextOptionalParams,
+  DevToolPortalsListOptionalParams,
+  DevToolPortalsListResponse,
+  DevToolPortalsGetOptionalParams,
+  DevToolPortalsGetResponse,
+  DevToolPortalsCreateOrUpdateOptionalParams,
+  DevToolPortalsCreateOrUpdateResponse,
+  DevToolPortalsDeleteOptionalParams,
+  DevToolPortalsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Gateways operations. */
-export class GatewaysImpl implements Gateways {
+/** Class containing DevToolPortals operations. */
+export class DevToolPortalsImpl implements DevToolPortals {
   private readonly client: AppPlatformManagementClient;
 
   /**
-   * Initialize a new instance of the class Gateways class.
+   * Initialize a new instance of the class DevToolPortals class.
    * @param client Reference to the service client
    */
   constructor(client: AppPlatformManagementClient) {
@@ -55,8 +50,8 @@ export class GatewaysImpl implements Gateways {
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: GatewaysListOptionalParams
-  ): PagedAsyncIterableIterator<GatewayResource> {
+    options?: DevToolPortalsListOptionalParams
+  ): PagedAsyncIterableIterator<DevToolPortalResource> {
     const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
@@ -74,8 +69,8 @@ export class GatewaysImpl implements Gateways {
   private async *listPagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: GatewaysListOptionalParams
-  ): AsyncIterableIterator<GatewayResource[]> {
+    options?: DevToolPortalsListOptionalParams
+  ): AsyncIterableIterator<DevToolPortalResource[]> {
     let result = await this._list(resourceGroupName, serviceName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -94,8 +89,8 @@ export class GatewaysImpl implements Gateways {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: GatewaysListOptionalParams
-  ): AsyncIterableIterator<GatewayResource> {
+    options?: DevToolPortalsListOptionalParams
+  ): AsyncIterableIterator<DevToolPortalResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
@@ -106,50 +101,68 @@ export class GatewaysImpl implements Gateways {
   }
 
   /**
-   * Get the Spring Cloud Gateway and its properties.
+   * Handles requests to list all resources in a Service.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: DevToolPortalsListOptionalParams
+  ): Promise<DevToolPortalsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, options },
+      listOperationSpec
+    );
+  }
+
+  /**
+   * Get the Application Live  and its properties.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param devToolPortalName The name of Dev Tool Portal.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    gatewayName: string,
-    options?: GatewaysGetOptionalParams
-  ): Promise<GatewaysGetResponse> {
+    devToolPortalName: string,
+    options?: DevToolPortalsGetOptionalParams
+  ): Promise<DevToolPortalsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, gatewayName, options },
+      { resourceGroupName, serviceName, devToolPortalName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create the default Spring Cloud Gateway or update the existing Spring Cloud Gateway.
+   * Create the default Dev Tool Portal or update the existing Dev Tool Portal.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param gatewayName The name of Spring Cloud Gateway.
-   * @param gatewayResource The gateway for the create or update operation
+   * @param devToolPortalName The name of Dev Tool Portal.
+   * @param devToolPortalResource Parameters for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    gatewayName: string,
-    gatewayResource: GatewayResource,
-    options?: GatewaysCreateOrUpdateOptionalParams
+    devToolPortalName: string,
+    devToolPortalResource: DevToolPortalResource,
+    options?: DevToolPortalsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<GatewaysCreateOrUpdateResponse>,
-      GatewaysCreateOrUpdateResponse
+      PollOperationState<DevToolPortalsCreateOrUpdateResponse>,
+      DevToolPortalsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<GatewaysCreateOrUpdateResponse> => {
+    ): Promise<DevToolPortalsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -187,7 +200,13 @@ export class GatewaysImpl implements Gateways {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, serviceName, gatewayName, gatewayResource, options },
+      {
+        resourceGroupName,
+        serviceName,
+        devToolPortalName,
+        devToolPortalResource,
+        options
+      },
       createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -199,44 +218,44 @@ export class GatewaysImpl implements Gateways {
   }
 
   /**
-   * Create the default Spring Cloud Gateway or update the existing Spring Cloud Gateway.
+   * Create the default Dev Tool Portal or update the existing Dev Tool Portal.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param gatewayName The name of Spring Cloud Gateway.
-   * @param gatewayResource The gateway for the create or update operation
+   * @param devToolPortalName The name of Dev Tool Portal.
+   * @param devToolPortalResource Parameters for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    gatewayName: string,
-    gatewayResource: GatewayResource,
-    options?: GatewaysCreateOrUpdateOptionalParams
-  ): Promise<GatewaysCreateOrUpdateResponse> {
+    devToolPortalName: string,
+    devToolPortalResource: DevToolPortalResource,
+    options?: DevToolPortalsCreateOrUpdateOptionalParams
+  ): Promise<DevToolPortalsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
-      gatewayName,
-      gatewayResource,
+      devToolPortalName,
+      devToolPortalResource,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Disable the default Spring Cloud Gateway.
+   * Disable the default Dev Tool Portal.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param devToolPortalName The name of Dev Tool Portal.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    gatewayName: string,
-    options?: GatewaysDeleteOptionalParams
+    devToolPortalName: string,
+    options?: DevToolPortalsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -279,7 +298,7 @@ export class GatewaysImpl implements Gateways {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, serviceName, gatewayName, options },
+      { resourceGroupName, serviceName, devToolPortalName, options },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -291,86 +310,26 @@ export class GatewaysImpl implements Gateways {
   }
 
   /**
-   * Disable the default Spring Cloud Gateway.
+   * Disable the default Dev Tool Portal.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param devToolPortalName The name of Dev Tool Portal.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    gatewayName: string,
-    options?: GatewaysDeleteOptionalParams
+    devToolPortalName: string,
+    options?: DevToolPortalsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
-      gatewayName,
+      devToolPortalName,
       options
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * List sensitive environment variables of Spring Cloud Gateway.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param gatewayName The name of Spring Cloud Gateway.
-   * @param options The options parameters.
-   */
-  listEnvSecrets(
-    resourceGroupName: string,
-    serviceName: string,
-    gatewayName: string,
-    options?: GatewaysListEnvSecretsOptionalParams
-  ): Promise<GatewaysListEnvSecretsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, gatewayName, options },
-      listEnvSecretsOperationSpec
-    );
-  }
-
-  /**
-   * Handles requests to list all resources in a Service.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: GatewaysListOptionalParams
-  ): Promise<GatewaysListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, options },
-      listOperationSpec
-    );
-  }
-
-  /**
-   * Check the domains are valid as well as not in use.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param gatewayName The name of Spring Cloud Gateway.
-   * @param validatePayload Custom domain payload to be validated
-   * @param options The options parameters.
-   */
-  validateDomain(
-    resourceGroupName: string,
-    serviceName: string,
-    gatewayName: string,
-    validatePayload: CustomDomainValidatePayload,
-    options?: GatewaysValidateDomainOptionalParams
-  ): Promise<GatewaysValidateDomainResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, gatewayName, validatePayload, options },
-      validateDomainOperationSpec
-    );
   }
 
   /**
@@ -385,8 +344,8 @@ export class GatewaysImpl implements Gateways {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: GatewaysListNextOptionalParams
-  ): Promise<GatewaysListNextResponse> {
+    options?: DevToolPortalsListNextOptionalParams
+  ): Promise<DevToolPortalsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
       listNextOperationSpec
@@ -396,13 +355,35 @@ export class GatewaysImpl implements Gateways {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayResource
+      bodyMapper: Mappers.DevToolPortalResourceCollection
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals/{devToolPortalName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DevToolPortalResource
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -414,40 +395,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.gatewayName
+    Parameters.devToolPortalName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals/{devToolPortalName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayResource
+      bodyMapper: Mappers.DevToolPortalResource
     },
     201: {
-      bodyMapper: Mappers.GatewayResource
+      bodyMapper: Mappers.DevToolPortalResource
     },
     202: {
-      bodyMapper: Mappers.GatewayResource
+      bodyMapper: Mappers.DevToolPortalResource
     },
     204: {
-      bodyMapper: Mappers.GatewayResource
+      bodyMapper: Mappers.DevToolPortalResource
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.gatewayResource,
+  requestBody: Parameters.devToolPortalResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.gatewayName
+    Parameters.devToolPortalName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -455,7 +436,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals/{devToolPortalName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -472,81 +453,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.gatewayName
+    Parameters.devToolPortalName
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const listEnvSecretsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/listEnvSecrets",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "String" } } }
-      }
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.gatewayName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GatewayResourceCollection
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const validateDomainOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/validateDomain",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CustomDomainValidateResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.validatePayload,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.gatewayName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -554,7 +463,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayResourceCollection
+      bodyMapper: Mappers.DevToolPortalResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
