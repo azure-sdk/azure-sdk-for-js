@@ -327,14 +327,14 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.canFetchContent,
     Parameters.tags,
+    Parameters.apiVersion3,
     Parameters.category,
-    Parameters.sourceId,
-    Parameters.apiVersion2
+    Parameters.sourceId
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -354,8 +354,8 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.canFetchContent,
     Parameters.tags,
-    Parameters.category,
-    Parameters.apiVersion2
+    Parameters.apiVersion3,
+    Parameters.category
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
@@ -373,11 +373,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MyWorkbookError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
@@ -394,11 +394,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MyWorkbookError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
@@ -420,11 +420,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.workbookProperties,
-  queryParameters: [Parameters.sourceId, Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3, Parameters.sourceId],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -444,11 +444,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.workbookProperties,
-  queryParameters: [Parameters.sourceId, Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3, Parameters.sourceId],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -469,14 +469,14 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.canFetchContent,
     Parameters.tags,
+    Parameters.apiVersion3,
     Parameters.category,
-    Parameters.sourceId,
-    Parameters.apiVersion2
+    Parameters.sourceId
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
@@ -496,8 +496,8 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.canFetchContent,
     Parameters.tags,
-    Parameters.category,
-    Parameters.apiVersion2
+    Parameters.apiVersion3,
+    Parameters.category
   ],
   urlParameters: [
     Parameters.$host,

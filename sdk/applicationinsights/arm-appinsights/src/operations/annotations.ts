@@ -210,11 +210,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AnnotationError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.start, Parameters.end],
+  queryParameters: [Parameters.apiVersion1, Parameters.start, Parameters.end],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
@@ -238,11 +238,11 @@ const createOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.annotationProperties,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -254,11 +254,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/Annotations/{annotationId}",
   httpMethod: "DELETE",
   responses: { 200: {} },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.annotationId
   ],
@@ -281,11 +281,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AnnotationError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.annotationId
   ],
