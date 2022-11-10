@@ -1344,6 +1344,7 @@ export const Configuration: coreClient.CompositeMapper = {
         }
       },
       activeRevisionsMode: {
+        defaultValue: "Single",
         serializedName: "activeRevisionsMode",
         type: {
           name: "String"
@@ -1438,6 +1439,7 @@ export const Ingress: coreClient.CompositeMapper = {
         }
       },
       transport: {
+        defaultValue: "auto",
         serializedName: "transport",
         type: {
           name: "String"
@@ -1468,6 +1470,7 @@ export const Ingress: coreClient.CompositeMapper = {
         }
       },
       allowInsecure: {
+        defaultValue: false,
         serializedName: "allowInsecure",
         type: {
           name: "Boolean"
@@ -1627,6 +1630,7 @@ export const Dapr: coreClient.CompositeMapper = {
     className: "Dapr",
     modelProperties: {
       enabled: {
+        defaultValue: false,
         serializedName: "enabled",
         type: {
           name: "Boolean"
@@ -1639,6 +1643,7 @@ export const Dapr: coreClient.CompositeMapper = {
         }
       },
       appProtocol: {
+        defaultValue: "http",
         serializedName: "appProtocol",
         type: {
           name: "String"
@@ -2054,6 +2059,7 @@ export const Scale: coreClient.CompositeMapper = {
         }
       },
       maxReplicas: {
+        defaultValue: 10,
         serializedName: "maxReplicas",
         type: {
           name: "Number"
@@ -2697,9 +2703,32 @@ export const DaprSecretsCollection: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Secret"
+              className: "DaprSecret"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const DaprSecret: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DaprSecret",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -3231,7 +3260,7 @@ export const CustomDomainConfiguration: coreClient.CompositeMapper = {
       certificatePassword: {
         serializedName: "certificatePassword",
         type: {
-          name: "ByteArray"
+          name: "String"
         }
       },
       expirationDate: {
@@ -4148,29 +4177,6 @@ export const BillingMeterProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const DaprSecret: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DaprSecret",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ProxyResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4410,6 +4416,7 @@ export const DaprComponent: coreClient.CompositeMapper = {
         }
       },
       ignoreErrors: {
+        defaultValue: false,
         serializedName: "properties.ignoreErrors",
         type: {
           name: "Boolean"
