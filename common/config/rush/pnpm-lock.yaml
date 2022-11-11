@@ -1727,6 +1727,7 @@ packages:
   /@opentelemetry/api-metrics/0.33.0:
     resolution: {integrity: sha512-78evfPRRRnJA6uZ3xuBuS3VZlXTO/LRs+Ff1iv3O/7DgibCtq9k27T6Zlj8yRdJDFmcjcbQrvC0/CpDpWHaZYA==}
     engines: {node: '>=14'}
+    deprecated: Please use @opentelemetry/api >= 1.3.0
     dependencies:
       '@opentelemetry/api': 1.2.0
     dev: false
@@ -3890,7 +3891,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221110
+      typescript: 5.0.0-dev.20221111
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8838,8 +8839,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221110:
-    resolution: {integrity: sha512-2ErQCfMJ/il4ipW6NRIqJdQvJ84k8nafDIXGCpjaedCdnF/ejRmtHAhPuS5m54AKhRz/uc31LxzKpcSOxVuJHQ==}
+  /typescript/5.0.0-dev.20221111:
+    resolution: {integrity: sha512-evI3lSsN2TlgovDfF6k/SUNySv9kWlaD7O1SrYfS271DaqVfgfL6LYOFEOeM0tfSHiJhAWFeMtvyhYqmD4CL/g==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10612,7 +10613,7 @@ packages:
     dev: false
 
   file:projects/arm-azurestackhci.tgz:
-    resolution: {integrity: sha512-ThFQ7fAg3tHNjRA91Br7ssSWnLJobS3bckyt68c7vh2lPPlgkAc+viILviZfq7jeJleCY6docyTuN+JwG/OhDg==, tarball: file:projects/arm-azurestackhci.tgz}
+    resolution: {integrity: sha512-uT5l0rxHNdvriftZrwos6D4Ybk4AyN7m8DzE563ZrNbAnuZffmwc2x5oBJtwH0RxA0qX/RW/DqVKQ+3Sp0MDNA==, tarball: file:projects/arm-azurestackhci.tgz}
     name: '@rush-temp/arm-azurestackhci'
     version: 0.0.0
     dependencies:
@@ -10623,6 +10624,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -10630,16 +10633,15 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-BtovOUqCBkiF8Hb+3XtHYg8u9iVDRUcFlyU5GM2JidX8OD2mdSiNm0I3csgcCxNAvOGbvYL8EEDFvsi1afsEyA==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-itk/e/Xa/k+K6/Y1RHs4eFBE4U1YJCZqd8RrgFJv1kfS28gCbbC85CMt7+JP5gXsSokL2R8HfrHy/Pu6OhDYeA==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
