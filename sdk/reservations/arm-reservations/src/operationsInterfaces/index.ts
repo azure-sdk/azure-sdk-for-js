@@ -13,5 +13,3 @@ export * from "./calculateRefund";
 export * from "./return";
 export * from "./calculateExchange";
 export * from "./exchange";
-export * from "./quota";
-export * from "./quotaRequestStatus";

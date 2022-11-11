@@ -26,6 +26,13 @@ export interface AppliedReservations {
     readonly type?: string;
 }
 
+// @public (undocumented)
+export interface AppliedScopeProperties {
+    displayName?: string;
+    managementGroupId?: string;
+    tenantId?: string;
+}
+
 // @public
 export type AppliedScopeType = string;
 
@@ -52,6 +59,8 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, options?: AzureReservationAPIOptionalParams);
     // (undocumented)
+    apiVersion: string;
+    // (undocumented)
     calculateExchange: CalculateExchange;
     // (undocumented)
     calculateRefund: CalculateRefund;
@@ -61,10 +70,6 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
     getCatalog(subscriptionId: string, options?: GetCatalogOptionalParams): Promise<GetCatalogResponse>;
     // (undocumented)
     operation: Operation;
-    // (undocumented)
-    quota: Quota;
-    // (undocumented)
-    quotaRequestStatus: QuotaRequestStatus;
     // (undocumented)
     reservation: Reservation;
     // (undocumented)
@@ -76,6 +81,7 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
 // @public
 export interface AzureReservationAPIOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
+    apiVersion?: string;
     endpoint?: string;
 }
 
@@ -261,29 +267,6 @@ export interface ChangeDirectoryResult {
 export type CreatedByType = string;
 
 // @public
-export interface CreateGenericQuotaRequestParameters {
-    value?: CurrentQuotaLimitBase[];
-}
-
-// @public
-export interface CurrentQuotaLimit {
-    readonly id?: string;
-    readonly message?: string;
-    readonly name?: string;
-    properties?: QuotaProperties;
-    readonly provisioningState?: QuotaRequestState;
-    readonly type?: string;
-}
-
-// @public
-export interface CurrentQuotaLimitBase {
-    readonly id?: string;
-    readonly name?: string;
-    properties?: QuotaProperties;
-    readonly type?: string;
-}
-
-// @public
 export type DisplayProvisioningState = string;
 
 // @public
@@ -306,11 +289,6 @@ export interface ErrorResponse {
 
 // @public
 export type ErrorResponseCode = string;
-
-// @public
-export interface ExceptionResponse {
-    error?: ServiceError;
-}
 
 // @public
 export interface Exchange {
@@ -592,15 +570,6 @@ export enum KnownProvisioningState {
 }
 
 // @public
-export enum KnownQuotaRequestState {
-    Accepted = "Accepted",
-    Failed = "Failed",
-    InProgress = "InProgress",
-    Invalid = "Invalid",
-    Succeeded = "Succeeded"
-}
-
-// @public
 export enum KnownReservationBillingPlan {
     Monthly = "Monthly",
     Upfront = "Upfront"
@@ -655,15 +624,6 @@ export enum KnownReservedResourceType {
     VirtualMachines = "VirtualMachines",
     VirtualMachineSoftware = "VirtualMachineSoftware",
     VMwareCloudSimple = "VMwareCloudSimple"
-}
-
-// @public
-export enum KnownResourceType {
-    Dedicated = "dedicated",
-    LowPriority = "lowPriority",
-    ServiceSpecific = "serviceSpecific",
-    Shared = "shared",
-    Standard = "standard"
 }
 
 // @public
@@ -812,185 +772,6 @@ export interface PurchaseRequest {
 export interface PurchaseRequestPropertiesReservedResourceProperties {
     instanceFlexibility?: InstanceFlexibility;
 }
-
-// @public
-export interface Quota {
-    beginCreateOrUpdate(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<QuotaCreateOrUpdateResponse>, QuotaCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams): Promise<QuotaCreateOrUpdateResponse>;
-    beginUpdate(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams): Promise<PollerLike<PollOperationState<QuotaUpdateResponse>, QuotaUpdateResponse>>;
-    beginUpdateAndWait(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams): Promise<QuotaUpdateResponse>;
-    get(subscriptionId: string, providerId: string, location: string, resourceName: string, options?: QuotaGetOptionalParams): Promise<QuotaGetResponse>;
-    list(subscriptionId: string, providerId: string, location: string, options?: QuotaListOptionalParams): PagedAsyncIterableIterator<CurrentQuotaLimitBase>;
-}
-
-// @public
-export interface QuotaCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type QuotaCreateOrUpdateResponse = CurrentQuotaLimitBase;
-
-// @public
-export interface QuotaGetHeaders {
-    eTag?: string;
-}
-
-// @public
-export interface QuotaGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type QuotaGetResponse = QuotaGetHeaders & CurrentQuotaLimitBase;
-
-// @public
-export interface QuotaLimits {
-    nextLink?: string;
-    value?: CurrentQuotaLimitBase[];
-}
-
-// @public
-export interface QuotaLimitsResponse {
-    nextLink?: string;
-    value?: CurrentQuotaLimit[];
-}
-
-// @public
-export interface QuotaListHeaders {
-    eTag?: string;
-}
-
-// @public
-export interface QuotaListNextHeaders {
-    eTag?: string;
-}
-
-// @public
-export interface QuotaListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type QuotaListNextResponse = QuotaListNextHeaders & QuotaLimits;
-
-// @public
-export interface QuotaListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type QuotaListResponse = QuotaListHeaders & QuotaLimits;
-
-// @public
-export interface QuotaProperties {
-    readonly currentValue?: number;
-    limit?: number;
-    name?: ResourceName;
-    properties?: Record<string, unknown>;
-    readonly quotaPeriod?: string;
-    resourceType?: ResourceType;
-    unit?: string;
-}
-
-// @public
-export interface QuotaRequestDetails {
-    readonly id?: string;
-    readonly message?: string;
-    readonly name?: string;
-    provisioningState?: QuotaRequestState;
-    readonly requestSubmitTime?: Date;
-    readonly type?: string;
-    value?: SubRequest[];
-}
-
-// @public
-export interface QuotaRequestDetailsList {
-    nextLink?: string;
-    value?: QuotaRequestDetails[];
-}
-
-// @public
-export interface QuotaRequestOneResourceSubmitResponse {
-    readonly id?: string;
-    readonly idPropertiesId?: string;
-    readonly message?: string;
-    readonly name?: string;
-    readonly namePropertiesName?: string;
-    properties?: QuotaProperties;
-    readonly provisioningState?: QuotaRequestState;
-    readonly requestSubmitTime?: Date;
-    readonly type?: string;
-    readonly typePropertiesType?: string;
-}
-
-// @public
-export interface QuotaRequestProperties {
-    readonly message?: string;
-    provisioningState?: QuotaRequestState;
-    readonly requestSubmitTime?: Date;
-    value?: SubRequest[];
-}
-
-// @public
-export type QuotaRequestState = string;
-
-// @public
-export interface QuotaRequestStatus {
-    get(subscriptionId: string, providerId: string, location: string, id: string, options?: QuotaRequestStatusGetOptionalParams): Promise<QuotaRequestStatusGetResponse>;
-    list(subscriptionId: string, providerId: string, location: string, options?: QuotaRequestStatusListOptionalParams): PagedAsyncIterableIterator<QuotaRequestDetails>;
-}
-
-// @public
-export interface QuotaRequestStatusGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type QuotaRequestStatusGetResponse = QuotaRequestDetails;
-
-// @public
-export interface QuotaRequestStatusListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skiptoken?: string;
-    top?: number;
-}
-
-// @public
-export type QuotaRequestStatusListNextResponse = QuotaRequestDetailsList;
-
-// @public
-export interface QuotaRequestStatusListOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skiptoken?: string;
-    top?: number;
-}
-
-// @public
-export type QuotaRequestStatusListResponse = QuotaRequestDetailsList;
-
-// @public
-export interface QuotaRequestSubmitResponse {
-    readonly id?: string;
-    readonly name?: string;
-    properties?: QuotaRequestProperties;
-    readonly type?: string;
-}
-
-// @public
-export interface QuotaRequestSubmitResponse201 {
-    readonly id?: string;
-    readonly message?: string;
-    readonly name?: string;
-    readonly provisioningState?: QuotaRequestState;
-    readonly type?: string;
-}
-
-// @public
-export interface QuotaUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type QuotaUpdateResponse = CurrentQuotaLimitBase;
 
 // @public
 export interface RefundBillingInformation {
@@ -1331,6 +1112,8 @@ export type ReservationSplitResponse = ReservationResponse[];
 
 // @public
 export interface ReservationsProperties {
+    // (undocumented)
+    appliedScopeProperties?: AppliedScopeProperties;
     appliedScopes?: string[];
     appliedScopeType?: AppliedScopeType;
     archived?: boolean;
@@ -1360,6 +1143,8 @@ export interface ReservationsProperties {
     skuDescription?: string;
     // (undocumented)
     splitProperties?: ReservationSplitProperties;
+    // (undocumented)
+    swapProperties?: ReservationSwapProperties;
     term?: ReservationTerm;
     readonly userFriendlyAppliedScopeType?: string;
     readonly userFriendlyRenewState?: string;
@@ -1384,6 +1169,12 @@ export interface ReservationSummary {
     readonly pendingCount?: number;
     readonly processingCount?: number;
     readonly succeededCount?: number;
+}
+
+// @public (undocumented)
+export interface ReservationSwapProperties {
+    swapDestination?: string;
+    swapSource?: string;
 }
 
 // @public
@@ -1458,15 +1249,6 @@ export interface ReservationUtilizationAggregates {
 export type ReservedResourceType = string;
 
 // @public
-export interface ResourceName {
-    readonly localizedValue?: string;
-    value?: string;
-}
-
-// @public
-export type ResourceType = string;
-
-// @public
 export interface Return {
     post(reservationOrderId: string, body: RefundRequest, options?: ReturnPostOptionalParams): Promise<ReturnPostResponse>;
 }
@@ -1490,19 +1272,6 @@ export interface ScopeProperties {
     scope?: string;
     // (undocumented)
     valid?: boolean;
-}
-
-// @public
-export interface ServiceError {
-    code?: string;
-    readonly details?: ServiceErrorDetail[];
-    message?: string;
-}
-
-// @public
-export interface ServiceErrorDetail {
-    readonly code?: string;
-    readonly message?: string;
 }
 
 // @public (undocumented)
@@ -1534,17 +1303,6 @@ export interface SkuRestriction {
 export interface SplitRequest {
     quantities?: number[];
     reservationId?: string;
-}
-
-// @public
-export interface SubRequest {
-    readonly limit?: number;
-    readonly message?: string;
-    name?: ResourceName;
-    provisioningState?: QuotaRequestState;
-    readonly resourceType?: string;
-    readonly subRequestId?: string;
-    unit?: string;
 }
 
 // @public (undocumented)

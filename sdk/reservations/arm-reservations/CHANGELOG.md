@@ -1,15 +1,26 @@
 # Release History
+    
+## 8.0.0 (2022-11-11)
+    
+**Features**
 
-## 7.2.1 (Unreleased)
+  - Added Interface AppliedScopeProperties
+  - Added Interface ReservationSwapProperties
+  - Interface AzureReservationAPIOptionalParams has a new optional parameter apiVersion
+  - Interface ReservationsProperties has a new optional parameter appliedScopeProperties
+  - Interface ReservationsProperties has a new optional parameter swapProperties
+  - Class AzureReservationAPI has a new parameter apiVersion
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group Quota
+  - Removed operation group QuotaRequestStatus
+  - Class AzureReservationAPI no longer has parameter quota
+  - Class AzureReservationAPI no longer has parameter quotaRequestStatus
+  - Removed Enum KnownQuotaRequestState
+  - Removed Enum KnownResourceType
+    
+    
 ## 7.2.0 (2022-09-19)
     
 **Features**

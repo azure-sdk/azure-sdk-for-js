@@ -21,8 +21,7 @@ import {
   CalculateRefundRequest as CalculateRefundRequestMapper,
   RefundRequest as RefundRequestMapper,
   CalculateExchangeRequest as CalculateExchangeRequestMapper,
-  ExchangeRequest as ExchangeRequestMapper,
-  CurrentQuotaLimitBase as CurrentQuotaLimitBaseMapper
+  ExchangeRequest as ExchangeRequestMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -91,7 +90,7 @@ export const reservationId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-03-01",
+    defaultValue: "2022-11-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -296,88 +295,4 @@ export const body7: OperationParameter = {
 export const body8: OperationParameter = {
   parameterPath: "body",
   mapper: ExchangeRequestMapper
-};
-
-export const providerId: OperationURLParameter = {
-  parameterPath: "providerId",
-  mapper: {
-    serializedName: "providerId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const location1: OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    serializedName: "location",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion1: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2020-10-25",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceName: OperationURLParameter = {
-  parameterPath: "resourceName",
-  mapper: {
-    serializedName: "resourceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const createQuotaRequest: OperationParameter = {
-  parameterPath: "createQuotaRequest",
-  mapper: CurrentQuotaLimitBaseMapper
-};
-
-export const id: OperationURLParameter = {
-  parameterPath: "id",
-  mapper: {
-    serializedName: "id",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const top: OperationQueryParameter = {
-  parameterPath: ["options", "top"],
-  mapper: {
-    constraints: {
-      InclusiveMinimum: 1
-    },
-    serializedName: "$top",
-    type: {
-      name: "Number"
-    }
-  }
-};
-
-export const skiptoken1: OperationQueryParameter = {
-  parameterPath: ["options", "skiptoken"],
-  mapper: {
-    serializedName: "$skiptoken",
-    type: {
-      name: "String"
-    }
-  }
 };

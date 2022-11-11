@@ -392,6 +392,8 @@ export interface ReservationsProperties {
   purchaseDate?: Date;
   splitProperties?: ReservationSplitProperties;
   mergeProperties?: ReservationMergeProperties;
+  swapProperties?: ReservationSwapProperties;
+  appliedScopeProperties?: AppliedScopeProperties;
   /** Subscription that will be charged for purchasing Reservation */
   billingScopeId?: string;
   /** Setting this to true will automatically purchase a new reservation on the expiration date time. */
@@ -432,6 +434,22 @@ export interface ReservationMergeProperties {
   mergeDestination?: string;
   /** Resource Ids of the Source Reservation's merged to form this Reservation. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
   mergeSources?: string[];
+}
+
+export interface ReservationSwapProperties {
+  /** Resource Id of the Source Reservation that gets swapped. Format of the resource Id is /providers/microsoft.capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  swapSource?: string;
+  /** Reservation Resource Id that the original resource gets swapped to. Format of the resource Id is /providers/microsoft.capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  swapDestination?: string;
+}
+
+export interface AppliedScopeProperties {
+  /** Tenant ID of the applied scope type */
+  tenantId?: string;
+  /** Management group ID of the format /providers/Microsoft.Management/managementGroups/{managementGroupId} */
+  managementGroupId?: string;
+  /** Management group display name */
+  displayName?: string;
 }
 
 export interface RenewPropertiesResponse {
@@ -920,338 +938,6 @@ export interface ChangeDirectoryResult {
   error?: string;
 }
 
-/** Quota properties. */
-export interface CurrentQuotaLimitBase {
-  /**
-   * The quota request ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the quota request.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Type of resource. "Microsoft.Capacity/ServiceLimits"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Quota properties for the resource. */
-  properties?: QuotaProperties;
-}
-
-/** Quota properties for the resource. */
-export interface QuotaProperties {
-  /** Quota properties. */
-  limit?: number;
-  /**
-   * Current usage value for the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly currentValue?: number;
-  /**  The limit units, such as **count** and **bytes**. Use the unit field provided in the response of the GET quota operation. */
-  unit?: string;
-  /** Name of the resource provide by the resource provider. Use this property for quotaRequests resource operations. */
-  name?: ResourceName;
-  /** The name of the resource type. */
-  resourceType?: ResourceType;
-  /**
-   * The time period over which the quota usage values are summarized. For example, P1D (per one day), PT1M (per one minute), and PT1S (per one second). This parameter is optional because, for some resources such as compute, the time period is irrelevant.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly quotaPeriod?: string;
-  /** Additional properties for the specified resource provider. */
-  properties?: Record<string, unknown>;
-}
-
-/** Resource name provided by the resource provider. Use this property for quotaRequest parameter. */
-export interface ResourceName {
-  /** Resource name. */
-  value?: string;
-  /**
-   * Resource display localized name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly localizedValue?: string;
-}
-
-/** The API error. */
-export interface ExceptionResponse {
-  /** The API error details. */
-  error?: ServiceError;
-}
-
-/** The API error details. */
-export interface ServiceError {
-  /** The error code. */
-  code?: string;
-  /** The error message text. */
-  message?: string;
-  /**
-   * The list of error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ServiceErrorDetail[];
-}
-
-/** The error details. */
-export interface ServiceErrorDetail {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-}
-
-/** Response with request ID that the quota request was accepted. */
-export interface QuotaRequestSubmitResponse201 {
-  /**
-   * The quota request ID. Use the requestId parameter to check the request status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Operation ID
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The details of the quota request status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: QuotaRequestState;
-  /**
-   * A user friendly message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-}
-
-/** Quota limits. */
-export interface QuotaLimits {
-  /** List of quotas (service limits). */
-  value?: CurrentQuotaLimitBase[];
-  /** The URI for fetching the next page of quotas (service limits). When no more pages exist, the value is null. */
-  nextLink?: string;
-}
-
-/** Quota request details. */
-export interface QuotaRequestDetails {
-  /**
-   * Quota request ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Quota request name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The quota request status. */
-  provisioningState?: QuotaRequestState;
-  /**
-   * User friendly status message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requestSubmitTime?: Date;
-  /** The quotaRequests. */
-  value?: SubRequest[];
-}
-
-/** The details of quota request. */
-export interface QuotaRequestProperties {
-  /** The quota request status. */
-  provisioningState?: QuotaRequestState;
-  /**
-   * User friendly status message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requestSubmitTime?: Date;
-  /** The quotaRequests. */
-  value?: SubRequest[];
-}
-
-/** The sub-request submitted with the quota request. */
-export interface SubRequest {
-  /**
-   * Quota (resource limit).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly limit?: number;
-  /** The resource name. */
-  name?: ResourceName;
-  /**
-   * Resource type for which the quota check was made.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceType?: string;
-  /**  The limit units, such as **count** and **bytes**. Use the unit field provided in the response of the GET quota operation. */
-  unit?: string;
-  /** The quota request status. */
-  provisioningState?: QuotaRequestState;
-  /**
-   * User-friendly status message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * Sub request ID for individual request.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subRequestId?: string;
-}
-
-/** Quota request details. */
-export interface QuotaRequestDetailsList {
-  /** The quota requests. */
-  value?: QuotaRequestDetails[];
-  /** The URI to fetch the next page of quota limits. When there are no more pages, this is null. */
-  nextLink?: string;
-}
-
-/** Current quota limits. */
-export interface CurrentQuotaLimit {
-  /**
-   * The details of the quota request status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: QuotaRequestState;
-  /**
-   * A user friendly message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The quota request ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the quota request.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Type of resource. "Microsoft.Capacity/ServiceLimits"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Quota properties for the resource. */
-  properties?: QuotaProperties;
-}
-
-/** Quotas (service limits) in the request response. */
-export interface QuotaLimitsResponse {
-  /** List of quotas with the quota request status. */
-  value?: CurrentQuotaLimit[];
-  /** The URI for fetching the next page of quota limits. When no more pages exist, the value is null. */
-  nextLink?: string;
-}
-
-/** Quota change requests information. */
-export interface CreateGenericQuotaRequestParameters {
-  /** Quota change requests. */
-  value?: CurrentQuotaLimitBase[];
-}
-
-/** Response for the quota submission request. */
-export interface QuotaRequestOneResourceSubmitResponse {
-  /**
-   * The quota request ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the quota request.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Type of resource. "Microsoft.Capacity/ServiceLimits"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The quota request status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: QuotaRequestState;
-  /**
-   * User friendly status message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requestSubmitTime?: Date;
-  /**
-   * The quota request ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly idPropertiesId?: string;
-  /**
-   * The name of the quota request.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly namePropertiesName?: string;
-  /**
-   * Type of resource. "Microsoft.Capacity/ServiceLimits"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly typePropertiesType?: string;
-  /** Quota properties for the resource. */
-  properties?: QuotaProperties;
-}
-
-/** Response for the quota submission request. */
-export interface QuotaRequestSubmitResponse {
-  /**
-   * The quota request ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the quota request.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** The quota request details. */
-  properties?: QuotaRequestProperties;
-  /**
-   * Type of resource. "Microsoft.Capacity/serviceLimits"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
 /** Defines headers for Return_post operation. */
 export interface ReturnPostHeaders {
   location?: string;
@@ -1275,24 +961,6 @@ export interface ExchangePostHeaders {
   location?: string;
   /** Clients should wait for the Retry-After interval before polling again */
   retryAfter?: number;
-}
-
-/** Defines headers for Quota_get operation. */
-export interface QuotaGetHeaders {
-  /** Current entity state version. It should be treated as opaque and used to make conditional HTTP requests. */
-  eTag?: string;
-}
-
-/** Defines headers for Quota_list operation. */
-export interface QuotaListHeaders {
-  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
-  eTag?: string;
-}
-
-/** Defines headers for Quota_listNext operation. */
-export interface QuotaListNextHeaders {
-  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
-  eTag?: string;
 }
 
 /** Known values of {@link ErrorResponseCode} that the service accepts. */
@@ -1862,60 +1530,6 @@ export enum KnownOperationStatus {
  */
 export type OperationStatus = string;
 
-/** Known values of {@link ResourceType} that the service accepts. */
-export enum KnownResourceType {
-  /** Standard */
-  Standard = "standard",
-  /** Dedicated */
-  Dedicated = "dedicated",
-  /** LowPriority */
-  LowPriority = "lowPriority",
-  /** Shared */
-  Shared = "shared",
-  /** ServiceSpecific */
-  ServiceSpecific = "serviceSpecific"
-}
-
-/**
- * Defines values for ResourceType. \
- * {@link KnownResourceType} can be used interchangeably with ResourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **standard** \
- * **dedicated** \
- * **lowPriority** \
- * **shared** \
- * **serviceSpecific**
- */
-export type ResourceType = string;
-
-/** Known values of {@link QuotaRequestState} that the service accepts. */
-export enum KnownQuotaRequestState {
-  /** Accepted */
-  Accepted = "Accepted",
-  /** Invalid */
-  Invalid = "Invalid",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** InProgress */
-  InProgress = "InProgress"
-}
-
-/**
- * Defines values for QuotaRequestState. \
- * {@link KnownQuotaRequestState} can be used interchangeably with QuotaRequestState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Accepted** \
- * **Invalid** \
- * **Succeeded** \
- * **Failed** \
- * **InProgress**
- */
-export type QuotaRequestState = string;
-
 /** Known values of {@link Location} that the service accepts. */
 export enum KnownLocation {
   /** Westus */
@@ -2347,95 +1961,12 @@ export interface ExchangePostOptionalParams
 export type ExchangePostResponse = ExchangeOperationResultResponse;
 
 /** Optional parameters. */
-export interface QuotaGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type QuotaGetResponse = QuotaGetHeaders & CurrentQuotaLimitBase;
-
-/** Optional parameters. */
-export interface QuotaCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type QuotaCreateOrUpdateResponse = CurrentQuotaLimitBase;
-
-/** Optional parameters. */
-export interface QuotaUpdateOptionalParams extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type QuotaUpdateResponse = CurrentQuotaLimitBase;
-
-/** Optional parameters. */
-export interface QuotaListOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type QuotaListResponse = QuotaListHeaders & QuotaLimits;
-
-/** Optional parameters. */
-export interface QuotaListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type QuotaListNextResponse = QuotaListNextHeaders & QuotaLimits;
-
-/** Optional parameters. */
-export interface QuotaRequestStatusGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type QuotaRequestStatusGetResponse = QuotaRequestDetails;
-
-/** Optional parameters. */
-export interface QuotaRequestStatusListOptionalParams
-  extends coreClient.OperationOptions {
-  /**
-   * | Field | Supported operators |
-   * |---------------------|------------------------|
-   * |requestSubmitTime | ge, le, eq, gt, lt |
-   */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element includes a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-}
-
-/** Contains response data for the list operation. */
-export type QuotaRequestStatusListResponse = QuotaRequestDetailsList;
-
-/** Optional parameters. */
-export interface QuotaRequestStatusListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /**
-   * | Field | Supported operators |
-   * |---------------------|------------------------|
-   * |requestSubmitTime | ge, le, eq, gt, lt |
-   */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element includes a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-}
-
-/** Contains response data for the listNext operation. */
-export type QuotaRequestStatusListNextResponse = QuotaRequestDetailsList;
-
-/** Optional parameters. */
 export interface AzureReservationAPIOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
+  /** Api Version */
+  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }
