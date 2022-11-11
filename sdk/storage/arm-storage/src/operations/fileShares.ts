@@ -320,8 +320,8 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.maxpagesize,
     Parameters.filter,
+    Parameters.maxpagesize1,
     Parameters.expand2
   ],
   urlParameters: [
@@ -420,7 +420,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.include1],
+  queryParameters: [Parameters.apiVersion, Parameters.include2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -497,8 +497,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.maxpagesize,
     Parameters.filter,
+    Parameters.maxpagesize1,
     Parameters.expand2
   ],
   urlParameters: [

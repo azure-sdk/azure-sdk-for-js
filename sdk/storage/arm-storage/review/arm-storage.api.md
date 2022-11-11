@@ -604,6 +604,9 @@ export type EncryptionScopesGetResponse = EncryptionScope;
 
 // @public
 export interface EncryptionScopesListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    include?: ListEncryptionScopesInclude;
+    maxpagesize?: number;
 }
 
 // @public
@@ -611,6 +614,9 @@ export type EncryptionScopesListNextResponse = EncryptionScopeListResult;
 
 // @public
 export interface EncryptionScopesListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    include?: ListEncryptionScopesInclude;
+    maxpagesize?: number;
 }
 
 // @public
@@ -1191,6 +1197,13 @@ export enum KnownListContainersInclude {
 }
 
 // @public
+export enum KnownListEncryptionScopesInclude {
+    All = "All",
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownManagementPolicyName {
     Default = "default"
 }
@@ -1474,6 +1487,9 @@ export interface ListContainerItems {
 // @public
 export type ListContainersInclude = string;
 
+// @public
+export type ListEncryptionScopesInclude = string;
+
 // @public (undocumented)
 export interface ListQueue extends Resource {
     metadata?: {
@@ -1628,7 +1644,9 @@ export interface ManagementPolicyBaseBlob {
     delete?: DateAfterModification;
     enableAutoTierToHotFromCool?: boolean;
     tierToArchive?: DateAfterModification;
+    tierToCold?: DateAfterModification;
     tierToCool?: DateAfterModification;
+    tierToHot?: DateAfterModification;
 }
 
 // @public
@@ -1664,14 +1682,18 @@ export interface ManagementPolicySchema {
 export interface ManagementPolicySnapShot {
     delete?: DateAfterCreation;
     tierToArchive?: DateAfterCreation;
+    tierToCold?: DateAfterCreation;
     tierToCool?: DateAfterCreation;
+    tierToHot?: DateAfterCreation;
 }
 
 // @public
 export interface ManagementPolicyVersion {
     delete?: DateAfterCreation;
     tierToArchive?: DateAfterCreation;
+    tierToCold?: DateAfterCreation;
     tierToCool?: DateAfterCreation;
+    tierToHot?: DateAfterCreation;
 }
 
 // @public

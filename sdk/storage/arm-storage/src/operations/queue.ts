@@ -356,8 +356,8 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.maxpagesize,
-    Parameters.filter
+    Parameters.filter,
+    Parameters.maxpagesize1
   ],
   urlParameters: [
     Parameters.$host,
@@ -381,8 +381,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.maxpagesize,
-    Parameters.filter
+    Parameters.filter,
+    Parameters.maxpagesize1
   ],
   urlParameters: [
     Parameters.$host,
