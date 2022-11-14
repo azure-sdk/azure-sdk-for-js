@@ -32,6 +32,7 @@ import {
   DataFlowDebugSessionImpl,
   ManagedVirtualNetworksImpl,
   ManagedPrivateEndpointsImpl,
+  CredentialOperationsImpl,
   PrivateEndPointConnectionsImpl,
   PrivateEndpointConnectionImpl,
   PrivateLinkResourcesImpl,
@@ -55,6 +56,7 @@ import {
   DataFlowDebugSession,
   ManagedVirtualNetworks,
   ManagedPrivateEndpoints,
+  CredentialOperations,
   PrivateEndPointConnections,
   PrivateEndpointConnection,
   PrivateLinkResources,
@@ -94,7 +96,7 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-datafactory/10.10.0`;
+    const packageDetails = `azsdk-js-arm-datafactory/11.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -168,6 +170,7 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
     this.dataFlowDebugSession = new DataFlowDebugSessionImpl(this);
     this.managedVirtualNetworks = new ManagedVirtualNetworksImpl(this);
     this.managedPrivateEndpoints = new ManagedPrivateEndpointsImpl(this);
+    this.credentialOperations = new CredentialOperationsImpl(this);
     this.privateEndPointConnections = new PrivateEndPointConnectionsImpl(this);
     this.privateEndpointConnection = new PrivateEndpointConnectionImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
@@ -220,6 +223,7 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
   dataFlowDebugSession: DataFlowDebugSession;
   managedVirtualNetworks: ManagedVirtualNetworks;
   managedPrivateEndpoints: ManagedPrivateEndpoints;
+  credentialOperations: CredentialOperations;
   privateEndPointConnections: PrivateEndPointConnections;
   privateEndpointConnection: PrivateEndpointConnection;
   privateLinkResources: PrivateLinkResources;

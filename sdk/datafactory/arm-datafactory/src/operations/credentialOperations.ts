@@ -7,31 +7,31 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { DataFlows } from "../operationsInterfaces";
+import { CredentialOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataFactoryManagementClient } from "../dataFactoryManagementClient";
 import {
-  DataFlowResource,
-  DataFlowsListByFactoryNextOptionalParams,
-  DataFlowsListByFactoryOptionalParams,
-  DataFlowsCreateOrUpdateOptionalParams,
-  DataFlowsCreateOrUpdateResponse,
-  DataFlowsGetOptionalParams,
-  DataFlowsGetResponse,
-  DataFlowsDeleteOptionalParams,
-  DataFlowsListByFactoryResponse,
-  DataFlowsListByFactoryNextResponse
+  ManagedIdentityCredentialResource,
+  CredentialOperationsListByFactoryNextOptionalParams,
+  CredentialOperationsListByFactoryOptionalParams,
+  CredentialOperationsListByFactoryResponse,
+  CredentialOperationsCreateOrUpdateOptionalParams,
+  CredentialOperationsCreateOrUpdateResponse,
+  CredentialOperationsGetOptionalParams,
+  CredentialOperationsGetResponse,
+  CredentialOperationsDeleteOptionalParams,
+  CredentialOperationsListByFactoryNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DataFlows operations. */
-export class DataFlowsImpl implements DataFlows {
+/** Class containing CredentialOperations operations. */
+export class CredentialOperationsImpl implements CredentialOperations {
   private readonly client: DataFactoryManagementClient;
 
   /**
-   * Initialize a new instance of the class DataFlows class.
+   * Initialize a new instance of the class CredentialOperations class.
    * @param client Reference to the service client
    */
   constructor(client: DataFactoryManagementClient) {
@@ -39,7 +39,7 @@ export class DataFlowsImpl implements DataFlows {
   }
 
   /**
-   * Lists data flows.
+   * List credentials.
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param options The options parameters.
@@ -47,8 +47,8 @@ export class DataFlowsImpl implements DataFlows {
   public listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: DataFlowsListByFactoryOptionalParams
-  ): PagedAsyncIterableIterator<DataFlowResource> {
+    options?: CredentialOperationsListByFactoryOptionalParams
+  ): PagedAsyncIterableIterator<ManagedIdentityCredentialResource> {
     const iter = this.listByFactoryPagingAll(
       resourceGroupName,
       factoryName,
@@ -74,8 +74,8 @@ export class DataFlowsImpl implements DataFlows {
   private async *listByFactoryPagingPage(
     resourceGroupName: string,
     factoryName: string,
-    options?: DataFlowsListByFactoryOptionalParams
-  ): AsyncIterableIterator<DataFlowResource[]> {
+    options?: CredentialOperationsListByFactoryOptionalParams
+  ): AsyncIterableIterator<ManagedIdentityCredentialResource[]> {
     let result = await this._listByFactory(
       resourceGroupName,
       factoryName,
@@ -98,8 +98,8 @@ export class DataFlowsImpl implements DataFlows {
   private async *listByFactoryPagingAll(
     resourceGroupName: string,
     factoryName: string,
-    options?: DataFlowsListByFactoryOptionalParams
-  ): AsyncIterableIterator<DataFlowResource> {
+    options?: CredentialOperationsListByFactoryOptionalParams
+  ): AsyncIterableIterator<ManagedIdentityCredentialResource> {
     for await (const page of this.listByFactoryPagingPage(
       resourceGroupName,
       factoryName,
@@ -110,66 +110,7 @@ export class DataFlowsImpl implements DataFlows {
   }
 
   /**
-   * Creates or updates a data flow.
-   * @param resourceGroupName The resource group name.
-   * @param factoryName The factory name.
-   * @param dataFlowName The data flow name.
-   * @param dataFlow Data flow resource definition.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    factoryName: string,
-    dataFlowName: string,
-    dataFlow: DataFlowResource,
-    options?: DataFlowsCreateOrUpdateOptionalParams
-  ): Promise<DataFlowsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, factoryName, dataFlowName, dataFlow, options },
-      createOrUpdateOperationSpec
-    );
-  }
-
-  /**
-   * Gets a data flow.
-   * @param resourceGroupName The resource group name.
-   * @param factoryName The factory name.
-   * @param dataFlowName The data flow name.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    factoryName: string,
-    dataFlowName: string,
-    options?: DataFlowsGetOptionalParams
-  ): Promise<DataFlowsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, factoryName, dataFlowName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * Deletes a data flow.
-   * @param resourceGroupName The resource group name.
-   * @param factoryName The factory name.
-   * @param dataFlowName The data flow name.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    factoryName: string,
-    dataFlowName: string,
-    options?: DataFlowsDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, factoryName, dataFlowName, options },
-      deleteOperationSpec
-    );
-  }
-
-  /**
-   * Lists data flows.
+   * List credentials.
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param options The options parameters.
@@ -177,11 +118,70 @@ export class DataFlowsImpl implements DataFlows {
   private _listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: DataFlowsListByFactoryOptionalParams
-  ): Promise<DataFlowsListByFactoryResponse> {
+    options?: CredentialOperationsListByFactoryOptionalParams
+  ): Promise<CredentialOperationsListByFactoryResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, options },
       listByFactoryOperationSpec
+    );
+  }
+
+  /**
+   * Creates or updates a credential.
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param credentialName Credential name
+   * @param credential Credential resource definition.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    factoryName: string,
+    credentialName: string,
+    credential: ManagedIdentityCredentialResource,
+    options?: CredentialOperationsCreateOrUpdateOptionalParams
+  ): Promise<CredentialOperationsCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, factoryName, credentialName, credential, options },
+      createOrUpdateOperationSpec
+    );
+  }
+
+  /**
+   * Gets a credential.
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param credentialName Credential name
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    credentialName: string,
+    options?: CredentialOperationsGetOptionalParams
+  ): Promise<CredentialOperationsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, factoryName, credentialName, options },
+      getOperationSpec
+    );
+  }
+
+  /**
+   * Deletes a credential.
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param credentialName Credential name
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    factoryName: string,
+    credentialName: string,
+    options?: CredentialOperationsDeleteOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, factoryName, credentialName, options },
+      deleteOperationSpec
     );
   }
 
@@ -196,8 +196,8 @@ export class DataFlowsImpl implements DataFlows {
     resourceGroupName: string,
     factoryName: string,
     nextLink: string,
-    options?: DataFlowsListByFactoryNextOptionalParams
-  ): Promise<DataFlowsListByFactoryNextResponse> {
+    options?: CredentialOperationsListByFactoryNextOptionalParams
+  ): Promise<CredentialOperationsListByFactoryNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, nextLink, options },
       listByFactoryNextOperationSpec
@@ -207,87 +207,13 @@ export class DataFlowsImpl implements DataFlows {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/dataflows/{dataFlowName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DataFlowResource
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.dataFlow,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.factoryName,
-    Parameters.dataFlowName
-  ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
-  mediaType: "json",
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/dataflows/{dataFlowName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DataFlowResource
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.factoryName,
-    Parameters.dataFlowName
-  ],
-  headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/dataflows/{dataFlowName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.factoryName,
-    Parameters.dataFlowName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listByFactoryOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/dataflows",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/credentials",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataFlowListResponse
+      bodyMapper: Mappers.CredentialListResponse
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -303,12 +229,87 @@ const listByFactoryOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/credentials/{credentialName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedIdentityCredentialResource
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.credential,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.factoryName,
+    Parameters.credentialName
+  ],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch
+  ],
+  mediaType: "json",
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/credentials/{credentialName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedIdentityCredentialResource
+    },
+    304: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.factoryName,
+    Parameters.credentialName
+  ],
+  headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
+  serializer
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/credentials/{credentialName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.factoryName,
+    Parameters.credentialName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listByFactoryNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataFlowListResponse
+      bodyMapper: Mappers.CredentialListResponse
     },
     default: {
       bodyMapper: Mappers.CloudError

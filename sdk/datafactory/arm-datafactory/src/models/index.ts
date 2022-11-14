@@ -255,14 +255,14 @@ export type DataFlowUnion =
   | MappingDataFlow
   | Flowlet
   | WranglingDataFlow;
+export type CredentialUnion =
+  | Credential
+  | ManagedIdentityCredential
+  | ServicePrincipalCredential;
 export type SecretBaseUnion =
   | SecretBase
   | SecureString
   | AzureKeyVaultSecretReference;
-export type CredentialUnion =
-  | Credential
-  | ServicePrincipalCredential
-  | ManagedIdentityCredential;
 export type DatasetLocationUnion =
   | DatasetLocation
   | AzureBlobStorageLocation
@@ -2242,6 +2242,26 @@ export interface ConnectionStateProperties {
   readonly status?: string;
 }
 
+/** A list of credential resources. */
+export interface CredentialListResponse {
+  /** List of credentials. */
+  value: ManagedIdentityCredentialResource[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
+}
+
+/** The Azure Data Factory nested object which contains the information and credential which can be used to connect with related store or compute resource. */
+export interface Credential {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ManagedIdentity" | "ServicePrincipal";
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** Credential description. */
+  description?: string;
+  /** List of tags that can be used for describing the Credential. */
+  annotations?: any[];
+}
+
 /** A list of linked service resources. */
 export interface PrivateEndpointConnectionListResponse {
   /** List of Private Endpoint Connections. */
@@ -2410,18 +2430,6 @@ export interface CredentialReference {
   type: CredentialReferenceType;
   /** Reference credential name. */
   referenceName: string;
-}
-
-/** The Azure Data Factory nested object which contains the information and credential which can be used to connect with related store or compute resource. */
-export interface Credential {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ServicePrincipal" | "ManagedIdentity";
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** Credential description. */
-  description?: string;
-  /** List of tags that can be used for describing the Credential. */
-  annotations?: any[];
 }
 
 /** A data flow transformation. */
@@ -3845,6 +3853,12 @@ export interface ManagedVirtualNetworkResource extends SubResource {
 export interface ManagedPrivateEndpointResource extends SubResource {
   /** Managed private endpoint properties. */
   properties: ManagedPrivateEndpoint;
+}
+
+/** Credential resource type. */
+export interface ManagedIdentityCredentialResource extends SubResource {
+  /** Managed Identity Credential properties. */
+  properties: ManagedIdentityCredential;
 }
 
 /** Private Endpoint Connection ARM resource. */
@@ -7538,6 +7552,26 @@ export interface LinkedServiceDebugResource extends SubResourceDebugResource {
   properties: LinkedServiceUnion;
 }
 
+/** Managed identity credential. */
+export interface ManagedIdentityCredential extends Credential {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ManagedIdentity";
+  /** The resource id of user assigned managed identity */
+  resourceId?: string;
+}
+
+/** Service principal credential. */
+export interface ServicePrincipalCredential extends Credential {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ServicePrincipal";
+  /** The app ID of the service principal used to authenticate */
+  servicePrincipalId?: any;
+  /** The key of the service principal used to authenticate. */
+  servicePrincipalKey?: AzureKeyVaultSecretReference;
+  /** The ID of the tenant to which the service principal belongs */
+  tenant?: any;
+}
+
 /** Azure Data Factory secure string definition. The string value will be masked with asterisks '*' during Get or List API calls. */
 export interface SecureString extends SecretBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -7556,26 +7590,6 @@ export interface AzureKeyVaultSecretReference extends SecretBase {
   secretName: any;
   /** The version of the secret in Azure Key Vault. The default value is the latest version of the secret. Type: string (or Expression with resultType string). */
   secretVersion?: any;
-}
-
-/** Service principal credential. */
-export interface ServicePrincipalCredential extends Credential {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ServicePrincipal";
-  /** The app ID of the service principal used to authenticate */
-  servicePrincipalId?: any;
-  /** The key of the service principal used to authenticate. */
-  servicePrincipalKey?: AzureKeyVaultSecretReference;
-  /** The ID of the tenant to which the service principal belongs */
-  tenant?: any;
-}
-
-/** Managed identity credential. */
-export interface ManagedIdentityCredential extends Credential {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ManagedIdentity";
-  /** The resource id of user assigned managed identity */
-  resourceId?: string;
 }
 
 /** Transformation for data flow source. */
@@ -8811,7 +8825,7 @@ export interface SnowflakeSource extends CopySource {
   /** Snowflake Sql query. Type: string (or Expression with resultType string). */
   query?: any;
   /** Snowflake export settings. */
-  exportSettings?: SnowflakeExportCopyCommand;
+  exportSettings: SnowflakeExportCopyCommand;
 }
 
 /** A copy activity Azure Databricks Delta Lake source. */
@@ -13790,6 +13804,44 @@ export interface ManagedPrivateEndpointsListByFactoryNextOptionalParams
 
 /** Contains response data for the listByFactoryNext operation. */
 export type ManagedPrivateEndpointsListByFactoryNextResponse = ManagedPrivateEndpointListResponse;
+
+/** Optional parameters. */
+export interface CredentialOperationsListByFactoryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFactory operation. */
+export type CredentialOperationsListByFactoryResponse = CredentialListResponse;
+
+/** Optional parameters. */
+export interface CredentialOperationsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the credential entity. Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
+  ifMatch?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type CredentialOperationsCreateOrUpdateResponse = ManagedIdentityCredentialResource;
+
+/** Optional parameters. */
+export interface CredentialOperationsGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the credential entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
+  ifNoneMatch?: string;
+}
+
+/** Contains response data for the get operation. */
+export type CredentialOperationsGetResponse = ManagedIdentityCredentialResource;
+
+/** Optional parameters. */
+export interface CredentialOperationsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CredentialOperationsListByFactoryNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFactoryNext operation. */
+export type CredentialOperationsListByFactoryNextResponse = CredentialListResponse;
 
 /** Optional parameters. */
 export interface PrivateEndPointConnectionsListByFactoryOptionalParams
