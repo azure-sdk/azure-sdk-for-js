@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Resources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,13 +18,13 @@ import {
   GenericResourceExpanded,
   ResourcesListByResourceGroupNextOptionalParams,
   ResourcesListByResourceGroupOptionalParams,
-  ResourcesListByResourceGroupResponse,
   ResourcesListNextOptionalParams,
   ResourcesListOptionalParams,
-  ResourcesListResponse,
+  ResourcesListByResourceGroupResponse,
   ResourcesMoveInfo,
   ResourcesMoveResourcesOptionalParams,
   ResourcesValidateMoveResourcesOptionalParams,
+  ResourcesListResponse,
   ResourcesCheckExistenceOptionalParams,
   ResourcesCheckExistenceResponse,
   ResourcesDeleteOptionalParams,
@@ -79,33 +78,19 @@ export class ResourcesImpl implements Resources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ResourcesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: ResourcesListByResourceGroupOptionalParams
   ): AsyncIterableIterator<GenericResourceExpanded[]> {
-    let result: ResourcesListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -113,9 +98,7 @@ export class ResourcesImpl implements Resources {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -146,34 +129,22 @@ export class ResourcesImpl implements Resources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
+      byPage: () => {
+        return this.listPagingPage(options);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ResourcesListOptionalParams,
-    settings?: PageSettings
+    options?: ResourcesListOptionalParams
   ): AsyncIterableIterator<GenericResourceExpanded[]> {
-    let result: ResourcesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -821,7 +792,9 @@ export class ResourcesImpl implements Resources {
   }
 
   /**
-   * Checks by ID whether a resource exists.
+   * Checks by ID whether a resource exists. This API currently works only for a limited set of Resource
+   * providers. In the event that a Resource provider does not implement this API, ARM will respond with
+   * a 405. The alternative then is to use the GET API to check for the existence of the resource.
    * @param resourceId The fully qualified ID of the resource, including the resource name and resource
    *                   type. Use the format,
    *                   /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}

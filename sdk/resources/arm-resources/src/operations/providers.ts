@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Providers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,10 +16,8 @@ import {
   Provider,
   ProvidersListNextOptionalParams,
   ProvidersListOptionalParams,
-  ProvidersListResponse,
   ProvidersListAtTenantScopeNextOptionalParams,
   ProvidersListAtTenantScopeOptionalParams,
-  ProvidersListAtTenantScopeResponse,
   ProvidersUnregisterOptionalParams,
   ProvidersUnregisterResponse,
   ProvidersRegisterAtManagementGroupScopeOptionalParams,
@@ -28,6 +25,8 @@ import {
   ProvidersProviderPermissionsResponse,
   ProvidersRegisterOptionalParams,
   ProvidersRegisterResponse,
+  ProvidersListResponse,
+  ProvidersListAtTenantScopeResponse,
   ProvidersGetOptionalParams,
   ProvidersGetResponse,
   ProvidersGetAtTenantScopeOptionalParams,
@@ -64,34 +63,22 @@ export class ProvidersImpl implements Providers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
+      byPage: () => {
+        return this.listPagingPage(options);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ProvidersListOptionalParams,
-    settings?: PageSettings
+    options?: ProvidersListOptionalParams
   ): AsyncIterableIterator<Provider[]> {
-    let result: ProvidersListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -118,34 +105,22 @@ export class ProvidersImpl implements Providers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listAtTenantScopePagingPage(options, settings);
+      byPage: () => {
+        return this.listAtTenantScopePagingPage(options);
       }
     };
   }
 
   private async *listAtTenantScopePagingPage(
-    options?: ProvidersListAtTenantScopeOptionalParams,
-    settings?: PageSettings
+    options?: ProvidersListAtTenantScopeOptionalParams
   ): AsyncIterableIterator<Provider[]> {
-    let result: ProvidersListAtTenantScopeResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listAtTenantScope(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listAtTenantScope(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listAtTenantScopeNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -173,7 +148,10 @@ export class ProvidersImpl implements Providers {
   }
 
   /**
-   * Registers a management group with a resource provider.
+   * Registers a management group with a resource provider. Use this operation to register a resource
+   * provider with resource types that can be deployed at the management group scope. It does not
+   * recursively register subscriptions within the management group. Instead, you must register
+   * subscriptions individually.
    * @param resourceProviderNamespace The namespace of the resource provider to register.
    * @param groupId The management group ID.
    * @param options The options parameters.
