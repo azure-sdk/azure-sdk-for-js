@@ -1,27 +1,44 @@
 # Release History
     
-## 1.0.0-beta.3 (2022-11-04)
+## 1.0.0-beta.3 (2022-11-14)
     
 **Features**
 
+  - Added operation group CheckNameAvailability
+  - Added operation NetworkConnections.beginRunHealthChecks
+  - Added operation NetworkConnections.beginRunHealthChecksAndWait
+  - Added Interface CheckNameAvailabilityExecuteOptionalParams
+  - Added Interface CheckNameAvailabilityRequest
+  - Added Interface CheckNameAvailabilityResponse
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
   - Added Interface OperationStatusResult
   - Added Type Alias CatalogSyncState
+  - Added Type Alias CheckNameAvailabilityExecuteResponse
+  - Added Type Alias CheckNameAvailabilityReason
+  - Added Type Alias HibernateSupport
+  - Added Type Alias ProvisioningState
   - Added Type Alias SchedulesUpdateResponse
   - Interface Catalog has a new optional parameter syncState
   - Interface CatalogProperties has a new optional parameter syncState
+  - Interface DevBoxDefinition has a new optional parameter hibernateSupport
+  - Interface DevBoxDefinitionUpdate has a new optional parameter hibernateSupport
+  - Interface DevBoxDefinitionUpdateProperties has a new optional parameter hibernateSupport
+  - Interface DevCenter has a new optional parameter devCenterUri
+  - Interface NetworkConnectionsRunHealthChecksOptionalParams has a new optional parameter resumeFrom
+  - Interface NetworkConnectionsRunHealthChecksOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface Project has a new optional parameter devCenterUri
+  - Interface ProjectProperties has a new optional parameter devCenterUri
+  - Class DevCenterClient has a new parameter checkNameAvailability
   - Added Enum KnownCatalogSyncState
+  - Added Enum KnownCheckNameAvailabilityReason
+  - Added Enum KnownHibernateSupport
+  - Added Enum KnownProvisioningState
 
 **Breaking Changes**
 
-  - Interface OperationStatus no longer has parameter endTime
-  - Interface OperationStatus no longer has parameter error
-  - Interface OperationStatus no longer has parameter id
-  - Interface OperationStatus no longer has parameter name
-  - Interface OperationStatus no longer has parameter percentComplete
-  - Interface OperationStatus no longer has parameter startTime
-  - Interface OperationStatus no longer has parameter status
+  - Removed operation NetworkConnections.runHealthChecks
     
     
 ## 1.0.0-beta.2 (2022-10-11)

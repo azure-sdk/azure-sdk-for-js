@@ -29,6 +29,7 @@ import {
   OperationsImpl,
   OperationStatusesImpl,
   UsagesImpl,
+  CheckNameAvailabilityImpl,
   SkusImpl,
   PoolsImpl,
   SchedulesImpl,
@@ -49,6 +50,7 @@ import {
   Operations,
   OperationStatuses,
   Usages,
+  CheckNameAvailability,
   Skus,
   Pools,
   Schedules,
@@ -94,13 +96,16 @@ export class DevCenterClient extends coreClient.ServiceClient {
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      endpoint:
+      baseUri:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
@@ -126,9 +131,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
-          scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+          scopes: `${optionsWithDefaults.credentialScopes}`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
               coreClient.authorizeRequestOnClaimChallenge
@@ -141,7 +144,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-10-12-preview";
+    this.apiVersion = options.apiVersion || "2022-11-11-preview";
     this.devCenters = new DevCentersImpl(this);
     this.projects = new ProjectsImpl(this);
     this.attachedNetworks = new AttachedNetworksImpl(this);
@@ -158,6 +161,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
     this.operations = new OperationsImpl(this);
     this.operationStatuses = new OperationStatusesImpl(this);
     this.usages = new UsagesImpl(this);
+    this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
     this.skus = new SkusImpl(this);
     this.pools = new PoolsImpl(this);
     this.schedules = new SchedulesImpl(this);
@@ -207,6 +211,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
   operations: Operations;
   operationStatuses: OperationStatuses;
   usages: Usages;
+  checkNameAvailability: CheckNameAvailability;
   skus: Skus;
   pools: Pools;
   schedules: Schedules;

@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ProjectEnvironmentTypes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -61,16 +60,8 @@ export class ProjectEnvironmentTypesImpl implements ProjectEnvironmentTypes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(
-          resourceGroupName,
-          projectName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listPagingPage(resourceGroupName, projectName, options);
       }
     };
   }
@@ -78,18 +69,11 @@ export class ProjectEnvironmentTypesImpl implements ProjectEnvironmentTypes {
   private async *listPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: ProjectEnvironmentTypesListOptionalParams,
-    settings?: PageSettings
+    options?: ProjectEnvironmentTypesListOptionalParams
   ): AsyncIterableIterator<ProjectEnvironmentType[]> {
-    let result: ProjectEnvironmentTypesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(resourceGroupName, projectName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(resourceGroupName, projectName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -98,9 +82,7 @@ export class ProjectEnvironmentTypesImpl implements ProjectEnvironmentTypes {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
