@@ -23,7 +23,9 @@ import {
   GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams,
   GovernanceRulesRuleIdExecuteSingleSubscriptionResponse,
   GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams,
-  GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse
+  GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse,
+  GovernanceRulesRuleIdExecuteSingleManagementGroupOptionalParams,
+  GovernanceRulesRuleIdExecuteSingleManagementGroupResponse
 } from "../models";
 
 /** Class containing GovernanceRules operations. */
@@ -40,7 +42,7 @@ export class GovernanceRulesImpl implements GovernanceRules {
 
   /**
    * Get a specific governanceRule for the requested scope by ruleId
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * @param ruleId The GovernanceRule key - unique key for the standard GovernanceRule
    * @param options The options parameters.
    */
   get(
@@ -54,9 +56,9 @@ export class GovernanceRulesImpl implements GovernanceRules {
   }
 
   /**
-   * Creates or update a security GovernanceRule on the given subscription.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
-   * @param governanceRule GovernanceRule over a subscription scope
+   * Creates or update GovernanceRule on the given subscription
+   * @param ruleId The GovernanceRule key - unique key for the standard GovernanceRule
+   * @param governanceRule GovernanceRule over a given scope
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -72,7 +74,7 @@ export class GovernanceRulesImpl implements GovernanceRules {
 
   /**
    * Delete a GovernanceRule over a given scope
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * @param ruleId The GovernanceRule key - unique key for the standard GovernanceRule
    * @param options The options parameters.
    */
   delete(
@@ -86,8 +88,8 @@ export class GovernanceRulesImpl implements GovernanceRules {
   }
 
   /**
-   * Execute a security GovernanceRule on the given subscription.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * Execute a GovernanceRule on the given subscription
+   * @param ruleId The GovernanceRule key - unique key for the standard GovernanceRule
    * @param options The options parameters.
    */
   async beginRuleIdExecuteSingleSubscription(
@@ -154,8 +156,8 @@ export class GovernanceRulesImpl implements GovernanceRules {
   }
 
   /**
-   * Execute a security GovernanceRule on the given subscription.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * Execute a GovernanceRule on the given subscription
+   * @param ruleId The GovernanceRule key - unique key for the standard GovernanceRule
    * @param options The options parameters.
    */
   async beginRuleIdExecuteSingleSubscriptionAndWait(
@@ -170,11 +172,11 @@ export class GovernanceRulesImpl implements GovernanceRules {
   }
 
   /**
-   * Execute a security GovernanceRule on the given security connector.
+   * Execute a GovernanceRule on the given security connector
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param securityConnectorName The security connector name.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * @param ruleId The GovernanceRule key - unique key for the standard GovernanceRule
    * @param options The options parameters.
    */
   async beginRuleIdExecuteSingleSecurityConnector(
@@ -243,11 +245,11 @@ export class GovernanceRulesImpl implements GovernanceRules {
   }
 
   /**
-   * Execute a security GovernanceRule on the given security connector.
+   * Execute a GovernanceRule on the given security connector
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param securityConnectorName The security connector name.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * @param ruleId The GovernanceRule key - unique key for the standard GovernanceRule
    * @param options The options parameters.
    */
   async beginRuleIdExecuteSingleSecurityConnectorAndWait(
@@ -259,6 +261,90 @@ export class GovernanceRulesImpl implements GovernanceRules {
     const poller = await this.beginRuleIdExecuteSingleSecurityConnector(
       resourceGroupName,
       securityConnectorName,
+      ruleId,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Execute GovernanceRule on the given management group
+   * @param ruleId The GovernanceRule key - unique key for the standard GovernanceRule
+   * @param options The options parameters.
+   */
+  async beginRuleIdExecuteSingleManagementGroup(
+    ruleId: string,
+    options?: GovernanceRulesRuleIdExecuteSingleManagementGroupOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        GovernanceRulesRuleIdExecuteSingleManagementGroupResponse
+      >,
+      GovernanceRulesRuleIdExecuteSingleManagementGroupResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<GovernanceRulesRuleIdExecuteSingleManagementGroupResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { ruleId, options },
+      ruleIdExecuteSingleManagementGroupOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Execute GovernanceRule on the given management group
+   * @param ruleId The GovernanceRule key - unique key for the standard GovernanceRule
+   * @param options The options parameters.
+   */
+  async beginRuleIdExecuteSingleManagementGroupAndWait(
+    ruleId: string,
+    options?: GovernanceRulesRuleIdExecuteSingleManagementGroupOptionalParams
+  ): Promise<GovernanceRulesRuleIdExecuteSingleManagementGroupResponse> {
+    const poller = await this.beginRuleIdExecuteSingleManagementGroup(
       ruleId,
       options
     );
@@ -397,6 +483,42 @@ const ruleIdExecuteSingleSecurityConnectorOperationSpec: coreClient.OperationSpe
     Parameters.resourceGroupName,
     Parameters.ruleId,
     Parameters.securityConnectorName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const ruleIdExecuteSingleManagementGroupOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Security/governanceRules/{ruleId}/execute",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper:
+        Mappers.GovernanceRulesRuleIdExecuteSingleManagementGroupHeaders
+    },
+    201: {
+      headersMapper:
+        Mappers.GovernanceRulesRuleIdExecuteSingleManagementGroupHeaders
+    },
+    202: {
+      headersMapper:
+        Mappers.GovernanceRulesRuleIdExecuteSingleManagementGroupHeaders
+    },
+    204: {
+      headersMapper:
+        Mappers.GovernanceRulesRuleIdExecuteSingleManagementGroupHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.executeGovernanceRuleParams,
+  queryParameters: [Parameters.apiVersion18],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.ruleId,
+    Parameters.managementGroupId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SubscriptionGovernanceRulesExecuteStatus } from "../operationsInterfaces";
+import { ManagementGroupGovernanceRulesExecuteStatus } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -14,17 +14,17 @@ import { SecurityCenter } from "../securityCenter";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  SubscriptionGovernanceRulesExecuteStatusGetOptionalParams,
-  SubscriptionGovernanceRulesExecuteStatusGetResponse
+  ManagementGroupGovernanceRulesExecuteStatusGetOptionalParams,
+  ManagementGroupGovernanceRulesExecuteStatusGetResponse
 } from "../models";
 
-/** Class containing SubscriptionGovernanceRulesExecuteStatus operations. */
-export class SubscriptionGovernanceRulesExecuteStatusImpl
-  implements SubscriptionGovernanceRulesExecuteStatus {
+/** Class containing ManagementGroupGovernanceRulesExecuteStatus operations. */
+export class ManagementGroupGovernanceRulesExecuteStatusImpl
+  implements ManagementGroupGovernanceRulesExecuteStatus {
   private readonly client: SecurityCenter;
 
   /**
-   * Initialize a new instance of the class SubscriptionGovernanceRulesExecuteStatus class.
+   * Initialize a new instance of the class ManagementGroupGovernanceRulesExecuteStatus class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityCenter) {
@@ -40,17 +40,19 @@ export class SubscriptionGovernanceRulesExecuteStatusImpl
   async beginGet(
     ruleId: string,
     operationId: string,
-    options?: SubscriptionGovernanceRulesExecuteStatusGetOptionalParams
+    options?: ManagementGroupGovernanceRulesExecuteStatusGetOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<SubscriptionGovernanceRulesExecuteStatusGetResponse>,
-      SubscriptionGovernanceRulesExecuteStatusGetResponse
+      PollOperationState<
+        ManagementGroupGovernanceRulesExecuteStatusGetResponse
+      >,
+      ManagementGroupGovernanceRulesExecuteStatusGetResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<SubscriptionGovernanceRulesExecuteStatusGetResponse> => {
+    ): Promise<ManagementGroupGovernanceRulesExecuteStatusGetResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -108,8 +110,8 @@ export class SubscriptionGovernanceRulesExecuteStatusImpl
   async beginGetAndWait(
     ruleId: string,
     operationId: string,
-    options?: SubscriptionGovernanceRulesExecuteStatusGetOptionalParams
-  ): Promise<SubscriptionGovernanceRulesExecuteStatusGetResponse> {
+    options?: ManagementGroupGovernanceRulesExecuteStatusGetOptionalParams
+  ): Promise<ManagementGroupGovernanceRulesExecuteStatusGetResponse> {
     const poller = await this.beginGet(ruleId, operationId, options);
     return poller.pollUntilDone();
   }
@@ -119,7 +121,7 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/governanceRules/{ruleId}/operationResults/{operationId}",
+    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Security/governanceRules/{ruleId}/execute/operationResults/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -141,8 +143,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion18],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.ruleId,
+    Parameters.managementGroupId,
     Parameters.operationId
   ],
   headerParameters: [Parameters.accept],

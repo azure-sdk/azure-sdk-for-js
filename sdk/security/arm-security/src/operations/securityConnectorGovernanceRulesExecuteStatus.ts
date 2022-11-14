@@ -36,9 +36,8 @@ export class SecurityConnectorGovernanceRulesExecuteStatusImpl
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param securityConnectorName The security connector name.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
-   * @param operationId The security GovernanceRule execution key - unique key for the execution of
-   *                    GovernanceRule
+   * @param ruleId The GovernanceRule key - unique key for the standard GovernanceRule
+   * @param operationId The GovernanceRule execution key - unique key for the execution of GovernanceRule
    * @param options The options parameters.
    */
   async beginGet(
@@ -118,9 +117,8 @@ export class SecurityConnectorGovernanceRulesExecuteStatusImpl
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param securityConnectorName The security connector name.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
-   * @param operationId The security GovernanceRule execution key - unique key for the execution of
-   *                    GovernanceRule
+   * @param ruleId The GovernanceRule key - unique key for the standard GovernanceRule
+   * @param operationId The GovernanceRule execution key - unique key for the execution of GovernanceRule
    * @param options The options parameters.
    */
   async beginGetAndWait(

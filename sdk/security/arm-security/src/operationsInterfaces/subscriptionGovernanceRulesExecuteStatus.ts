@@ -16,9 +16,8 @@ import {
 export interface SubscriptionGovernanceRulesExecuteStatus {
   /**
    * Get a specific governanceRule execution status for the requested scope by ruleId and operationId
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
-   * @param operationId The security GovernanceRule execution key - unique key for the execution of
-   *                    GovernanceRule
+   * @param ruleId The GovernanceRule key - unique key for the standard GovernanceRule
+   * @param operationId The GovernanceRule execution key - unique key for the execution of GovernanceRule
    * @param options The options parameters.
    */
   beginGet(
@@ -33,9 +32,8 @@ export interface SubscriptionGovernanceRulesExecuteStatus {
   >;
   /**
    * Get a specific governanceRule execution status for the requested scope by ruleId and operationId
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
-   * @param operationId The security GovernanceRule execution key - unique key for the execution of
-   *                    GovernanceRule
+   * @param ruleId The GovernanceRule key - unique key for the standard GovernanceRule
+   * @param operationId The GovernanceRule execution key - unique key for the execution of GovernanceRule
    * @param options The options parameters.
    */
   beginGetAndWait(

@@ -21,7 +21,7 @@ import {
 /** Interface representing a GovernanceAssignments. */
 export interface GovernanceAssignments {
   /**
-   * Get security governanceAssignments on all your resources inside a scope
+   * Get governanceAssignments on all your resources inside a scope
    * @param scope Scope of the query, can be subscription
    *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
    *              (/providers/Microsoft.Management/managementGroups/mgName).
@@ -50,7 +50,7 @@ export interface GovernanceAssignments {
     options?: GovernanceAssignmentsGetOptionalParams
   ): Promise<GovernanceAssignmentsGetResponse>;
   /**
-   * Creates or update a security GovernanceAssignment on the given subscription.
+   * Creates or update a GovernanceAssignment on the given subscription.
    * @param scope Scope of the query, can be subscription
    *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
    *              (/providers/Microsoft.Management/managementGroups/mgName).

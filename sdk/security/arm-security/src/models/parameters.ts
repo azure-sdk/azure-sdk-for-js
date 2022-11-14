@@ -1140,6 +1140,17 @@ export const executeGovernanceRuleParams: OperationParameter = {
   mapper: ExecuteGovernanceRuleParamsMapper
 };
 
+export const managementGroupId: OperationURLParameter = {
+  parameterPath: "managementGroupId",
+  mapper: {
+    serializedName: "managementGroupId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const operationId: OperationURLParameter = {
   parameterPath: "operationId",
   mapper: {

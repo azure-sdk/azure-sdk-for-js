@@ -1820,7 +1820,7 @@ export interface EnvironmentData {
     | "AzureDevOpsScope";
 }
 
-/** Page of a security governanceRules list */
+/** Page of a governanceRules list */
 export interface GovernanceRuleList {
   /**
    * Collection of governanceRules in this page
@@ -1842,12 +1842,24 @@ export interface GovernanceRuleOwnerSource {
   value?: string;
 }
 
-/** The governance email weekly notification configuration. */
+/** The governance email weekly notification configuration */
 export interface GovernanceRuleEmailNotification {
-  /** Defines whether manager email notifications are disabled. */
+  /** Defines whether manager email notifications are disabled */
   disableManagerEmailNotification?: boolean;
-  /** Defines whether owner email notifications are disabled. */
+  /** Defines whether owner email notifications are disabled */
   disableOwnerEmailNotification?: boolean;
+}
+
+/** The governance rule metadata */
+export interface GovernanceRuleMetadata {
+  /** Governance rule Created by object id (GUID) */
+  createdBy?: string;
+  /** Governance rule creation date */
+  createdOn?: Date;
+  /** Governance rule last updated by object id (GUID) */
+  updatedBy?: string;
+  /** Governance rule last update date */
+  updatedOn?: Date;
 }
 
 /** Governance rule execution parameters */
@@ -1856,7 +1868,7 @@ export interface ExecuteGovernanceRuleParams {
   override?: boolean;
 }
 
-/** Execute status of Security GovernanceRule over a given scope */
+/** Execute status of GovernanceRule over a given scope */
 export interface ExecuteRuleStatus {
   /**
    * Unique key for the execution of GovernanceRule
@@ -3328,11 +3340,16 @@ export interface Software extends Resource {
   firstSeenAt?: string;
 }
 
-/** Security GovernanceRule over a given scope */
+/** GovernanceRule over a given scope */
 export interface GovernanceRule extends Resource {
-  /** display name of the governanceRule */
+  /**
+   * The tenantId (GUID)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Display name of the governanceRule */
   displayName?: string;
-  /** description of the governanceRule */
+  /** Description of the governanceRule */
   description?: string;
   /** Governance rule remediation timeframe - this is the time that will affect on the grace-period duration e.g. 7.00:00:00 - means 7 days */
   remediationTimeframe?: string;
@@ -3346,12 +3363,21 @@ export interface GovernanceRule extends Resource {
   ruleType?: GovernanceRuleType;
   /** The governance rule source, what the rule affects, e.g. Assessments */
   sourceResourceType?: GovernanceRuleSourceResourceType;
+  /** Excluded Scopes, filter out the descendants of the scope (On management scopes) */
+  excludedScopes?: string[];
   /** The governance rule conditionSets - see examples */
   conditionSets?: Record<string, unknown>[];
+  /** Defines whether the rule is management scope rule (master connector as a single scope or management scope) */
+  inheritRules?: boolean;
   /** The Owner source for the governance rule - e.g. Manually by user@contoso.com - see example */
   ownerSource?: GovernanceRuleOwnerSource;
   /** The email notifications settings for the governance rule, states whether to disable notifications for mangers and owners */
   governanceEmailNotification?: GovernanceRuleEmailNotification;
+  /**
+   * The governance rule metadata
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metadata?: GovernanceRuleMetadata;
 }
 
 /** Security GovernanceAssignment over a given scope */
@@ -4286,6 +4312,24 @@ export interface GovernanceRulesRuleIdExecuteSingleSecurityConnectorHeaders {
   location?: string;
 }
 
+/** Defines headers for GovernanceRules_ruleIdExecuteSingleManagementGroup operation. */
+export interface GovernanceRulesRuleIdExecuteSingleManagementGroupHeaders {
+  /** Location URL for the execution status */
+  location?: string;
+}
+
+/** Defines headers for SecurityConnectorGovernanceRules_delete operation. */
+export interface SecurityConnectorGovernanceRulesDeleteHeaders {
+  /** Location URL for the deletion status */
+  location?: string;
+}
+
+/** Defines headers for ManagementGroupGovernanceRules_delete operation. */
+export interface ManagementGroupGovernanceRulesDeleteHeaders {
+  /** Location URL for the deletion status */
+  location?: string;
+}
+
 /** Defines headers for SubscriptionGovernanceRulesExecuteStatus_get operation. */
 export interface SubscriptionGovernanceRulesExecuteStatusGetHeaders {
   /** Location URL for the execution status */
@@ -4294,6 +4338,12 @@ export interface SubscriptionGovernanceRulesExecuteStatusGetHeaders {
 
 /** Defines headers for SecurityConnectorGovernanceRulesExecuteStatus_get operation. */
 export interface SecurityConnectorGovernanceRulesExecuteStatusGetHeaders {
+  /** Location URL for the execution status */
+  location?: string;
+}
+
+/** Defines headers for ManagementGroupGovernanceRulesExecuteStatus_get operation. */
+export interface ManagementGroupGovernanceRulesExecuteStatusGetHeaders {
   /** Location URL for the execution status */
   location?: string;
 }
@@ -8450,7 +8500,7 @@ export interface GovernanceRulesDeleteOptionalParams
 /** Optional parameters. */
 export interface GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams
   extends coreClient.OperationOptions {
-  /** GovernanceRule over a subscription scope */
+  /** ExecuteGovernanceRule over a given scope */
   executeGovernanceRuleParams?: ExecuteGovernanceRuleParams;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -8464,7 +8514,7 @@ export type GovernanceRulesRuleIdExecuteSingleSubscriptionResponse = GovernanceR
 /** Optional parameters. */
 export interface GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams
   extends coreClient.OperationOptions {
-  /** GovernanceRule over a subscription scope */
+  /** ExecuteGovernanceRule over a given scope */
   executeGovernanceRuleParams?: ExecuteGovernanceRuleParams;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -8474,6 +8524,20 @@ export interface GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalPara
 
 /** Contains response data for the ruleIdExecuteSingleSecurityConnector operation. */
 export type GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse = GovernanceRulesRuleIdExecuteSingleSecurityConnectorHeaders;
+
+/** Optional parameters. */
+export interface GovernanceRulesRuleIdExecuteSingleManagementGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** ExecuteGovernanceRule over a given scope */
+  executeGovernanceRuleParams?: ExecuteGovernanceRuleParams;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the ruleIdExecuteSingleManagementGroup operation. */
+export type GovernanceRulesRuleIdExecuteSingleManagementGroupResponse = GovernanceRulesRuleIdExecuteSingleManagementGroupHeaders;
 
 /** Optional parameters. */
 export interface SecurityConnectorGovernanceRuleListOptionalParams
@@ -8505,7 +8569,52 @@ export type SecurityConnectorGovernanceRulesCreateOrUpdateResponse = GovernanceR
 
 /** Optional parameters. */
 export interface SecurityConnectorGovernanceRulesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ManagementGroupGovernanceRuleListOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ManagementGroupGovernanceRuleListResponse = GovernanceRuleList;
+
+/** Optional parameters. */
+export interface ManagementGroupGovernanceRuleListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ManagementGroupGovernanceRuleListNextResponse = GovernanceRuleList;
+
+/** Optional parameters. */
+export interface ManagementGroupGovernanceRulesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ManagementGroupGovernanceRulesGetResponse = GovernanceRule;
+
+/** Optional parameters. */
+export interface ManagementGroupGovernanceRulesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ManagementGroupGovernanceRulesCreateOrUpdateResponse = GovernanceRule;
+
+/** Optional parameters. */
+export interface ManagementGroupGovernanceRulesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ManagementGroupGovernanceRulesDeleteResponse = ManagementGroupGovernanceRulesDeleteHeaders;
 
 /** Optional parameters. */
 export interface SubscriptionGovernanceRulesExecuteStatusGetOptionalParams
@@ -8530,6 +8639,18 @@ export interface SecurityConnectorGovernanceRulesExecuteStatusGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type SecurityConnectorGovernanceRulesExecuteStatusGetResponse = ExecuteRuleStatus;
+
+/** Optional parameters. */
+export interface ManagementGroupGovernanceRulesExecuteStatusGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the get operation. */
+export type ManagementGroupGovernanceRulesExecuteStatusGetResponse = ExecuteRuleStatus;
 
 /** Optional parameters. */
 export interface GovernanceAssignmentsListOptionalParams

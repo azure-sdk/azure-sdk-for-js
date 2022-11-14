@@ -7,7 +7,6 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
 export { SecurityCenter } from "./securityCenter";
 export * from "./operationsInterfaces";

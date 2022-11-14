@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { GovernanceAssignments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -40,7 +39,7 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
   }
 
   /**
-   * Get security governanceAssignments on all your resources inside a scope
+   * Get governanceAssignments on all your resources inside a scope
    * @param scope Scope of the query, can be subscription
    *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
    *              (/providers/Microsoft.Management/managementGroups/mgName).
@@ -60,11 +59,8 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(scope, assessmentName, options, settings);
+      byPage: () => {
+        return this.listPagingPage(scope, assessmentName, options);
       }
     };
   }
@@ -72,18 +68,11 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
   private async *listPagingPage(
     scope: string,
     assessmentName: string,
-    options?: GovernanceAssignmentsListOptionalParams,
-    settings?: PageSettings
+    options?: GovernanceAssignmentsListOptionalParams
   ): AsyncIterableIterator<GovernanceAssignment[]> {
-    let result: GovernanceAssignmentsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(scope, assessmentName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(scope, assessmentName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         scope,
@@ -92,9 +81,7 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -113,7 +100,7 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
   }
 
   /**
-   * Get security governanceAssignments on all your resources inside a scope
+   * Get governanceAssignments on all your resources inside a scope
    * @param scope Scope of the query, can be subscription
    *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
    *              (/providers/Microsoft.Management/managementGroups/mgName).
@@ -154,7 +141,7 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
   }
 
   /**
-   * Creates or update a security GovernanceAssignment on the given subscription.
+   * Creates or update a GovernanceAssignment on the given subscription.
    * @param scope Scope of the query, can be subscription
    *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
    *              (/providers/Microsoft.Management/managementGroups/mgName).

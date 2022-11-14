@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   SecurityConnectorGovernanceRulesGetOptionalParams,
   SecurityConnectorGovernanceRulesGetResponse,
@@ -22,7 +23,7 @@ export interface SecurityConnectorGovernanceRules {
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param securityConnectorName The security connector name.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * @param ruleId The GovernanceRule key - unique key for the standard GovernanceRule
    * @param options The options parameters.
    */
   get(
@@ -32,12 +33,12 @@ export interface SecurityConnectorGovernanceRules {
     options?: SecurityConnectorGovernanceRulesGetOptionalParams
   ): Promise<SecurityConnectorGovernanceRulesGetResponse>;
   /**
-   * Creates or update a security GovernanceRule on the given security connector.
+   * Creates or update GovernanceRule on the given security connector
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param securityConnectorName The security connector name.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
-   * @param governanceRule GovernanceRule over a subscription scope
+   * @param ruleId The GovernanceRule key - unique key for the standard GovernanceRule
+   * @param governanceRule GovernanceRule over a given scope
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -52,10 +53,24 @@ export interface SecurityConnectorGovernanceRules {
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param securityConnectorName The security connector name.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * @param ruleId The GovernanceRule key - unique key for the standard GovernanceRule
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
+    resourceGroupName: string,
+    securityConnectorName: string,
+    ruleId: string,
+    options?: SecurityConnectorGovernanceRulesDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Delete a GovernanceRule over a given scope
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param securityConnectorName The security connector name.
+   * @param ruleId The GovernanceRule key - unique key for the standard GovernanceRule
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
     resourceGroupName: string,
     securityConnectorName: string,
     ruleId: string,
