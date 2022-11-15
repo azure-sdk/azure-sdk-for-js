@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SubAssessments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,9 +16,9 @@ import {
   SecuritySubAssessment,
   SubAssessmentsListAllNextOptionalParams,
   SubAssessmentsListAllOptionalParams,
-  SubAssessmentsListAllResponse,
   SubAssessmentsListNextOptionalParams,
   SubAssessmentsListOptionalParams,
+  SubAssessmentsListAllResponse,
   SubAssessmentsListResponse,
   SubAssessmentsGetOptionalParams,
   SubAssessmentsGetResponse,
@@ -59,35 +58,23 @@ export class SubAssessmentsImpl implements SubAssessments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listAllPagingPage(scope, options, settings);
+      byPage: () => {
+        return this.listAllPagingPage(scope, options);
       }
     };
   }
 
   private async *listAllPagingPage(
     scope: string,
-    options?: SubAssessmentsListAllOptionalParams,
-    settings?: PageSettings
+    options?: SubAssessmentsListAllOptionalParams
   ): AsyncIterableIterator<SecuritySubAssessment[]> {
-    let result: SubAssessmentsListAllResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listAll(scope, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listAll(scope, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listAllNext(scope, continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -121,11 +108,8 @@ export class SubAssessmentsImpl implements SubAssessments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(scope, assessmentName, options, settings);
+      byPage: () => {
+        return this.listPagingPage(scope, assessmentName, options);
       }
     };
   }
@@ -133,18 +117,11 @@ export class SubAssessmentsImpl implements SubAssessments {
   private async *listPagingPage(
     scope: string,
     assessmentName: string,
-    options?: SubAssessmentsListOptionalParams,
-    settings?: PageSettings
+    options?: SubAssessmentsListOptionalParams
   ): AsyncIterableIterator<SecuritySubAssessment[]> {
-    let result: SubAssessmentsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(scope, assessmentName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(scope, assessmentName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         scope,
@@ -153,9 +130,7 @@ export class SubAssessmentsImpl implements SubAssessments {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

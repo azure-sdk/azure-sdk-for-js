@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AdaptiveNetworkHardenings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -71,17 +70,13 @@ export class AdaptiveNetworkHardeningsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByExtendedResourcePagingPage(
           resourceGroupName,
           resourceNamespace,
           resourceType,
           resourceName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -92,24 +87,17 @@ export class AdaptiveNetworkHardeningsImpl
     resourceNamespace: string,
     resourceType: string,
     resourceName: string,
-    options?: AdaptiveNetworkHardeningsListByExtendedResourceOptionalParams,
-    settings?: PageSettings
+    options?: AdaptiveNetworkHardeningsListByExtendedResourceOptionalParams
   ): AsyncIterableIterator<AdaptiveNetworkHardening[]> {
-    let result: AdaptiveNetworkHardeningsListByExtendedResourceResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByExtendedResource(
-        resourceGroupName,
-        resourceNamespace,
-        resourceType,
-        resourceName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByExtendedResource(
+      resourceGroupName,
+      resourceNamespace,
+      resourceType,
+      resourceName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByExtendedResourceNext(
         resourceGroupName,
@@ -120,9 +108,7 @@ export class AdaptiveNetworkHardeningsImpl
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

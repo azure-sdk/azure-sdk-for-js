@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { JitNetworkAccessPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,15 +16,15 @@ import {
   JitNetworkAccessPolicy,
   JitNetworkAccessPoliciesListNextOptionalParams,
   JitNetworkAccessPoliciesListOptionalParams,
-  JitNetworkAccessPoliciesListResponse,
   JitNetworkAccessPoliciesListByRegionNextOptionalParams,
   JitNetworkAccessPoliciesListByRegionOptionalParams,
-  JitNetworkAccessPoliciesListByRegionResponse,
   JitNetworkAccessPoliciesListByResourceGroupNextOptionalParams,
   JitNetworkAccessPoliciesListByResourceGroupOptionalParams,
-  JitNetworkAccessPoliciesListByResourceGroupResponse,
   JitNetworkAccessPoliciesListByResourceGroupAndRegionNextOptionalParams,
   JitNetworkAccessPoliciesListByResourceGroupAndRegionOptionalParams,
+  JitNetworkAccessPoliciesListResponse,
+  JitNetworkAccessPoliciesListByRegionResponse,
+  JitNetworkAccessPoliciesListByResourceGroupResponse,
   JitNetworkAccessPoliciesListByResourceGroupAndRegionResponse,
   JitNetworkAccessPoliciesGetOptionalParams,
   JitNetworkAccessPoliciesGetResponse,
@@ -69,34 +68,22 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
+      byPage: () => {
+        return this.listPagingPage(options);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: JitNetworkAccessPoliciesListOptionalParams,
-    settings?: PageSettings
+    options?: JitNetworkAccessPoliciesListOptionalParams
   ): AsyncIterableIterator<JitNetworkAccessPolicy[]> {
-    let result: JitNetworkAccessPoliciesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -126,29 +113,19 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByRegionPagingPage(ascLocation, options, settings);
+      byPage: () => {
+        return this.listByRegionPagingPage(ascLocation, options);
       }
     };
   }
 
   private async *listByRegionPagingPage(
     ascLocation: string,
-    options?: JitNetworkAccessPoliciesListByRegionOptionalParams,
-    settings?: PageSettings
+    options?: JitNetworkAccessPoliciesListByRegionOptionalParams
   ): AsyncIterableIterator<JitNetworkAccessPolicy[]> {
-    let result: JitNetworkAccessPoliciesListByRegionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByRegion(ascLocation, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByRegion(ascLocation, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByRegionNext(
         ascLocation,
@@ -156,9 +133,7 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -192,33 +167,19 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: JitNetworkAccessPoliciesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: JitNetworkAccessPoliciesListByResourceGroupOptionalParams
   ): AsyncIterableIterator<JitNetworkAccessPolicy[]> {
-    let result: JitNetworkAccessPoliciesListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -226,9 +187,7 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -269,15 +228,11 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByResourceGroupAndRegionPagingPage(
           resourceGroupName,
           ascLocation,
-          options,
-          settings
+          options
         );
       }
     };
@@ -286,22 +241,15 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
   private async *listByResourceGroupAndRegionPagingPage(
     resourceGroupName: string,
     ascLocation: string,
-    options?: JitNetworkAccessPoliciesListByResourceGroupAndRegionOptionalParams,
-    settings?: PageSettings
+    options?: JitNetworkAccessPoliciesListByResourceGroupAndRegionOptionalParams
   ): AsyncIterableIterator<JitNetworkAccessPolicy[]> {
-    let result: JitNetworkAccessPoliciesListByResourceGroupAndRegionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroupAndRegion(
-        resourceGroupName,
-        ascLocation,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroupAndRegion(
+      resourceGroupName,
+      ascLocation,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupAndRegionNext(
         resourceGroupName,
@@ -310,9 +258,7 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

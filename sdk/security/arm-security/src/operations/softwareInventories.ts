@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SoftwareInventories } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,9 +16,9 @@ import {
   Software,
   SoftwareInventoriesListByExtendedResourceNextOptionalParams,
   SoftwareInventoriesListByExtendedResourceOptionalParams,
-  SoftwareInventoriesListByExtendedResourceResponse,
   SoftwareInventoriesListBySubscriptionNextOptionalParams,
   SoftwareInventoriesListBySubscriptionOptionalParams,
+  SoftwareInventoriesListByExtendedResourceResponse,
   SoftwareInventoriesListBySubscriptionResponse,
   SoftwareInventoriesGetOptionalParams,
   SoftwareInventoriesGetResponse,
@@ -70,17 +69,13 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByExtendedResourcePagingPage(
           resourceGroupName,
           resourceNamespace,
           resourceType,
           resourceName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -91,24 +86,17 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
     resourceNamespace: string,
     resourceType: string,
     resourceName: string,
-    options?: SoftwareInventoriesListByExtendedResourceOptionalParams,
-    settings?: PageSettings
+    options?: SoftwareInventoriesListByExtendedResourceOptionalParams
   ): AsyncIterableIterator<Software[]> {
-    let result: SoftwareInventoriesListByExtendedResourceResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByExtendedResource(
-        resourceGroupName,
-        resourceNamespace,
-        resourceType,
-        resourceName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByExtendedResource(
+      resourceGroupName,
+      resourceNamespace,
+      resourceType,
+      resourceName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByExtendedResourceNext(
         resourceGroupName,
@@ -119,9 +107,7 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -158,34 +144,22 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
+      byPage: () => {
+        return this.listBySubscriptionPagingPage(options);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: SoftwareInventoriesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    options?: SoftwareInventoriesListBySubscriptionOptionalParams
   ): AsyncIterableIterator<Software[]> {
-    let result: SoftwareInventoriesListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBySubscription(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

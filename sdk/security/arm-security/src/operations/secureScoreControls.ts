@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SecureScoreControls } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,9 +16,9 @@ import {
   SecureScoreControlDetails,
   SecureScoreControlsListBySecureScoreNextOptionalParams,
   SecureScoreControlsListBySecureScoreOptionalParams,
-  SecureScoreControlsListBySecureScoreResponse,
   SecureScoreControlsListNextOptionalParams,
   SecureScoreControlsListOptionalParams,
+  SecureScoreControlsListBySecureScoreResponse,
   SecureScoreControlsListResponse,
   SecureScoreControlsListBySecureScoreNextResponse,
   SecureScoreControlsListNextResponse
@@ -56,33 +55,19 @@ export class SecureScoreControlsImpl implements SecureScoreControls {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySecureScorePagingPage(
-          secureScoreName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listBySecureScorePagingPage(secureScoreName, options);
       }
     };
   }
 
   private async *listBySecureScorePagingPage(
     secureScoreName: string,
-    options?: SecureScoreControlsListBySecureScoreOptionalParams,
-    settings?: PageSettings
+    options?: SecureScoreControlsListBySecureScoreOptionalParams
   ): AsyncIterableIterator<SecureScoreControlDetails[]> {
-    let result: SecureScoreControlsListBySecureScoreResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySecureScore(secureScoreName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBySecureScore(secureScoreName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBySecureScoreNext(
         secureScoreName,
@@ -90,9 +75,7 @@ export class SecureScoreControlsImpl implements SecureScoreControls {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -123,34 +106,22 @@ export class SecureScoreControlsImpl implements SecureScoreControls {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
+      byPage: () => {
+        return this.listPagingPage(options);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: SecureScoreControlsListOptionalParams,
-    settings?: PageSettings
+    options?: SecureScoreControlsListOptionalParams
   ): AsyncIterableIterator<SecureScoreControlDetails[]> {
-    let result: SecureScoreControlsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

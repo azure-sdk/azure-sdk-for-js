@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Alerts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,15 +18,15 @@ import {
   Alert,
   AlertsListNextOptionalParams,
   AlertsListOptionalParams,
-  AlertsListResponse,
   AlertsListByResourceGroupNextOptionalParams,
   AlertsListByResourceGroupOptionalParams,
-  AlertsListByResourceGroupResponse,
   AlertsListSubscriptionLevelByRegionNextOptionalParams,
   AlertsListSubscriptionLevelByRegionOptionalParams,
-  AlertsListSubscriptionLevelByRegionResponse,
   AlertsListResourceGroupLevelByRegionNextOptionalParams,
   AlertsListResourceGroupLevelByRegionOptionalParams,
+  AlertsListResponse,
+  AlertsListByResourceGroupResponse,
+  AlertsListSubscriptionLevelByRegionResponse,
   AlertsListResourceGroupLevelByRegionResponse,
   AlertsGetSubscriptionLevelOptionalParams,
   AlertsGetSubscriptionLevelResponse,
@@ -77,34 +76,22 @@ export class AlertsImpl implements Alerts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
+      byPage: () => {
+        return this.listPagingPage(options);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: AlertsListOptionalParams,
-    settings?: PageSettings
+    options?: AlertsListOptionalParams
   ): AsyncIterableIterator<Alert[]> {
-    let result: AlertsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -134,33 +121,19 @@ export class AlertsImpl implements Alerts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: AlertsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: AlertsListByResourceGroupOptionalParams
   ): AsyncIterableIterator<Alert[]> {
-    let result: AlertsListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -168,9 +141,7 @@ export class AlertsImpl implements Alerts {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -207,14 +178,10 @@ export class AlertsImpl implements Alerts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listSubscriptionLevelByRegionPagingPage(
           ascLocation,
-          options,
-          settings
+          options
         );
       }
     };
@@ -222,18 +189,14 @@ export class AlertsImpl implements Alerts {
 
   private async *listSubscriptionLevelByRegionPagingPage(
     ascLocation: string,
-    options?: AlertsListSubscriptionLevelByRegionOptionalParams,
-    settings?: PageSettings
+    options?: AlertsListSubscriptionLevelByRegionOptionalParams
   ): AsyncIterableIterator<Alert[]> {
-    let result: AlertsListSubscriptionLevelByRegionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSubscriptionLevelByRegion(ascLocation, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSubscriptionLevelByRegion(
+      ascLocation,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSubscriptionLevelByRegionNext(
         ascLocation,
@@ -241,9 +204,7 @@ export class AlertsImpl implements Alerts {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -285,15 +246,11 @@ export class AlertsImpl implements Alerts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listResourceGroupLevelByRegionPagingPage(
           ascLocation,
           resourceGroupName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -302,22 +259,15 @@ export class AlertsImpl implements Alerts {
   private async *listResourceGroupLevelByRegionPagingPage(
     ascLocation: string,
     resourceGroupName: string,
-    options?: AlertsListResourceGroupLevelByRegionOptionalParams,
-    settings?: PageSettings
+    options?: AlertsListResourceGroupLevelByRegionOptionalParams
   ): AsyncIterableIterator<Alert[]> {
-    let result: AlertsListResourceGroupLevelByRegionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listResourceGroupLevelByRegion(
-        ascLocation,
-        resourceGroupName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listResourceGroupLevelByRegion(
+      ascLocation,
+      resourceGroupName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listResourceGroupLevelByRegionNext(
         ascLocation,
@@ -326,9 +276,7 @@ export class AlertsImpl implements Alerts {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
