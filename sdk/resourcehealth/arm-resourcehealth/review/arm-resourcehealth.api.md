@@ -9,7 +9,7 @@ import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
-export type AvailabilityStateValues = "Available" | "Unavailable" | "Unknown";
+export type AvailabilityStateValues = string;
 
 // @public
 export interface AvailabilityStatus {
@@ -108,124 +108,22 @@ export interface AvailabilityStatusProperties {
     occuredTime?: Date;
     reasonChronicity?: ReasonChronicityTypes;
     reasonType?: string;
-    recentlyResolvedState?: AvailabilityStatusPropertiesRecentlyResolvedState;
+    recentlyResolved?: AvailabilityStatusPropertiesRecentlyResolved;
     recommendedActions?: RecommendedAction[];
     reportedTime?: Date;
     resolutionETA?: Date;
     rootCauseAttributionTime?: Date;
     serviceImpactingEvents?: ServiceImpactingEvent[];
     summary?: string;
+    title?: string;
 }
 
 // @public
-export interface AvailabilityStatusPropertiesRecentlyResolvedState {
+export interface AvailabilityStatusPropertiesRecentlyResolved {
     resolvedTime?: Date;
-    unavailabilitySummary?: string;
-    unavailableOccurredTime?: Date;
+    unavailableOccuredTime?: Date;
+    unavailableSummary?: string;
 }
-
-// @public
-export interface ChildAvailabilityStatuses {
-    getByResource(resourceUri: string, options?: ChildAvailabilityStatusesGetByResourceOptionalParams): Promise<ChildAvailabilityStatusesGetByResourceResponse>;
-    list(resourceUri: string, options?: ChildAvailabilityStatusesListOptionalParams): PagedAsyncIterableIterator<AvailabilityStatus>;
-}
-
-// @public
-export interface ChildAvailabilityStatusesGetByResourceOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-}
-
-// @public
-export type ChildAvailabilityStatusesGetByResourceResponse = AvailabilityStatus;
-
-// @public
-export interface ChildAvailabilityStatusesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-}
-
-// @public
-export type ChildAvailabilityStatusesListNextResponse = AvailabilityStatusListResult;
-
-// @public
-export interface ChildAvailabilityStatusesListOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-}
-
-// @public
-export type ChildAvailabilityStatusesListResponse = AvailabilityStatusListResult;
-
-// @public
-export interface ChildResources {
-    list(resourceUri: string, options?: ChildResourcesListOptionalParams): PagedAsyncIterableIterator<AvailabilityStatus>;
-}
-
-// @public
-export interface ChildResourcesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-}
-
-// @public
-export type ChildResourcesListNextResponse = AvailabilityStatusListResult;
-
-// @public
-export interface ChildResourcesListOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-}
-
-// @public
-export type ChildResourcesListResponse = AvailabilityStatusListResult;
-
-// @public
-export interface EmergingIssueImpact {
-    id?: string;
-    name?: string;
-    regions?: ImpactedRegion[];
-}
-
-// @public
-export interface EmergingIssueListResult {
-    nextLink?: string;
-    value?: EmergingIssuesGetResult[];
-}
-
-// @public
-export interface EmergingIssues {
-    get(options?: EmergingIssuesGetOptionalParams): Promise<EmergingIssuesGetResponse>;
-    list(options?: EmergingIssuesListOptionalParams): PagedAsyncIterableIterator<EmergingIssuesGetResult>;
-}
-
-// @public
-export interface EmergingIssuesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EmergingIssuesGetResponse = EmergingIssuesGetResult;
-
-// @public
-export interface EmergingIssuesGetResult extends Resource {
-    refreshTimestamp?: Date;
-    statusActiveEvents?: StatusActiveEvent[];
-    statusBanners?: StatusBanner[];
-}
-
-// @public
-export interface EmergingIssuesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EmergingIssuesListNextResponse = EmergingIssueListResult;
-
-// @public
-export interface EmergingIssuesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EmergingIssuesListResponse = EmergingIssueListResult;
 
 // @public
 export interface ErrorResponse {
@@ -241,17 +139,33 @@ export interface ImpactedRegion {
 }
 
 // @public
-export enum KnownSeverityValues {
-    Error = "Error",
-    Information = "Information",
-    Warning = "Warning"
+export interface ImpactedResourceStatus extends Resource {
+    availabilityState?: AvailabilityStateValues;
+    occurredTime?: Date;
+    reasonType?: ReasonTypeValues;
+    summary?: string;
+    title?: string;
 }
 
 // @public
-export enum KnownStageValues {
-    Active = "Active",
-    Archived = "Archived",
-    Resolve = "Resolve"
+export enum KnownAvailabilityStateValues {
+    Available = "Available",
+    Degraded = "Degraded",
+    Unavailable = "Unavailable",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownReasonChronicityTypes {
+    Persistent = "Persistent",
+    Transient = "Transient"
+}
+
+// @public
+export enum KnownReasonTypeValues {
+    Planned = "Planned",
+    Unplanned = "Unplanned",
+    UserInitiated = "UserInitiated"
 }
 
 // @public (undocumented)
@@ -263,12 +177,6 @@ export class MicrosoftResourceHealth extends coreClient.ServiceClient {
     apiVersion: string;
     // (undocumented)
     availabilityStatuses: AvailabilityStatuses;
-    // (undocumented)
-    childAvailabilityStatuses: ChildAvailabilityStatuses;
-    // (undocumented)
-    childResources: ChildResources;
-    // (undocumented)
-    emergingIssues: EmergingIssues;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -314,7 +222,10 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-export type ReasonChronicityTypes = "Transient" | "Persistent";
+export type ReasonChronicityTypes = string;
+
+// @public
+export type ReasonTypeValues = string;
 
 // @public
 export interface RecommendedAction {
@@ -350,26 +261,6 @@ export interface ServiceImpactingEventIncidentProperties {
 // @public
 export interface ServiceImpactingEventStatus {
     value?: string;
-}
-
-// @public
-export type SeverityValues = string;
-
-// @public
-export type StageValues = string;
-
-// @public
-export interface StatusActiveEvent {
-    cloud?: string;
-    description?: string;
-    impacts?: EmergingIssueImpact[];
-    lastModifiedTime?: Date;
-    published?: boolean;
-    severity?: SeverityValues;
-    stage?: StageValues;
-    startTime?: Date;
-    title?: string;
-    trackingId?: string;
 }
 
 // @public
