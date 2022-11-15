@@ -53,6 +53,7 @@ export type CentralServerVirtualMachineType = string;
 
 // @public
 export interface CentralServerVmDetails {
+    readonly storageDetails?: StorageInformation[];
     readonly type?: CentralServerVirtualMachineType;
     readonly virtualMachineId?: string;
 }
@@ -93,6 +94,7 @@ export type DatabaseType = string;
 // @public
 export interface DatabaseVmDetails {
     readonly status?: SAPVirtualInstanceStatus;
+    readonly storageDetails?: StorageInformation[];
     readonly virtualMachineId?: string;
 }
 
@@ -106,6 +108,8 @@ export interface DB2ProviderInstanceProperties extends ProviderSpecificPropertie
     hostname?: string;
     providerType: "Db2";
     sapSid?: string;
+    sslCertificateUri?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
@@ -217,6 +221,12 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface ExternalInstallationSoftwareConfiguration extends SoftwareConfiguration {
+    centralServerVmId?: string;
+    softwareInstallationType: "External";
+}
+
+// @public
 export interface FileshareProfile {
     readonly shareName?: string;
     shareSizeInGB?: number;
@@ -251,7 +261,9 @@ export interface HanaDbProviderInstanceProperties extends ProviderSpecificProper
     instanceNumber?: string;
     providerType: "SapHana";
     sqlPort?: string;
+    sslCertificateUri?: string;
     sslHostNameInCertificate?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
@@ -513,6 +525,7 @@ export enum KnownSAPProductType {
 
 // @public
 export enum KnownSAPSoftwareInstallationType {
+    External = "External",
     SAPInstallWithoutOSConfig = "SAPInstallWithoutOSConfig",
     ServiceInitiated = "ServiceInitiated"
 }
@@ -535,6 +548,8 @@ export enum KnownSAPVirtualInstanceState {
     InfrastructureDeploymentInProgress = "InfrastructureDeploymentInProgress",
     InfrastructureDeploymentPending = "InfrastructureDeploymentPending",
     RegistrationComplete = "RegistrationComplete",
+    SoftwareDetectionFailed = "SoftwareDetectionFailed",
+    SoftwareDetectionInProgress = "SoftwareDetectionInProgress",
     SoftwareInstallationFailed = "SoftwareInstallationFailed",
     SoftwareInstallationInProgress = "SoftwareInstallationInProgress",
     SoftwareInstallationPending = "SoftwareInstallationPending"
@@ -577,6 +592,13 @@ export enum KnownSkuScaleType {
 }
 
 // @public
+export enum KnownSslPreference {
+    Disabled = "Disabled",
+    RootCertificate = "RootCertificate",
+    ServerCertificate = "ServerCertificate"
+}
+
+// @public
 export enum KnownWordpressVersions {
     Five4 = "5.4",
     Five41 = "5.4.1",
@@ -615,6 +637,11 @@ export interface LinuxConfiguration extends OSConfiguration {
 }
 
 // @public
+export interface LoadBalancerDetails {
+    readonly id?: string;
+}
+
+// @public
 export type LoadBalancerType = string;
 
 // @public
@@ -650,6 +677,8 @@ export interface Monitor extends TrackedResource {
     readonly msiArmId?: string;
     readonly provisioningState?: WorkloadMonitorProvisioningState;
     routingPreference?: RoutingPreference;
+    readonly storageAccountArmId?: string;
+    zoneRedundancyPreference?: string;
 }
 
 // @public
@@ -743,6 +772,8 @@ export interface MsSqlServerProviderInstanceProperties extends ProviderSpecificP
     hostname?: string;
     providerType: "MsSqlServer";
     sapSid?: string;
+    sslCertificateUri?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
@@ -1048,12 +1079,16 @@ export interface PrometheusHaClusterProviderInstanceProperties extends ProviderS
     prometheusUrl?: string;
     providerType: "PrometheusHaCluster";
     sid?: string;
+    sslCertificateUri?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
 export interface PrometheusOSProviderInstanceProperties extends ProviderSpecificProperties {
     prometheusUrl?: string;
     providerType: "PrometheusOS";
+    sslCertificateUri?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
@@ -1169,6 +1204,7 @@ export interface SAPApplicationServerInstance extends TrackedResource {
     readonly kernelVersion?: string;
     readonly provisioningState?: SapVirtualInstanceProvisioningState;
     readonly status?: SAPVirtualInstanceStatus;
+    readonly storageDetails?: StorageInformation[];
     readonly subnet?: string;
     readonly virtualMachineId?: string;
 }
@@ -1345,6 +1381,7 @@ export interface SAPCentralServerInstance extends TrackedResource {
     readonly instanceNo?: string;
     readonly kernelPatch?: string;
     readonly kernelVersion?: string;
+    readonly loadBalancerDetails?: LoadBalancerDetails;
     messageServerProperties?: MessageServerProperties;
     readonly provisioningState?: SapVirtualInstanceProvisioningState;
     readonly status?: SAPVirtualInstanceStatus;
@@ -1369,6 +1406,7 @@ export interface SAPDatabaseInstance extends TrackedResource {
     readonly databaseType?: string;
     readonly errors?: SAPVirtualInstanceError;
     readonly ipAddress?: string;
+    readonly loadBalancerDetails?: LoadBalancerDetails;
     readonly provisioningState?: SapVirtualInstanceProvisioningState;
     readonly status?: SAPVirtualInstanceStatus;
     readonly subnet?: string;
@@ -1517,6 +1555,8 @@ export interface SapNetWeaverProviderInstanceProperties extends ProviderSpecific
     sapSid?: string;
     sapSslCertificateUri?: string;
     sapUsername?: string;
+    sslCertificateUri?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
@@ -1862,11 +1902,11 @@ export interface SkuZoneDetail {
 
 // @public
 export interface SoftwareConfiguration {
-    softwareInstallationType: "ServiceInitiated" | "SAPInstallWithoutOSConfig";
+    softwareInstallationType: "ServiceInitiated" | "SAPInstallWithoutOSConfig" | "External";
 }
 
 // @public (undocumented)
-export type SoftwareConfigurationUnion = SoftwareConfiguration | ServiceInitiatedSoftwareConfiguration | SAPInstallWithoutOSConfigSoftwareConfiguration;
+export type SoftwareConfigurationUnion = SoftwareConfiguration | ServiceInitiatedSoftwareConfiguration | SAPInstallWithoutOSConfigSoftwareConfiguration | ExternalInstallationSoftwareConfiguration;
 
 // @public
 export interface SshConfiguration {
@@ -1885,8 +1925,16 @@ export interface SshPublicKey {
 }
 
 // @public
+export type SslPreference = string;
+
+// @public
 export interface StopRequest {
     hardStop?: boolean;
+}
+
+// @public
+export interface StorageInformation {
+    readonly id?: string;
 }
 
 // @public
