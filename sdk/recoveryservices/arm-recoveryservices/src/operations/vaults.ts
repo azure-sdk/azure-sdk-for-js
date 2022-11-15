@@ -462,7 +462,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -483,8 +483,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -515,8 +515,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -536,8 +536,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -568,8 +568,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -610,7 +610,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

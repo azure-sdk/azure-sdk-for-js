@@ -110,8 +110,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -133,8 +133,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -157,8 +157,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",

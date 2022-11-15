@@ -14,6 +14,7 @@ import {
 import {
   CertificateRequest as CertificateRequestMapper,
   CheckNameAvailabilityParameters as CheckNameAvailabilityParametersMapper,
+  ResourceCapabilities as ResourceCapabilitiesMapper,
   Vault as VaultMapper,
   PatchVault as PatchVaultMapper,
   VaultExtendedInfoResource as VaultExtendedInfoResourceMapper
@@ -63,6 +64,9 @@ export const $host: OperationURLParameter = {
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
+    constraints: {
+      MinLength: 1
+    },
     serializedName: "subscriptionId",
     required: true,
     type: {
@@ -74,7 +78,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-04-01",
+    defaultValue: "2022-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -86,6 +90,10 @@ export const apiVersion: OperationQueryParameter = {
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
+    },
     serializedName: "resourceGroupName",
     required: true,
     type: {
@@ -120,6 +128,17 @@ export const identityName: OperationURLParameter = {
   parameterPath: "identityName",
   mapper: {
     serializedName: "identityName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const resourceGroupName1: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    serializedName: "resourceGroupName",
     required: true,
     type: {
       name: "String"
@@ -164,6 +183,11 @@ export const location: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const input1: OperationParameter = {
+  parameterPath: "input",
+  mapper: ResourceCapabilitiesMapper
 };
 
 export const vault: OperationParameter = {

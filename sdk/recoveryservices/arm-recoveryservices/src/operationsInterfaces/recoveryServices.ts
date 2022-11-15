@@ -9,7 +9,10 @@
 import {
   CheckNameAvailabilityParameters,
   RecoveryServicesCheckNameAvailabilityOptionalParams,
-  RecoveryServicesCheckNameAvailabilityResponse
+  RecoveryServicesCheckNameAvailabilityResponse,
+  ResourceCapabilities,
+  RecoveryServicesCapabilitiesOptionalParams,
+  RecoveryServicesCapabilitiesResponse
 } from "../models";
 
 /** Interface representing a RecoveryServices. */
@@ -32,4 +35,15 @@ export interface RecoveryServices {
     input: CheckNameAvailabilityParameters,
     options?: RecoveryServicesCheckNameAvailabilityOptionalParams
   ): Promise<RecoveryServicesCheckNameAvailabilityResponse>;
+  /**
+   * API to get details about capabilities provided by Microsoft.RecoveryServices RP
+   * @param location Location of the resource
+   * @param input Contains information about Resource type and properties to get capabilities
+   * @param options The options parameters.
+   */
+  capabilities(
+    location: string,
+    input: ResourceCapabilities,
+    options?: RecoveryServicesCapabilitiesOptionalParams
+  ): Promise<RecoveryServicesCapabilitiesResponse>;
 }
