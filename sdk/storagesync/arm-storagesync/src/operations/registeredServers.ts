@@ -23,6 +23,9 @@ import {
   RegisteredServerCreateParameters,
   RegisteredServersCreateOptionalParams,
   RegisteredServersCreateResponse,
+  RegisteredServerUpdateParameters,
+  RegisteredServersUpdateOptionalParams,
+  RegisteredServersUpdateResponse,
   RegisteredServersDeleteOptionalParams,
   RegisteredServersDeleteResponse,
   TriggerRolloverRequest,
@@ -233,6 +236,109 @@ export class RegisteredServersImpl implements RegisteredServers {
     options?: RegisteredServersCreateOptionalParams
   ): Promise<RegisteredServersCreateResponse> {
     const poller = await this.beginCreate(
+      resourceGroupName,
+      storageSyncServiceName,
+      serverId,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Update registered server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageSyncServiceName Name of Storage Sync Service resource.
+   * @param serverId GUID identifying the on-premises server.
+   * @param parameters Body of Registered Server object.
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    serverId: string,
+    parameters: RegisteredServerUpdateParameters,
+    options?: RegisteredServersUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<RegisteredServersUpdateResponse>,
+      RegisteredServersUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<RegisteredServersUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        storageSyncServiceName,
+        serverId,
+        parameters,
+        options
+      },
+      updateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update registered server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageSyncServiceName Name of Storage Sync Service resource.
+   * @param serverId GUID identifying the on-premises server.
+   * @param parameters Body of Registered Server object.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    serverId: string,
+    parameters: RegisteredServerUpdateParameters,
+    options?: RegisteredServersUpdateOptionalParams
+  ): Promise<RegisteredServersUpdateResponse> {
+    const poller = await this.beginUpdate(
       resourceGroupName,
       storageSyncServiceName,
       serverId,
@@ -525,6 +631,44 @@ const createOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/registeredServers/{serverId}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RegisteredServer,
+      headersMapper: Mappers.RegisteredServersUpdateHeaders
+    },
+    201: {
+      bodyMapper: Mappers.RegisteredServer,
+      headersMapper: Mappers.RegisteredServersUpdateHeaders
+    },
+    202: {
+      bodyMapper: Mappers.RegisteredServer,
+      headersMapper: Mappers.RegisteredServersUpdateHeaders
+    },
+    204: {
+      bodyMapper: Mappers.RegisteredServer,
+      headersMapper: Mappers.RegisteredServersUpdateHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageSyncError
+    }
+  },
+  requestBody: Parameters.parameters13,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.storageSyncServiceName,
+    Parameters.serverId
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/registeredServers/{serverId}",
@@ -578,7 +722,7 @@ const triggerRolloverOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.StorageSyncError
     }
   },
-  requestBody: Parameters.parameters13,
+  requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
