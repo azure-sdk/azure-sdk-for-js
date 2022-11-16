@@ -1,15 +1,60 @@
 # Release History
+    
+## 10.0.0 (2022-11-16)
+    
+**Breaking Changes**
 
-## 9.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group AggregatedCost
+  - Removed operation group Balances
+  - Removed operation group Budgets
+  - Removed operation group Charges
+  - Removed operation group Credits
+  - Removed operation group EventsOperations
+  - Removed operation group LotsOperations
+  - Removed operation group Marketplaces
+  - Removed operation group ReservationRecommendationDetails
+  - Removed operation group ReservationRecommendations
+  - Removed operation group ReservationsDetails
+  - Removed operation group ReservationsSummaries
+  - Removed operation group ReservationTransactions
+  - Removed operation group Tags
+  - Removed operation group UsageDetails
+  - Class ConsumptionManagementClient no longer has parameter aggregatedCost
+  - Class ConsumptionManagementClient no longer has parameter balances
+  - Class ConsumptionManagementClient no longer has parameter budgets
+  - Class ConsumptionManagementClient no longer has parameter charges
+  - Class ConsumptionManagementClient no longer has parameter credits
+  - Class ConsumptionManagementClient no longer has parameter eventsOperations
+  - Class ConsumptionManagementClient no longer has parameter lotsOperations
+  - Class ConsumptionManagementClient no longer has parameter marketplaces
+  - Class ConsumptionManagementClient no longer has parameter reservationRecommendationDetails
+  - Class ConsumptionManagementClient no longer has parameter reservationRecommendations
+  - Class ConsumptionManagementClient no longer has parameter reservationsDetails
+  - Class ConsumptionManagementClient no longer has parameter reservationsSummaries
+  - Class ConsumptionManagementClient no longer has parameter reservationTransactions
+  - Class ConsumptionManagementClient no longer has parameter tags
+  - Class ConsumptionManagementClient no longer has parameter usageDetails
+  - Removed Enum KnownBillingFrequency
+  - Removed Enum KnownBudgetOperatorType
+  - Removed Enum KnownCategoryType
+  - Removed Enum KnownChargeSummaryKind
+  - Removed Enum KnownCultureCode
+  - Removed Enum KnownDatagrain
+  - Removed Enum KnownEventType
+  - Removed Enum KnownLookBackPeriod
+  - Removed Enum KnownLotSource
+  - Removed Enum KnownMetrictype
+  - Removed Enum KnownOperatorType
+  - Removed Enum KnownPricingModelType
+  - Removed Enum KnownReservationRecommendationKind
+  - Removed Enum KnownScope
+  - Removed Enum KnownStatus
+  - Removed Enum KnownTerm
+  - Removed Enum KnownThresholdType
+  - Removed Enum KnownTimeGrainType
+  - Removed Enum KnownUsageDetailsKind
+    
+    
 ## 9.1.0 (2022-09-05)
     
 **Features**

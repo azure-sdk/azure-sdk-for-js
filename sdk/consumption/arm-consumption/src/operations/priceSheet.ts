@@ -100,8 +100,8 @@ const getByBillingPeriodOperationSpec: coreClient.OperationSpec = {
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.billingPeriodName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.billingPeriodName
   ],
   headerParameters: [Parameters.accept],
   serializer
