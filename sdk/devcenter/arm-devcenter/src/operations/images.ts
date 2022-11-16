@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Images } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,9 +16,9 @@ import {
   Image,
   ImagesListByDevCenterNextOptionalParams,
   ImagesListByDevCenterOptionalParams,
-  ImagesListByDevCenterResponse,
   ImagesListByGalleryNextOptionalParams,
   ImagesListByGalleryOptionalParams,
+  ImagesListByDevCenterResponse,
   ImagesListByGalleryResponse,
   ImagesGetOptionalParams,
   ImagesGetResponse,
@@ -63,15 +62,11 @@ export class ImagesImpl implements Images {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByDevCenterPagingPage(
           resourceGroupName,
           devCenterName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -80,22 +75,15 @@ export class ImagesImpl implements Images {
   private async *listByDevCenterPagingPage(
     resourceGroupName: string,
     devCenterName: string,
-    options?: ImagesListByDevCenterOptionalParams,
-    settings?: PageSettings
+    options?: ImagesListByDevCenterOptionalParams
   ): AsyncIterableIterator<Image[]> {
-    let result: ImagesListByDevCenterResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByDevCenter(
-        resourceGroupName,
-        devCenterName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByDevCenter(
+      resourceGroupName,
+      devCenterName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByDevCenterNext(
         resourceGroupName,
@@ -104,9 +92,7 @@ export class ImagesImpl implements Images {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -150,16 +136,12 @@ export class ImagesImpl implements Images {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByGalleryPagingPage(
           resourceGroupName,
           devCenterName,
           galleryName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -169,23 +151,16 @@ export class ImagesImpl implements Images {
     resourceGroupName: string,
     devCenterName: string,
     galleryName: string,
-    options?: ImagesListByGalleryOptionalParams,
-    settings?: PageSettings
+    options?: ImagesListByGalleryOptionalParams
   ): AsyncIterableIterator<Image[]> {
-    let result: ImagesListByGalleryResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByGallery(
-        resourceGroupName,
-        devCenterName,
-        galleryName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByGallery(
+      resourceGroupName,
+      devCenterName,
+      galleryName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByGalleryNext(
         resourceGroupName,
@@ -195,9 +170,7 @@ export class ImagesImpl implements Images {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

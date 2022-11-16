@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { NetworkConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,14 +18,13 @@ import {
   NetworkConnection,
   NetworkConnectionsListBySubscriptionNextOptionalParams,
   NetworkConnectionsListBySubscriptionOptionalParams,
-  NetworkConnectionsListBySubscriptionResponse,
   NetworkConnectionsListByResourceGroupNextOptionalParams,
   NetworkConnectionsListByResourceGroupOptionalParams,
-  NetworkConnectionsListByResourceGroupResponse,
   HealthCheckStatusDetails,
   NetworkConnectionsListHealthDetailsNextOptionalParams,
   NetworkConnectionsListHealthDetailsOptionalParams,
-  NetworkConnectionsListHealthDetailsResponse,
+  NetworkConnectionsListBySubscriptionResponse,
+  NetworkConnectionsListByResourceGroupResponse,
   NetworkConnectionsGetOptionalParams,
   NetworkConnectionsGetResponse,
   NetworkConnectionsCreateOrUpdateOptionalParams,
@@ -35,6 +33,7 @@ import {
   NetworkConnectionsUpdateOptionalParams,
   NetworkConnectionsUpdateResponse,
   NetworkConnectionsDeleteOptionalParams,
+  NetworkConnectionsListHealthDetailsResponse,
   NetworkConnectionsGetHealthDetailsOptionalParams,
   NetworkConnectionsGetHealthDetailsResponse,
   NetworkConnectionsRunHealthChecksOptionalParams,
@@ -71,34 +70,22 @@ export class NetworkConnectionsImpl implements NetworkConnections {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
+      byPage: () => {
+        return this.listBySubscriptionPagingPage(options);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: NetworkConnectionsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    options?: NetworkConnectionsListBySubscriptionOptionalParams
   ): AsyncIterableIterator<NetworkConnection[]> {
-    let result: NetworkConnectionsListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBySubscription(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -127,33 +114,19 @@ export class NetworkConnectionsImpl implements NetworkConnections {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: NetworkConnectionsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: NetworkConnectionsListByResourceGroupOptionalParams
   ): AsyncIterableIterator<NetworkConnection[]> {
-    let result: NetworkConnectionsListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -161,9 +134,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -202,15 +173,11 @@ export class NetworkConnectionsImpl implements NetworkConnections {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listHealthDetailsPagingPage(
           resourceGroupName,
           networkConnectionName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -219,22 +186,15 @@ export class NetworkConnectionsImpl implements NetworkConnections {
   private async *listHealthDetailsPagingPage(
     resourceGroupName: string,
     networkConnectionName: string,
-    options?: NetworkConnectionsListHealthDetailsOptionalParams,
-    settings?: PageSettings
+    options?: NetworkConnectionsListHealthDetailsOptionalParams
   ): AsyncIterableIterator<HealthCheckStatusDetails[]> {
-    let result: NetworkConnectionsListHealthDetailsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listHealthDetails(
-        resourceGroupName,
-        networkConnectionName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listHealthDetails(
+      resourceGroupName,
+      networkConnectionName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listHealthDetailsNext(
         resourceGroupName,
@@ -243,9 +203,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -618,15 +576,82 @@ export class NetworkConnectionsImpl implements NetworkConnections {
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
-  runHealthChecks(
+  async beginRunHealthChecks(
+    resourceGroupName: string,
+    networkConnectionName: string,
+    options?: NetworkConnectionsRunHealthChecksOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, networkConnectionName, options },
+      runHealthChecksOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Triggers a new health check run. The execution and health check result can be tracked via the
+   * network Connection health check details
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
+   * @param options The options parameters.
+   */
+  async beginRunHealthChecksAndWait(
     resourceGroupName: string,
     networkConnectionName: string,
     options?: NetworkConnectionsRunHealthChecksOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, networkConnectionName, options },
-      runHealthChecksOperationSpec
+    const poller = await this.beginRunHealthChecks(
+      resourceGroupName,
+      networkConnectionName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -882,6 +907,9 @@ const runHealthChecksOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

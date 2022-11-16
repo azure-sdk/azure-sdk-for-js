@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Pools } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -67,15 +66,11 @@ export class PoolsImpl implements Pools {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByProjectPagingPage(
           resourceGroupName,
           projectName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -84,22 +79,15 @@ export class PoolsImpl implements Pools {
   private async *listByProjectPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: PoolsListByProjectOptionalParams,
-    settings?: PageSettings
+    options?: PoolsListByProjectOptionalParams
   ): AsyncIterableIterator<Pool[]> {
-    let result: PoolsListByProjectResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByProject(
-        resourceGroupName,
-        projectName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByProject(
+      resourceGroupName,
+      projectName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByProjectNext(
         resourceGroupName,
@@ -108,9 +96,7 @@ export class PoolsImpl implements Pools {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
