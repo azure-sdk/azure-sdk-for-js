@@ -33,6 +33,12 @@ import {
   MigrateInput,
   ReplicationMigrationItemsMigrateOptionalParams,
   ReplicationMigrationItemsMigrateResponse,
+  PauseReplicationInput,
+  ReplicationMigrationItemsPauseReplicationOptionalParams,
+  ReplicationMigrationItemsPauseReplicationResponse,
+  ResumeReplicationInput,
+  ReplicationMigrationItemsResumeReplicationOptionalParams,
+  ReplicationMigrationItemsResumeReplicationResponse,
   ResyncInput,
   ReplicationMigrationItemsResyncOptionalParams,
   ReplicationMigrationItemsResyncResponse,
@@ -282,10 +288,12 @@ export class ReplicationMigrationItemsImpl
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -370,10 +378,12 @@ export class ReplicationMigrationItemsImpl
       { fabricName, protectionContainerName, migrationItemName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -468,10 +478,12 @@ export class ReplicationMigrationItemsImpl
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -569,10 +581,12 @@ export class ReplicationMigrationItemsImpl
       },
       migrateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -595,6 +609,212 @@ export class ReplicationMigrationItemsImpl
       protectionContainerName,
       migrationItemName,
       migrateInput,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * The operation to initiate pause replication of the item.
+   * @param fabricName Fabric name.
+   * @param protectionContainerName Protection container name.
+   * @param migrationItemName Migration item name.
+   * @param pauseReplicationInput Pause replication input.
+   * @param options The options parameters.
+   */
+  async beginPauseReplication(
+    fabricName: string,
+    protectionContainerName: string,
+    migrationItemName: string,
+    pauseReplicationInput: PauseReplicationInput,
+    options?: ReplicationMigrationItemsPauseReplicationOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ReplicationMigrationItemsPauseReplicationResponse>,
+      ReplicationMigrationItemsPauseReplicationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ReplicationMigrationItemsPauseReplicationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        fabricName,
+        protectionContainerName,
+        migrationItemName,
+        pauseReplicationInput,
+        options
+      },
+      pauseReplicationOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * The operation to initiate pause replication of the item.
+   * @param fabricName Fabric name.
+   * @param protectionContainerName Protection container name.
+   * @param migrationItemName Migration item name.
+   * @param pauseReplicationInput Pause replication input.
+   * @param options The options parameters.
+   */
+  async beginPauseReplicationAndWait(
+    fabricName: string,
+    protectionContainerName: string,
+    migrationItemName: string,
+    pauseReplicationInput: PauseReplicationInput,
+    options?: ReplicationMigrationItemsPauseReplicationOptionalParams
+  ): Promise<ReplicationMigrationItemsPauseReplicationResponse> {
+    const poller = await this.beginPauseReplication(
+      fabricName,
+      protectionContainerName,
+      migrationItemName,
+      pauseReplicationInput,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * The operation to initiate resume replication of the item.
+   * @param fabricName Fabric name.
+   * @param protectionContainerName Protection container name.
+   * @param migrationItemName Migration item name.
+   * @param resumeReplicationInput Resume replication input.
+   * @param options The options parameters.
+   */
+  async beginResumeReplication(
+    fabricName: string,
+    protectionContainerName: string,
+    migrationItemName: string,
+    resumeReplicationInput: ResumeReplicationInput,
+    options?: ReplicationMigrationItemsResumeReplicationOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ReplicationMigrationItemsResumeReplicationResponse>,
+      ReplicationMigrationItemsResumeReplicationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ReplicationMigrationItemsResumeReplicationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        fabricName,
+        protectionContainerName,
+        migrationItemName,
+        resumeReplicationInput,
+        options
+      },
+      resumeReplicationOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * The operation to initiate resume replication of the item.
+   * @param fabricName Fabric name.
+   * @param protectionContainerName Protection container name.
+   * @param migrationItemName Migration item name.
+   * @param resumeReplicationInput Resume replication input.
+   * @param options The options parameters.
+   */
+  async beginResumeReplicationAndWait(
+    fabricName: string,
+    protectionContainerName: string,
+    migrationItemName: string,
+    resumeReplicationInput: ResumeReplicationInput,
+    options?: ReplicationMigrationItemsResumeReplicationOptionalParams
+  ): Promise<ReplicationMigrationItemsResumeReplicationResponse> {
+    const poller = await this.beginResumeReplication(
+      fabricName,
+      protectionContainerName,
+      migrationItemName,
+      resumeReplicationInput,
       options
     );
     return poller.pollUntilDone();
@@ -670,10 +890,12 @@ export class ReplicationMigrationItemsImpl
       },
       resyncOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -771,10 +993,12 @@ export class ReplicationMigrationItemsImpl
       },
       testMigrateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -872,10 +1096,12 @@ export class ReplicationMigrationItemsImpl
       },
       testMigrateCleanupOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1103,6 +1329,72 @@ const migrateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.migrateInput,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName,
+    Parameters.fabricName,
+    Parameters.protectionContainerName,
+    Parameters.migrationItemName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const pauseReplicationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/pauseReplication",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MigrationItem
+    },
+    201: {
+      bodyMapper: Mappers.MigrationItem
+    },
+    202: {
+      bodyMapper: Mappers.MigrationItem
+    },
+    204: {
+      bodyMapper: Mappers.MigrationItem
+    }
+  },
+  requestBody: Parameters.pauseReplicationInput,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName,
+    Parameters.fabricName,
+    Parameters.protectionContainerName,
+    Parameters.migrationItemName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const resumeReplicationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/resumeReplication",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MigrationItem
+    },
+    201: {
+      bodyMapper: Mappers.MigrationItem
+    },
+    202: {
+      bodyMapper: Mappers.MigrationItem
+    },
+    204: {
+      bodyMapper: Mappers.MigrationItem
+    }
+  },
+  requestBody: Parameters.resumeReplicationInput,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
