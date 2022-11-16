@@ -881,9 +881,6 @@ export interface GenericResourceFilter {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface HttpMessage {
     content?: Record<string, unknown>;
 }
@@ -1647,7 +1644,14 @@ export interface Tags {
 }
 
 // @public
+export interface TagsCreateOrUpdateAtScopeHeaders {
+    location?: string;
+}
+
+// @public
 export interface TagsCreateOrUpdateAtScopeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1668,7 +1672,14 @@ export interface TagsCreateOrUpdateValueOptionalParams extends coreClient.Operat
 export type TagsCreateOrUpdateValueResponse = TagValue;
 
 // @public
+export interface TagsDeleteAtScopeHeaders {
+    location?: string;
+}
+
+// @public
 export interface TagsDeleteAtScopeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1708,15 +1719,18 @@ export interface TagsListResult {
 
 // @public
 export interface TagsOperations {
+    beginCreateOrUpdateAtScope(scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams): Promise<PollerLike<PollOperationState<TagsCreateOrUpdateAtScopeResponse>, TagsCreateOrUpdateAtScopeResponse>>;
+    beginCreateOrUpdateAtScopeAndWait(scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams): Promise<TagsCreateOrUpdateAtScopeResponse>;
+    beginDeleteAtScope(scope: string, options?: TagsDeleteAtScopeOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAtScopeAndWait(scope: string, options?: TagsDeleteAtScopeOptionalParams): Promise<void>;
+    beginUpdateAtScope(scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams): Promise<PollerLike<PollOperationState<TagsUpdateAtScopeResponse>, TagsUpdateAtScopeResponse>>;
+    beginUpdateAtScopeAndWait(scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams): Promise<TagsUpdateAtScopeResponse>;
     createOrUpdate(tagName: string, options?: TagsCreateOrUpdateOptionalParams): Promise<TagsCreateOrUpdateResponse>;
-    createOrUpdateAtScope(scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams): Promise<TagsCreateOrUpdateAtScopeResponse>;
     createOrUpdateValue(tagName: string, tagValue: string, options?: TagsCreateOrUpdateValueOptionalParams): Promise<TagsCreateOrUpdateValueResponse>;
     delete(tagName: string, options?: TagsDeleteOptionalParams): Promise<void>;
-    deleteAtScope(scope: string, options?: TagsDeleteAtScopeOptionalParams): Promise<void>;
     deleteValue(tagName: string, tagValue: string, options?: TagsDeleteValueOptionalParams): Promise<void>;
     getAtScope(scope: string, options?: TagsGetAtScopeOptionalParams): Promise<TagsGetAtScopeResponse>;
     list(options?: TagsListOptionalParams): PagedAsyncIterableIterator<TagDetails>;
-    updateAtScope(scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams): Promise<TagsUpdateAtScopeResponse>;
 }
 
 // @public
@@ -1737,7 +1751,14 @@ export interface TagsResource {
 }
 
 // @public
+export interface TagsUpdateAtScopeHeaders {
+    location?: string;
+}
+
+// @public
 export interface TagsUpdateAtScopeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
