@@ -36,15 +36,15 @@ export interface PatchSchedules {
    * Create or replace the patching schedule for Redis cache.
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the Redis cache.
-   * @param defaultParam Default string modeled as parameter for auto generation to work correctly.
    * @param parameters Parameters to set the patching schedule for Redis cache.
+   * @param defaultParam Default string modeled as parameter for auto generation to work correctly.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     name: string,
-    defaultParam: DefaultName,
     parameters: RedisPatchSchedule,
+    defaultParam: DefaultName,
     options?: PatchSchedulesCreateOrUpdateOptionalParams
   ): Promise<PatchSchedulesCreateOrUpdateResponse>;
   /**
