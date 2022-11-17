@@ -8,6 +8,51 @@
 
 import * as coreClient from "@azure/core-client";
 
+export const ExtensionInstallationRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExtensionInstallationRequest",
+    modelProperties: {
+      extensionVersion: {
+        constraints: {
+          MaxLength: 10,
+          MinLength: 3
+        },
+        serializedName: "extensionVersion",
+        type: {
+          name: "String"
+        }
+      },
+      additionalApiProperties: {
+        serializedName: "additionalApiProperties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Composite", className: "ApiProperties" } }
+        }
+      }
+    }
+  }
+};
+
+export const ApiProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiProperties",
+    modelProperties: {
+      apiFreshnessWindowInMinutes: {
+        constraints: {
+          InclusiveMaximum: 10080,
+          InclusiveMinimum: 0
+        },
+        serializedName: "apiFreshnessWindowInMinutes",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -338,14 +383,14 @@ export const Identity: coreClient.CompositeMapper = {
         serializedName: "principalId",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Uuid"
         }
       },
       tenantId: {
         serializedName: "tenantId",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Uuid"
         }
       },
       type: {
@@ -749,6 +794,18 @@ export const PrivateEndpointConnection: coreClient.CompositeMapper = {
     className: "PrivateEndpointConnection",
     modelProperties: {
       ...Resource.type.modelProperties,
+      groupIds: {
+        serializedName: "properties.groupIds",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       privateEndpoint: {
         serializedName: "properties.privateEndpoint",
         type: {
@@ -890,6 +947,14 @@ export const Extension: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      additionalApiProperties: {
+        serializedName: "properties.additionalApiProperties",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Composite", className: "ApiProperties" } }
         }
       }
     }

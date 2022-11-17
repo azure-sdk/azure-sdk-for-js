@@ -12,11 +12,29 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  ExtensionInstallationRequest as ExtensionInstallationRequestMapper,
   FarmBeats as FarmBeatsMapper,
   FarmBeatsUpdateRequestModel as FarmBeatsUpdateRequestModelMapper,
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper
 } from "../models/mappers";
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const requestBody: OperationParameter = {
+  parameterPath: ["options", "requestBody"],
+  mapper: ExtensionInstallationRequestMapper
+};
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -45,13 +63,10 @@ export const $host: OperationURLParameter = {
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };
@@ -230,18 +245,6 @@ export const farmBeatsExtensionId: OperationURLParameter = {
     },
     serializedName: "farmBeatsExtensionId",
     required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
     type: {
       name: "String"
     }

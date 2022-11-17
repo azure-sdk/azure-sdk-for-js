@@ -46,6 +46,11 @@ export interface AgriFoodMgmtClientOptionalParams extends coreClient.ServiceClie
 }
 
 // @public
+export interface ApiProperties {
+    apiFreshnessWindowInMinutes?: number;
+}
+
+// @public
 export interface ArmAsyncOperation {
     status?: string;
 }
@@ -100,12 +105,23 @@ export interface ErrorResponse {
 
 // @public
 export interface Extension extends ProxyResource {
+    readonly additionalApiProperties?: {
+        [propertyName: string]: ApiProperties;
+    };
     readonly eTag?: string;
     readonly extensionApiDocsLink?: string;
     readonly extensionAuthLink?: string;
     readonly extensionCategory?: string;
     readonly extensionId?: string;
     readonly installedExtensionVersion?: string;
+}
+
+// @public
+export interface ExtensionInstallationRequest {
+    additionalApiProperties?: {
+        [propertyName: string]: ApiProperties;
+    };
+    extensionVersion?: string;
 }
 
 // @public
@@ -116,19 +132,19 @@ export interface ExtensionListResponse {
 
 // @public
 export interface Extensions {
-    create(resourceGroupName: string, farmBeatsResourceName: string, extensionId: string, options?: ExtensionsCreateOptionalParams): Promise<ExtensionsCreateResponse>;
+    createOrUpdate(resourceGroupName: string, farmBeatsResourceName: string, extensionId: string, options?: ExtensionsCreateOrUpdateOptionalParams): Promise<ExtensionsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, farmBeatsResourceName: string, extensionId: string, options?: ExtensionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, farmBeatsResourceName: string, extensionId: string, options?: ExtensionsGetOptionalParams): Promise<ExtensionsGetResponse>;
     listByFarmBeats(resourceGroupName: string, farmBeatsResourceName: string, options?: ExtensionsListByFarmBeatsOptionalParams): PagedAsyncIterableIterator<Extension>;
-    update(resourceGroupName: string, farmBeatsResourceName: string, extensionId: string, options?: ExtensionsUpdateOptionalParams): Promise<ExtensionsUpdateResponse>;
 }
 
 // @public
-export interface ExtensionsCreateOptionalParams extends coreClient.OperationOptions {
+export interface ExtensionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    requestBody?: ExtensionInstallationRequest;
 }
 
 // @public
-export type ExtensionsCreateResponse = Extension;
+export type ExtensionsCreateOrUpdateResponse = Extension;
 
 // @public
 export interface ExtensionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -162,13 +178,6 @@ export interface ExtensionsListByFarmBeatsOptionalParams extends coreClient.Oper
 
 // @public
 export type ExtensionsListByFarmBeatsResponse = ExtensionListResponse;
-
-// @public
-export interface ExtensionsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExtensionsUpdateResponse = Extension;
 
 // @public
 export interface FarmBeats extends TrackedResource {
@@ -348,9 +357,6 @@ export interface FarmBeatsUpdateRequestModel {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -477,6 +483,7 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends Resource {
+    readonly groupIds?: string[];
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;

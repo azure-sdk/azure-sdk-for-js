@@ -8,10 +8,24 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** Extension Installation Request Body. */
+export interface ExtensionInstallationRequest {
+  /** Extension Version. */
+  extensionVersion?: string;
+  /** Additional Api Properties. */
+  additionalApiProperties?: { [propertyName: string]: ApiProperties };
+}
+
+/** Api properties. */
+export interface ApiProperties {
+  /** Interval in minutes for which the weather data for the api needs to be refreshed. */
+  apiFreshnessWindowInMinutes?: number;
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -144,12 +158,12 @@ export interface UnitSystemsInfo {
 /** Identity for the resource. */
 export interface Identity {
   /**
-   * The principal ID of resource identity.
+   * The principal ID of resource identity. The value must be an UUID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
   /**
-   * The tenant ID of resource.
+   * The tenant ID of resource. The value must be an UUID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
@@ -170,10 +184,10 @@ export interface SensorIntegration {
   provisioningInfo?: ErrorResponse;
 }
 
-/** The Private Endpoint resource. */
+/** The private endpoint resource. */
 export interface PrivateEndpoint {
   /**
-   * The ARM identifier for Private Endpoint
+   * The ARM identifier for private endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -311,13 +325,13 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-/** List of private endpoint connection associated with the specified storage account */
+/** List of private endpoint connections associated with the specified resource. */
 export interface PrivateEndpointConnectionListResult {
-  /** Array of private endpoint connections */
+  /** Array of private endpoint connections. */
   value?: PrivateEndpointConnection[];
 }
 
-/** A list of private link resources */
+/** A list of private link resources. */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
   value?: PrivateLinkResource[];
@@ -326,9 +340,14 @@ export interface PrivateLinkResourceListResult {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-/** The Private Endpoint Connection resource. */
+/** The private endpoint connection resource. */
 export interface PrivateEndpointConnection extends Resource {
-  /** The resource of private end point. */
+  /**
+   * The group ids for the private endpoint resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupIds?: string[];
+  /** The private endpoint resource. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
@@ -347,7 +366,7 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-/** A private link resource */
+/** A private link resource. */
 export interface PrivateLinkResource extends Resource {
   /**
    * The private link resource group id.
@@ -359,7 +378,7 @@ export interface PrivateLinkResource extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly requiredMembers?: string[];
-  /** The private link resource Private link DNS zone name. */
+  /** The private link resource private link DNS zone name. */
   requiredZoneNames?: string[];
 }
 
@@ -395,6 +414,11 @@ export interface Extension extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly extensionApiDocsLink?: string;
+  /**
+   * Additional api properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalApiProperties?: { [propertyName: string]: ApiProperties };
 }
 
 /** FarmBeats extension resource. */
@@ -473,7 +497,7 @@ export interface FarmBeats extends TrackedResource {
   /** Property to allow or block public traffic for an Azure FarmBeats resource. */
   publicNetworkAccess?: PublicNetworkAccess;
   /**
-   * The Private Endpoint Connection resource.
+   * The private endpoint connection resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection;
@@ -658,11 +682,14 @@ export enum KnownActionType {
 export type ActionType = string;
 
 /** Optional parameters. */
-export interface ExtensionsCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExtensionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Extension resource request body. */
+  requestBody?: ExtensionInstallationRequest;
+}
 
-/** Contains response data for the create operation. */
-export type ExtensionsCreateResponse = Extension;
+/** Contains response data for the createOrUpdate operation. */
+export type ExtensionsCreateOrUpdateResponse = Extension;
 
 /** Optional parameters. */
 export interface ExtensionsGetOptionalParams
@@ -670,13 +697,6 @@ export interface ExtensionsGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type ExtensionsGetResponse = Extension;
-
-/** Optional parameters. */
-export interface ExtensionsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type ExtensionsUpdateResponse = Extension;
 
 /** Optional parameters. */
 export interface ExtensionsDeleteOptionalParams

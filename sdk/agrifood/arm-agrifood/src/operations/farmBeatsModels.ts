@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { FarmBeatsModels } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,10 +18,8 @@ import {
   FarmBeats,
   FarmBeatsModelsListBySubscriptionNextOptionalParams,
   FarmBeatsModelsListBySubscriptionOptionalParams,
-  FarmBeatsModelsListBySubscriptionResponse,
   FarmBeatsModelsListByResourceGroupNextOptionalParams,
   FarmBeatsModelsListByResourceGroupOptionalParams,
-  FarmBeatsModelsListByResourceGroupResponse,
   FarmBeatsModelsGetOptionalParams,
   FarmBeatsModelsGetResponse,
   FarmBeatsModelsCreateOrUpdateOptionalParams,
@@ -31,6 +28,8 @@ import {
   FarmBeatsModelsUpdateOptionalParams,
   FarmBeatsModelsUpdateResponse,
   FarmBeatsModelsDeleteOptionalParams,
+  FarmBeatsModelsListBySubscriptionResponse,
+  FarmBeatsModelsListByResourceGroupResponse,
   FarmBeatsModelsGetOperationResultOptionalParams,
   FarmBeatsModelsGetOperationResultResponse,
   FarmBeatsModelsListBySubscriptionNextResponse,
@@ -65,34 +64,22 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
+      byPage: () => {
+        return this.listBySubscriptionPagingPage(options);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: FarmBeatsModelsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    options?: FarmBeatsModelsListBySubscriptionOptionalParams
   ): AsyncIterableIterator<FarmBeats[]> {
-    let result: FarmBeatsModelsListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBySubscription(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -121,33 +108,19 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: FarmBeatsModelsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: FarmBeatsModelsListByResourceGroupOptionalParams
   ): AsyncIterableIterator<FarmBeats[]> {
-    let result: FarmBeatsModelsListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -155,9 +128,7 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -446,7 +417,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.farmBeatsResourceName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -479,7 +450,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.farmBeatsResourceName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
