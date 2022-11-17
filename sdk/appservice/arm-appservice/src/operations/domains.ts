@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Domains } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,23 +18,22 @@ import {
   Domain,
   DomainsListNextOptionalParams,
   DomainsListOptionalParams,
-  DomainsListResponse,
   NameIdentifier,
   DomainRecommendationSearchParameters,
   DomainsListRecommendationsNextOptionalParams,
   DomainsListRecommendationsOptionalParams,
-  DomainsListRecommendationsResponse,
   DomainsListByResourceGroupNextOptionalParams,
   DomainsListByResourceGroupOptionalParams,
-  DomainsListByResourceGroupResponse,
   DomainOwnershipIdentifier,
   DomainsListOwnershipIdentifiersNextOptionalParams,
   DomainsListOwnershipIdentifiersOptionalParams,
-  DomainsListOwnershipIdentifiersResponse,
   DomainsCheckAvailabilityOptionalParams,
   DomainsCheckAvailabilityResponse,
+  DomainsListResponse,
   DomainsGetControlCenterSsoRequestOptionalParams,
   DomainsGetControlCenterSsoRequestResponse,
+  DomainsListRecommendationsResponse,
+  DomainsListByResourceGroupResponse,
   DomainsGetOptionalParams,
   DomainsGetResponse,
   DomainsCreateOrUpdateOptionalParams,
@@ -44,6 +42,7 @@ import {
   DomainPatchResource,
   DomainsUpdateOptionalParams,
   DomainsUpdateResponse,
+  DomainsListOwnershipIdentifiersResponse,
   DomainsGetOwnershipIdentifierOptionalParams,
   DomainsGetOwnershipIdentifierResponse,
   DomainsCreateOrUpdateOwnershipIdentifierOptionalParams,
@@ -88,34 +87,22 @@ export class DomainsImpl implements Domains {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
+      byPage: () => {
+        return this.listPagingPage(options);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: DomainsListOptionalParams,
-    settings?: PageSettings
+    options?: DomainsListOptionalParams
   ): AsyncIterableIterator<Domain[]> {
-    let result: DomainsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -144,33 +131,19 @@ export class DomainsImpl implements Domains {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listRecommendationsPagingPage(
-          parameters,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listRecommendationsPagingPage(parameters, options);
       }
     };
   }
 
   private async *listRecommendationsPagingPage(
     parameters: DomainRecommendationSearchParameters,
-    options?: DomainsListRecommendationsOptionalParams,
-    settings?: PageSettings
+    options?: DomainsListRecommendationsOptionalParams
   ): AsyncIterableIterator<NameIdentifier[]> {
-    let result: DomainsListRecommendationsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listRecommendations(parameters, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listRecommendations(parameters, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listRecommendationsNext(
         parameters,
@@ -178,9 +151,7 @@ export class DomainsImpl implements Domains {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -213,33 +184,19 @@ export class DomainsImpl implements Domains {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: DomainsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: DomainsListByResourceGroupOptionalParams
   ): AsyncIterableIterator<Domain[]> {
-    let result: DomainsListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -247,9 +204,7 @@ export class DomainsImpl implements Domains {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -288,15 +243,11 @@ export class DomainsImpl implements Domains {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listOwnershipIdentifiersPagingPage(
           resourceGroupName,
           domainName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -305,22 +256,15 @@ export class DomainsImpl implements Domains {
   private async *listOwnershipIdentifiersPagingPage(
     resourceGroupName: string,
     domainName: string,
-    options?: DomainsListOwnershipIdentifiersOptionalParams,
-    settings?: PageSettings
+    options?: DomainsListOwnershipIdentifiersOptionalParams
   ): AsyncIterableIterator<DomainOwnershipIdentifier[]> {
-    let result: DomainsListOwnershipIdentifiersResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listOwnershipIdentifiers(
-        resourceGroupName,
-        domainName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listOwnershipIdentifiers(
+      resourceGroupName,
+      domainName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listOwnershipIdentifiersNext(
         resourceGroupName,
@@ -329,9 +273,7 @@ export class DomainsImpl implements Domains {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

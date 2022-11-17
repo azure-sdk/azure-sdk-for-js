@@ -3032,6 +3032,13 @@ export const SiteConfig: coreClient.CompositeMapper = {
           }
         }
       },
+      ipSecurityRestrictionsDefaultAction: {
+        serializedName: "ipSecurityRestrictionsDefaultAction",
+        xmlName: "ipSecurityRestrictionsDefaultAction",
+        type: {
+          name: "String"
+        }
+      },
       scmIpSecurityRestrictions: {
         serializedName: "scmIpSecurityRestrictions",
         xmlName: "scmIpSecurityRestrictions",
@@ -3044,6 +3051,13 @@ export const SiteConfig: coreClient.CompositeMapper = {
               className: "IpSecurityRestriction"
             }
           }
+        }
+      },
+      scmIpSecurityRestrictionsDefaultAction: {
+        serializedName: "scmIpSecurityRestrictionsDefaultAction",
+        xmlName: "scmIpSecurityRestrictionsDefaultAction",
+        type: {
+          name: "String"
         }
       },
       scmIpSecurityRestrictionsUseMain: {
@@ -21872,6 +21886,13 @@ export const SiteConfigResource: coreClient.CompositeMapper = {
           }
         }
       },
+      ipSecurityRestrictionsDefaultAction: {
+        serializedName: "properties.ipSecurityRestrictionsDefaultAction",
+        xmlName: "properties.ipSecurityRestrictionsDefaultAction",
+        type: {
+          name: "String"
+        }
+      },
       scmIpSecurityRestrictions: {
         serializedName: "properties.scmIpSecurityRestrictions",
         xmlName: "properties.scmIpSecurityRestrictions",
@@ -21884,6 +21905,13 @@ export const SiteConfigResource: coreClient.CompositeMapper = {
               className: "IpSecurityRestriction"
             }
           }
+        }
+      },
+      scmIpSecurityRestrictionsDefaultAction: {
+        serializedName: "properties.scmIpSecurityRestrictionsDefaultAction",
+        xmlName: "properties.scmIpSecurityRestrictionsDefaultAction",
+        type: {
+          name: "String"
         }
       },
       scmIpSecurityRestrictionsUseMain: {

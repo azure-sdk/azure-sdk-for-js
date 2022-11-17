@@ -14,8 +14,7 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "./pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AppServiceCertificateOrdersImpl,
   CertificateOrdersDiagnosticsImpl,
@@ -85,42 +84,42 @@ import {
   SourceControl,
   ListSourceControlsNextOptionalParams,
   ListSourceControlsOptionalParams,
-  ListSourceControlsResponse,
   BillingMeter,
   ListBillingMetersNextOptionalParams,
   ListBillingMetersOptionalParams,
-  ListBillingMetersResponse,
   CustomHostnameSites,
   ListCustomHostNameSitesNextOptionalParams,
   ListCustomHostNameSitesOptionalParams,
-  ListCustomHostNameSitesResponse,
   GeoRegion,
   ListGeoRegionsNextOptionalParams,
   ListGeoRegionsOptionalParams,
-  ListGeoRegionsResponse,
   Identifier,
   NameIdentifier,
   ListSiteIdentifiersAssignedToHostNameNextOptionalParams,
   ListSiteIdentifiersAssignedToHostNameOptionalParams,
-  ListSiteIdentifiersAssignedToHostNameResponse,
   PremierAddOnOffer,
   ListPremierAddOnOffersNextOptionalParams,
   ListPremierAddOnOffersOptionalParams,
-  ListPremierAddOnOffersResponse,
   GetPublishingUserOptionalParams,
   GetPublishingUserResponse,
   User,
   UpdatePublishingUserOptionalParams,
   UpdatePublishingUserResponse,
+  ListSourceControlsResponse,
   GetSourceControlOptionalParams,
   GetSourceControlResponse,
   UpdateSourceControlOptionalParams,
   UpdateSourceControlResponse,
+  ListBillingMetersResponse,
   CheckNameResourceTypes,
   CheckNameAvailabilityOptionalParams,
   CheckNameAvailabilityResponse,
+  ListCustomHostNameSitesResponse,
   GetSubscriptionDeploymentLocationsOptionalParams,
   GetSubscriptionDeploymentLocationsResponse,
+  ListGeoRegionsResponse,
+  ListSiteIdentifiersAssignedToHostNameResponse,
+  ListPremierAddOnOffersResponse,
   ListSkusOptionalParams,
   ListSkusResponse,
   VnetParameters,
@@ -174,19 +173,22 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/13.0.4`;
+    const packageDetails = `azsdk-js-arm-appservice/14.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      endpoint:
+      baseUri:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
@@ -212,9 +214,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
-          scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+          scopes: `${optionsWithDefaults.credentialScopes}`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
               coreClient.authorizeRequestOnClaimChallenge
@@ -227,7 +227,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-03-01";
+    this.apiVersion = options.apiVersion || "2022-09-01";
     this.appServiceCertificateOrders = new AppServiceCertificateOrdersImpl(
       this
     );
@@ -317,34 +317,22 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listSourceControlsPagingPage(options, settings);
+      byPage: () => {
+        return this.listSourceControlsPagingPage(options);
       }
     };
   }
 
   private async *listSourceControlsPagingPage(
-    options?: ListSourceControlsOptionalParams,
-    settings?: PageSettings
+    options?: ListSourceControlsOptionalParams
   ): AsyncIterableIterator<SourceControl[]> {
-    let result: ListSourceControlsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSourceControls(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSourceControls(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSourceControlsNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -371,34 +359,22 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBillingMetersPagingPage(options, settings);
+      byPage: () => {
+        return this.listBillingMetersPagingPage(options);
       }
     };
   }
 
   private async *listBillingMetersPagingPage(
-    options?: ListBillingMetersOptionalParams,
-    settings?: PageSettings
+    options?: ListBillingMetersOptionalParams
   ): AsyncIterableIterator<BillingMeter[]> {
-    let result: ListBillingMetersResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBillingMeters(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBillingMeters(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBillingMetersNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -425,37 +401,25 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listCustomHostNameSitesPagingPage(options, settings);
+      byPage: () => {
+        return this.listCustomHostNameSitesPagingPage(options);
       }
     };
   }
 
   private async *listCustomHostNameSitesPagingPage(
-    options?: ListCustomHostNameSitesOptionalParams,
-    settings?: PageSettings
+    options?: ListCustomHostNameSitesOptionalParams
   ): AsyncIterableIterator<CustomHostnameSites[]> {
-    let result: ListCustomHostNameSitesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listCustomHostNameSites(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listCustomHostNameSites(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listCustomHostNameSitesNext(
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -482,34 +446,22 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listGeoRegionsPagingPage(options, settings);
+      byPage: () => {
+        return this.listGeoRegionsPagingPage(options);
       }
     };
   }
 
   private async *listGeoRegionsPagingPage(
-    options?: ListGeoRegionsOptionalParams,
-    settings?: PageSettings
+    options?: ListGeoRegionsOptionalParams
   ): AsyncIterableIterator<GeoRegion[]> {
-    let result: ListGeoRegionsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listGeoRegions(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listGeoRegions(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listGeoRegionsNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -541,14 +493,10 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listSiteIdentifiersAssignedToHostNamePagingPage(
           nameIdentifier,
-          options,
-          settings
+          options
         );
       }
     };
@@ -556,21 +504,14 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
 
   private async *listSiteIdentifiersAssignedToHostNamePagingPage(
     nameIdentifier: NameIdentifier,
-    options?: ListSiteIdentifiersAssignedToHostNameOptionalParams,
-    settings?: PageSettings
+    options?: ListSiteIdentifiersAssignedToHostNameOptionalParams
   ): AsyncIterableIterator<Identifier[]> {
-    let result: ListSiteIdentifiersAssignedToHostNameResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSiteIdentifiersAssignedToHostName(
-        nameIdentifier,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSiteIdentifiersAssignedToHostName(
+      nameIdentifier,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSiteIdentifiersAssignedToHostNameNext(
         nameIdentifier,
@@ -578,9 +519,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -611,37 +550,25 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPremierAddOnOffersPagingPage(options, settings);
+      byPage: () => {
+        return this.listPremierAddOnOffersPagingPage(options);
       }
     };
   }
 
   private async *listPremierAddOnOffersPagingPage(
-    options?: ListPremierAddOnOffersOptionalParams,
-    settings?: PageSettings
+    options?: ListPremierAddOnOffersOptionalParams
   ): AsyncIterableIterator<PremierAddOnOffer[]> {
-    let result: ListPremierAddOnOffersResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listPremierAddOnOffers(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listPremierAddOnOffers(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listPremierAddOnOffersNext(
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

@@ -1,15 +1,29 @@
 # Release History
+    
+## 14.0.0 (2022-11-17)
+    
+**Features**
 
-## 13.0.4 (Unreleased)
+  - Added Type Alias DefaultAction
+  - Added Type Alias ProviderOsTypeSelected
+  - Added Type Alias ProviderStackOsType
+  - Interface SiteConfig has a new optional parameter ipSecurityRestrictionsDefaultAction
+  - Interface SiteConfig has a new optional parameter scmIpSecurityRestrictionsDefaultAction
+  - Interface SiteConfigResource has a new optional parameter ipSecurityRestrictionsDefaultAction
+  - Interface SiteConfigResource has a new optional parameter scmIpSecurityRestrictionsDefaultAction
+  - Added Enum KnownDefaultAction
+  - Added Enum KnownProviderOsTypeSelected
+  - Added Enum KnownProviderStackOsType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed Enum KnownEnum14
+  - Removed Enum KnownEnum15
+  - Removed Enum KnownEnum16
+  - Removed Enum KnownEnum17
+  - Removed Enum KnownEnum18
+  - Removed Enum KnownEnum19
+    
 ## 13.0.3 (2022-11-16)
 
   - Bugs Fixed

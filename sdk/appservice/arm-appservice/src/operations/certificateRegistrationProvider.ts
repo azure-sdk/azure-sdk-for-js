@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { CertificateRegistrationProvider } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -51,34 +50,22 @@ export class CertificateRegistrationProviderImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listOperationsPagingPage(options, settings);
+      byPage: () => {
+        return this.listOperationsPagingPage(options);
       }
     };
   }
 
   private async *listOperationsPagingPage(
-    options?: CertificateRegistrationProviderListOperationsOptionalParams,
-    settings?: PageSettings
+    options?: CertificateRegistrationProviderListOperationsOptionalParams
   ): AsyncIterableIterator<CsmOperationDescription[]> {
-    let result: CertificateRegistrationProviderListOperationsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listOperations(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listOperations(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listOperationsNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

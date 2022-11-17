@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { KubeEnvironments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,9 +18,9 @@ import {
   KubeEnvironment,
   KubeEnvironmentsListBySubscriptionNextOptionalParams,
   KubeEnvironmentsListBySubscriptionOptionalParams,
-  KubeEnvironmentsListBySubscriptionResponse,
   KubeEnvironmentsListByResourceGroupNextOptionalParams,
   KubeEnvironmentsListByResourceGroupOptionalParams,
+  KubeEnvironmentsListBySubscriptionResponse,
   KubeEnvironmentsListByResourceGroupResponse,
   KubeEnvironmentsGetOptionalParams,
   KubeEnvironmentsGetResponse,
@@ -63,34 +62,22 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
+      byPage: () => {
+        return this.listBySubscriptionPagingPage(options);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: KubeEnvironmentsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    options?: KubeEnvironmentsListBySubscriptionOptionalParams
   ): AsyncIterableIterator<KubeEnvironment[]> {
-    let result: KubeEnvironmentsListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBySubscription(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -119,33 +106,19 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: KubeEnvironmentsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: KubeEnvironmentsListByResourceGroupOptionalParams
   ): AsyncIterableIterator<KubeEnvironment[]> {
-    let result: KubeEnvironmentsListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -153,9 +126,7 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Diagnostics } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,56 +16,56 @@ import {
   DetectorResponse,
   DiagnosticsListHostingEnvironmentDetectorResponsesNextOptionalParams,
   DiagnosticsListHostingEnvironmentDetectorResponsesOptionalParams,
-  DiagnosticsListHostingEnvironmentDetectorResponsesResponse,
   DiagnosticsListSiteDetectorResponsesNextOptionalParams,
   DiagnosticsListSiteDetectorResponsesOptionalParams,
-  DiagnosticsListSiteDetectorResponsesResponse,
   DiagnosticCategory,
   DiagnosticsListSiteDiagnosticCategoriesNextOptionalParams,
   DiagnosticsListSiteDiagnosticCategoriesOptionalParams,
-  DiagnosticsListSiteDiagnosticCategoriesResponse,
   AnalysisDefinition,
   DiagnosticsListSiteAnalysesNextOptionalParams,
   DiagnosticsListSiteAnalysesOptionalParams,
-  DiagnosticsListSiteAnalysesResponse,
   DetectorDefinitionResource,
   DiagnosticsListSiteDetectorsNextOptionalParams,
   DiagnosticsListSiteDetectorsOptionalParams,
-  DiagnosticsListSiteDetectorsResponse,
   DiagnosticsListSiteDetectorResponsesSlotNextOptionalParams,
   DiagnosticsListSiteDetectorResponsesSlotOptionalParams,
-  DiagnosticsListSiteDetectorResponsesSlotResponse,
   DiagnosticsListSiteDiagnosticCategoriesSlotNextOptionalParams,
   DiagnosticsListSiteDiagnosticCategoriesSlotOptionalParams,
-  DiagnosticsListSiteDiagnosticCategoriesSlotResponse,
   DiagnosticsListSiteAnalysesSlotNextOptionalParams,
   DiagnosticsListSiteAnalysesSlotOptionalParams,
-  DiagnosticsListSiteAnalysesSlotResponse,
   DiagnosticsListSiteDetectorsSlotNextOptionalParams,
   DiagnosticsListSiteDetectorsSlotOptionalParams,
-  DiagnosticsListSiteDetectorsSlotResponse,
+  DiagnosticsListHostingEnvironmentDetectorResponsesResponse,
   DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams,
   DiagnosticsGetHostingEnvironmentDetectorResponseResponse,
+  DiagnosticsListSiteDetectorResponsesResponse,
   DiagnosticsGetSiteDetectorResponseOptionalParams,
   DiagnosticsGetSiteDetectorResponseResponse,
+  DiagnosticsListSiteDiagnosticCategoriesResponse,
   DiagnosticsGetSiteDiagnosticCategoryOptionalParams,
   DiagnosticsGetSiteDiagnosticCategoryResponse,
+  DiagnosticsListSiteAnalysesResponse,
   DiagnosticsGetSiteAnalysisOptionalParams,
   DiagnosticsGetSiteAnalysisResponse,
   DiagnosticsExecuteSiteAnalysisOptionalParams,
   DiagnosticsExecuteSiteAnalysisResponse,
+  DiagnosticsListSiteDetectorsResponse,
   DiagnosticsGetSiteDetectorOptionalParams,
   DiagnosticsGetSiteDetectorResponse,
   DiagnosticsExecuteSiteDetectorOptionalParams,
   DiagnosticsExecuteSiteDetectorResponse,
+  DiagnosticsListSiteDetectorResponsesSlotResponse,
   DiagnosticsGetSiteDetectorResponseSlotOptionalParams,
   DiagnosticsGetSiteDetectorResponseSlotResponse,
+  DiagnosticsListSiteDiagnosticCategoriesSlotResponse,
   DiagnosticsGetSiteDiagnosticCategorySlotOptionalParams,
   DiagnosticsGetSiteDiagnosticCategorySlotResponse,
+  DiagnosticsListSiteAnalysesSlotResponse,
   DiagnosticsGetSiteAnalysisSlotOptionalParams,
   DiagnosticsGetSiteAnalysisSlotResponse,
   DiagnosticsExecuteSiteAnalysisSlotOptionalParams,
   DiagnosticsExecuteSiteAnalysisSlotResponse,
+  DiagnosticsListSiteDetectorsSlotResponse,
   DiagnosticsGetSiteDetectorSlotOptionalParams,
   DiagnosticsGetSiteDetectorSlotResponse,
   DiagnosticsExecuteSiteDetectorSlotOptionalParams,
@@ -118,15 +117,11 @@ export class DiagnosticsImpl implements Diagnostics {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listHostingEnvironmentDetectorResponsesPagingPage(
           resourceGroupName,
           name,
-          options,
-          settings
+          options
         );
       }
     };
@@ -135,22 +130,15 @@ export class DiagnosticsImpl implements Diagnostics {
   private async *listHostingEnvironmentDetectorResponsesPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: DiagnosticsListHostingEnvironmentDetectorResponsesOptionalParams,
-    settings?: PageSettings
+    options?: DiagnosticsListHostingEnvironmentDetectorResponsesOptionalParams
   ): AsyncIterableIterator<DetectorResponse[]> {
-    let result: DiagnosticsListHostingEnvironmentDetectorResponsesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listHostingEnvironmentDetectorResponses(
-        resourceGroupName,
-        name,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listHostingEnvironmentDetectorResponses(
+      resourceGroupName,
+      name,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listHostingEnvironmentDetectorResponsesNext(
         resourceGroupName,
@@ -159,9 +147,7 @@ export class DiagnosticsImpl implements Diagnostics {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -202,15 +188,11 @@ export class DiagnosticsImpl implements Diagnostics {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listSiteDetectorResponsesPagingPage(
           resourceGroupName,
           siteName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -219,22 +201,15 @@ export class DiagnosticsImpl implements Diagnostics {
   private async *listSiteDetectorResponsesPagingPage(
     resourceGroupName: string,
     siteName: string,
-    options?: DiagnosticsListSiteDetectorResponsesOptionalParams,
-    settings?: PageSettings
+    options?: DiagnosticsListSiteDetectorResponsesOptionalParams
   ): AsyncIterableIterator<DetectorResponse[]> {
-    let result: DiagnosticsListSiteDetectorResponsesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSiteDetectorResponses(
-        resourceGroupName,
-        siteName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSiteDetectorResponses(
+      resourceGroupName,
+      siteName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSiteDetectorResponsesNext(
         resourceGroupName,
@@ -243,9 +218,7 @@ export class DiagnosticsImpl implements Diagnostics {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -286,15 +259,11 @@ export class DiagnosticsImpl implements Diagnostics {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listSiteDiagnosticCategoriesPagingPage(
           resourceGroupName,
           siteName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -303,22 +272,15 @@ export class DiagnosticsImpl implements Diagnostics {
   private async *listSiteDiagnosticCategoriesPagingPage(
     resourceGroupName: string,
     siteName: string,
-    options?: DiagnosticsListSiteDiagnosticCategoriesOptionalParams,
-    settings?: PageSettings
+    options?: DiagnosticsListSiteDiagnosticCategoriesOptionalParams
   ): AsyncIterableIterator<DiagnosticCategory[]> {
-    let result: DiagnosticsListSiteDiagnosticCategoriesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSiteDiagnosticCategories(
-        resourceGroupName,
-        siteName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSiteDiagnosticCategories(
+      resourceGroupName,
+      siteName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSiteDiagnosticCategoriesNext(
         resourceGroupName,
@@ -327,9 +289,7 @@ export class DiagnosticsImpl implements Diagnostics {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -373,16 +333,12 @@ export class DiagnosticsImpl implements Diagnostics {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listSiteAnalysesPagingPage(
           resourceGroupName,
           siteName,
           diagnosticCategory,
-          options,
-          settings
+          options
         );
       }
     };
@@ -392,23 +348,16 @@ export class DiagnosticsImpl implements Diagnostics {
     resourceGroupName: string,
     siteName: string,
     diagnosticCategory: string,
-    options?: DiagnosticsListSiteAnalysesOptionalParams,
-    settings?: PageSettings
+    options?: DiagnosticsListSiteAnalysesOptionalParams
   ): AsyncIterableIterator<AnalysisDefinition[]> {
-    let result: DiagnosticsListSiteAnalysesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSiteAnalyses(
-        resourceGroupName,
-        siteName,
-        diagnosticCategory,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSiteAnalyses(
+      resourceGroupName,
+      siteName,
+      diagnosticCategory,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSiteAnalysesNext(
         resourceGroupName,
@@ -418,9 +367,7 @@ export class DiagnosticsImpl implements Diagnostics {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -466,16 +413,12 @@ export class DiagnosticsImpl implements Diagnostics {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listSiteDetectorsPagingPage(
           resourceGroupName,
           siteName,
           diagnosticCategory,
-          options,
-          settings
+          options
         );
       }
     };
@@ -485,23 +428,16 @@ export class DiagnosticsImpl implements Diagnostics {
     resourceGroupName: string,
     siteName: string,
     diagnosticCategory: string,
-    options?: DiagnosticsListSiteDetectorsOptionalParams,
-    settings?: PageSettings
+    options?: DiagnosticsListSiteDetectorsOptionalParams
   ): AsyncIterableIterator<DetectorDefinitionResource[]> {
-    let result: DiagnosticsListSiteDetectorsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSiteDetectors(
-        resourceGroupName,
-        siteName,
-        diagnosticCategory,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSiteDetectors(
+      resourceGroupName,
+      siteName,
+      diagnosticCategory,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSiteDetectorsNext(
         resourceGroupName,
@@ -511,9 +447,7 @@ export class DiagnosticsImpl implements Diagnostics {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -559,16 +493,12 @@ export class DiagnosticsImpl implements Diagnostics {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listSiteDetectorResponsesSlotPagingPage(
           resourceGroupName,
           siteName,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -578,23 +508,16 @@ export class DiagnosticsImpl implements Diagnostics {
     resourceGroupName: string,
     siteName: string,
     slot: string,
-    options?: DiagnosticsListSiteDetectorResponsesSlotOptionalParams,
-    settings?: PageSettings
+    options?: DiagnosticsListSiteDetectorResponsesSlotOptionalParams
   ): AsyncIterableIterator<DetectorResponse[]> {
-    let result: DiagnosticsListSiteDetectorResponsesSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSiteDetectorResponsesSlot(
-        resourceGroupName,
-        siteName,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSiteDetectorResponsesSlot(
+      resourceGroupName,
+      siteName,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSiteDetectorResponsesSlotNext(
         resourceGroupName,
@@ -604,9 +527,7 @@ export class DiagnosticsImpl implements Diagnostics {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -652,16 +573,12 @@ export class DiagnosticsImpl implements Diagnostics {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listSiteDiagnosticCategoriesSlotPagingPage(
           resourceGroupName,
           siteName,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -671,23 +588,16 @@ export class DiagnosticsImpl implements Diagnostics {
     resourceGroupName: string,
     siteName: string,
     slot: string,
-    options?: DiagnosticsListSiteDiagnosticCategoriesSlotOptionalParams,
-    settings?: PageSettings
+    options?: DiagnosticsListSiteDiagnosticCategoriesSlotOptionalParams
   ): AsyncIterableIterator<DiagnosticCategory[]> {
-    let result: DiagnosticsListSiteDiagnosticCategoriesSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSiteDiagnosticCategoriesSlot(
-        resourceGroupName,
-        siteName,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSiteDiagnosticCategoriesSlot(
+      resourceGroupName,
+      siteName,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSiteDiagnosticCategoriesSlotNext(
         resourceGroupName,
@@ -697,9 +607,7 @@ export class DiagnosticsImpl implements Diagnostics {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -748,17 +656,13 @@ export class DiagnosticsImpl implements Diagnostics {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listSiteAnalysesSlotPagingPage(
           resourceGroupName,
           siteName,
           diagnosticCategory,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -769,24 +673,17 @@ export class DiagnosticsImpl implements Diagnostics {
     siteName: string,
     diagnosticCategory: string,
     slot: string,
-    options?: DiagnosticsListSiteAnalysesSlotOptionalParams,
-    settings?: PageSettings
+    options?: DiagnosticsListSiteAnalysesSlotOptionalParams
   ): AsyncIterableIterator<AnalysisDefinition[]> {
-    let result: DiagnosticsListSiteAnalysesSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSiteAnalysesSlot(
-        resourceGroupName,
-        siteName,
-        diagnosticCategory,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSiteAnalysesSlot(
+      resourceGroupName,
+      siteName,
+      diagnosticCategory,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSiteAnalysesSlotNext(
         resourceGroupName,
@@ -797,9 +694,7 @@ export class DiagnosticsImpl implements Diagnostics {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -850,17 +745,13 @@ export class DiagnosticsImpl implements Diagnostics {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listSiteDetectorsSlotPagingPage(
           resourceGroupName,
           siteName,
           diagnosticCategory,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -871,24 +762,17 @@ export class DiagnosticsImpl implements Diagnostics {
     siteName: string,
     diagnosticCategory: string,
     slot: string,
-    options?: DiagnosticsListSiteDetectorsSlotOptionalParams,
-    settings?: PageSettings
+    options?: DiagnosticsListSiteDetectorsSlotOptionalParams
   ): AsyncIterableIterator<DetectorDefinitionResource[]> {
-    let result: DiagnosticsListSiteDetectorsSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSiteDetectorsSlot(
-        resourceGroupName,
-        siteName,
-        diagnosticCategory,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSiteDetectorsSlot(
+      resourceGroupName,
+      siteName,
+      diagnosticCategory,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSiteDetectorsSlotNext(
         resourceGroupName,
@@ -899,9 +783,7 @@ export class DiagnosticsImpl implements Diagnostics {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

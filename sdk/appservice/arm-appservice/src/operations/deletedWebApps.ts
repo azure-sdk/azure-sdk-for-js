@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { DeletedWebApps } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,9 +16,9 @@ import {
   DeletedSite,
   DeletedWebAppsListNextOptionalParams,
   DeletedWebAppsListOptionalParams,
-  DeletedWebAppsListResponse,
   DeletedWebAppsListByLocationNextOptionalParams,
   DeletedWebAppsListByLocationOptionalParams,
+  DeletedWebAppsListResponse,
   DeletedWebAppsListByLocationResponse,
   DeletedWebAppsGetDeletedWebAppByLocationOptionalParams,
   DeletedWebAppsGetDeletedWebAppByLocationResponse,
@@ -55,34 +54,22 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
+      byPage: () => {
+        return this.listPagingPage(options);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: DeletedWebAppsListOptionalParams,
-    settings?: PageSettings
+    options?: DeletedWebAppsListOptionalParams
   ): AsyncIterableIterator<DeletedSite[]> {
-    let result: DeletedWebAppsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -111,29 +98,19 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByLocationPagingPage(location, options, settings);
+      byPage: () => {
+        return this.listByLocationPagingPage(location, options);
       }
     };
   }
 
   private async *listByLocationPagingPage(
     location: string,
-    options?: DeletedWebAppsListByLocationOptionalParams,
-    settings?: PageSettings
+    options?: DeletedWebAppsListByLocationOptionalParams
   ): AsyncIterableIterator<DeletedSite[]> {
-    let result: DeletedWebAppsListByLocationResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByLocation(location, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByLocation(location, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByLocationNext(
         location,
@@ -141,9 +118,7 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
