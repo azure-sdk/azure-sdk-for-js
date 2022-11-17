@@ -1576,6 +1576,22 @@ export const EnqueueReplicationServerProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const LoadBalancerDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LoadBalancerDetails",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CentralServerVmDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1590,6 +1606,35 @@ export const CentralServerVmDetails: coreClient.CompositeMapper = {
       },
       virtualMachineId: {
         serializedName: "virtualMachineId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      storageDetails: {
+        serializedName: "storageDetails",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StorageInformation"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const StorageInformation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageInformation",
+    modelProperties: {
+      id: {
+        serializedName: "id",
         readOnly: true,
         type: {
           name: "String"
@@ -1659,6 +1704,19 @@ export const DatabaseVmDetails: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      storageDetails: {
+        serializedName: "storageDetails",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StorageInformation"
+            }
+          }
         }
       }
     }
@@ -2508,6 +2566,67 @@ export const OSProfile: coreClient.CompositeMapper = {
   }
 };
 
+export const DiskSku: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DiskSku",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DiskVolumeConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DiskVolumeConfiguration",
+    modelProperties: {
+      count: {
+        serializedName: "count",
+        type: {
+          name: "Number"
+        }
+      },
+      sizeGB: {
+        serializedName: "sizeGB",
+        type: {
+          name: "Number"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "DiskSku"
+        }
+      }
+    }
+  }
+};
+
+export const DiskConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DiskConfiguration",
+    modelProperties: {
+      diskVolumeConfiguration: {
+        serializedName: "diskVolumeConfiguration",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "DiskVolumeConfiguration" }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const VirtualMachineConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2643,6 +2762,13 @@ export const DatabaseConfiguration: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      diskConfiguration: {
+        serializedName: "diskConfiguration",
+        type: {
+          name: "Composite",
+          className: "DiskConfiguration"
+        }
       }
     }
   }
@@ -2688,6 +2814,43 @@ export const HighAvailabilityConfiguration: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileShareConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FileShareConfiguration",
+    uberParent: "FileShareConfiguration",
+    polymorphicDiscriminator: {
+      serializedName: "configurationType",
+      clientName: "configurationType"
+    },
+    modelProperties: {
+      configurationType: {
+        serializedName: "configurationType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StorageConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageConfiguration",
+    modelProperties: {
+      transportFileShareConfiguration: {
+        serializedName: "transportFileShareConfiguration",
+        type: {
+          name: "Composite",
+          className: "FileShareConfiguration"
         }
       }
     }
@@ -3365,8 +3528,20 @@ export const HanaDbProviderInstanceProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      sslCertificateUri: {
+        serializedName: "sslCertificateUri",
+        type: {
+          name: "String"
+        }
+      },
       sslHostNameInCertificate: {
         serializedName: "sslHostNameInCertificate",
+        type: {
+          name: "String"
+        }
+      },
+      sslPreference: {
+        serializedName: "sslPreference",
         type: {
           name: "String"
         }
@@ -3449,6 +3624,18 @@ export const SapNetWeaverProviderInstanceProperties: coreClient.CompositeMapper 
         type: {
           name: "String"
         }
+      },
+      sslCertificateUri: {
+        serializedName: "sslCertificateUri",
+        type: {
+          name: "String"
+        }
+      },
+      sslPreference: {
+        serializedName: "sslPreference",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3466,6 +3653,18 @@ export const PrometheusOSProviderInstanceProperties: coreClient.CompositeMapper 
       ...ProviderSpecificProperties.type.modelProperties,
       prometheusUrl: {
         serializedName: "prometheusUrl",
+        type: {
+          name: "String"
+        }
+      },
+      sslPreference: {
+        serializedName: "sslPreference",
+        type: {
+          name: "String"
+        }
+      },
+      sslCertificateUri: {
+        serializedName: "sslCertificateUri",
         type: {
           name: "String"
         }
@@ -3525,6 +3724,18 @@ export const DB2ProviderInstanceProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      sslPreference: {
+        serializedName: "sslPreference",
+        type: {
+          name: "String"
+        }
+      },
+      sslCertificateUri: {
+        serializedName: "sslCertificateUri",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3560,6 +3771,18 @@ export const PrometheusHaClusterProviderInstanceProperties: coreClient.Composite
       },
       clusterName: {
         serializedName: "clusterName",
+        type: {
+          name: "String"
+        }
+      },
+      sslPreference: {
+        serializedName: "sslPreference",
+        type: {
+          name: "String"
+        }
+      },
+      sslCertificateUri: {
+        serializedName: "sslCertificateUri",
         type: {
           name: "String"
         }
@@ -3610,6 +3833,18 @@ export const MsSqlServerProviderInstanceProperties: coreClient.CompositeMapper =
       },
       sapSid: {
         serializedName: "sapSid",
+        type: {
+          name: "String"
+        }
+      },
+      sslPreference: {
+        serializedName: "sslPreference",
+        type: {
+          name: "String"
+        }
+      },
+      sslCertificateUri: {
+        serializedName: "sslCertificateUri",
         type: {
           name: "String"
         }
@@ -3700,6 +3935,13 @@ export const SingleServerConfiguration: coreClient.CompositeMapper = {
           name: "Composite",
           className: "VirtualMachineConfiguration"
         }
+      },
+      dbDiskConfiguration: {
+        serializedName: "dbDiskConfiguration",
+        type: {
+          name: "Composite",
+          className: "DiskConfiguration"
+        }
       }
     }
   }
@@ -3748,6 +3990,81 @@ export const ThreeTierConfiguration: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "HighAvailabilityConfiguration"
+        }
+      },
+      storageConfiguration: {
+        serializedName: "storageConfiguration",
+        type: {
+          name: "Composite",
+          className: "StorageConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const SkipFileShareConfiguration: coreClient.CompositeMapper = {
+  serializedName: "Skip",
+  type: {
+    name: "Composite",
+    className: "SkipFileShareConfiguration",
+    uberParent: "FileShareConfiguration",
+    polymorphicDiscriminator:
+      FileShareConfiguration.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...FileShareConfiguration.type.modelProperties
+    }
+  }
+};
+
+export const CreateAndMountFileShareConfiguration: coreClient.CompositeMapper = {
+  serializedName: "CreateAndMount",
+  type: {
+    name: "Composite",
+    className: "CreateAndMountFileShareConfiguration",
+    uberParent: "FileShareConfiguration",
+    polymorphicDiscriminator:
+      FileShareConfiguration.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...FileShareConfiguration.type.modelProperties,
+      resourceGroup: {
+        serializedName: "resourceGroup",
+        type: {
+          name: "String"
+        }
+      },
+      storageAccountName: {
+        serializedName: "storageAccountName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MountFileShareConfiguration: coreClient.CompositeMapper = {
+  serializedName: "Mount",
+  type: {
+    name: "Composite",
+    className: "MountFileShareConfiguration",
+    uberParent: "FileShareConfiguration",
+    polymorphicDiscriminator:
+      FileShareConfiguration.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...FileShareConfiguration.type.modelProperties,
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      privateEndpointId: {
+        serializedName: "privateEndpointId",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -3846,6 +4163,26 @@ export const SAPInstallWithoutOSConfigSoftwareConfiguration: coreClient.Composit
         type: {
           name: "Composite",
           className: "HighAvailabilitySoftwareConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const ExternalInstallationSoftwareConfiguration: coreClient.CompositeMapper = {
+  serializedName: "External",
+  type: {
+    name: "Composite",
+    className: "ExternalInstallationSoftwareConfiguration",
+    uberParent: "SoftwareConfiguration",
+    polymorphicDiscriminator:
+      SoftwareConfiguration.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SoftwareConfiguration.type.modelProperties,
+      centralServerVmId: {
+        serializedName: "centralServerVmId",
+        type: {
+          name: "String"
         }
       }
     }
@@ -4134,6 +4471,13 @@ export const SAPCentralServerInstance: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      loadBalancerDetails: {
+        serializedName: "properties.loadBalancerDetails",
+        type: {
+          name: "Composite",
+          className: "LoadBalancerDetails"
+        }
+      },
       vmDetails: {
         serializedName: "properties.vmDetails",
         readOnly: true,
@@ -4211,6 +4555,13 @@ export const SAPDatabaseInstance: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      loadBalancerDetails: {
+        serializedName: "properties.loadBalancerDetails",
+        type: {
+          name: "Composite",
+          className: "LoadBalancerDetails"
         }
       },
       vmDetails: {
@@ -4337,6 +4688,19 @@ export const SAPApplicationServerInstance: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      storageDetails: {
+        serializedName: "properties.storageDetails",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StorageInformation"
+            }
+          }
+        }
+      },
       health: {
         serializedName: "properties.health",
         readOnly: true,
@@ -4401,6 +4765,12 @@ export const Monitor: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      zoneRedundancyPreference: {
+        serializedName: "properties.zoneRedundancyPreference",
+        type: {
+          name: "String"
+        }
+      },
       managedResourceGroupConfiguration: {
         serializedName: "properties.managedResourceGroupConfiguration",
         type: {
@@ -4422,6 +4792,13 @@ export const Monitor: coreClient.CompositeMapper = {
       },
       msiArmId: {
         serializedName: "properties.msiArmId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      storageAccountArmId: {
+        serializedName: "properties.storageAccountArmId",
         readOnly: true,
         type: {
           name: "String"
@@ -4517,6 +4894,7 @@ export let discriminators = {
   ProviderSpecificProperties: ProviderSpecificProperties,
   OSConfiguration: OSConfiguration,
   InfrastructureConfiguration: InfrastructureConfiguration,
+  FileShareConfiguration: FileShareConfiguration,
   SoftwareConfiguration: SoftwareConfiguration,
   "SAPSizingRecommendationResult.SingleServer": SingleServerRecommendationResult,
   "SAPSizingRecommendationResult.ThreeTier": ThreeTierRecommendationResult,
@@ -4533,6 +4911,10 @@ export let discriminators = {
   "OSConfiguration.Linux": LinuxConfiguration,
   "InfrastructureConfiguration.SingleServer": SingleServerConfiguration,
   "InfrastructureConfiguration.ThreeTier": ThreeTierConfiguration,
+  "FileShareConfiguration.Skip": SkipFileShareConfiguration,
+  "FileShareConfiguration.CreateAndMount": CreateAndMountFileShareConfiguration,
+  "FileShareConfiguration.Mount": MountFileShareConfiguration,
   "SoftwareConfiguration.ServiceInitiated": ServiceInitiatedSoftwareConfiguration,
-  "SoftwareConfiguration.SAPInstallWithoutOSConfig": SAPInstallWithoutOSConfigSoftwareConfiguration
+  "SoftwareConfiguration.SAPInstallWithoutOSConfig": SAPInstallWithoutOSConfigSoftwareConfiguration,
+  "SoftwareConfiguration.External": ExternalInstallationSoftwareConfiguration
 };
