@@ -2508,6 +2508,67 @@ export const OSProfile: coreClient.CompositeMapper = {
   }
 };
 
+export const DiskSku: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DiskSku",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DiskVolumeConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DiskVolumeConfiguration",
+    modelProperties: {
+      count: {
+        serializedName: "count",
+        type: {
+          name: "Number"
+        }
+      },
+      sizeGB: {
+        serializedName: "sizeGB",
+        type: {
+          name: "Number"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "DiskSku"
+        }
+      }
+    }
+  }
+};
+
+export const DiskConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DiskConfiguration",
+    modelProperties: {
+      diskVolumeConfiguration: {
+        serializedName: "diskVolumeConfiguration",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "DiskVolumeConfiguration" }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const VirtualMachineConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2642,6 +2703,13 @@ export const DatabaseConfiguration: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Number"
+        }
+      },
+      diskConfiguration: {
+        serializedName: "diskConfiguration",
+        type: {
+          name: "Composite",
+          className: "DiskConfiguration"
         }
       }
     }
@@ -3365,8 +3433,20 @@ export const HanaDbProviderInstanceProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      sslCertificateUri: {
+        serializedName: "sslCertificateUri",
+        type: {
+          name: "String"
+        }
+      },
       sslHostNameInCertificate: {
         serializedName: "sslHostNameInCertificate",
+        type: {
+          name: "String"
+        }
+      },
+      sslPreference: {
+        serializedName: "sslPreference",
         type: {
           name: "String"
         }
@@ -3449,6 +3529,18 @@ export const SapNetWeaverProviderInstanceProperties: coreClient.CompositeMapper 
         type: {
           name: "String"
         }
+      },
+      sslCertificateUri: {
+        serializedName: "sslCertificateUri",
+        type: {
+          name: "String"
+        }
+      },
+      sslPreference: {
+        serializedName: "sslPreference",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3466,6 +3558,18 @@ export const PrometheusOSProviderInstanceProperties: coreClient.CompositeMapper 
       ...ProviderSpecificProperties.type.modelProperties,
       prometheusUrl: {
         serializedName: "prometheusUrl",
+        type: {
+          name: "String"
+        }
+      },
+      sslPreference: {
+        serializedName: "sslPreference",
+        type: {
+          name: "String"
+        }
+      },
+      sslCertificateUri: {
+        serializedName: "sslCertificateUri",
         type: {
           name: "String"
         }
@@ -3525,6 +3629,18 @@ export const DB2ProviderInstanceProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      sslPreference: {
+        serializedName: "sslPreference",
+        type: {
+          name: "String"
+        }
+      },
+      sslCertificateUri: {
+        serializedName: "sslCertificateUri",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3560,6 +3676,18 @@ export const PrometheusHaClusterProviderInstanceProperties: coreClient.Composite
       },
       clusterName: {
         serializedName: "clusterName",
+        type: {
+          name: "String"
+        }
+      },
+      sslPreference: {
+        serializedName: "sslPreference",
+        type: {
+          name: "String"
+        }
+      },
+      sslCertificateUri: {
+        serializedName: "sslCertificateUri",
         type: {
           name: "String"
         }
@@ -3610,6 +3738,18 @@ export const MsSqlServerProviderInstanceProperties: coreClient.CompositeMapper =
       },
       sapSid: {
         serializedName: "sapSid",
+        type: {
+          name: "String"
+        }
+      },
+      sslPreference: {
+        serializedName: "sslPreference",
+        type: {
+          name: "String"
+        }
+      },
+      sslCertificateUri: {
+        serializedName: "sslCertificateUri",
         type: {
           name: "String"
         }
@@ -3699,6 +3839,13 @@ export const SingleServerConfiguration: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "VirtualMachineConfiguration"
+        }
+      },
+      dbDiskConfiguration: {
+        serializedName: "dbDiskConfiguration",
+        type: {
+          name: "Composite",
+          className: "DiskConfiguration"
         }
       }
     }
@@ -3846,6 +3993,26 @@ export const SAPInstallWithoutOSConfigSoftwareConfiguration: coreClient.Composit
         type: {
           name: "Composite",
           className: "HighAvailabilitySoftwareConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const ExternalInstallationSoftwareConfiguration: coreClient.CompositeMapper = {
+  serializedName: "External",
+  type: {
+    name: "Composite",
+    className: "ExternalInstallationSoftwareConfiguration",
+    uberParent: "SoftwareConfiguration",
+    polymorphicDiscriminator:
+      SoftwareConfiguration.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SoftwareConfiguration.type.modelProperties,
+      centralServerVmId: {
+        serializedName: "centralServerVmId",
+        type: {
+          name: "String"
         }
       }
     }
@@ -4401,6 +4568,12 @@ export const Monitor: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      zoneRedundancyPreference: {
+        serializedName: "properties.zoneRedundancyPreference",
+        type: {
+          name: "String"
+        }
+      },
       managedResourceGroupConfiguration: {
         serializedName: "properties.managedResourceGroupConfiguration",
         type: {
@@ -4422,6 +4595,13 @@ export const Monitor: coreClient.CompositeMapper = {
       },
       msiArmId: {
         serializedName: "properties.msiArmId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      storageAccountArmId: {
+        serializedName: "properties.storageAccountArmId",
         readOnly: true,
         type: {
           name: "String"
@@ -4534,5 +4714,6 @@ export let discriminators = {
   "InfrastructureConfiguration.SingleServer": SingleServerConfiguration,
   "InfrastructureConfiguration.ThreeTier": ThreeTierConfiguration,
   "SoftwareConfiguration.ServiceInitiated": ServiceInitiatedSoftwareConfiguration,
-  "SoftwareConfiguration.SAPInstallWithoutOSConfig": SAPInstallWithoutOSConfigSoftwareConfiguration
+  "SoftwareConfiguration.SAPInstallWithoutOSConfig": SAPInstallWithoutOSConfigSoftwareConfiguration,
+  "SoftwareConfiguration.External": ExternalInstallationSoftwareConfiguration
 };

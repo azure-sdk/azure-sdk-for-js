@@ -1,15 +1,36 @@
 # Release History
+    
+## 1.0.0-beta.3 (2022-11-17)
+    
+**Features**
 
-## 1.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface DiskConfiguration
+  - Added Interface DiskSku
+  - Added Interface DiskVolumeConfiguration
+  - Added Interface ExternalInstallationSoftwareConfiguration
+  - Added Type Alias SslPreference
+  - Interface DatabaseConfiguration has a new optional parameter diskConfiguration
+  - Interface DB2ProviderInstanceProperties has a new optional parameter sslCertificateUri
+  - Interface DB2ProviderInstanceProperties has a new optional parameter sslPreference
+  - Interface HanaDbProviderInstanceProperties has a new optional parameter sslCertificateUri
+  - Interface HanaDbProviderInstanceProperties has a new optional parameter sslPreference
+  - Interface Monitor has a new optional parameter storageAccountArmId
+  - Interface Monitor has a new optional parameter zoneRedundancyPreference
+  - Interface MsSqlServerProviderInstanceProperties has a new optional parameter sslCertificateUri
+  - Interface MsSqlServerProviderInstanceProperties has a new optional parameter sslPreference
+  - Interface PrometheusHaClusterProviderInstanceProperties has a new optional parameter sslCertificateUri
+  - Interface PrometheusHaClusterProviderInstanceProperties has a new optional parameter sslPreference
+  - Interface PrometheusOSProviderInstanceProperties has a new optional parameter sslCertificateUri
+  - Interface PrometheusOSProviderInstanceProperties has a new optional parameter sslPreference
+  - Interface SapNetWeaverProviderInstanceProperties has a new optional parameter sslCertificateUri
+  - Interface SapNetWeaverProviderInstanceProperties has a new optional parameter sslPreference
+  - Interface SingleServerConfiguration has a new optional parameter dbDiskConfiguration
+  - Added Enum KnownSslPreference
+  - Enum KnownSAPSoftwareInstallationType has a new value External
+  - Enum KnownSAPVirtualInstanceState has a new value SoftwareDetectionFailed
+  - Enum KnownSAPVirtualInstanceState has a new value SoftwareDetectionInProgress
+    
+    
 ## 1.0.0-beta.2 (2022-07-14)
     
 **Features**
