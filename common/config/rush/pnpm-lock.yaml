@@ -114,6 +114,7 @@ specifiers:
   '@rush-temp/arm-kusto': file:./projects/arm-kusto.tgz
   '@rush-temp/arm-labservices': file:./projects/arm-labservices.tgz
   '@rush-temp/arm-links': file:./projects/arm-links.tgz
+  '@rush-temp/arm-loadtesting': file:./projects/arm-loadtesting.tgz
   '@rush-temp/arm-loadtestservice': file:./projects/arm-loadtestservice.tgz
   '@rush-temp/arm-locks': file:./projects/arm-locks.tgz
   '@rush-temp/arm-locks-profile-2020-09-01-hybrid': file:./projects/arm-locks-profile-2020-09-01-hybrid.tgz
@@ -439,6 +440,7 @@ dependencies:
   '@rush-temp/arm-kusto': file:projects/arm-kusto.tgz
   '@rush-temp/arm-labservices': file:projects/arm-labservices.tgz
   '@rush-temp/arm-links': file:projects/arm-links.tgz
+  '@rush-temp/arm-loadtesting': file:projects/arm-loadtesting.tgz
   '@rush-temp/arm-loadtestservice': file:projects/arm-loadtestservice.tgz
   '@rush-temp/arm-locks': file:projects/arm-locks.tgz
   '@rush-temp/arm-locks-profile-2020-09-01-hybrid': file:projects/arm-locks-profile-2020-09-01-hybrid.tgz
@@ -12769,6 +12771,33 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-loadtesting.tgz:
+    resolution: {integrity: sha512-Gu7SkM8J3dpVewT2OIE7H+FxsK6TfxDKPF9fT8rH9qvnD2p0gN5FjZAnOMq2UjYvI9ALgfCoHIQp4iGVWCwtaw==, tarball: file:projects/arm-loadtesting.tgz}
+    name: '@rush-temp/arm-loadtesting'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.33.5
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      tslib: 2.4.1
+      typescript: 4.6.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@types/node'
+      - supports-color
+    dev: false
+
   file:projects/arm-loadtestservice.tgz:
     resolution: {integrity: sha512-8HYp1wE5Y3FNh1hevfskvAzQByfj9uQ4EmrzUaWEeKniiQgr6LTdYlb7itWzsHs9Of+5L2/gQT18JSowiaa96w==, tarball: file:projects/arm-loadtestservice.tgz}
     name: '@rush-temp/arm-loadtestservice'
@@ -17374,7 +17403,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-miQaNAxeO2tHtjHRPb7yNvi/auwxLzlXyRt795aSfdN9UxiHUG4XuEdz2MWN9/IQCNCkzNZZUeVGa5BzTV5VNA==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-EGPQi5bU9bAsdBuTwXAqeL8dMZwhZi2bK3I2MLZ2rFabOs9hCPCXhRE+PPHE7Iey1AJrIf8PY8GkdckL5UR/pQ==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -17401,7 +17430,6 @@ packages:
       typescript: 4.8.4
       uuid: 8.3.2
     transitivePeerDependencies:
-      - encoding
       - supports-color
     dev: false
 
