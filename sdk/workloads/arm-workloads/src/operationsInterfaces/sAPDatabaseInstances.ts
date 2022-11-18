@@ -25,9 +25,9 @@ import {
 /** Interface representing a SAPDatabaseInstances. */
 export interface SAPDatabaseInstances {
   /**
-   * Lists the SAP Database Instances in an SVI.
+   * Lists the Database resources associated with a Virtual Instance for SAP solutions resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   list(
@@ -36,11 +36,11 @@ export interface SAPDatabaseInstances {
     options?: SAPDatabaseInstancesListOptionalParams
   ): PagedAsyncIterableIterator<SAPDatabaseInstance>;
   /**
-   * Gets the SAP Database Instance.
+   * Gets the SAP Database Instance resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param databaseInstanceName Database Instance string modeled as parameter for auto generation to
-   *                             work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
+   *                             to work correctly.
    * @param options The options parameters.
    */
   get(
@@ -50,12 +50,12 @@ export interface SAPDatabaseInstances {
     options?: SAPDatabaseInstancesGetOptionalParams
   ): Promise<SAPDatabaseInstancesGetResponse>;
   /**
-   * Puts the SAP Database Instance. <br><br>This will be used by service only. PUT by end user will
-   * return a Bad Request error.
+   * Creates the Database resource corresponding to the Virtual Instance for SAP solutions resource.
+   * <br><br>This will be used by service only. PUT by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param databaseInstanceName Database Instance string modeled as parameter for auto generation to
-   *                             work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
+   *                             to work correctly.
    * @param options The options parameters.
    */
   beginCreate(
@@ -70,12 +70,12 @@ export interface SAPDatabaseInstances {
     >
   >;
   /**
-   * Puts the SAP Database Instance. <br><br>This will be used by service only. PUT by end user will
-   * return a Bad Request error.
+   * Creates the Database resource corresponding to the Virtual Instance for SAP solutions resource.
+   * <br><br>This will be used by service only. PUT by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param databaseInstanceName Database Instance string modeled as parameter for auto generation to
-   *                             work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
+   *                             to work correctly.
    * @param options The options parameters.
    */
   beginCreateAndWait(
@@ -85,11 +85,11 @@ export interface SAPDatabaseInstances {
     options?: SAPDatabaseInstancesCreateOptionalParams
   ): Promise<SAPDatabaseInstancesCreateResponse>;
   /**
-   * Puts the SAP Database Instance.
+   * Updates the Database resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param databaseInstanceName Database Instance string modeled as parameter for auto generation to
-   *                             work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
+   *                             to work correctly.
    * @param options The options parameters.
    */
   beginUpdate(
@@ -104,11 +104,11 @@ export interface SAPDatabaseInstances {
     >
   >;
   /**
-   * Puts the SAP Database Instance.
+   * Updates the Database resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param databaseInstanceName Database Instance string modeled as parameter for auto generation to
-   *                             work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
+   *                             to work correctly.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
@@ -118,12 +118,12 @@ export interface SAPDatabaseInstances {
     options?: SAPDatabaseInstancesUpdateOptionalParams
   ): Promise<SAPDatabaseInstancesUpdateResponse>;
   /**
-   * Deletes the SAP Database Instance. <br><br>This will be used by service only. Delete by end user
-   * will return a Bad Request error.
+   * Deletes the Database resource corresponding to a Virtual Instance for SAP solutions resource.
+   * <br><br>This will be used by service only. Delete by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param databaseInstanceName Database Instance string modeled as parameter for auto generation to
-   *                             work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
+   *                             to work correctly.
    * @param options The options parameters.
    */
   beginDelete(
@@ -138,12 +138,12 @@ export interface SAPDatabaseInstances {
     >
   >;
   /**
-   * Deletes the SAP Database Instance. <br><br>This will be used by service only. Delete by end user
-   * will return a Bad Request error.
+   * Deletes the Database resource corresponding to a Virtual Instance for SAP solutions resource.
+   * <br><br>This will be used by service only. Delete by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param databaseInstanceName Database Instance string modeled as parameter for auto generation to
-   *                             work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
+   *                             to work correctly.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
