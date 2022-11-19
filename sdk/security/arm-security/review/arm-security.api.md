@@ -2184,9 +2184,6 @@ export interface GcpProjectEnvironmentData extends EnvironmentData {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface GithubScopeEnvironmentData extends EnvironmentData {
     environmentType: "GithubScope";
 }

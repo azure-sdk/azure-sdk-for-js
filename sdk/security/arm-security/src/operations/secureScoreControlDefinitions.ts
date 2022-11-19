@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SecureScoreControlDefinitions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,9 +16,9 @@ import {
   SecureScoreControlDefinitionItem,
   SecureScoreControlDefinitionsListNextOptionalParams,
   SecureScoreControlDefinitionsListOptionalParams,
-  SecureScoreControlDefinitionsListResponse,
   SecureScoreControlDefinitionsListBySubscriptionNextOptionalParams,
   SecureScoreControlDefinitionsListBySubscriptionOptionalParams,
+  SecureScoreControlDefinitionsListResponse,
   SecureScoreControlDefinitionsListBySubscriptionResponse,
   SecureScoreControlDefinitionsListNextResponse,
   SecureScoreControlDefinitionsListBySubscriptionNextResponse
@@ -54,34 +53,22 @@ export class SecureScoreControlDefinitionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
+      byPage: () => {
+        return this.listPagingPage(options);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: SecureScoreControlDefinitionsListOptionalParams,
-    settings?: PageSettings
+    options?: SecureScoreControlDefinitionsListOptionalParams
   ): AsyncIterableIterator<SecureScoreControlDefinitionItem[]> {
-    let result: SecureScoreControlDefinitionsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -109,34 +96,22 @@ export class SecureScoreControlDefinitionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
+      byPage: () => {
+        return this.listBySubscriptionPagingPage(options);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: SecureScoreControlDefinitionsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    options?: SecureScoreControlDefinitionsListBySubscriptionOptionalParams
   ): AsyncIterableIterator<SecureScoreControlDefinitionItem[]> {
-    let result: SecureScoreControlDefinitionsListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBySubscription(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

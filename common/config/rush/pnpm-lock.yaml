@@ -3946,7 +3946,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221118
+      typescript: 5.0.0-dev.20221119
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8951,8 +8951,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221118:
-    resolution: {integrity: sha512-qhm49ypT99QpVWeUNjsgriRvjnWHoeETIX/Xtk8AlyLDAxEJVkr0/QAurza7emkFpyOzzGt2VOIpNPOx1gCXRA==}
+  /typescript/5.0.0-dev.20221119:
+    resolution: {integrity: sha512-+vlP1KeOVgvevCjfmYdrABX6x28GP5oqHUiDjVVoz4suQp2oDGi81HwLjPJ7Xw/mo/L7IcpWrEn0uqRwK7DcwA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14590,7 +14590,7 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-Tm7ys+lUtb50Hxkp1TwkF+KpSCTOPXwUHIlUt1CdwuaMmndqR+20QJPqW2NtQsXVgcnHtL6W6FWtX6PQO8NRkQ==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-/UbMfk2WVmA8zvVsvFzSxDSRCW4uyyXe6az1pJPOMpdsuJLsTwE9Vi3xrbBNva6+5RKwi73JppKH3H5UD9pFNA==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
@@ -14608,11 +14608,12 @@ packages:
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.1
-      typescript: 4.8.4
+      typescript: 4.6.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - '@types/node'
       - supports-color
     dev: false
 
@@ -18261,7 +18262,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-language-text.tgz:
-    resolution: {integrity: sha512-QE8Bt92pG9RF+YJVqVmW4T2uUWCLgOGiI0iY05L6WDJLMP/JVL6oYQsS+Tw/cN55af7bBpizsMiTj6YO73KAOA==, tarball: file:projects/perf-ai-language-text.tgz}
+    resolution: {integrity: sha512-rHX5jgSLZQiFizDhO+TUBvGBLk59KhIPWraZoz0E8Um706f3VpFVYlZnLHZfzIpwStegucox3UJPAtlNVVDP2w==, tarball: file:projects/perf-ai-language-text.tgz}
     name: '@rush-temp/perf-ai-language-text'
     version: 0.0.0
     dependencies:
