@@ -36,13 +36,9 @@ export interface ErrorResponse {
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
@@ -68,18 +64,18 @@ export interface SystemData {
 }
 
 // @public
-export type TemplateSpec = AzureResourceBase & {
+export interface TemplateSpec extends AzureResourceBase {
+    description?: string;
+    displayName?: string;
     location: string;
+    metadata?: Record<string, unknown>;
     tags?: {
         [propertyName: string]: string;
     };
-    description?: string;
-    displayName?: string;
-    metadata?: Record<string, unknown>;
     readonly versions?: {
         [propertyName: string]: TemplateSpecVersionInfo;
     };
-};
+}
 
 // @public
 export type TemplateSpecExpandKind = string;
@@ -89,6 +85,8 @@ export interface TemplateSpecs {
     createOrUpdate(resourceGroupName: string, templateSpecName: string, templateSpec: TemplateSpec, options?: TemplateSpecsCreateOrUpdateOptionalParams): Promise<TemplateSpecsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, templateSpecName: string, options?: TemplateSpecsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, templateSpecName: string, options?: TemplateSpecsGetOptionalParams): Promise<TemplateSpecsGetResponse>;
+    getBuiltIn(templateSpecName: string, options?: TemplateSpecsGetBuiltInOptionalParams): Promise<TemplateSpecsGetBuiltInResponse>;
+    listBuiltIns(options?: TemplateSpecsListBuiltInsOptionalParams): PagedAsyncIterableIterator<TemplateSpec>;
     listByResourceGroup(resourceGroupName: string, options?: TemplateSpecsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<TemplateSpec>;
     listBySubscription(options?: TemplateSpecsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<TemplateSpec>;
     update(resourceGroupName: string, templateSpecName: string, options?: TemplateSpecsUpdateOptionalParams): Promise<TemplateSpecsUpdateResponse>;
@@ -133,12 +131,36 @@ export interface TemplateSpecsError {
 }
 
 // @public
+export interface TemplateSpecsGetBuiltInOptionalParams extends coreClient.OperationOptions {
+    expand?: TemplateSpecExpandKind;
+}
+
+// @public
+export type TemplateSpecsGetBuiltInResponse = TemplateSpec;
+
+// @public
 export interface TemplateSpecsGetOptionalParams extends coreClient.OperationOptions {
     expand?: TemplateSpecExpandKind;
 }
 
 // @public
 export type TemplateSpecsGetResponse = TemplateSpec;
+
+// @public
+export interface TemplateSpecsListBuiltInsNextOptionalParams extends coreClient.OperationOptions {
+    expand?: TemplateSpecExpandKind;
+}
+
+// @public
+export type TemplateSpecsListBuiltInsNextResponse = TemplateSpecsListResult;
+
+// @public
+export interface TemplateSpecsListBuiltInsOptionalParams extends coreClient.OperationOptions {
+    expand?: TemplateSpecExpandKind;
+}
+
+// @public
+export type TemplateSpecsListBuiltInsResponse = TemplateSpecsListResult;
 
 // @public
 export interface TemplateSpecsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
@@ -187,24 +209,24 @@ export interface TemplateSpecsUpdateOptionalParams extends coreClient.OperationO
 export type TemplateSpecsUpdateResponse = TemplateSpec;
 
 // @public
-export type TemplateSpecUpdateModel = AzureResourceBase & {
+export interface TemplateSpecUpdateModel extends AzureResourceBase {
     tags?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
-export type TemplateSpecVersion = AzureResourceBase & {
+export interface TemplateSpecVersion extends AzureResourceBase {
+    description?: string;
+    linkedTemplates?: LinkedTemplateArtifact[];
     location: string;
+    mainTemplate?: Record<string, unknown>;
+    metadata?: Record<string, unknown>;
     tags?: {
         [propertyName: string]: string;
     };
-    description?: string;
-    linkedTemplates?: LinkedTemplateArtifact[];
-    metadata?: Record<string, unknown>;
-    mainTemplate?: Record<string, unknown>;
     uiFormDefinition?: Record<string, unknown>;
-};
+}
 
 // @public
 export interface TemplateSpecVersionInfo {
@@ -218,7 +240,9 @@ export interface TemplateSpecVersions {
     createOrUpdate(resourceGroupName: string, templateSpecName: string, templateSpecVersion: string, templateSpecVersionModel: TemplateSpecVersion, options?: TemplateSpecVersionsCreateOrUpdateOptionalParams): Promise<TemplateSpecVersionsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, templateSpecName: string, templateSpecVersion: string, options?: TemplateSpecVersionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, templateSpecName: string, templateSpecVersion: string, options?: TemplateSpecVersionsGetOptionalParams): Promise<TemplateSpecVersionsGetResponse>;
+    getBuiltIn(templateSpecName: string, templateSpecVersion: string, options?: TemplateSpecVersionsGetBuiltInOptionalParams): Promise<TemplateSpecVersionsGetBuiltInResponse>;
     list(resourceGroupName: string, templateSpecName: string, options?: TemplateSpecVersionsListOptionalParams): PagedAsyncIterableIterator<TemplateSpecVersion>;
+    listBuiltIns(templateSpecName: string, options?: TemplateSpecVersionsListBuiltInsOptionalParams): PagedAsyncIterableIterator<TemplateSpecVersion>;
     update(resourceGroupName: string, templateSpecName: string, templateSpecVersion: string, options?: TemplateSpecVersionsUpdateOptionalParams): Promise<TemplateSpecVersionsUpdateResponse>;
 }
 
@@ -234,11 +258,32 @@ export interface TemplateSpecVersionsDeleteOptionalParams extends coreClient.Ope
 }
 
 // @public
+export interface TemplateSpecVersionsGetBuiltInOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TemplateSpecVersionsGetBuiltInResponse = TemplateSpecVersion;
+
+// @public
 export interface TemplateSpecVersionsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
 export type TemplateSpecVersionsGetResponse = TemplateSpecVersion;
+
+// @public
+export interface TemplateSpecVersionsListBuiltInsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TemplateSpecVersionsListBuiltInsNextResponse = TemplateSpecVersionsListResult;
+
+// @public
+export interface TemplateSpecVersionsListBuiltInsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TemplateSpecVersionsListBuiltInsResponse = TemplateSpecVersionsListResult;
 
 // @public
 export interface TemplateSpecVersionsListNextOptionalParams extends coreClient.OperationOptions {
@@ -269,11 +314,11 @@ export interface TemplateSpecVersionsUpdateOptionalParams extends coreClient.Ope
 export type TemplateSpecVersionsUpdateResponse = TemplateSpecVersion;
 
 // @public
-export type TemplateSpecVersionUpdateModel = AzureResourceBase & {
+export interface TemplateSpecVersionUpdateModel extends AzureResourceBase {
     tags?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // (No @packageDocumentation comment for this package)
 

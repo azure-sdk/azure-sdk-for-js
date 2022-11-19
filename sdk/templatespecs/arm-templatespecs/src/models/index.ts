@@ -147,7 +147,7 @@ export interface TemplateSpecVersionsListResult {
 }
 
 /** Template Spec object. */
-export type TemplateSpec = AzureResourceBase & {
+export interface TemplateSpec extends AzureResourceBase {
   /** The location of the Template Spec. It cannot be changed after Template Spec creation. It must be one of the supported Azure locations. */
   location: string;
   /** Resource tags. */
@@ -163,16 +163,16 @@ export type TemplateSpec = AzureResourceBase & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly versions?: { [propertyName: string]: TemplateSpecVersionInfo };
-};
+}
 
 /** Template Spec properties to be updated (only tags are currently supported). */
-export type TemplateSpecUpdateModel = AzureResourceBase & {
+export interface TemplateSpecUpdateModel extends AzureResourceBase {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-};
+}
 
 /** Template Spec Version object. */
-export type TemplateSpecVersion = AzureResourceBase & {
+export interface TemplateSpecVersion extends AzureResourceBase {
   /** The location of the Template Spec Version. It must match the location of the parent Template Spec. */
   location: string;
   /** Resource tags. */
@@ -187,19 +187,23 @@ export type TemplateSpecVersion = AzureResourceBase & {
   mainTemplate?: Record<string, unknown>;
   /** The Azure Resource Manager template UI definition content. */
   uiFormDefinition?: Record<string, unknown>;
-};
+}
 
 /** Template Spec Version properties to be updated (only tags are currently supported). */
-export type TemplateSpecVersionUpdateModel = AzureResourceBase & {
+export interface TemplateSpecVersionUpdateModel extends AzureResourceBase {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-};
+}
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -282,6 +286,26 @@ export interface TemplateSpecsListByResourceGroupOptionalParams
 export type TemplateSpecsListByResourceGroupResponse = TemplateSpecsListResult;
 
 /** Optional parameters. */
+export interface TemplateSpecsGetBuiltInOptionalParams
+  extends coreClient.OperationOptions {
+  /** Allows for expansion of additional Template Spec details in the response. Optional. */
+  expand?: TemplateSpecExpandKind;
+}
+
+/** Contains response data for the getBuiltIn operation. */
+export type TemplateSpecsGetBuiltInResponse = TemplateSpec;
+
+/** Optional parameters. */
+export interface TemplateSpecsListBuiltInsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Allows for expansion of additional Template Spec details in the response. Optional. */
+  expand?: TemplateSpecExpandKind;
+}
+
+/** Contains response data for the listBuiltIns operation. */
+export type TemplateSpecsListBuiltInsResponse = TemplateSpecsListResult;
+
+/** Optional parameters. */
 export interface TemplateSpecsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {
   /** Allows for expansion of additional Template Spec details in the response. Optional. */
@@ -300,6 +324,16 @@ export interface TemplateSpecsListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type TemplateSpecsListByResourceGroupNextResponse = TemplateSpecsListResult;
+
+/** Optional parameters. */
+export interface TemplateSpecsListBuiltInsNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Allows for expansion of additional Template Spec details in the response. Optional. */
+  expand?: TemplateSpecExpandKind;
+}
+
+/** Contains response data for the listBuiltInsNext operation. */
+export type TemplateSpecsListBuiltInsNextResponse = TemplateSpecsListResult;
 
 /** Optional parameters. */
 export interface TemplateSpecVersionsCreateOrUpdateOptionalParams
@@ -337,11 +371,32 @@ export interface TemplateSpecVersionsListOptionalParams
 export type TemplateSpecVersionsListResponse = TemplateSpecVersionsListResult;
 
 /** Optional parameters. */
+export interface TemplateSpecVersionsListBuiltInsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBuiltIns operation. */
+export type TemplateSpecVersionsListBuiltInsResponse = TemplateSpecVersionsListResult;
+
+/** Optional parameters. */
+export interface TemplateSpecVersionsGetBuiltInOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getBuiltIn operation. */
+export type TemplateSpecVersionsGetBuiltInResponse = TemplateSpecVersion;
+
+/** Optional parameters. */
 export interface TemplateSpecVersionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type TemplateSpecVersionsListNextResponse = TemplateSpecVersionsListResult;
+
+/** Optional parameters. */
+export interface TemplateSpecVersionsListBuiltInsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBuiltInsNext operation. */
+export type TemplateSpecVersionsListBuiltInsNextResponse = TemplateSpecVersionsListResult;
 
 /** Optional parameters. */
 export interface TemplateSpecsClientOptionalParams
