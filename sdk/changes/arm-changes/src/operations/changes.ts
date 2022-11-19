@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Changes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -65,17 +64,13 @@ export class ChangesImpl implements Changes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listPagingPage(
           resourceGroupName,
           resourceProviderNamespace,
           resourceType,
           resourceName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -86,24 +81,17 @@ export class ChangesImpl implements Changes {
     resourceProviderNamespace: string,
     resourceType: string,
     resourceName: string,
-    options?: ChangesListOptionalParams,
-    settings?: PageSettings
+    options?: ChangesListOptionalParams
   ): AsyncIterableIterator<ChangeResourceResult[]> {
-    let result: ChangesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        resourceProviderNamespace,
-        resourceType,
-        resourceName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(
+      resourceGroupName,
+      resourceProviderNamespace,
+      resourceType,
+      resourceName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -114,9 +102,7 @@ export class ChangesImpl implements Changes {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
