@@ -13,6 +13,7 @@ import {
   DatabaseMigrationSqlVm,
   DatabaseMigrationsSqlVmCreateOrUpdateOptionalParams,
   DatabaseMigrationsSqlVmCreateOrUpdateResponse,
+  DatabaseMigrationsSqlVmDeleteOptionalParams,
   MigrationOperationInput,
   DatabaseMigrationsSqlVmCancelOptionalParams,
   DatabaseMigrationsSqlVmCutoverOptionalParams
@@ -21,7 +22,7 @@ import {
 /** Interface representing a DatabaseMigrationsSqlVm. */
 export interface DatabaseMigrationsSqlVm {
   /**
-   * Retrieve the Database Migration resource.
+   * Retrieve the specified database migration for a given SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -35,7 +36,7 @@ export interface DatabaseMigrationsSqlVm {
     options?: DatabaseMigrationsSqlVmGetOptionalParams
   ): Promise<DatabaseMigrationsSqlVmGetResponse>;
   /**
-   * Create or Update Database Migration resource.
+   * Create a new database migration to a given SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -56,7 +57,7 @@ export interface DatabaseMigrationsSqlVm {
     >
   >;
   /**
-   * Create or Update Database Migration resource.
+   * Create a new database migration to a given SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -72,7 +73,35 @@ export interface DatabaseMigrationsSqlVm {
     options?: DatabaseMigrationsSqlVmCreateOrUpdateOptionalParams
   ): Promise<DatabaseMigrationsSqlVmCreateOrUpdateResponse>;
   /**
-   * Stop ongoing migration for the database.
+   * Delete Database Migration resource.
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
+   *                          value from the Azure Resource Manager API or the portal.
+   * @param sqlVirtualMachineName
+   * @param targetDbName The name of the target database.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    sqlVirtualMachineName: string,
+    targetDbName: string,
+    options?: DatabaseMigrationsSqlVmDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Delete Database Migration resource.
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
+   *                          value from the Azure Resource Manager API or the portal.
+   * @param sqlVirtualMachineName
+   * @param targetDbName The name of the target database.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    sqlVirtualMachineName: string,
+    targetDbName: string,
+    options?: DatabaseMigrationsSqlVmDeleteOptionalParams
+  ): Promise<void>;
+  /**
+   * Stop in-progress database migration to SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -88,7 +117,7 @@ export interface DatabaseMigrationsSqlVm {
     options?: DatabaseMigrationsSqlVmCancelOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Stop ongoing migration for the database.
+   * Stop in-progress database migration to SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -104,7 +133,7 @@ export interface DatabaseMigrationsSqlVm {
     options?: DatabaseMigrationsSqlVmCancelOptionalParams
   ): Promise<void>;
   /**
-   * Cutover online migration operation for the database.
+   * Initiate cutover for in-progress online database migration to SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -120,7 +149,7 @@ export interface DatabaseMigrationsSqlVm {
     options?: DatabaseMigrationsSqlVmCutoverOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Cutover online migration operation for the database.
+   * Initiate cutover for in-progress online database migration to SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
