@@ -3946,7 +3946,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221118
+      typescript: 5.0.0-dev.20221120
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8951,8 +8951,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221118:
-    resolution: {integrity: sha512-qhm49ypT99QpVWeUNjsgriRvjnWHoeETIX/Xtk8AlyLDAxEJVkr0/QAurza7emkFpyOzzGt2VOIpNPOx1gCXRA==}
+  /typescript/5.0.0-dev.20221120:
+    resolution: {integrity: sha512-PT+BOoN7PdEB/vx6+yqaaVQBSthUBj//MO347xvI1UGpXKR5xPHL0PcXDOZNZDKv61i1hCyRpvWYYDRxC8pT2g==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14157,28 +14157,30 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices-siterecovery.tgz:
-    resolution: {integrity: sha512-PeiOw6tRFKqkVPLIOjpfYfbamggjEWRMsmQi9lFquXY2Fm8a0wJZG0Z4Ktru8q5zYcCYMUeZkNIeSK49hnuZrw==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
+    resolution: {integrity: sha512-odFtDwliFcMlASssQdopDhf3SHo5nSpONPKzhFtYa+J5Qu4RM7ZRlmJils6CEFP7mSXYxBCb3mmSYrp2WrNg+w==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
     name: '@rush-temp/arm-recoveryservices-siterecovery'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.5
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - encoding
+      - '@types/node'
       - supports-color
     dev: false
 
@@ -18261,7 +18263,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-language-text.tgz:
-    resolution: {integrity: sha512-QE8Bt92pG9RF+YJVqVmW4T2uUWCLgOGiI0iY05L6WDJLMP/JVL6oYQsS+Tw/cN55af7bBpizsMiTj6YO73KAOA==, tarball: file:projects/perf-ai-language-text.tgz}
+    resolution: {integrity: sha512-rHX5jgSLZQiFizDhO+TUBvGBLk59KhIPWraZoz0E8Um706f3VpFVYlZnLHZfzIpwStegucox3UJPAtlNVVDP2w==, tarball: file:projects/perf-ai-language-text.tgz}
     name: '@rush-temp/perf-ai-language-text'
     version: 0.0.0
     dependencies:

@@ -718,15 +718,15 @@ export interface ReplicationProtectedItems {
    * protected item to the latest available version.
    * @param fabricName The name of the fabric containing the protected item.
    * @param protectionContainerName The name of the container containing the protected item.
-   * @param replicationProtectedItemName The name of the protected item on which the agent is to be
-   *                                     updated.
+   * @param replicatedProtectedItemName The name of the protected item on which the agent is to be
+   *                                    updated.
    * @param updateMobilityServiceRequest Request to update the mobility service on the protected item.
    * @param options The options parameters.
    */
   beginUpdateMobilityService(
     fabricName: string,
     protectionContainerName: string,
-    replicationProtectedItemName: string,
+    replicatedProtectedItemName: string,
     updateMobilityServiceRequest: UpdateMobilityServiceRequest,
     options?: ReplicationProtectedItemsUpdateMobilityServiceOptionalParams
   ): Promise<
@@ -742,15 +742,15 @@ export interface ReplicationProtectedItems {
    * protected item to the latest available version.
    * @param fabricName The name of the fabric containing the protected item.
    * @param protectionContainerName The name of the container containing the protected item.
-   * @param replicationProtectedItemName The name of the protected item on which the agent is to be
-   *                                     updated.
+   * @param replicatedProtectedItemName The name of the protected item on which the agent is to be
+   *                                    updated.
    * @param updateMobilityServiceRequest Request to update the mobility service on the protected item.
    * @param options The options parameters.
    */
   beginUpdateMobilityServiceAndWait(
     fabricName: string,
     protectionContainerName: string,
-    replicationProtectedItemName: string,
+    replicatedProtectedItemName: string,
     updateMobilityServiceRequest: UpdateMobilityServiceRequest,
     options?: ReplicationProtectedItemsUpdateMobilityServiceOptionalParams
   ): Promise<ReplicationProtectedItemsUpdateMobilityServiceResponse>;
