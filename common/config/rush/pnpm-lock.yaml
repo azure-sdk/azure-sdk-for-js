@@ -3946,7 +3946,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221118
+      typescript: 5.0.0-dev.20221122
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8951,8 +8951,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221118:
-    resolution: {integrity: sha512-qhm49ypT99QpVWeUNjsgriRvjnWHoeETIX/Xtk8AlyLDAxEJVkr0/QAurza7emkFpyOzzGt2VOIpNPOx1gCXRA==}
+  /typescript/5.0.0-dev.20221122:
+    resolution: {integrity: sha512-/QYsPv6nbBSWrKXPObtChCHpACYlPvREUopuRBqi+ULfhoxwsRqlSjzyDareF1BVAojPcJJrdgGBv+s/1RLwoA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11515,7 +11515,7 @@ packages:
     dev: false
 
   file:projects/arm-databox.tgz:
-    resolution: {integrity: sha512-Oqk4QpNI7qVkqUzoKIO0ULE3LgI4WuSsrrl4KMq1beX4GdIOsJnIdMuTcWwFgVHtMEdIKAleMZb2f73ZdoPrYQ==, tarball: file:projects/arm-databox.tgz}
+    resolution: {integrity: sha512-EFhZ7r0sCTHkHWNYEA22qRqT1P6PrBVxja/ah6xSnrM7N8EmtrAScybobtGmqtJ2oY0oA0ULU9TrIwiT5Z2e7w==, tarball: file:projects/arm-databox.tgz}
     name: '@rush-temp/arm-databox'
     version: 0.0.0
     dependencies:
@@ -11526,6 +11526,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11533,11 +11535,10 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -18136,7 +18137,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-F/F13rtiA7GpNpIPq6NEM4vYK/ZFf/QabtI/jA+Vg7C1SB2o3cPQl7oIpkgRBJx1PVsVupuOkFoswLqUfnCWxg==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-QOCpIU9mFQu3DygIWkmyhkg44lTuX7hmKO0BD9GDHPb34MESU2Oo8xoAQmYWCxmjBU11L6mRoTYHobe+ws1/0w==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
@@ -18261,7 +18262,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-language-text.tgz:
-    resolution: {integrity: sha512-QE8Bt92pG9RF+YJVqVmW4T2uUWCLgOGiI0iY05L6WDJLMP/JVL6oYQsS+Tw/cN55af7bBpizsMiTj6YO73KAOA==, tarball: file:projects/perf-ai-language-text.tgz}
+    resolution: {integrity: sha512-rHX5jgSLZQiFizDhO+TUBvGBLk59KhIPWraZoz0E8Um706f3VpFVYlZnLHZfzIpwStegucox3UJPAtlNVVDP2w==, tarball: file:projects/perf-ai-language-text.tgz}
     name: '@rush-temp/perf-ai-language-text'
     version: 0.0.0
     dependencies:
