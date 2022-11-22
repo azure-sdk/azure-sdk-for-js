@@ -3946,7 +3946,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221118
+      typescript: 5.0.0-dev.20221121
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8951,8 +8951,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221118:
-    resolution: {integrity: sha512-qhm49ypT99QpVWeUNjsgriRvjnWHoeETIX/Xtk8AlyLDAxEJVkr0/QAurza7emkFpyOzzGt2VOIpNPOx1gCXRA==}
+  /typescript/5.0.0-dev.20221121:
+    resolution: {integrity: sha512-p7Nubpa0zmn90Uyacwy26poAIoMmYhEvFxXWs9Kb4INjfQQhQ1svVoXL1R2nQjD9a8W/H9F8BhETzS09ztLMog==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11920,28 +11920,30 @@ packages:
     dev: false
 
   file:projects/arm-devspaces.tgz:
-    resolution: {integrity: sha512-3pWlCKxQgDUm3LluJtggE4dEQ5yD+ifpwLx4CB1J5v2FCToxe3t91Y5iagHSLHLggMLcqknHiRvby8r1jZxvew==, tarball: file:projects/arm-devspaces.tgz}
+    resolution: {integrity: sha512-UWHJcQ5BHUmtSIbnpvFDpHbtUcVXj6guS6y5Rs59IhXpybkIiClUPBbdX1aZMG6ZjQFnH5gsXA5rqlrhxuK2eQ==, tarball: file:projects/arm-devspaces.tgz}
     name: '@rush-temp/arm-devspaces'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.5
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - encoding
+      - '@types/node'
       - supports-color
     dev: false
 
@@ -18136,7 +18138,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-F/F13rtiA7GpNpIPq6NEM4vYK/ZFf/QabtI/jA+Vg7C1SB2o3cPQl7oIpkgRBJx1PVsVupuOkFoswLqUfnCWxg==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-QOCpIU9mFQu3DygIWkmyhkg44lTuX7hmKO0BD9GDHPb34MESU2Oo8xoAQmYWCxmjBU11L6mRoTYHobe+ws1/0w==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
@@ -18261,7 +18263,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-language-text.tgz:
-    resolution: {integrity: sha512-QE8Bt92pG9RF+YJVqVmW4T2uUWCLgOGiI0iY05L6WDJLMP/JVL6oYQsS+Tw/cN55af7bBpizsMiTj6YO73KAOA==, tarball: file:projects/perf-ai-language-text.tgz}
+    resolution: {integrity: sha512-rHX5jgSLZQiFizDhO+TUBvGBLk59KhIPWraZoz0E8Um706f3VpFVYlZnLHZfzIpwStegucox3UJPAtlNVVDP2w==, tarball: file:projects/perf-ai-language-text.tgz}
     name: '@rush-temp/perf-ai-language-text'
     version: 0.0.0
     dependencies:
