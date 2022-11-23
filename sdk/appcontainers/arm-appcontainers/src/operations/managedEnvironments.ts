@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ManagedEnvironments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,22 +18,23 @@ import {
   ManagedEnvironment,
   ManagedEnvironmentsListBySubscriptionNextOptionalParams,
   ManagedEnvironmentsListBySubscriptionOptionalParams,
-  ManagedEnvironmentsListBySubscriptionResponse,
   ManagedEnvironmentsListByResourceGroupNextOptionalParams,
   ManagedEnvironmentsListByResourceGroupOptionalParams,
-  ManagedEnvironmentsListByResourceGroupResponse,
   WorkloadProfileStates,
   ManagedEnvironmentsListWorkloadProfileStatesNextOptionalParams,
   ManagedEnvironmentsListWorkloadProfileStatesOptionalParams,
-  ManagedEnvironmentsListWorkloadProfileStatesResponse,
+  ManagedEnvironmentsListBySubscriptionResponse,
+  ManagedEnvironmentsListByResourceGroupResponse,
   ManagedEnvironmentsGetOptionalParams,
   ManagedEnvironmentsGetResponse,
   ManagedEnvironmentsCreateOrUpdateOptionalParams,
   ManagedEnvironmentsCreateOrUpdateResponse,
   ManagedEnvironmentsDeleteOptionalParams,
   ManagedEnvironmentsUpdateOptionalParams,
+  ManagedEnvironmentsUpdateResponse,
   ManagedEnvironmentsGetAuthTokenOptionalParams,
   ManagedEnvironmentsGetAuthTokenResponse,
+  ManagedEnvironmentsListWorkloadProfileStatesResponse,
   ManagedEnvironmentsListBySubscriptionNextResponse,
   ManagedEnvironmentsListByResourceGroupNextResponse,
   ManagedEnvironmentsListWorkloadProfileStatesNextResponse
@@ -68,34 +68,22 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
+      byPage: () => {
+        return this.listBySubscriptionPagingPage(options);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: ManagedEnvironmentsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    options?: ManagedEnvironmentsListBySubscriptionOptionalParams
   ): AsyncIterableIterator<ManagedEnvironment[]> {
-    let result: ManagedEnvironmentsListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBySubscription(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -124,33 +112,19 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ManagedEnvironmentsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: ManagedEnvironmentsListByResourceGroupOptionalParams
   ): AsyncIterableIterator<ManagedEnvironment[]> {
-    let result: ManagedEnvironmentsListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -158,9 +132,7 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -199,15 +171,11 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listWorkloadProfileStatesPagingPage(
           resourceGroupName,
           environmentName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -216,22 +184,15 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
   private async *listWorkloadProfileStatesPagingPage(
     resourceGroupName: string,
     environmentName: string,
-    options?: ManagedEnvironmentsListWorkloadProfileStatesOptionalParams,
-    settings?: PageSettings
+    options?: ManagedEnvironmentsListWorkloadProfileStatesOptionalParams
   ): AsyncIterableIterator<WorkloadProfileStates[]> {
-    let result: ManagedEnvironmentsListWorkloadProfileStatesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listWorkloadProfileStates(
-        resourceGroupName,
-        environmentName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listWorkloadProfileStates(
+      resourceGroupName,
+      environmentName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listWorkloadProfileStatesNext(
         resourceGroupName,
@@ -240,9 +201,7 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -491,11 +450,16 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
     environmentName: string,
     environmentEnvelope: ManagedEnvironment,
     options?: ManagedEnvironmentsUpdateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedEnvironmentsUpdateResponse>,
+      ManagedEnvironmentsUpdateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<ManagedEnvironmentsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -556,7 +520,7 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
     environmentName: string,
     environmentEnvelope: ManagedEnvironment,
     options?: ManagedEnvironmentsUpdateOptionalParams
-  ): Promise<void> {
+  ): Promise<ManagedEnvironmentsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       environmentName,
@@ -736,7 +700,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.environmentEnvelope,
+  requestBody: Parameters.environmentEnvelope1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -776,15 +740,23 @@ const updateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}",
   httpMethod: "PATCH",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.ManagedEnvironment
+    },
+    201: {
+      bodyMapper: Mappers.ManagedEnvironment
+    },
+    202: {
+      bodyMapper: Mappers.ManagedEnvironment
+    },
+    204: {
+      bodyMapper: Mappers.ManagedEnvironment
+    },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.environmentEnvelope,
+  requestBody: Parameters.environmentEnvelope1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

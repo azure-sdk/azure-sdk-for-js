@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ConnectedEnvironmentsCertificates } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -66,15 +65,11 @@ export class ConnectedEnvironmentsCertificatesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listPagingPage(
           resourceGroupName,
           connectedEnvironmentName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -83,22 +78,15 @@ export class ConnectedEnvironmentsCertificatesImpl
   private async *listPagingPage(
     resourceGroupName: string,
     connectedEnvironmentName: string,
-    options?: ConnectedEnvironmentsCertificatesListOptionalParams,
-    settings?: PageSettings
+    options?: ConnectedEnvironmentsCertificatesListOptionalParams
   ): AsyncIterableIterator<Certificate[]> {
-    let result: ConnectedEnvironmentsCertificatesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        connectedEnvironmentName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(
+      resourceGroupName,
+      connectedEnvironmentName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -107,9 +95,7 @@ export class ConnectedEnvironmentsCertificatesImpl
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -289,8 +275,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.certificateName,
-    Parameters.connectedEnvironmentName
+    Parameters.connectedEnvironmentName,
+    Parameters.certificateName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -313,8 +299,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.certificateName,
-    Parameters.connectedEnvironmentName
+    Parameters.connectedEnvironmentName,
+    Parameters.certificateName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -336,8 +322,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.certificateName,
-    Parameters.connectedEnvironmentName
+    Parameters.connectedEnvironmentName,
+    Parameters.certificateName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -360,8 +346,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.certificateName,
-    Parameters.connectedEnvironmentName
+    Parameters.connectedEnvironmentName,
+    Parameters.certificateName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

@@ -606,6 +606,7 @@ export interface ContainerApp extends TrackedResource {
     readonly eventStreamEndpoint?: string;
     extendedLocation?: ExtendedLocation;
     identity?: ManagedServiceIdentity;
+    readonly latestReadyRevisionName?: string;
     readonly latestRevisionFqdn?: string;
     readonly latestRevisionName?: string;
     managedEnvironmentId?: string;
@@ -670,8 +671,8 @@ export interface ContainerApps {
     beginCreateOrUpdateAndWait(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams): Promise<ContainerAppsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginUpdateAndWait(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ContainerAppsUpdateResponse>, ContainerAppsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<ContainerAppsUpdateResponse>;
     get(resourceGroupName: string, containerAppName: string, options?: ContainerAppsGetOptionalParams): Promise<ContainerAppsGetResponse>;
     getAuthToken(resourceGroupName: string, containerAppName: string, options?: ContainerAppsGetAuthTokenOptionalParams): Promise<ContainerAppsGetAuthTokenResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ContainerAppsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ContainerApp>;
@@ -1033,6 +1034,9 @@ export interface ContainerAppsUpdateOptionalParams extends coreClient.OperationO
 }
 
 // @public
+export type ContainerAppsUpdateResponse = ContainerApp;
+
+// @public
 export interface ContainerResources {
     cpu?: number;
     readonly ephemeralStorage?: string;
@@ -1049,6 +1053,16 @@ export interface CookieExpiration {
 export type CookieExpirationConvention = "FixedTime" | "IdentityProviderDerived";
 
 // @public
+export interface CorsPolicy {
+    allowCredentials?: boolean;
+    allowedHeaders?: string[];
+    allowedMethods?: string[];
+    allowedOrigins: string[];
+    exposeHeaders?: string[];
+    maxAge?: number;
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -1060,7 +1074,7 @@ export interface CustomDomain {
 
 // @public
 export interface CustomDomainConfiguration {
-    certificatePassword?: Uint8Array;
+    certificatePassword?: string;
     certificateValue?: Uint8Array;
     readonly customDomainVerificationId?: string;
     dnsSuffix?: string;
@@ -1209,7 +1223,7 @@ export interface DaprSecret {
 
 // @public
 export interface DaprSecretsCollection {
-    value: Secret[];
+    value: DaprSecret[];
 }
 
 // @public
@@ -1395,9 +1409,6 @@ export interface ForwardProxy {
 export type ForwardProxyConvention = "NoProxy" | "Standard" | "Custom";
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface GitHub {
     enabled?: boolean;
     login?: LoginScopes;
@@ -1468,6 +1479,8 @@ export interface IdentityProviders {
 // @public
 export interface Ingress {
     allowInsecure?: boolean;
+    clientCertificateMode?: IngressClientCertificateMode;
+    corsPolicy?: CorsPolicy;
     customDomains?: CustomDomain[];
     exposedPort?: number;
     external?: boolean;
@@ -1477,6 +1490,9 @@ export interface Ingress {
     traffic?: TrafficWeight[];
     transport?: IngressTransportMethod;
 }
+
+// @public
+export type IngressClientCertificateMode = string;
 
 // @public
 export type IngressTransportMethod = string;
@@ -1606,6 +1622,13 @@ export enum KnownExtendedLocationTypes {
 }
 
 // @public
+export enum KnownIngressClientCertificateMode {
+    Accept = "accept",
+    Ignore = "ignore",
+    Require = "require"
+}
+
+// @public
 export enum KnownIngressTransportMethod {
     Auto = "auto",
     Http = "http",
@@ -1721,6 +1744,7 @@ export interface ManagedEnvironment extends TrackedResource {
     readonly defaultDomain?: string;
     readonly deploymentErrors?: string;
     readonly eventStreamEndpoint?: string;
+    kind?: string;
     readonly provisioningState?: EnvironmentProvisioningState;
     sku?: EnvironmentSkuProperties;
     readonly staticIp?: string;
@@ -1764,8 +1788,8 @@ export interface ManagedEnvironments {
     beginCreateOrUpdateAndWait(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsCreateOrUpdateOptionalParams): Promise<ManagedEnvironmentsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginUpdateAndWait(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ManagedEnvironmentsUpdateResponse>, ManagedEnvironmentsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<ManagedEnvironmentsUpdateResponse>;
     get(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsGetOptionalParams): Promise<ManagedEnvironmentsGetResponse>;
     getAuthToken(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsGetAuthTokenOptionalParams): Promise<ManagedEnvironmentsGetAuthTokenResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ManagedEnvironmentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ManagedEnvironment>;
@@ -1915,6 +1939,9 @@ export interface ManagedEnvironmentsUpdateOptionalParams extends coreClient.Oper
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type ManagedEnvironmentsUpdateResponse = ManagedEnvironment;
 
 // @public
 export interface ManagedServiceIdentity {

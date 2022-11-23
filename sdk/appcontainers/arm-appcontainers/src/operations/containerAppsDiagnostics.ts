@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ContainerAppsDiagnostics } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,13 +16,13 @@ import {
   Diagnostics,
   ContainerAppsDiagnosticsListDetectorsNextOptionalParams,
   ContainerAppsDiagnosticsListDetectorsOptionalParams,
-  ContainerAppsDiagnosticsListDetectorsResponse,
   Revision,
   ContainerAppsDiagnosticsListRevisionsNextOptionalParams,
   ContainerAppsDiagnosticsListRevisionsOptionalParams,
-  ContainerAppsDiagnosticsListRevisionsResponse,
+  ContainerAppsDiagnosticsListDetectorsResponse,
   ContainerAppsDiagnosticsGetDetectorOptionalParams,
   ContainerAppsDiagnosticsGetDetectorResponse,
+  ContainerAppsDiagnosticsListRevisionsResponse,
   ContainerAppsDiagnosticsGetRevisionOptionalParams,
   ContainerAppsDiagnosticsGetRevisionResponse,
   ContainerAppsDiagnosticsGetRootOptionalParams,
@@ -68,15 +67,11 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listDetectorsPagingPage(
           resourceGroupName,
           containerAppName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -85,22 +80,15 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
   private async *listDetectorsPagingPage(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsDiagnosticsListDetectorsOptionalParams,
-    settings?: PageSettings
+    options?: ContainerAppsDiagnosticsListDetectorsOptionalParams
   ): AsyncIterableIterator<Diagnostics[]> {
-    let result: ContainerAppsDiagnosticsListDetectorsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listDetectors(
-        resourceGroupName,
-        containerAppName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listDetectors(
+      resourceGroupName,
+      containerAppName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listDetectorsNext(
         resourceGroupName,
@@ -109,9 +97,7 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -152,15 +138,11 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listRevisionsPagingPage(
           resourceGroupName,
           containerAppName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -169,22 +151,15 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
   private async *listRevisionsPagingPage(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsDiagnosticsListRevisionsOptionalParams,
-    settings?: PageSettings
+    options?: ContainerAppsDiagnosticsListRevisionsOptionalParams
   ): AsyncIterableIterator<Revision[]> {
-    let result: ContainerAppsDiagnosticsListRevisionsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listRevisions(
-        resourceGroupName,
-        containerAppName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listRevisions(
+      resourceGroupName,
+      containerAppName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listRevisionsNext(
         resourceGroupName,
@@ -193,9 +168,7 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
