@@ -1,5 +1,63 @@
 # Release History
     
+## 17.2.0-beta.2 (2022-11-23)
+    
+**Features**
+
+  - Added operation AgentPools.beginAbortLatestOperation
+  - Added operation AgentPools.beginAbortLatestOperationAndWait
+  - Added operation ManagedClusters.beginAbortLatestOperation
+  - Added operation ManagedClusters.beginAbortLatestOperationAndWait
+  - Added Interface AbsoluteMonthlySchedule
+  - Added Interface AgentPoolsAbortLatestOperationHeaders
+  - Added Interface AgentPoolsDeleteHeaders
+  - Added Interface DailySchedule
+  - Added Interface DateSpan
+  - Added Interface MaintenanceWindow
+  - Added Interface ManagedClustersAbortLatestOperationHeaders
+  - Added Interface ManagedClustersDeleteHeaders
+  - Added Interface ManagedClustersGetCommandResultHeaders
+  - Added Interface ManagedClustersResetAADProfileHeaders
+  - Added Interface ManagedClustersResetServicePrincipalProfileHeaders
+  - Added Interface ManagedClustersRotateClusterCertificatesHeaders
+  - Added Interface ManagedClustersRotateServiceAccountSigningKeysHeaders
+  - Added Interface ManagedClustersRunCommandHeaders
+  - Added Interface ManagedClustersStartHeaders
+  - Added Interface ManagedClustersStopHeaders
+  - Added Interface RelativeMonthlySchedule
+  - Added Interface Schedule
+  - Added Interface WeeklySchedule
+  - Added Type Alias AgentPoolsAbortLatestOperationResponse
+  - Added Type Alias AgentPoolsDeleteResponse
+  - Added Type Alias ManagedClustersAbortLatestOperationResponse
+  - Added Type Alias ManagedClustersDeleteResponse
+  - Added Type Alias ManagedClustersRotateClusterCertificatesResponse
+  - Added Type Alias ManagedClustersRotateServiceAccountSigningKeysResponse
+  - Added Type Alias ManagedClustersStartResponse
+  - Added Type Alias ManagedClustersStopResponse
+  - Added Type Alias NodeOSUpgradeChannel
+  - Added Type Alias Type
+  - Interface AgentPoolsAbortLatestOperationOptionalParams has a new optional parameter resumeFrom
+  - Interface AgentPoolsAbortLatestOperationOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface MaintenanceConfiguration has a new optional parameter maintenanceWindow
+  - Interface ManagedClusterAutoUpgradeProfile has a new optional parameter nodeOSUpgradeChannel
+  - Interface ManagedClustersAbortLatestOperationOptionalParams has a new optional parameter resumeFrom
+  - Interface ManagedClustersAbortLatestOperationOptionalParams has a new optional parameter updateIntervalInMs
+  - Added Enum KnownNodeOSUpgradeChannel
+  - Added Enum KnownType
+  - Enum KnownManagedClusterPodIdentityProvisioningState has a new value Canceled
+  - Enum KnownManagedClusterPodIdentityProvisioningState has a new value Succeeded
+  - Enum KnownPrivateEndpointConnectionProvisioningState has a new value Canceled
+  - Enum KnownTrustedAccessRoleBindingProvisioningState has a new value Canceled
+
+**Breaking Changes**
+
+  - Removed operation AgentPools.abortLatestOperation
+  - Removed operation ManagedClusters.abortLatestOperation
+  - Interface ContainerServiceClientOptionalParams no longer has parameter apiVersion
+  - Class ContainerServiceClient no longer has parameter apiVersion
+    
+    
 ## 17.2.0-beta.1 (2022-11-07)
     
 **Features**
