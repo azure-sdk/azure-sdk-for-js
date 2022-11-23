@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { TenantSettings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -60,15 +59,11 @@ export class TenantSettingsImpl implements TenantSettings {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByServicePagingPage(
           resourceGroupName,
           serviceName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -77,22 +72,15 @@ export class TenantSettingsImpl implements TenantSettings {
   private async *listByServicePagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: TenantSettingsListByServiceOptionalParams,
-    settings?: PageSettings
+    options?: TenantSettingsListByServiceOptionalParams
   ): AsyncIterableIterator<TenantSettingsContract[]> {
-    let result: TenantSettingsListByServiceResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByService(
+      resourceGroupName,
+      serviceName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByServiceNext(
         resourceGroupName,
@@ -101,9 +89,7 @@ export class TenantSettingsImpl implements TenantSettings {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

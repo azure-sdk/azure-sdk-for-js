@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ApiProduct } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -60,16 +59,12 @@ export class ApiProductImpl implements ApiProduct {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByApisPagingPage(
           resourceGroupName,
           serviceName,
           apiId,
-          options,
-          settings
+          options
         );
       }
     };
@@ -79,23 +74,16 @@ export class ApiProductImpl implements ApiProduct {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiProductListByApisOptionalParams,
-    settings?: PageSettings
+    options?: ApiProductListByApisOptionalParams
   ): AsyncIterableIterator<ProductContract[]> {
-    let result: ApiProductListByApisResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByApis(
-        resourceGroupName,
-        serviceName,
-        apiId,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByApis(
+      resourceGroupName,
+      serviceName,
+      apiId,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByApisNext(
         resourceGroupName,
@@ -105,9 +93,7 @@ export class ApiProductImpl implements ApiProduct {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

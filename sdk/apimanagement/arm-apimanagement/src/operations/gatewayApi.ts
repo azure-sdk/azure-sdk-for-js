@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { GatewayApi } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -66,16 +65,12 @@ export class GatewayApiImpl implements GatewayApi {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByServicePagingPage(
           resourceGroupName,
           serviceName,
           gatewayId,
-          options,
-          settings
+          options
         );
       }
     };
@@ -85,23 +80,16 @@ export class GatewayApiImpl implements GatewayApi {
     resourceGroupName: string,
     serviceName: string,
     gatewayId: string,
-    options?: GatewayApiListByServiceOptionalParams,
-    settings?: PageSettings
+    options?: GatewayApiListByServiceOptionalParams
   ): AsyncIterableIterator<ApiContract[]> {
-    let result: GatewayApiListByServiceResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        gatewayId,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByService(
+      resourceGroupName,
+      serviceName,
+      gatewayId,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByServiceNext(
         resourceGroupName,
@@ -111,9 +99,7 @@ export class GatewayApiImpl implements GatewayApi {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

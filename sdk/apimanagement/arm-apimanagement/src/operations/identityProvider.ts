@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { IdentityProvider } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -71,15 +70,11 @@ export class IdentityProviderImpl implements IdentityProvider {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByServicePagingPage(
           resourceGroupName,
           serviceName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -88,22 +83,15 @@ export class IdentityProviderImpl implements IdentityProvider {
   private async *listByServicePagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: IdentityProviderListByServiceOptionalParams,
-    settings?: PageSettings
+    options?: IdentityProviderListByServiceOptionalParams
   ): AsyncIterableIterator<IdentityProviderContract[]> {
-    let result: IdentityProviderListByServiceResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByService(
+      resourceGroupName,
+      serviceName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByServiceNext(
         resourceGroupName,
@@ -112,9 +100,7 @@ export class IdentityProviderImpl implements IdentityProvider {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

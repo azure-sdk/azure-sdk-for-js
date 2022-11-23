@@ -7,34 +7,35 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { GatewayHostnameConfiguration } from "../operationsInterfaces";
+import { GlobalSchema } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ApiManagementClient } from "../apiManagementClient";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
-  GatewayHostnameConfigurationContract,
-  GatewayHostnameConfigurationListByServiceNextOptionalParams,
-  GatewayHostnameConfigurationListByServiceOptionalParams,
-  GatewayHostnameConfigurationListByServiceResponse,
-  GatewayHostnameConfigurationGetEntityTagOptionalParams,
-  GatewayHostnameConfigurationGetEntityTagResponse,
-  GatewayHostnameConfigurationGetOptionalParams,
-  GatewayHostnameConfigurationGetResponse,
-  GatewayHostnameConfigurationCreateOrUpdateOptionalParams,
-  GatewayHostnameConfigurationCreateOrUpdateResponse,
-  GatewayHostnameConfigurationDeleteOptionalParams,
-  GatewayHostnameConfigurationListByServiceNextResponse
+  GlobalSchemaContract,
+  GlobalSchemaListByServiceNextOptionalParams,
+  GlobalSchemaListByServiceOptionalParams,
+  GlobalSchemaListByServiceResponse,
+  GlobalSchemaGetEntityTagOptionalParams,
+  GlobalSchemaGetEntityTagResponse,
+  GlobalSchemaGetOptionalParams,
+  GlobalSchemaGetResponse,
+  GlobalSchemaCreateOrUpdateOptionalParams,
+  GlobalSchemaCreateOrUpdateResponse,
+  GlobalSchemaDeleteOptionalParams,
+  GlobalSchemaListByServiceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing GatewayHostnameConfiguration operations. */
-export class GatewayHostnameConfigurationImpl
-  implements GatewayHostnameConfiguration {
+/** Class containing GlobalSchema operations. */
+export class GlobalSchemaImpl implements GlobalSchema {
   private readonly client: ApiManagementClient;
 
   /**
-   * Initialize a new instance of the class GatewayHostnameConfiguration class.
+   * Initialize a new instance of the class GlobalSchema class.
    * @param client Reference to the service client
    */
   constructor(client: ApiManagementClient) {
@@ -42,23 +43,19 @@ export class GatewayHostnameConfigurationImpl
   }
 
   /**
-   * Lists the collection of hostname configurations for the specified gateway.
+   * Lists a collection of schemas registered with service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-   *                  instance. Must not have value 'managed'
    * @param options The options parameters.
    */
   public listByService(
     resourceGroupName: string,
     serviceName: string,
-    gatewayId: string,
-    options?: GatewayHostnameConfigurationListByServiceOptionalParams
-  ): PagedAsyncIterableIterator<GatewayHostnameConfigurationContract> {
+    options?: GlobalSchemaListByServiceOptionalParams
+  ): PagedAsyncIterableIterator<GlobalSchemaContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
-      gatewayId,
       options
     );
     return {
@@ -72,7 +69,6 @@ export class GatewayHostnameConfigurationImpl
         return this.listByServicePagingPage(
           resourceGroupName,
           serviceName,
-          gatewayId,
           options
         );
       }
@@ -82,13 +78,11 @@ export class GatewayHostnameConfigurationImpl
   private async *listByServicePagingPage(
     resourceGroupName: string,
     serviceName: string,
-    gatewayId: string,
-    options?: GatewayHostnameConfigurationListByServiceOptionalParams
-  ): AsyncIterableIterator<GatewayHostnameConfigurationContract[]> {
+    options?: GlobalSchemaListByServiceOptionalParams
+  ): AsyncIterableIterator<GlobalSchemaContract[]> {
     let result = await this._listByService(
       resourceGroupName,
       serviceName,
-      gatewayId,
       options
     );
     yield result.value || [];
@@ -97,7 +91,6 @@ export class GatewayHostnameConfigurationImpl
       result = await this._listByServiceNext(
         resourceGroupName,
         serviceName,
-        gatewayId,
         continuationToken,
         options
       );
@@ -109,13 +102,11 @@ export class GatewayHostnameConfigurationImpl
   private async *listByServicePagingAll(
     resourceGroupName: string,
     serviceName: string,
-    gatewayId: string,
-    options?: GatewayHostnameConfigurationListByServiceOptionalParams
-  ): AsyncIterableIterator<GatewayHostnameConfigurationContract> {
+    options?: GlobalSchemaListByServiceOptionalParams
+  ): AsyncIterableIterator<GlobalSchemaContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
-      gatewayId,
       options
     )) {
       yield* page;
@@ -123,105 +114,163 @@ export class GatewayHostnameConfigurationImpl
   }
 
   /**
-   * Lists the collection of hostname configurations for the specified gateway.
+   * Lists a collection of schemas registered with service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-   *                  instance. Must not have value 'managed'
    * @param options The options parameters.
    */
   private _listByService(
     resourceGroupName: string,
     serviceName: string,
-    gatewayId: string,
-    options?: GatewayHostnameConfigurationListByServiceOptionalParams
-  ): Promise<GatewayHostnameConfigurationListByServiceResponse> {
+    options?: GlobalSchemaListByServiceOptionalParams
+  ): Promise<GlobalSchemaListByServiceResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, gatewayId, options },
+      { resourceGroupName, serviceName, options },
       listByServiceOperationSpec
     );
   }
 
   /**
-   * Checks that hostname configuration entity specified by identifier exists for specified Gateway
-   * entity.
+   * Gets the entity state (Etag) version of the Schema specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-   *                  instance. Must not have value 'managed'
-   * @param hcId Gateway hostname configuration identifier. Must be unique in the scope of parent Gateway
-   *             entity.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
    */
   getEntityTag(
     resourceGroupName: string,
     serviceName: string,
-    gatewayId: string,
-    hcId: string,
-    options?: GatewayHostnameConfigurationGetEntityTagOptionalParams
-  ): Promise<GatewayHostnameConfigurationGetEntityTagResponse> {
+    schemaId: string,
+    options?: GlobalSchemaGetEntityTagOptionalParams
+  ): Promise<GlobalSchemaGetEntityTagResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, gatewayId, hcId, options },
+      { resourceGroupName, serviceName, schemaId, options },
       getEntityTagOperationSpec
     );
   }
 
   /**
-   * Get details of a hostname configuration
+   * Gets the details of the Schema specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-   *                  instance. Must not have value 'managed'
-   * @param hcId Gateway hostname configuration identifier. Must be unique in the scope of parent Gateway
-   *             entity.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    gatewayId: string,
-    hcId: string,
-    options?: GatewayHostnameConfigurationGetOptionalParams
-  ): Promise<GatewayHostnameConfigurationGetResponse> {
+    schemaId: string,
+    options?: GlobalSchemaGetOptionalParams
+  ): Promise<GlobalSchemaGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, gatewayId, hcId, options },
+      { resourceGroupName, serviceName, schemaId, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates of updates hostname configuration for a Gateway.
+   * Creates new or updates existing specified Schema of the API Management service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-   *                  instance. Must not have value 'managed'
-   * @param hcId Gateway hostname configuration identifier. Must be unique in the scope of parent Gateway
-   *             entity.
-   * @param parameters Gateway hostname configuration details.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
+   * @param parameters Create or update parameters.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    gatewayId: string,
-    hcId: string,
-    parameters: GatewayHostnameConfigurationContract,
-    options?: GatewayHostnameConfigurationCreateOrUpdateOptionalParams
-  ): Promise<GatewayHostnameConfigurationCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, gatewayId, hcId, parameters, options },
+    schemaId: string,
+    parameters: GlobalSchemaContract,
+    options?: GlobalSchemaCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<GlobalSchemaCreateOrUpdateResponse>,
+      GlobalSchemaCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<GlobalSchemaCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, serviceName, schemaId, parameters, options },
       createOrUpdateOperationSpec
     );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Deletes the specified hostname configuration from the specified Gateway.
+   * Creates new or updates existing specified Schema of the API Management service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-   *                  instance. Must not have value 'managed'
-   * @param hcId Gateway hostname configuration identifier. Must be unique in the scope of parent Gateway
-   *             entity.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
+   * @param parameters Create or update parameters.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    schemaId: string,
+    parameters: GlobalSchemaContract,
+    options?: GlobalSchemaCreateOrUpdateOptionalParams
+  ): Promise<GlobalSchemaCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      serviceName,
+      schemaId,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Deletes specific Schema.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    *                response of the GET request or it should be * for unconditional update.
    * @param options The options parameters.
@@ -229,13 +278,12 @@ export class GatewayHostnameConfigurationImpl
   delete(
     resourceGroupName: string,
     serviceName: string,
-    gatewayId: string,
-    hcId: string,
+    schemaId: string,
     ifMatch: string,
-    options?: GatewayHostnameConfigurationDeleteOptionalParams
+    options?: GlobalSchemaDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, gatewayId, hcId, ifMatch, options },
+      { resourceGroupName, serviceName, schemaId, ifMatch, options },
       deleteOperationSpec
     );
   }
@@ -244,20 +292,17 @@ export class GatewayHostnameConfigurationImpl
    * ListByServiceNext
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-   *                  instance. Must not have value 'managed'
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
    */
   private _listByServiceNext(
     resourceGroupName: string,
     serviceName: string,
-    gatewayId: string,
     nextLink: string,
-    options?: GatewayHostnameConfigurationListByServiceNextOptionalParams
-  ): Promise<GatewayHostnameConfigurationListByServiceNextResponse> {
+    options?: GlobalSchemaListByServiceNextOptionalParams
+  ): Promise<GlobalSchemaListByServiceNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, gatewayId, nextLink, options },
+      { resourceGroupName, serviceName, nextLink, options },
       listByServiceNextOperationSpec
     );
   }
@@ -267,11 +312,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/schemas",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayHostnameConfigurationCollection
+      bodyMapper: Mappers.GlobalSchemaCollection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -287,19 +332,18 @@ const listByServiceOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.gatewayId
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations/{hcId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/schemas/{schemaId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.GatewayHostnameConfigurationGetEntityTagHeaders
+      headersMapper: Mappers.GlobalSchemaGetEntityTagHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -311,20 +355,19 @@ const getEntityTagOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.gatewayId,
-    Parameters.hcId
+    Parameters.schemaId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations/{hcId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/schemas/{schemaId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayHostnameConfigurationContract,
-      headersMapper: Mappers.GatewayHostnameConfigurationGetHeaders
+      bodyMapper: Mappers.GlobalSchemaContract,
+      headersMapper: Mappers.GlobalSchemaGetHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -336,38 +379,44 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.gatewayId,
-    Parameters.hcId
+    Parameters.schemaId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations/{hcId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/schemas/{schemaId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayHostnameConfigurationContract,
-      headersMapper: Mappers.GatewayHostnameConfigurationCreateOrUpdateHeaders
+      bodyMapper: Mappers.GlobalSchemaContract,
+      headersMapper: Mappers.GlobalSchemaCreateOrUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.GatewayHostnameConfigurationContract,
-      headersMapper: Mappers.GatewayHostnameConfigurationCreateOrUpdateHeaders
+      bodyMapper: Mappers.GlobalSchemaContract,
+      headersMapper: Mappers.GlobalSchemaCreateOrUpdateHeaders
+    },
+    202: {
+      bodyMapper: Mappers.GlobalSchemaContract,
+      headersMapper: Mappers.GlobalSchemaCreateOrUpdateHeaders
+    },
+    204: {
+      bodyMapper: Mappers.GlobalSchemaContract,
+      headersMapper: Mappers.GlobalSchemaCreateOrUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters33,
+  requestBody: Parameters.parameters53,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.gatewayId,
-    Parameters.hcId
+    Parameters.schemaId
   ],
   headerParameters: [
     Parameters.accept,
@@ -379,7 +428,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations/{hcId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/schemas/{schemaId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -394,8 +443,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.gatewayId,
-    Parameters.hcId
+    Parameters.schemaId
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
   serializer
@@ -405,7 +453,7 @@ const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayHostnameConfigurationCollection
+      bodyMapper: Mappers.GlobalSchemaCollection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -422,8 +470,7 @@ const listByServiceNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.gatewayId
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Tag } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,16 +16,13 @@ import {
   TagContract,
   TagListByOperationNextOptionalParams,
   TagListByOperationOptionalParams,
-  TagListByOperationResponse,
   TagListByApiNextOptionalParams,
   TagListByApiOptionalParams,
-  TagListByApiResponse,
   TagListByProductNextOptionalParams,
   TagListByProductOptionalParams,
-  TagListByProductResponse,
   TagListByServiceNextOptionalParams,
   TagListByServiceOptionalParams,
-  TagListByServiceResponse,
+  TagListByOperationResponse,
   TagGetEntityStateByOperationOptionalParams,
   TagGetEntityStateByOperationResponse,
   TagGetByOperationOptionalParams,
@@ -34,6 +30,7 @@ import {
   TagAssignToOperationOptionalParams,
   TagAssignToOperationResponse,
   TagDetachFromOperationOptionalParams,
+  TagListByApiResponse,
   TagGetEntityStateByApiOptionalParams,
   TagGetEntityStateByApiResponse,
   TagGetByApiOptionalParams,
@@ -41,6 +38,7 @@ import {
   TagAssignToApiOptionalParams,
   TagAssignToApiResponse,
   TagDetachFromApiOptionalParams,
+  TagListByProductResponse,
   TagGetEntityStateByProductOptionalParams,
   TagGetEntityStateByProductResponse,
   TagGetByProductOptionalParams,
@@ -48,6 +46,7 @@ import {
   TagAssignToProductOptionalParams,
   TagAssignToProductResponse,
   TagDetachFromProductOptionalParams,
+  TagListByServiceResponse,
   TagGetEntityStateOptionalParams,
   TagGetEntityStateResponse,
   TagGetOptionalParams,
@@ -108,17 +107,13 @@ export class TagImpl implements Tag {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByOperationPagingPage(
           resourceGroupName,
           serviceName,
           apiId,
           operationId,
-          options,
-          settings
+          options
         );
       }
     };
@@ -129,24 +124,17 @@ export class TagImpl implements Tag {
     serviceName: string,
     apiId: string,
     operationId: string,
-    options?: TagListByOperationOptionalParams,
-    settings?: PageSettings
+    options?: TagListByOperationOptionalParams
   ): AsyncIterableIterator<TagContract[]> {
-    let result: TagListByOperationResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByOperation(
-        resourceGroupName,
-        serviceName,
-        apiId,
-        operationId,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByOperation(
+      resourceGroupName,
+      serviceName,
+      apiId,
+      operationId,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByOperationNext(
         resourceGroupName,
@@ -157,9 +145,7 @@ export class TagImpl implements Tag {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -208,16 +194,12 @@ export class TagImpl implements Tag {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByApiPagingPage(
           resourceGroupName,
           serviceName,
           apiId,
-          options,
-          settings
+          options
         );
       }
     };
@@ -227,23 +209,16 @@ export class TagImpl implements Tag {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: TagListByApiOptionalParams,
-    settings?: PageSettings
+    options?: TagListByApiOptionalParams
   ): AsyncIterableIterator<TagContract[]> {
-    let result: TagListByApiResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByApi(
-        resourceGroupName,
-        serviceName,
-        apiId,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByApi(
+      resourceGroupName,
+      serviceName,
+      apiId,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByApiNext(
         resourceGroupName,
@@ -253,9 +228,7 @@ export class TagImpl implements Tag {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -301,16 +274,12 @@ export class TagImpl implements Tag {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByProductPagingPage(
           resourceGroupName,
           serviceName,
           productId,
-          options,
-          settings
+          options
         );
       }
     };
@@ -320,23 +289,16 @@ export class TagImpl implements Tag {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: TagListByProductOptionalParams,
-    settings?: PageSettings
+    options?: TagListByProductOptionalParams
   ): AsyncIterableIterator<TagContract[]> {
-    let result: TagListByProductResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByProduct(
-        resourceGroupName,
-        serviceName,
-        productId,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByProduct(
+      resourceGroupName,
+      serviceName,
+      productId,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByProductNext(
         resourceGroupName,
@@ -346,9 +308,7 @@ export class TagImpl implements Tag {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -391,15 +351,11 @@ export class TagImpl implements Tag {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByServicePagingPage(
           resourceGroupName,
           serviceName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -408,22 +364,15 @@ export class TagImpl implements Tag {
   private async *listByServicePagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: TagListByServiceOptionalParams,
-    settings?: PageSettings
+    options?: TagListByServiceOptionalParams
   ): AsyncIterableIterator<TagContract[]> {
-    let result: TagListByServiceResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByService(
+      resourceGroupName,
+      serviceName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByServiceNext(
         resourceGroupName,
@@ -432,9 +381,7 @@ export class TagImpl implements Tag {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

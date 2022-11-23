@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ApiSchema } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -70,16 +69,12 @@ export class ApiSchemaImpl implements ApiSchema {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByApiPagingPage(
           resourceGroupName,
           serviceName,
           apiId,
-          options,
-          settings
+          options
         );
       }
     };
@@ -89,23 +84,16 @@ export class ApiSchemaImpl implements ApiSchema {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiSchemaListByApiOptionalParams,
-    settings?: PageSettings
+    options?: ApiSchemaListByApiOptionalParams
   ): AsyncIterableIterator<SchemaContract[]> {
-    let result: ApiSchemaListByApiResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByApi(
-        resourceGroupName,
-        serviceName,
-        apiId,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByApi(
+      resourceGroupName,
+      serviceName,
+      apiId,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByApiNext(
         resourceGroupName,
@@ -115,9 +103,7 @@ export class ApiSchemaImpl implements ApiSchema {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -163,8 +149,7 @@ export class ApiSchemaImpl implements ApiSchema {
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param schemaId Schema identifier within an API. Must be unique in the current API Management
-   *                 service instance.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
    */
   getEntityTag(
@@ -186,8 +171,7 @@ export class ApiSchemaImpl implements ApiSchema {
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param schemaId Schema identifier within an API. Must be unique in the current API Management
-   *                 service instance.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
    */
   get(
@@ -209,8 +193,7 @@ export class ApiSchemaImpl implements ApiSchema {
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param schemaId Schema identifier within an API. Must be unique in the current API Management
-   *                 service instance.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param parameters The schema contents to apply.
    * @param options The options parameters.
    */
@@ -286,8 +269,7 @@ export class ApiSchemaImpl implements ApiSchema {
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param schemaId Schema identifier within an API. Must be unique in the current API Management
-   *                 service instance.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param parameters The schema contents to apply.
    * @param options The options parameters.
    */
@@ -316,8 +298,7 @@ export class ApiSchemaImpl implements ApiSchema {
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param schemaId Schema identifier within an API. Must be unique in the current API Management
-   *                 service instance.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    *                response of the GET request or it should be * for unconditional update.
    * @param options The options parameters.

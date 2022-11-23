@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PrivateEndpointConnectionOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -67,15 +67,11 @@ export class PrivateEndpointConnectionOperationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByServicePagingPage(
           resourceGroupName,
           serviceName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -84,11 +80,13 @@ export class PrivateEndpointConnectionOperationsImpl
   private async *listByServicePagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: PrivateEndpointConnectionListByServiceOptionalParams,
-    _settings?: PageSettings
+    options?: PrivateEndpointConnectionListByServiceOptionalParams
   ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result: PrivateEndpointConnectionListByServiceResponse;
-    result = await this._listByService(resourceGroupName, serviceName, options);
+    let result = await this._listByService(
+      resourceGroupName,
+      serviceName,
+      options
+    );
     yield result.value || [];
   }
 
@@ -343,7 +341,7 @@ export class PrivateEndpointConnectionOperationsImpl
   }
 
   /**
-   * Description for Gets the private link resources
+   * Gets the private link resources
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
@@ -360,7 +358,7 @@ export class PrivateEndpointConnectionOperationsImpl
   }
 
   /**
-   * Description for Gets the private link resources
+   * Gets the private link resources
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param privateLinkSubResourceName Name of the private link resource.

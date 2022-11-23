@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ApiManagementService } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,10 +18,8 @@ import {
   ApiManagementServiceResource,
   ApiManagementServiceListByResourceGroupNextOptionalParams,
   ApiManagementServiceListByResourceGroupOptionalParams,
-  ApiManagementServiceListByResourceGroupResponse,
   ApiManagementServiceListNextOptionalParams,
   ApiManagementServiceListOptionalParams,
-  ApiManagementServiceListResponse,
   ApiManagementServiceBackupRestoreParameters,
   ApiManagementServiceRestoreOptionalParams,
   ApiManagementServiceRestoreResponse,
@@ -36,6 +33,8 @@ import {
   ApiManagementServiceGetOptionalParams,
   ApiManagementServiceGetResponse,
   ApiManagementServiceDeleteOptionalParams,
+  ApiManagementServiceListByResourceGroupResponse,
+  ApiManagementServiceListResponse,
   ApiManagementServiceGetSsoTokenOptionalParams,
   ApiManagementServiceGetSsoTokenResponse,
   ApiManagementServiceCheckNameAvailabilityParameters,
@@ -79,33 +78,19 @@ export class ApiManagementServiceImpl implements ApiManagementService {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ApiManagementServiceListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: ApiManagementServiceListByResourceGroupOptionalParams
   ): AsyncIterableIterator<ApiManagementServiceResource[]> {
-    let result: ApiManagementServiceListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -113,9 +98,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -146,34 +129,22 @@ export class ApiManagementServiceImpl implements ApiManagementService {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
+      byPage: () => {
+        return this.listPagingPage(options);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ApiManagementServiceListOptionalParams,
-    settings?: PageSettings
+    options?: ApiManagementServiceListOptionalParams
   ): AsyncIterableIterator<ApiManagementServiceResource[]> {
-    let result: ApiManagementServiceListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

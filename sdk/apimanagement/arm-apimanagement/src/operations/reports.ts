@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Reports } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,27 +16,27 @@ import {
   ReportRecordContract,
   ReportsListByApiNextOptionalParams,
   ReportsListByApiOptionalParams,
-  ReportsListByApiResponse,
   ReportsListByUserNextOptionalParams,
   ReportsListByUserOptionalParams,
-  ReportsListByUserResponse,
   ReportsListByOperationNextOptionalParams,
   ReportsListByOperationOptionalParams,
-  ReportsListByOperationResponse,
   ReportsListByProductNextOptionalParams,
   ReportsListByProductOptionalParams,
-  ReportsListByProductResponse,
   ReportsListByGeoNextOptionalParams,
   ReportsListByGeoOptionalParams,
-  ReportsListByGeoResponse,
   ReportsListBySubscriptionNextOptionalParams,
   ReportsListBySubscriptionOptionalParams,
-  ReportsListBySubscriptionResponse,
   ReportsListByTimeNextOptionalParams,
   ReportsListByTimeOptionalParams,
-  ReportsListByTimeResponse,
   RequestReportRecordContract,
   ReportsListByRequestOptionalParams,
+  ReportsListByApiResponse,
+  ReportsListByUserResponse,
+  ReportsListByOperationResponse,
+  ReportsListByProductResponse,
+  ReportsListByGeoResponse,
+  ReportsListBySubscriptionResponse,
+  ReportsListByTimeResponse,
   ReportsListByRequestResponse,
   ReportsListByApiNextResponse,
   ReportsListByUserNextResponse,
@@ -87,16 +86,12 @@ export class ReportsImpl implements Reports {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByApiPagingPage(
           resourceGroupName,
           serviceName,
           filter,
-          options,
-          settings
+          options
         );
       }
     };
@@ -106,23 +101,16 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByApiOptionalParams,
-    settings?: PageSettings
+    options?: ReportsListByApiOptionalParams
   ): AsyncIterableIterator<ReportRecordContract[]> {
-    let result: ReportsListByApiResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByApi(
-        resourceGroupName,
-        serviceName,
-        filter,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByApi(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByApiNext(
         resourceGroupName,
@@ -132,9 +120,7 @@ export class ReportsImpl implements Reports {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -192,16 +178,12 @@ export class ReportsImpl implements Reports {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByUserPagingPage(
           resourceGroupName,
           serviceName,
           filter,
-          options,
-          settings
+          options
         );
       }
     };
@@ -211,23 +193,16 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByUserOptionalParams,
-    settings?: PageSettings
+    options?: ReportsListByUserOptionalParams
   ): AsyncIterableIterator<ReportRecordContract[]> {
-    let result: ReportsListByUserResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByUser(
-        resourceGroupName,
-        serviceName,
-        filter,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByUser(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByUserNext(
         resourceGroupName,
@@ -237,9 +212,7 @@ export class ReportsImpl implements Reports {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -296,16 +269,12 @@ export class ReportsImpl implements Reports {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByOperationPagingPage(
           resourceGroupName,
           serviceName,
           filter,
-          options,
-          settings
+          options
         );
       }
     };
@@ -315,23 +284,16 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByOperationOptionalParams,
-    settings?: PageSettings
+    options?: ReportsListByOperationOptionalParams
   ): AsyncIterableIterator<ReportRecordContract[]> {
-    let result: ReportsListByOperationResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByOperation(
-        resourceGroupName,
-        serviceName,
-        filter,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByOperation(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByOperationNext(
         resourceGroupName,
@@ -341,9 +303,7 @@ export class ReportsImpl implements Reports {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -400,16 +360,12 @@ export class ReportsImpl implements Reports {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByProductPagingPage(
           resourceGroupName,
           serviceName,
           filter,
-          options,
-          settings
+          options
         );
       }
     };
@@ -419,23 +375,16 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByProductOptionalParams,
-    settings?: PageSettings
+    options?: ReportsListByProductOptionalParams
   ): AsyncIterableIterator<ReportRecordContract[]> {
-    let result: ReportsListByProductResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByProduct(
-        resourceGroupName,
-        serviceName,
-        filter,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByProduct(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByProductNext(
         resourceGroupName,
@@ -445,9 +394,7 @@ export class ReportsImpl implements Reports {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -504,16 +451,12 @@ export class ReportsImpl implements Reports {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByGeoPagingPage(
           resourceGroupName,
           serviceName,
           filter,
-          options,
-          settings
+          options
         );
       }
     };
@@ -523,23 +466,16 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByGeoOptionalParams,
-    settings?: PageSettings
+    options?: ReportsListByGeoOptionalParams
   ): AsyncIterableIterator<ReportRecordContract[]> {
-    let result: ReportsListByGeoResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByGeo(
-        resourceGroupName,
-        serviceName,
-        filter,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByGeo(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByGeoNext(
         resourceGroupName,
@@ -549,9 +485,7 @@ export class ReportsImpl implements Reports {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -608,16 +542,12 @@ export class ReportsImpl implements Reports {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listBySubscriptionPagingPage(
           resourceGroupName,
           serviceName,
           filter,
-          options,
-          settings
+          options
         );
       }
     };
@@ -627,23 +557,16 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    options?: ReportsListBySubscriptionOptionalParams
   ): AsyncIterableIterator<ReportRecordContract[]> {
-    let result: ReportsListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(
-        resourceGroupName,
-        serviceName,
-        filter,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBySubscription(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBySubscriptionNext(
         resourceGroupName,
@@ -653,9 +576,7 @@ export class ReportsImpl implements Reports {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -717,17 +638,13 @@ export class ReportsImpl implements Reports {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByTimePagingPage(
           resourceGroupName,
           serviceName,
           filter,
           interval,
-          options,
-          settings
+          options
         );
       }
     };
@@ -738,24 +655,17 @@ export class ReportsImpl implements Reports {
     serviceName: string,
     filter: string,
     interval: string,
-    options?: ReportsListByTimeOptionalParams,
-    settings?: PageSettings
+    options?: ReportsListByTimeOptionalParams
   ): AsyncIterableIterator<ReportRecordContract[]> {
-    let result: ReportsListByTimeResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByTime(
-        resourceGroupName,
-        serviceName,
-        filter,
-        interval,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByTime(
+      resourceGroupName,
+      serviceName,
+      filter,
+      interval,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByTimeNext(
         resourceGroupName,
@@ -766,9 +676,7 @@ export class ReportsImpl implements Reports {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -820,16 +728,12 @@ export class ReportsImpl implements Reports {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByRequestPagingPage(
           resourceGroupName,
           serviceName,
           filter,
-          options,
-          settings
+          options
         );
       }
     };
@@ -839,11 +743,9 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByRequestOptionalParams,
-    _settings?: PageSettings
+    options?: ReportsListByRequestOptionalParams
   ): AsyncIterableIterator<RequestReportRecordContract[]> {
-    let result: ReportsListByRequestResponse;
-    result = await this._listByRequest(
+    let result = await this._listByRequest(
       resourceGroupName,
       serviceName,
       filter,
