@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ScalingPlans } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,13 +16,10 @@ import {
   ScalingPlan,
   ScalingPlansListByResourceGroupNextOptionalParams,
   ScalingPlansListByResourceGroupOptionalParams,
-  ScalingPlansListByResourceGroupResponse,
   ScalingPlansListBySubscriptionNextOptionalParams,
   ScalingPlansListBySubscriptionOptionalParams,
-  ScalingPlansListBySubscriptionResponse,
   ScalingPlansListByHostPoolNextOptionalParams,
   ScalingPlansListByHostPoolOptionalParams,
-  ScalingPlansListByHostPoolResponse,
   ScalingPlansGetOptionalParams,
   ScalingPlansGetResponse,
   ScalingPlansCreateOptionalParams,
@@ -31,6 +27,9 @@ import {
   ScalingPlansDeleteOptionalParams,
   ScalingPlansUpdateOptionalParams,
   ScalingPlansUpdateResponse,
+  ScalingPlansListByResourceGroupResponse,
+  ScalingPlansListBySubscriptionResponse,
+  ScalingPlansListByHostPoolResponse,
   ScalingPlansListByResourceGroupNextResponse,
   ScalingPlansListBySubscriptionNextResponse,
   ScalingPlansListByHostPoolNextResponse
@@ -66,33 +65,19 @@ export class ScalingPlansImpl implements ScalingPlans {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ScalingPlansListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: ScalingPlansListByResourceGroupOptionalParams
   ): AsyncIterableIterator<ScalingPlan[]> {
-    let result: ScalingPlansListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -100,9 +85,7 @@ export class ScalingPlansImpl implements ScalingPlans {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -133,34 +116,22 @@ export class ScalingPlansImpl implements ScalingPlans {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
+      byPage: () => {
+        return this.listBySubscriptionPagingPage(options);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: ScalingPlansListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    options?: ScalingPlansListBySubscriptionOptionalParams
   ): AsyncIterableIterator<ScalingPlan[]> {
-    let result: ScalingPlansListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBySubscription(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -195,15 +166,11 @@ export class ScalingPlansImpl implements ScalingPlans {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByHostPoolPagingPage(
           resourceGroupName,
           hostPoolName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -212,22 +179,15 @@ export class ScalingPlansImpl implements ScalingPlans {
   private async *listByHostPoolPagingPage(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: ScalingPlansListByHostPoolOptionalParams,
-    settings?: PageSettings
+    options?: ScalingPlansListByHostPoolOptionalParams
   ): AsyncIterableIterator<ScalingPlan[]> {
-    let result: ScalingPlansListByHostPoolResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByHostPool(
-        resourceGroupName,
-        hostPoolName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByHostPool(
+      resourceGroupName,
+      hostPoolName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByHostPoolNext(
         resourceGroupName,
@@ -236,9 +196,7 @@ export class ScalingPlansImpl implements ScalingPlans {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -531,7 +489,12 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -552,7 +515,12 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip
+  ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -569,7 +537,12 @@ const listByHostPoolOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -590,7 +563,12 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -611,7 +589,12 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -631,7 +614,12 @@ const listByHostPoolNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

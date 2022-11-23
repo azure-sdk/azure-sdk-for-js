@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { HostPools } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,10 +16,8 @@ import {
   HostPool,
   HostPoolsListByResourceGroupNextOptionalParams,
   HostPoolsListByResourceGroupOptionalParams,
-  HostPoolsListByResourceGroupResponse,
   HostPoolsListNextOptionalParams,
   HostPoolsListOptionalParams,
-  HostPoolsListResponse,
   HostPoolsGetOptionalParams,
   HostPoolsGetResponse,
   HostPoolsCreateOrUpdateOptionalParams,
@@ -28,6 +25,8 @@ import {
   HostPoolsDeleteOptionalParams,
   HostPoolsUpdateOptionalParams,
   HostPoolsUpdateResponse,
+  HostPoolsListByResourceGroupResponse,
+  HostPoolsListResponse,
   HostPoolsRetrieveRegistrationTokenOptionalParams,
   HostPoolsRetrieveRegistrationTokenResponse,
   HostPoolsListByResourceGroupNextResponse,
@@ -64,33 +63,19 @@ export class HostPoolsImpl implements HostPools {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: HostPoolsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: HostPoolsListByResourceGroupOptionalParams
   ): AsyncIterableIterator<HostPool[]> {
-    let result: HostPoolsListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -98,9 +83,7 @@ export class HostPoolsImpl implements HostPools {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -131,34 +114,22 @@ export class HostPoolsImpl implements HostPools {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
+      byPage: () => {
+        return this.listPagingPage(options);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: HostPoolsListOptionalParams,
-    settings?: PageSettings
+    options?: HostPoolsListOptionalParams
   ): AsyncIterableIterator<HostPool[]> {
-    let result: HostPoolsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -423,7 +394,12 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -444,7 +420,12 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip
+  ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -482,7 +463,12 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -503,7 +489,12 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

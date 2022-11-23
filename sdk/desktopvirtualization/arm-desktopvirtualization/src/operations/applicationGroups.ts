@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ApplicationGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,10 +16,8 @@ import {
   ApplicationGroup,
   ApplicationGroupsListByResourceGroupNextOptionalParams,
   ApplicationGroupsListByResourceGroupOptionalParams,
-  ApplicationGroupsListByResourceGroupResponse,
   ApplicationGroupsListBySubscriptionNextOptionalParams,
   ApplicationGroupsListBySubscriptionOptionalParams,
-  ApplicationGroupsListBySubscriptionResponse,
   ApplicationGroupsGetOptionalParams,
   ApplicationGroupsGetResponse,
   ApplicationGroupsCreateOrUpdateOptionalParams,
@@ -28,6 +25,8 @@ import {
   ApplicationGroupsDeleteOptionalParams,
   ApplicationGroupsUpdateOptionalParams,
   ApplicationGroupsUpdateResponse,
+  ApplicationGroupsListByResourceGroupResponse,
+  ApplicationGroupsListBySubscriptionResponse,
   ApplicationGroupsListByResourceGroupNextResponse,
   ApplicationGroupsListBySubscriptionNextResponse
 } from "../models";
@@ -62,33 +61,19 @@ export class ApplicationGroupsImpl implements ApplicationGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ApplicationGroupsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: ApplicationGroupsListByResourceGroupOptionalParams
   ): AsyncIterableIterator<ApplicationGroup[]> {
-    let result: ApplicationGroupsListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -96,9 +81,7 @@ export class ApplicationGroupsImpl implements ApplicationGroups {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -129,34 +112,22 @@ export class ApplicationGroupsImpl implements ApplicationGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
+      byPage: () => {
+        return this.listBySubscriptionPagingPage(options);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: ApplicationGroupsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    options?: ApplicationGroupsListBySubscriptionOptionalParams
   ): AsyncIterableIterator<ApplicationGroup[]> {
-    let result: ApplicationGroupsListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBySubscription(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -407,7 +378,13 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip,
+    Parameters.filter
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -444,7 +421,13 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip,
+    Parameters.filter
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

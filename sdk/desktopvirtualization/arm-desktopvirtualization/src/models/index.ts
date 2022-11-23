@@ -184,8 +184,6 @@ export interface WorkspacePatch {
   friendlyName?: string;
   /** List of applicationGroup links. */
   applicationGroupReferences?: string[];
-  /** Enabled to allow this resource to be access from the public network */
-  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /** List of Workspace definitions. */
@@ -199,9 +197,9 @@ export interface WorkspaceList {
   readonly nextLink?: string;
 }
 
-/** Scaling plan schedule. */
+/** A ScalingPlanPooledSchedule. */
 export interface ScalingSchedule {
-  /** Name of the scaling schedule. */
+  /** Name of the ScalingPlanPooledSchedule. */
   name?: string;
   /** Set of days of the week on which this schedule is active. */
   daysOfWeek?: ScalingScheduleDaysOfWeekItem[];
@@ -284,14 +282,6 @@ export interface ScalingPlanList {
   readonly nextLink?: string;
 }
 
-/** Properties for arm migration. */
-export interface MigrationRequestProperties {
-  /** The type of operation for migration. */
-  operation?: Operation;
-  /** The path to the legacy object to migrate. */
-  migrationPath?: string;
-}
-
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
@@ -309,6 +299,17 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+}
+
+/** List of ScalingPlanPooledSchedule definitions. */
+export interface ScalingPlanPooledScheduleList {
+  /** List of ScalingPlanPooledSchedule definitions. */
+  value?: ScalingPlanPooledSchedule[];
+  /**
+   * Link to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** List of ApplicationGroup definitions. */
@@ -403,12 +404,52 @@ export interface RegistrationInfo {
   registrationTokenOperation?: RegistrationTokenOperation;
 }
 
+/** The session host configuration for updating agent, monitoring agent, and stack component. */
+export interface AgentUpdateProperties {
+  /** The type of maintenance for session host components. */
+  type?: SessionHostComponentUpdateType;
+  /** Whether to use localTime of the virtual machine. */
+  useSessionHostLocalTime?: boolean;
+  /** Time zone for maintenance as defined in https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=net-5.0. Must be set if useLocalTime is true. */
+  maintenanceWindowTimeZone?: string;
+  /** List of maintenance windows. Maintenance windows are 2 hours long. */
+  maintenanceWindows?: MaintenanceWindowProperties[];
+}
+
+/** Maintenance window starting hour and day of week. */
+export interface MaintenanceWindowProperties {
+  /** The update start hour of the day. (0 - 23) */
+  hour?: number;
+  /** Day of the week. */
+  dayOfWeek?: DayOfWeek;
+}
+
 /** Represents a RegistrationInfo definition. */
 export interface RegistrationInfoPatch {
   /** Expiration time of registration token. */
   expirationTime?: Date;
   /** The type of resetting the token. */
   registrationTokenOperation?: RegistrationTokenOperation;
+}
+
+/** The session host configuration for updating agent, monitoring agent, and stack component. */
+export interface AgentUpdatePatchProperties {
+  /** The type of maintenance for session host components. */
+  type?: SessionHostComponentUpdateType;
+  /** Whether to use localTime of the virtual machine. */
+  useSessionHostLocalTime?: boolean;
+  /** Time zone for maintenance as defined in https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=net-5.0. Must be set if useLocalTime is true. */
+  maintenanceWindowTimeZone?: string;
+  /** List of maintenance windows. Maintenance windows are 2 hours long. */
+  maintenanceWindows?: MaintenanceWindowPatchProperties[];
+}
+
+/** Maintenance window starting hour and day of week. */
+export interface MaintenanceWindowPatchProperties {
+  /** The update start hour of the day. (0 - 23) */
+  hour?: number;
+  /** Day of the week. */
+  dayOfWeek?: DayOfWeek;
 }
 
 /** List of HostPool definitions. */
@@ -546,47 +587,6 @@ export interface SendMessage {
   messageBody?: string;
 }
 
-/** List of private endpoint connection associated with the specified storage account */
-export interface PrivateEndpointConnectionListResultWithSystemData {
-  /** Array of private endpoint connections */
-  value?: PrivateEndpointConnectionWithSystemData[];
-  /**
-   * Link to the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The Private Endpoint resource. */
-export interface PrivateEndpoint {
-  /**
-   * The ARM identifier for Private Endpoint
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-}
-
-/** A collection of information about the state of the connection between service consumer and provider. */
-export interface PrivateLinkServiceConnectionState {
-  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus;
-  /** The reason for approval/rejection of the connection. */
-  description?: string;
-  /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
-}
-
-/** A list of private link resources */
-export interface PrivateLinkResourceListResult {
-  /** Array of private link resources */
-  value?: PrivateLinkResource[];
-  /**
-   * Link to the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
 /** Represents a Workspace definition. */
 export interface Workspace extends ResourceModelWithAllowedPropertySet {
   /**
@@ -610,8 +610,6 @@ export interface Workspace extends ResourceModelWithAllowedPropertySet {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly cloudPcResource?: boolean;
-  /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
-  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /** Represents a scaling plan definition. */
@@ -631,12 +629,12 @@ export interface ScalingPlan extends ResourceModelWithAllowedPropertySet {
   /** User friendly name of scaling plan. */
   friendlyName?: string;
   /** Timezone of the scaling plan. */
-  timeZone?: string;
+  timeZone: string;
   /** HostPool type for desktop. */
   hostPoolType?: ScalingHostPoolType;
   /** Exclusion tag for scaling plan. */
   exclusionTag?: string;
-  /** List of ScalingSchedule definitions. */
+  /** List of ScalingPlanPooledSchedule definitions. */
   schedules?: ScalingSchedule[];
   /** List of ScalingHostPoolReference definitions. */
   hostPoolReferences?: ScalingHostPoolReference[];
@@ -667,8 +665,6 @@ export interface ApplicationGroup extends ResourceModelWithAllowedPropertySet {
   readonly workspaceArmPath?: string;
   /** Resource Type of ApplicationGroup. */
   applicationGroupType: ApplicationGroupType;
-  /** The registration info of HostPool. */
-  migrationRequest?: MigrationRequestProperties;
   /**
    * Is cloud pc resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -727,15 +723,13 @@ export interface HostPool extends ResourceModelWithAllowedPropertySet {
   preferredAppGroupType: PreferredAppGroupType;
   /** The flag to turn on/off StartVMOnConnect feature. */
   startVMOnConnect?: boolean;
-  /** The registration info of HostPool. */
-  migrationRequest?: MigrationRequestProperties;
   /**
    * Is cloud pc resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly cloudPcResource?: boolean;
-  /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
-  publicNetworkAccess?: PublicNetworkAccess;
+  /** The session host configuration for updating agent, monitoring agent, and stack component. */
+  agentUpdate?: AgentUpdateProperties;
 }
 
 export interface ResourceModelWithAllowedPropertySetIdentity extends Identity {}
@@ -743,6 +737,87 @@ export interface ResourceModelWithAllowedPropertySetIdentity extends Identity {}
 export interface ResourceModelWithAllowedPropertySetSku extends Sku {}
 
 export interface ResourceModelWithAllowedPropertySetPlan extends Plan {}
+
+/** Represents a ScalingPlanPooledSchedule definition. */
+export interface ScalingPlanPooledSchedule extends Resource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Set of days of the week on which this schedule is active. */
+  daysOfWeek?: DayOfWeek[];
+  /** Starting time for ramp up period. */
+  rampUpStartTime?: Time;
+  /** Load balancing algorithm for ramp up period. */
+  rampUpLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+  /** Minimum host percentage for ramp up period. */
+  rampUpMinimumHostsPct?: number;
+  /** Capacity threshold for ramp up period. */
+  rampUpCapacityThresholdPct?: number;
+  /** Starting time for peak period. */
+  peakStartTime?: Time;
+  /** Load balancing algorithm for peak period. */
+  peakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+  /** Starting time for ramp down period. */
+  rampDownStartTime?: Time;
+  /** Load balancing algorithm for ramp down period. */
+  rampDownLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+  /** Minimum host percentage for ramp down period. */
+  rampDownMinimumHostsPct?: number;
+  /** Capacity threshold for ramp down period. */
+  rampDownCapacityThresholdPct?: number;
+  /** Should users be logged off forcefully from hosts. */
+  rampDownForceLogoffUsers?: boolean;
+  /** Specifies when to stop hosts during ramp down period. */
+  rampDownStopHostsWhen?: StopHostsWhen;
+  /** Number of minutes to wait to stop hosts during ramp down period. */
+  rampDownWaitTimeMinutes?: number;
+  /** Notification message for users during ramp down period. */
+  rampDownNotificationMessage?: string;
+  /** Starting time for off-peak period. */
+  offPeakStartTime?: Time;
+  /** Load balancing algorithm for off-peak period. */
+  offPeakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+}
+
+/** ScalingPlanPooledSchedule properties that can be patched. */
+export interface ScalingPlanPooledSchedulePatch extends Resource {
+  /** Set of days of the week on which this schedule is active. */
+  daysOfWeek?: DayOfWeek[];
+  /** Starting time for ramp up period. */
+  rampUpStartTime?: Time;
+  /** Load balancing algorithm for ramp up period. */
+  rampUpLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+  /** Minimum host percentage for ramp up period. */
+  rampUpMinimumHostsPct?: number;
+  /** Capacity threshold for ramp up period. */
+  rampUpCapacityThresholdPct?: number;
+  /** Starting time for peak period. */
+  peakStartTime?: Time;
+  /** Load balancing algorithm for peak period. */
+  peakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+  /** Starting time for ramp down period. */
+  rampDownStartTime?: Time;
+  /** Load balancing algorithm for ramp down period. */
+  rampDownLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+  /** Minimum host percentage for ramp down period. */
+  rampDownMinimumHostsPct?: number;
+  /** Capacity threshold for ramp down period. */
+  rampDownCapacityThresholdPct?: number;
+  /** Should users be logged off forcefully from hosts. */
+  rampDownForceLogoffUsers?: boolean;
+  /** Specifies when to stop hosts during ramp down period. */
+  rampDownStopHostsWhen?: StopHostsWhen;
+  /** Number of minutes to wait to stop hosts during ramp down period. */
+  rampDownWaitTimeMinutes?: number;
+  /** Notification message for users during ramp down period. */
+  rampDownNotificationMessage?: string;
+  /** Starting time for off-peak period. */
+  offPeakStartTime?: Time;
+  /** Load balancing algorithm for off-peak period. */
+  offPeakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+}
 
 /** ApplicationGroup properties that can be patched. */
 export interface ApplicationGroupPatch extends Resource {
@@ -878,8 +953,8 @@ export interface HostPoolPatch extends Resource {
   preferredAppGroupType?: PreferredAppGroupType;
   /** The flag to turn on/off StartVMOnConnect feature. */
   startVMOnConnect?: boolean;
-  /** Enabled to allow this resource to be access from the public network */
-  publicNetworkAccess?: PublicNetworkAccess;
+  /** The session host configuration for updating agent, monitoring agent, and stack component. */
+  agentUpdate?: AgentUpdatePatchProperties;
 }
 
 /** Represents a UserSession definition. */
@@ -938,6 +1013,8 @@ export interface SessionHost extends Resource {
   readonly resourceId?: string;
   /** User assigned to SessionHost. */
   assignedUser?: string;
+  /** Friendly name of SessionHost */
+  friendlyName?: string;
   /** Status for a SessionHost. */
   status?: Status;
   /**
@@ -971,6 +1048,8 @@ export interface SessionHostPatch extends Resource {
   allowNewSession?: boolean;
   /** User assigned to SessionHost. */
   assignedUser?: string;
+  /** Friendly name of SessionHost */
+  friendlyName?: string;
 }
 
 /** Schema for MSIX Package properties. */
@@ -1044,42 +1123,6 @@ export interface ExpandMsixImage extends Resource {
   packageApplications?: MsixPackageApplications[];
 }
 
-/** The Private Endpoint Connection resource. */
-export interface PrivateEndpointConnection extends Resource {
-  /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpoint;
-  /** A collection of information about the state of the connection between service consumer and provider. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-  /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
-}
-
-/** A private link resource */
-export interface PrivateLinkResource extends Resource {
-  /**
-   * The private link resource group id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly groupId?: string;
-  /**
-   * The private link resource required member names.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requiredMembers?: string[];
-  /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: string[];
-}
-
-/** The Private Endpoint Connection resource. */
-export interface PrivateEndpointConnectionWithSystemData
-  extends PrivateEndpointConnection {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -1103,24 +1146,6 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
-
-/** Known values of {@link PublicNetworkAccess} that the service accepts. */
-export enum KnownPublicNetworkAccess {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for PublicNetworkAccess. \
- * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type PublicNetworkAccess = string;
 
 /** Known values of {@link ScalingHostPoolType} that the service accepts. */
 export enum KnownScalingHostPoolType {
@@ -1223,33 +1248,6 @@ export enum KnownApplicationGroupType {
  * **Desktop**
  */
 export type ApplicationGroupType = string;
-
-/** Known values of {@link Operation} that the service accepts. */
-export enum KnownOperation {
-  /** Start the migration. */
-  Start = "Start",
-  /** Revoke the migration. */
-  Revoke = "Revoke",
-  /** Complete the migration. */
-  Complete = "Complete",
-  /** Hide the hostpool. */
-  Hide = "Hide",
-  /** Unhide the hostpool. */
-  Unhide = "Unhide"
-}
-
-/**
- * Defines values for Operation. \
- * {@link KnownOperation} can be used interchangeably with Operation,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Start**: Start the migration. \
- * **Revoke**: Revoke the migration. \
- * **Complete**: Complete the migration. \
- * **Hide**: Hide the hostpool. \
- * **Unhide**: Unhide the hostpool.
- */
-export type Operation = string;
 
 /** Known values of {@link RemoteApplicationType} that the service accepts. */
 export enum KnownRemoteApplicationType {
@@ -1415,6 +1413,24 @@ export enum KnownPreferredAppGroupType {
  * **RailApplications**
  */
 export type PreferredAppGroupType = string;
+
+/** Known values of {@link SessionHostComponentUpdateType} that the service accepts. */
+export enum KnownSessionHostComponentUpdateType {
+  /** Agent and other agent side components are delivery schedule is controlled by WVD Infra. */
+  Default = "Default",
+  /** TenantAdmin have opted in for Scheduled Component Update feature. */
+  Scheduled = "Scheduled"
+}
+
+/**
+ * Defines values for SessionHostComponentUpdateType. \
+ * {@link KnownSessionHostComponentUpdateType} can be used interchangeably with SessionHostComponentUpdateType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**: Agent and other agent side components are delivery schedule is controlled by WVD Infra. \
+ * **Scheduled**: TenantAdmin have opted in for Scheduled Component Update feature.
+ */
+export type SessionHostComponentUpdateType = string;
 
 /** Known values of {@link ApplicationType} that the service accepts. */
 export enum KnownApplicationType {
@@ -1607,53 +1623,17 @@ export enum KnownHealthCheckResult {
  * **SessionHostShutdown**: We received a Shutdown notification.
  */
 export type HealthCheckResult = string;
-
-/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
-export enum KnownPrivateEndpointServiceConnectionStatus {
-  /** Pending */
-  Pending = "Pending",
-  /** Approved */
-  Approved = "Approved",
-  /** Rejected */
-  Rejected = "Rejected"
-}
-
-/**
- * Defines values for PrivateEndpointServiceConnectionStatus. \
- * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Pending** \
- * **Approved** \
- * **Rejected**
- */
-export type PrivateEndpointServiceConnectionStatus = string;
-
-/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
-export enum KnownPrivateEndpointConnectionProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Creating */
-  Creating = "Creating",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Failed */
-  Failed = "Failed"
-}
-
-/**
- * Defines values for PrivateEndpointConnectionProvisioningState. \
- * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Creating** \
- * **Deleting** \
- * **Failed**
- */
-export type PrivateEndpointConnectionProvisioningState = string;
 /** Defines values for SkuTier. */
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
+/** Defines values for DayOfWeek. */
+export type DayOfWeek =
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday";
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -1699,7 +1679,14 @@ export type WorkspacesUpdateResponse = Workspace;
 
 /** Optional parameters. */
 export interface WorkspacesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type WorkspacesListByResourceGroupResponse = WorkspaceList;
@@ -1713,7 +1700,14 @@ export type WorkspacesListBySubscriptionResponse = WorkspaceList;
 
 /** Optional parameters. */
 export interface WorkspacesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type WorkspacesListByResourceGroupNextResponse = WorkspaceList;
@@ -1755,45 +1749,143 @@ export type ScalingPlansUpdateResponse = ScalingPlan;
 
 /** Optional parameters. */
 export interface ScalingPlansListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type ScalingPlansListByResourceGroupResponse = ScalingPlanList;
 
 /** Optional parameters. */
 export interface ScalingPlansListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the listBySubscription operation. */
 export type ScalingPlansListBySubscriptionResponse = ScalingPlanList;
 
 /** Optional parameters. */
 export interface ScalingPlansListByHostPoolOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the listByHostPool operation. */
 export type ScalingPlansListByHostPoolResponse = ScalingPlanList;
 
 /** Optional parameters. */
 export interface ScalingPlansListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ScalingPlansListByResourceGroupNextResponse = ScalingPlanList;
 
 /** Optional parameters. */
 export interface ScalingPlansListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type ScalingPlansListBySubscriptionNextResponse = ScalingPlanList;
 
 /** Optional parameters. */
 export interface ScalingPlansListByHostPoolNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the listByHostPoolNext operation. */
 export type ScalingPlansListByHostPoolNextResponse = ScalingPlanList;
+
+/** Optional parameters. */
+export interface ScalingPlanPooledSchedulesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ScalingPlanPooledSchedulesGetResponse = ScalingPlanPooledSchedule;
+
+/** Optional parameters. */
+export interface ScalingPlanPooledSchedulesCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type ScalingPlanPooledSchedulesCreateResponse = ScalingPlanPooledSchedule;
+
+/** Optional parameters. */
+export interface ScalingPlanPooledSchedulesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ScalingPlanPooledSchedulesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Object containing ScalingPlanPooledSchedule definitions. */
+  scalingPlanSchedule?: ScalingPlanPooledSchedulePatch;
+}
+
+/** Contains response data for the update operation. */
+export type ScalingPlanPooledSchedulesUpdateResponse = ScalingPlanPooledSchedule;
+
+/** Optional parameters. */
+export interface ScalingPlanPooledSchedulesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
+
+/** Contains response data for the list operation. */
+export type ScalingPlanPooledSchedulesListResponse = ScalingPlanPooledScheduleList;
+
+/** Optional parameters. */
+export interface ScalingPlanPooledSchedulesListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
+
+/** Contains response data for the listNext operation. */
+export type ScalingPlanPooledSchedulesListNextResponse = ScalingPlanPooledScheduleList;
 
 /** Optional parameters. */
 export interface ApplicationGroupsGetOptionalParams
@@ -1826,6 +1918,12 @@ export type ApplicationGroupsUpdateResponse = ApplicationGroup;
 /** Optional parameters. */
 export interface ApplicationGroupsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
   /** OData filter expression. Valid properties for filtering are applicationGroupType. */
   filter?: string;
 }
@@ -1846,6 +1944,12 @@ export type ApplicationGroupsListBySubscriptionResponse = ApplicationGroupList;
 /** Optional parameters. */
 export interface ApplicationGroupsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
   /** OData filter expression. Valid properties for filtering are applicationGroupType. */
   filter?: string;
 }
@@ -1865,14 +1969,28 @@ export type ApplicationGroupsListBySubscriptionNextResponse = ApplicationGroupLi
 
 /** Optional parameters. */
 export interface StartMenuItemsListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the list operation. */
 export type StartMenuItemsListResponse = StartMenuItemList;
 
 /** Optional parameters. */
 export interface StartMenuItemsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the listNext operation. */
 export type StartMenuItemsListNextResponse = StartMenuItemList;
@@ -1907,14 +2025,28 @@ export type ApplicationsUpdateResponse = Application;
 
 /** Optional parameters. */
 export interface ApplicationsListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the list operation. */
 export type ApplicationsListResponse = ApplicationList;
 
 /** Optional parameters. */
 export interface ApplicationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the listNext operation. */
 export type ApplicationsListNextResponse = ApplicationList;
@@ -1938,14 +2070,28 @@ export type DesktopsUpdateResponse = Desktop;
 
 /** Optional parameters. */
 export interface DesktopsListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the list operation. */
 export type DesktopsListResponse = DesktopList;
 
 /** Optional parameters. */
 export interface DesktopsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the listNext operation. */
 export type DesktopsListNextResponse = DesktopList;
@@ -1983,14 +2129,28 @@ export type HostPoolsUpdateResponse = HostPool;
 
 /** Optional parameters. */
 export interface HostPoolsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type HostPoolsListByResourceGroupResponse = HostPoolList;
 
 /** Optional parameters. */
 export interface HostPoolsListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the list operation. */
 export type HostPoolsListResponse = HostPoolList;
@@ -2004,14 +2164,28 @@ export type HostPoolsRetrieveRegistrationTokenResponse = RegistrationInfo;
 
 /** Optional parameters. */
 export interface HostPoolsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type HostPoolsListByResourceGroupNextResponse = HostPoolList;
 
 /** Optional parameters. */
 export interface HostPoolsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the listNext operation. */
 export type HostPoolsListNextResponse = HostPoolList;
@@ -2019,6 +2193,12 @@ export type HostPoolsListNextResponse = HostPoolList;
 /** Optional parameters. */
 export interface UserSessionsListByHostPoolOptionalParams
   extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
   /** OData filter expression. Valid properties for filtering are userprincipalname and sessionstate. */
   filter?: string;
 }
@@ -2042,7 +2222,14 @@ export interface UserSessionsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface UserSessionsListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the list operation. */
 export type UserSessionsListResponse = UserSessionList;
@@ -2061,6 +2248,12 @@ export interface UserSessionsSendMessageOptionalParams
 /** Optional parameters. */
 export interface UserSessionsListByHostPoolNextOptionalParams
   extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
   /** OData filter expression. Valid properties for filtering are userprincipalname and sessionstate. */
   filter?: string;
 }
@@ -2070,7 +2263,14 @@ export type UserSessionsListByHostPoolNextResponse = UserSessionList;
 
 /** Optional parameters. */
 export interface UserSessionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the listNext operation. */
 export type UserSessionsListNextResponse = UserSessionList;
@@ -2103,14 +2303,28 @@ export type SessionHostsUpdateResponse = SessionHost;
 
 /** Optional parameters. */
 export interface SessionHostsListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the list operation. */
 export type SessionHostsListResponse = SessionHostList;
 
 /** Optional parameters. */
 export interface SessionHostsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the listNext operation. */
 export type SessionHostsListNextResponse = SessionHostList;
@@ -2145,14 +2359,28 @@ export type MsixPackagesUpdateResponse = MsixPackage;
 
 /** Optional parameters. */
 export interface MsixPackagesListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the list operation. */
 export type MsixPackagesListResponse = MsixPackageList;
 
 /** Optional parameters. */
 export interface MsixPackagesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
 
 /** Contains response data for the listNext operation. */
 export type MsixPackagesListNextResponse = MsixPackageList;
@@ -2170,98 +2398,6 @@ export interface MsixImagesExpandNextOptionalParams
 
 /** Contains response data for the expandNext operation. */
 export type MsixImagesExpandNextResponse = ExpandMsixImageList;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsListByHostPoolOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByHostPool operation. */
-export type PrivateEndpointConnectionsListByHostPoolResponse = PrivateEndpointConnectionListResultWithSystemData;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsGetByHostPoolOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getByHostPool operation. */
-export type PrivateEndpointConnectionsGetByHostPoolResponse = PrivateEndpointConnectionWithSystemData;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsDeleteByHostPoolOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsUpdateByHostPoolOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the updateByHostPool operation. */
-export type PrivateEndpointConnectionsUpdateByHostPoolResponse = PrivateEndpointConnectionWithSystemData;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsListByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByWorkspace operation. */
-export type PrivateEndpointConnectionsListByWorkspaceResponse = PrivateEndpointConnectionListResultWithSystemData;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsGetByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getByWorkspace operation. */
-export type PrivateEndpointConnectionsGetByWorkspaceResponse = PrivateEndpointConnectionWithSystemData;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsDeleteByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the updateByWorkspace operation. */
-export type PrivateEndpointConnectionsUpdateByWorkspaceResponse = PrivateEndpointConnectionWithSystemData;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsListByHostPoolNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByHostPoolNext operation. */
-export type PrivateEndpointConnectionsListByHostPoolNextResponse = PrivateEndpointConnectionListResultWithSystemData;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsListByWorkspaceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByWorkspaceNext operation. */
-export type PrivateEndpointConnectionsListByWorkspaceNextResponse = PrivateEndpointConnectionListResultWithSystemData;
-
-/** Optional parameters. */
-export interface PrivateLinkResourcesListByHostPoolOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByHostPool operation. */
-export type PrivateLinkResourcesListByHostPoolResponse = PrivateLinkResourceListResult;
-
-/** Optional parameters. */
-export interface PrivateLinkResourcesListByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByWorkspace operation. */
-export type PrivateLinkResourcesListByWorkspaceResponse = PrivateLinkResourceListResult;
-
-/** Optional parameters. */
-export interface PrivateLinkResourcesListByHostPoolNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByHostPoolNext operation. */
-export type PrivateLinkResourcesListByHostPoolNextResponse = PrivateLinkResourceListResult;
-
-/** Optional parameters. */
-export interface PrivateLinkResourcesListByWorkspaceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByWorkspaceNext operation. */
-export type PrivateLinkResourcesListByWorkspaceNextResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface DesktopVirtualizationAPIClientOptionalParams

@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { MsixImages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -61,16 +60,12 @@ export class MsixImagesImpl implements MsixImages {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.expandPagingPage(
           resourceGroupName,
           hostPoolName,
           msixImageURI,
-          options,
-          settings
+          options
         );
       }
     };
@@ -80,23 +75,16 @@ export class MsixImagesImpl implements MsixImages {
     resourceGroupName: string,
     hostPoolName: string,
     msixImageURI: MsixImageURI,
-    options?: MsixImagesExpandOptionalParams,
-    settings?: PageSettings
+    options?: MsixImagesExpandOptionalParams
   ): AsyncIterableIterator<ExpandMsixImage[]> {
-    let result: MsixImagesExpandResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._expand(
-        resourceGroupName,
-        hostPoolName,
-        msixImageURI,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._expand(
+      resourceGroupName,
+      hostPoolName,
+      msixImageURI,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._expandNext(
         resourceGroupName,
@@ -106,9 +94,7 @@ export class MsixImagesImpl implements MsixImages {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
