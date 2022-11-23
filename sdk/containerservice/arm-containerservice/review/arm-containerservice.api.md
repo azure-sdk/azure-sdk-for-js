@@ -11,6 +11,12 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
+export interface AbsoluteMonthlySchedule {
+    dayOfMonth: number;
+    intervalMonths: number;
+}
+
+// @public
 export interface AgentPool extends SubResource {
     availabilityZones?: string[];
     capacityReservationGroupID?: string;
@@ -97,7 +103,8 @@ export interface AgentPoolNetworkProfile {
 
 // @public
 export interface AgentPools {
-    abortLatestOperation(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsAbortLatestOperationOptionalParams): Promise<void>;
+    beginAbortLatestOperation(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsAbortLatestOperationOptionalParams): Promise<PollerLike<PollOperationState<AgentPoolsAbortLatestOperationResponse>, AgentPoolsAbortLatestOperationResponse>>;
+    beginAbortLatestOperationAndWait(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsAbortLatestOperationOptionalParams): Promise<AgentPoolsAbortLatestOperationResponse>;
     beginCreateOrUpdate(resourceGroupName: string, resourceName: string, agentPoolName: string, parameters: AgentPool, options?: AgentPoolsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AgentPoolsCreateOrUpdateResponse>, AgentPoolsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, agentPoolName: string, parameters: AgentPool, options?: AgentPoolsCreateOrUpdateOptionalParams): Promise<AgentPoolsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
@@ -111,8 +118,19 @@ export interface AgentPools {
 }
 
 // @public
-export interface AgentPoolsAbortLatestOperationOptionalParams extends coreClient.OperationOptions {
+export interface AgentPoolsAbortLatestOperationHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
 }
+
+// @public
+export interface AgentPoolsAbortLatestOperationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AgentPoolsAbortLatestOperationResponse = AgentPoolsAbortLatestOperationHeaders;
 
 // @public
 export interface AgentPoolsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -249,8 +267,6 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     // (undocumented)
     agentPools: AgentPools;
     // (undocumented)
-    apiVersion: string;
-    // (undocumented)
     fleetMembers: FleetMembers;
     // (undocumented)
     fleets: Fleets;
@@ -281,7 +297,6 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
 // @public
 export interface ContainerServiceClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
-    apiVersion?: string;
     endpoint?: string;
 }
 
@@ -389,6 +404,17 @@ export interface CredentialResult {
 // @public
 export interface CredentialResults {
     readonly kubeconfigs?: CredentialResult[];
+}
+
+// @public
+export interface DailySchedule {
+    intervalDays: number;
+}
+
+// @public
+export interface DateSpan {
+    end: Date;
+    start: Date;
 }
 
 // @public
@@ -641,9 +667,6 @@ export type FleetsUpdateResponse = Fleet;
 
 // @public
 export type Format = string;
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export type GPUInstanceProfile = string;
@@ -1047,6 +1070,14 @@ export enum KnownNetworkPolicy {
 }
 
 // @public
+export enum KnownNodeOSUpgradeChannel {
+    NodeImage = "NodeImage",
+    None = "None",
+    SecurityPatch = "SecurityPatch",
+    Unmanaged = "Unmanaged"
+}
+
+// @public
 export enum KnownOSDiskType {
     Ephemeral = "Ephemeral",
     Managed = "Managed"
@@ -1129,6 +1160,15 @@ export enum KnownTrustedAccessRoleBindingProvisioningState {
 }
 
 // @public
+export enum KnownType {
+    First = "First",
+    Fourth = "Fourth",
+    Last = "Last",
+    Second = "Second",
+    Third = "Third"
+}
+
+// @public
 export enum KnownUpdateMode {
     Auto = "Auto",
     Initial = "Initial",
@@ -1199,6 +1239,7 @@ export type LoadBalancerSku = string;
 
 // @public
 export interface MaintenanceConfiguration extends SubResource {
+    maintenanceWindow?: MaintenanceWindow;
     notAllowedTime?: TimeSpan[];
     readonly systemData?: SystemData;
     timeInWeek?: TimeInWeek[];
@@ -1249,6 +1290,16 @@ export interface MaintenanceConfigurationsListByManagedClusterOptionalParams ext
 
 // @public
 export type MaintenanceConfigurationsListByManagedClusterResponse = MaintenanceConfigurationListResult;
+
+// @public
+export interface MaintenanceWindow {
+    durationHours: number;
+    notAllowedDates?: DateSpan[];
+    schedule: Schedule;
+    startDate?: Date;
+    startTime: string;
+    utcOffset?: string;
+}
 
 // @public
 export interface ManagedCluster extends TrackedResource {
@@ -1401,6 +1452,7 @@ export interface ManagedClusterAPIServerAccessProfile {
 
 // @public
 export interface ManagedClusterAutoUpgradeProfile {
+    nodeOSUpgradeChannel?: NodeOSUpgradeChannel;
     upgradeChannel?: UpgradeChannel;
 }
 
@@ -1596,7 +1648,8 @@ export interface ManagedClusterPropertiesForSnapshot {
 
 // @public
 export interface ManagedClusters {
-    abortLatestOperation(resourceGroupName: string, resourceName: string, options?: ManagedClustersAbortLatestOperationOptionalParams): Promise<void>;
+    beginAbortLatestOperation(resourceGroupName: string, resourceName: string, options?: ManagedClustersAbortLatestOperationOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersAbortLatestOperationResponse>, ManagedClustersAbortLatestOperationResponse>>;
+    beginAbortLatestOperationAndWait(resourceGroupName: string, resourceName: string, options?: ManagedClustersAbortLatestOperationOptionalParams): Promise<ManagedClustersAbortLatestOperationResponse>;
     beginCreateOrUpdate(resourceGroupName: string, resourceName: string, parameters: ManagedCluster, options?: ManagedClustersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersCreateOrUpdateResponse>, ManagedClustersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, parameters: ManagedCluster, options?: ManagedClustersCreateOrUpdateOptionalParams): Promise<ManagedClustersCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, resourceName: string, options?: ManagedClustersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
@@ -1631,8 +1684,19 @@ export interface ManagedClusters {
 }
 
 // @public
-export interface ManagedClustersAbortLatestOperationOptionalParams extends coreClient.OperationOptions {
+export interface ManagedClustersAbortLatestOperationHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
 }
+
+// @public
+export interface ManagedClustersAbortLatestOperationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ManagedClustersAbortLatestOperationResponse = ManagedClustersAbortLatestOperationHeaders;
 
 // @public
 export interface ManagedClustersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -2035,6 +2099,9 @@ export interface NetworkProfileForSnapshot {
 }
 
 // @public
+export type NodeOSUpgradeChannel = string;
+
+// @public
 export interface OperationListResult {
     readonly value?: OperationValue[];
 }
@@ -2210,6 +2277,13 @@ export type Protocol = string;
 export type PublicNetworkAccess = string;
 
 // @public
+export interface RelativeMonthlySchedule {
+    dayOfWeek: WeekDay;
+    intervalMonths: number;
+    weekIndex: Type;
+}
+
+// @public
 export interface ResolvePrivateLinkServiceId {
     post(resourceGroupName: string, resourceName: string, parameters: PrivateLinkResource, options?: ResolvePrivateLinkServiceIdPostOptionalParams): Promise<ResolvePrivateLinkServiceIdPostResponse>;
 }
@@ -2263,6 +2337,14 @@ export type ScaleSetEvictionPolicy = string;
 
 // @public
 export type ScaleSetPriority = string;
+
+// @public
+export interface Schedule {
+    absoluteMonthly?: AbsoluteMonthlySchedule;
+    daily?: DailySchedule;
+    relativeMonthly?: RelativeMonthlySchedule;
+    weekly?: WeeklySchedule;
+}
 
 // @public
 export interface Snapshot extends TrackedResource {
@@ -2522,6 +2604,9 @@ export interface TrustedAccessRolesListOptionalParams extends coreClient.Operati
 export type TrustedAccessRolesListResponse = TrustedAccessRoleListResult;
 
 // @public
+export type Type = string;
+
+// @public
 export type UpdateMode = string;
 
 // @public
@@ -2536,6 +2621,12 @@ export interface UserAssignedIdentity {
 
 // @public
 export type WeekDay = string;
+
+// @public
+export interface WeeklySchedule {
+    dayOfWeek: WeekDay;
+    intervalWeeks: number;
+}
 
 // @public
 export interface WindowsGmsaProfile {

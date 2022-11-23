@@ -1,5 +1,43 @@
 # Release History
     
+## 17.2.0-beta.2 (2022-11-23)
+    
+**Features**
+
+  - Added operation AgentPools.beginAbortLatestOperation
+  - Added operation AgentPools.beginAbortLatestOperationAndWait
+  - Added operation ManagedClusters.beginAbortLatestOperation
+  - Added operation ManagedClusters.beginAbortLatestOperationAndWait
+  - Added Interface AbsoluteMonthlySchedule
+  - Added Interface AgentPoolsAbortLatestOperationHeaders
+  - Added Interface DailySchedule
+  - Added Interface DateSpan
+  - Added Interface MaintenanceWindow
+  - Added Interface ManagedClustersAbortLatestOperationHeaders
+  - Added Interface RelativeMonthlySchedule
+  - Added Interface Schedule
+  - Added Interface WeeklySchedule
+  - Added Type Alias AgentPoolsAbortLatestOperationResponse
+  - Added Type Alias ManagedClustersAbortLatestOperationResponse
+  - Added Type Alias NodeOSUpgradeChannel
+  - Added Type Alias Type
+  - Interface AgentPoolsAbortLatestOperationOptionalParams has a new optional parameter resumeFrom
+  - Interface AgentPoolsAbortLatestOperationOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface MaintenanceConfiguration has a new optional parameter maintenanceWindow
+  - Interface ManagedClusterAutoUpgradeProfile has a new optional parameter nodeOSUpgradeChannel
+  - Interface ManagedClustersAbortLatestOperationOptionalParams has a new optional parameter resumeFrom
+  - Interface ManagedClustersAbortLatestOperationOptionalParams has a new optional parameter updateIntervalInMs
+  - Added Enum KnownNodeOSUpgradeChannel
+  - Added Enum KnownType
+
+**Breaking Changes**
+
+  - Removed operation AgentPools.abortLatestOperation
+  - Removed operation ManagedClusters.abortLatestOperation
+  - Interface ContainerServiceClientOptionalParams no longer has parameter apiVersion
+  - Class ContainerServiceClient no longer has parameter apiVersion
+    
+    
 ## 17.2.0-beta.1 (2022-11-07)
     
 **Features**

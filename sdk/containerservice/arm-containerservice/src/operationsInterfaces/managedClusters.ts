@@ -39,6 +39,7 @@ import {
   ManagedClusterAADProfile,
   ManagedClustersResetAADProfileOptionalParams,
   ManagedClustersAbortLatestOperationOptionalParams,
+  ManagedClustersAbortLatestOperationResponse,
   ManagedClustersRotateClusterCertificatesOptionalParams,
   ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
   ManagedClustersStopOptionalParams,
@@ -299,20 +300,36 @@ export interface ManagedClusters {
     options?: ManagedClustersResetAADProfileOptionalParams
   ): Promise<void>;
   /**
-   * Aborting last running operation on managed cluster.  We return a 204 no content code here to
-   * indicate that the operation has been accepted and an abort will be attempted but is not guaranteed
-   * to complete successfully. Please look up the provisioning state of the managed cluster to keep track
-   * of whether it changes to Canceled. A canceled provisioning state indicates that the abort was
-   * successful
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
-  abortLatestOperation(
+  beginAbortLatestOperation(
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersAbortLatestOperationOptionalParams
-  ): Promise<void>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedClustersAbortLatestOperationResponse>,
+      ManagedClustersAbortLatestOperationResponse
+    >
+  >;
+  /**
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  beginAbortLatestOperationAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams
+  ): Promise<ManagedClustersAbortLatestOperationResponse>;
   /**
    * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
    * details about rotating managed cluster certificates.
