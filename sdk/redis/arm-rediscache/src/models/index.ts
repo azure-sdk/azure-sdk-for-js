@@ -138,7 +138,7 @@ export interface RedisCreateParameters {
   identity?: ManagedServiceIdentity;
   /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
   redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
-  /** Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'. */
+  /** Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6) */
   redisVersion?: string;
   /** Specifies whether the non-ssl Redis server port (6379) is enabled. */
   enableNonSslPort?: boolean;
@@ -176,7 +176,7 @@ export interface Sku {
 export interface RedisCommonProperties {
   /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
   redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
-  /** Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'. */
+  /** Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6) */
   redisVersion?: string;
   /** Specifies whether the non-ssl Redis server port (6379) is enabled. */
   enableNonSslPort?: boolean;
@@ -200,7 +200,7 @@ export interface RedisCommonPropertiesRedisConfiguration {
   [property: string]: any;
   /** Specifies whether the rdb backup is enabled */
   rdbBackupEnabled?: string;
-  /** Specifies the frequency for creating rdb backup in minutes. Valid values: (15, 30, 60, 360, 720, 1440) */
+  /** Specifies the frequency for creating rdb backup */
   rdbBackupFrequency?: string;
   /** Specifies the maximum number of snapshots for rdb backup */
   rdbBackupMaxSnapshotCount?: string;
@@ -230,8 +230,11 @@ export interface RedisCommonPropertiesRedisConfiguration {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly preferredDataArchiveAuthMethod?: string;
-  /** Preferred auth method to communicate to storage account used for data persistence, specify SAS or ManagedIdentity, default value is SAS */
-  preferredDataPersistenceAuthMethod?: string;
+  /**
+   * Preferred auth method to communicate to storage account used for data persistence, specify SAS or ManagedIdentity, default value is SAS
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly preferredDataPersistenceAuthMethod?: string;
   /**
    * Zonal Configuration
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -376,7 +379,7 @@ export interface RedisUpdateParameters {
   identity?: ManagedServiceIdentity;
   /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
   redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
-  /** Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'. */
+  /** Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6) */
   redisVersion?: string;
   /** Specifies whether the non-ssl Redis server port (6379) is enabled. */
   enableNonSslPort?: boolean;
@@ -438,8 +441,6 @@ export interface ImportRDBParameters {
   format?: string;
   /** files to import. */
   files: string[];
-  /** Preferred auth method to communicate to storage account used for data archive, specify SAS or ManagedIdentity, default value is SAS */
-  preferredDataArchiveAuthMethod?: string;
 }
 
 /** Parameters for Redis export operation. */
@@ -450,8 +451,6 @@ export interface ExportRDBParameters {
   prefix: string;
   /** Container name to export to. */
   container: string;
-  /** Preferred auth method to communicate to storage account used for data archive, specify SAS or ManagedIdentity, default value is SAS */
-  preferredDataArchiveAuthMethod?: string;
 }
 
 /** The response of list firewall rules Redis operation. */
@@ -494,16 +493,6 @@ export interface RedisLinkedServerCreateParameters {
   linkedRedisCacheLocation: string;
   /** Role of the linked server. */
   serverRole: ReplicationRole;
-  /**
-   * The unchanging DNS name which will always point to current geo-primary cache among the linked redis caches for seamless Geo Failover experience.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly geoReplicatedPrimaryHostName?: string;
-  /**
-   * The changing DNS name that resolves to the current geo-primary cache among the linked redis caches before or after the Geo Failover.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly primaryHostName?: string;
 }
 
 /** Create properties for a linked server */
@@ -514,16 +503,6 @@ export interface RedisLinkedServerCreateProperties {
   linkedRedisCacheLocation: string;
   /** Role of the linked server. */
   serverRole: ReplicationRole;
-  /**
-   * The unchanging DNS name which will always point to current geo-primary cache among the linked redis caches for seamless Geo Failover experience.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly geoReplicatedPrimaryHostName?: string;
-  /**
-   * The changing DNS name that resolves to the current geo-primary cache among the linked redis caches before or after the Geo Failover.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly primaryHostName?: string;
 }
 
 /** List of linked servers (with properties) of a Redis cache. */
@@ -722,7 +701,7 @@ export interface RedisResource extends TrackedResource {
   identity?: ManagedServiceIdentity;
   /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
   redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
-  /** Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'. */
+  /** Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6) */
   redisVersion?: string;
   /** Specifies whether the non-ssl Redis server port (6379) is enabled. */
   enableNonSslPort?: boolean;
@@ -813,16 +792,6 @@ export interface RedisLinkedServerWithProperties extends ProxyResource {
   linkedRedisCacheLocation?: string;
   /** Role of the linked server. */
   serverRole?: ReplicationRole;
-  /**
-   * The unchanging DNS name which will always point to current geo-primary cache among the linked redis caches for seamless Geo Failover experience.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly geoReplicatedPrimaryHostName?: string;
-  /**
-   * The changing DNS name that resolves to the current geo-primary cache among the linked redis caches before or after the Geo Failover.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly primaryHostName?: string;
   /**
    * Terminal state of the link between primary and secondary redis cache.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1116,12 +1085,8 @@ export interface RedisCreateOptionalParams extends coreClient.OperationOptions {
 export type RedisCreateResponse = RedisResource;
 
 /** Optional parameters. */
-export interface RedisUpdateOptionalParams extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+export interface RedisUpdateOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type RedisUpdateResponse = RedisResource;
@@ -1292,12 +1257,7 @@ export type LinkedServerCreateResponse = RedisLinkedServerWithProperties;
 
 /** Optional parameters. */
 export interface LinkedServerDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface LinkedServerGetOptionalParams

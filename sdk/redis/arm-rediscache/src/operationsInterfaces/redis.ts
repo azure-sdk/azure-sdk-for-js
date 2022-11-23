@@ -116,22 +116,7 @@ export interface Redis {
    * @param parameters Parameters supplied to the Update Redis operation.
    * @param options The options parameters.
    */
-  beginUpdate(
-    resourceGroupName: string,
-    name: string,
-    parameters: RedisUpdateParameters,
-    options?: RedisUpdateOptionalParams
-  ): Promise<
-    PollerLike<PollOperationState<RedisUpdateResponse>, RedisUpdateResponse>
-  >;
-  /**
-   * Update an existing Redis cache.
-   * @param resourceGroupName The name of the resource group.
-   * @param name The name of the Redis cache.
-   * @param parameters Parameters supplied to the Update Redis operation.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
+  update(
     resourceGroupName: string,
     name: string,
     parameters: RedisUpdateParameters,

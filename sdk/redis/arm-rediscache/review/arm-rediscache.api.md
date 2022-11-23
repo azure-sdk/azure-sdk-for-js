@@ -67,7 +67,6 @@ export interface ErrorResponse {
 export interface ExportRDBParameters {
     container: string;
     format?: string;
-    preferredDataArchiveAuthMethod?: string;
     prefix: string;
 }
 
@@ -115,7 +114,6 @@ export type FirewallRulesListResponse = RedisFirewallRuleListResult;
 export interface ImportRDBParameters {
     files: string[];
     format?: string;
-    preferredDataArchiveAuthMethod?: string;
 }
 
 // @public
@@ -201,8 +199,7 @@ export enum KnownTlsVersion {
 export interface LinkedServer {
     beginCreate(resourceGroupName: string, name: string, linkedServerName: string, parameters: RedisLinkedServerCreateParameters, options?: LinkedServerCreateOptionalParams): Promise<PollerLike<PollOperationState<LinkedServerCreateResponse>, LinkedServerCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, name: string, linkedServerName: string, parameters: RedisLinkedServerCreateParameters, options?: LinkedServerCreateOptionalParams): Promise<LinkedServerCreateResponse>;
-    beginDelete(resourceGroupName: string, name: string, linkedServerName: string, options?: LinkedServerDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, name: string, linkedServerName: string, options?: LinkedServerDeleteOptionalParams): Promise<void>;
+    delete(resourceGroupName: string, name: string, linkedServerName: string, options?: LinkedServerDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, name: string, linkedServerName: string, options?: LinkedServerGetOptionalParams): Promise<LinkedServerGetResponse>;
     list(resourceGroupName: string, name: string, options?: LinkedServerListOptionalParams): PagedAsyncIterableIterator<RedisLinkedServerWithProperties>;
 }
@@ -218,8 +215,6 @@ export type LinkedServerCreateResponse = RedisLinkedServerWithProperties;
 
 // @public
 export interface LinkedServerDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -322,7 +317,7 @@ export interface OperationStatusResult {
 
 // @public
 export interface PatchSchedules {
-    createOrUpdate(resourceGroupName: string, name: string, defaultParam: DefaultName, parameters: RedisPatchSchedule, options?: PatchSchedulesCreateOrUpdateOptionalParams): Promise<PatchSchedulesCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, name: string, parameters: RedisPatchSchedule, defaultParam: DefaultName, options?: PatchSchedulesCreateOrUpdateOptionalParams): Promise<PatchSchedulesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, name: string, defaultParam: DefaultName, options?: PatchSchedulesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, name: string, defaultParam: DefaultName, options?: PatchSchedulesGetOptionalParams): Promise<PatchSchedulesGetResponse>;
     listByRedisResource(resourceGroupName: string, cacheName: string, options?: PatchSchedulesListByRedisResourceOptionalParams): PagedAsyncIterableIterator<RedisPatchSchedule>;
@@ -473,8 +468,6 @@ export interface Redis {
     beginExportDataAndWait(resourceGroupName: string, name: string, parameters: ExportRDBParameters, options?: RedisExportDataOptionalParams): Promise<void>;
     beginImportData(resourceGroupName: string, name: string, parameters: ImportRDBParameters, options?: RedisImportDataOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginImportDataAndWait(resourceGroupName: string, name: string, parameters: ImportRDBParameters, options?: RedisImportDataOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, name: string, parameters: RedisUpdateParameters, options?: RedisUpdateOptionalParams): Promise<PollerLike<PollOperationState<RedisUpdateResponse>, RedisUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, name: string, parameters: RedisUpdateParameters, options?: RedisUpdateOptionalParams): Promise<RedisUpdateResponse>;
     checkNameAvailability(parameters: CheckNameAvailabilityParameters, options?: RedisCheckNameAvailabilityOptionalParams): Promise<void>;
     forceReboot(resourceGroupName: string, name: string, parameters: RedisRebootParameters, options?: RedisForceRebootOptionalParams): Promise<RedisForceRebootOperationResponse>;
     get(resourceGroupName: string, name: string, options?: RedisGetOptionalParams): Promise<RedisGetResponse>;
@@ -483,6 +476,7 @@ export interface Redis {
     listKeys(resourceGroupName: string, name: string, options?: RedisListKeysOptionalParams): Promise<RedisListKeysResponse>;
     listUpgradeNotifications(resourceGroupName: string, name: string, history: number, options?: RedisListUpgradeNotificationsOptionalParams): PagedAsyncIterableIterator<UpgradeNotification>;
     regenerateKey(resourceGroupName: string, name: string, parameters: RedisRegenerateKeyParameters, options?: RedisRegenerateKeyOptionalParams): Promise<RedisRegenerateKeyResponse>;
+    update(resourceGroupName: string, name: string, parameters: RedisUpdateParameters, options?: RedisUpdateOptionalParams): Promise<RedisUpdateResponse>;
 }
 
 // @public
@@ -523,7 +517,7 @@ export interface RedisCommonPropertiesRedisConfiguration {
     maxmemoryPolicy?: string;
     maxmemoryReserved?: string;
     readonly preferredDataArchiveAuthMethod?: string;
-    preferredDataPersistenceAuthMethod?: string;
+    readonly preferredDataPersistenceAuthMethod?: string;
     rdbBackupEnabled?: string;
     rdbBackupFrequency?: string;
     rdbBackupMaxSnapshotCount?: string;
@@ -644,19 +638,15 @@ export interface RedisLinkedServer {
 
 // @public
 export interface RedisLinkedServerCreateParameters {
-    readonly geoReplicatedPrimaryHostName?: string;
     linkedRedisCacheId: string;
     linkedRedisCacheLocation: string;
-    readonly primaryHostName?: string;
     serverRole: ReplicationRole;
 }
 
 // @public
 export interface RedisLinkedServerCreateProperties {
-    readonly geoReplicatedPrimaryHostName?: string;
     linkedRedisCacheId: string;
     linkedRedisCacheLocation: string;
-    readonly primaryHostName?: string;
     serverRole: ReplicationRole;
 }
 
@@ -667,10 +657,8 @@ export interface RedisLinkedServerProperties extends RedisLinkedServerCreateProp
 
 // @public
 export interface RedisLinkedServerWithProperties extends ProxyResource {
-    readonly geoReplicatedPrimaryHostName?: string;
     linkedRedisCacheId?: string;
     linkedRedisCacheLocation?: string;
-    readonly primaryHostName?: string;
     readonly provisioningState?: string;
     serverRole?: ReplicationRole;
 }
@@ -843,8 +831,6 @@ export interface RedisResource extends TrackedResource {
 
 // @public
 export interface RedisUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public

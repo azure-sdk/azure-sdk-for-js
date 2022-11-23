@@ -580,6 +580,7 @@ export const RedisCommonPropertiesRedisConfiguration: coreClient.CompositeMapper
       },
       preferredDataPersistenceAuthMethod: {
         serializedName: "preferred-data-persistence-auth-method",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -1029,12 +1030,6 @@ export const ImportRDBParameters: coreClient.CompositeMapper = {
             }
           }
         }
-      },
-      preferredDataArchiveAuthMethod: {
-        serializedName: "preferred-data-archive-auth-method",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -1061,12 +1056,6 @@ export const ExportRDBParameters: coreClient.CompositeMapper = {
       container: {
         serializedName: "container",
         required: true,
-        type: {
-          name: "String"
-        }
-      },
-      preferredDataArchiveAuthMethod: {
-        serializedName: "preferred-data-archive-auth-method",
         type: {
           name: "String"
         }
@@ -1197,20 +1186,6 @@ export const RedisLinkedServerCreateParameters: coreClient.CompositeMapper = {
           name: "Enum",
           allowedValues: ["Primary", "Secondary"]
         }
-      },
-      geoReplicatedPrimaryHostName: {
-        serializedName: "properties.geoReplicatedPrimaryHostName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      primaryHostName: {
-        serializedName: "properties.primaryHostName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -1241,20 +1216,6 @@ export const RedisLinkedServerCreateProperties: coreClient.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: ["Primary", "Secondary"]
-        }
-      },
-      geoReplicatedPrimaryHostName: {
-        serializedName: "geoReplicatedPrimaryHostName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      primaryHostName: {
-        serializedName: "primaryHostName",
-        readOnly: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -1997,20 +1958,6 @@ export const RedisLinkedServerWithProperties: coreClient.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: ["Primary", "Secondary"]
-        }
-      },
-      geoReplicatedPrimaryHostName: {
-        serializedName: "properties.geoReplicatedPrimaryHostName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      primaryHostName: {
-        serializedName: "properties.primaryHostName",
-        readOnly: true,
-        type: {
-          name: "String"
         }
       },
       provisioningState: {

@@ -1,15 +1,33 @@
 # Release History
+    
+## 8.0.0 (2022-11-23)
+    
+**Features**
 
-## 7.1.1 (Unreleased)
+  - Added operation LinkedServer.delete
+  - Added operation Redis.update
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation LinkedServer.beginDelete
+  - Removed operation LinkedServer.beginDeleteAndWait
+  - Removed operation Redis.beginUpdate
+  - Removed operation Redis.beginUpdateAndWait
+  - Operation PatchSchedules.createOrUpdate has a new signature
+  - Interface ExportRDBParameters no longer has parameter preferredDataArchiveAuthMethod
+  - Interface ImportRDBParameters no longer has parameter preferredDataArchiveAuthMethod
+  - Interface LinkedServerDeleteOptionalParams no longer has parameter resumeFrom
+  - Interface LinkedServerDeleteOptionalParams no longer has parameter updateIntervalInMs
+  - Interface RedisLinkedServerCreateParameters no longer has parameter geoReplicatedPrimaryHostName
+  - Interface RedisLinkedServerCreateParameters no longer has parameter primaryHostName
+  - Interface RedisLinkedServerCreateProperties no longer has parameter geoReplicatedPrimaryHostName
+  - Interface RedisLinkedServerCreateProperties no longer has parameter primaryHostName
+  - Interface RedisLinkedServerWithProperties no longer has parameter geoReplicatedPrimaryHostName
+  - Interface RedisLinkedServerWithProperties no longer has parameter primaryHostName
+  - Interface RedisUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface RedisUpdateOptionalParams no longer has parameter updateIntervalInMs
+    
+    
 ## 7.1.0 (2022-10-21)
     
 **Features**
