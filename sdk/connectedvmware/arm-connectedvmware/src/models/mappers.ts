@@ -106,17 +106,17 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorDefinition"
+          className: "ErrorDetail"
         }
       }
     }
   }
 };
 
-export const ErrorDefinition: coreClient.CompositeMapper = {
+export const ErrorDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ErrorDefinition",
+    className: "ErrorDetail",
     modelProperties: {
       code: {
         serializedName: "code",
@@ -132,6 +132,13 @@ export const ErrorDefinition: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       details: {
         serializedName: "details",
         readOnly: true,
@@ -140,9 +147,46 @@ export const ErrorDefinition: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorDefinition"
+              className: "ErrorDetail"
             }
           }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -294,47 +338,6 @@ export const AvailablePatchCountByClassification: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorDetail: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorDetail",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
         }
       }
     }
@@ -727,6 +730,30 @@ export const ResourcePool: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      datastoreIds: {
+        serializedName: "properties.datastoreIds",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      networkIds: {
+        serializedName: "properties.networkIds",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       statuses: {
@@ -1201,6 +1228,30 @@ export const Host: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      datastoreIds: {
+        serializedName: "properties.datastoreIds",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      networkIds: {
+        serializedName: "properties.networkIds",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -1350,6 +1401,20 @@ export const Datastore: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      capacityGB: {
+        serializedName: "properties.capacityGB",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      freeSpaceGB: {
+        serializedName: "properties.freeSpaceGB",
+        readOnly: true,
+        type: {
+          name: "Number"
         }
       },
       provisioningState: {
@@ -1725,6 +1790,12 @@ export const VirtualMachine: coreClient.CompositeMapper = {
       },
       inventoryItemId: {
         serializedName: "properties.inventoryItemId",
+        type: {
+          name: "String"
+        }
+      },
+      publicKey: {
+        serializedName: "properties.publicKey",
         type: {
           name: "String"
         }
@@ -2408,6 +2479,19 @@ export const GuestAgentProfile: coreClient.CompositeMapper = {
           name: "DateTime"
         }
       },
+      clientPublicKey: {
+        serializedName: "clientPublicKey",
+        type: {
+          name: "String"
+        }
+      },
+      mssqlDiscovered: {
+        serializedName: "mssqlDiscovered",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       agentVersion: {
         serializedName: "agentVersion",
         readOnly: true,
@@ -2538,6 +2622,13 @@ export const VirtualMachineUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "NetworkProfileUpdate"
+        }
+      },
+      guestAgentProfile: {
+        serializedName: "properties.guestAgentProfile",
+        type: {
+          name: "Composite",
+          className: "GuestAgentProfileUpdate"
         }
       }
     }
@@ -2741,6 +2832,21 @@ export const NetworkInterfaceUpdate: coreClient.CompositeMapper = {
         serializedName: "deviceKey",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const GuestAgentProfileUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GuestAgentProfileUpdate",
+    modelProperties: {
+      clientPublicKey: {
+        serializedName: "clientPublicKey",
+        type: {
+          name: "String"
         }
       }
     }
@@ -3536,6 +3642,39 @@ export const MachineExtensionsListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const MachineExtensionUpgrade: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MachineExtensionUpgrade",
+    modelProperties: {
+      extensionTargets: {
+        serializedName: "extensionTargets",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "ExtensionTargetProperties" }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ExtensionTargetProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExtensionTargetProperties",
+    modelProperties: {
+      targetVersion: {
+        serializedName: "targetVersion",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const GuestCredential: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3650,6 +3789,12 @@ export const InventoryItemDetails: coreClient.CompositeMapper = {
       },
       moName: {
         serializedName: "moName",
+        type: {
+          name: "String"
+        }
+      },
+      inventoryType: {
+        serializedName: "inventoryType",
         type: {
           name: "String"
         }
@@ -3872,6 +4017,20 @@ export const VirtualMachineTemplateInventoryItem: coreClient.CompositeMapper = {
       },
       osName: {
         serializedName: "osName",
+        type: {
+          name: "String"
+        }
+      },
+      toolsVersionStatus: {
+        serializedName: "toolsVersionStatus",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      toolsVersion: {
+        serializedName: "toolsVersion",
+        readOnly: true,
         type: {
           name: "String"
         }

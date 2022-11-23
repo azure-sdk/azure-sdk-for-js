@@ -10,15 +10,15 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   VirtualMachine,
+  VirtualMachinesListAllOptionalParams,
   VirtualMachinesListOptionalParams,
-  VirtualMachinesListByResourceGroupOptionalParams,
   VirtualMachinesAssessPatchesOptionalParams,
   VirtualMachinesAssessPatchesResponse,
   VirtualMachineInstallPatchesParameters,
   VirtualMachinesInstallPatchesOptionalParams,
   VirtualMachinesInstallPatchesResponse,
-  VirtualMachinesCreateOptionalParams,
-  VirtualMachinesCreateResponse,
+  VirtualMachinesCreateOrUpdateOptionalParams,
+  VirtualMachinesCreateOrUpdateResponse,
   VirtualMachinesGetOptionalParams,
   VirtualMachinesGetResponse,
   VirtualMachinesUpdateOptionalParams,
@@ -36,27 +36,27 @@ export interface VirtualMachines {
    * List of virtualMachines in a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: VirtualMachinesListOptionalParams
+  listAll(
+    options?: VirtualMachinesListAllOptionalParams
   ): PagedAsyncIterableIterator<VirtualMachine>;
   /**
    * List of virtualMachines in a resource group.
    * @param resourceGroupName The Resource Group Name.
    * @param options The options parameters.
    */
-  listByResourceGroup(
+  list(
     resourceGroupName: string,
-    options?: VirtualMachinesListByResourceGroupOptionalParams
+    options?: VirtualMachinesListOptionalParams
   ): PagedAsyncIterableIterator<VirtualMachine>;
   /**
    * The operation to assess patches on a vSphere VMware machine identity in Azure.
    * @param resourceGroupName The name of the resource group.
-   * @param name The name of the vSphere VMware machine.
+   * @param virtualMachineName The name of the vSphere VMware machine.
    * @param options The options parameters.
    */
   beginAssessPatches(
     resourceGroupName: string,
-    name: string,
+    virtualMachineName: string,
     options?: VirtualMachinesAssessPatchesOptionalParams
   ): Promise<
     PollerLike<
@@ -67,24 +67,24 @@ export interface VirtualMachines {
   /**
    * The operation to assess patches on a vSphere VMware machine identity in Azure.
    * @param resourceGroupName The name of the resource group.
-   * @param name The name of the vSphere VMware machine.
+   * @param virtualMachineName The name of the vSphere VMware machine.
    * @param options The options parameters.
    */
   beginAssessPatchesAndWait(
     resourceGroupName: string,
-    name: string,
+    virtualMachineName: string,
     options?: VirtualMachinesAssessPatchesOptionalParams
   ): Promise<VirtualMachinesAssessPatchesResponse>;
   /**
    * The operation to install patches on a vSphere VMware machine identity in Azure.
    * @param resourceGroupName The name of the resource group.
-   * @param name The name of the vSphere VMware machine.
+   * @param virtualMachineName The name of the vSphere VMware machine.
    * @param installPatchesInput Input for InstallPatches as directly received by the API
    * @param options The options parameters.
    */
   beginInstallPatches(
     resourceGroupName: string,
-    name: string,
+    virtualMachineName: string,
     installPatchesInput: VirtualMachineInstallPatchesParameters,
     options?: VirtualMachinesInstallPatchesOptionalParams
   ): Promise<
@@ -96,13 +96,13 @@ export interface VirtualMachines {
   /**
    * The operation to install patches on a vSphere VMware machine identity in Azure.
    * @param resourceGroupName The name of the resource group.
-   * @param name The name of the vSphere VMware machine.
+   * @param virtualMachineName The name of the vSphere VMware machine.
    * @param installPatchesInput Input for InstallPatches as directly received by the API
    * @param options The options parameters.
    */
   beginInstallPatchesAndWait(
     resourceGroupName: string,
-    name: string,
+    virtualMachineName: string,
     installPatchesInput: VirtualMachineInstallPatchesParameters,
     options?: VirtualMachinesInstallPatchesOptionalParams
   ): Promise<VirtualMachinesInstallPatchesResponse>;
@@ -112,14 +112,14 @@ export interface VirtualMachines {
    * @param virtualMachineName Name of the virtual machine resource.
    * @param options The options parameters.
    */
-  beginCreate(
+  beginCreateOrUpdate(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: VirtualMachinesCreateOptionalParams
+    options?: VirtualMachinesCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<VirtualMachinesCreateResponse>,
-      VirtualMachinesCreateResponse
+      PollOperationState<VirtualMachinesCreateOrUpdateResponse>,
+      VirtualMachinesCreateOrUpdateResponse
     >
   >;
   /**
@@ -128,11 +128,11 @@ export interface VirtualMachines {
    * @param virtualMachineName Name of the virtual machine resource.
    * @param options The options parameters.
    */
-  beginCreateAndWait(
+  beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: VirtualMachinesCreateOptionalParams
-  ): Promise<VirtualMachinesCreateResponse>;
+    options?: VirtualMachinesCreateOrUpdateOptionalParams
+  ): Promise<VirtualMachinesCreateOrUpdateResponse>;
   /**
    * Implements virtual machine GET method.
    * @param resourceGroupName The Resource Group Name.
