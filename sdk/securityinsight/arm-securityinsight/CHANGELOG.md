@@ -1,15 +1,72 @@
 # Release History
+    
+## 1.0.0-beta.6 (2022-11-24)
+    
+**Features**
 
-## 1.0.0-beta.6 (Unreleased)
+  - Added operation group Get
+  - Added operation group GetRecommendations
+  - Added operation group IncidentTasks
+  - Added operation group Update
+  - Added Interface AddIncidentTaskActionProperties
+  - Added Interface AlertPropertyMapping
+  - Added Interface AutomationRuleAddIncidentTaskAction
+  - Added Interface Content
+  - Added Interface GetRecommendationsListOptionalParams
+  - Added Interface GetSingleRecommendationOptionalParams
+  - Added Interface IncidentTask
+  - Added Interface IncidentTaskList
+  - Added Interface IncidentTasksCreateOrUpdateOptionalParams
+  - Added Interface IncidentTasksDeleteOptionalParams
+  - Added Interface IncidentTasksGetOptionalParams
+  - Added Interface IncidentTasksListNextOptionalParams
+  - Added Interface IncidentTasksListOptionalParams
+  - Added Interface Instructions
+  - Added Interface Recommendation
+  - Added Interface RecommendationList
+  - Added Interface RecommendationPatch
+  - Added Interface RecommendedAction
+  - Added Interface SentinelEntityMapping
+  - Added Interface UpdateRecommendationOptionalParams
+  - Added Type Alias AlertProperty
+  - Added Type Alias Category
+  - Added Type Alias Context
+  - Added Type Alias GetRecommendationsListResponse
+  - Added Type Alias GetSingleRecommendationResponse
+  - Added Type Alias IncidentTasksCreateOrUpdateResponse
+  - Added Type Alias IncidentTasksGetResponse
+  - Added Type Alias IncidentTasksListNextResponse
+  - Added Type Alias IncidentTasksListResponse
+  - Added Type Alias IncidentTaskStatus
+  - Added Type Alias Priority
+  - Added Type Alias State
+  - Added Type Alias UpdateRecommendationResponse
+  - Interface AlertDetailsOverride has a new optional parameter alertDynamicProperties
+  - Interface NrtAlertRule has a new optional parameter sentinelEntitiesMappings
+  - Interface NrtAlertRuleTemplate has a new optional parameter sentinelEntitiesMappings
+  - Interface QueryBasedAlertRuleTemplateProperties has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRule has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRuleCommonProperties has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRuleTemplate has a new optional parameter sentinelEntitiesMappings
+  - Interface SecurityAlertTimelineItem has a new optional parameter intent
+  - Interface SecurityAlertTimelineItem has a new optional parameter techniques
+  - Class SecurityInsights has a new parameter get
+  - Class SecurityInsights has a new parameter getRecommendations
+  - Class SecurityInsights has a new parameter incidentTasks
+  - Class SecurityInsights has a new parameter update
+  - Added Enum KnownAlertProperty
+  - Added Enum KnownCategory
+  - Added Enum KnownContext
+  - Added Enum KnownIncidentTaskStatus
+  - Added Enum KnownPriority
+  - Added Enum KnownState
+  - Enum KnownActionType has a new value AddIncidentTask
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation Incidents.createTeam has a new signature
+    
+    
 ## 1.0.0-beta.5 (2022-09-27)
     
 **Features**
