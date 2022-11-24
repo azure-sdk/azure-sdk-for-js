@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AttachedNetworks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,12 +18,12 @@ import {
   AttachedNetworkConnection,
   AttachedNetworksListByProjectNextOptionalParams,
   AttachedNetworksListByProjectOptionalParams,
-  AttachedNetworksListByProjectResponse,
   AttachedNetworksListByDevCenterNextOptionalParams,
   AttachedNetworksListByDevCenterOptionalParams,
-  AttachedNetworksListByDevCenterResponse,
+  AttachedNetworksListByProjectResponse,
   AttachedNetworksGetByProjectOptionalParams,
   AttachedNetworksGetByProjectResponse,
+  AttachedNetworksListByDevCenterResponse,
   AttachedNetworksGetByDevCenterOptionalParams,
   AttachedNetworksGetByDevCenterResponse,
   AttachedNetworksCreateOrUpdateOptionalParams,
@@ -70,15 +69,11 @@ export class AttachedNetworksImpl implements AttachedNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByProjectPagingPage(
           resourceGroupName,
           projectName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -87,22 +82,15 @@ export class AttachedNetworksImpl implements AttachedNetworks {
   private async *listByProjectPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: AttachedNetworksListByProjectOptionalParams,
-    settings?: PageSettings
+    options?: AttachedNetworksListByProjectOptionalParams
   ): AsyncIterableIterator<AttachedNetworkConnection[]> {
-    let result: AttachedNetworksListByProjectResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByProject(
-        resourceGroupName,
-        projectName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByProject(
+      resourceGroupName,
+      projectName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByProjectNext(
         resourceGroupName,
@@ -111,9 +99,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -154,15 +140,11 @@ export class AttachedNetworksImpl implements AttachedNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByDevCenterPagingPage(
           resourceGroupName,
           devCenterName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -171,22 +153,15 @@ export class AttachedNetworksImpl implements AttachedNetworks {
   private async *listByDevCenterPagingPage(
     resourceGroupName: string,
     devCenterName: string,
-    options?: AttachedNetworksListByDevCenterOptionalParams,
-    settings?: PageSettings
+    options?: AttachedNetworksListByDevCenterOptionalParams
   ): AsyncIterableIterator<AttachedNetworkConnection[]> {
-    let result: AttachedNetworksListByDevCenterResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByDevCenter(
-        resourceGroupName,
-        devCenterName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByDevCenter(
+      resourceGroupName,
+      devCenterName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByDevCenterNext(
         resourceGroupName,
@@ -195,9 +170,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

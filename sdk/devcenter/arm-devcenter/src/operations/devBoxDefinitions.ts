@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { DevBoxDefinitions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,10 +18,9 @@ import {
   DevBoxDefinition,
   DevBoxDefinitionsListByDevCenterNextOptionalParams,
   DevBoxDefinitionsListByDevCenterOptionalParams,
-  DevBoxDefinitionsListByDevCenterResponse,
   DevBoxDefinitionsListByProjectNextOptionalParams,
   DevBoxDefinitionsListByProjectOptionalParams,
-  DevBoxDefinitionsListByProjectResponse,
+  DevBoxDefinitionsListByDevCenterResponse,
   DevBoxDefinitionsGetOptionalParams,
   DevBoxDefinitionsGetResponse,
   DevBoxDefinitionsCreateOrUpdateOptionalParams,
@@ -31,6 +29,7 @@ import {
   DevBoxDefinitionsUpdateOptionalParams,
   DevBoxDefinitionsUpdateResponse,
   DevBoxDefinitionsDeleteOptionalParams,
+  DevBoxDefinitionsListByProjectResponse,
   DevBoxDefinitionsGetByProjectOptionalParams,
   DevBoxDefinitionsGetByProjectResponse,
   DevBoxDefinitionsListByDevCenterNextResponse,
@@ -73,15 +72,11 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByDevCenterPagingPage(
           resourceGroupName,
           devCenterName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -90,22 +85,15 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   private async *listByDevCenterPagingPage(
     resourceGroupName: string,
     devCenterName: string,
-    options?: DevBoxDefinitionsListByDevCenterOptionalParams,
-    settings?: PageSettings
+    options?: DevBoxDefinitionsListByDevCenterOptionalParams
   ): AsyncIterableIterator<DevBoxDefinition[]> {
-    let result: DevBoxDefinitionsListByDevCenterResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByDevCenter(
-        resourceGroupName,
-        devCenterName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByDevCenter(
+      resourceGroupName,
+      devCenterName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByDevCenterNext(
         resourceGroupName,
@@ -114,9 +102,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -157,15 +143,11 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByProjectPagingPage(
           resourceGroupName,
           projectName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -174,22 +156,15 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   private async *listByProjectPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: DevBoxDefinitionsListByProjectOptionalParams,
-    settings?: PageSettings
+    options?: DevBoxDefinitionsListByProjectOptionalParams
   ): AsyncIterableIterator<DevBoxDefinition[]> {
-    let result: DevBoxDefinitionsListByProjectResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByProject(
-        resourceGroupName,
-        projectName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByProject(
+      resourceGroupName,
+      projectName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByProjectNext(
         resourceGroupName,
@@ -198,9 +173,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
