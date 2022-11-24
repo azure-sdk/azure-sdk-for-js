@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Schedules } from "../operationsInterfaces";
+import { RegistryCodeContainers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,25 +15,25 @@ import { AzureMachineLearningServices } from "../azureMachineLearningServices";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  Schedule,
-  SchedulesListNextOptionalParams,
-  SchedulesListOptionalParams,
-  SchedulesListResponse,
-  SchedulesDeleteOptionalParams,
-  SchedulesGetOptionalParams,
-  SchedulesGetResponse,
-  SchedulesCreateOrUpdateOptionalParams,
-  SchedulesCreateOrUpdateResponse,
-  SchedulesListNextResponse
+  CodeContainer,
+  RegistryCodeContainersListNextOptionalParams,
+  RegistryCodeContainersListOptionalParams,
+  RegistryCodeContainersListResponse,
+  RegistryCodeContainersDeleteOptionalParams,
+  RegistryCodeContainersGetOptionalParams,
+  RegistryCodeContainersGetResponse,
+  RegistryCodeContainersCreateOrUpdateOptionalParams,
+  RegistryCodeContainersCreateOrUpdateResponse,
+  RegistryCodeContainersListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Schedules operations. */
-export class SchedulesImpl implements Schedules {
+/** Class containing RegistryCodeContainers operations. */
+export class RegistryCodeContainersImpl implements RegistryCodeContainers {
   private readonly client: AzureMachineLearningServices;
 
   /**
-   * Initialize a new instance of the class Schedules class.
+   * Initialize a new instance of the class RegistryCodeContainers class.
    * @param client Reference to the service client
    */
   constructor(client: AzureMachineLearningServices) {
@@ -41,17 +41,17 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * List schedules in specified workspace.
+   * List containers.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param registryName Name of Azure Machine Learning registry.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
-    workspaceName: string,
-    options?: SchedulesListOptionalParams
-  ): PagedAsyncIterableIterator<Schedule> {
-    const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
+    registryName: string,
+    options?: RegistryCodeContainersListOptionalParams
+  ): PagedAsyncIterableIterator<CodeContainer> {
+    const iter = this.listPagingAll(resourceGroupName, registryName, options);
     return {
       next() {
         return iter.next();
@@ -60,23 +60,23 @@ export class SchedulesImpl implements Schedules {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(resourceGroupName, workspaceName, options);
+        return this.listPagingPage(resourceGroupName, registryName, options);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    workspaceName: string,
-    options?: SchedulesListOptionalParams
-  ): AsyncIterableIterator<Schedule[]> {
-    let result = await this._list(resourceGroupName, workspaceName, options);
+    registryName: string,
+    options?: RegistryCodeContainersListOptionalParams
+  ): AsyncIterableIterator<CodeContainer[]> {
+    let result = await this._list(resourceGroupName, registryName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
-        workspaceName,
+        registryName,
         continuationToken,
         options
       );
@@ -87,12 +87,12 @@ export class SchedulesImpl implements Schedules {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    workspaceName: string,
-    options?: SchedulesListOptionalParams
-  ): AsyncIterableIterator<Schedule> {
+    registryName: string,
+    options?: RegistryCodeContainersListOptionalParams
+  ): AsyncIterableIterator<CodeContainer> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
-      workspaceName,
+      registryName,
       options
     )) {
       yield* page;
@@ -100,34 +100,34 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * List schedules in specified workspace.
+   * List containers.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param registryName Name of Azure Machine Learning registry.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
-    workspaceName: string,
-    options?: SchedulesListOptionalParams
-  ): Promise<SchedulesListResponse> {
+    registryName: string,
+    options?: RegistryCodeContainersListOptionalParams
+  ): Promise<RegistryCodeContainersListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, options },
+      { resourceGroupName, registryName, options },
       listOperationSpec
     );
   }
 
   /**
-   * Delete schedule.
+   * Delete container.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param name Schedule name.
+   * @param registryName Name of Azure Machine Learning registry.
+   * @param codeName Container name.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    workspaceName: string,
-    name: string,
-    options?: SchedulesDeleteOptionalParams
+    registryName: string,
+    codeName: string,
+    options?: RegistryCodeContainersDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -170,82 +170,83 @@ export class SchedulesImpl implements Schedules {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, workspaceName, name, options },
+      { resourceGroupName, registryName, codeName, options },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete schedule.
+   * Delete container.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param name Schedule name.
+   * @param registryName Name of Azure Machine Learning registry.
+   * @param codeName Container name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    workspaceName: string,
-    name: string,
-    options?: SchedulesDeleteOptionalParams
+    registryName: string,
+    codeName: string,
+    options?: RegistryCodeContainersDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      workspaceName,
-      name,
+      registryName,
+      codeName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Get schedule.
+   * Get container.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param name Schedule name.
+   * @param registryName Name of Azure Machine Learning registry.
+   * @param codeName Container name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    workspaceName: string,
-    name: string,
-    options?: SchedulesGetOptionalParams
-  ): Promise<SchedulesGetResponse> {
+    registryName: string,
+    codeName: string,
+    options?: RegistryCodeContainersGetOptionalParams
+  ): Promise<RegistryCodeContainersGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, name, options },
+      { resourceGroupName, registryName, codeName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or update schedule.
+   * Create or update container.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param name Schedule name.
-   * @param body Schedule definition.
+   * @param registryName Name of Azure Machine Learning registry.
+   * @param codeName Container name.
+   * @param body Container entity to create or update.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    workspaceName: string,
-    name: string,
-    body: Schedule,
-    options?: SchedulesCreateOrUpdateOptionalParams
+    registryName: string,
+    codeName: string,
+    body: CodeContainer,
+    options?: RegistryCodeContainersCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<SchedulesCreateOrUpdateResponse>,
-      SchedulesCreateOrUpdateResponse
+      PollOperationState<RegistryCodeContainersCreateOrUpdateResponse>,
+      RegistryCodeContainersCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<SchedulesCreateOrUpdateResponse> => {
+    ): Promise<RegistryCodeContainersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -283,36 +284,37 @@ export class SchedulesImpl implements Schedules {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, workspaceName, name, body, options },
+      { resourceGroupName, registryName, codeName, body, options },
       createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or update schedule.
+   * Create or update container.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param name Schedule name.
-   * @param body Schedule definition.
+   * @param registryName Name of Azure Machine Learning registry.
+   * @param codeName Container name.
+   * @param body Container entity to create or update.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    workspaceName: string,
-    name: string,
-    body: Schedule,
-    options?: SchedulesCreateOrUpdateOptionalParams
-  ): Promise<SchedulesCreateOrUpdateResponse> {
+    registryName: string,
+    codeName: string,
+    body: CodeContainer,
+    options?: RegistryCodeContainersCreateOrUpdateOptionalParams
+  ): Promise<RegistryCodeContainersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      workspaceName,
-      name,
+      registryName,
+      codeName,
       body,
       options
     );
@@ -322,18 +324,18 @@ export class SchedulesImpl implements Schedules {
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param registryName Name of Azure Machine Learning registry.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
-    workspaceName: string,
+    registryName: string,
     nextLink: string,
-    options?: SchedulesListNextOptionalParams
-  ): Promise<SchedulesListNextResponse> {
+    options?: RegistryCodeContainersListNextOptionalParams
+  ): Promise<RegistryCodeContainersListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, nextLink, options },
+      { resourceGroupName, registryName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -343,33 +345,29 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/schedules",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduleResourceArmPaginatedResult
+      bodyMapper: Mappers.CodeContainerResourceArmPaginatedResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.listViewType1
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.registryName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/schedules/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -385,19 +383,19 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.name
+    Parameters.registryName,
+    Parameters.codeName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/schedules/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Schedule
+      bodyMapper: Mappers.CodeContainer
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -408,41 +406,41 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.name
+    Parameters.registryName,
+    Parameters.codeName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/schedules/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Schedule
+      bodyMapper: Mappers.CodeContainer
     },
     201: {
-      bodyMapper: Mappers.Schedule
+      bodyMapper: Mappers.CodeContainer
     },
     202: {
-      bodyMapper: Mappers.Schedule
+      bodyMapper: Mappers.CodeContainer
     },
     204: {
-      bodyMapper: Mappers.Schedule
+      bodyMapper: Mappers.CodeContainer
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body23,
+  requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.name1
+    Parameters.registryName,
+    Parameters.codeName1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -453,23 +451,19 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduleResourceArmPaginatedResult
+      bodyMapper: Mappers.CodeContainerResourceArmPaginatedResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.listViewType1
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.registryName
   ],
   headerParameters: [Parameters.accept],
   serializer

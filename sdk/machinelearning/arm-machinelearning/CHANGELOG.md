@@ -1,5 +1,314 @@
 # Release History
     
+## 3.0.0-beta.1 (2022-11-24)
+    
+**Features**
+
+  - Added operation group LabelingJobs
+  - Added operation group Registries
+  - Added operation group RegistryCodeContainers
+  - Added operation group RegistryCodeVersions
+  - Added operation group RegistryComponentContainers
+  - Added operation group RegistryComponentVersions
+  - Added operation group RegistryEnvironmentContainers
+  - Added operation group RegistryEnvironmentVersions
+  - Added operation group RegistryModelContainers
+  - Added operation group RegistryModelVersions
+  - Added operation ComputeOperations.updateCustomServices
+  - Added operation ComputeOperations.updateIdleShutdownSetting
+  - Added Interface AccessKeyAuthTypeWorkspaceConnectionProperties
+  - Added Interface AcrDetails
+  - Added Interface AllNodes
+  - Added Interface ArmResourceId
+  - Added Interface AutologgerSettings
+  - Added Interface AzureDatastore
+  - Added Interface AzureMachineLearningServicesOptionalParams
+  - Added Interface BindOptions
+  - Added Interface CocoExportSummary
+  - Added Interface ComputeInstanceAutologgerSettings
+  - Added Interface ComputeUpdateCustomServicesOptionalParams
+  - Added Interface ComputeUpdateIdleShutdownSettingOptionalParams
+  - Added Interface Cron
+  - Added Interface CsvExportSummary
+  - Added Interface CustomService
+  - Added Interface DatasetExportSummary
+  - Added Interface Docker
+  - Added Interface EncryptionKeyVaultUpdateProperties
+  - Added Interface EncryptionUpdateProperties
+  - Added Interface Endpoint
+  - Added Interface EnvironmentVariable
+  - Added Interface ExportSummary
+  - Added Interface HdfsDatastore
+  - Added Interface IdleShutdownSetting
+  - Added Interface Image_2
+  - Added Interface ImageMetadata
+  - Added Interface KerberosCredentials
+  - Added Interface KerberosKeytabCredentials
+  - Added Interface KerberosKeytabSecrets
+  - Added Interface KerberosPasswordCredentials
+  - Added Interface KerberosPasswordSecrets
+  - Added Interface LabelCategory
+  - Added Interface LabelClass
+  - Added Interface LabelingDataConfiguration
+  - Added Interface LabelingJob
+  - Added Interface LabelingJobImageProperties
+  - Added Interface LabelingJobInstructions
+  - Added Interface LabelingJobMediaProperties
+  - Added Interface LabelingJobProperties
+  - Added Interface LabelingJobResourceArmPaginatedResult
+  - Added Interface LabelingJobsCreateOrUpdateHeaders
+  - Added Interface LabelingJobsCreateOrUpdateOptionalParams
+  - Added Interface LabelingJobsDeleteOptionalParams
+  - Added Interface LabelingJobsExportLabelsHeaders
+  - Added Interface LabelingJobsExportLabelsOptionalParams
+  - Added Interface LabelingJobsGetOptionalParams
+  - Added Interface LabelingJobsListNextOptionalParams
+  - Added Interface LabelingJobsListOptionalParams
+  - Added Interface LabelingJobsPauseOptionalParams
+  - Added Interface LabelingJobsResumeHeaders
+  - Added Interface LabelingJobsResumeOptionalParams
+  - Added Interface LabelingJobTextProperties
+  - Added Interface MLAssistConfiguration
+  - Added Interface MLAssistConfigurationDisabled
+  - Added Interface MLAssistConfigurationEnabled
+  - Added Interface NlpFixedParameters
+  - Added Interface NlpParameterSubspace
+  - Added Interface NlpSweepSettings
+  - Added Interface Nodes
+  - Added Interface PartialRegistryPartialTrackedResource
+  - Added Interface ProgressMetrics
+  - Added Interface Recurrence
+  - Added Interface RegistriesCreateOrUpdateOptionalParams
+  - Added Interface RegistriesDeleteHeaders
+  - Added Interface RegistriesDeleteOptionalParams
+  - Added Interface RegistriesGetOptionalParams
+  - Added Interface RegistriesListBySubscriptionNextOptionalParams
+  - Added Interface RegistriesListBySubscriptionOptionalParams
+  - Added Interface RegistriesListNextOptionalParams
+  - Added Interface RegistriesListOptionalParams
+  - Added Interface RegistriesUpdateHeaders
+  - Added Interface RegistriesUpdateOptionalParams
+  - Added Interface Registry
+  - Added Interface RegistryCodeContainersCreateOrUpdateHeaders
+  - Added Interface RegistryCodeContainersCreateOrUpdateOptionalParams
+  - Added Interface RegistryCodeContainersDeleteHeaders
+  - Added Interface RegistryCodeContainersDeleteOptionalParams
+  - Added Interface RegistryCodeContainersGetOptionalParams
+  - Added Interface RegistryCodeContainersListNextOptionalParams
+  - Added Interface RegistryCodeContainersListOptionalParams
+  - Added Interface RegistryCodeVersionsCreateOrUpdateHeaders
+  - Added Interface RegistryCodeVersionsCreateOrUpdateOptionalParams
+  - Added Interface RegistryCodeVersionsDeleteHeaders
+  - Added Interface RegistryCodeVersionsDeleteOptionalParams
+  - Added Interface RegistryCodeVersionsGetOptionalParams
+  - Added Interface RegistryCodeVersionsListNextOptionalParams
+  - Added Interface RegistryCodeVersionsListOptionalParams
+  - Added Interface RegistryComponentContainersCreateOrUpdateHeaders
+  - Added Interface RegistryComponentContainersCreateOrUpdateOptionalParams
+  - Added Interface RegistryComponentContainersDeleteHeaders
+  - Added Interface RegistryComponentContainersDeleteOptionalParams
+  - Added Interface RegistryComponentContainersGetOptionalParams
+  - Added Interface RegistryComponentContainersListNextOptionalParams
+  - Added Interface RegistryComponentContainersListOptionalParams
+  - Added Interface RegistryComponentVersionsCreateOrUpdateHeaders
+  - Added Interface RegistryComponentVersionsCreateOrUpdateOptionalParams
+  - Added Interface RegistryComponentVersionsDeleteHeaders
+  - Added Interface RegistryComponentVersionsDeleteOptionalParams
+  - Added Interface RegistryComponentVersionsGetOptionalParams
+  - Added Interface RegistryComponentVersionsListNextOptionalParams
+  - Added Interface RegistryComponentVersionsListOptionalParams
+  - Added Interface RegistryEnvironmentContainersCreateOrUpdateHeaders
+  - Added Interface RegistryEnvironmentContainersCreateOrUpdateOptionalParams
+  - Added Interface RegistryEnvironmentContainersDeleteHeaders
+  - Added Interface RegistryEnvironmentContainersDeleteOptionalParams
+  - Added Interface RegistryEnvironmentContainersGetOptionalParams
+  - Added Interface RegistryEnvironmentContainersListNextOptionalParams
+  - Added Interface RegistryEnvironmentContainersListOptionalParams
+  - Added Interface RegistryEnvironmentVersionsCreateOrUpdateHeaders
+  - Added Interface RegistryEnvironmentVersionsCreateOrUpdateOptionalParams
+  - Added Interface RegistryEnvironmentVersionsDeleteHeaders
+  - Added Interface RegistryEnvironmentVersionsDeleteOptionalParams
+  - Added Interface RegistryEnvironmentVersionsGetOptionalParams
+  - Added Interface RegistryEnvironmentVersionsListNextOptionalParams
+  - Added Interface RegistryEnvironmentVersionsListOptionalParams
+  - Added Interface RegistryModelContainersCreateOrUpdateHeaders
+  - Added Interface RegistryModelContainersCreateOrUpdateOptionalParams
+  - Added Interface RegistryModelContainersDeleteHeaders
+  - Added Interface RegistryModelContainersDeleteOptionalParams
+  - Added Interface RegistryModelContainersGetOptionalParams
+  - Added Interface RegistryModelContainersListNextOptionalParams
+  - Added Interface RegistryModelContainersListOptionalParams
+  - Added Interface RegistryModelVersionsCreateOrUpdateHeaders
+  - Added Interface RegistryModelVersionsCreateOrUpdateOptionalParams
+  - Added Interface RegistryModelVersionsDeleteHeaders
+  - Added Interface RegistryModelVersionsDeleteOptionalParams
+  - Added Interface RegistryModelVersionsGetOptionalParams
+  - Added Interface RegistryModelVersionsListNextOptionalParams
+  - Added Interface RegistryModelVersionsListOptionalParams
+  - Added Interface RegistryProperties
+  - Added Interface RegistryRegionArmDetails
+  - Added Interface RegistryTrackedResourceArmPaginatedResult
+  - Added Interface ServicePrincipalAuthTypeWorkspaceConnectionProperties
+  - Added Interface SparkJob
+  - Added Interface SparkJobEntry
+  - Added Interface SparkJobPythonEntry
+  - Added Interface SparkJobScalaEntry
+  - Added Interface SparkResourceConfiguration
+  - Added Interface StatusMessage
+  - Added Interface StorageAccountDetails
+  - Added Interface SystemCreatedAcrAccount
+  - Added Interface SystemCreatedStorageAccount
+  - Added Interface TableFixedParameters
+  - Added Interface TableParameterSubspace
+  - Added Interface TableSweepSettings
+  - Added Interface TmpfsOptions
+  - Added Interface UserCreatedAcrAccount
+  - Added Interface UserCreatedStorageAccount
+  - Added Interface VolumeDefinition
+  - Added Interface VolumeOptions
+  - Added Interface WorkspaceConnectionAccessKey
+  - Added Interface WorkspaceConnectionServicePrincipal
+  - Added Class AzureMachineLearningServices
+  - Added Type Alias AssetProvisioningState
+  - Added Type Alias ComputeProvisioningState
+  - Added Type Alias EnvironmentVariableType
+  - Added Type Alias ExportFormatType
+  - Added Type Alias ExportSummaryUnion
+  - Added Type Alias ImageAnnotationType
+  - Added Type Alias ImageType
+  - Added Type Alias JobProvisioningState
+  - Added Type Alias LabelingJobMediaPropertiesUnion
+  - Added Type Alias LabelingJobsCreateOrUpdateResponse
+  - Added Type Alias LabelingJobsExportLabelsResponse
+  - Added Type Alias LabelingJobsGetResponse
+  - Added Type Alias LabelingJobsListNextResponse
+  - Added Type Alias LabelingJobsListResponse
+  - Added Type Alias MediaType
+  - Added Type Alias MLAssistConfigurationType
+  - Added Type Alias MLAssistConfigurationUnion
+  - Added Type Alias MlflowAutologger
+  - Added Type Alias MLFlowAutologgerState
+  - Added Type Alias NlpLearningRateScheduler
+  - Added Type Alias NodesUnion
+  - Added Type Alias NodesValueType
+  - Added Type Alias Protocol
+  - Added Type Alias RegistriesCreateOrUpdateResponse
+  - Added Type Alias RegistriesGetResponse
+  - Added Type Alias RegistriesListBySubscriptionNextResponse
+  - Added Type Alias RegistriesListBySubscriptionResponse
+  - Added Type Alias RegistriesListNextResponse
+  - Added Type Alias RegistriesListResponse
+  - Added Type Alias RegistriesUpdateResponse
+  - Added Type Alias RegistryCodeContainersCreateOrUpdateResponse
+  - Added Type Alias RegistryCodeContainersGetResponse
+  - Added Type Alias RegistryCodeContainersListNextResponse
+  - Added Type Alias RegistryCodeContainersListResponse
+  - Added Type Alias RegistryCodeVersionsCreateOrUpdateResponse
+  - Added Type Alias RegistryCodeVersionsGetResponse
+  - Added Type Alias RegistryCodeVersionsListNextResponse
+  - Added Type Alias RegistryCodeVersionsListResponse
+  - Added Type Alias RegistryComponentContainersCreateOrUpdateResponse
+  - Added Type Alias RegistryComponentContainersGetResponse
+  - Added Type Alias RegistryComponentContainersListNextResponse
+  - Added Type Alias RegistryComponentContainersListResponse
+  - Added Type Alias RegistryComponentVersionsCreateOrUpdateResponse
+  - Added Type Alias RegistryComponentVersionsGetResponse
+  - Added Type Alias RegistryComponentVersionsListNextResponse
+  - Added Type Alias RegistryComponentVersionsListResponse
+  - Added Type Alias RegistryEnvironmentContainersCreateOrUpdateResponse
+  - Added Type Alias RegistryEnvironmentContainersGetResponse
+  - Added Type Alias RegistryEnvironmentContainersListNextResponse
+  - Added Type Alias RegistryEnvironmentContainersListResponse
+  - Added Type Alias RegistryEnvironmentVersionsCreateOrUpdateResponse
+  - Added Type Alias RegistryEnvironmentVersionsGetResponse
+  - Added Type Alias RegistryEnvironmentVersionsListNextResponse
+  - Added Type Alias RegistryEnvironmentVersionsListResponse
+  - Added Type Alias RegistryModelContainersCreateOrUpdateResponse
+  - Added Type Alias RegistryModelContainersGetResponse
+  - Added Type Alias RegistryModelContainersListNextResponse
+  - Added Type Alias RegistryModelContainersListResponse
+  - Added Type Alias RegistryModelVersionsCreateOrUpdateResponse
+  - Added Type Alias RegistryModelVersionsGetResponse
+  - Added Type Alias RegistryModelVersionsListNextResponse
+  - Added Type Alias RegistryModelVersionsListResponse
+  - Added Type Alias SparkJobEntryType
+  - Added Type Alias SparkJobEntryUnion
+  - Added Type Alias StatusMessageLevel
+  - Added Type Alias TextAnnotationType
+  - Added Type Alias VolumeDefinitionType
+  - Added Type Alias WorkspaceProvisioningState
+  - Interface CodeContainerProperties has a new optional parameter provisioningState
+  - Interface CodeVersionProperties has a new optional parameter provisioningState
+  - Interface CommandJob has a new optional parameter autologgerSettings
+  - Interface ComponentContainerProperties has a new optional parameter provisioningState
+  - Interface ComponentVersionProperties has a new optional parameter provisioningState
+  - Interface ComputeInstanceProperties has a new optional parameter autologgerSettings
+  - Interface ComputeInstanceProperties has a new optional parameter customServices
+  - Interface ComputeInstanceProperties has a new optional parameter idleTimeBeforeShutdown
+  - Interface ComputeInstanceProperties has a new optional parameter osImageMetadata
+  - Interface EnvironmentContainerProperties has a new optional parameter provisioningState
+  - Interface EnvironmentVersionProperties has a new optional parameter provisioningState
+  - Interface JobService has a new optional parameter nodes
+  - Interface JobsListNextOptionalParams has a new optional parameter scheduled
+  - Interface JobsListNextOptionalParams has a new optional parameter scheduleId
+  - Interface JobsListOptionalParams has a new optional parameter scheduled
+  - Interface JobsListOptionalParams has a new optional parameter scheduleId
+  - Interface ModelContainerProperties has a new optional parameter provisioningState
+  - Interface ModelVersionProperties has a new optional parameter provisioningState
+  - Interface NlpVertical has a new optional parameter fixedParameters
+  - Interface NlpVertical has a new optional parameter searchSpace
+  - Interface NlpVertical has a new optional parameter sweepSettings
+  - Interface NlpVerticalLimitSettings has a new optional parameter maxNodes
+  - Interface NlpVerticalLimitSettings has a new optional parameter trialTimeout
+  - Interface OnlineEndpointProperties has a new optional parameter mirrorTraffic
+  - Interface TableVertical has a new optional parameter fixedParameters
+  - Interface TableVertical has a new optional parameter searchSpace
+  - Interface TableVertical has a new optional parameter sweepSettings
+  - Interface TableVerticalLimitSettings has a new optional parameter sweepConcurrentTrials
+  - Interface TableVerticalLimitSettings has a new optional parameter sweepTrials
+  - Interface Workspace has a new optional parameter scheduledPurgeDate
+  - Interface Workspace has a new optional parameter softDeletedAt
+  - Interface WorkspaceUpdateParameters has a new optional parameter encryption
+  - Added Enum KnownAssetProvisioningState
+  - Added Enum KnownComputeProvisioningState
+  - Added Enum KnownEnvironmentVariableType
+  - Added Enum KnownExportFormatType
+  - Added Enum KnownImageAnnotationType
+  - Added Enum KnownImageType
+  - Added Enum KnownJobProvisioningState
+  - Added Enum KnownMediaType
+  - Added Enum KnownMLAssistConfigurationType
+  - Added Enum KnownMlflowAutologger
+  - Added Enum KnownMLFlowAutologgerState
+  - Added Enum KnownNlpLearningRateScheduler
+  - Added Enum KnownNodesValueType
+  - Added Enum KnownProtocol
+  - Added Enum KnownSparkJobEntryType
+  - Added Enum KnownStatusMessageLevel
+  - Added Enum KnownTextAnnotationType
+  - Added Enum KnownVolumeDefinitionType
+  - Added Enum KnownWorkspaceProvisioningState
+  - Enum KnownConnectionAuthType has a new value AccessKey
+  - Enum KnownConnectionAuthType has a new value ServicePrincipal
+  - Enum KnownCredentialsType has a new value KerberosKeytab
+  - Enum KnownCredentialsType has a new value KerberosPassword
+  - Enum KnownDatastoreType has a new value Hdfs
+  - Enum KnownJobStatus has a new value Scheduled
+  - Enum KnownJobType has a new value Labeling
+  - Enum KnownJobType has a new value Spark
+  - Enum KnownOutputDeliveryMode has a new value Direct
+  - Enum KnownSecretsType has a new value KerberosKeytab
+  - Enum KnownSecretsType has a new value KerberosPassword
+
+**Breaking Changes**
+
+  - Deleted Class AzureMachineLearningWorkspaces
+  - Interface EnvironmentVersionProperties no longer has parameter autoRebuild
+  - Removed Enum KnownAutoRebuildSetting
+  - Removed Enum KnownConnectionCategory
+  - Removed Enum KnownProvisioningState
+    
+    
 ## 2.1.0 (2022-11-01)
     
 **Features**
