@@ -8,18 +8,28 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type DryrunParametersUnion =
+  | DryrunParameters
+  | CreateOrUpdateDryrunParameters;
+export type DryrunPrerequisiteResultUnion =
+  | DryrunPrerequisiteResult
+  | BasicErrorDryrunPrerequisiteResult
+  | PermissionsMissingDryrunPrerequisiteResult;
 export type TargetServiceBaseUnion =
   | TargetServiceBase
   | AzureResource
   | ConfluentBootstrapServer
+  | SelfHostedServer
   | ConfluentSchemaRegistry;
 export type AuthInfoBaseUnion =
   | AuthInfoBase
+  | AccessKeyInfoBase
   | SecretAuthInfo
   | UserAssignedIdentityAuthInfo
   | SystemAssignedIdentityAuthInfo
   | ServicePrincipalSecretAuthInfo
-  | ServicePrincipalCertificateAuthInfo;
+  | ServicePrincipalCertificateAuthInfo
+  | UserAccountAuthInfo;
 export type AzureResourcePropertiesBaseUnion =
   | AzureResourcePropertiesBase
   | AzureKeyVaultProperties;
@@ -29,60 +39,38 @@ export type SecretInfoBaseUnion =
   | KeyVaultSecretReferenceSecretInfo
   | KeyVaultSecretUriSecretInfo;
 
-/** The list of Linker. */
-export interface LinkerList {
-  /** The link used to get the next page of Linker list. */
+/** The list of dryrun. */
+export interface DryrunList {
+  /** The link used to get the next page of dryrun list. */
   nextLink?: string;
-  /** The list of Linkers. */
-  value?: LinkerResource[];
+  /** The list of dryrun. */
+  value?: DryrunResource[];
 }
 
-/** The target service properties */
-export interface TargetServiceBase {
+/** The parameters of the dryrun */
+export interface DryrunParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type:
-    | "AzureResource"
-    | "ConfluentBootstrapServer"
-    | "ConfluentSchemaRegistry";
+  actionName: "createOrUpdate";
 }
 
-/** The authentication info */
-export interface AuthInfoBase {
+/** A result of dryrun */
+export interface DryrunPrerequisiteResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  authType:
-    | "secret"
-    | "userAssignedIdentity"
-    | "systemAssignedIdentity"
-    | "servicePrincipalSecret"
-    | "servicePrincipalCertificate";
+  type: "basicError" | "permissionsMissing";
 }
 
-/** The VNet solution for linker */
-export interface VNetSolution {
-  /** Type of VNet solution. */
-  type?: VNetSolutionType;
-}
-
-/** An option to store secret value in secure place */
-export interface SecretStore {
-  /** The key vault id to store secret */
-  keyVaultId?: string;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
+/** The preview of the operations for creation */
+export interface DryrunOperationPreview {
+  /** The operation name */
+  name?: string;
+  /** The operation type */
+  operationType?: DryrunPreviewOperationType;
+  /** The description of the operation */
+  description?: string;
+  /** The action defined by RBAC, refer https://docs.microsoft.com/azure/role-based-access-control/role-definitions#actions-format */
+  action?: string;
+  /** The scope of the operation, refer https://docs.microsoft.com/azure/role-based-access-control/scope-overview */
+  scope?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -102,6 +90,27 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -153,7 +162,132 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** A linker to be updated. */
+/** a dryrun job to be updated. */
+export interface DryrunPatch {
+  /** The parameters of the dryrun */
+  parameters?: DryrunParametersUnion;
+  /**
+   * the result of the dryrun
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly prerequisiteResults?: DryrunPrerequisiteResultUnion[];
+  /**
+   * the preview of the operations for creation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationPreviews?: DryrunOperationPreview[];
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+}
+
+/** The list of Linker. */
+export interface ResourceList {
+  /** The Linker used to get the next page of Linker list. */
+  nextLink?: string;
+  /** The list of Linkers. */
+  value?: LinkerResource[];
+}
+
+/** The properties of the Linker. */
+export interface LinkerProperties {
+  /** The target service properties */
+  targetService?: TargetServiceBaseUnion;
+  /** The authentication type. */
+  authInfo?: AuthInfoBaseUnion;
+  /** The application client type */
+  clientType?: ClientType;
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** The VNet solution. */
+  vNetSolution?: VNetSolution;
+  /** An option to store secret value in secure place */
+  secretStore?: SecretStore;
+  /** connection scope in source service. */
+  scope?: string;
+  /** The network solution. */
+  publicNetworkSolution?: PublicNetworkSolution;
+  /** The connection information consumed by applications, including secrets, connection strings. */
+  configurationInfo?: ConfigurationInfo;
+}
+
+/** The target service properties */
+export interface TargetServiceBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type:
+    | "AzureResource"
+    | "ConfluentBootstrapServer"
+    | "SelfHostedServer"
+    | "ConfluentSchemaRegistry";
+}
+
+/** The authentication info */
+export interface AuthInfoBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType:
+    | "accessKey"
+    | "secret"
+    | "userAssignedIdentity"
+    | "systemAssignedIdentity"
+    | "servicePrincipalSecret"
+    | "servicePrincipalCertificate"
+    | "userAccount";
+}
+
+/** The VNet solution for linker */
+export interface VNetSolution {
+  /** Type of VNet solution. */
+  type?: VNetSolutionType;
+  /** Indicates whether to clean up previous operation when Linker is updating or deleting */
+  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
+}
+
+/** An option to store secret value in secure place */
+export interface SecretStore {
+  /** The key vault id to store secret */
+  keyVaultId?: string;
+  /** The key vault secret name to store secret, only valid when storing one secret */
+  keyVaultSecretName?: string;
+}
+
+/** Indicates public network solution, include firewall rules */
+export interface PublicNetworkSolution {
+  /** Indicates whether to clean up previous operation(such as firewall rules) when Linker is updating or deleting */
+  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
+  /** Optional. Indicates public network solution. If enable, enable public network access of target service with best try. Default is enable. If optOut, opt out public network access configuration. */
+  action?: ActionType;
+  /** Describe firewall rules of target service to make sure source application could connect to the target. */
+  firewallRules?: FirewallRules;
+}
+
+/** Target service's firewall rules. to allow connections from source service. */
+export interface FirewallRules {
+  /** This value specifies the set of IP addresses or IP address ranges in CIDR form to be included as the allowed list of client IPs for a given database account. */
+  ipRanges?: string[];
+  /** Allow Azure services to access the target service if true. */
+  azureServices?: AllowType;
+  /** Allow caller client IP to access the target service if true. the property is used when connecting local application to target service. */
+  callerClientIP?: AllowType;
+}
+
+/** The configuration information, used to generate configurations or save to applications */
+export interface ConfigurationInfo {
+  /** Indicates whether to clean up previous operation when Linker is updating or deleting */
+  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
+  /** Optional, indicate whether to apply configurations on source application. If enable, generate configurations and applied to the source application. Default is enable. If optOut, no configuration change will be made on source. */
+  action?: ActionType;
+  /** Optional. A dictionary of default key name and customized key name mapping. If not specified, default key name will be used for generate configurations */
+  customizedKeys?: { [propertyName: string]: string };
+  /** A dictionary of additional configurations to be added. Service will auto generate a set of basic configurations and this property is to full fill more customized configurations */
+  additionalConfigurations?: { [propertyName: string]: string };
+}
+
+/** A Linker to be updated. */
 export interface LinkerPatch {
   /** The target service properties */
   targetService?: TargetServiceBaseUnion;
@@ -172,11 +306,15 @@ export interface LinkerPatch {
   secretStore?: SecretStore;
   /** connection scope in source service. */
   scope?: string;
+  /** The network solution. */
+  publicNetworkSolution?: PublicNetworkSolution;
+  /** The connection information consumed by applications, including secrets, connection strings. */
+  configurationInfo?: ConfigurationInfo;
 }
 
-/** The validation operation result for a linker. */
+/** The validation operation result for a Linker. */
 export interface ValidateOperationResult {
-  /** Validated linker id. */
+  /** Validated Linker id. */
   resourceId?: string;
   /** Validation operation status. */
   status?: string;
@@ -188,7 +326,7 @@ export interface ValidateOperationResult {
   reportStartTimeUtc?: Date;
   /** The end time of the validation report. */
   reportEndTimeUtc?: Date;
-  /** The resource id of the linker source application. */
+  /** The resource id of the Linker source application. */
   sourceId?: string;
   /** The resource Id of target service. */
   targetId?: string;
@@ -198,7 +336,7 @@ export interface ValidateOperationResult {
   validationDetail?: ValidationResultItem[];
 }
 
-/** The validation item for a linker. */
+/** The validation item for a Linker. */
 export interface ValidationResultItem {
   /** The validation item name. */
   name?: string;
@@ -213,7 +351,7 @@ export interface ValidationResultItem {
 }
 
 /** Configurations for source resource, include appSettings, connectionString and serviceBindings */
-export interface SourceConfigurationResult {
+export interface ConfigurationResult {
   /** The configuration properties for source resource. */
   configurations?: SourceConfiguration[];
 }
@@ -290,6 +428,36 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
+/** Configuration Name list which will be set based on different target resource, client type, auth type. */
+export interface ConfigurationNameResult {
+  /** Expected configuration names for each target service. */
+  value?: ConfigurationNames[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The configuration names which will be set based on specific target resource, client type, auth type. */
+export interface ConfigurationNames {
+  /** The target service provider name and resource name. */
+  targetService?: string;
+  /** The client type for configuration names. */
+  clientType?: ClientType;
+  /** The auth type. */
+  authType?: AuthType;
+  /** The configuration names to be set in compute service environment. */
+  names?: ConfigurationName[];
+}
+
+/** The configuration names. */
+export interface ConfigurationName {
+  value?: string;
+  /** Description for the configuration name. */
+  description?: string;
+}
+
 /** The azure resource properties */
 export interface AzureResourcePropertiesBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -302,60 +470,131 @@ export interface SecretInfoBase {
   secretType: "rawValue" | "keyVaultSecretReference" | "keyVaultSecretUri";
 }
 
+/** The extra auth info required by Database AAD authentication. */
+export interface DatabaseAadAuthInfo {
+  /** Username created in the database which is mapped to a user in AAD. */
+  userName?: string;
+}
+
+/** The dryrun parameters for creation or update a linker */
+export interface CreateOrUpdateDryrunParameters
+  extends DryrunParameters,
+    LinkerProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  actionName: "createOrUpdate";
+}
+
+/** The represent of basic error */
+export interface BasicErrorDryrunPrerequisiteResult
+  extends DryrunPrerequisiteResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "basicError";
+  /** The error code. */
+  code?: string;
+  /** The error message. */
+  message?: string;
+}
+
+/** The represent of missing permissions */
+export interface PermissionsMissingDryrunPrerequisiteResult
+  extends DryrunPrerequisiteResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "permissionsMissing";
+  /** The permission scope */
+  scope?: string;
+  /** The permission list */
+  permissions?: string[];
+  /** The recommended role to resolve permissions missing */
+  recommendedRole?: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
 /** The azure resource info when target service type is AzureResource */
-export type AzureResource = TargetServiceBase & {
+export interface AzureResource extends TargetServiceBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureResource";
   /** The Id of azure resource. */
   id?: string;
   /** The azure resource connection related properties. */
   resourceProperties?: AzureResourcePropertiesBaseUnion;
-};
+}
 
 /** The service properties when target service type is ConfluentBootstrapServer */
-export type ConfluentBootstrapServer = TargetServiceBase & {
+export interface ConfluentBootstrapServer extends TargetServiceBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ConfluentBootstrapServer";
   /** The endpoint of service. */
   endpoint?: string;
-};
+}
+
+/** The service properties when target service type is SelfHostedServer */
+export interface SelfHostedServer extends TargetServiceBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SelfHostedServer";
+  /** The endpoint of service. */
+  endpoint?: string;
+}
 
 /** The service properties when target service type is ConfluentSchemaRegistry */
-export type ConfluentSchemaRegistry = TargetServiceBase & {
+export interface ConfluentSchemaRegistry extends TargetServiceBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ConfluentSchemaRegistry";
   /** The endpoint of service. */
   endpoint?: string;
-};
+}
+
+/** The access key directly from target resource properties, which target service is Azure Resource, such as Microsoft.Storage */
+export interface AccessKeyInfoBase extends AuthInfoBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType: "accessKey";
+  /** Permissions of the accessKey. `Read` and `Write` are for Azure Cosmos DB and Azure App Configuration, `Listen`, `Send` and `Manage` are for Azure Event Hub and Azure Service Bus. */
+  permissions?: AccessKeyPermissions[];
+}
 
 /** The authentication info when authType is secret */
-export type SecretAuthInfo = AuthInfoBase & {
+export interface SecretAuthInfo extends AuthInfoBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "secret";
   /** Username or account name for secret auth. */
   name?: string;
   /** Password or key vault secret for secret auth. */
   secretInfo?: SecretInfoBaseUnion;
-};
+}
 
 /** The authentication info when authType is userAssignedIdentity */
-export type UserAssignedIdentityAuthInfo = AuthInfoBase & {
+export interface UserAssignedIdentityAuthInfo
+  extends AuthInfoBase,
+    DatabaseAadAuthInfo {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "userAssignedIdentity";
   /** Client Id for userAssignedIdentity. */
   clientId?: string;
   /** Subscription id for userAssignedIdentity. */
   subscriptionId?: string;
-};
+  /** Indicates whether to clean up previous operation when Linker is updating or deleting */
+  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
+  /** Optional, this value specifies the Azure role to be assigned */
+  roles?: string[];
+}
 
 /** The authentication info when authType is systemAssignedIdentity */
-export type SystemAssignedIdentityAuthInfo = AuthInfoBase & {
+export interface SystemAssignedIdentityAuthInfo
+  extends AuthInfoBase,
+    DatabaseAadAuthInfo {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "systemAssignedIdentity";
-};
+  /** Indicates whether to clean up previous operation when Linker is updating or deleting */
+  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
+  /** Optional, this value specifies the Azure role to be assigned */
+  roles?: string[];
+}
 
 /** The authentication info when authType is servicePrincipal secret */
-export type ServicePrincipalSecretAuthInfo = AuthInfoBase & {
+export interface ServicePrincipalSecretAuthInfo
+  extends AuthInfoBase,
+    DatabaseAadAuthInfo {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "servicePrincipalSecret";
   /** ServicePrincipal application clientId for servicePrincipal auth. */
@@ -364,10 +603,14 @@ export type ServicePrincipalSecretAuthInfo = AuthInfoBase & {
   principalId: string;
   /** Secret for servicePrincipal auth. */
   secret: string;
-};
+  /** Indicates whether to clean up previous operation when Linker is updating or deleting */
+  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
+  /** Optional, this value specifies the Azure roles to be assigned. Automatically */
+  roles?: string[];
+}
 
 /** The authentication info when authType is servicePrincipal certificate */
-export type ServicePrincipalCertificateAuthInfo = AuthInfoBase & {
+export interface ServicePrincipalCertificateAuthInfo extends AuthInfoBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "servicePrincipalCertificate";
   /** Application clientId for servicePrincipal auth. */
@@ -376,52 +619,81 @@ export type ServicePrincipalCertificateAuthInfo = AuthInfoBase & {
   principalId: string;
   /** ServicePrincipal certificate for servicePrincipal auth. */
   certificate: string;
-};
+  /** Indicates whether to clean up previous operation when Linker is updating or deleting */
+  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
+  /** Optional, this value specifies the Azure roles to be assigned. Automatically */
+  roles?: string[];
+}
 
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+/** The authentication info when authType is user account */
+export interface UserAccountAuthInfo extends AuthInfoBase, DatabaseAadAuthInfo {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType: "userAccount";
+  /** Principal Id for user account. */
+  principalId?: string;
+  /** Indicates whether to clean up previous operation when Linker is updating or deleting */
+  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
+  /** Optional, this value specifies the Azure roles to be assigned. Automatically */
+  roles?: string[];
+}
 
 /** The resource properties when type is Azure Key Vault */
-export type AzureKeyVaultProperties = AzureResourcePropertiesBase & {
+export interface AzureKeyVaultProperties extends AzureResourcePropertiesBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "KeyVault";
   /** True if connect via Kubernetes CSI Driver. */
   connectAsKubernetesCsiDriver?: boolean;
-};
+}
 
 /** The secret info when type is rawValue. It's for scenarios that user input the secret. */
-export type ValueSecretInfo = SecretInfoBase & {
+export interface ValueSecretInfo extends SecretInfoBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   secretType: "rawValue";
   /** The actual value of the secret. */
   value?: string;
-};
+}
 
 /** The secret info when type is keyVaultSecretReference. It's for scenario that user provides a secret stored in user's keyvault and source is Azure Kubernetes. The key Vault's resource id is linked to secretStore.keyVaultId. */
-export type KeyVaultSecretReferenceSecretInfo = SecretInfoBase & {
+export interface KeyVaultSecretReferenceSecretInfo extends SecretInfoBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   secretType: "keyVaultSecretReference";
   /** Name of the Key Vault secret. */
   name?: string;
   /** Version of the Key Vault secret. */
   version?: string;
-};
+}
 
 /** The secret info when type is keyVaultSecretUri. It's for scenario that user provides a secret stored in user's keyvault and source is Web App, Spring Cloud or Container App. */
-export type KeyVaultSecretUriSecretInfo = SecretInfoBase & {
+export interface KeyVaultSecretUriSecretInfo extends SecretInfoBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   secretType: "keyVaultSecretUri";
   /** URI to the keyvault secret */
   value?: string;
-};
+}
 
-/** Linker of source and target resource */
-export type LinkerResource = ProxyResource & {
+/** a dryrun job resource */
+export interface DryrunResource extends ProxyResource {
+  /** The parameters of the dryrun */
+  parameters?: DryrunParametersUnion;
   /**
-   * The system data.
+   * the result of the dryrun
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly systemData?: SystemData;
+  readonly prerequisiteResults?: DryrunPrerequisiteResultUnion[];
+  /**
+   * the preview of the operations for creation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationPreviews?: DryrunOperationPreview[];
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+}
+
+/** Linker of source and target resource */
+export interface LinkerResource extends ProxyResource {
   /** The target service properties */
   targetService?: TargetServiceBaseUnion;
   /** The authentication type. */
@@ -439,13 +711,100 @@ export type LinkerResource = ProxyResource & {
   secretStore?: SecretStore;
   /** connection scope in source service. */
   scope?: string;
-};
+  /** The network solution. */
+  publicNetworkSolution?: PublicNetworkSolution;
+  /** The connection information consumed by applications, including secrets, connection strings. */
+  configurationInfo?: ConfigurationInfo;
+}
+
+/** Known values of {@link DryrunActionName} that the service accepts. */
+export enum KnownDryrunActionName {
+  /** CreateOrUpdate */
+  CreateOrUpdate = "createOrUpdate"
+}
+
+/**
+ * Defines values for DryrunActionName. \
+ * {@link KnownDryrunActionName} can be used interchangeably with DryrunActionName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **createOrUpdate**
+ */
+export type DryrunActionName = string;
+
+/** Known values of {@link DryrunPrerequisiteResultType} that the service accepts. */
+export enum KnownDryrunPrerequisiteResultType {
+  /** BasicError */
+  BasicError = "basicError",
+  /** PermissionsMissing */
+  PermissionsMissing = "permissionsMissing"
+}
+
+/**
+ * Defines values for DryrunPrerequisiteResultType. \
+ * {@link KnownDryrunPrerequisiteResultType} can be used interchangeably with DryrunPrerequisiteResultType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **basicError** \
+ * **permissionsMissing**
+ */
+export type DryrunPrerequisiteResultType = string;
+
+/** Known values of {@link DryrunPreviewOperationType} that the service accepts. */
+export enum KnownDryrunPreviewOperationType {
+  /** ConfigConnection */
+  ConfigConnection = "configConnection",
+  /** ConfigNetwork */
+  ConfigNetwork = "configNetwork",
+  /** ConfigAuth */
+  ConfigAuth = "configAuth"
+}
+
+/**
+ * Defines values for DryrunPreviewOperationType. \
+ * {@link KnownDryrunPreviewOperationType} can be used interchangeably with DryrunPreviewOperationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **configConnection** \
+ * **configNetwork** \
+ * **configAuth**
+ */
+export type DryrunPreviewOperationType = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link TargetServiceType} that the service accepts. */
 export enum KnownTargetServiceType {
+  /** AzureResource */
   AzureResource = "AzureResource",
+  /** ConfluentBootstrapServer */
   ConfluentBootstrapServer = "ConfluentBootstrapServer",
-  ConfluentSchemaRegistry = "ConfluentSchemaRegistry"
+  /** ConfluentSchemaRegistry */
+  ConfluentSchemaRegistry = "ConfluentSchemaRegistry",
+  /** SelfHostedServer */
+  SelfHostedServer = "SelfHostedServer"
 }
 
 /**
@@ -455,17 +814,27 @@ export enum KnownTargetServiceType {
  * ### Known values supported by the service
  * **AzureResource** \
  * **ConfluentBootstrapServer** \
- * **ConfluentSchemaRegistry**
+ * **ConfluentSchemaRegistry** \
+ * **SelfHostedServer**
  */
 export type TargetServiceType = string;
 
 /** Known values of {@link AuthType} that the service accepts. */
 export enum KnownAuthType {
+  /** SystemAssignedIdentity */
   SystemAssignedIdentity = "systemAssignedIdentity",
+  /** UserAssignedIdentity */
   UserAssignedIdentity = "userAssignedIdentity",
+  /** ServicePrincipalSecret */
   ServicePrincipalSecret = "servicePrincipalSecret",
+  /** ServicePrincipalCertificate */
   ServicePrincipalCertificate = "servicePrincipalCertificate",
-  Secret = "secret"
+  /** Secret */
+  Secret = "secret",
+  /** AccessKey */
+  AccessKey = "accessKey",
+  /** UserAccount */
+  UserAccount = "userAccount"
 }
 
 /**
@@ -477,22 +846,36 @@ export enum KnownAuthType {
  * **userAssignedIdentity** \
  * **servicePrincipalSecret** \
  * **servicePrincipalCertificate** \
- * **secret**
+ * **secret** \
+ * **accessKey** \
+ * **userAccount**
  */
 export type AuthType = string;
 
 /** Known values of {@link ClientType} that the service accepts. */
 export enum KnownClientType {
+  /** None */
   None = "none",
+  /** Dotnet */
   Dotnet = "dotnet",
+  /** Java */
   Java = "java",
+  /** Python */
   Python = "python",
+  /** Go */
   Go = "go",
+  /** Php */
   Php = "php",
+  /** Ruby */
   Ruby = "ruby",
+  /** Django */
   Django = "django",
+  /** Nodejs */
   Nodejs = "nodejs",
-  SpringBoot = "springBoot"
+  /** SpringBoot */
+  SpringBoot = "springBoot",
+  /** KafkaSpringBoot */
+  KafkaSpringBoot = "kafka-springBoot"
 }
 
 /**
@@ -509,13 +892,16 @@ export enum KnownClientType {
  * **ruby** \
  * **django** \
  * **nodejs** \
- * **springBoot**
+ * **springBoot** \
+ * **kafka-springBoot**
  */
 export type ClientType = string;
 
 /** Known values of {@link VNetSolutionType} that the service accepts. */
 export enum KnownVNetSolutionType {
+  /** ServiceEndpoint */
   ServiceEndpoint = "serviceEndpoint",
+  /** PrivateLink */
   PrivateLink = "privateLink"
 }
 
@@ -529,30 +915,70 @@ export enum KnownVNetSolutionType {
  */
 export type VNetSolutionType = string;
 
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  User = "User",
-  Application = "Application",
-  ManagedIdentity = "ManagedIdentity",
-  Key = "Key"
+/** Known values of {@link DeleteOrUpdateBehavior} that the service accepts. */
+export enum KnownDeleteOrUpdateBehavior {
+  /** Default */
+  Default = "Default",
+  /** ForcedCleanup */
+  ForcedCleanup = "ForcedCleanup"
 }
 
 /**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ * Defines values for DeleteOrUpdateBehavior. \
+ * {@link KnownDeleteOrUpdateBehavior} can be used interchangeably with DeleteOrUpdateBehavior,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
+ * **Default** \
+ * **ForcedCleanup**
  */
-export type CreatedByType = string;
+export type DeleteOrUpdateBehavior = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal",
+  /** Enable */
+  Enable = "enable",
+  /** OptOut */
+  OptOut = "optOut"
+}
+
+/**
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal** \
+ * **enable** \
+ * **optOut**
+ */
+export type ActionType = string;
+
+/** Known values of {@link AllowType} that the service accepts. */
+export enum KnownAllowType {
+  /** True */
+  True = "true",
+  /** False */
+  False = "false"
+}
+
+/**
+ * Defines values for AllowType. \
+ * {@link KnownAllowType} can be used interchangeably with AllowType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **true** \
+ * **false**
+ */
+export type AllowType = string;
 
 /** Known values of {@link ValidationResultStatus} that the service accepts. */
 export enum KnownValidationResultStatus {
+  /** Success */
   Success = "success",
+  /** Failure */
   Failure = "failure",
+  /** Warning */
   Warning = "warning"
 }
 
@@ -569,8 +995,11 @@ export type ValidationResultStatus = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
+  /** User */
   User = "user",
+  /** System */
   System = "system",
+  /** UserSystem */
   UserSystem = "user,system"
 }
 
@@ -585,22 +1014,9 @@ export enum KnownOrigin {
  */
 export type Origin = string;
 
-/** Known values of {@link ActionType} that the service accepts. */
-export enum KnownActionType {
-  Internal = "Internal"
-}
-
-/**
- * Defines values for ActionType. \
- * {@link KnownActionType} can be used interchangeably with ActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Internal**
- */
-export type ActionType = string;
-
 /** Known values of {@link AzureResourceType} that the service accepts. */
 export enum KnownAzureResourceType {
+  /** KeyVault */
   KeyVault = "KeyVault"
 }
 
@@ -615,8 +1031,11 @@ export type AzureResourceType = string;
 
 /** Known values of {@link SecretType} that the service accepts. */
 export enum KnownSecretType {
+  /** RawValue */
   RawValue = "rawValue",
+  /** KeyVaultSecretUri */
   KeyVaultSecretUri = "keyVaultSecretUri",
+  /** KeyVaultSecretReference */
   KeyVaultSecretReference = "keyVaultSecretReference"
 }
 
@@ -631,11 +1050,163 @@ export enum KnownSecretType {
  */
 export type SecretType = string;
 
+/** Known values of {@link AccessKeyPermissions} that the service accepts. */
+export enum KnownAccessKeyPermissions {
+  /** Read */
+  Read = "Read",
+  /** Write */
+  Write = "Write",
+  /** Listen */
+  Listen = "Listen",
+  /** Send */
+  Send = "Send",
+  /** Manage */
+  Manage = "Manage"
+}
+
+/**
+ * Defines values for AccessKeyPermissions. \
+ * {@link KnownAccessKeyPermissions} can be used interchangeably with AccessKeyPermissions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Read** \
+ * **Write** \
+ * **Listen** \
+ * **Send** \
+ * **Manage**
+ */
+export type AccessKeyPermissions = string;
+
+/** Optional parameters. */
+export interface ConnectorListDryrunOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listDryrun operation. */
+export type ConnectorListDryrunResponse = DryrunList;
+
+/** Optional parameters. */
+export interface ConnectorGetDryrunOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDryrun operation. */
+export type ConnectorGetDryrunResponse = DryrunResource;
+
+/** Optional parameters. */
+export interface ConnectorCreateDryrunOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createDryrun operation. */
+export type ConnectorCreateDryrunResponse = DryrunResource;
+
+/** Optional parameters. */
+export interface ConnectorUpdateDryrunOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateDryrun operation. */
+export type ConnectorUpdateDryrunResponse = DryrunResource;
+
+/** Optional parameters. */
+export interface ConnectorDeleteDryrunOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ConnectorListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ConnectorListResponse = ResourceList;
+
+/** Optional parameters. */
+export interface ConnectorGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ConnectorGetResponse = LinkerResource;
+
+/** Optional parameters. */
+export interface ConnectorCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ConnectorCreateOrUpdateResponse = LinkerResource;
+
+/** Optional parameters. */
+export interface ConnectorDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ConnectorUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ConnectorUpdateResponse = LinkerResource;
+
+/** Optional parameters. */
+export interface ConnectorValidateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the validate operation. */
+export type ConnectorValidateResponse = ValidateOperationResult;
+
+/** Optional parameters. */
+export interface ConnectorGenerateConfigurationsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Connection Info, including format, secret store, etc */
+  parameters?: ConfigurationInfo;
+}
+
+/** Contains response data for the generateConfigurations operation. */
+export type ConnectorGenerateConfigurationsResponse = ConfigurationResult;
+
+/** Optional parameters. */
+export interface ConnectorListDryrunNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listDryrunNext operation. */
+export type ConnectorListDryrunNextResponse = DryrunList;
+
+/** Optional parameters. */
+export interface ConnectorListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ConnectorListNextResponse = ResourceList;
+
 /** Optional parameters. */
 export interface LinkerListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type LinkerListResponse = LinkerList;
+export type LinkerListResponse = ResourceList;
 
 /** Optional parameters. */
 export interface LinkerGetOptionalParams extends coreClient.OperationOptions {}
@@ -693,14 +1264,73 @@ export interface LinkerListConfigurationsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listConfigurations operation. */
-export type LinkerListConfigurationsResponse = SourceConfigurationResult;
+export type LinkerListConfigurationsResponse = ConfigurationResult;
 
 /** Optional parameters. */
 export interface LinkerListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type LinkerListNextResponse = LinkerList;
+export type LinkerListNextResponse = ResourceList;
+
+/** Optional parameters. */
+export interface LinkersListDryrunOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listDryrun operation. */
+export type LinkersListDryrunResponse = DryrunList;
+
+/** Optional parameters. */
+export interface LinkersGetDryrunOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDryrun operation. */
+export type LinkersGetDryrunResponse = DryrunResource;
+
+/** Optional parameters. */
+export interface LinkersCreateDryrunOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createDryrun operation. */
+export type LinkersCreateDryrunResponse = DryrunResource;
+
+/** Optional parameters. */
+export interface LinkersUpdateDryrunOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateDryrun operation. */
+export type LinkersUpdateDryrunResponse = DryrunResource;
+
+/** Optional parameters. */
+export interface LinkersDeleteDryrunOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface LinkersGenerateConfigurationsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Connection Info, including format, secret store, etc */
+  parameters?: ConfigurationInfo;
+}
+
+/** Contains response data for the generateConfigurations operation. */
+export type LinkersGenerateConfigurationsResponse = ConfigurationResult;
+
+/** Optional parameters. */
+export interface LinkersListDryrunNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listDryrunNext operation. */
+export type LinkersListDryrunNextResponse = DryrunList;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -715,6 +1345,30 @@ export interface OperationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface ConfigurationNamesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter options. */
+  filter?: string;
+  /** OData skipToken option for pagination. */
+  skipToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ConfigurationNamesListResponse = ConfigurationNameResult;
+
+/** Optional parameters. */
+export interface ConfigurationNamesListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter options. */
+  filter?: string;
+  /** OData skipToken option for pagination. */
+  skipToken?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type ConfigurationNamesListNextResponse = ConfigurationNameResult;
 
 /** Optional parameters. */
 export interface ServiceLinkerManagementClientOptionalParams
