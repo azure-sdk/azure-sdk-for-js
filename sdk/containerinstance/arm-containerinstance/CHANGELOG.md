@@ -1,15 +1,20 @@
 # Release History
+    
+## 9.1.0-beta.1 (2022-11-24)
+    
+**Features**
 
-## 9.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ConfidentialComputeProperties
+  - Added Interface DeploymentExtensionSpec
+  - Added Type Alias ContainerGroupPriority
+  - Interface ContainerGroupProperties has a new optional parameter confidentialComputeProperties
+  - Interface ContainerGroupProperties has a new optional parameter extensions
+  - Interface ContainerGroupProperties has a new optional parameter priority
+  - Interface EncryptionProperties has a new optional parameter identity
+  - Added Enum KnownContainerGroupPriority
+  - Enum KnownContainerGroupSku has a new value Confidential
+    
+    
 ## 9.0.0 (2022-08-30)
     
 **Features**
