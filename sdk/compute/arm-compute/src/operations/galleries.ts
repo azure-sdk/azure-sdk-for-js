@@ -570,7 +570,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion3,
     Parameters.select1,
-    Parameters.expand8
+    Parameters.expand9
   ],
   urlParameters: [
     Parameters.$host,

@@ -1,15 +1,43 @@
 # Release History
+    
+## 20.0.0 (2022-11-25)
+    
+**Features**
 
-## 19.2.1 (Unreleased)
+  - Added Interface GalleryApplicationCustomAction
+  - Added Interface GalleryApplicationCustomActionParameter
+  - Added Interface GalleryApplicationVersionSafetyProfile
+  - Added Interface GalleryArtifactSafetyProfileBase
+  - Added Interface GalleryArtifactVersionFullSource
+  - Added Interface GalleryDiskImageSource
+  - Added Interface GalleryImageVersionSafetyProfile
+  - Added Interface LatestGalleryImageVersion
+  - Added Interface PolicyViolation
+  - Added Type Alias ExpandTypesForGetVMs
+  - Added Type Alias GalleryApplicationCustomActionParameterType
+  - Added Type Alias PolicyViolationCategory
+  - Interface GalleryApplication has a new optional parameter customActions
+  - Interface GalleryApplicationUpdate has a new optional parameter customActions
+  - Interface GalleryApplicationVersion has a new optional parameter safetyProfile
+  - Interface GalleryApplicationVersionPublishingProfile has a new optional parameter customActions
+  - Interface GalleryApplicationVersionUpdate has a new optional parameter safetyProfile
+  - Interface GalleryImageVersion has a new optional parameter safetyProfile
+  - Interface GalleryImageVersionUpdate has a new optional parameter safetyProfile
+  - Interface SharedGalleryImage has a new optional parameter eula
+  - Interface SharedGalleryImage has a new optional parameter privacyStatementUri
+  - Interface TargetRegion has a new optional parameter excludeFromLatest
+  - Interface VirtualMachinesListAllNextOptionalParams has a new optional parameter expand
+  - Interface VirtualMachinesListAllOptionalParams has a new optional parameter expand
+  - Interface VirtualMachinesListNextOptionalParams has a new optional parameter expand
+  - Interface VirtualMachinesListOptionalParams has a new optional parameter expand
+  - Added Enum KnownExpandTypesForGetVMs
+  - Added Enum KnownPolicyViolationCategory
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface GalleryArtifactVersionSource no longer has parameter uri
+    
+    
 ## 19.2.0 (2022-09-21)
     
 **Features**
