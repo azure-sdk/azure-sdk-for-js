@@ -940,6 +940,28 @@ export const regenerateKeyParameters: OperationParameter = {
   mapper: IntegrationRuntimeRegenerateKeyParametersMapper
 };
 
+export const integrationRuntimeAction: OperationURLParameter = {
+  parameterPath: "integrationRuntimeAction",
+  mapper: {
+    serializedName: "integrationRuntimeAction",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const integrationRuntimeOperationId: OperationURLParameter = {
+  parameterPath: "integrationRuntimeOperationId",
+  mapper: {
+    serializedName: "integrationRuntimeOperationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const sparkConfigurationName: OperationURLParameter = {
   parameterPath: "sparkConfigurationName",
   mapper: {

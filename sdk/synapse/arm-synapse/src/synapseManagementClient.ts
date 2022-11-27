@@ -15,7 +15,7 @@ import {
   IpFirewallRulesImpl,
   KeysImpl,
   PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl,
+  PrivateLinkResourcesOperationsImpl,
   PrivateLinkHubPrivateLinkResourcesImpl,
   PrivateLinkHubsImpl,
   PrivateEndpointConnectionsPrivateLinkHubImpl,
@@ -82,7 +82,8 @@ import {
   KustoPoolDatabasesImpl,
   KustoPoolDataConnectionsImpl,
   KustoPoolPrincipalAssignmentsImpl,
-  KustoPoolDatabasePrincipalAssignmentsImpl
+  KustoPoolDatabasePrincipalAssignmentsImpl,
+  KustoPoolPrivateLinkResourcesOperationsImpl
 } from "./operations";
 import {
   AzureADOnlyAuthentications,
@@ -90,7 +91,7 @@ import {
   IpFirewallRules,
   Keys,
   PrivateEndpointConnections,
-  PrivateLinkResources,
+  PrivateLinkResourcesOperations,
   PrivateLinkHubPrivateLinkResources,
   PrivateLinkHubs,
   PrivateEndpointConnectionsPrivateLinkHub,
@@ -157,9 +158,16 @@ import {
   KustoPoolDatabases,
   KustoPoolDataConnections,
   KustoPoolPrincipalAssignments,
-  KustoPoolDatabasePrincipalAssignments
+  KustoPoolDatabasePrincipalAssignments,
+  KustoPoolPrivateLinkResourcesOperations
 } from "./operationsInterfaces";
-import { SynapseManagementClientOptionalParams } from "./models";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
+import {
+  SynapseManagementClientOptionalParams,
+  IntegrationRuntimeStartOperationStatusOptionalParams,
+  IntegrationRuntimeStartOperationStatusResponse
+} from "./models";
 
 export class SynapseManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -192,7 +200,7 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-synapse/8.1.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-synapse/9.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -212,27 +220,34 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     };
     super(optionsWithDefaults);
 
+    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
+    }
+    if (
+      !options ||
+      !options.pipeline ||
+      options.pipeline.getOrderedPolicies().length == 0 ||
+      !bearerTokenAuthenticationPolicyFound
+    ) {
+      this.pipeline.removePolicy({
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+      });
+      this.pipeline.addPolicy(
+        coreRestPipeline.bearerTokenAuthenticationPolicy({
+          credential: credentials,
+          scopes: `${optionsWithDefaults.credentialScopes}`,
+          challengeCallbacks: {
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge
+          }
+        })
+      );
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
@@ -244,7 +259,9 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     this.ipFirewallRules = new IpFirewallRulesImpl(this);
     this.keys = new KeysImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
-    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.privateLinkResourcesOperations = new PrivateLinkResourcesOperationsImpl(
+      this
+    );
     this.privateLinkHubPrivateLinkResources = new PrivateLinkHubPrivateLinkResourcesImpl(
       this
     );
@@ -374,6 +391,39 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     this.kustoPoolDatabasePrincipalAssignments = new KustoPoolDatabasePrincipalAssignmentsImpl(
       this
     );
+    this.kustoPoolPrivateLinkResourcesOperations = new KustoPoolPrivateLinkResourcesOperationsImpl(
+      this
+    );
+  }
+
+  /**
+   * Get an integration runtime start operation status
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param integrationRuntimeName Integration runtime name
+   * @param integrationRuntimeAction Integration runtime operation id parameter name
+   * @param integrationRuntimeOperationId Integration runtime operation id parameter name
+   * @param options The options parameters.
+   */
+  integrationRuntimeStartOperationStatus(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    integrationRuntimeAction: string,
+    integrationRuntimeOperationId: string,
+    options?: IntegrationRuntimeStartOperationStatusOptionalParams
+  ): Promise<IntegrationRuntimeStartOperationStatusResponse> {
+    return this.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        integrationRuntimeName,
+        integrationRuntimeAction,
+        integrationRuntimeOperationId,
+        options
+      },
+      integrationRuntimeStartOperationStatusOperationSpec
+    );
   }
 
   azureADOnlyAuthentications: AzureADOnlyAuthentications;
@@ -381,7 +431,7 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
   ipFirewallRules: IpFirewallRules;
   keys: Keys;
   privateEndpointConnections: PrivateEndpointConnections;
-  privateLinkResources: PrivateLinkResources;
+  privateLinkResourcesOperations: PrivateLinkResourcesOperations;
   privateLinkHubPrivateLinkResources: PrivateLinkHubPrivateLinkResources;
   privateLinkHubs: PrivateLinkHubs;
   privateEndpointConnectionsPrivateLinkHub: PrivateEndpointConnectionsPrivateLinkHub;
@@ -449,4 +499,33 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
   kustoPoolDataConnections: KustoPoolDataConnections;
   kustoPoolPrincipalAssignments: KustoPoolPrincipalAssignments;
   kustoPoolDatabasePrincipalAssignments: KustoPoolDatabasePrincipalAssignments;
+  kustoPoolPrivateLinkResourcesOperations: KustoPoolPrivateLinkResourcesOperations;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const integrationRuntimeStartOperationStatusOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/{integrationRuntimeAction}/operationstatuses/{integrationRuntimeOperationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.IntegrationRuntimeOperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.integrationRuntimeName,
+    Parameters.integrationRuntimeAction,
+    Parameters.integrationRuntimeOperationId
+  ],
+  headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
+  serializer
+};
