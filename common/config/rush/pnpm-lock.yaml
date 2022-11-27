@@ -3989,7 +3989,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221123
+      typescript: 5.0.0-dev.20221127
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8994,8 +8994,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221123:
-    resolution: {integrity: sha512-DckWW291XJ5FxCCqBohnQpiR31wNsib9JAOHKRC/+RswvHLeMoU43ocSEkEsCq+chu07nYp9RuJB3VPUiiPulA==}
+  /typescript/5.0.0-dev.20221127:
+    resolution: {integrity: sha512-BiiOmTz96U8xt8azvXiHbSKCA+XAY2Ke5p+hpvGHWk2NSrOguWMzK5vwqdNQ7J6jH76yBwbQkEqqvafY8rH9BQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14958,7 +14958,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-A8jaySHrcijlkCaRXD8AIthFoemqC9eX0lSLhZ6w/jw6f5N3BLzBupkhU4iMCX1Il3GhuCgOhced9HqgQEs5aw==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-EkYpUvc/qoifq2Gm/Q/m6mNUqfdvhI+UJzMvOa9NuvIuBa0yZqYuNOE7cVmOtmhK8bQ/hgAWuP1m+b0lCNvYfg==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -14969,6 +14969,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14976,11 +14978,10 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
