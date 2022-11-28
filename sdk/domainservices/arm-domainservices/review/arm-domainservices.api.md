@@ -11,6 +11,9 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
+export type ChannelBinding = string;
+
+// @public
 export interface CloudError {
     error?: CloudErrorBody;
 }
@@ -55,8 +58,10 @@ export type CreatedByType = string;
 
 // @public
 export interface DomainSecuritySettings {
+    channelBinding?: ChannelBinding;
     kerberosArmoring?: KerberosArmoring;
     kerberosRc4Encryption?: KerberosRc4Encryption;
+    ldapSigning?: LdapSigning;
     ntlmV1?: NtlmV1;
     syncKerberosPasswords?: SyncKerberosPasswords;
     syncNtlmPasswords?: SyncNtlmPasswords;
@@ -79,7 +84,9 @@ export interface DomainService extends Resource {
     replicaSets?: ReplicaSet[];
     resourceForestSettings?: ResourceForestSettings;
     sku?: string;
+    readonly syncApplicationId?: string;
     readonly syncOwner?: string;
+    syncScope?: SyncScope;
     readonly tenantId?: string;
     readonly version?: number;
 }
@@ -223,9 +230,6 @@ export interface ForestTrust {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface HealthAlert {
     readonly id?: string;
     readonly issue?: string;
@@ -248,6 +252,12 @@ export type KerberosArmoring = string;
 
 // @public
 export type KerberosRc4Encryption = string;
+
+// @public
+export enum KnownChannelBinding {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
 
 // @public
 export enum KnownCreatedByType {
@@ -283,6 +293,12 @@ export enum KnownKerberosRc4Encryption {
 
 // @public
 export enum KnownLdaps {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownLdapSigning {
     Disabled = "Disabled",
     Enabled = "Enabled"
 }
@@ -334,6 +350,12 @@ export enum KnownSyncOnPremPasswords {
 }
 
 // @public
+export enum KnownSyncScope {
+    All = "All",
+    CloudOnly = "CloudOnly"
+}
+
+// @public
 export enum KnownTlsV1 {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -341,6 +363,9 @@ export enum KnownTlsV1 {
 
 // @public
 export type Ldaps = string;
+
+// @public
+export type LdapSigning = string;
 
 // @public
 export interface LdapsSettings {
@@ -541,6 +566,9 @@ export type SyncNtlmPasswords = string;
 
 // @public
 export type SyncOnPremPasswords = string;
+
+// @public
+export type SyncScope = string;
 
 // @public
 export interface SystemData {
