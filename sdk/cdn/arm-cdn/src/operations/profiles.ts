@@ -33,6 +33,13 @@ import {
   ProfilesUpdateOptionalParams,
   ProfilesUpdateResponse,
   ProfilesDeleteOptionalParams,
+  CanMigrateParameters,
+  ProfilesCanMigrateOptionalParams,
+  ProfilesCanMigrateResponse,
+  MigrationParameters,
+  ProfilesMigrateOptionalParams,
+  ProfilesMigrateResponse,
+  ProfilesMigrationCommitOptionalParams,
   ProfilesGenerateSsoUriOptionalParams,
   ProfilesGenerateSsoUriResponse,
   ProfilesListSupportedOptimizationTypesOptionalParams,
@@ -553,6 +560,197 @@ export class ProfilesImpl implements Profiles {
   }
 
   /**
+   * Checks if CDN profile can be migrated to Azure Frontdoor(Standard/Premium) profile.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param canMigrateParameters Properties needed to check if cdn profile or classic frontdoor can be
+   *                             migrated.
+   * @param options The options parameters.
+   */
+  canMigrate(
+    resourceGroupName: string,
+    canMigrateParameters: CanMigrateParameters,
+    options?: ProfilesCanMigrateOptionalParams
+  ): Promise<ProfilesCanMigrateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, canMigrateParameters, options },
+      canMigrateOperationSpec
+    );
+  }
+
+  /**
+   * Migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. The change need to be
+   * committed after this.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param migrationParameters Properties needed to migrate the profile.
+   * @param options The options parameters.
+   */
+  async beginMigrate(
+    resourceGroupName: string,
+    migrationParameters: MigrationParameters,
+    options?: ProfilesMigrateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ProfilesMigrateResponse>,
+      ProfilesMigrateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ProfilesMigrateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, migrationParameters, options },
+      migrateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. The change need to be
+   * committed after this.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param migrationParameters Properties needed to migrate the profile.
+   * @param options The options parameters.
+   */
+  async beginMigrateAndWait(
+    resourceGroupName: string,
+    migrationParameters: MigrationParameters,
+    options?: ProfilesMigrateOptionalParams
+  ): Promise<ProfilesMigrateResponse> {
+    const poller = await this.beginMigrate(
+      resourceGroupName,
+      migrationParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Commit the migrated Azure Frontdoor(Standard/Premium) profile.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param options The options parameters.
+   */
+  async beginMigrationCommit(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesMigrationCommitOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, profileName, options },
+      migrationCommitOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Commit the migrated Azure Frontdoor(Standard/Premium) profile.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param options The options parameters.
+   */
+  async beginMigrationCommitAndWait(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesMigrationCommitOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginMigrationCommit(
+      resourceGroupName,
+      profileName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Generates a dynamic SSO URI used to sign in to the CDN supplemental portal. Supplemental portal is
    * used to configure advanced feature capabilities that are not yet available in the Azure portal, such
    * as core reports in a standard profile; rules engine, advanced HTTP reports, and real-time stats and
@@ -719,7 +917,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -751,7 +949,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName1
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -784,7 +982,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName1
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -808,7 +1006,85 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const canMigrateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/canMigrate",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CanMigrateResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.canMigrateParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const migrateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/migrate",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MigrateResult
+    },
+    201: {
+      bodyMapper: Mappers.MigrateResult
+    },
+    202: {
+      bodyMapper: Mappers.MigrateResult
+    },
+    204: {
+      bodyMapper: Mappers.MigrateResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.migrationParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const migrationCommitOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/migrationCommit",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.profileName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -830,7 +1106,7 @@ const generateSsoUriOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -852,7 +1128,7 @@ const listSupportedOptimizationTypesOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -874,7 +1150,7 @@ const listResourceUsageOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -936,7 +1212,7 @@ const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

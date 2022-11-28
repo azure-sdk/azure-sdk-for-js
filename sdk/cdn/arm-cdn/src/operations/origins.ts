@@ -508,7 +508,7 @@ const listByEndpointOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
@@ -531,7 +531,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName,
     Parameters.originName
   ],
@@ -565,7 +565,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName,
     Parameters.originName
   ],
@@ -600,7 +600,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName,
     Parameters.originName
   ],
@@ -626,7 +626,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName,
     Parameters.originName
   ],
@@ -649,7 +649,7 @@ const listByEndpointNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.nextLink,
     Parameters.endpointName
   ],

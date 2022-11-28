@@ -1,5 +1,208 @@
 # Release History
+    
+## 8.0.0-beta.1 (2022-11-28)
+    
+**Features**
 
+  - Added operation AfdProfiles.beginUpgrade
+  - Added operation AfdProfiles.beginUpgradeAndWait
+  - Added operation AfdProfiles.checkEndpointNameAvailability
+  - Added operation AfdProfiles.validateSecret
+  - Added operation CustomDomains.beginDisableCustomHttps
+  - Added operation CustomDomains.beginDisableCustomHttpsAndWait
+  - Added operation CustomDomains.beginEnableCustomHttps
+  - Added operation CustomDomains.beginEnableCustomHttpsAndWait
+  - Added operation Profiles.beginMigrate
+  - Added operation Profiles.beginMigrateAndWait
+  - Added operation Profiles.beginMigrationCommit
+  - Added operation Profiles.beginMigrationCommitAndWait
+  - Added operation Profiles.canMigrate
+  - Added Interface AfdCustomDomainsCreateHeaders
+  - Added Interface AfdCustomDomainsDeleteHeaders
+  - Added Interface AfdCustomDomainsRefreshValidationTokenHeaders
+  - Added Interface AfdCustomDomainsUpdateHeaders
+  - Added Interface AFDDomain
+  - Added Interface AFDDomainProperties
+  - Added Interface AFDEndpoint
+  - Added Interface AFDEndpointProperties
+  - Added Interface AfdEndpointsCreateHeaders
+  - Added Interface AfdEndpointsDeleteHeaders
+  - Added Interface AfdEndpointsPurgeContentHeaders
+  - Added Interface AfdEndpointsUpdateHeaders
+  - Added Interface AFDOrigin
+  - Added Interface AFDOriginGroup
+  - Added Interface AFDOriginGroupProperties
+  - Added Interface AfdOriginGroupsCreateHeaders
+  - Added Interface AfdOriginGroupsDeleteHeaders
+  - Added Interface AfdOriginGroupsUpdateHeaders
+  - Added Interface AFDOriginProperties
+  - Added Interface AfdOriginsCreateHeaders
+  - Added Interface AfdOriginsDeleteHeaders
+  - Added Interface AfdOriginsUpdateHeaders
+  - Added Interface AfdProfilesCheckEndpointNameAvailabilityOptionalParams
+  - Added Interface AfdProfilesUpgradeHeaders
+  - Added Interface AfdProfilesUpgradeOptionalParams
+  - Added Interface AfdProfilesValidateSecretOptionalParams
+  - Added Interface AzureFirstPartyManagedCertificate
+  - Added Interface AzureFirstPartyManagedCertificateParameters
+  - Added Interface CanMigrateParameters
+  - Added Interface CanMigrateResult
+  - Added Interface CdnManagedHttpsParameters
+  - Added Interface CdnWebApplicationFirewallPolicy
+  - Added Interface CustomDomain
+  - Added Interface CustomDomainsCreateHeaders
+  - Added Interface CustomDomainsDeleteHeaders
+  - Added Interface CustomDomainsDisableCustomHttpsHeaders
+  - Added Interface CustomDomainsEnableCustomHttpsHeaders
+  - Added Interface CustomerCertificate
+  - Added Interface CustomerCertificateParameters
+  - Added Interface DeepCreatedCustomDomain
+  - Added Interface DeliveryRuleCacheExpirationAction
+  - Added Interface DeliveryRuleCacheKeyQueryStringAction
+  - Added Interface DeliveryRuleClientPortCondition
+  - Added Interface DeliveryRuleCookiesCondition
+  - Added Interface DeliveryRuleHostNameCondition
+  - Added Interface DeliveryRuleHttpVersionCondition
+  - Added Interface DeliveryRuleIsDeviceCondition
+  - Added Interface DeliveryRulePostArgsCondition
+  - Added Interface DeliveryRuleQueryStringCondition
+  - Added Interface DeliveryRuleRemoteAddressCondition
+  - Added Interface DeliveryRuleRequestBodyCondition
+  - Added Interface DeliveryRuleRequestHeaderAction
+  - Added Interface DeliveryRuleRequestHeaderCondition
+  - Added Interface DeliveryRuleRequestMethodCondition
+  - Added Interface DeliveryRuleRequestSchemeCondition
+  - Added Interface DeliveryRuleRequestUriCondition
+  - Added Interface DeliveryRuleResponseHeaderAction
+  - Added Interface DeliveryRuleRouteConfigurationOverrideAction
+  - Added Interface DeliveryRuleServerPortCondition
+  - Added Interface DeliveryRuleSocketAddrCondition
+  - Added Interface DeliveryRuleSslProtocolCondition
+  - Added Interface DeliveryRuleUrlFileExtensionCondition
+  - Added Interface DeliveryRuleUrlFileNameCondition
+  - Added Interface DeliveryRuleUrlPathCondition
+  - Added Interface EdgeNode
+  - Added Interface Endpoint
+  - Added Interface EndpointProperties
+  - Added Interface EndpointsCreateHeaders
+  - Added Interface EndpointsDeleteHeaders
+  - Added Interface EndpointsLoadContentHeaders
+  - Added Interface EndpointsPurgeContentHeaders
+  - Added Interface EndpointsStartHeaders
+  - Added Interface EndpointsStopHeaders
+  - Added Interface EndpointsUpdateHeaders
+  - Added Interface ManagedCertificate
+  - Added Interface ManagedCertificateParameters
+  - Added Interface ManagedRuleSetDefinition
+  - Added Interface ManagedServiceIdentity
+  - Added Interface MigrateResult
+  - Added Interface MigrationErrorType
+  - Added Interface MigrationParameters
+  - Added Interface MigrationWebApplicationFirewallMapping
+  - Added Interface Origin
+  - Added Interface OriginGroup
+  - Added Interface OriginGroupOverrideAction
+  - Added Interface OriginGroupProperties
+  - Added Interface OriginGroupsCreateHeaders
+  - Added Interface OriginGroupsDeleteHeaders
+  - Added Interface OriginGroupsUpdateHeaders
+  - Added Interface OriginProperties
+  - Added Interface OriginsCreateHeaders
+  - Added Interface OriginsDeleteHeaders
+  - Added Interface OriginsUpdateHeaders
+  - Added Interface PoliciesCreateOrUpdateHeaders
+  - Added Interface PoliciesUpdateHeaders
+  - Added Interface Profile
+  - Added Interface ProfileChangeSkuWafMapping
+  - Added Interface ProfilesCanMigrateOptionalParams
+  - Added Interface ProfilesCreateHeaders
+  - Added Interface ProfilesDeleteHeaders
+  - Added Interface ProfilesMigrateHeaders
+  - Added Interface ProfilesMigrateOptionalParams
+  - Added Interface ProfilesMigrationCommitHeaders
+  - Added Interface ProfilesMigrationCommitOptionalParams
+  - Added Interface ProfilesUpdateHeaders
+  - Added Interface ProfileUpgradeParameters
+  - Added Interface ProxyResource
+  - Added Interface RateLimitRule
+  - Added Interface Route
+  - Added Interface RouteProperties
+  - Added Interface RoutesCreateHeaders
+  - Added Interface RoutesDeleteHeaders
+  - Added Interface RoutesUpdateHeaders
+  - Added Interface Rule
+  - Added Interface RuleProperties
+  - Added Interface RulesCreateHeaders
+  - Added Interface RulesDeleteHeaders
+  - Added Interface RuleSet
+  - Added Interface RuleSetProperties
+  - Added Interface RuleSetsDeleteHeaders
+  - Added Interface RulesUpdateHeaders
+  - Added Interface Secret
+  - Added Interface SecretProperties
+  - Added Interface SecretsCreateHeaders
+  - Added Interface SecretsDeleteHeaders
+  - Added Interface SecurityPoliciesCreateHeaders
+  - Added Interface SecurityPoliciesDeleteHeaders
+  - Added Interface SecurityPoliciesPatchHeaders
+  - Added Interface SecurityPolicy
+  - Added Interface SecurityPolicyProperties
+  - Added Interface SecurityPolicyWebApplicationFirewallParameters
+  - Added Interface TrackedResource
+  - Added Interface UrlRedirectAction
+  - Added Interface UrlRewriteAction
+  - Added Interface UrlSigningAction
+  - Added Interface UrlSigningKeyParameters
+  - Added Interface UserAssignedIdentity
+  - Added Interface UserManagedHttpsParameters
+  - Added Type Alias AfdProfilesCheckEndpointNameAvailabilityResponse
+  - Added Type Alias AfdProfilesUpgradeResponse
+  - Added Type Alias AfdProfilesValidateSecretResponse
+  - Added Type Alias CanMigrateDefaultSku
+  - Added Type Alias EndpointProvisioningState
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias MetricsGranularity
+  - Added Type Alias MetricsSeriesUnit
+  - Added Type Alias OriginGroupProvisioningState
+  - Added Type Alias OriginProvisioningState
+  - Added Type Alias ProfileProvisioningState
+  - Added Type Alias ProfilesCanMigrateResponse
+  - Added Type Alias ProfilesMigrateResponse
+  - Added Type Alias ResourceUsageUnit
+  - Added Type Alias WafMetricsGranularity
+  - Added Type Alias WafMetricsSeriesUnit
+  - Interface CustomDomainsDisableCustomHttpsOptionalParams has a new optional parameter resumeFrom
+  - Interface CustomDomainsDisableCustomHttpsOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface CustomDomainsEnableCustomHttpsOptionalParams has a new optional parameter resumeFrom
+  - Interface CustomDomainsEnableCustomHttpsOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ProfileUpdateParameters has a new optional parameter identity
+  - Added Enum KnownCanMigrateDefaultSku
+  - Added Enum KnownEndpointProvisioningState
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownMetricsGranularity
+  - Added Enum KnownMetricsSeriesUnit
+  - Added Enum KnownOriginGroupProvisioningState
+  - Added Enum KnownOriginProvisioningState
+  - Added Enum KnownProfileProvisioningState
+  - Added Enum KnownResourceUsageUnit
+  - Added Enum KnownWafMetricsGranularity
+  - Added Enum KnownWafMetricsSeriesUnit
+  - Enum KnownProfileResourceState has a new value AbortingMigration
+  - Enum KnownProfileResourceState has a new value CommittingMigration
+  - Enum KnownProfileResourceState has a new value Migrated
+  - Enum KnownProfileResourceState has a new value Migrating
+  - Enum KnownProfileResourceState has a new value PendingMigrationCommit
+
+**Breaking Changes**
+
+  - Removed operation group Validate
+  - Removed operation CustomDomains.disableCustomHttps
+  - Removed operation CustomDomains.enableCustomHttps
+  - Class CdnManagementClient no longer has parameter validate
+  - Removed Enum KnownMetricsResponseGranularity
+  - Removed Enum KnownMetricsResponseSeriesItemUnit
+  - Removed Enum KnownWafMetricsResponseGranularity
+    
 ## 7.0.1 (2022-04-21)
 
 **Features**

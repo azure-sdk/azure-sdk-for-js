@@ -121,7 +121,7 @@ export class AfdOriginGroupsImpl implements AfdOriginGroups {
   }
 
   /**
-   * Checks the quota and actual usage of endpoints under the given CDN profile.
+   * Checks the quota and actual usage of endpoints under the given Azure Front Door profile..
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group.
@@ -536,7 +536,7 @@ export class AfdOriginGroupsImpl implements AfdOriginGroups {
   }
 
   /**
-   * Checks the quota and actual usage of endpoints under the given CDN profile.
+   * Checks the quota and actual usage of endpoints under the given Azure Front Door profile..
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group.
@@ -617,7 +617,7 @@ const listByProfileOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -639,7 +639,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.originGroupName
   ],
   headerParameters: [Parameters.accept],
@@ -672,7 +672,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.originGroupName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -706,7 +706,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.originGroupName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -731,7 +731,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.originGroupName
   ],
   headerParameters: [Parameters.accept],
@@ -754,7 +754,7 @@ const listResourceUsageOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.originGroupName
   ],
   headerParameters: [Parameters.accept],
@@ -776,7 +776,7 @@ const listByProfileNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
@@ -798,7 +798,7 @@ const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.nextLink,
     Parameters.originGroupName
   ],

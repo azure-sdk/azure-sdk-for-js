@@ -514,7 +514,7 @@ const listByRuleSetOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.ruleSetName
   ],
   headerParameters: [Parameters.accept],
@@ -537,7 +537,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.ruleSetName,
     Parameters.ruleName
   ],
@@ -571,7 +571,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.ruleSetName,
     Parameters.ruleName
   ],
@@ -606,7 +606,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.ruleSetName,
     Parameters.ruleName
   ],
@@ -632,7 +632,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.ruleSetName,
     Parameters.ruleName
   ],
@@ -655,7 +655,7 @@ const listByRuleSetNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.nextLink,
     Parameters.ruleSetName
   ],
