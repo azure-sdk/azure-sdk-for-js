@@ -13946,7 +13946,7 @@ packages:
     dev: false
 
   file:projects/arm-policy.tgz:
-    resolution: {integrity: sha512-8WtqMPYlSxYPqzcoBEVlsZPy9r7ZZRE472Vnm3oCss0iGVxGjmzq4D6/G7pe/8SEQIs/03HuZrIjiasLcWvshQ==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-sAjFObFBIGRIvYQyygbactKT79Tkyogw3KqN2K4Ajisw5m3rZFa44VWnvRHz+GzkcpDG0x5cGpg1dgXpqKe2MA==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
@@ -15560,7 +15560,7 @@ packages:
     dev: false
 
   file:projects/arm-workloads.tgz:
-    resolution: {integrity: sha512-gx5R65Ar13dORMmyu6GmbywBDHVA0qDxQJeTHwFOj1f1mG1YGVprJgYbD4Uz5wKbolOYlDHS5G/TJtwUeAYiWQ==, tarball: file:projects/arm-workloads.tgz}
+    resolution: {integrity: sha512-EOkZ8+rjTFEC+kC1L8MOS6K1LEocF0j4IfUNkaKr+MbuPDhNob+UKcUGnqC6skHC3+Q95wEcNFi5FjlVOQUUOA==, tarball: file:projects/arm-workloads.tgz}
     name: '@rush-temp/arm-workloads'
     version: 0.0.0
     dependencies:
@@ -15579,7 +15579,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@types/node'

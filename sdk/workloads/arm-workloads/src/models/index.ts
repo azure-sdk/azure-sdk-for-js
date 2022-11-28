@@ -33,10 +33,16 @@ export type InfrastructureConfigurationUnion =
   | InfrastructureConfiguration
   | SingleServerConfiguration
   | ThreeTierConfiguration;
+export type FileShareConfigurationUnion =
+  | FileShareConfiguration
+  | SkipFileShareConfiguration
+  | CreateAndMountFileShareConfiguration
+  | MountFileShareConfiguration;
 export type SoftwareConfigurationUnion =
   | SoftwareConfiguration
   | ServiceInitiatedSoftwareConfiguration
-  | SAPInstallWithoutOSConfigSoftwareConfiguration;
+  | SAPInstallWithoutOSConfigSoftwareConfiguration
+  | ExternalInstallationSoftwareConfiguration;
 
 /** Php workload resource list */
 export interface PhpWorkloadResourceList {
@@ -552,72 +558,72 @@ export interface OperationStatusResult {
   error?: ErrorDetail;
 }
 
-/** Defines the collection of Virtual Instance for SAP. */
+/** Defines the collection of Virtual Instance for SAP solutions resources. */
 export interface SAPVirtualInstanceList {
-  /** Gets the list of Virtual Instances for SAP. */
+  /** Gets the list of Virtual Instances for SAP solutions resources. */
   value?: SAPVirtualInstance[];
   /** Gets the value of next link. */
   nextLink?: string;
 }
 
-/** Defines the SAP message server properties. */
+/** Defines the SAP Message Server properties. */
 export interface MessageServerProperties {
   /**
-   * The message server port.
+   * Message Server port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly msPort?: number;
   /**
-   * The message server internal MS port.
+   * Message Server internal MS port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly internalMsPort?: number;
   /**
-   * The message server http port.
+   * Message Server HTTP Port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly httpPort?: number;
   /**
-   * The message server https port.
+   * Message Server HTTPS Port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly httpsPort?: number;
   /**
-   * The message server SAP host name.
+   * Message Server SAP Hostname.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hostname?: string;
   /**
-   * The message server IP Address.
+   * Message server IP Address.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipAddress?: string;
   /**
-   * Defines the SAP Instance health.
+   * Defines the health of SAP Instances.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly health?: SAPHealthState;
 }
 
-/** Defines the SAP enqueue server properties. */
+/** Defines the SAP Enqueue Server properties. */
 export interface EnqueueServerProperties {
   /**
-   * The enqueue server SAP host name.
+   * Enqueue Server SAP Hostname.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hostname?: string;
   /**
-   * The enqueue server SAP IP Address.
+   * Enqueue Server SAP IP Address.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipAddress?: string;
   /**
-   * The enqueue server Port.
+   * Enqueue Server Port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly port?: number;
   /**
-   * Defines the SAP Instance health.
+   * Defines the health of SAP Instances.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly health?: SAPHealthState;
@@ -626,18 +632,18 @@ export interface EnqueueServerProperties {
 /** Defines the SAP Gateway Server properties. */
 export interface GatewayServerProperties {
   /**
-   * The gateway Port.
+   * Gateway Port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly port?: number;
   /**
-   * Defines the SAP Instance health.
+   * Defines the health of SAP Instances.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly health?: SAPHealthState;
 }
 
-/** Defines the SAP ERS Server properties. */
+/** Defines the SAP Enqueue Replication Server (ERS) properties. */
 export interface EnqueueReplicationServerProperties {
   /**
    * Defines the type of Enqueue Replication Server.
@@ -645,38 +651,44 @@ export interface EnqueueReplicationServerProperties {
    */
   readonly ersVersion?: EnqueueReplicationServerType;
   /**
-   * The ERS server instance id.
+   * ERS Instance Number.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceNo?: string;
   /**
-   * The ERS server SAP host name.
+   * ERS SAP Hostname.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hostname?: string;
   /**
-   * The ERS server SAP kernel version.
+   * ERS SAP Kernel Version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly kernelVersion?: string;
   /**
-   * The ERS server SAP kernel patch.
+   * ERS SAP Kernel Patch level.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly kernelPatch?: string;
   /**
-   * The ERS server SAP IP Address.
+   * ERS SAP IP Address.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipAddress?: string;
   /**
-   * Defines the SAP Instance health.
+   * Defines the health of SAP Instances.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly health?: SAPHealthState;
 }
 
-/** The Central Server VM Details. */
+/** The Load Balancer details such as Load Balancer ID. */
+export interface LoadBalancerDetails {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly id?: string;
+}
+
+/** The SAP Central Services Instance VM details. */
 export interface CentralServerVmDetails {
   /**
    * Defines the type of central server VM.
@@ -685,6 +697,17 @@ export interface CentralServerVmDetails {
   readonly type?: CentralServerVirtualMachineType;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly virtualMachineId?: string;
+  /**
+   * Storage details of all the Storage Accounts attached to the ASCS Virtual Machine. For e.g. NFS on AFS Shared Storage.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageDetails?: StorageInformation[];
+}
+
+/** Storage details of all the Storage accounts attached to the VM. For e.g. NFS on AFS Shared Storage. */
+export interface StorageInformation {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly id?: string;
 }
 
 /** Defines the request body for updating SAP Central Instance. */
@@ -693,15 +716,15 @@ export interface UpdateSAPCentralInstanceRequest {
   tags?: { [propertyName: string]: string };
 }
 
-/** Defines the collection of SAP Central Instances. */
+/** Defines the collection of SAP Central Services Instance resources. */
 export interface SAPCentralInstanceList {
-  /** Gets the list of SAP central instances. */
+  /** Gets the list of SAP central services instance resources. */
   value?: SAPCentralServerInstance[];
   /** Gets the value of next link. */
   nextLink?: string;
 }
 
-/** The Database VM Details. */
+/** Database VM details. */
 export interface DatabaseVmDetails {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly virtualMachineId?: string;
@@ -710,6 +733,11 @@ export interface DatabaseVmDetails {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: SAPVirtualInstanceStatus;
+  /**
+   * Storage details of all the Storage Accounts attached to the Database Virtual Machine. For e.g. NFS on AFS Shared Storage.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageDetails?: StorageInformation[];
 }
 
 /** Defines the request body for updating SAP Database Instance. */
@@ -732,9 +760,9 @@ export interface UpdateSAPApplicationInstanceRequest {
   tags?: { [propertyName: string]: string };
 }
 
-/** Defines the collection of SAP Application Server Instances. */
+/** Defines the collection of SAP Application Server Instance resources. */
 export interface SAPApplicationServerInstanceList {
-  /** Gets the list of SAP Application Server instances. */
+  /** Gets the list of SAP Application Server instance resources. */
   value?: SAPApplicationServerInstance[];
   /** Gets the value of next link. */
   nextLink?: string;
@@ -1030,6 +1058,30 @@ export interface OSProfile {
   osConfiguration?: OSConfigurationUnion;
 }
 
+/** The disk sku. */
+export interface DiskSku {
+  /** Defines the disk sku name. */
+  name?: DiskSkuName;
+}
+
+/** The disk configuration required for the selected volume. */
+export interface DiskVolumeConfiguration {
+  /** The total number of disks required for the concerned volume. */
+  count?: number;
+  /** The disk size in GB. */
+  sizeGB?: number;
+  /** The disk SKU details. */
+  sku?: DiskSku;
+}
+
+/** The Disk Configuration Details. */
+export interface DiskConfiguration {
+  /** The disk configuration for the db volume. For HANA, Required volumes are: ['hana/data', 'hana/log', hana/shared', 'usr/sap', 'os'], Optional volume : ['backup']. */
+  diskVolumeConfigurations?: {
+    [propertyName: string]: DiskVolumeConfiguration;
+  };
+}
+
 /** Defines the virtual machine configuration. */
 export interface VirtualMachineConfiguration {
   /** The virtual machine size. */
@@ -1040,9 +1092,9 @@ export interface VirtualMachineConfiguration {
   osProfile: OSProfile;
 }
 
-/** Defines the network configuration for SAP infrastructure */
+/** Defines the network configuration type for SAP system infrastructure that is being deployed */
 export interface NetworkConfiguration {
-  /** Specifies whether a secondary IP address should be added to the network interface on all VMs */
+  /** Specifies whether a secondary IP address should be added to the network interface on all VMs of the SAP system being deployed */
   isSecondaryIpEnabled?: boolean;
 }
 
@@ -1074,6 +1126,8 @@ export interface DatabaseConfiguration {
   virtualMachineConfiguration: VirtualMachineConfiguration;
   /** The number of database VMs. */
   instanceCount: number;
+  /** Gets or sets the disk configuration. */
+  diskConfiguration?: DiskConfiguration;
 }
 
 /** Gets or sets the application server configuration. */
@@ -1092,10 +1146,25 @@ export interface HighAvailabilityConfiguration {
   highAvailabilityType: SAPHighAvailabilityType;
 }
 
+/** File Share configuration details, populated with information on storage configuration mounted on the VIS. The createAndMount option is selected in case of missing input. */
+export interface FileShareConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  configurationType: "Skip" | "CreateAndMount" | "Mount";
+}
+
+/** Gets or sets the storage configuration. */
+export interface StorageConfiguration {
+  /** The properties of the transport directory attached to the VIS. The default for transportFileShareConfiguration is the createAndMount flow if storage configuration is missing. */
+  transportFileShareConfiguration?: FileShareConfigurationUnion;
+}
+
 /** The SAP Software configuration Input. */
 export interface SoftwareConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  softwareInstallationType: "ServiceInitiated" | "SAPInstallWithoutOSConfig";
+  softwareInstallationType:
+    | "ServiceInitiated"
+    | "SAPInstallWithoutOSConfig"
+    | "External";
 }
 
 /** Gets or sets the HA software configuration. */
@@ -1326,8 +1395,12 @@ export interface HanaDbProviderInstanceProperties
   dbPasswordUri?: string;
   /** Gets or sets the blob URI to SSL certificate for the DB. */
   dbSslCertificateUri?: string;
+  /** Gets or sets the blob URI to SSL certificate for the DB. */
+  sslCertificateUri?: string;
   /** Gets or sets the hostname(s) in the SSL certificate. */
   sslHostNameInCertificate?: string;
+  /** Gets or sets certificate preference if secure communication is enabled. */
+  sslPreference?: SslPreference;
 }
 
 /** Gets or sets the provider properties. */
@@ -1355,6 +1428,10 @@ export interface SapNetWeaverProviderInstanceProperties
   sapPortNumber?: string;
   /** Gets or sets the blob URI to SSL certificate for the SAP system. */
   sapSslCertificateUri?: string;
+  /** Gets or sets the blob URI to SSL certificate for the SAP system. */
+  sslCertificateUri?: string;
+  /** Gets or sets certificate preference if secure communication is enabled. */
+  sslPreference?: SslPreference;
 }
 
 /** Gets or sets the PrometheusOS provider properties. */
@@ -1364,6 +1441,10 @@ export interface PrometheusOSProviderInstanceProperties
   providerType: "PrometheusOS";
   /** URL of the Node Exporter endpoint */
   prometheusUrl?: string;
+  /** Gets or sets certificate preference if secure communication is enabled. */
+  sslPreference?: SslPreference;
+  /** Gets or sets the blob URI to SSL certificate for the prometheus node exporter. */
+  sslCertificateUri?: string;
 }
 
 /** Gets or sets the DB2 provider properties. */
@@ -1385,6 +1466,10 @@ export interface DB2ProviderInstanceProperties
   dbPasswordUri?: string;
   /** Gets or sets the SAP System Identifier */
   sapSid?: string;
+  /** Gets or sets certificate preference if secure communication is enabled. */
+  sslPreference?: SslPreference;
+  /** Gets or sets the blob URI to SSL certificate for the DB2 Database. */
+  sslCertificateUri?: string;
 }
 
 /** Gets or sets the PrometheusHaCluster provider properties. */
@@ -1400,6 +1485,10 @@ export interface PrometheusHaClusterProviderInstanceProperties
   sid?: string;
   /** Gets or sets the clusterName. */
   clusterName?: string;
+  /** Gets or sets certificate preference if secure communication is enabled. */
+  sslPreference?: SslPreference;
+  /** Gets or sets the blob URI to SSL certificate for the HA cluster exporter. */
+  sslCertificateUri?: string;
 }
 
 /** Gets or sets the SQL server provider properties. */
@@ -1419,6 +1508,10 @@ export interface MsSqlServerProviderInstanceProperties
   dbPasswordUri?: string;
   /** Gets or sets the SAP System Identifier */
   sapSid?: string;
+  /** Gets or sets certificate preference if secure communication is enabled. */
+  sslPreference?: SslPreference;
+  /** Gets or sets the blob URI to SSL certificate for the SQL Database. */
+  sslCertificateUri?: string;
 }
 
 /** Specifies Windows operating system settings on the virtual machine. */
@@ -1451,6 +1544,8 @@ export interface SingleServerConfiguration extends InfrastructureConfiguration {
   subnetId: string;
   /** Gets or sets the virtual machine configuration. */
   virtualMachineConfiguration: VirtualMachineConfiguration;
+  /** Gets or sets the disk configuration. */
+  dbDiskConfiguration?: DiskConfiguration;
 }
 
 /** Gets or sets the three tier SAP configuration. */
@@ -1467,6 +1562,35 @@ export interface ThreeTierConfiguration extends InfrastructureConfiguration {
   databaseServer: DatabaseConfiguration;
   /** The high availability configuration. */
   highAvailabilityConfig?: HighAvailabilityConfiguration;
+  /** The storage configuration. */
+  storageConfiguration?: StorageConfiguration;
+}
+
+/** Gets or sets the skip file share configuration */
+export interface SkipFileShareConfiguration extends FileShareConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  configurationType: "Skip";
+}
+
+/** Gets or sets the file share configuration for file share created with the VIS case. */
+export interface CreateAndMountFileShareConfiguration
+  extends FileShareConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  configurationType: "CreateAndMount";
+  /** The name of file share resource group. The app rg is used in case of missing input. */
+  resourceGroup?: string;
+  /** The name of file share storage account name . A custom name is used in case of missing input. */
+  storageAccountName?: string;
+}
+
+/** Gets or sets the file share configuration for externally mounted cases. */
+export interface MountFileShareConfiguration extends FileShareConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  configurationType: "Mount";
+  /** The fileshare resource ID */
+  id: string;
+  /** The private endpoint resource ID */
+  privateEndpointId: string;
 }
 
 /** The SAP Software configuration Input when the software is to be installed by service. */
@@ -1501,6 +1625,15 @@ export interface SAPInstallWithoutOSConfigSoftwareConfiguration
   softwareVersion: string;
   /** Gets or sets the HA software configuration. */
   highAvailabilitySoftwareConfiguration?: HighAvailabilitySoftwareConfiguration;
+}
+
+/** The SAP Software configuration Input when the software is installed externally outside the service. */
+export interface ExternalInstallationSoftwareConfiguration
+  extends SoftwareConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  softwareInstallationType: "External";
+  /** The resource ID of the virtual machine containing the central server instance. */
+  centralServerVmId?: string;
 }
 
 /** Display information of the operation. */
@@ -1548,7 +1681,7 @@ export interface PhpWorkloadResource extends TrackedResource {
   readonly provisioningState?: PhpWorkloadProvisioningState;
 }
 
-/** Define the Virtual Instance for SAP. */
+/** Define the Virtual Instance for SAP solutions resource. */
 export interface SAPVirtualInstance extends TrackedResource {
   /** Managed service identity (user assigned identities) */
   identity?: UserAssignedServiceIdentity;
@@ -1556,7 +1689,7 @@ export interface SAPVirtualInstance extends TrackedResource {
   environment: SAPEnvironmentType;
   /** Defines the SAP Product type. */
   sapProduct: SAPProductType;
-  /** Defines if an existing SAP system is being registered or a new SAP system is being created */
+  /** Defines if the SAP system is being created using Azure Center for SAP solutions (ACSS) or if an existing SAP system is being registered with ACSS */
   configuration: SAPConfigurationUnion;
   /** Managed resource group configuration */
   managedResourceGroupConfiguration?: ManagedRGConfiguration;
@@ -1566,7 +1699,7 @@ export interface SAPVirtualInstance extends TrackedResource {
    */
   readonly status?: SAPVirtualInstanceStatus;
   /**
-   * Defines the SAP Instance health.
+   * Defines the health of SAP Instances.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly health?: SAPHealthState;
@@ -1581,44 +1714,49 @@ export interface SAPVirtualInstance extends TrackedResource {
    */
   readonly provisioningState?: SapVirtualInstanceProvisioningState;
   /**
-   * Defines the Virtual Instance for SAP errors.
+   * Indicates any errors on the Virtual Instance for SAP solutions resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errors?: SAPVirtualInstanceError;
 }
 
-/** Define the SAP Central Server Instance. */
+/** Define the SAP Central Services Instance resource. */
 export interface SAPCentralServerInstance extends TrackedResource {
   /**
-   * The central server instance id.
+   * The central services instance number.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceNo?: string;
   /**
-   * The central server subnet.
+   * The central services instance subnet.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly subnet?: string;
-  /** Defines the SAP message server properties. */
+  /** Defines the SAP Message Server properties. */
   messageServerProperties?: MessageServerProperties;
-  /** Defines the SAP enqueue server properties. */
+  /** Defines the SAP Enqueue Server properties. */
   enqueueServerProperties?: EnqueueServerProperties;
   /** Defines the SAP Gateway Server properties. */
   gatewayServerProperties?: GatewayServerProperties;
-  /** Defines the SAP ERS Server properties. */
+  /** Defines the SAP Enqueue Replication Server (ERS) properties. */
   enqueueReplicationServerProperties?: EnqueueReplicationServerProperties;
   /**
-   * The central server kernel version.
+   * The central services instance Kernel Version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly kernelVersion?: string;
   /**
-   * The central server kernel patch.
+   * The central services instance Kernel Patch level.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly kernelPatch?: string;
   /**
-   * The list of virtual machines.
+   * The Load Balancer details such as LoadBalancer ID attached to ASCS Virtual Machines
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly loadBalancerDetails?: LoadBalancerDetails;
+  /**
+   * The list of virtual machines corresponding to the Central Services instance.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vmDetails?: CentralServerVmDetails[];
@@ -1628,7 +1766,7 @@ export interface SAPCentralServerInstance extends TrackedResource {
    */
   readonly status?: SAPVirtualInstanceStatus;
   /**
-   * Defines the SAP Instance health.
+   * Defines the health of SAP Instances.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly health?: SAPHealthState;
@@ -1638,36 +1776,41 @@ export interface SAPCentralServerInstance extends TrackedResource {
    */
   readonly provisioningState?: SapVirtualInstanceProvisioningState;
   /**
-   * Defines the Central Instance errors.
+   * Defines the errors related to SAP Central Services Instance resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errors?: SAPVirtualInstanceError;
 }
 
-/** Define the SAP Database Instance. */
+/** Define the Database resource. */
 export interface SAPDatabaseInstance extends TrackedResource {
   /**
-   * The database subnet.
+   * Database subnet.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly subnet?: string;
   /**
-   * The database SID.
+   * Database SID name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly databaseSid?: string;
   /**
-   * The SAP database type.
+   * Database type, that is if the DB is HANA, DB2, Oracle, SAP ASE, Max DB or MS SQL Server.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly databaseType?: string;
   /**
-   * The database IP Address.
+   * Database IP Address.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipAddress?: string;
   /**
-   * The list of virtual machines.
+   * The Load Balancer details such as LoadBalancer ID attached to Database Virtual Machines
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly loadBalancerDetails?: LoadBalancerDetails;
+  /**
+   * The list of virtual machines corresponding to the Database resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vmDetails?: DatabaseVmDetails[];
@@ -1682,56 +1825,56 @@ export interface SAPDatabaseInstance extends TrackedResource {
    */
   readonly provisioningState?: SapVirtualInstanceProvisioningState;
   /**
-   * Defines the Database Instance errors.
+   * Defines the errors related to Database resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errors?: SAPVirtualInstanceError;
 }
 
-/** Define the SAP Application Server Instance. */
+/** Define the SAP Application Server Instance resource. */
 export interface SAPApplicationServerInstance extends TrackedResource {
   /**
-   * The application server instance id.
+   * Application server Instance Number.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceNo?: string;
   /**
-   * The application server subnet.
+   * Application server Subnet.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly subnet?: string;
   /**
-   * The application server SAP host name.
+   * Application server instance SAP hostname.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hostname?: string;
   /**
-   * The application server SAP kernel version.
+   *  Application server instance SAP Kernel Version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly kernelVersion?: string;
   /**
-   * The application server SAP kernel patch.
+   * Application server instance SAP Kernel Patch level.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly kernelPatch?: string;
   /**
-   * The application server SAP IP Address.
+   *  Application server instance SAP IP Address.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipAddress?: string;
   /**
-   * The application server gateway Port.
+   * Application server instance gateway Port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly gatewayPort?: number;
   /**
-   * The application server ICM HTTP Port.
+   * Application server instance ICM HTTP Port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly icmHttpPort?: number;
   /**
-   * The application server ICM HTTPS Port.
+   * Application server instance ICM HTTPS Port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly icmHttpsPort?: number;
@@ -1746,7 +1889,12 @@ export interface SAPApplicationServerInstance extends TrackedResource {
    */
   readonly status?: SAPVirtualInstanceStatus;
   /**
-   * Defines the SAP Instance health.
+   * Storage details of all the Storage Accounts attached to the App Virtual Machine. For e.g. NFS on AFS Shared Storage.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageDetails?: StorageInformation[];
+  /**
+   * Defines the health of SAP Instances.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly health?: SAPHealthState;
@@ -1780,6 +1928,8 @@ export interface Monitor extends TrackedResource {
   appLocation?: string;
   /** Sets the routing preference of the SAP monitor. By default only RFC1918 traffic is routed to the customer VNET. */
   routingPreference?: RoutingPreference;
+  /** Sets the preference for zone redundancy on resources created for the SAP monitor. By default resources will be created which do not support zone redundancy. */
+  zoneRedundancyPreference?: string;
   /** Managed resource group configuration */
   managedResourceGroupConfiguration?: ManagedRGConfiguration;
   /** The ARM ID of the Log Analytics Workspace that is used for SAP monitoring. */
@@ -1791,6 +1941,11 @@ export interface Monitor extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly msiArmId?: string;
+  /**
+   * The ARM ID of the Storage account used for SAP monitoring.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageAccountArmId?: string;
 }
 
 /** WordPress instance resource */
@@ -2442,6 +2597,10 @@ export enum KnownSAPVirtualInstanceState {
   SoftwareInstallationInProgress = "SoftwareInstallationInProgress",
   /** SoftwareInstallationFailed */
   SoftwareInstallationFailed = "SoftwareInstallationFailed",
+  /** SoftwareDetectionInProgress */
+  SoftwareDetectionInProgress = "SoftwareDetectionInProgress",
+  /** SoftwareDetectionFailed */
+  SoftwareDetectionFailed = "SoftwareDetectionFailed",
   /** DiscoveryPending */
   DiscoveryPending = "DiscoveryPending",
   /** DiscoveryInProgress */
@@ -2463,6 +2622,8 @@ export enum KnownSAPVirtualInstanceState {
  * **SoftwareInstallationPending** \
  * **SoftwareInstallationInProgress** \
  * **SoftwareInstallationFailed** \
+ * **SoftwareDetectionInProgress** \
+ * **SoftwareDetectionFailed** \
  * **DiscoveryPending** \
  * **DiscoveryInProgress** \
  * **DiscoveryFailed** \
@@ -2713,12 +2874,68 @@ export enum KnownOSType {
  */
 export type OSType = string;
 
+/** Known values of {@link DiskSkuName} that the service accepts. */
+export enum KnownDiskSkuName {
+  /** StandardLRS */
+  StandardLRS = "Standard_LRS",
+  /** PremiumLRS */
+  PremiumLRS = "Premium_LRS",
+  /** StandardSSDLRS */
+  StandardSSDLRS = "StandardSSD_LRS",
+  /** UltraSSDLRS */
+  UltraSSDLRS = "UltraSSD_LRS",
+  /** PremiumZRS */
+  PremiumZRS = "Premium_ZRS",
+  /** StandardSSDZRS */
+  StandardSSDZRS = "StandardSSD_ZRS",
+  /** PremiumV2LRS */
+  PremiumV2LRS = "PremiumV2_LRS"
+}
+
+/**
+ * Defines values for DiskSkuName. \
+ * {@link KnownDiskSkuName} can be used interchangeably with DiskSkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard_LRS** \
+ * **Premium_LRS** \
+ * **StandardSSD_LRS** \
+ * **UltraSSD_LRS** \
+ * **Premium_ZRS** \
+ * **StandardSSD_ZRS** \
+ * **PremiumV2_LRS**
+ */
+export type DiskSkuName = string;
+
+/** Known values of {@link ConfigurationType} that the service accepts. */
+export enum KnownConfigurationType {
+  /** Skip */
+  Skip = "Skip",
+  /** CreateAndMount */
+  CreateAndMount = "CreateAndMount",
+  /** Mount */
+  Mount = "Mount"
+}
+
+/**
+ * Defines values for ConfigurationType. \
+ * {@link KnownConfigurationType} can be used interchangeably with ConfigurationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Skip** \
+ * **CreateAndMount** \
+ * **Mount**
+ */
+export type ConfigurationType = string;
+
 /** Known values of {@link SAPSoftwareInstallationType} that the service accepts. */
 export enum KnownSAPSoftwareInstallationType {
   /** ServiceInitiated */
   ServiceInitiated = "ServiceInitiated",
   /** SAPInstallWithoutOSConfig */
-  SAPInstallWithoutOSConfig = "SAPInstallWithoutOSConfig"
+  SAPInstallWithoutOSConfig = "SAPInstallWithoutOSConfig",
+  /** External */
+  External = "External"
 }
 
 /**
@@ -2727,7 +2944,8 @@ export enum KnownSAPSoftwareInstallationType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **ServiceInitiated** \
- * **SAPInstallWithoutOSConfig**
+ * **SAPInstallWithoutOSConfig** \
+ * **External**
  */
 export type SAPSoftwareInstallationType = string;
 
@@ -2769,6 +2987,27 @@ export enum KnownWorkloadMonitorActionType {
  * **Internal**
  */
 export type WorkloadMonitorActionType = string;
+
+/** Known values of {@link SslPreference} that the service accepts. */
+export enum KnownSslPreference {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** RootCertificate */
+  RootCertificate = "RootCertificate",
+  /** ServerCertificate */
+  ServerCertificate = "ServerCertificate"
+}
+
+/**
+ * Defines values for SslPreference. \
+ * {@link KnownSslPreference} can be used interchangeably with SslPreference,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **RootCertificate** \
+ * **ServerCertificate**
+ */
+export type SslPreference = string;
 
 /** Known values of {@link SkuScaleType} that the service accepts. */
 export enum KnownSkuScaleType {
@@ -2945,7 +3184,7 @@ export type SAPAvailabilityZoneDetailsResponse = SAPAvailabilityZoneDetailsResul
 /** Optional parameters. */
 export interface SAPVirtualInstancesCreateOptionalParams
   extends coreClient.OperationOptions {
-  /** The Virtual Instance for SAP request body. */
+  /** Virtual Instance for SAP solutions resource request body. */
   body?: SAPVirtualInstance;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -2966,7 +3205,7 @@ export type SAPVirtualInstancesGetResponse = SAPVirtualInstance;
 /** Optional parameters. */
 export interface SAPVirtualInstancesUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The Update Virtual Instance for SAP request body. */
+  /** Request body to update a Virtual Instance for SAP solutions resource. */
   body?: UpdateSAPVirtualInstanceRequest;
 }
 
@@ -3014,7 +3253,7 @@ export type SAPVirtualInstancesStartResponse = OperationStatusResult;
 /** Optional parameters. */
 export interface SAPVirtualInstancesStopOptionalParams
   extends coreClient.OperationOptions {
-  /** The Virtual Instances for SAP stop request body. */
+  /** The Virtual Instance for SAP solutions resource stop request body. */
   body?: StopRequest;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3049,7 +3288,7 @@ export type SAPCentralInstancesGetResponse = SAPCentralServerInstance;
 /** Optional parameters. */
 export interface SAPCentralInstancesCreateOptionalParams
   extends coreClient.OperationOptions {
-  /** The SAP Central Server instance request body. */
+  /** The SAP Central Services Instance request body. */
   body?: SAPCentralServerInstance;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3063,7 +3302,7 @@ export type SAPCentralInstancesCreateResponse = SAPCentralServerInstance;
 /** Optional parameters. */
 export interface SAPCentralInstancesUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The SAP Central Server instance request body. */
+  /** The SAP Central Services Instance resource request body. */
   body?: UpdateSAPCentralInstanceRequest;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3110,7 +3349,7 @@ export type SAPDatabaseInstancesGetResponse = SAPDatabaseInstance;
 /** Optional parameters. */
 export interface SAPDatabaseInstancesCreateOptionalParams
   extends coreClient.OperationOptions {
-  /** The SAP Database Server instance request body. */
+  /** Request body of Database resource of a SAP system. */
   body?: SAPDatabaseInstance;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3124,7 +3363,7 @@ export type SAPDatabaseInstancesCreateResponse = SAPDatabaseInstance;
 /** Optional parameters. */
 export interface SAPDatabaseInstancesUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The SAP Database Server instance request body. */
+  /** Database resource update request body. */
   body?: UpdateSAPDatabaseInstanceRequest;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3171,7 +3410,7 @@ export type SAPApplicationServerInstancesGetResponse = SAPApplicationServerInsta
 /** Optional parameters. */
 export interface SAPApplicationServerInstancesCreateOptionalParams
   extends coreClient.OperationOptions {
-  /** The SAP Application Server instance request body. */
+  /** The SAP Application Server Instance resource request body. */
   body?: SAPApplicationServerInstance;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3185,7 +3424,7 @@ export type SAPApplicationServerInstancesCreateResponse = SAPApplicationServerIn
 /** Optional parameters. */
 export interface SAPApplicationServerInstancesUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The SAP Application Server instance request body. */
+  /** The SAP Application Server Instance resource request body. */
   body?: UpdateSAPApplicationInstanceRequest;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;

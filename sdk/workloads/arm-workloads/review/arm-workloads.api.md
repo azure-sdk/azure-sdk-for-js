@@ -53,8 +53,19 @@ export type CentralServerVirtualMachineType = string;
 
 // @public
 export interface CentralServerVmDetails {
+    readonly storageDetails?: StorageInformation[];
     readonly type?: CentralServerVirtualMachineType;
     readonly virtualMachineId?: string;
+}
+
+// @public
+export type ConfigurationType = string;
+
+// @public
+export interface CreateAndMountFileShareConfiguration extends FileShareConfiguration {
+    configurationType: "CreateAndMount";
+    resourceGroup?: string;
+    storageAccountName?: string;
 }
 
 // @public
@@ -63,6 +74,7 @@ export type CreatedByType = string;
 // @public
 export interface DatabaseConfiguration {
     databaseType?: SAPDatabaseType;
+    diskConfiguration?: DiskConfiguration;
     instanceCount: number;
     subnetId: string;
     virtualMachineConfiguration: VirtualMachineConfiguration;
@@ -93,6 +105,7 @@ export type DatabaseType = string;
 // @public
 export interface DatabaseVmDetails {
     readonly status?: SAPVirtualInstanceStatus;
+    readonly storageDetails?: StorageInformation[];
     readonly virtualMachineId?: string;
 }
 
@@ -106,6 +119,8 @@ export interface DB2ProviderInstanceProperties extends ProviderSpecificPropertie
     hostname?: string;
     providerType: "Db2";
     sapSid?: string;
+    sslCertificateUri?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
@@ -139,13 +154,35 @@ export interface DiscoveryConfiguration extends SAPConfiguration {
 }
 
 // @public
+export interface DiskConfiguration {
+    diskVolumeConfigurations?: {
+        [propertyName: string]: DiskVolumeConfiguration;
+    };
+}
+
+// @public
 export interface DiskInfo {
     sizeInGB?: number;
     storageType: DiskStorageType;
 }
 
 // @public
+export interface DiskSku {
+    name?: DiskSkuName;
+}
+
+// @public
+export type DiskSkuName = string;
+
+// @public
 export type DiskStorageType = "Premium_LRS" | "Standard_LRS" | "StandardSSD_LRS";
+
+// @public
+export interface DiskVolumeConfiguration {
+    count?: number;
+    sizeGB?: number;
+    sku?: DiskSku;
+}
 
 // @public
 export type EnableBackup = string;
@@ -217,6 +254,20 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface ExternalInstallationSoftwareConfiguration extends SoftwareConfiguration {
+    centralServerVmId?: string;
+    softwareInstallationType: "External";
+}
+
+// @public
+export interface FileShareConfiguration {
+    configurationType: "Skip" | "CreateAndMount" | "Mount";
+}
+
+// @public (undocumented)
+export type FileShareConfigurationUnion = FileShareConfiguration | SkipFileShareConfiguration | CreateAndMountFileShareConfiguration | MountFileShareConfiguration;
+
+// @public
 export interface FileshareProfile {
     readonly shareName?: string;
     shareSizeInGB?: number;
@@ -251,7 +302,9 @@ export interface HanaDbProviderInstanceProperties extends ProviderSpecificProper
     instanceNumber?: string;
     providerType: "SapHana";
     sqlPort?: string;
+    sslCertificateUri?: string;
     sslHostNameInCertificate?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
@@ -318,6 +371,13 @@ export enum KnownCentralServerVirtualMachineType {
 }
 
 // @public
+export enum KnownConfigurationType {
+    CreateAndMount = "CreateAndMount",
+    Mount = "Mount",
+    Skip = "Skip"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -328,6 +388,17 @@ export enum KnownCreatedByType {
 // @public
 export enum KnownDatabaseType {
     MySql = "MySql"
+}
+
+// @public
+export enum KnownDiskSkuName {
+    PremiumLRS = "Premium_LRS",
+    PremiumV2LRS = "PremiumV2_LRS",
+    PremiumZRS = "Premium_ZRS",
+    StandardLRS = "Standard_LRS",
+    StandardSSDLRS = "StandardSSD_LRS",
+    StandardSSDZRS = "StandardSSD_ZRS",
+    UltraSSDLRS = "UltraSSD_LRS"
 }
 
 // @public
@@ -513,6 +584,7 @@ export enum KnownSAPProductType {
 
 // @public
 export enum KnownSAPSoftwareInstallationType {
+    External = "External",
     SAPInstallWithoutOSConfig = "SAPInstallWithoutOSConfig",
     ServiceInitiated = "ServiceInitiated"
 }
@@ -535,6 +607,8 @@ export enum KnownSAPVirtualInstanceState {
     InfrastructureDeploymentInProgress = "InfrastructureDeploymentInProgress",
     InfrastructureDeploymentPending = "InfrastructureDeploymentPending",
     RegistrationComplete = "RegistrationComplete",
+    SoftwareDetectionFailed = "SoftwareDetectionFailed",
+    SoftwareDetectionInProgress = "SoftwareDetectionInProgress",
     SoftwareInstallationFailed = "SoftwareInstallationFailed",
     SoftwareInstallationInProgress = "SoftwareInstallationInProgress",
     SoftwareInstallationPending = "SoftwareInstallationPending"
@@ -577,6 +651,13 @@ export enum KnownSkuScaleType {
 }
 
 // @public
+export enum KnownSslPreference {
+    Disabled = "Disabled",
+    RootCertificate = "RootCertificate",
+    ServerCertificate = "ServerCertificate"
+}
+
+// @public
 export enum KnownWordpressVersions {
     Five4 = "5.4",
     Five41 = "5.4.1",
@@ -615,6 +696,11 @@ export interface LinuxConfiguration extends OSConfiguration {
 }
 
 // @public
+export interface LoadBalancerDetails {
+    readonly id?: string;
+}
+
+// @public
 export type LoadBalancerType = string;
 
 // @public
@@ -650,6 +736,8 @@ export interface Monitor extends TrackedResource {
     readonly msiArmId?: string;
     readonly provisioningState?: WorkloadMonitorProvisioningState;
     routingPreference?: RoutingPreference;
+    readonly storageAccountArmId?: string;
+    zoneRedundancyPreference?: string;
 }
 
 // @public
@@ -735,6 +823,13 @@ export interface MonitorsUpdateOptionalParams extends coreClient.OperationOption
 export type MonitorsUpdateResponse = Monitor;
 
 // @public
+export interface MountFileShareConfiguration extends FileShareConfiguration {
+    configurationType: "Mount";
+    id: string;
+    privateEndpointId: string;
+}
+
+// @public
 export interface MsSqlServerProviderInstanceProperties extends ProviderSpecificProperties {
     dbPassword?: string;
     dbPasswordUri?: string;
@@ -743,6 +838,8 @@ export interface MsSqlServerProviderInstanceProperties extends ProviderSpecificP
     hostname?: string;
     providerType: "MsSqlServer";
     sapSid?: string;
+    sslCertificateUri?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
@@ -1048,12 +1145,16 @@ export interface PrometheusHaClusterProviderInstanceProperties extends ProviderS
     prometheusUrl?: string;
     providerType: "PrometheusHaCluster";
     sid?: string;
+    sslCertificateUri?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
 export interface PrometheusOSProviderInstanceProperties extends ProviderSpecificProperties {
     prometheusUrl?: string;
     providerType: "PrometheusOS";
+    sslCertificateUri?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
@@ -1169,6 +1270,7 @@ export interface SAPApplicationServerInstance extends TrackedResource {
     readonly kernelVersion?: string;
     readonly provisioningState?: SapVirtualInstanceProvisioningState;
     readonly status?: SAPVirtualInstanceStatus;
+    readonly storageDetails?: StorageInformation[];
     readonly subnet?: string;
     readonly virtualMachineId?: string;
 }
@@ -1345,6 +1447,7 @@ export interface SAPCentralServerInstance extends TrackedResource {
     readonly instanceNo?: string;
     readonly kernelPatch?: string;
     readonly kernelVersion?: string;
+    readonly loadBalancerDetails?: LoadBalancerDetails;
     messageServerProperties?: MessageServerProperties;
     readonly provisioningState?: SapVirtualInstanceProvisioningState;
     readonly status?: SAPVirtualInstanceStatus;
@@ -1369,6 +1472,7 @@ export interface SAPDatabaseInstance extends TrackedResource {
     readonly databaseType?: string;
     readonly errors?: SAPVirtualInstanceError;
     readonly ipAddress?: string;
+    readonly loadBalancerDetails?: LoadBalancerDetails;
     readonly provisioningState?: SapVirtualInstanceProvisioningState;
     readonly status?: SAPVirtualInstanceStatus;
     readonly subnet?: string;
@@ -1517,6 +1621,8 @@ export interface SapNetWeaverProviderInstanceProperties extends ProviderSpecific
     sapSid?: string;
     sapSslCertificateUri?: string;
     sapUsername?: string;
+    sslCertificateUri?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
@@ -1737,6 +1843,7 @@ export interface ServiceInitiatedSoftwareConfiguration extends SoftwareConfigura
 // @public
 export interface SingleServerConfiguration extends InfrastructureConfiguration {
     databaseType?: SAPDatabaseType;
+    dbDiskConfiguration?: DiskConfiguration;
     deploymentType: "SingleServer";
     networkConfiguration?: NetworkConfiguration;
     subnetId: string;
@@ -1752,6 +1859,11 @@ export interface SingleServerRecommendationResult extends SAPSizingRecommendatio
 // @public
 export interface SiteProfile {
     domainName?: string;
+}
+
+// @public
+export interface SkipFileShareConfiguration extends FileShareConfiguration {
+    configurationType: "Skip";
 }
 
 // @public
@@ -1862,11 +1974,11 @@ export interface SkuZoneDetail {
 
 // @public
 export interface SoftwareConfiguration {
-    softwareInstallationType: "ServiceInitiated" | "SAPInstallWithoutOSConfig";
+    softwareInstallationType: "ServiceInitiated" | "SAPInstallWithoutOSConfig" | "External";
 }
 
 // @public (undocumented)
-export type SoftwareConfigurationUnion = SoftwareConfiguration | ServiceInitiatedSoftwareConfiguration | SAPInstallWithoutOSConfigSoftwareConfiguration;
+export type SoftwareConfigurationUnion = SoftwareConfiguration | ServiceInitiatedSoftwareConfiguration | SAPInstallWithoutOSConfigSoftwareConfiguration | ExternalInstallationSoftwareConfiguration;
 
 // @public
 export interface SshConfiguration {
@@ -1885,8 +1997,21 @@ export interface SshPublicKey {
 }
 
 // @public
+export type SslPreference = string;
+
+// @public
 export interface StopRequest {
     hardStop?: boolean;
+}
+
+// @public
+export interface StorageConfiguration {
+    transportFileShareConfiguration?: FileShareConfigurationUnion;
+}
+
+// @public
+export interface StorageInformation {
+    readonly id?: string;
 }
 
 // @public
@@ -1914,6 +2039,7 @@ export interface ThreeTierConfiguration extends InfrastructureConfiguration {
     deploymentType: "ThreeTier";
     highAvailabilityConfig?: HighAvailabilityConfiguration;
     networkConfiguration?: NetworkConfiguration;
+    storageConfiguration?: StorageConfiguration;
 }
 
 // @public
