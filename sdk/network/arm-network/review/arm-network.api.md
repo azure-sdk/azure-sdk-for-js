@@ -1900,6 +1900,7 @@ export interface BackendAddressPool extends SubResource {
     readonly provisioningState?: ProvisioningState;
     tunnelInterfaces?: GatewayLoadBalancerTunnelInterface[];
     readonly type?: string;
+    virtualNetwork?: SubResource;
 }
 
 // @public
@@ -2916,7 +2917,7 @@ export interface DdosProtectionPlan {
     location?: string;
     readonly name?: string;
     readonly provisioningState?: ProvisioningState;
-    readonly publicIpAddresses?: SubResource[];
+    readonly publicIPAddresses?: SubResource[];
     readonly resourceGuid?: string;
     tags?: {
         [propertyName: string]: string;
@@ -2951,6 +2952,11 @@ export interface DdosProtectionPlansCreateOrUpdateOptionalParams extends coreCli
 
 // @public
 export type DdosProtectionPlansCreateOrUpdateResponse = DdosProtectionPlan;
+
+// @public
+export interface DdosProtectionPlansDeleteHeaders {
+    location?: string;
+}
 
 // @public
 export interface DdosProtectionPlansDeleteOptionalParams extends coreClient.OperationOptions {
@@ -3060,6 +3066,12 @@ export interface Delegation extends SubResource {
     readonly provisioningState?: ProvisioningState;
     serviceName?: string;
     type?: string;
+}
+
+// @public
+export interface DelegationProperties {
+    readonly provisioningState?: ProvisioningState;
+    serviceName?: string;
 }
 
 // @public
@@ -9449,10 +9461,13 @@ export interface NetworkVirtualAppliance extends Resource {
     bootStrapConfigurationBlobs?: string[];
     cloudInitConfiguration?: string;
     cloudInitConfigurationBlobs?: string[];
+    delegation?: DelegationProperties;
+    readonly deploymentType?: string;
     readonly etag?: string;
     identity?: ManagedServiceIdentity;
     readonly inboundSecurityRules?: SubResource[];
     nvaSku?: VirtualApplianceSkuProperties;
+    partnerManagedResource?: PartnerManagedResourceProperties;
     readonly provisioningState?: ProvisioningState;
     sshPublicKey?: string;
     virtualApplianceAsn?: number;
@@ -10204,6 +10219,13 @@ export interface Parameter {
 }
 
 // @public
+export interface PartnerManagedResourceProperties {
+    readonly id?: string;
+    readonly internalLoadBalancerId?: string;
+    readonly standardLoadBalancerId?: string;
+}
+
+// @public
 export interface PatchObject {
     tags?: {
         [propertyName: string]: string;
@@ -10311,6 +10333,8 @@ export type PfsGroup = string;
 
 // @public
 export interface PolicySettings {
+    customBlockResponseBody?: string;
+    customBlockResponseStatusCode?: number;
     fileUploadLimitInMb?: number;
     maxRequestBodySizeInKb?: number;
     mode?: WebApplicationFirewallMode;
@@ -10830,6 +10854,11 @@ export interface PublicIPAddressesCreateOrUpdateOptionalParams extends coreClien
 export type PublicIPAddressesCreateOrUpdateResponse = PublicIPAddress;
 
 // @public
+export interface PublicIPAddressesDdosProtectionStatusHeaders {
+    location?: string;
+}
+
+// @public
 export interface PublicIPAddressesDdosProtectionStatusOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -10837,6 +10866,11 @@ export interface PublicIPAddressesDdosProtectionStatusOptionalParams extends cor
 
 // @public
 export type PublicIPAddressesDdosProtectionStatusResponse = PublicIpDdosProtectionStatusResult;
+
+// @public
+export interface PublicIPAddressesDeleteHeaders {
+    location?: string;
+}
 
 // @public
 export interface PublicIPAddressesDeleteOptionalParams extends coreClient.OperationOptions {

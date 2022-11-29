@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for NetworkManagementClient.",
-  "version": "30.0.1",
+  "version": "31.0.0",
   "engines": {
     "node": ">=14.0.0"
   },
@@ -109,13 +109,5 @@
       }
     ]
   },
-  "autoPublish": true,
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-network?view=azure-node-preview"
-  }
+  "autoPublish": true
 }
