@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PipelineRuns } from "../operationsInterfaces";
+import { CacheRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,25 +15,28 @@ import { ContainerRegistryManagementClient } from "../containerRegistryManagemen
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  PipelineRun,
-  PipelineRunsListNextOptionalParams,
-  PipelineRunsListOptionalParams,
-  PipelineRunsListResponse,
-  PipelineRunsGetOptionalParams,
-  PipelineRunsGetResponse,
-  PipelineRunsCreateOptionalParams,
-  PipelineRunsCreateResponse,
-  PipelineRunsDeleteOptionalParams,
-  PipelineRunsListNextResponse
+  CacheRule,
+  CacheRulesListAsyncNextOptionalParams,
+  CacheRulesListAsyncOptionalParams,
+  CacheRulesListAsyncResponse,
+  CacheRulesGetAsyncOptionalParams,
+  CacheRulesGetAsyncResponse,
+  CacheRulesCreateOptionalParams,
+  CacheRulesCreateResponse,
+  CacheRulesDeleteOptionalParams,
+  CacheRuleUpdateParameters,
+  CacheRulesUpdateOptionalParams,
+  CacheRulesUpdateResponse,
+  CacheRulesListAsyncNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing PipelineRuns operations. */
-export class PipelineRunsImpl implements PipelineRuns {
+/** Class containing CacheRules operations. */
+export class CacheRulesImpl implements CacheRules {
   private readonly client: ContainerRegistryManagementClient;
 
   /**
-   * Initialize a new instance of the class PipelineRuns class.
+   * Initialize a new instance of the class CacheRules class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerRegistryManagementClient) {
@@ -41,17 +44,21 @@ export class PipelineRunsImpl implements PipelineRuns {
   }
 
   /**
-   * Lists all the pipeline runs for the specified container registry.
+   * Lists all cache rule resources for the specified container registry.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
-  public list(
+  public listAsync(
     resourceGroupName: string,
     registryName: string,
-    options?: PipelineRunsListOptionalParams
-  ): PagedAsyncIterableIterator<PipelineRun> {
-    const iter = this.listPagingAll(resourceGroupName, registryName, options);
+    options?: CacheRulesListAsyncOptionalParams
+  ): PagedAsyncIterableIterator<CacheRule> {
+    const iter = this.listAsyncPagingAll(
+      resourceGroupName,
+      registryName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -60,21 +67,29 @@ export class PipelineRunsImpl implements PipelineRuns {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(resourceGroupName, registryName, options);
+        return this.listAsyncPagingPage(
+          resourceGroupName,
+          registryName,
+          options
+        );
       }
     };
   }
 
-  private async *listPagingPage(
+  private async *listAsyncPagingPage(
     resourceGroupName: string,
     registryName: string,
-    options?: PipelineRunsListOptionalParams
-  ): AsyncIterableIterator<PipelineRun[]> {
-    let result = await this._list(resourceGroupName, registryName, options);
+    options?: CacheRulesListAsyncOptionalParams
+  ): AsyncIterableIterator<CacheRule[]> {
+    let result = await this._listAsync(
+      resourceGroupName,
+      registryName,
+      options
+    );
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listNext(
+      result = await this._listAsyncNext(
         resourceGroupName,
         registryName,
         continuationToken,
@@ -85,12 +100,12 @@ export class PipelineRunsImpl implements PipelineRuns {
     }
   }
 
-  private async *listPagingAll(
+  private async *listAsyncPagingAll(
     resourceGroupName: string,
     registryName: string,
-    options?: PipelineRunsListOptionalParams
-  ): AsyncIterableIterator<PipelineRun> {
-    for await (const page of this.listPagingPage(
+    options?: CacheRulesListAsyncOptionalParams
+  ): AsyncIterableIterator<CacheRule> {
+    for await (const page of this.listAsyncPagingPage(
       resourceGroupName,
       registryName,
       options
@@ -100,65 +115,65 @@ export class PipelineRunsImpl implements PipelineRuns {
   }
 
   /**
-   * Lists all the pipeline runs for the specified container registry.
+   * Lists all cache rule resources for the specified container registry.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
-  private _list(
+  private _listAsync(
     resourceGroupName: string,
     registryName: string,
-    options?: PipelineRunsListOptionalParams
-  ): Promise<PipelineRunsListResponse> {
+    options?: CacheRulesListAsyncOptionalParams
+  ): Promise<CacheRulesListAsyncResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, options },
-      listOperationSpec
+      listAsyncOperationSpec
     );
   }
 
   /**
-   * Gets the detailed information for a given pipeline run.
+   * Gets the properties of the specified cache rule resource.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
-   * @param pipelineRunName The name of the pipeline run.
+   * @param cacheRuleName The name of the cache rule.
    * @param options The options parameters.
    */
-  get(
+  getAsync(
     resourceGroupName: string,
     registryName: string,
-    pipelineRunName: string,
-    options?: PipelineRunsGetOptionalParams
-  ): Promise<PipelineRunsGetResponse> {
+    cacheRuleName: string,
+    options?: CacheRulesGetAsyncOptionalParams
+  ): Promise<CacheRulesGetAsyncResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, pipelineRunName, options },
-      getOperationSpec
+      { resourceGroupName, registryName, cacheRuleName, options },
+      getAsyncOperationSpec
     );
   }
 
   /**
-   * Creates a pipeline run for a container registry with the specified parameters
+   * Creates a cache rule for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
-   * @param pipelineRunName The name of the pipeline run.
-   * @param pipelineRunCreateParameters The parameters for creating a pipeline run.
+   * @param cacheRuleName The name of the cache rule.
+   * @param cacheRuleCreateParameters The parameters for creating a cache rule.
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
     registryName: string,
-    pipelineRunName: string,
-    pipelineRunCreateParameters: PipelineRun,
-    options?: PipelineRunsCreateOptionalParams
+    cacheRuleName: string,
+    cacheRuleCreateParameters: CacheRule,
+    options?: CacheRulesCreateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<PipelineRunsCreateResponse>,
-      PipelineRunsCreateResponse
+      PollOperationState<CacheRulesCreateResponse>,
+      CacheRulesCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<PipelineRunsCreateResponse> => {
+    ): Promise<CacheRulesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -199,8 +214,8 @@ export class PipelineRunsImpl implements PipelineRuns {
       {
         resourceGroupName,
         registryName,
-        pipelineRunName,
-        pipelineRunCreateParameters,
+        cacheRuleName,
+        cacheRuleCreateParameters,
         options
       },
       createOperationSpec
@@ -215,42 +230,42 @@ export class PipelineRunsImpl implements PipelineRuns {
   }
 
   /**
-   * Creates a pipeline run for a container registry with the specified parameters
+   * Creates a cache rule for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
-   * @param pipelineRunName The name of the pipeline run.
-   * @param pipelineRunCreateParameters The parameters for creating a pipeline run.
+   * @param cacheRuleName The name of the cache rule.
+   * @param cacheRuleCreateParameters The parameters for creating a cache rule.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
     registryName: string,
-    pipelineRunName: string,
-    pipelineRunCreateParameters: PipelineRun,
-    options?: PipelineRunsCreateOptionalParams
-  ): Promise<PipelineRunsCreateResponse> {
+    cacheRuleName: string,
+    cacheRuleCreateParameters: CacheRule,
+    options?: CacheRulesCreateOptionalParams
+  ): Promise<CacheRulesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       registryName,
-      pipelineRunName,
-      pipelineRunCreateParameters,
+      cacheRuleName,
+      cacheRuleCreateParameters,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes a pipeline run from a container registry.
+   * Deletes a cache rule resource from a container registry.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
-   * @param pipelineRunName The name of the pipeline run.
+   * @param cacheRuleName The name of the cache rule.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     registryName: string,
-    pipelineRunName: string,
-    options?: PipelineRunsDeleteOptionalParams
+    cacheRuleName: string,
+    options?: CacheRulesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -293,7 +308,7 @@ export class PipelineRunsImpl implements PipelineRuns {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, registryName, pipelineRunName, options },
+      { resourceGroupName, registryName, cacheRuleName, options },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -306,56 +321,159 @@ export class PipelineRunsImpl implements PipelineRuns {
   }
 
   /**
-   * Deletes a pipeline run from a container registry.
+   * Deletes a cache rule resource from a container registry.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
-   * @param pipelineRunName The name of the pipeline run.
+   * @param cacheRuleName The name of the cache rule.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     registryName: string,
-    pipelineRunName: string,
-    options?: PipelineRunsDeleteOptionalParams
+    cacheRuleName: string,
+    options?: CacheRulesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       registryName,
-      pipelineRunName,
+      cacheRuleName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListNext
+   * Updates a cache rule for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param cacheRuleName The name of the cache rule.
+   * @param cacheRuleUpdateParameters The parameters for updating a cache rule.
    * @param options The options parameters.
    */
-  private _listNext(
+  async beginUpdate(
+    resourceGroupName: string,
+    registryName: string,
+    cacheRuleName: string,
+    cacheRuleUpdateParameters: CacheRuleUpdateParameters,
+    options?: CacheRulesUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CacheRulesUpdateResponse>,
+      CacheRulesUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<CacheRulesUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        registryName,
+        cacheRuleName,
+        cacheRuleUpdateParameters,
+        options
+      },
+      updateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates a cache rule for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param cacheRuleName The name of the cache rule.
+   * @param cacheRuleUpdateParameters The parameters for updating a cache rule.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    registryName: string,
+    cacheRuleName: string,
+    cacheRuleUpdateParameters: CacheRuleUpdateParameters,
+    options?: CacheRulesUpdateOptionalParams
+  ): Promise<CacheRulesUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      registryName,
+      cacheRuleName,
+      cacheRuleUpdateParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * ListAsyncNext
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param nextLink The nextLink from the previous successful call to the ListAsync method.
+   * @param options The options parameters.
+   */
+  private _listAsyncNext(
     resourceGroupName: string,
     registryName: string,
     nextLink: string,
-    options?: PipelineRunsListNextOptionalParams
-  ): Promise<PipelineRunsListNextResponse> {
+    options?: CacheRulesListAsyncNextOptionalParams
+  ): Promise<CacheRulesListAsyncNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, nextLink, options },
-      listNextOperationSpec
+      listAsyncNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
+const listAsyncOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/pipelineRuns",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PipelineRunListResult
+      bodyMapper: Mappers.CacheRulesListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -371,13 +489,13 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getOperationSpec: coreClient.OperationSpec = {
+const getAsyncOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/pipelineRuns/{pipelineRunName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PipelineRun
+      bodyMapper: Mappers.CacheRule
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -389,40 +507,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.pipelineRunName
+    Parameters.cacheRuleName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/pipelineRuns/{pipelineRunName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PipelineRun
+      bodyMapper: Mappers.CacheRule
     },
     201: {
-      bodyMapper: Mappers.PipelineRun
+      bodyMapper: Mappers.CacheRule
     },
     202: {
-      bodyMapper: Mappers.PipelineRun
+      bodyMapper: Mappers.CacheRule
     },
     204: {
-      bodyMapper: Mappers.PipelineRun
+      bodyMapper: Mappers.CacheRule
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.pipelineRunCreateParameters,
+  requestBody: Parameters.cacheRuleCreateParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.pipelineRunName
+    Parameters.cacheRuleName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -430,7 +548,7 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/pipelineRuns/{pipelineRunName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -447,17 +565,51 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.pipelineRunName
+    Parameters.cacheRuleName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CacheRule
+    },
+    201: {
+      bodyMapper: Mappers.CacheRule
+    },
+    202: {
+      bodyMapper: Mappers.CacheRule
+    },
+    204: {
+      bodyMapper: Mappers.CacheRule
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.cacheRuleUpdateParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.cacheRuleName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const listAsyncNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PipelineRunListResult
+      bodyMapper: Mappers.CacheRulesListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

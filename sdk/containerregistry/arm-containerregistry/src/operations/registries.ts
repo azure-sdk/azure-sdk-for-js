@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Registries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,19 +18,18 @@ import {
   Registry,
   RegistriesListNextOptionalParams,
   RegistriesListOptionalParams,
-  RegistriesListResponse,
   RegistriesListByResourceGroupNextOptionalParams,
   RegistriesListByResourceGroupOptionalParams,
-  RegistriesListByResourceGroupResponse,
   PrivateLinkResource,
   RegistriesListPrivateLinkResourcesNextOptionalParams,
   RegistriesListPrivateLinkResourcesOptionalParams,
-  RegistriesListPrivateLinkResourcesResponse,
   ImportImageParameters,
   RegistriesImportImageOptionalParams,
   RegistryNameCheckRequest,
   RegistriesCheckNameAvailabilityOptionalParams,
   RegistriesCheckNameAvailabilityResponse,
+  RegistriesListResponse,
+  RegistriesListByResourceGroupResponse,
   RegistriesGetOptionalParams,
   RegistriesGetResponse,
   RegistriesCreateOptionalParams,
@@ -42,6 +40,7 @@ import {
   RegistriesUpdateResponse,
   RegistriesListUsagesOptionalParams,
   RegistriesListUsagesResponse,
+  RegistriesListPrivateLinkResourcesResponse,
   RegistriesGetPrivateLinkResourceOptionalParams,
   RegistriesGetPrivateLinkResourceResponse,
   RegistriesListCredentialsOptionalParams,
@@ -90,34 +89,22 @@ export class RegistriesImpl implements Registries {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
+      byPage: () => {
+        return this.listPagingPage(options);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: RegistriesListOptionalParams,
-    settings?: PageSettings
+    options?: RegistriesListOptionalParams
   ): AsyncIterableIterator<Registry[]> {
-    let result: RegistriesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -146,33 +133,19 @@ export class RegistriesImpl implements Registries {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: RegistriesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: RegistriesListByResourceGroupOptionalParams
   ): AsyncIterableIterator<Registry[]> {
-    let result: RegistriesListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -180,9 +153,7 @@ export class RegistriesImpl implements Registries {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -221,15 +192,11 @@ export class RegistriesImpl implements Registries {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listPrivateLinkResourcesPagingPage(
           resourceGroupName,
           registryName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -238,22 +205,15 @@ export class RegistriesImpl implements Registries {
   private async *listPrivateLinkResourcesPagingPage(
     resourceGroupName: string,
     registryName: string,
-    options?: RegistriesListPrivateLinkResourcesOptionalParams,
-    settings?: PageSettings
+    options?: RegistriesListPrivateLinkResourcesOptionalParams
   ): AsyncIterableIterator<PrivateLinkResource[]> {
-    let result: RegistriesListPrivateLinkResourcesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listPrivateLinkResources(
-        resourceGroupName,
-        registryName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listPrivateLinkResources(
+      resourceGroupName,
+      registryName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listPrivateLinkResourcesNext(
         resourceGroupName,
@@ -262,9 +222,7 @@ export class RegistriesImpl implements Registries {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -491,7 +449,8 @@ export class RegistriesImpl implements Registries {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -576,7 +535,8 @@ export class RegistriesImpl implements Registries {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;

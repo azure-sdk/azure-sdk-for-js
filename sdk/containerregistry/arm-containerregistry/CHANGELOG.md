@@ -1,20 +1,12 @@
 # Release History
-
-## 10.1.0-beta.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 10.1.0-beta.4 (2022-11-18)
+    
+## 10.1.0-beta.5 (2022-11-29)
     
 **Features**
 
+  - Added operation group CacheRules
   - Added operation group ConnectedRegistries
+  - Added operation group CredentialSets
   - Added operation group ExportPipelines
   - Added operation group ImportPipelines
   - Added operation group PipelineRuns
@@ -25,9 +17,23 @@
   - Added Interface ActivationProperties
   - Added Interface ActiveDirectoryObject
   - Added Interface AgentPool
+  - Added Interface AuthCredential
   - Added Interface AzureADAuthenticationAsArmPolicy
+  - Added Interface CacheRule
+  - Added Interface CacheRulesCreateOptionalParams
+  - Added Interface CacheRulesDeleteHeaders
+  - Added Interface CacheRulesDeleteOptionalParams
+  - Added Interface CacheRulesGetAsyncOptionalParams
+  - Added Interface CacheRulesListAsyncNextOptionalParams
+  - Added Interface CacheRulesListAsyncOptionalParams
+  - Added Interface CacheRulesListResult
+  - Added Interface CacheRulesUpdateHeaders
+  - Added Interface CacheRulesUpdateOptionalParams
+  - Added Interface CacheRuleUpdateParameters
   - Added Interface ConnectedRegistriesCreateOptionalParams
+  - Added Interface ConnectedRegistriesDeactivateHeaders
   - Added Interface ConnectedRegistriesDeactivateOptionalParams
+  - Added Interface ConnectedRegistriesDeleteHeaders
   - Added Interface ConnectedRegistriesDeleteOptionalParams
   - Added Interface ConnectedRegistriesGetOptionalParams
   - Added Interface ConnectedRegistriesListNextOptionalParams
@@ -36,6 +42,18 @@
   - Added Interface ConnectedRegistry
   - Added Interface ConnectedRegistryListResult
   - Added Interface ConnectedRegistryUpdateParameters
+  - Added Interface CredentialHealth
+  - Added Interface CredentialSet
+  - Added Interface CredentialSetListResult
+  - Added Interface CredentialSetsCreateOptionalParams
+  - Added Interface CredentialSetsDeleteHeaders
+  - Added Interface CredentialSetsDeleteOptionalParams
+  - Added Interface CredentialSetsGetOptionalParams
+  - Added Interface CredentialSetsListNextOptionalParams
+  - Added Interface CredentialSetsListOptionalParams
+  - Added Interface CredentialSetsUpdateHeaders
+  - Added Interface CredentialSetsUpdateOptionalParams
+  - Added Interface CredentialSetUpdateParameters
   - Added Interface DockerBuildRequest
   - Added Interface DockerBuildStep
   - Added Interface DockerBuildStepUpdateParameters
@@ -46,6 +64,7 @@
   - Added Interface ExportPipeline
   - Added Interface ExportPipelineListResult
   - Added Interface ExportPipelinesCreateOptionalParams
+  - Added Interface ExportPipelinesDeleteHeaders
   - Added Interface ExportPipelinesDeleteOptionalParams
   - Added Interface ExportPipelinesGetOptionalParams
   - Added Interface ExportPipelinesListNextOptionalParams
@@ -59,6 +78,7 @@
   - Added Interface ImportPipeline
   - Added Interface ImportPipelineListResult
   - Added Interface ImportPipelinesCreateOptionalParams
+  - Added Interface ImportPipelinesDeleteHeaders
   - Added Interface ImportPipelinesDeleteOptionalParams
   - Added Interface ImportPipelinesGetOptionalParams
   - Added Interface ImportPipelinesListNextOptionalParams
@@ -72,6 +92,7 @@
   - Added Interface PipelineRunRequest
   - Added Interface PipelineRunResponse
   - Added Interface PipelineRunsCreateOptionalParams
+  - Added Interface PipelineRunsDeleteHeaders
   - Added Interface PipelineRunsDeleteOptionalParams
   - Added Interface PipelineRunsGetOptionalParams
   - Added Interface PipelineRunsListNextOptionalParams
@@ -83,14 +104,20 @@
   - Added Interface PipelineTriggerDescriptor
   - Added Interface PipelineTriggerProperties
   - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateEndpointConnectionsDeleteHeaders
   - Added Interface ProgressProperties
+  - Added Interface RegistriesDeleteHeaders
+  - Added Interface RegistriesGenerateCredentialsHeaders
   - Added Interface RegistriesGenerateCredentialsOptionalParams
+  - Added Interface RegistriesImportImageHeaders
   - Added Interface Registry
   - Added Interface Replication
+  - Added Interface ReplicationsDeleteHeaders
   - Added Interface Run
   - Added Interface ScopeMap
   - Added Interface ScopeMapListResult
   - Added Interface ScopeMapsCreateOptionalParams
+  - Added Interface ScopeMapsDeleteHeaders
   - Added Interface ScopeMapsDeleteOptionalParams
   - Added Interface ScopeMapsGetOptionalParams
   - Added Interface ScopeMapsListNextOptionalParams
@@ -112,6 +139,7 @@
   - Added Interface TokenListResult
   - Added Interface TokenPassword
   - Added Interface TokensCreateOptionalParams
+  - Added Interface TokensDeleteHeaders
   - Added Interface TokensDeleteOptionalParams
   - Added Interface TokensGetOptionalParams
   - Added Interface TokensListNextOptionalParams
@@ -119,9 +147,15 @@
   - Added Interface TokensUpdateOptionalParams
   - Added Interface TokenUpdateParameters
   - Added Interface Webhook
+  - Added Interface WebhooksDeleteHeaders
   - Added Type Alias ActivationStatus
   - Added Type Alias AuditLogStatus
   - Added Type Alias AzureADAuthenticationAsArmPolicyStatus
+  - Added Type Alias CacheRulesCreateResponse
+  - Added Type Alias CacheRulesGetAsyncResponse
+  - Added Type Alias CacheRulesListAsyncNextResponse
+  - Added Type Alias CacheRulesListAsyncResponse
+  - Added Type Alias CacheRulesUpdateResponse
   - Added Type Alias CertificateType
   - Added Type Alias ConnectedRegistriesCreateResponse
   - Added Type Alias ConnectedRegistriesGetResponse
@@ -130,6 +164,13 @@
   - Added Type Alias ConnectedRegistriesUpdateResponse
   - Added Type Alias ConnectedRegistryMode
   - Added Type Alias ConnectionState
+  - Added Type Alias CredentialHealthStatus
+  - Added Type Alias CredentialName
+  - Added Type Alias CredentialSetsCreateResponse
+  - Added Type Alias CredentialSetsGetResponse
+  - Added Type Alias CredentialSetsListNextResponse
+  - Added Type Alias CredentialSetsListResponse
+  - Added Type Alias CredentialSetsUpdateResponse
   - Added Type Alias ExportPipelinesCreateResponse
   - Added Type Alias ExportPipelinesGetResponse
   - Added Type Alias ExportPipelinesListNextResponse
@@ -165,7 +206,9 @@
   - Interface Policies has a new optional parameter azureADAuthenticationAsArmPolicy
   - Interface Policies has a new optional parameter softDeletePolicy
   - Interface RegistryUpdateParameters has a new optional parameter anonymousPullEnabled
+  - Class ContainerRegistryManagementClient has a new parameter cacheRules
   - Class ContainerRegistryManagementClient has a new parameter connectedRegistries
+  - Class ContainerRegistryManagementClient has a new parameter credentialSets
   - Class ContainerRegistryManagementClient has a new parameter exportPipelines
   - Class ContainerRegistryManagementClient has a new parameter importPipelines
   - Class ContainerRegistryManagementClient has a new parameter pipelineRuns
@@ -177,6 +220,8 @@
   - Added Enum KnownCertificateType
   - Added Enum KnownConnectedRegistryMode
   - Added Enum KnownConnectionState
+  - Added Enum KnownCredentialHealthStatus
+  - Added Enum KnownCredentialName
   - Added Enum KnownLogLevel
   - Added Enum KnownPipelineOptions
   - Added Enum KnownPipelineRunSourceType

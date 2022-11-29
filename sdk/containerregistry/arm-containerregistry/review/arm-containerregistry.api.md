@@ -147,6 +147,14 @@ export interface Argument {
 export type AuditLogStatus = string;
 
 // @public
+export interface AuthCredential {
+    readonly credentialHealth?: CredentialHealth;
+    name?: CredentialName;
+    passwordSecretIdentifier?: string;
+    usernameSecretIdentifier?: string;
+}
+
+// @public
 export interface AuthInfo {
     expiresIn?: number;
     refreshToken?: string;
@@ -206,6 +214,95 @@ export interface BaseImageTriggerUpdateParameters {
 }
 
 // @public
+export interface CacheRule extends ProxyResource {
+    readonly creationDate?: Date;
+    credentialSetResourceId?: string;
+    readonly provisioningState?: ProvisioningState;
+    sourceRepository?: string;
+    targetRepository?: string;
+}
+
+// @public
+export interface CacheRules {
+    beginCreate(resourceGroupName: string, registryName: string, cacheRuleName: string, cacheRuleCreateParameters: CacheRule, options?: CacheRulesCreateOptionalParams): Promise<PollerLike<PollOperationState<CacheRulesCreateResponse>, CacheRulesCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, registryName: string, cacheRuleName: string, cacheRuleCreateParameters: CacheRule, options?: CacheRulesCreateOptionalParams): Promise<CacheRulesCreateResponse>;
+    beginDelete(resourceGroupName: string, registryName: string, cacheRuleName: string, options?: CacheRulesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, cacheRuleName: string, options?: CacheRulesDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, registryName: string, cacheRuleName: string, cacheRuleUpdateParameters: CacheRuleUpdateParameters, options?: CacheRulesUpdateOptionalParams): Promise<PollerLike<PollOperationState<CacheRulesUpdateResponse>, CacheRulesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, registryName: string, cacheRuleName: string, cacheRuleUpdateParameters: CacheRuleUpdateParameters, options?: CacheRulesUpdateOptionalParams): Promise<CacheRulesUpdateResponse>;
+    getAsync(resourceGroupName: string, registryName: string, cacheRuleName: string, options?: CacheRulesGetAsyncOptionalParams): Promise<CacheRulesGetAsyncResponse>;
+    listAsync(resourceGroupName: string, registryName: string, options?: CacheRulesListAsyncOptionalParams): PagedAsyncIterableIterator<CacheRule>;
+}
+
+// @public
+export interface CacheRulesCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CacheRulesCreateResponse = CacheRule;
+
+// @public
+export interface CacheRulesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface CacheRulesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CacheRulesGetAsyncOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CacheRulesGetAsyncResponse = CacheRule;
+
+// @public
+export interface CacheRulesListAsyncNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CacheRulesListAsyncNextResponse = CacheRulesListResult;
+
+// @public
+export interface CacheRulesListAsyncOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CacheRulesListAsyncResponse = CacheRulesListResult;
+
+// @public
+export interface CacheRulesListResult {
+    nextLink?: string;
+    value?: CacheRule[];
+}
+
+// @public
+export interface CacheRulesUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface CacheRulesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CacheRulesUpdateResponse = CacheRule;
+
+// @public
+export interface CacheRuleUpdateParameters {
+    credentialSetResourceId?: string;
+}
+
+// @public
 export interface CallbackConfig {
     customHeaders?: {
         [propertyName: string]: string;
@@ -240,9 +337,21 @@ export interface ConnectedRegistriesCreateOptionalParams extends coreClient.Oper
 export type ConnectedRegistriesCreateResponse = ConnectedRegistry;
 
 // @public
+export interface ConnectedRegistriesDeactivateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface ConnectedRegistriesDeactivateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface ConnectedRegistriesDeleteHeaders {
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -330,7 +439,11 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
     // (undocumented)
     agentPools: AgentPools;
     // (undocumented)
+    cacheRules: CacheRules;
+    // (undocumented)
     connectedRegistries: ConnectedRegistries;
+    // (undocumented)
+    credentialSets: CredentialSets;
     // (undocumented)
     exportPipelines: ExportPipelines;
     // (undocumented)
@@ -371,11 +484,114 @@ export interface ContainerRegistryManagementClientOptionalParams extends coreCli
 export type CreatedByType = string;
 
 // @public
+export interface CredentialHealth {
+    errorCode?: string;
+    errorMessage?: string;
+    status?: CredentialHealthStatus;
+}
+
+// @public
+export type CredentialHealthStatus = string;
+
+// @public
+export type CredentialName = string;
+
+// @public
 export interface Credentials {
     customRegistries?: {
         [propertyName: string]: CustomRegistryCredentials;
     };
     sourceRegistry?: SourceRegistryCredentials;
+}
+
+// @public
+export interface CredentialSet extends ProxyResource {
+    authCredentials?: AuthCredential[];
+    readonly creationDate?: Date;
+    identity?: IdentityProperties;
+    loginServer?: string;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface CredentialSetListResult {
+    nextLink?: string;
+    value?: CredentialSet[];
+}
+
+// @public
+export interface CredentialSets {
+    beginCreate(resourceGroupName: string, registryName: string, credentialSetName: string, credentialSetCreateParameters: CredentialSet, options?: CredentialSetsCreateOptionalParams): Promise<PollerLike<PollOperationState<CredentialSetsCreateResponse>, CredentialSetsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, registryName: string, credentialSetName: string, credentialSetCreateParameters: CredentialSet, options?: CredentialSetsCreateOptionalParams): Promise<CredentialSetsCreateResponse>;
+    beginDelete(resourceGroupName: string, registryName: string, credentialSetName: string, options?: CredentialSetsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, credentialSetName: string, options?: CredentialSetsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, registryName: string, credentialSetName: string, credentialSetUpdateParameters: CredentialSetUpdateParameters, options?: CredentialSetsUpdateOptionalParams): Promise<PollerLike<PollOperationState<CredentialSetsUpdateResponse>, CredentialSetsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, registryName: string, credentialSetName: string, credentialSetUpdateParameters: CredentialSetUpdateParameters, options?: CredentialSetsUpdateOptionalParams): Promise<CredentialSetsUpdateResponse>;
+    get(resourceGroupName: string, registryName: string, credentialSetName: string, options?: CredentialSetsGetOptionalParams): Promise<CredentialSetsGetResponse>;
+    list(resourceGroupName: string, registryName: string, options?: CredentialSetsListOptionalParams): PagedAsyncIterableIterator<CredentialSet>;
+}
+
+// @public
+export interface CredentialSetsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CredentialSetsCreateResponse = CredentialSet;
+
+// @public
+export interface CredentialSetsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface CredentialSetsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CredentialSetsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CredentialSetsGetResponse = CredentialSet;
+
+// @public
+export interface CredentialSetsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CredentialSetsListNextResponse = CredentialSetListResult;
+
+// @public
+export interface CredentialSetsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CredentialSetsListResponse = CredentialSetListResult;
+
+// @public
+export interface CredentialSetsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface CredentialSetsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CredentialSetsUpdateResponse = CredentialSet;
+
+// @public
+export interface CredentialSetUpdateParameters {
+    authCredentials?: AuthCredential[];
+    identity?: IdentityProperties;
 }
 
 // @public
@@ -563,6 +779,12 @@ export interface ExportPipelinesCreateOptionalParams extends coreClient.Operatio
 export type ExportPipelinesCreateResponse = ExportPipeline;
 
 // @public
+export interface ExportPipelinesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface ExportPipelinesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -647,9 +869,6 @@ export interface GenerateCredentialsResult {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface IdentityProperties {
     principalId?: string;
     tenantId?: string;
@@ -719,6 +938,12 @@ export interface ImportPipelinesCreateOptionalParams extends coreClient.Operatio
 
 // @public
 export type ImportPipelinesCreateResponse = ImportPipeline;
+
+// @public
+export interface ImportPipelinesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface ImportPipelinesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -875,6 +1100,17 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownCredentialHealthStatus {
+    Healthy = "Healthy",
+    Unhealthy = "Unhealthy"
+}
+
+// @public
+export enum KnownCredentialName {
+    Credential1 = "Credential1"
 }
 
 // @public
@@ -1309,6 +1545,12 @@ export interface PipelineRunsCreateOptionalParams extends coreClient.OperationOp
 export type PipelineRunsCreateResponse = PipelineRun;
 
 // @public
+export interface PipelineRunsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface PipelineRunsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1441,6 +1683,12 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends 
 export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
 
 // @public
+export interface PrivateEndpointConnectionsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1562,9 +1810,21 @@ export interface RegistriesCreateOptionalParams extends coreClient.OperationOpti
 export type RegistriesCreateResponse = Registry;
 
 // @public
+export interface RegistriesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface RegistriesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface RegistriesGenerateCredentialsHeaders {
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -1596,6 +1856,12 @@ export type RegistriesGetPrivateLinkResourceResponse = PrivateLinkResource;
 
 // @public
 export type RegistriesGetResponse = Registry;
+
+// @public
+export interface RegistriesImportImageHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface RegistriesImportImageOptionalParams extends coreClient.OperationOptions {
@@ -1803,6 +2069,12 @@ export interface ReplicationsCreateOptionalParams extends coreClient.OperationOp
 
 // @public
 export type ReplicationsCreateResponse = Replication;
+
+// @public
+export interface ReplicationsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface ReplicationsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -2046,6 +2318,12 @@ export interface ScopeMapsCreateOptionalParams extends coreClient.OperationOptio
 
 // @public
 export type ScopeMapsCreateResponse = ScopeMap;
+
+// @public
+export interface ScopeMapsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface ScopeMapsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -2588,6 +2866,12 @@ export interface TokensCreateOptionalParams extends coreClient.OperationOptions 
 export type TokensCreateResponse = Token;
 
 // @public
+export interface TokensDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface TokensDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2729,6 +3013,12 @@ export interface WebhooksCreateOptionalParams extends coreClient.OperationOption
 
 // @public
 export type WebhooksCreateResponse = Webhook;
+
+// @public
+export interface WebhooksDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface WebhooksDeleteOptionalParams extends coreClient.OperationOptions {

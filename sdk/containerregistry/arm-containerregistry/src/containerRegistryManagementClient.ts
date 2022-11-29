@@ -10,7 +10,9 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  CacheRulesImpl,
   ConnectedRegistriesImpl,
+  CredentialSetsImpl,
   ExportPipelinesImpl,
   RegistriesImpl,
   ImportPipelinesImpl,
@@ -27,7 +29,9 @@ import {
   TasksImpl
 } from "./operations";
 import {
+  CacheRules,
   ConnectedRegistries,
+  CredentialSets,
   ExportPipelines,
   Registries,
   ImportPipelines,
@@ -82,13 +86,16 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      endpoint:
+      baseUri:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
@@ -114,9 +121,7 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
-          scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+          scopes: `${optionsWithDefaults.credentialScopes}`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
               coreClient.authorizeRequestOnClaimChallenge
@@ -129,7 +134,9 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
+    this.cacheRules = new CacheRulesImpl(this);
     this.connectedRegistries = new ConnectedRegistriesImpl(this);
+    this.credentialSets = new CredentialSetsImpl(this);
     this.exportPipelines = new ExportPipelinesImpl(this);
     this.registries = new RegistriesImpl(this);
     this.importPipelines = new ImportPipelinesImpl(this);
@@ -146,7 +153,9 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
     this.tasks = new TasksImpl(this);
   }
 
+  cacheRules: CacheRules;
   connectedRegistries: ConnectedRegistries;
+  credentialSets: CredentialSets;
   exportPipelines: ExportPipelines;
   registries: Registries;
   importPipelines: ImportPipelines;
