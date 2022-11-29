@@ -1,15 +1,62 @@
 # Release History
+    
+## 5.2.0-beta.1 (2022-11-29)
+    
+**Features**
 
-## 5.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group ApplicationGroupOperations
+  - Added operation group NetworkSecurityPerimeterConfigurationOperations
+  - Added operation group NetworkSecurityPerimeterConfigurations
+  - Added Interface ApplicationGroup
+  - Added Interface ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams
+  - Added Interface ApplicationGroupDeleteOptionalParams
+  - Added Interface ApplicationGroupGetOptionalParams
+  - Added Interface ApplicationGroupListByNamespaceNextOptionalParams
+  - Added Interface ApplicationGroupListByNamespaceOptionalParams
+  - Added Interface ApplicationGroupListResult
+  - Added Interface ApplicationGroupPolicy
+  - Added Interface NetworkSecurityPerimeter
+  - Added Interface NetworkSecurityPerimeterConfiguration
+  - Added Interface NetworkSecurityPerimeterConfigurationList
+  - Added Interface NetworkSecurityPerimeterConfigurationListOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationPropertiesProfile
+  - Added Interface NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation
+  - Added Interface NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams
+  - Added Interface NspAccessRule
+  - Added Interface NspAccessRuleProperties
+  - Added Interface NspAccessRulePropertiesSubscriptionsItem
+  - Added Interface ProvisioningIssue
+  - Added Interface ProvisioningIssueProperties
+  - Added Interface ThrottlingPolicy
+  - Added Type Alias ApplicationGroupCreateOrUpdateApplicationGroupResponse
+  - Added Type Alias ApplicationGroupGetResponse
+  - Added Type Alias ApplicationGroupListByNamespaceNextResponse
+  - Added Type Alias ApplicationGroupListByNamespaceResponse
+  - Added Type Alias ApplicationGroupPolicyType
+  - Added Type Alias ApplicationGroupPolicyUnion
+  - Added Type Alias MetricId
+  - Added Type Alias NetworkSecurityPerimeterConfigurationListResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationProvisioningState
+  - Added Type Alias NspAccessRuleDirection
+  - Added Type Alias PublicNetworkAccess
+  - Added Type Alias ResourceAssociationAccessMode
+  - Added Type Alias TlsVersion
+  - Interface Cluster has a new optional parameter supportsScaling
+  - Interface EHNamespace has a new optional parameter minimumTlsVersion
+  - Interface EHNamespace has a new optional parameter publicNetworkAccess
+  - Class EventHubManagementClient has a new parameter applicationGroupOperations
+  - Class EventHubManagementClient has a new parameter networkSecurityPerimeterConfigurationOperations
+  - Class EventHubManagementClient has a new parameter networkSecurityPerimeterConfigurations
+  - Added Enum KnownApplicationGroupPolicyType
+  - Added Enum KnownMetricId
+  - Added Enum KnownNetworkSecurityPerimeterConfigurationProvisioningState
+  - Added Enum KnownNspAccessRuleDirection
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownResourceAssociationAccessMode
+  - Added Enum KnownTlsVersion
+  - Enum KnownPublicNetworkAccessFlag has a new value SecuredByPerimeter
+    
+    
 ## 5.1.0 (2022-11-22)
     
 **Features**

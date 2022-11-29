@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Clusters } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,12 +18,12 @@ import {
   Cluster,
   ClustersListBySubscriptionNextOptionalParams,
   ClustersListBySubscriptionOptionalParams,
-  ClustersListBySubscriptionResponse,
   ClustersListByResourceGroupNextOptionalParams,
   ClustersListByResourceGroupOptionalParams,
-  ClustersListByResourceGroupResponse,
   ClustersListAvailableClusterRegionOptionalParams,
   ClustersListAvailableClusterRegionResponse,
+  ClustersListBySubscriptionResponse,
+  ClustersListByResourceGroupResponse,
   ClustersGetOptionalParams,
   ClustersGetResponse,
   ClustersCreateOrUpdateOptionalParams,
@@ -66,34 +65,22 @@ export class ClustersImpl implements Clusters {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
+      byPage: () => {
+        return this.listBySubscriptionPagingPage(options);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: ClustersListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    options?: ClustersListBySubscriptionOptionalParams
   ): AsyncIterableIterator<Cluster[]> {
-    let result: ClustersListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBySubscription(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -122,33 +109,19 @@ export class ClustersImpl implements Clusters {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ClustersListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: ClustersListByResourceGroupOptionalParams
   ): AsyncIterableIterator<Cluster[]> {
-    let result: ClustersListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -156,9 +129,7 @@ export class ClustersImpl implements Clusters {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

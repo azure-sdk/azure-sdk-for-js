@@ -49,8 +49,7 @@ export interface PrivateEndpointConnections {
     options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
   ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
   /**
-   * Deletes an existing namespace. This operation also removes all associated resources under the
-   * namespace.
+   * Deletes a Private Endpoint Connection.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param privateEndpointConnectionName The PrivateEndpointConnection name
@@ -63,8 +62,7 @@ export interface PrivateEndpointConnections {
     options?: PrivateEndpointConnectionsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Deletes an existing namespace. This operation also removes all associated resources under the
-   * namespace.
+   * Deletes a Private Endpoint Connection.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param privateEndpointConnectionName The PrivateEndpointConnection name

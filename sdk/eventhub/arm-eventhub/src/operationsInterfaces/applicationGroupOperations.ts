@@ -8,20 +8,20 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  SchemaGroup,
-  SchemaRegistryListByNamespaceOptionalParams,
-  SchemaRegistryCreateOrUpdateOptionalParams,
-  SchemaRegistryCreateOrUpdateResponse,
-  SchemaRegistryDeleteOptionalParams,
-  SchemaRegistryGetOptionalParams,
-  SchemaRegistryGetResponse
+  ApplicationGroup,
+  ApplicationGroupListByNamespaceOptionalParams,
+  ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams,
+  ApplicationGroupCreateOrUpdateApplicationGroupResponse,
+  ApplicationGroupDeleteOptionalParams,
+  ApplicationGroupGetOptionalParams,
+  ApplicationGroupGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a SchemaRegistry. */
-export interface SchemaRegistry {
+/** Interface representing a ApplicationGroupOperations. */
+export interface ApplicationGroupOperations {
   /**
-   * Gets all the Schema Groups in a Namespace.
+   * Gets a list of application groups for a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param options The options parameters.
@@ -29,47 +29,47 @@ export interface SchemaRegistry {
   listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: SchemaRegistryListByNamespaceOptionalParams
-  ): PagedAsyncIterableIterator<SchemaGroup>;
+    options?: ApplicationGroupListByNamespaceOptionalParams
+  ): PagedAsyncIterableIterator<ApplicationGroup>;
   /**
-   * Creates or Updates an EventHub schema group.
+   * Creates or updates an ApplicationGroup for a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
-   * @param schemaGroupName The Schema Group name
-   * @param parameters Parameters supplied to create an Event Hub resource.
+   * @param applicationGroupName The Application Group name
+   * @param parameters The ApplicationGroup.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  createOrUpdateApplicationGroup(
     resourceGroupName: string,
     namespaceName: string,
-    schemaGroupName: string,
-    parameters: SchemaGroup,
-    options?: SchemaRegistryCreateOrUpdateOptionalParams
-  ): Promise<SchemaRegistryCreateOrUpdateResponse>;
+    applicationGroupName: string,
+    parameters: ApplicationGroup,
+    options?: ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams
+  ): Promise<ApplicationGroupCreateOrUpdateApplicationGroupResponse>;
   /**
-   * Deletes an EventHub schema group.
+   * Deletes an ApplicationGroup for a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
-   * @param schemaGroupName The Schema Group name
+   * @param applicationGroupName The Application Group name
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     namespaceName: string,
-    schemaGroupName: string,
-    options?: SchemaRegistryDeleteOptionalParams
+    applicationGroupName: string,
+    options?: ApplicationGroupDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Gets the details of an EventHub schema group.
+   * Gets an ApplicationGroup for a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
-   * @param schemaGroupName The Schema Group name
+   * @param applicationGroupName The Application Group name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     namespaceName: string,
-    schemaGroupName: string,
-    options?: SchemaRegistryGetOptionalParams
-  ): Promise<SchemaRegistryGetResponse>;
+    applicationGroupName: string,
+    options?: ApplicationGroupGetOptionalParams
+  ): Promise<ApplicationGroupGetResponse>;
 }
