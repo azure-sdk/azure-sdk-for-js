@@ -28,6 +28,7 @@ import {
   BastionHostsImpl,
   NetworkInterfacesImpl,
   PublicIPAddressesImpl,
+  VipSwapImpl,
   CustomIPPrefixesImpl,
   DdosCustomPoliciesImpl,
   DdosProtectionPlansImpl,
@@ -142,8 +143,7 @@ import {
   VirtualHubIpConfigurationImpl,
   HubRouteTablesImpl,
   RoutingIntentOperationsImpl,
-  WebApplicationFirewallPoliciesImpl,
-  VipSwapImpl
+  WebApplicationFirewallPoliciesImpl
 } from "./operations";
 import {
   ApplicationGateways,
@@ -161,6 +161,7 @@ import {
   BastionHosts,
   NetworkInterfaces,
   PublicIPAddresses,
+  VipSwap,
   CustomIPPrefixes,
   DdosCustomPolicies,
   DdosProtectionPlans,
@@ -275,8 +276,7 @@ import {
   VirtualHubIpConfiguration,
   HubRouteTables,
   RoutingIntentOperations,
-  WebApplicationFirewallPolicies,
-  VipSwap
+  WebApplicationFirewallPolicies
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -358,7 +358,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-network/30.0.1`;
+    const packageDetails = `azsdk-js-arm-network/31.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -437,6 +437,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     this.bastionHosts = new BastionHostsImpl(this);
     this.networkInterfaces = new NetworkInterfacesImpl(this);
     this.publicIPAddresses = new PublicIPAddressesImpl(this);
+    this.vipSwap = new VipSwapImpl(this);
     this.customIPPrefixes = new CustomIPPrefixesImpl(this);
     this.ddosCustomPolicies = new DdosCustomPoliciesImpl(this);
     this.ddosProtectionPlans = new DdosProtectionPlansImpl(this);
@@ -620,7 +621,6 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     this.webApplicationFirewallPolicies = new WebApplicationFirewallPoliciesImpl(
       this
     );
-    this.vipSwap = new VipSwapImpl(this);
   }
 
   /**
@@ -1527,6 +1527,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   bastionHosts: BastionHosts;
   networkInterfaces: NetworkInterfaces;
   publicIPAddresses: PublicIPAddresses;
+  vipSwap: VipSwap;
   customIPPrefixes: CustomIPPrefixes;
   ddosCustomPolicies: DdosCustomPolicies;
   ddosProtectionPlans: DdosProtectionPlans;
@@ -1642,7 +1643,6 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   hubRouteTables: HubRouteTables;
   routingIntentOperations: RoutingIntentOperations;
   webApplicationFirewallPolicies: WebApplicationFirewallPolicies;
-  vipSwap: VipSwap;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
