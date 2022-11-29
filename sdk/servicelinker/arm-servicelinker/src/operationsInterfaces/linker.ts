@@ -29,7 +29,8 @@ import {
 /** Interface representing a Linker. */
 export interface Linker {
   /**
-   * Returns list of Linkers which connects to the resource.
+   * Returns list of Linkers which connects to the resource. which supports to config both application
+   * and target service during the resource provision.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param options The options parameters.
@@ -51,7 +52,7 @@ export interface Linker {
     options?: LinkerGetOptionalParams
   ): Promise<LinkerGetResponse>;
   /**
-   * Create or update linker resource.
+   * Create or update Linker resource.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -70,7 +71,7 @@ export interface Linker {
     >
   >;
   /**
-   * Create or update linker resource.
+   * Create or update Linker resource.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -84,7 +85,7 @@ export interface Linker {
     options?: LinkerCreateOrUpdateOptionalParams
   ): Promise<LinkerCreateOrUpdateResponse>;
   /**
-   * Delete a link.
+   * Delete a Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -96,7 +97,7 @@ export interface Linker {
     options?: LinkerDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Delete a link.
+   * Delete a Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -108,7 +109,7 @@ export interface Linker {
     options?: LinkerDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Operation to update an existing link.
+   * Operation to update an existing Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -124,7 +125,7 @@ export interface Linker {
     PollerLike<PollOperationState<LinkerUpdateResponse>, LinkerUpdateResponse>
   >;
   /**
-   * Operation to update an existing link.
+   * Operation to update an existing Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -138,7 +139,7 @@ export interface Linker {
     options?: LinkerUpdateOptionalParams
   ): Promise<LinkerUpdateResponse>;
   /**
-   * Validate a link.
+   * Validate a Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -155,7 +156,7 @@ export interface Linker {
     >
   >;
   /**
-   * Validate a link.
+   * Validate a Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -167,7 +168,7 @@ export interface Linker {
     options?: LinkerValidateOptionalParams
   ): Promise<LinkerValidateResponse>;
   /**
-   * list source configurations for a linker.
+   * list source configurations for a Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
