@@ -1,15 +1,114 @@
 # Release History
+    
+## 1.0.0-beta.6 (2022-11-30)
+    
+**Features**
 
-## 1.0.0-beta.6 (Unreleased)
+  - Added operation group ContentPackages
+  - Added operation group ContentTemplates
+  - Added operation group Get
+  - Added operation group GetRecommendations
+  - Added operation group IncidentTasks
+  - Added operation group Update
+  - Added Interface AddIncidentTaskActionProperties
+  - Added Interface AlertPropertyMapping
+  - Added Interface AutomationRuleAddIncidentTaskAction
+  - Added Interface Content
+  - Added Interface ContentMainTemplate
+  - Added Interface ContentMainTemplateProperties
+  - Added Interface ContentMetadataAuthor
+  - Added Interface ContentMetadataCategories
+  - Added Interface ContentMetadataDependencies
+  - Added Interface ContentMetadataSource
+  - Added Interface ContentMetadataSupport
+  - Added Interface ContentPackagesGetOptionalParams
+  - Added Interface ContentPackagesInstallOptionalParams
+  - Added Interface ContentPackagesListNextOptionalParams
+  - Added Interface ContentPackagesListOptionalParams
+  - Added Interface ContentPackagesUninstallOptionalParams
+  - Added Interface ContentTemplatesDeleteOptionalParams
+  - Added Interface ContentTemplatesGetOptionalParams
+  - Added Interface ContentTemplatesListNextOptionalParams
+  - Added Interface ContentTemplatesListOptionalParams
+  - Added Interface GetRecommendationsListOptionalParams
+  - Added Interface GetSingleRecommendationOptionalParams
+  - Added Interface IncidentTask
+  - Added Interface IncidentTaskList
+  - Added Interface IncidentTasksCreateOrUpdateOptionalParams
+  - Added Interface IncidentTasksDeleteOptionalParams
+  - Added Interface IncidentTasksGetOptionalParams
+  - Added Interface IncidentTasksListNextOptionalParams
+  - Added Interface IncidentTasksListOptionalParams
+  - Added Interface Instructions
+  - Added Interface Package
+  - Added Interface PackageInstallationProperties
+  - Added Interface PackageItemArmResource
+  - Added Interface PackageList
+  - Added Interface PackagePropertiesPackageItems
+  - Added Interface Recommendation
+  - Added Interface RecommendationList
+  - Added Interface RecommendationPatch
+  - Added Interface RecommendedAction
+  - Added Interface SentinelEntityMapping
+  - Added Interface Template
+  - Added Interface TemplateList
+  - Added Interface TemplateProperties
+  - Added Interface UpdateRecommendationOptionalParams
+  - Added Type Alias AlertProperty
+  - Added Type Alias Category
+  - Added Type Alias ContentPackagesGetResponse
+  - Added Type Alias ContentPackagesInstallResponse
+  - Added Type Alias ContentPackagesListNextResponse
+  - Added Type Alias ContentPackagesListResponse
+  - Added Type Alias ContentPackagesUninstallResponse
+  - Added Type Alias ContentTemplatesGetResponse
+  - Added Type Alias ContentTemplatesListNextResponse
+  - Added Type Alias ContentTemplatesListResponse
+  - Added Type Alias Context
+  - Added Type Alias Flag
+  - Added Type Alias GetRecommendationsListResponse
+  - Added Type Alias GetSingleRecommendationResponse
+  - Added Type Alias IncidentTasksCreateOrUpdateResponse
+  - Added Type Alias IncidentTasksGetResponse
+  - Added Type Alias IncidentTasksListNextResponse
+  - Added Type Alias IncidentTasksListResponse
+  - Added Type Alias IncidentTaskStatus
+  - Added Type Alias PackageKind
+  - Added Type Alias Priority
+  - Added Type Alias State
+  - Added Type Alias UpdateRecommendationResponse
+  - Interface AlertDetailsOverride has a new optional parameter alertDynamicProperties
+  - Interface NrtAlertRule has a new optional parameter sentinelEntitiesMappings
+  - Interface NrtAlertRuleTemplate has a new optional parameter sentinelEntitiesMappings
+  - Interface QueryBasedAlertRuleTemplateProperties has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRule has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRuleCommonProperties has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRuleTemplate has a new optional parameter sentinelEntitiesMappings
+  - Interface SecurityAlertTimelineItem has a new optional parameter intent
+  - Interface SecurityAlertTimelineItem has a new optional parameter techniques
+  - Class SecurityInsights has a new parameter contentPackages
+  - Class SecurityInsights has a new parameter contentTemplates
+  - Class SecurityInsights has a new parameter get
+  - Class SecurityInsights has a new parameter getRecommendations
+  - Class SecurityInsights has a new parameter incidentTasks
+  - Class SecurityInsights has a new parameter update
+  - Added Enum KnownAlertProperty
+  - Added Enum KnownCategory
+  - Added Enum KnownContext
+  - Added Enum KnownFlag
+  - Added Enum KnownIncidentTaskStatus
+  - Added Enum KnownPackageKind
+  - Added Enum KnownPriority
+  - Added Enum KnownState
+  - Enum KnownActionType has a new value AddIncidentTask
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation Incidents.createTeam has a new signature
+  - Interface SecurityInsightsOptionalParams no longer has parameter apiVersion
+  - Class SecurityInsights no longer has parameter apiVersion
+    
+    
 ## 1.0.0-beta.5 (2022-09-27)
     
 **Features**

@@ -17,6 +17,7 @@ export type AutomationRuleConditionUnion =
   | PropertyConditionProperties;
 export type AutomationRuleActionUnion =
   | AutomationRuleAction
+  | AutomationRuleAddIncidentTaskAction
   | AutomationRuleModifyPropertiesAction
   | AutomationRuleRunPlaybookAction;
 export type EntityTimelineItemUnion =
@@ -255,7 +256,7 @@ export interface AutomationRuleCondition {
 /** Describes an automation rule action. */
 export interface AutomationRuleAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  actionType: "ModifyProperties" | "RunPlaybook";
+  actionType: "AddIncidentTask" | "ModifyProperties" | "RunPlaybook";
   order: number;
 }
 
@@ -776,13 +777,37 @@ export interface ValidationError {
 
 /** List all the incidents. */
 export interface IncidentList {
+  value: Incident[];
   /**
    * URL to fetch the next set of incidents.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-  /** Array of incidents. */
-  value: Incident[];
+}
+
+/** Information on the user an incident is assigned to */
+export interface IncidentOwnerInfo {
+  /** The email of the user the incident is assigned to. */
+  email?: string;
+  /** The name of the user the incident is assigned to. */
+  assignedTo?: string;
+  /** The object id of the user the incident is assigned to. */
+  objectId?: string;
+  /** The user principal name of the user the incident is assigned to. */
+  userPrincipalName?: string;
+  /** The type of the owner the incident is assigned to. */
+  ownerType?: OwnerType;
+}
+
+/** Represents an incident label */
+export interface IncidentLabel {
+  /** The name of the label */
+  labelName: string;
+  /**
+   * The type of the label
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly labelType?: IncidentLabelType;
 }
 
 /** Incident additional data property bag. */
@@ -808,45 +833,20 @@ export interface IncidentAdditionalData {
    */
   readonly alertProductNames?: string[];
   /**
-   * The provider incident url to the incident in Microsoft 365 Defender portal
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly providerIncidentUrl?: string;
-  /**
    * The tactics associated with incident
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tactics?: AttackTactic[];
   /**
-   * The techniques associated with incident's tactics'
+   * The techniques associated with incident's tactics
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly techniques?: string[];
-}
-
-/** Represents an incident label */
-export interface IncidentLabel {
-  /** The name of the label */
-  labelName: string;
   /**
-   * The type of the label
+   * The provider incident url to the incident in Microsoft 365 Defender portal
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly labelType?: IncidentLabelType;
-}
-
-/** Information on the user an incident is assigned to */
-export interface IncidentOwnerInfo {
-  /** The email of the user the incident is assigned to. */
-  email?: string;
-  /** The name of the user the incident is assigned to. */
-  assignedTo?: string;
-  /** The object id of the user the incident is assigned to. */
-  objectId?: string;
-  /** The user principal name of the user the incident is assigned to. */
-  userPrincipalName?: string;
-  /** The type of the owner the incident is assigned to. */
-  ownerType?: OwnerType;
+  readonly providerIncidentUrl?: string;
 }
 
 /** Describes team information */
@@ -878,18 +878,6 @@ export interface TeamInformation {
   readonly description?: string;
 }
 
-/** Describes team properties */
-export interface TeamProperties {
-  /** The name of the team */
-  teamName: string;
-  /** The description of the team */
-  teamDescription?: string;
-  /** List of member IDs to add to the team */
-  memberIds?: string[];
-  /** List of group IDs to add their members to the team */
-  groupIds?: string[];
-}
-
 /** List of incident alerts. */
 export interface IncidentAlertList {
   /** Array of incident alerts. */
@@ -916,7 +904,7 @@ export interface EntityCommonProperties {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -930,15 +918,10 @@ export interface IncidentBookmarkList {
   value: HuntingBookmark[];
 }
 
-/** List of incident comments. */
 export interface IncidentCommentList {
-  /**
-   * URL to fetch the next set of comments.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-  /** Array of comments. */
   value: IncidentComment[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly nextLink?: string;
 }
 
 /** The incident related entities response. */
@@ -951,10 +934,15 @@ export interface IncidentEntitiesResponse {
 
 /** Information of a specific aggregation in the incident related entities result. */
 export interface IncidentEntitiesResultsMetadata {
-  /** Total number of aggregations of the given kind in the incident related entities result. */
-  count: number;
   /** The kind of the aggregated entity. */
   entityKind: EntityKind;
+  /** Total number of aggregations of the given kind in the incident related entities result. */
+  count: number;
+}
+
+export interface IncidentTaskList {
+  value?: IncidentTask[];
+  nextLink?: string;
 }
 
 /** List of all the metadata. */
@@ -1039,6 +1027,90 @@ export interface OfficeConsentList {
 export interface SentinelOnboardingStatesList {
   /** Array of Sentinel onboarding states */
   value: SentinelOnboardingState[];
+}
+
+/** A list of recommendations */
+export interface RecommendationList {
+  /** An list of recommendations */
+  value?: Recommendation[];
+}
+
+/** Recommendation object. */
+export interface Recommendation {
+  /** id of recommendation. */
+  id: string;
+  /** Instructions of the recommendation. */
+  instructions: Instructions;
+  /** Content of the recommendation. */
+  content?: Content;
+  /** Id of the resource this recommendation refers to. */
+  resourceId?: string;
+  /** Collection of additional properties for the recommendation. */
+  additionalProperties?: { [propertyName: string]: string };
+  /** Title of the recommendation. */
+  title: string;
+  /** Description of the recommendation. */
+  description: string;
+  /** Title of the recommendation type. */
+  recommendationTypeTitle: string;
+  /** Id of the recommendation type. */
+  recommendationTypeId: string;
+  /** Category of the recommendation. */
+  category: Category;
+  /** Context of the recommendation. */
+  context: Context;
+  /** Id of the workspace this recommendation refers to. */
+  workspaceId: string;
+  /** List of actions to take for this recommendation. */
+  actions: RecommendedAction[];
+  /** State of the recommendation. */
+  state: State;
+  /** Priority of the recommendation. */
+  priority: Priority;
+  /** The time stamp (UTC) when the recommendation was last evaluated. */
+  lastEvaluatedTimeUtc: Date;
+  /** The time stamp (UTC) when the recommendation should be displayed again. */
+  hideUntilTimeUtc?: Date;
+  /** The timestamp (UTC) after which the recommendation should not be displayed anymore. */
+  displayUntilTimeUtc?: Date;
+  /** Value indicating if the recommendation should be displayed or not. */
+  visible?: boolean;
+}
+
+/** Instructions section of a recommendation. */
+export interface Instructions {
+  /** What actions should be taken to complete the recommendation. */
+  actionsToBePerformed: string;
+  /** Explains why the recommendation is important. */
+  recommendationImportance: string;
+  /** How should the user complete the recommendation. */
+  howToPerformActionDetails?: string;
+}
+
+/** Content section of the recommendation. */
+export interface Content {
+  /** Title of the content. */
+  title: string;
+  /** Description of the content. */
+  description: string;
+}
+
+/** What actions should be taken to complete the recommendation. */
+export interface RecommendedAction {
+  /** Text of the link to complete the action. */
+  linkText: string;
+  /** The Link to complete the action. */
+  linkUrl: string;
+  /** The state of the action. */
+  state?: Priority;
+}
+
+/** Recommendation Fields to update. */
+export interface RecommendationPatch {
+  /** State of the recommendation. */
+  state?: State;
+  /** The time stamp (UTC) when the recommendation should be displayed again. */
+  hideUntilTimeUtc?: Date;
 }
 
 /** List all the SecurityMLAnalyticsSettings */
@@ -1396,6 +1468,148 @@ export interface DataConnectorRequirementsState {
   licenseState?: DataConnectorLicenseState;
 }
 
+/** List available packages. */
+export interface PackageList {
+  /**
+   * URL to fetch the next set of packages.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** Array of packages. */
+  value: Package[];
+}
+
+/** The original source of the content item, where it comes from. */
+export interface ContentMetadataSource {
+  /** Source type of the content */
+  kind: SourceKind;
+  /** Name of the content source.  The repo name, solution name, LA workspace name etc. */
+  name?: string;
+  /** ID of the content source.  The solution ID, workspace ID, etc */
+  sourceId?: string;
+}
+
+/** Publisher or creator of the content item. */
+export interface ContentMetadataAuthor {
+  /** Name of the author. Company or person. */
+  name?: string;
+  /** Email of author contact */
+  email?: string;
+  /** Link for author/vendor page */
+  link?: string;
+}
+
+/** Support information for the content item. */
+export interface ContentMetadataSupport {
+  /** Type of support for content item */
+  tier: SupportTier;
+  /** Name of the support contact. Company or person. */
+  name?: string;
+  /** Email of support contact */
+  email?: string;
+  /** Link for support help, like to support page to open a ticket etc. */
+  link?: string;
+}
+
+/** Dependencies for the content item, what other content items it requires to work.  Can describe more complex dependencies using a recursive/nested structure. For a single dependency an id/kind/version can be supplied or operator/criteria for complex dependencies. */
+export interface ContentMetadataDependencies {
+  /** Id of the content item we depend on */
+  contentId?: string;
+  /** Type of the content item we depend on */
+  kind?: Kind;
+  /** Version of the the content item we depend on.  Can be blank, * or missing to indicate any version fulfills the dependency.  If version does not match our defined numeric format then an exact match is required. */
+  version?: string;
+  /** Name of the content item */
+  name?: string;
+  /** Operator used for list of dependencies in criteria array. */
+  operator?: Operator;
+  /** This is the list of dependencies we must fulfill, according to the AND/OR operator */
+  criteria?: ContentMetadataDependencies[];
+}
+
+/** categories for the solution content item */
+export interface ContentMetadataCategories {
+  /** domain for the solution content item */
+  domains?: string[];
+  /** Industry verticals for the solution content item */
+  verticals?: string[];
+}
+
+/** The JSON object of the package items. */
+export interface PackagePropertiesPackageItems {
+  /** package items resources. */
+  resources?: PackageItemArmResource[];
+}
+
+/** main template properties */
+export interface ContentMainTemplateProperties {
+  /** API version of the ARM resource */
+  apiVersion?: string;
+  /** dependencies of the ARM template */
+  dependsOn?: string[];
+  /** resources in the ARM template */
+  resources?: ContentMainTemplate[];
+}
+
+/** Package installation properties. */
+export interface PackageInstallationProperties {
+  /** package kind. */
+  packageKind?: PackageKind;
+  /** version of the package to be installed. */
+  version?: string;
+}
+
+/** List of all the template. */
+export interface TemplateList {
+  /** Array of templates. */
+  value: Template[];
+  /**
+   * URL to fetch the next page of template.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Template property bag. */
+export interface TemplateProperties {
+  /** Static ID for the content.  Used to identify dependencies and content from solutions or community.  Hard-coded/static for out of the box content and solutions. Dynamic for user-created.  This is the resource name */
+  contentId: string;
+  /** The display name of the template */
+  displayName: string;
+  /** The kind of content the template is for. */
+  contentKind: Kind;
+  /** Version of the content.  Default and recommended format is numeric (e.g. 1, 1.0, 1.0.0, 1.0.0.0), following ARM metadata best practices.  Can also be any string, but then we cannot guarantee any version checks */
+  version: string;
+  /** Source of the content.  This is where/how it was created. */
+  source: ContentMetadataSource;
+  /** The creator of the content item. */
+  author?: ContentMetadataAuthor;
+  /** Support information for the template - type, name, contact information */
+  support?: ContentMetadataSupport;
+  /** Providers for the content item */
+  providers?: string[];
+  /** Categories for the  item */
+  categories?: ContentMetadataCategories;
+  /** first publish date content item */
+  firstPublishDate?: Date;
+  /** last publish date for the content item */
+  lastPublishDate?: Date;
+  /** the tactics the resource covers */
+  threatAnalysisTactics?: string[];
+  /** the techniques the resource covers, these have to be aligned with the tactics being used */
+  threatAnalysisTechniques?: string[];
+  /** preview image file names. These will be taken from the solution artifacts */
+  previewImages?: string[];
+  /** preview image file names. These will be taken from the solution artifacts. used for dark theme support */
+  previewImagesDark?: string[];
+  /** the icon identifier. this id can later be fetched from the content metadata */
+  icon?: string;
+  /** Dependencies for the content item, what other content items it requires to work.  Can describe more complex dependencies using a recursive/nested structure. For a single dependency an id/kind/version can be supplied or operator/criteria for complex formats. */
+  dependantTemplates?: TemplateProperties[];
+  /** The main template of the template */
+  mainTemplate?: ContentMainTemplate;
+}
+
 /** Lists the operations available in the SecurityInsights RP. */
 export interface OperationsList {
   /**
@@ -1479,6 +1693,8 @@ export interface QueryBasedAlertRuleTemplateProperties {
   alertDetailsOverride?: AlertDetailsOverride;
   /** The event grouping settings. */
   eventGroupingSettings?: EventGroupingSettings;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
 }
 
 /** Single entity mapping for the alert rule */
@@ -1507,12 +1723,28 @@ export interface AlertDetailsOverride {
   alertTacticsColumnName?: string;
   /** the column name to take the alert severity from */
   alertSeverityColumnName?: string;
+  /** List of additional dynamic properties to override */
+  alertDynamicProperties?: AlertPropertyMapping[];
+}
+
+/** A single alert property mapping to override */
+export interface AlertPropertyMapping {
+  /** The V3 alert property */
+  alertProperty?: AlertProperty;
+  /** the column name to use to override this property */
+  value?: string;
 }
 
 /** Event grouping settings property bag. */
 export interface EventGroupingSettings {
   /** The event grouping aggregation kinds */
   aggregationKind?: EventGroupingAggregationKind;
+}
+
+/** A single sentinel entity mapping */
+export interface SentinelEntityMapping {
+  /** the column name to be mapped to the SentinelEntities */
+  columnName?: string;
 }
 
 /** Represents a supported source signal configuration in Fusion detection. */
@@ -1656,6 +1888,15 @@ export interface ScheduledAlertRuleCommonProperties {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
+}
+
+export interface AddIncidentTaskActionProperties {
+  /** The title of the task. */
+  title: string;
+  /** The description of the task. */
+  description?: string;
 }
 
 export interface AutomationRuleBooleanCondition {
@@ -1804,6 +2045,18 @@ export interface ActivityEntityQueryTemplatePropertiesQueryDefinitions {
 export interface DataTypeDefinitions {
   /** The data type name */
   dataType?: string;
+}
+
+/** Describes team properties */
+export interface TeamProperties {
+  /** The name of the team */
+  teamName: string;
+  /** The description of the team */
+  teamDescription?: string;
+  /** List of group IDs to add their members to the team */
+  groupIds?: string[];
+  /** List of member IDs to add to the team */
+  memberIds?: string[];
 }
 
 /** security ml analytics settings data sources */
@@ -2352,6 +2605,14 @@ export interface PropertyConditionProperties extends AutomationRuleCondition {
   conditionProperties?: AutomationRulePropertyValuesCondition;
 }
 
+/** Describes an automation rule action to add a task to an incident */
+export interface AutomationRuleAddIncidentTaskAction
+  extends AutomationRuleAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  actionType: "AddIncidentTask";
+  actionConfiguration?: AddIncidentTaskActionProperties;
+}
+
 /** Describes an automation rule action to modify an object's properties */
 export interface AutomationRuleModifyPropertiesAction
   extends AutomationRuleAction {
@@ -2459,6 +2720,13 @@ export interface SecurityAlertTimelineItem extends EntityTimelineItem {
   timeGenerated: Date;
   /** The name of the alert type. */
   alertType: string;
+  /**
+   * The intent of the alert.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly intent?: KillChainIntent;
+  /** The techniques of the alert. */
+  techniques?: string[];
 }
 
 /** Represents Insight Query. */
@@ -4074,44 +4342,27 @@ export interface CustomEntityQuery extends ResourceWithEtag {
   kind: CustomEntityQueryKind;
 }
 
-/** Represents an incident in Azure Security Insights. */
 export interface Incident extends ResourceWithEtag {
-  /**
-   * Additional data on the incident
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalData?: IncidentAdditionalData;
-  /** The reason the incident was closed */
-  classification?: IncidentClassification;
-  /** Describes the reason the incident was closed */
-  classificationComment?: string;
-  /** The classification reason the incident was closed with */
-  classificationReason?: IncidentClassificationReason;
-  /**
-   * The time the incident was created
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdTimeUtc?: Date;
+  /** The title of the incident */
+  title?: string;
   /** The description of the incident */
   description?: string;
-  /** The time of the first activity in the incident */
-  firstActivityTimeUtc?: Date;
-  /**
-   * The deep-link url to the incident in Azure portal
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly incidentUrl?: string;
-  /**
-   * A sequential number
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly incidentNumber?: number;
+  /** The severity of the incident */
+  severity?: IncidentSeverity;
+  /** The status of the incident */
+  status?: IncidentStatus;
+  /** The reason the incident was closed */
+  classification?: IncidentClassification;
+  /** The classification reason the incident was closed with */
+  classificationReason?: IncidentClassificationReason;
+  /** Describes the reason the incident was closed */
+  classificationComment?: string;
+  /** Describes a user that the incident is assigned to */
+  owner?: IncidentOwnerInfo;
   /** List of labels relevant to this incident */
   labels?: IncidentLabel[];
-  /** The name of the source provider that generated the incident */
-  providerName?: string;
-  /** The incident ID assigned by the incident provider */
-  providerIncidentId?: string;
+  /** The time of the first activity in the incident */
+  firstActivityTimeUtc?: Date;
   /** The time of the last activity in the incident */
   lastActivityTimeUtc?: Date;
   /**
@@ -4119,25 +4370,43 @@ export interface Incident extends ResourceWithEtag {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModifiedTimeUtc?: Date;
-  /** Describes a user that the incident is assigned to */
-  owner?: IncidentOwnerInfo;
+  /**
+   * The time the incident was created
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimeUtc?: Date;
+  /**
+   * A sequential number
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly incidentNumber?: number;
+  /**
+   * Additional data on the incident
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalData?: IncidentAdditionalData;
   /**
    * List of resource ids of Analytic rules related to the incident
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly relatedAnalyticRuleIds?: string[];
-  /** The severity of the incident */
-  severity?: IncidentSeverity;
-  /** The status of the incident */
-  status?: IncidentStatus;
+  /**
+   * The deep-link url to the incident in Azure portal
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly incidentUrl?: string;
+  /** The name of the source provider that generated the incident */
+  providerName?: string;
+  /** The incident ID assigned by the incident provider */
+  providerIncidentId?: string;
   /** Describes a team for the incident */
   teamInformation?: TeamInformation;
-  /** The title of the incident */
-  title?: string;
 }
 
 /** Represents an incident comment */
 export interface IncidentComment extends ResourceWithEtag {
+  /** The comment message */
+  message?: string;
   /**
    * The time the comment was created
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4148,13 +4417,33 @@ export interface IncidentComment extends ResourceWithEtag {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModifiedTimeUtc?: Date;
-  /** The comment message */
-  message?: string;
   /**
    * Describes the client that created the comment
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly author?: ClientInfo;
+}
+
+export interface IncidentTask extends ResourceWithEtag {
+  /** The title of the task */
+  title: string;
+  /** The description of the task */
+  description?: string;
+  status: IncidentTaskStatus;
+  /**
+   * The time the task was created
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimeUtc?: Date;
+  /**
+   * The last time the task was updated
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedTimeUtc?: Date;
+  /** Information on the client (user or application) that made some action */
+  createdBy?: ClientInfo;
+  /** Information on the client (user or application) that made some action */
+  lastModifiedBy?: ClientInfo;
 }
 
 /** Metadata resource definition. */
@@ -4363,6 +4652,114 @@ export interface DataConnector extends ResourceWithEtag {
   kind: DataConnectorKind;
 }
 
+/** ARM template resource for main template */
+export interface ContentMainTemplate extends ResourceWithEtag {
+  /** API version of the ARM resource */
+  apiVersion?: string;
+  /** dependencies of the ARM template */
+  dependsOn?: string[];
+  /** resources in the ARM template */
+  resources?: ContentMainTemplate[];
+}
+
+/** package item ARM resource */
+export interface PackageItemArmResource extends ResourceWithEtag {
+  /** The package item id */
+  contentId?: string;
+  /** The package item kind */
+  contentKind?: Kind;
+  /** The display name of the package item */
+  displayName?: string;
+  /** The main template of the package item */
+  mainTemplate?: ContentMainTemplateProperties;
+}
+
+/** Represents a Package in Azure Security Insights. */
+export interface Package extends ResourceWithEtag {
+  /** The package id */
+  packageId?: string;
+  /** The package kind */
+  packageKind?: PackageKind;
+  /** The version of the installed package, null or absent means not installed. */
+  installedVersion?: string;
+  /** Flag indicates if this is a newly published package. */
+  isNew?: Flag;
+  /** Flag indicates if this package is in preview. */
+  isPreview?: Flag;
+  /** Flag indicates if this package is among the featured list. */
+  isFeatured?: Flag;
+  /** the latest version number of the package */
+  version?: string;
+  /** The display name of the package */
+  displayName?: string;
+  /** The description of the package */
+  description?: string;
+  /** The source of the package */
+  source?: ContentMetadataSource;
+  /** The author of the package */
+  author?: ContentMetadataAuthor;
+  /** The support tier of the package */
+  support?: ContentMetadataSupport;
+  /** The support tier of the package */
+  dependencies?: ContentMetadataDependencies;
+  /** Providers for the package item */
+  providers?: string[];
+  /** first publish date package item */
+  firstPublishDate?: Date;
+  /** last publish date for the package item */
+  lastPublishDate?: Date;
+  /** The categories of the package */
+  categories?: ContentMetadataCategories;
+  /** the tactics the resource covers */
+  threatAnalysisTactics?: string[];
+  /** the techniques the resource covers, these have to be aligned with the tactics being used */
+  threatAnalyticsTechniques?: string[];
+  /** the icon identifier. this id can later be fetched from the content metadata */
+  icon?: string;
+  /** The JSON object of the package items. */
+  packageItems?: PackagePropertiesPackageItems;
+}
+
+/** Template resource definition. */
+export interface Template extends ResourceWithEtag {
+  /** Static ID for the content.  Used to identify dependencies and content from solutions or community.  Hard-coded/static for out of the box content and solutions. Dynamic for user-created.  This is the resource name */
+  contentId?: string;
+  /** The display name of the template */
+  displayName?: string;
+  /** The kind of content the template is for. */
+  contentKind?: Kind;
+  /** Version of the content.  Default and recommended format is numeric (e.g. 1, 1.0, 1.0.0, 1.0.0.0), following ARM metadata best practices.  Can also be any string, but then we cannot guarantee any version checks */
+  version?: string;
+  /** Source of the content.  This is where/how it was created. */
+  source?: ContentMetadataSource;
+  /** The creator of the content item. */
+  author?: ContentMetadataAuthor;
+  /** Support information for the template - type, name, contact information */
+  support?: ContentMetadataSupport;
+  /** Providers for the content item */
+  providers?: string[];
+  /** Categories for the  item */
+  categories?: ContentMetadataCategories;
+  /** first publish date content item */
+  firstPublishDate?: Date;
+  /** last publish date for the content item */
+  lastPublishDate?: Date;
+  /** the tactics the resource covers */
+  threatAnalysisTactics?: string[];
+  /** the techniques the resource covers, these have to be aligned with the tactics being used */
+  threatAnalysisTechniques?: string[];
+  /** preview image file names. These will be taken from the solution artifacts */
+  previewImages?: string[];
+  /** preview image file names. These will be taken from the solution artifacts. used for dark theme support */
+  previewImagesDark?: string[];
+  /** the icon identifier. this id can later be fetched from the content metadata */
+  icon?: string;
+  /** Dependencies for the content item, what other content items it requires to work.  Can describe more complex dependencies using a recursive/nested structure. For a single dependency an id/kind/version can be supplied or operator/criteria for complex formats. */
+  dependantTemplates?: TemplateProperties[];
+  /** The main template of the template */
+  mainTemplate?: ContentMainTemplate;
+}
+
 /** Represents MLBehaviorAnalytics alert rule template. */
 export interface MLBehaviorAnalyticsAlertRuleTemplate
   extends AlertRuleTemplate {
@@ -4547,6 +4944,8 @@ export interface ScheduledAlertRuleTemplate extends AlertRuleTemplate {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
 }
 
 /** Represents NRT alert rule template. */
@@ -4591,6 +4990,8 @@ export interface NrtAlertRuleTemplate extends AlertRuleTemplate {
   alertDetailsOverride?: AlertDetailsOverride;
   /** The event grouping settings. */
   eventGroupingSettings?: EventGroupingSettings;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
 }
 
 /** Represents a security alert entity. */
@@ -4601,7 +5002,7 @@ export interface SecurityAlert extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4739,7 +5140,7 @@ export interface HuntingBookmark extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4777,7 +5178,7 @@ export interface AccountEntity extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4853,7 +5254,7 @@ export interface AzureResourceEntity extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4879,7 +5280,7 @@ export interface CloudApplicationEntity extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4910,7 +5311,7 @@ export interface DnsEntity extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4946,7 +5347,7 @@ export interface FileEntity extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4982,7 +5383,7 @@ export interface FileHashEntity extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5008,7 +5409,7 @@ export interface HostEntity extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5066,7 +5467,7 @@ export interface IoTDeviceEntity extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5219,7 +5620,7 @@ export interface IpEntity extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5250,7 +5651,7 @@ export interface MailboxEntity extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5286,7 +5687,7 @@ export interface MailClusterEntity extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5377,7 +5778,7 @@ export interface MailMessageEntity extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5494,7 +5895,7 @@ export interface MalwareEntity extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5530,7 +5931,7 @@ export interface ProcessEntity extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5588,7 +5989,7 @@ export interface RegistryKeyEntity extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5614,7 +6015,7 @@ export interface RegistryValueEntity extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5650,7 +6051,7 @@ export interface SecurityGroupEntity extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5681,7 +6082,7 @@ export interface SubmissionMailEntity extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5747,7 +6148,7 @@ export interface UrlEntity extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5768,7 +6169,7 @@ export interface NicEntity extends Entity {
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -6004,6 +6405,8 @@ export interface ScheduledAlertRule extends AlertRule {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /** The version of the alert rule template used to create this rule - in format <a.b.c>, where all are numbers, for example 0 <1.0.2> */
@@ -6072,6 +6475,8 @@ export interface NrtAlertRule extends AlertRule {
   alertDetailsOverride?: AlertDetailsOverride;
   /** The event grouping settings. */
   eventGroupingSettings?: EventGroupingSettings;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
 }
 
 /** Represents Expansion entity query. */
@@ -6245,7 +6650,7 @@ export interface ThreatIntelligenceIndicatorModel
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  readonly additionalData?: { [propertyName: string]: any };
   /**
    * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -6663,7 +7068,9 @@ export enum KnownActionType {
   /** Modify an object's properties */
   ModifyProperties = "ModifyProperties",
   /** Run a playbook on an object */
-  RunPlaybook = "RunPlaybook"
+  RunPlaybook = "RunPlaybook",
+  /** Add a task to an incident object */
+  AddIncidentTask = "AddIncidentTask"
 }
 
 /**
@@ -6672,7 +7079,8 @@ export enum KnownActionType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **ModifyProperties**: Modify an object's properties \
- * **RunPlaybook**: Run a playbook on an object
+ * **RunPlaybook**: Run a playbook on an object \
+ * **AddIncidentTask**: Add a task to an incident object
  */
 export type ActionType = string;
 
@@ -7081,6 +7489,27 @@ export enum KnownFileImportState {
  */
 export type FileImportState = string;
 
+/** Known values of {@link IncidentStatus} that the service accepts. */
+export enum KnownIncidentStatus {
+  /** An active incident which isn't being handled currently */
+  New = "New",
+  /** An active incident which is being handled */
+  Active = "Active",
+  /** A non-active incident */
+  Closed = "Closed"
+}
+
+/**
+ * Defines values for IncidentStatus. \
+ * {@link KnownIncidentStatus} can be used interchangeably with IncidentStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **New**: An active incident which isn't being handled currently \
+ * **Active**: An active incident which is being handled \
+ * **Closed**: A non-active incident
+ */
+export type IncidentStatus = string;
+
 /** Known values of {@link IncidentClassification} that the service accepts. */
 export enum KnownIncidentClassification {
   /** Incident classification was undetermined */
@@ -7129,24 +7558,6 @@ export enum KnownIncidentClassificationReason {
  */
 export type IncidentClassificationReason = string;
 
-/** Known values of {@link IncidentLabelType} that the service accepts. */
-export enum KnownIncidentLabelType {
-  /** Label manually created by a user */
-  User = "User",
-  /** Label automatically created by the system */
-  AutoAssigned = "AutoAssigned"
-}
-
-/**
- * Defines values for IncidentLabelType. \
- * {@link KnownIncidentLabelType} can be used interchangeably with IncidentLabelType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User**: Label manually created by a user \
- * **AutoAssigned**: Label automatically created by the system
- */
-export type IncidentLabelType = string;
-
 /** Known values of {@link OwnerType} that the service accepts. */
 export enum KnownOwnerType {
   /** The incident owner type is unknown */
@@ -7168,26 +7579,23 @@ export enum KnownOwnerType {
  */
 export type OwnerType = string;
 
-/** Known values of {@link IncidentStatus} that the service accepts. */
-export enum KnownIncidentStatus {
-  /** An active incident which isn't being handled currently */
-  New = "New",
-  /** An active incident which is being handled */
-  Active = "Active",
-  /** A non-active incident */
-  Closed = "Closed"
+/** Known values of {@link IncidentLabelType} that the service accepts. */
+export enum KnownIncidentLabelType {
+  /** Label manually created by a user */
+  User = "User",
+  /** Label automatically created by the system */
+  AutoAssigned = "AutoAssigned"
 }
 
 /**
- * Defines values for IncidentStatus. \
- * {@link KnownIncidentStatus} can be used interchangeably with IncidentStatus,
+ * Defines values for IncidentLabelType. \
+ * {@link KnownIncidentLabelType} can be used interchangeably with IncidentLabelType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **New**: An active incident which isn't being handled currently \
- * **Active**: An active incident which is being handled \
- * **Closed**: A non-active incident
+ * **User**: Label manually created by a user \
+ * **AutoAssigned**: Label automatically created by the system
  */
-export type IncidentStatus = string;
+export type IncidentLabelType = string;
 
 /** Known values of {@link ConfidenceLevel} that the service accepts. */
 export enum KnownConfidenceLevel {
@@ -7339,6 +7747,24 @@ export enum KnownAlertStatus {
  */
 export type AlertStatus = string;
 
+/** Known values of {@link IncidentTaskStatus} that the service accepts. */
+export enum KnownIncidentTaskStatus {
+  /** A new task */
+  New = "New",
+  /** A completed task */
+  Completed = "Completed"
+}
+
+/**
+ * Defines values for IncidentTaskStatus. \
+ * {@link KnownIncidentTaskStatus} can be used interchangeably with IncidentTaskStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **New**: A new task \
+ * **Completed**: A completed task
+ */
+export type IncidentTaskStatus = string;
+
 /** Known values of {@link Kind} that the service accepts. */
 export enum KnownKind {
   /** DataConnector */
@@ -7464,6 +7890,105 @@ export enum KnownOperator {
  * **OR**
  */
 export type Operator = string;
+
+/** Known values of {@link Category} that the service accepts. */
+export enum KnownCategory {
+  /** Onboarding recommendation. */
+  Onboarding = "Onboarding",
+  /** New feature recommendation. */
+  NewFeature = "NewFeature",
+  /** Soc Efficiency recommendation. */
+  SocEfficiency = "SocEfficiency",
+  /** Cost optimization recommendation. */
+  CostOptimization = "CostOptimization",
+  /** Demo recommendation. */
+  Demo = "Demo"
+}
+
+/**
+ * Defines values for Category. \
+ * {@link KnownCategory} can be used interchangeably with Category,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Onboarding**: Onboarding recommendation. \
+ * **NewFeature**: New feature recommendation. \
+ * **SocEfficiency**: Soc Efficiency recommendation. \
+ * **CostOptimization**: Cost optimization recommendation. \
+ * **Demo**: Demo recommendation.
+ */
+export type Category = string;
+
+/** Known values of {@link Context} that the service accepts. */
+export enum KnownContext {
+  /** Analytics context. */
+  Analytics = "Analytics",
+  /** Incidents context. */
+  Incidents = "Incidents",
+  /** Overview context. */
+  Overview = "Overview",
+  /** No context. */
+  None = "None"
+}
+
+/**
+ * Defines values for Context. \
+ * {@link KnownContext} can be used interchangeably with Context,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Analytics**: Analytics context. \
+ * **Incidents**: Incidents context. \
+ * **Overview**: Overview context. \
+ * **None**: No context.
+ */
+export type Context = string;
+
+/** Known values of {@link Priority} that the service accepts. */
+export enum KnownPriority {
+  /** Low priority for recommendation. */
+  Low = "Low",
+  /** Medium priority for recommendation. */
+  Medium = "Medium",
+  /** High priority for recommendation. */
+  High = "High"
+}
+
+/**
+ * Defines values for Priority. \
+ * {@link KnownPriority} can be used interchangeably with Priority,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Low**: Low priority for recommendation. \
+ * **Medium**: Medium priority for recommendation. \
+ * **High**: High priority for recommendation.
+ */
+export type Priority = string;
+
+/** Known values of {@link State} that the service accepts. */
+export enum KnownState {
+  /** Recommendation is active. */
+  Active = "Active",
+  /** Recommendation is disabled. */
+  Disabled = "Disabled",
+  /** Recommendation has been completed by user. */
+  CompletedByUser = "CompletedByUser",
+  /** Recommendation has been completed by action. */
+  CompletedByAction = "CompletedByAction",
+  /** Recommendation is hidden. */
+  Hidden = "Hidden"
+}
+
+/**
+ * Defines values for State. \
+ * {@link KnownState} can be used interchangeably with State,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active**: Recommendation is active. \
+ * **Disabled**: Recommendation is disabled. \
+ * **CompletedByUser**: Recommendation has been completed by user. \
+ * **CompletedByAction**: Recommendation has been completed by action. \
+ * **Hidden**: Recommendation is hidden.
+ */
+export type State = string;
 
 /** Known values of {@link SecurityMLAnalyticsSettingsKind} that the service accepts. */
 export enum KnownSecurityMLAnalyticsSettingsKind {
@@ -7810,6 +8335,42 @@ export enum KnownDataConnectorLicenseState {
  */
 export type DataConnectorLicenseState = string;
 
+/** Known values of {@link PackageKind} that the service accepts. */
+export enum KnownPackageKind {
+  /** Solution */
+  Solution = "Solution",
+  /** Standalone */
+  Standalone = "Standalone"
+}
+
+/**
+ * Defines values for PackageKind. \
+ * {@link KnownPackageKind} can be used interchangeably with PackageKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Solution** \
+ * **Standalone**
+ */
+export type PackageKind = string;
+
+/** Known values of {@link Flag} that the service accepts. */
+export enum KnownFlag {
+  /** True */
+  True = "true",
+  /** False */
+  False = "false"
+}
+
+/**
+ * Defines values for Flag. \
+ * {@link KnownFlag} can be used interchangeably with Flag,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **true** \
+ * **false**
+ */
+export type Flag = string;
+
 /** Known values of {@link TemplateStatus} that the service accepts. */
 export enum KnownTemplateStatus {
   /** Alert rule template installed. and can not use more then once */
@@ -7896,6 +8457,45 @@ export enum KnownEntityMappingType {
  * **SubmissionMail**: Submission mail entity type
  */
 export type EntityMappingType = string;
+
+/** Known values of {@link AlertProperty} that the service accepts. */
+export enum KnownAlertProperty {
+  /** Alert's link */
+  AlertLink = "AlertLink",
+  /** Confidence level property */
+  ConfidenceLevel = "ConfidenceLevel",
+  /** Confidence score */
+  ConfidenceScore = "ConfidenceScore",
+  /** Extended links to the alert */
+  ExtendedLinks = "ExtendedLinks",
+  /** Product name alert property */
+  ProductName = "ProductName",
+  /** Provider name alert property */
+  ProviderName = "ProviderName",
+  /** Product component name alert property */
+  ProductComponentName = "ProductComponentName",
+  /** Remediation steps alert property */
+  RemediationSteps = "RemediationSteps",
+  /** Techniques alert property */
+  Techniques = "Techniques"
+}
+
+/**
+ * Defines values for AlertProperty. \
+ * {@link KnownAlertProperty} can be used interchangeably with AlertProperty,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AlertLink**: Alert's link \
+ * **ConfidenceLevel**: Confidence level property \
+ * **ConfidenceScore**: Confidence score \
+ * **ExtendedLinks**: Extended links to the alert \
+ * **ProductName**: Product name alert property \
+ * **ProviderName**: Provider name alert property \
+ * **ProductComponentName**: Product component name alert property \
+ * **RemediationSteps**: Remediation steps alert property \
+ * **Techniques**: Techniques alert property
+ */
+export type AlertProperty = string;
 
 /** Known values of {@link EventGroupingAggregationKind} that the service accepts. */
 export enum KnownEventGroupingAggregationKind {
@@ -9421,6 +10021,38 @@ export interface IncidentRelationsListNextOptionalParams
 export type IncidentRelationsListNextResponse = RelationList;
 
 /** Optional parameters. */
+export interface IncidentTasksListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type IncidentTasksListResponse = IncidentTaskList;
+
+/** Optional parameters. */
+export interface IncidentTasksGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IncidentTasksGetResponse = IncidentTask;
+
+/** Optional parameters. */
+export interface IncidentTasksCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type IncidentTasksCreateOrUpdateResponse = IncidentTask;
+
+/** Optional parameters. */
+export interface IncidentTasksDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface IncidentTasksListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type IncidentTasksListNextResponse = IncidentTaskList;
+
+/** Optional parameters. */
 export interface MetadataListOptionalParams
   extends coreClient.OperationOptions {
   /** Filters the results, based on a Boolean condition. Optional. */
@@ -9529,6 +10161,32 @@ export interface SentinelOnboardingStatesListOptionalParams
 
 /** Contains response data for the list operation. */
 export type SentinelOnboardingStatesListResponse = SentinelOnboardingStatesList;
+
+/** Optional parameters. */
+export interface GetRecommendationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type GetRecommendationsListResponse = RecommendationList;
+
+/** Optional parameters. */
+export interface GetSingleRecommendationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the singleRecommendation operation. */
+export type GetSingleRecommendationResponse = Recommendation;
+
+/** Optional parameters. */
+export interface UpdateRecommendationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the recommendation operation. */
+export type UpdateRecommendationResponse = Recommendation;
 
 /** Optional parameters. */
 export interface SecurityMLAnalyticsSettingsListOptionalParams
@@ -9849,6 +10507,102 @@ export interface DataConnectorsCheckRequirementsPostOptionalParams
 export type DataConnectorsCheckRequirementsPostResponse = DataConnectorRequirementsState;
 
 /** Optional parameters. */
+export interface ContentPackagesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filters the results, based on a Boolean condition. Optional. */
+  filter?: string;
+  /** Sorts the results. Optional. */
+  orderby?: string;
+  /** Returns only the first n results. Optional. */
+  top?: number;
+  /** Used to skip n elements in the OData query (offset). Returns a nextLink to the next page of results if there are any left. */
+  skip?: number;
+}
+
+/** Contains response data for the list operation. */
+export type ContentPackagesListResponse = PackageList;
+
+/** Optional parameters. */
+export interface ContentPackagesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ContentPackagesGetResponse = Package;
+
+/** Optional parameters. */
+export interface ContentPackagesInstallOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the install operation. */
+export type ContentPackagesInstallResponse = Package;
+
+/** Optional parameters. */
+export interface ContentPackagesUninstallOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the uninstall operation. */
+export type ContentPackagesUninstallResponse = Package;
+
+/** Optional parameters. */
+export interface ContentPackagesListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filters the results, based on a Boolean condition. Optional. */
+  filter?: string;
+  /** Sorts the results. Optional. */
+  orderby?: string;
+  /** Returns only the first n results. Optional. */
+  top?: number;
+  /** Used to skip n elements in the OData query (offset). Returns a nextLink to the next page of results if there are any left. */
+  skip?: number;
+}
+
+/** Contains response data for the listNext operation. */
+export type ContentPackagesListNextResponse = PackageList;
+
+/** Optional parameters. */
+export interface ContentTemplatesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filters the results, based on a Boolean condition. Optional. */
+  filter?: string;
+  /** Sorts the results. Optional. */
+  orderby?: string;
+  /** Returns only the first n results. Optional. */
+  top?: number;
+  /** Used to skip n elements in the OData query (offset). Returns a nextLink to the next page of results if there are any left. */
+  skip?: number;
+}
+
+/** Contains response data for the list operation. */
+export type ContentTemplatesListResponse = TemplateList;
+
+/** Optional parameters. */
+export interface ContentTemplatesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ContentTemplatesGetResponse = Template;
+
+/** Optional parameters. */
+export interface ContentTemplatesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ContentTemplatesListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filters the results, based on a Boolean condition. Optional. */
+  filter?: string;
+  /** Sorts the results. Optional. */
+  orderby?: string;
+  /** Returns only the first n results. Optional. */
+  top?: number;
+  /** Used to skip n elements in the OData query (offset). Returns a nextLink to the next page of results if there are any left. */
+  skip?: number;
+}
+
+/** Contains response data for the listNext operation. */
+export type ContentTemplatesListNextResponse = TemplateList;
+
+/** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -9867,8 +10621,6 @@ export interface SecurityInsightsOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
-  /** Api Version */
-  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

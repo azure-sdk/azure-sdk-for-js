@@ -17,7 +17,7 @@ import {
   AutomationRule as AutomationRuleMapper,
   ManualTriggerRequestBody as ManualTriggerRequestBodyMapper,
   Incident as IncidentMapper,
-  TeamProperties as TeamPropertiesMapper,
+  TeamInformation as TeamInformationMapper,
   Bookmark as BookmarkMapper,
   Relation as RelationMapper,
   BookmarkExpandParameters as BookmarkExpandParametersMapper,
@@ -27,6 +27,7 @@ import {
   CustomEntityQuery as CustomEntityQueryMapper,
   FileImport as FileImportMapper,
   IncidentComment as IncidentCommentMapper,
+  IncidentTask as IncidentTaskMapper,
   MetadataModel as MetadataModelMapper,
   MetadataPatch as MetadataPatchMapper,
   SentinelOnboardingState as SentinelOnboardingStateMapper,
@@ -40,7 +41,8 @@ import {
   WatchlistItem as WatchlistItemMapper,
   DataConnector as DataConnectorMapper,
   DataConnectorConnectBody as DataConnectorConnectBodyMapper,
-  DataConnectorsCheckRequirements as DataConnectorsCheckRequirementsMapper
+  DataConnectorsCheckRequirements as DataConnectorsCheckRequirementsMapper,
+  PackageInstallationProperties as PackageInstallationPropertiesMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -70,7 +72,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-01-preview",
+    defaultValue: "2022-12-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -112,6 +114,7 @@ export const workspaceName: OperationURLParameter = {
   parameterPath: "workspaceName",
   mapper: {
     constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"),
       MaxLength: 90,
       MinLength: 1
     },
@@ -280,7 +283,7 @@ export const incident: OperationParameter = {
 
 export const teamProperties: OperationParameter = {
   parameterPath: "teamProperties",
-  mapper: TeamPropertiesMapper
+  mapper: TeamInformationMapper
 };
 
 export const bookmarkId: OperationURLParameter = {
@@ -460,6 +463,22 @@ export const incidentComment: OperationParameter = {
   mapper: IncidentCommentMapper
 };
 
+export const incidentTaskId: OperationURLParameter = {
+  parameterPath: "incidentTaskId",
+  mapper: {
+    serializedName: "incidentTaskId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const incidentTask: OperationParameter = {
+  parameterPath: "incidentTask",
+  mapper: IncidentTaskMapper
+};
+
 export const skip: OperationQueryParameter = {
   parameterPath: ["options", "skip"],
   mapper: {
@@ -516,6 +535,34 @@ export const sentinelOnboardingStateName: OperationURLParameter = {
 export const sentinelOnboardingStateParameter: OperationParameter = {
   parameterPath: ["options", "sentinelOnboardingStateParameter"],
   mapper: SentinelOnboardingStateMapper
+};
+
+export const recommendationId: OperationURLParameter = {
+  parameterPath: "recommendationId",
+  mapper: {
+    serializedName: "recommendationId",
+    required: true,
+    type: {
+      name: "Uuid"
+    }
+  }
+};
+
+export const recommendationPatch: OperationParameter = {
+  parameterPath: "recommendationPatch",
+  mapper: {
+    serializedName: "recommendationPatch",
+    required: true,
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "Composite",
+          className: "RecommendationPatch"
+        }
+      }
+    }
+  }
 };
 
 export const settingsResourceName: OperationURLParameter = {
@@ -664,4 +711,59 @@ export const connectBody: OperationParameter = {
 export const dataConnectorsCheckRequirements: OperationParameter = {
   parameterPath: "dataConnectorsCheckRequirements",
   mapper: DataConnectorsCheckRequirementsMapper
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-11-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const sentinelWorkspaceName: OperationURLParameter = {
+  parameterPath: "sentinelWorkspaceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z0-9A-Z][a-z0-9A-Z-]*[a-z0-9A-Z]$"),
+      MaxLength: 63,
+      MinLength: 4
+    },
+    serializedName: "sentinelWorkspaceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const packageId: OperationURLParameter = {
+  parameterPath: "packageId",
+  mapper: {
+    serializedName: "packageId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const packageInstallationProperties: OperationParameter = {
+  parameterPath: "packageInstallationProperties",
+  mapper: PackageInstallationPropertiesMapper
+};
+
+export const templateId: OperationURLParameter = {
+  parameterPath: "templateId",
+  mapper: {
+    serializedName: "templateId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };

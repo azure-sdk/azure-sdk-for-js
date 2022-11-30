@@ -8,11 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest
-} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   AlertRulesImpl,
@@ -34,9 +29,13 @@ import {
   FileImportsImpl,
   IncidentCommentsImpl,
   IncidentRelationsImpl,
+  IncidentTasksImpl,
   MetadataImpl,
   OfficeConsentsImpl,
   SentinelOnboardingStatesImpl,
+  GetRecommendationsImpl,
+  GetImpl,
+  UpdateImpl,
   SecurityMLAnalyticsSettingsImpl,
   ProductSettingsImpl,
   SourceControlOperationsImpl,
@@ -48,6 +47,8 @@ import {
   WatchlistItemsImpl,
   DataConnectorsImpl,
   DataConnectorsCheckRequirementsOperationsImpl,
+  ContentPackagesImpl,
+  ContentTemplatesImpl,
   OperationsImpl
 } from "./operations";
 import {
@@ -70,9 +71,13 @@ import {
   FileImports,
   IncidentComments,
   IncidentRelations,
+  IncidentTasks,
   Metadata,
   OfficeConsents,
   SentinelOnboardingStates,
+  GetRecommendations,
+  Get,
+  Update,
   SecurityMLAnalyticsSettings,
   ProductSettings,
   SourceControlOperations,
@@ -84,13 +89,14 @@ import {
   WatchlistItems,
   DataConnectors,
   DataConnectorsCheckRequirementsOperations,
+  ContentPackages,
+  ContentTemplates,
   Operations
 } from "./operationsInterfaces";
 import { SecurityInsightsOptionalParams } from "./models";
 
 export class SecurityInsights extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
   subscriptionId: string;
 
   /**
@@ -174,7 +180,6 @@ export class SecurityInsights extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-01-preview";
     this.alertRules = new AlertRulesImpl(this);
     this.actions = new ActionsImpl(this);
     this.alertRuleTemplates = new AlertRuleTemplatesImpl(this);
@@ -194,9 +199,13 @@ export class SecurityInsights extends coreClient.ServiceClient {
     this.fileImports = new FileImportsImpl(this);
     this.incidentComments = new IncidentCommentsImpl(this);
     this.incidentRelations = new IncidentRelationsImpl(this);
+    this.incidentTasks = new IncidentTasksImpl(this);
     this.metadata = new MetadataImpl(this);
     this.officeConsents = new OfficeConsentsImpl(this);
     this.sentinelOnboardingStates = new SentinelOnboardingStatesImpl(this);
+    this.getRecommendations = new GetRecommendationsImpl(this);
+    this.get = new GetImpl(this);
+    this.update = new UpdateImpl(this);
     this.securityMLAnalyticsSettings = new SecurityMLAnalyticsSettingsImpl(
       this
     );
@@ -218,36 +227,9 @@ export class SecurityInsights extends coreClient.ServiceClient {
     this.dataConnectorsCheckRequirementsOperations = new DataConnectorsCheckRequirementsOperationsImpl(
       this
     );
+    this.contentPackages = new ContentPackagesImpl(this);
+    this.contentTemplates = new ContentTemplatesImpl(this);
     this.operations = new OperationsImpl(this);
-    this.addCustomApiVersionPolicy(options.apiVersion);
-  }
-
-  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
-  private addCustomApiVersionPolicy(apiVersion?: string) {
-    if (!apiVersion) {
-      return;
-    }
-    const apiVersionPolicy = {
-      name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest
-      ): Promise<PipelineResponse> {
-        const param = request.url.split("?");
-        if (param.length > 1) {
-          const newParams = param[1].split("&").map((item) => {
-            if (item.indexOf("api-version") > -1) {
-              return "api-version=" + apiVersion;
-            } else {
-              return item;
-            }
-          });
-          request.url = param[0] + "?" + newParams.join("&");
-        }
-        return next(request);
-      }
-    };
-    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   alertRules: AlertRules;
@@ -269,9 +251,13 @@ export class SecurityInsights extends coreClient.ServiceClient {
   fileImports: FileImports;
   incidentComments: IncidentComments;
   incidentRelations: IncidentRelations;
+  incidentTasks: IncidentTasks;
   metadata: Metadata;
   officeConsents: OfficeConsents;
   sentinelOnboardingStates: SentinelOnboardingStates;
+  getRecommendations: GetRecommendations;
+  get: Get;
+  update: Update;
   securityMLAnalyticsSettings: SecurityMLAnalyticsSettings;
   productSettings: ProductSettings;
   sourceControlOperations: SourceControlOperations;
@@ -283,5 +269,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
   watchlistItems: WatchlistItems;
   dataConnectors: DataConnectors;
   dataConnectorsCheckRequirementsOperations: DataConnectorsCheckRequirementsOperations;
+  contentPackages: ContentPackages;
+  contentTemplates: ContentTemplates;
   operations: Operations;
 }
