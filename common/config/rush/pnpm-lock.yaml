@@ -3928,7 +3928,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221128
+      typescript: 5.0.0-dev.20221129
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8972,8 +8972,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221128:
-    resolution: {integrity: sha512-cNV/osEHGNKTyjj/Ivi8s8x7MPkh0Kd/t53QjyXfM3jO3cC2jhL6kor57ziWqvyfl6paWjdNUVO/jxGsQOyfug==}
+  /typescript/5.0.0-dev.20221129:
+    resolution: {integrity: sha512-KYJlVn//fGz46EMIXlq2dri8ivw/Nc312RKbTLilThGolVUTTvaunJBViCZTE3JhVBZLlE0KYp0j19uklQVXVw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11509,9 +11509,9 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      '@types/chai': 4.3.3
+      '@types/chai': 4.3.4
       '@types/node': 14.18.33
-      chai: 4.3.6
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11564,9 +11564,9 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      '@types/chai': 4.3.3
+      '@types/chai': 4.3.4
       '@types/node': 14.18.33
-      chai: 4.3.6
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11592,9 +11592,9 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      '@types/chai': 4.3.3
+      '@types/chai': 4.3.4
       '@types/node': 14.18.33
-      chai: 4.3.6
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11963,7 +11963,7 @@ packages:
     dev: false
 
   file:projects/arm-digitaltwins.tgz:
-    resolution: {integrity: sha512-Cj29elLflzxgsWuVLqfLwmGuxr3G6LBRfqQheg8cU13+wkrVBCNnTz+AdyYAcVIWvn9w9rvSqZCBhg1afOc05Q==, tarball: file:projects/arm-digitaltwins.tgz}
+    resolution: {integrity: sha512-diK367mdNtM7OOeZWKABtRiK0NVKCwEFqdwE0X00CB794BBhkGwILS2seDr7XGfwV9bM3cwpgA6Oi0+tAHsw9w==, tarball: file:projects/arm-digitaltwins.tgz}
     name: '@rush-temp/arm-digitaltwins'
     version: 0.0.0
     dependencies:
@@ -11982,7 +11982,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@types/node'
@@ -19851,7 +19851,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-Dmo3usvsR7NnLEgv9M03xcaCz6X3l0bamstzq95KLC3Rzt88e8h1hLb6TFZoSBV1EvlLNQUkMI2uHPHpI9W7WQ==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-YZE/nBZ4/+anJj7A4z2j6eyOuG135QH3mzaCUQs/MEtp4xaTK5hjmwugvY64f3hYeM2l7EEINQrpLhIQ3Boc3w==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
@@ -19881,7 +19881,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
