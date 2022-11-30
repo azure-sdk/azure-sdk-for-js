@@ -16,15 +16,15 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   GuestAgent,
-  GuestAgentsListByVmNextOptionalParams,
-  GuestAgentsListByVmOptionalParams,
+  GuestAgentsListNextOptionalParams,
+  GuestAgentsListOptionalParams,
   GuestAgentsCreateOptionalParams,
   GuestAgentsCreateResponse,
   GuestAgentsGetOptionalParams,
   GuestAgentsGetResponse,
   GuestAgentsDeleteOptionalParams,
-  GuestAgentsListByVmResponse,
-  GuestAgentsListByVmNextResponse
+  GuestAgentsListResponse,
+  GuestAgentsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,12 +46,12 @@ export class GuestAgentsImpl implements GuestAgents {
    * @param virtualMachineName Name of the vm.
    * @param options The options parameters.
    */
-  public listByVm(
+  public list(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: GuestAgentsListByVmOptionalParams
+    options?: GuestAgentsListOptionalParams
   ): PagedAsyncIterableIterator<GuestAgent> {
-    const iter = this.listByVmPagingAll(
+    const iter = this.listPagingAll(
       resourceGroupName,
       virtualMachineName,
       options
@@ -64,7 +64,7 @@ export class GuestAgentsImpl implements GuestAgents {
         return this;
       },
       byPage: () => {
-        return this.listByVmPagingPage(
+        return this.listPagingPage(
           resourceGroupName,
           virtualMachineName,
           options
@@ -73,12 +73,12 @@ export class GuestAgentsImpl implements GuestAgents {
     };
   }
 
-  private async *listByVmPagingPage(
+  private async *listPagingPage(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: GuestAgentsListByVmOptionalParams
+    options?: GuestAgentsListOptionalParams
   ): AsyncIterableIterator<GuestAgent[]> {
-    let result = await this._listByVm(
+    let result = await this._list(
       resourceGroupName,
       virtualMachineName,
       options
@@ -86,7 +86,7 @@ export class GuestAgentsImpl implements GuestAgents {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listByVmNext(
+      result = await this._listNext(
         resourceGroupName,
         virtualMachineName,
         continuationToken,
@@ -97,12 +97,12 @@ export class GuestAgentsImpl implements GuestAgents {
     }
   }
 
-  private async *listByVmPagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: GuestAgentsListByVmOptionalParams
+    options?: GuestAgentsListOptionalParams
   ): AsyncIterableIterator<GuestAgent> {
-    for await (const page of this.listByVmPagingPage(
+    for await (const page of this.listPagingPage(
       resourceGroupName,
       virtualMachineName,
       options
@@ -316,33 +316,33 @@ export class GuestAgentsImpl implements GuestAgents {
    * @param virtualMachineName Name of the vm.
    * @param options The options parameters.
    */
-  private _listByVm(
+  private _list(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: GuestAgentsListByVmOptionalParams
-  ): Promise<GuestAgentsListByVmResponse> {
+    options?: GuestAgentsListOptionalParams
+  ): Promise<GuestAgentsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualMachineName, options },
-      listByVmOperationSpec
+      listOperationSpec
     );
   }
 
   /**
-   * ListByVmNext
+   * ListNext
    * @param resourceGroupName The Resource Group Name.
    * @param virtualMachineName Name of the vm.
-   * @param nextLink The nextLink from the previous successful call to the ListByVm method.
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  private _listByVmNext(
+  private _listNext(
     resourceGroupName: string,
     virtualMachineName: string,
     nextLink: string,
-    options?: GuestAgentsListByVmNextOptionalParams
-  ): Promise<GuestAgentsListByVmNextResponse> {
+    options?: GuestAgentsListNextOptionalParams
+  ): Promise<GuestAgentsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualMachineName, nextLink, options },
-      listByVmNextOperationSpec
+      listNextOperationSpec
     );
   }
 }
@@ -376,8 +376,8 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.virtualMachineName
+    Parameters.virtualMachineName,
+    Parameters.name
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -400,8 +400,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.virtualMachineName
+    Parameters.virtualMachineName,
+    Parameters.name
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -424,13 +424,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.virtualMachineName
+    Parameters.virtualMachineName,
+    Parameters.name
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByVmOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}/guestAgents",
   httpMethod: "GET",
@@ -452,7 +452,7 @@ const listByVmOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByVmNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

@@ -14,6 +14,8 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "./lroImpl";
 import {
   OperationsImpl,
   VirtualMachinesImpl,
@@ -44,7 +46,13 @@ import {
   MachineExtensions,
   GuestAgents
 } from "./operationsInterfaces";
-import { AzureArcVMwareManagementServiceAPIOptionalParams } from "./models";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
+import {
+  AzureArcVMwareManagementServiceAPIOptionalParams,
+  MachineExtensionUpgrade,
+  UpgradeExtensionsOptionalParams
+} from "./models";
 
 export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient {
   $host: string;
@@ -132,7 +140,7 @@ export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-01-10-preview";
+    this.apiVersion = options.apiVersion || "2022-07-15-preview";
     this.operations = new OperationsImpl(this);
     this.virtualMachines = new VirtualMachinesImpl(this);
     this.resourcePools = new ResourcePoolsImpl(this);
@@ -179,6 +187,99 @@ export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  /**
+   * The operation to Upgrade Machine Extensions.
+   * @param resourceGroupName The Resource Group Name.
+   * @param virtualMachineName The name of the machine containing the extension.
+   * @param extensionUpgradeParameters Parameters supplied to the Upgrade Extensions operation.
+   * @param options The options parameters.
+   */
+  async beginUpgradeExtensions(
+    resourceGroupName: string,
+    virtualMachineName: string,
+    extensionUpgradeParameters: MachineExtensionUpgrade,
+    options?: UpgradeExtensionsOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        virtualMachineName,
+        extensionUpgradeParameters,
+        options
+      },
+      upgradeExtensionsOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * The operation to Upgrade Machine Extensions.
+   * @param resourceGroupName The Resource Group Name.
+   * @param virtualMachineName The name of the machine containing the extension.
+   * @param extensionUpgradeParameters Parameters supplied to the Upgrade Extensions operation.
+   * @param options The options parameters.
+   */
+  async beginUpgradeExtensionsAndWait(
+    resourceGroupName: string,
+    virtualMachineName: string,
+    extensionUpgradeParameters: MachineExtensionUpgrade,
+    options?: UpgradeExtensionsOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginUpgradeExtensions(
+      resourceGroupName,
+      virtualMachineName,
+      extensionUpgradeParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
   operations: Operations;
   virtualMachines: VirtualMachines;
   resourcePools: ResourcePools;
@@ -193,3 +294,31 @@ export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient
   machineExtensions: MachineExtensions;
   guestAgents: GuestAgents;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const upgradeExtensionsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}/upgradeExtensions",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.extensionUpgradeParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.virtualMachineName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};

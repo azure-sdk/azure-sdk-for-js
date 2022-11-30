@@ -14,15 +14,15 @@ import * as Parameters from "../models/parameters";
 import { AzureArcVMwareManagementServiceAPI } from "../azureArcVMwareManagementServiceAPI";
 import {
   HybridIdentityMetadata,
-  HybridIdentityMetadataListByVmNextOptionalParams,
-  HybridIdentityMetadataListByVmOptionalParams,
+  HybridIdentityMetadataListNextOptionalParams,
+  HybridIdentityMetadataListOptionalParams,
   HybridIdentityMetadataCreateOptionalParams,
   HybridIdentityMetadataCreateResponse,
   HybridIdentityMetadataGetOptionalParams,
   HybridIdentityMetadataGetResponse,
   HybridIdentityMetadataDeleteOptionalParams,
-  HybridIdentityMetadataListByVmResponse,
-  HybridIdentityMetadataListByVmNextResponse
+  HybridIdentityMetadataListResponse,
+  HybridIdentityMetadataListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,12 +45,12 @@ export class HybridIdentityMetadataOperationsImpl
    * @param virtualMachineName Name of the vm.
    * @param options The options parameters.
    */
-  public listByVm(
+  public list(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: HybridIdentityMetadataListByVmOptionalParams
+    options?: HybridIdentityMetadataListOptionalParams
   ): PagedAsyncIterableIterator<HybridIdentityMetadata> {
-    const iter = this.listByVmPagingAll(
+    const iter = this.listPagingAll(
       resourceGroupName,
       virtualMachineName,
       options
@@ -63,7 +63,7 @@ export class HybridIdentityMetadataOperationsImpl
         return this;
       },
       byPage: () => {
-        return this.listByVmPagingPage(
+        return this.listPagingPage(
           resourceGroupName,
           virtualMachineName,
           options
@@ -72,12 +72,12 @@ export class HybridIdentityMetadataOperationsImpl
     };
   }
 
-  private async *listByVmPagingPage(
+  private async *listPagingPage(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: HybridIdentityMetadataListByVmOptionalParams
+    options?: HybridIdentityMetadataListOptionalParams
   ): AsyncIterableIterator<HybridIdentityMetadata[]> {
-    let result = await this._listByVm(
+    let result = await this._list(
       resourceGroupName,
       virtualMachineName,
       options
@@ -85,7 +85,7 @@ export class HybridIdentityMetadataOperationsImpl
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listByVmNext(
+      result = await this._listNext(
         resourceGroupName,
         virtualMachineName,
         continuationToken,
@@ -96,12 +96,12 @@ export class HybridIdentityMetadataOperationsImpl
     }
   }
 
-  private async *listByVmPagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: HybridIdentityMetadataListByVmOptionalParams
+    options?: HybridIdentityMetadataListOptionalParams
   ): AsyncIterableIterator<HybridIdentityMetadata> {
-    for await (const page of this.listByVmPagingPage(
+    for await (const page of this.listPagingPage(
       resourceGroupName,
       virtualMachineName,
       options
@@ -173,33 +173,33 @@ export class HybridIdentityMetadataOperationsImpl
    * @param virtualMachineName Name of the vm.
    * @param options The options parameters.
    */
-  private _listByVm(
+  private _list(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: HybridIdentityMetadataListByVmOptionalParams
-  ): Promise<HybridIdentityMetadataListByVmResponse> {
+    options?: HybridIdentityMetadataListOptionalParams
+  ): Promise<HybridIdentityMetadataListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualMachineName, options },
-      listByVmOperationSpec
+      listOperationSpec
     );
   }
 
   /**
-   * ListByVmNext
+   * ListNext
    * @param resourceGroupName The Resource Group Name.
    * @param virtualMachineName Name of the vm.
-   * @param nextLink The nextLink from the previous successful call to the ListByVm method.
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  private _listByVmNext(
+  private _listNext(
     resourceGroupName: string,
     virtualMachineName: string,
     nextLink: string,
-    options?: HybridIdentityMetadataListByVmNextOptionalParams
-  ): Promise<HybridIdentityMetadataListByVmNextResponse> {
+    options?: HybridIdentityMetadataListNextOptionalParams
+  ): Promise<HybridIdentityMetadataListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualMachineName, nextLink, options },
-      listByVmNextOperationSpec
+      listNextOperationSpec
     );
   }
 }
@@ -276,7 +276,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByVmOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}/hybridIdentityMetadata",
   httpMethod: "GET",
@@ -298,7 +298,7 @@ const listByVmOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByVmNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

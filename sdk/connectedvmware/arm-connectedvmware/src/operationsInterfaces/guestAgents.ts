@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   GuestAgent,
-  GuestAgentsListByVmOptionalParams,
+  GuestAgentsListOptionalParams,
   GuestAgentsCreateOptionalParams,
   GuestAgentsCreateResponse,
   GuestAgentsGetOptionalParams,
@@ -27,10 +27,10 @@ export interface GuestAgents {
    * @param virtualMachineName Name of the vm.
    * @param options The options parameters.
    */
-  listByVm(
+  list(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: GuestAgentsListByVmOptionalParams
+    options?: GuestAgentsListOptionalParams
   ): PagedAsyncIterableIterator<GuestAgent>;
   /**
    * Create Or Update GuestAgent.

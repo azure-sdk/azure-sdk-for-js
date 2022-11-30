@@ -16,17 +16,17 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   VirtualMachine,
+  VirtualMachinesListAllNextOptionalParams,
+  VirtualMachinesListAllOptionalParams,
   VirtualMachinesListNextOptionalParams,
   VirtualMachinesListOptionalParams,
-  VirtualMachinesListByResourceGroupNextOptionalParams,
-  VirtualMachinesListByResourceGroupOptionalParams,
   VirtualMachinesAssessPatchesOptionalParams,
   VirtualMachinesAssessPatchesResponse,
   VirtualMachineInstallPatchesParameters,
   VirtualMachinesInstallPatchesOptionalParams,
   VirtualMachinesInstallPatchesResponse,
-  VirtualMachinesCreateOptionalParams,
-  VirtualMachinesCreateResponse,
+  VirtualMachinesCreateOrUpdateOptionalParams,
+  VirtualMachinesCreateOrUpdateResponse,
   VirtualMachinesGetOptionalParams,
   VirtualMachinesGetResponse,
   VirtualMachinesUpdateOptionalParams,
@@ -35,10 +35,10 @@ import {
   VirtualMachinesStopOptionalParams,
   VirtualMachinesStartOptionalParams,
   VirtualMachinesRestartOptionalParams,
+  VirtualMachinesListAllResponse,
   VirtualMachinesListResponse,
-  VirtualMachinesListByResourceGroupResponse,
-  VirtualMachinesListNextResponse,
-  VirtualMachinesListByResourceGroupNextResponse
+  VirtualMachinesListAllNextResponse,
+  VirtualMachinesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,10 +58,10 @@ export class VirtualMachinesImpl implements VirtualMachines {
    * List of virtualMachines in a subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: VirtualMachinesListOptionalParams
+  public listAll(
+    options?: VirtualMachinesListAllOptionalParams
   ): PagedAsyncIterableIterator<VirtualMachine> {
-    const iter = this.listPagingAll(options);
+    const iter = this.listAllPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -70,28 +70,28 @@ export class VirtualMachinesImpl implements VirtualMachines {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(options);
+        return this.listAllPagingPage(options);
       }
     };
   }
 
-  private async *listPagingPage(
-    options?: VirtualMachinesListOptionalParams
+  private async *listAllPagingPage(
+    options?: VirtualMachinesListAllOptionalParams
   ): AsyncIterableIterator<VirtualMachine[]> {
-    let result = await this._list(options);
+    let result = await this._listAll(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
+      result = await this._listAllNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
   }
 
-  private async *listPagingAll(
-    options?: VirtualMachinesListOptionalParams
+  private async *listAllPagingAll(
+    options?: VirtualMachinesListAllOptionalParams
   ): AsyncIterableIterator<VirtualMachine> {
-    for await (const page of this.listPagingPage(options)) {
+    for await (const page of this.listAllPagingPage(options)) {
       yield* page;
     }
   }
@@ -101,11 +101,11 @@ export class VirtualMachinesImpl implements VirtualMachines {
    * @param resourceGroupName The Resource Group Name.
    * @param options The options parameters.
    */
-  public listByResourceGroup(
+  public list(
     resourceGroupName: string,
-    options?: VirtualMachinesListByResourceGroupOptionalParams
+    options?: VirtualMachinesListOptionalParams
   ): PagedAsyncIterableIterator<VirtualMachine> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+    const iter = this.listPagingAll(resourceGroupName, options);
     return {
       next() {
         return iter.next();
@@ -114,20 +114,20 @@ export class VirtualMachinesImpl implements VirtualMachines {
         return this;
       },
       byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+        return this.listPagingPage(resourceGroupName, options);
       }
     };
   }
 
-  private async *listByResourceGroupPagingPage(
+  private async *listPagingPage(
     resourceGroupName: string,
-    options?: VirtualMachinesListByResourceGroupOptionalParams
+    options?: VirtualMachinesListOptionalParams
   ): AsyncIterableIterator<VirtualMachine[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result = await this._list(resourceGroupName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
+      result = await this._listNext(
         resourceGroupName,
         continuationToken,
         options
@@ -137,14 +137,11 @@ export class VirtualMachinesImpl implements VirtualMachines {
     }
   }
 
-  private async *listByResourceGroupPagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
-    options?: VirtualMachinesListByResourceGroupOptionalParams
+    options?: VirtualMachinesListOptionalParams
   ): AsyncIterableIterator<VirtualMachine> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -152,12 +149,12 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * The operation to assess patches on a vSphere VMware machine identity in Azure.
    * @param resourceGroupName The name of the resource group.
-   * @param name The name of the vSphere VMware machine.
+   * @param virtualMachineName The name of the vSphere VMware machine.
    * @param options The options parameters.
    */
   async beginAssessPatches(
     resourceGroupName: string,
-    name: string,
+    virtualMachineName: string,
     options?: VirtualMachinesAssessPatchesOptionalParams
   ): Promise<
     PollerLike<
@@ -206,7 +203,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, name, options },
+      { resourceGroupName, virtualMachineName, options },
       assessPatchesOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -221,17 +218,17 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * The operation to assess patches on a vSphere VMware machine identity in Azure.
    * @param resourceGroupName The name of the resource group.
-   * @param name The name of the vSphere VMware machine.
+   * @param virtualMachineName The name of the vSphere VMware machine.
    * @param options The options parameters.
    */
   async beginAssessPatchesAndWait(
     resourceGroupName: string,
-    name: string,
+    virtualMachineName: string,
     options?: VirtualMachinesAssessPatchesOptionalParams
   ): Promise<VirtualMachinesAssessPatchesResponse> {
     const poller = await this.beginAssessPatches(
       resourceGroupName,
-      name,
+      virtualMachineName,
       options
     );
     return poller.pollUntilDone();
@@ -240,13 +237,13 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * The operation to install patches on a vSphere VMware machine identity in Azure.
    * @param resourceGroupName The name of the resource group.
-   * @param name The name of the vSphere VMware machine.
+   * @param virtualMachineName The name of the vSphere VMware machine.
    * @param installPatchesInput Input for InstallPatches as directly received by the API
    * @param options The options parameters.
    */
   async beginInstallPatches(
     resourceGroupName: string,
-    name: string,
+    virtualMachineName: string,
     installPatchesInput: VirtualMachineInstallPatchesParameters,
     options?: VirtualMachinesInstallPatchesOptionalParams
   ): Promise<
@@ -296,7 +293,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, name, installPatchesInput, options },
+      { resourceGroupName, virtualMachineName, installPatchesInput, options },
       installPatchesOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -311,19 +308,19 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * The operation to install patches on a vSphere VMware machine identity in Azure.
    * @param resourceGroupName The name of the resource group.
-   * @param name The name of the vSphere VMware machine.
+   * @param virtualMachineName The name of the vSphere VMware machine.
    * @param installPatchesInput Input for InstallPatches as directly received by the API
    * @param options The options parameters.
    */
   async beginInstallPatchesAndWait(
     resourceGroupName: string,
-    name: string,
+    virtualMachineName: string,
     installPatchesInput: VirtualMachineInstallPatchesParameters,
     options?: VirtualMachinesInstallPatchesOptionalParams
   ): Promise<VirtualMachinesInstallPatchesResponse> {
     const poller = await this.beginInstallPatches(
       resourceGroupName,
-      name,
+      virtualMachineName,
       installPatchesInput,
       options
     );
@@ -336,20 +333,20 @@ export class VirtualMachinesImpl implements VirtualMachines {
    * @param virtualMachineName Name of the virtual machine resource.
    * @param options The options parameters.
    */
-  async beginCreate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: VirtualMachinesCreateOptionalParams
+    options?: VirtualMachinesCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<VirtualMachinesCreateResponse>,
-      VirtualMachinesCreateResponse
+      PollOperationState<VirtualMachinesCreateOrUpdateResponse>,
+      VirtualMachinesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<VirtualMachinesCreateResponse> => {
+    ): Promise<VirtualMachinesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -388,7 +385,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, virtualMachineName, options },
-      createOperationSpec
+      createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
@@ -405,12 +402,12 @@ export class VirtualMachinesImpl implements VirtualMachines {
    * @param virtualMachineName Name of the virtual machine resource.
    * @param options The options parameters.
    */
-  async beginCreateAndWait(
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: VirtualMachinesCreateOptionalParams
-  ): Promise<VirtualMachinesCreateResponse> {
-    const poller = await this.beginCreate(
+    options?: VirtualMachinesCreateOrUpdateOptionalParams
+  ): Promise<VirtualMachinesCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       virtualMachineName,
       options
@@ -661,7 +658,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -743,7 +741,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -825,7 +824,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -854,10 +854,10 @@ export class VirtualMachinesImpl implements VirtualMachines {
    * List of virtualMachines in a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: VirtualMachinesListOptionalParams
-  ): Promise<VirtualMachinesListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
+  private _listAll(
+    options?: VirtualMachinesListAllOptionalParams
+  ): Promise<VirtualMachinesListAllResponse> {
+    return this.client.sendOperationRequest({ options }, listAllOperationSpec);
   }
 
   /**
@@ -865,45 +865,45 @@ export class VirtualMachinesImpl implements VirtualMachines {
    * @param resourceGroupName The Resource Group Name.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
+  private _list(
     resourceGroupName: string,
-    options?: VirtualMachinesListByResourceGroupOptionalParams
-  ): Promise<VirtualMachinesListByResourceGroupResponse> {
+    options?: VirtualMachinesListOptionalParams
+  ): Promise<VirtualMachinesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listOperationSpec
+    );
+  }
+
+  /**
+   * ListAllNext
+   * @param nextLink The nextLink from the previous successful call to the ListAll method.
+   * @param options The options parameters.
+   */
+  private _listAllNext(
+    nextLink: string,
+    options?: VirtualMachinesListAllNextOptionalParams
+  ): Promise<VirtualMachinesListAllNextResponse> {
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listAllNextOperationSpec
     );
   }
 
   /**
    * ListNext
+   * @param resourceGroupName The Resource Group Name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
+    resourceGroupName: string,
     nextLink: string,
     options?: VirtualMachinesListNextOptionalParams
   ): Promise<VirtualMachinesListNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec
-    );
-  }
-
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The Resource Group Name.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: VirtualMachinesListByResourceGroupNextOptionalParams
-  ): Promise<VirtualMachinesListByResourceGroupNextResponse> {
-    return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listNextOperationSpec
     );
   }
 }
@@ -912,7 +912,7 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const assessPatchesOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{name}/assessPatches",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}/assessPatches",
   httpMethod: "POST",
   responses: {
     200: {
@@ -936,14 +936,14 @@ const assessPatchesOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.virtualMachineName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const installPatchesOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{name}/installPatches",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}/installPatches",
   httpMethod: "POST",
   responses: {
     200: {
@@ -968,13 +968,13 @@ const installPatchesOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.virtualMachineName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const createOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}",
   httpMethod: "PUT",
@@ -1075,7 +1075,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.force, Parameters.retain],
+  queryParameters: [Parameters.apiVersion, Parameters.retain, Parameters.force],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1156,7 +1156,7 @@ const restartOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listOperationSpec: coreClient.OperationSpec = {
+const listAllOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines",
   httpMethod: "GET",
@@ -1173,7 +1173,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines",
   httpMethod: "GET",
@@ -1194,7 +1194,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
+const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -1214,7 +1214,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
