@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { WebApps } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,225 +18,162 @@ import {
   Site,
   WebAppsListNextOptionalParams,
   WebAppsListOptionalParams,
-  WebAppsListResponse,
   WebAppsListByResourceGroupNextOptionalParams,
   WebAppsListByResourceGroupOptionalParams,
-  WebAppsListByResourceGroupResponse,
   BackupItem,
   WebAppsListBackupsNextOptionalParams,
   WebAppsListBackupsOptionalParams,
-  WebAppsListBackupsResponse,
   CsmPublishingCredentialsPoliciesEntity,
   WebAppsListBasicPublishingCredentialsPoliciesNextOptionalParams,
   WebAppsListBasicPublishingCredentialsPoliciesOptionalParams,
-  WebAppsListBasicPublishingCredentialsPoliciesResponse,
   SiteConfigResource,
   WebAppsListConfigurationsNextOptionalParams,
   WebAppsListConfigurationsOptionalParams,
-  WebAppsListConfigurationsResponse,
   ApiKVReference,
   WebAppsGetAppSettingsKeyVaultReferencesNextOptionalParams,
   WebAppsGetAppSettingsKeyVaultReferencesOptionalParams,
-  WebAppsGetAppSettingsKeyVaultReferencesResponse,
   WebAppsGetSiteConnectionStringKeyVaultReferencesNextOptionalParams,
   WebAppsGetSiteConnectionStringKeyVaultReferencesOptionalParams,
-  WebAppsGetSiteConnectionStringKeyVaultReferencesResponse,
   SiteConfigurationSnapshotInfo,
   WebAppsListConfigurationSnapshotInfoNextOptionalParams,
   WebAppsListConfigurationSnapshotInfoOptionalParams,
-  WebAppsListConfigurationSnapshotInfoResponse,
   ContinuousWebJob,
   WebAppsListContinuousWebJobsNextOptionalParams,
   WebAppsListContinuousWebJobsOptionalParams,
-  WebAppsListContinuousWebJobsResponse,
   CsmDeploymentStatus,
   WebAppsListProductionSiteDeploymentStatusesNextOptionalParams,
   WebAppsListProductionSiteDeploymentStatusesOptionalParams,
-  WebAppsListProductionSiteDeploymentStatusesResponse,
   Deployment,
   WebAppsListDeploymentsNextOptionalParams,
   WebAppsListDeploymentsOptionalParams,
-  WebAppsListDeploymentsResponse,
   Identifier,
   WebAppsListDomainOwnershipIdentifiersNextOptionalParams,
   WebAppsListDomainOwnershipIdentifiersOptionalParams,
-  WebAppsListDomainOwnershipIdentifiersResponse,
   FunctionEnvelope,
   WebAppsListFunctionsNextOptionalParams,
   WebAppsListFunctionsOptionalParams,
-  WebAppsListFunctionsResponse,
   HostNameBinding,
   WebAppsListHostNameBindingsNextOptionalParams,
   WebAppsListHostNameBindingsOptionalParams,
-  WebAppsListHostNameBindingsResponse,
   WebSiteInstanceStatus,
   WebAppsListInstanceIdentifiersNextOptionalParams,
   WebAppsListInstanceIdentifiersOptionalParams,
-  WebAppsListInstanceIdentifiersResponse,
   ProcessInfo,
   WebAppsListInstanceProcessesNextOptionalParams,
   WebAppsListInstanceProcessesOptionalParams,
-  WebAppsListInstanceProcessesResponse,
   ProcessModuleInfo,
   WebAppsListInstanceProcessModulesNextOptionalParams,
   WebAppsListInstanceProcessModulesOptionalParams,
-  WebAppsListInstanceProcessModulesResponse,
   ProcessThreadInfo,
   WebAppsListInstanceProcessThreadsNextOptionalParams,
   WebAppsListInstanceProcessThreadsOptionalParams,
-  WebAppsListInstanceProcessThreadsResponse,
   WebAppsListSiteBackupsNextOptionalParams,
   WebAppsListSiteBackupsOptionalParams,
-  WebAppsListSiteBackupsResponse,
   PerfMonResponse,
   WebAppsListPerfMonCountersNextOptionalParams,
   WebAppsListPerfMonCountersOptionalParams,
-  WebAppsListPerfMonCountersResponse,
   RemotePrivateEndpointConnectionARMResource,
   WebAppsGetPrivateEndpointConnectionListNextOptionalParams,
   WebAppsGetPrivateEndpointConnectionListOptionalParams,
-  WebAppsGetPrivateEndpointConnectionListResponse,
   WebAppsListProcessesNextOptionalParams,
   WebAppsListProcessesOptionalParams,
-  WebAppsListProcessesResponse,
   WebAppsListProcessModulesNextOptionalParams,
   WebAppsListProcessModulesOptionalParams,
-  WebAppsListProcessModulesResponse,
   WebAppsListProcessThreadsNextOptionalParams,
   WebAppsListProcessThreadsOptionalParams,
-  WebAppsListProcessThreadsResponse,
   PublicCertificate,
   WebAppsListPublicCertificatesNextOptionalParams,
   WebAppsListPublicCertificatesOptionalParams,
-  WebAppsListPublicCertificatesResponse,
   SiteExtensionInfo,
   WebAppsListSiteExtensionsNextOptionalParams,
   WebAppsListSiteExtensionsOptionalParams,
-  WebAppsListSiteExtensionsResponse,
   WebAppsListSlotsNextOptionalParams,
   WebAppsListSlotsOptionalParams,
-  WebAppsListSlotsResponse,
   WebAppsListBackupsSlotNextOptionalParams,
   WebAppsListBackupsSlotOptionalParams,
-  WebAppsListBackupsSlotResponse,
   WebAppsListBasicPublishingCredentialsPoliciesSlotNextOptionalParams,
   WebAppsListBasicPublishingCredentialsPoliciesSlotOptionalParams,
-  WebAppsListBasicPublishingCredentialsPoliciesSlotResponse,
   WebAppsListConfigurationsSlotNextOptionalParams,
   WebAppsListConfigurationsSlotOptionalParams,
-  WebAppsListConfigurationsSlotResponse,
   WebAppsGetAppSettingsKeyVaultReferencesSlotNextOptionalParams,
   WebAppsGetAppSettingsKeyVaultReferencesSlotOptionalParams,
-  WebAppsGetAppSettingsKeyVaultReferencesSlotResponse,
   WebAppsGetSiteConnectionStringKeyVaultReferencesSlotNextOptionalParams,
   WebAppsGetSiteConnectionStringKeyVaultReferencesSlotOptionalParams,
-  WebAppsGetSiteConnectionStringKeyVaultReferencesSlotResponse,
   WebAppsListConfigurationSnapshotInfoSlotNextOptionalParams,
   WebAppsListConfigurationSnapshotInfoSlotOptionalParams,
-  WebAppsListConfigurationSnapshotInfoSlotResponse,
   WebAppsListContinuousWebJobsSlotNextOptionalParams,
   WebAppsListContinuousWebJobsSlotOptionalParams,
-  WebAppsListContinuousWebJobsSlotResponse,
   WebAppsListSlotSiteDeploymentStatusesSlotNextOptionalParams,
   WebAppsListSlotSiteDeploymentStatusesSlotOptionalParams,
-  WebAppsListSlotSiteDeploymentStatusesSlotResponse,
   WebAppsListDeploymentsSlotNextOptionalParams,
   WebAppsListDeploymentsSlotOptionalParams,
-  WebAppsListDeploymentsSlotResponse,
   WebAppsListDomainOwnershipIdentifiersSlotNextOptionalParams,
   WebAppsListDomainOwnershipIdentifiersSlotOptionalParams,
-  WebAppsListDomainOwnershipIdentifiersSlotResponse,
   WebAppsListInstanceFunctionsSlotNextOptionalParams,
   WebAppsListInstanceFunctionsSlotOptionalParams,
-  WebAppsListInstanceFunctionsSlotResponse,
   WebAppsListHostNameBindingsSlotNextOptionalParams,
   WebAppsListHostNameBindingsSlotOptionalParams,
-  WebAppsListHostNameBindingsSlotResponse,
   WebAppsListInstanceIdentifiersSlotNextOptionalParams,
   WebAppsListInstanceIdentifiersSlotOptionalParams,
-  WebAppsListInstanceIdentifiersSlotResponse,
   WebAppsListInstanceProcessesSlotNextOptionalParams,
   WebAppsListInstanceProcessesSlotOptionalParams,
-  WebAppsListInstanceProcessesSlotResponse,
   WebAppsListInstanceProcessModulesSlotNextOptionalParams,
   WebAppsListInstanceProcessModulesSlotOptionalParams,
-  WebAppsListInstanceProcessModulesSlotResponse,
   WebAppsListInstanceProcessThreadsSlotNextOptionalParams,
   WebAppsListInstanceProcessThreadsSlotOptionalParams,
-  WebAppsListInstanceProcessThreadsSlotResponse,
   WebAppsListSiteBackupsSlotNextOptionalParams,
   WebAppsListSiteBackupsSlotOptionalParams,
-  WebAppsListSiteBackupsSlotResponse,
   WebAppsListPerfMonCountersSlotNextOptionalParams,
   WebAppsListPerfMonCountersSlotOptionalParams,
-  WebAppsListPerfMonCountersSlotResponse,
   WebAppsGetPrivateEndpointConnectionListSlotNextOptionalParams,
   WebAppsGetPrivateEndpointConnectionListSlotOptionalParams,
-  WebAppsGetPrivateEndpointConnectionListSlotResponse,
   WebAppsListProcessesSlotNextOptionalParams,
   WebAppsListProcessesSlotOptionalParams,
-  WebAppsListProcessesSlotResponse,
   WebAppsListProcessModulesSlotNextOptionalParams,
   WebAppsListProcessModulesSlotOptionalParams,
-  WebAppsListProcessModulesSlotResponse,
   WebAppsListProcessThreadsSlotNextOptionalParams,
   WebAppsListProcessThreadsSlotOptionalParams,
-  WebAppsListProcessThreadsSlotResponse,
   WebAppsListPublicCertificatesSlotNextOptionalParams,
   WebAppsListPublicCertificatesSlotOptionalParams,
-  WebAppsListPublicCertificatesSlotResponse,
   WebAppsListSiteExtensionsSlotNextOptionalParams,
   WebAppsListSiteExtensionsSlotOptionalParams,
-  WebAppsListSiteExtensionsSlotResponse,
   SlotDifference,
   CsmSlotEntity,
   WebAppsListSlotDifferencesSlotNextOptionalParams,
   WebAppsListSlotDifferencesSlotOptionalParams,
-  WebAppsListSlotDifferencesSlotResponse,
   Snapshot,
   WebAppsListSnapshotsSlotNextOptionalParams,
   WebAppsListSnapshotsSlotOptionalParams,
-  WebAppsListSnapshotsSlotResponse,
   WebAppsListSnapshotsFromDRSecondarySlotNextOptionalParams,
   WebAppsListSnapshotsFromDRSecondarySlotOptionalParams,
-  WebAppsListSnapshotsFromDRSecondarySlotResponse,
   TriggeredWebJob,
   WebAppsListTriggeredWebJobsSlotNextOptionalParams,
   WebAppsListTriggeredWebJobsSlotOptionalParams,
-  WebAppsListTriggeredWebJobsSlotResponse,
   TriggeredJobHistory,
   WebAppsListTriggeredWebJobHistorySlotNextOptionalParams,
   WebAppsListTriggeredWebJobHistorySlotOptionalParams,
-  WebAppsListTriggeredWebJobHistorySlotResponse,
   CsmUsageQuota,
   WebAppsListUsagesSlotNextOptionalParams,
   WebAppsListUsagesSlotOptionalParams,
-  WebAppsListUsagesSlotResponse,
   WebJob,
   WebAppsListWebJobsSlotNextOptionalParams,
   WebAppsListWebJobsSlotOptionalParams,
-  WebAppsListWebJobsSlotResponse,
   WebAppsListSlotDifferencesFromProductionNextOptionalParams,
   WebAppsListSlotDifferencesFromProductionOptionalParams,
-  WebAppsListSlotDifferencesFromProductionResponse,
   WebAppsListSnapshotsNextOptionalParams,
   WebAppsListSnapshotsOptionalParams,
-  WebAppsListSnapshotsResponse,
   WebAppsListSnapshotsFromDRSecondaryNextOptionalParams,
   WebAppsListSnapshotsFromDRSecondaryOptionalParams,
-  WebAppsListSnapshotsFromDRSecondaryResponse,
   WebAppsListTriggeredWebJobsNextOptionalParams,
   WebAppsListTriggeredWebJobsOptionalParams,
-  WebAppsListTriggeredWebJobsResponse,
   WebAppsListTriggeredWebJobHistoryNextOptionalParams,
   WebAppsListTriggeredWebJobHistoryOptionalParams,
-  WebAppsListTriggeredWebJobHistoryResponse,
   WebAppsListUsagesNextOptionalParams,
   WebAppsListUsagesOptionalParams,
-  WebAppsListUsagesResponse,
   WebAppsListWebJobsNextOptionalParams,
   WebAppsListWebJobsOptionalParams,
-  WebAppsListWebJobsResponse,
+  WebAppsListResponse,
+  WebAppsListByResourceGroupResponse,
   WebAppsGetOptionalParams,
   WebAppsGetResponse,
   WebAppsCreateOrUpdateOptionalParams,
@@ -252,6 +188,7 @@ import {
   BackupRequest,
   WebAppsBackupOptionalParams,
   WebAppsBackupResponse,
+  WebAppsListBackupsResponse,
   WebAppsGetBackupStatusOptionalParams,
   WebAppsGetBackupStatusResponse,
   WebAppsDeleteBackupOptionalParams,
@@ -259,6 +196,7 @@ import {
   WebAppsListBackupStatusSecretsResponse,
   RestoreRequest,
   WebAppsRestoreOptionalParams,
+  WebAppsListBasicPublishingCredentialsPoliciesResponse,
   WebAppsGetFtpAllowedOptionalParams,
   WebAppsGetFtpAllowedResponse,
   WebAppsUpdateFtpAllowedOptionalParams,
@@ -267,6 +205,7 @@ import {
   WebAppsGetScmAllowedResponse,
   WebAppsUpdateScmAllowedOptionalParams,
   WebAppsUpdateScmAllowedResponse,
+  WebAppsListConfigurationsResponse,
   StringDictionary,
   WebAppsUpdateApplicationSettingsOptionalParams,
   WebAppsUpdateApplicationSettingsResponse,
@@ -294,8 +233,10 @@ import {
   WebAppsDeleteBackupConfigurationOptionalParams,
   WebAppsGetBackupConfigurationOptionalParams,
   WebAppsGetBackupConfigurationResponse,
+  WebAppsGetAppSettingsKeyVaultReferencesResponse,
   WebAppsGetAppSettingKeyVaultReferenceOptionalParams,
   WebAppsGetAppSettingKeyVaultReferenceResponse,
+  WebAppsGetSiteConnectionStringKeyVaultReferencesResponse,
   WebAppsGetSiteConnectionStringKeyVaultReferenceOptionalParams,
   WebAppsGetSiteConnectionStringKeyVaultReferenceResponse,
   ConnectionStringDictionary,
@@ -330,6 +271,7 @@ import {
   WebAppsCreateOrUpdateConfigurationResponse,
   WebAppsUpdateConfigurationOptionalParams,
   WebAppsUpdateConfigurationResponse,
+  WebAppsListConfigurationSnapshotInfoResponse,
   WebAppsGetConfigurationSnapshotOptionalParams,
   WebAppsGetConfigurationSnapshotResponse,
   WebAppsRecoverSiteConfigurationSnapshotOptionalParams,
@@ -337,13 +279,16 @@ import {
   WebAppsGetWebSiteContainerLogsResponse,
   WebAppsGetContainerLogsZipOptionalParams,
   WebAppsGetContainerLogsZipResponse,
+  WebAppsListContinuousWebJobsResponse,
   WebAppsGetContinuousWebJobOptionalParams,
   WebAppsGetContinuousWebJobResponse,
   WebAppsDeleteContinuousWebJobOptionalParams,
   WebAppsStartContinuousWebJobOptionalParams,
   WebAppsStopContinuousWebJobOptionalParams,
+  WebAppsListProductionSiteDeploymentStatusesResponse,
   WebAppsGetProductionSiteDeploymentStatusOptionalParams,
   WebAppsGetProductionSiteDeploymentStatusResponse,
+  WebAppsListDeploymentsResponse,
   WebAppsGetDeploymentOptionalParams,
   WebAppsGetDeploymentResponse,
   WebAppsCreateDeploymentOptionalParams,
@@ -353,6 +298,7 @@ import {
   WebAppsListDeploymentLogResponse,
   WebAppsDiscoverBackupOptionalParams,
   WebAppsDiscoverBackupResponse,
+  WebAppsListDomainOwnershipIdentifiersResponse,
   WebAppsGetDomainOwnershipIdentifierOptionalParams,
   WebAppsGetDomainOwnershipIdentifierResponse,
   WebAppsCreateOrUpdateDomainOwnershipIdentifierOptionalParams,
@@ -371,6 +317,7 @@ import {
   WebAppsGetOneDeployStatusResponse,
   WebAppsCreateOneDeployOperationOptionalParams,
   WebAppsCreateOneDeployOperationResponse,
+  WebAppsListFunctionsResponse,
   WebAppsGetFunctionsAdminTokenOptionalParams,
   WebAppsGetFunctionsAdminTokenResponse,
   WebAppsGetFunctionOptionalParams,
@@ -393,6 +340,7 @@ import {
   WebAppsCreateOrUpdateHostSecretOptionalParams,
   WebAppsCreateOrUpdateHostSecretResponse,
   WebAppsDeleteHostSecretOptionalParams,
+  WebAppsListHostNameBindingsResponse,
   WebAppsGetHostNameBindingOptionalParams,
   WebAppsGetHostNameBindingResponse,
   WebAppsCreateOrUpdateHostNameBindingOptionalParams,
@@ -418,6 +366,7 @@ import {
   WebAppsDeleteRelayServiceConnectionOptionalParams,
   WebAppsUpdateRelayServiceConnectionOptionalParams,
   WebAppsUpdateRelayServiceConnectionResponse,
+  WebAppsListInstanceIdentifiersResponse,
   WebAppsGetInstanceInfoOptionalParams,
   WebAppsGetInstanceInfoResponse,
   WebAppsGetInstanceMsDeployStatusOptionalParams,
@@ -426,15 +375,19 @@ import {
   WebAppsCreateInstanceMSDeployOperationResponse,
   WebAppsGetInstanceMSDeployLogOptionalParams,
   WebAppsGetInstanceMSDeployLogResponse,
+  WebAppsListInstanceProcessesResponse,
   WebAppsGetInstanceProcessOptionalParams,
   WebAppsGetInstanceProcessResponse,
   WebAppsDeleteInstanceProcessOptionalParams,
   WebAppsGetInstanceProcessDumpOptionalParams,
   WebAppsGetInstanceProcessDumpResponse,
+  WebAppsListInstanceProcessModulesResponse,
   WebAppsGetInstanceProcessModuleOptionalParams,
   WebAppsGetInstanceProcessModuleResponse,
+  WebAppsListInstanceProcessThreadsResponse,
   WebAppsIsCloneableOptionalParams,
   WebAppsIsCloneableResponse,
+  WebAppsListSiteBackupsResponse,
   WebAppsListSyncFunctionTriggersOptionalParams,
   WebAppsListSyncFunctionTriggersResponse,
   StorageMigrationOptions,
@@ -469,6 +422,7 @@ import {
   WebAppsGetNetworkTracesV2OptionalParams,
   WebAppsGetNetworkTracesV2Response,
   WebAppsGenerateNewSitePublishingPasswordOptionalParams,
+  WebAppsListPerfMonCountersResponse,
   WebAppsGetSitePhpErrorLogFlagOptionalParams,
   WebAppsGetSitePhpErrorLogFlagResponse,
   WebAppsListPremierAddOnsOptionalParams,
@@ -487,6 +441,7 @@ import {
   PrivateAccess,
   WebAppsPutPrivateAccessVnetOptionalParams,
   WebAppsPutPrivateAccessVnetResponse,
+  WebAppsGetPrivateEndpointConnectionListResponse,
   WebAppsGetPrivateEndpointConnectionOptionalParams,
   WebAppsGetPrivateEndpointConnectionResponse,
   PrivateLinkConnectionApprovalRequestResource,
@@ -496,13 +451,17 @@ import {
   WebAppsDeletePrivateEndpointConnectionResponse,
   WebAppsGetPrivateLinkResourcesOptionalParams,
   WebAppsGetPrivateLinkResourcesResponse,
+  WebAppsListProcessesResponse,
   WebAppsGetProcessOptionalParams,
   WebAppsGetProcessResponse,
   WebAppsDeleteProcessOptionalParams,
   WebAppsGetProcessDumpOptionalParams,
   WebAppsGetProcessDumpResponse,
+  WebAppsListProcessModulesResponse,
   WebAppsGetProcessModuleOptionalParams,
   WebAppsGetProcessModuleResponse,
+  WebAppsListProcessThreadsResponse,
+  WebAppsListPublicCertificatesResponse,
   WebAppsGetPublicCertificateOptionalParams,
   WebAppsGetPublicCertificateResponse,
   WebAppsCreateOrUpdatePublicCertificateOptionalParams,
@@ -518,11 +477,13 @@ import {
   WebAppsRestoreFromDeletedAppOptionalParams,
   SnapshotRestoreRequest,
   WebAppsRestoreSnapshotOptionalParams,
+  WebAppsListSiteExtensionsResponse,
   WebAppsGetSiteExtensionOptionalParams,
   WebAppsGetSiteExtensionResponse,
   WebAppsInstallSiteExtensionOptionalParams,
   WebAppsInstallSiteExtensionResponse,
   WebAppsDeleteSiteExtensionOptionalParams,
+  WebAppsListSlotsResponse,
   WebAppsGetSlotOptionalParams,
   WebAppsGetSlotResponse,
   WebAppsCreateOrUpdateSlotOptionalParams,
@@ -535,12 +496,14 @@ import {
   WebAppsApplySlotConfigurationSlotOptionalParams,
   WebAppsBackupSlotOptionalParams,
   WebAppsBackupSlotResponse,
+  WebAppsListBackupsSlotResponse,
   WebAppsGetBackupStatusSlotOptionalParams,
   WebAppsGetBackupStatusSlotResponse,
   WebAppsDeleteBackupSlotOptionalParams,
   WebAppsListBackupStatusSecretsSlotOptionalParams,
   WebAppsListBackupStatusSecretsSlotResponse,
   WebAppsRestoreSlotOptionalParams,
+  WebAppsListBasicPublishingCredentialsPoliciesSlotResponse,
   WebAppsGetFtpAllowedSlotOptionalParams,
   WebAppsGetFtpAllowedSlotResponse,
   WebAppsUpdateFtpAllowedSlotOptionalParams,
@@ -549,6 +512,7 @@ import {
   WebAppsGetScmAllowedSlotResponse,
   WebAppsUpdateScmAllowedSlotOptionalParams,
   WebAppsUpdateScmAllowedSlotResponse,
+  WebAppsListConfigurationsSlotResponse,
   WebAppsUpdateApplicationSettingsSlotOptionalParams,
   WebAppsUpdateApplicationSettingsSlotResponse,
   WebAppsListApplicationSettingsSlotOptionalParams,
@@ -572,8 +536,10 @@ import {
   WebAppsDeleteBackupConfigurationSlotOptionalParams,
   WebAppsGetBackupConfigurationSlotOptionalParams,
   WebAppsGetBackupConfigurationSlotResponse,
+  WebAppsGetAppSettingsKeyVaultReferencesSlotResponse,
   WebAppsGetAppSettingKeyVaultReferenceSlotOptionalParams,
   WebAppsGetAppSettingKeyVaultReferenceSlotResponse,
+  WebAppsGetSiteConnectionStringKeyVaultReferencesSlotResponse,
   WebAppsGetSiteConnectionStringKeyVaultReferenceSlotOptionalParams,
   WebAppsGetSiteConnectionStringKeyVaultReferenceSlotResponse,
   WebAppsUpdateConnectionStringsSlotOptionalParams,
@@ -600,6 +566,7 @@ import {
   WebAppsCreateOrUpdateConfigurationSlotResponse,
   WebAppsUpdateConfigurationSlotOptionalParams,
   WebAppsUpdateConfigurationSlotResponse,
+  WebAppsListConfigurationSnapshotInfoSlotResponse,
   WebAppsGetConfigurationSnapshotSlotOptionalParams,
   WebAppsGetConfigurationSnapshotSlotResponse,
   WebAppsRecoverSiteConfigurationSnapshotSlotOptionalParams,
@@ -607,13 +574,16 @@ import {
   WebAppsGetWebSiteContainerLogsSlotResponse,
   WebAppsGetContainerLogsZipSlotOptionalParams,
   WebAppsGetContainerLogsZipSlotResponse,
+  WebAppsListContinuousWebJobsSlotResponse,
   WebAppsGetContinuousWebJobSlotOptionalParams,
   WebAppsGetContinuousWebJobSlotResponse,
   WebAppsDeleteContinuousWebJobSlotOptionalParams,
   WebAppsStartContinuousWebJobSlotOptionalParams,
   WebAppsStopContinuousWebJobSlotOptionalParams,
+  WebAppsListSlotSiteDeploymentStatusesSlotResponse,
   WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams,
   WebAppsGetSlotSiteDeploymentStatusSlotResponse,
+  WebAppsListDeploymentsSlotResponse,
   WebAppsGetDeploymentSlotOptionalParams,
   WebAppsGetDeploymentSlotResponse,
   WebAppsCreateDeploymentSlotOptionalParams,
@@ -623,6 +593,7 @@ import {
   WebAppsListDeploymentLogSlotResponse,
   WebAppsDiscoverBackupSlotOptionalParams,
   WebAppsDiscoverBackupSlotResponse,
+  WebAppsListDomainOwnershipIdentifiersSlotResponse,
   WebAppsGetDomainOwnershipIdentifierSlotOptionalParams,
   WebAppsGetDomainOwnershipIdentifierSlotResponse,
   WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotOptionalParams,
@@ -636,6 +607,7 @@ import {
   WebAppsCreateMSDeployOperationSlotResponse,
   WebAppsGetMSDeployLogSlotOptionalParams,
   WebAppsGetMSDeployLogSlotResponse,
+  WebAppsListInstanceFunctionsSlotResponse,
   WebAppsGetFunctionsAdminTokenSlotOptionalParams,
   WebAppsGetFunctionsAdminTokenSlotResponse,
   WebAppsGetInstanceFunctionSlotOptionalParams,
@@ -657,6 +629,7 @@ import {
   WebAppsCreateOrUpdateHostSecretSlotOptionalParams,
   WebAppsCreateOrUpdateHostSecretSlotResponse,
   WebAppsDeleteHostSecretSlotOptionalParams,
+  WebAppsListHostNameBindingsSlotResponse,
   WebAppsGetHostNameBindingSlotOptionalParams,
   WebAppsGetHostNameBindingSlotResponse,
   WebAppsCreateOrUpdateHostNameBindingSlotOptionalParams,
@@ -680,6 +653,7 @@ import {
   WebAppsDeleteRelayServiceConnectionSlotOptionalParams,
   WebAppsUpdateRelayServiceConnectionSlotOptionalParams,
   WebAppsUpdateRelayServiceConnectionSlotResponse,
+  WebAppsListInstanceIdentifiersSlotResponse,
   WebAppsGetInstanceInfoSlotOptionalParams,
   WebAppsGetInstanceInfoSlotResponse,
   WebAppsGetInstanceMsDeployStatusSlotOptionalParams,
@@ -688,15 +662,19 @@ import {
   WebAppsCreateInstanceMSDeployOperationSlotResponse,
   WebAppsGetInstanceMSDeployLogSlotOptionalParams,
   WebAppsGetInstanceMSDeployLogSlotResponse,
+  WebAppsListInstanceProcessesSlotResponse,
   WebAppsGetInstanceProcessSlotOptionalParams,
   WebAppsGetInstanceProcessSlotResponse,
   WebAppsDeleteInstanceProcessSlotOptionalParams,
   WebAppsGetInstanceProcessDumpSlotOptionalParams,
   WebAppsGetInstanceProcessDumpSlotResponse,
+  WebAppsListInstanceProcessModulesSlotResponse,
   WebAppsGetInstanceProcessModuleSlotOptionalParams,
   WebAppsGetInstanceProcessModuleSlotResponse,
+  WebAppsListInstanceProcessThreadsSlotResponse,
   WebAppsIsCloneableSlotOptionalParams,
   WebAppsIsCloneableSlotResponse,
+  WebAppsListSiteBackupsSlotResponse,
   WebAppsListSyncFunctionTriggersSlotOptionalParams,
   WebAppsListSyncFunctionTriggersSlotResponse,
   WebAppsGetMigrateMySqlStatusSlotOptionalParams,
@@ -724,6 +702,7 @@ import {
   WebAppsGetNetworkTracesSlotV2OptionalParams,
   WebAppsGetNetworkTracesSlotV2Response,
   WebAppsGenerateNewSitePublishingPasswordSlotOptionalParams,
+  WebAppsListPerfMonCountersSlotResponse,
   WebAppsGetSitePhpErrorLogFlagSlotOptionalParams,
   WebAppsGetSitePhpErrorLogFlagSlotResponse,
   WebAppsListPremierAddOnsSlotOptionalParams,
@@ -739,6 +718,7 @@ import {
   WebAppsGetPrivateAccessSlotResponse,
   WebAppsPutPrivateAccessVnetSlotOptionalParams,
   WebAppsPutPrivateAccessVnetSlotResponse,
+  WebAppsGetPrivateEndpointConnectionListSlotResponse,
   WebAppsGetPrivateEndpointConnectionSlotOptionalParams,
   WebAppsGetPrivateEndpointConnectionSlotResponse,
   WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams,
@@ -747,13 +727,17 @@ import {
   WebAppsDeletePrivateEndpointConnectionSlotResponse,
   WebAppsGetPrivateLinkResourcesSlotOptionalParams,
   WebAppsGetPrivateLinkResourcesSlotResponse,
+  WebAppsListProcessesSlotResponse,
   WebAppsGetProcessSlotOptionalParams,
   WebAppsGetProcessSlotResponse,
   WebAppsDeleteProcessSlotOptionalParams,
   WebAppsGetProcessDumpSlotOptionalParams,
   WebAppsGetProcessDumpSlotResponse,
+  WebAppsListProcessModulesSlotResponse,
   WebAppsGetProcessModuleSlotOptionalParams,
   WebAppsGetProcessModuleSlotResponse,
+  WebAppsListProcessThreadsSlotResponse,
+  WebAppsListPublicCertificatesSlotResponse,
   WebAppsGetPublicCertificateSlotOptionalParams,
   WebAppsGetPublicCertificateSlotResponse,
   WebAppsCreateOrUpdatePublicCertificateSlotOptionalParams,
@@ -766,12 +750,16 @@ import {
   WebAppsRestoreFromBackupBlobSlotOptionalParams,
   WebAppsRestoreFromDeletedAppSlotOptionalParams,
   WebAppsRestoreSnapshotSlotOptionalParams,
+  WebAppsListSiteExtensionsSlotResponse,
   WebAppsGetSiteExtensionSlotOptionalParams,
   WebAppsGetSiteExtensionSlotResponse,
   WebAppsInstallSiteExtensionSlotOptionalParams,
   WebAppsInstallSiteExtensionSlotResponse,
   WebAppsDeleteSiteExtensionSlotOptionalParams,
+  WebAppsListSlotDifferencesSlotResponse,
   WebAppsSwapSlotOptionalParams,
+  WebAppsListSnapshotsSlotResponse,
+  WebAppsListSnapshotsFromDRSecondarySlotResponse,
   WebAppsGetSourceControlSlotOptionalParams,
   WebAppsGetSourceControlSlotResponse,
   SiteSourceControl,
@@ -787,12 +775,15 @@ import {
   WebAppsStopNetworkTraceSlotOptionalParams,
   WebAppsSyncRepositorySlotOptionalParams,
   WebAppsSyncFunctionTriggersSlotOptionalParams,
+  WebAppsListTriggeredWebJobsSlotResponse,
   WebAppsGetTriggeredWebJobSlotOptionalParams,
   WebAppsGetTriggeredWebJobSlotResponse,
   WebAppsDeleteTriggeredWebJobSlotOptionalParams,
+  WebAppsListTriggeredWebJobHistorySlotResponse,
   WebAppsGetTriggeredWebJobHistorySlotOptionalParams,
   WebAppsGetTriggeredWebJobHistorySlotResponse,
   WebAppsRunTriggeredWebJobSlotOptionalParams,
+  WebAppsListUsagesSlotResponse,
   WebAppsListVnetConnectionsSlotOptionalParams,
   WebAppsListVnetConnectionsSlotResponse,
   WebAppsGetVnetConnectionSlotOptionalParams,
@@ -810,9 +801,13 @@ import {
   WebAppsCreateOrUpdateVnetConnectionGatewaySlotResponse,
   WebAppsUpdateVnetConnectionGatewaySlotOptionalParams,
   WebAppsUpdateVnetConnectionGatewaySlotResponse,
+  WebAppsListWebJobsSlotResponse,
   WebAppsGetWebJobSlotOptionalParams,
   WebAppsGetWebJobSlotResponse,
+  WebAppsListSlotDifferencesFromProductionResponse,
   WebAppsSwapSlotWithProductionOptionalParams,
+  WebAppsListSnapshotsResponse,
+  WebAppsListSnapshotsFromDRSecondaryResponse,
   WebAppsGetSourceControlOptionalParams,
   WebAppsGetSourceControlResponse,
   WebAppsCreateOrUpdateSourceControlOptionalParams,
@@ -827,12 +822,15 @@ import {
   WebAppsStopNetworkTraceOptionalParams,
   WebAppsSyncRepositoryOptionalParams,
   WebAppsSyncFunctionTriggersOptionalParams,
+  WebAppsListTriggeredWebJobsResponse,
   WebAppsGetTriggeredWebJobOptionalParams,
   WebAppsGetTriggeredWebJobResponse,
   WebAppsDeleteTriggeredWebJobOptionalParams,
+  WebAppsListTriggeredWebJobHistoryResponse,
   WebAppsGetTriggeredWebJobHistoryOptionalParams,
   WebAppsGetTriggeredWebJobHistoryResponse,
   WebAppsRunTriggeredWebJobOptionalParams,
+  WebAppsListUsagesResponse,
   WebAppsListVnetConnectionsOptionalParams,
   WebAppsListVnetConnectionsResponse,
   WebAppsGetVnetConnectionOptionalParams,
@@ -848,6 +846,7 @@ import {
   WebAppsCreateOrUpdateVnetConnectionGatewayResponse,
   WebAppsUpdateVnetConnectionGatewayOptionalParams,
   WebAppsUpdateVnetConnectionGatewayResponse,
+  WebAppsListWebJobsResponse,
   WebAppsGetWebJobOptionalParams,
   WebAppsGetWebJobResponse,
   WebAppsListNextResponse,
@@ -945,34 +944,22 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
+      byPage: () => {
+        return this.listPagingPage(options);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: WebAppsListOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListOptionalParams
   ): AsyncIterableIterator<Site[]> {
-    let result: WebAppsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -1001,33 +988,19 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: WebAppsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListByResourceGroupOptionalParams
   ): AsyncIterableIterator<Site[]> {
-    let result: WebAppsListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -1035,9 +1008,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -1072,16 +1043,8 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBackupsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listBackupsPagingPage(resourceGroupName, name, options);
       }
     };
   }
@@ -1089,18 +1052,11 @@ export class WebAppsImpl implements WebApps {
   private async *listBackupsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListBackupsOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListBackupsOptionalParams
   ): AsyncIterableIterator<BackupItem[]> {
-    let result: WebAppsListBackupsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBackups(resourceGroupName, name, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBackups(resourceGroupName, name, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBackupsNext(
         resourceGroupName,
@@ -1109,9 +1065,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -1153,15 +1107,11 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listBasicPublishingCredentialsPoliciesPagingPage(
           resourceGroupName,
           name,
-          options,
-          settings
+          options
         );
       }
     };
@@ -1170,22 +1120,15 @@ export class WebAppsImpl implements WebApps {
   private async *listBasicPublishingCredentialsPoliciesPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListBasicPublishingCredentialsPoliciesOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListBasicPublishingCredentialsPoliciesOptionalParams
   ): AsyncIterableIterator<CsmPublishingCredentialsPoliciesEntity[]> {
-    let result: WebAppsListBasicPublishingCredentialsPoliciesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBasicPublishingCredentialsPolicies(
-        resourceGroupName,
-        name,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBasicPublishingCredentialsPolicies(
+      resourceGroupName,
+      name,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBasicPublishingCredentialsPoliciesNext(
         resourceGroupName,
@@ -1194,9 +1137,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -1237,15 +1178,11 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listConfigurationsPagingPage(
           resourceGroupName,
           name,
-          options,
-          settings
+          options
         );
       }
     };
@@ -1254,18 +1191,15 @@ export class WebAppsImpl implements WebApps {
   private async *listConfigurationsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListConfigurationsOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListConfigurationsOptionalParams
   ): AsyncIterableIterator<SiteConfigResource[]> {
-    let result: WebAppsListConfigurationsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listConfigurations(resourceGroupName, name, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listConfigurations(
+      resourceGroupName,
+      name,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listConfigurationsNext(
         resourceGroupName,
@@ -1274,9 +1208,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -1317,15 +1249,11 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.getAppSettingsKeyVaultReferencesPagingPage(
           resourceGroupName,
           name,
-          options,
-          settings
+          options
         );
       }
     };
@@ -1334,22 +1262,15 @@ export class WebAppsImpl implements WebApps {
   private async *getAppSettingsKeyVaultReferencesPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsGetAppSettingsKeyVaultReferencesOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsGetAppSettingsKeyVaultReferencesOptionalParams
   ): AsyncIterableIterator<ApiKVReference[]> {
-    let result: WebAppsGetAppSettingsKeyVaultReferencesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._getAppSettingsKeyVaultReferences(
-        resourceGroupName,
-        name,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._getAppSettingsKeyVaultReferences(
+      resourceGroupName,
+      name,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._getAppSettingsKeyVaultReferencesNext(
         resourceGroupName,
@@ -1358,9 +1279,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -1401,15 +1320,11 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.getSiteConnectionStringKeyVaultReferencesPagingPage(
           resourceGroupName,
           name,
-          options,
-          settings
+          options
         );
       }
     };
@@ -1418,22 +1333,15 @@ export class WebAppsImpl implements WebApps {
   private async *getSiteConnectionStringKeyVaultReferencesPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsGetSiteConnectionStringKeyVaultReferencesOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsGetSiteConnectionStringKeyVaultReferencesOptionalParams
   ): AsyncIterableIterator<ApiKVReference[]> {
-    let result: WebAppsGetSiteConnectionStringKeyVaultReferencesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._getSiteConnectionStringKeyVaultReferences(
-        resourceGroupName,
-        name,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._getSiteConnectionStringKeyVaultReferences(
+      resourceGroupName,
+      name,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._getSiteConnectionStringKeyVaultReferencesNext(
         resourceGroupName,
@@ -1442,9 +1350,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -1486,15 +1392,11 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listConfigurationSnapshotInfoPagingPage(
           resourceGroupName,
           name,
-          options,
-          settings
+          options
         );
       }
     };
@@ -1503,22 +1405,15 @@ export class WebAppsImpl implements WebApps {
   private async *listConfigurationSnapshotInfoPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListConfigurationSnapshotInfoOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListConfigurationSnapshotInfoOptionalParams
   ): AsyncIterableIterator<SiteConfigurationSnapshotInfo[]> {
-    let result: WebAppsListConfigurationSnapshotInfoResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listConfigurationSnapshotInfo(
-        resourceGroupName,
-        name,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listConfigurationSnapshotInfo(
+      resourceGroupName,
+      name,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listConfigurationSnapshotInfoNext(
         resourceGroupName,
@@ -1527,9 +1422,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -1570,15 +1463,11 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listContinuousWebJobsPagingPage(
           resourceGroupName,
           name,
-          options,
-          settings
+          options
         );
       }
     };
@@ -1587,22 +1476,15 @@ export class WebAppsImpl implements WebApps {
   private async *listContinuousWebJobsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListContinuousWebJobsOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListContinuousWebJobsOptionalParams
   ): AsyncIterableIterator<ContinuousWebJob[]> {
-    let result: WebAppsListContinuousWebJobsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listContinuousWebJobs(
-        resourceGroupName,
-        name,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listContinuousWebJobs(
+      resourceGroupName,
+      name,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listContinuousWebJobsNext(
         resourceGroupName,
@@ -1611,9 +1493,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -1654,15 +1534,11 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listProductionSiteDeploymentStatusesPagingPage(
           resourceGroupName,
           name,
-          options,
-          settings
+          options
         );
       }
     };
@@ -1671,22 +1547,15 @@ export class WebAppsImpl implements WebApps {
   private async *listProductionSiteDeploymentStatusesPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListProductionSiteDeploymentStatusesOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListProductionSiteDeploymentStatusesOptionalParams
   ): AsyncIterableIterator<CsmDeploymentStatus[]> {
-    let result: WebAppsListProductionSiteDeploymentStatusesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listProductionSiteDeploymentStatuses(
-        resourceGroupName,
-        name,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listProductionSiteDeploymentStatuses(
+      resourceGroupName,
+      name,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listProductionSiteDeploymentStatusesNext(
         resourceGroupName,
@@ -1695,9 +1564,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -1738,16 +1605,8 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listDeploymentsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listDeploymentsPagingPage(resourceGroupName, name, options);
       }
     };
   }
@@ -1755,18 +1614,11 @@ export class WebAppsImpl implements WebApps {
   private async *listDeploymentsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListDeploymentsOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListDeploymentsOptionalParams
   ): AsyncIterableIterator<Deployment[]> {
-    let result: WebAppsListDeploymentsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listDeployments(resourceGroupName, name, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listDeployments(resourceGroupName, name, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listDeploymentsNext(
         resourceGroupName,
@@ -1775,9 +1627,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -1818,15 +1668,11 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listDomainOwnershipIdentifiersPagingPage(
           resourceGroupName,
           name,
-          options,
-          settings
+          options
         );
       }
     };
@@ -1835,22 +1681,15 @@ export class WebAppsImpl implements WebApps {
   private async *listDomainOwnershipIdentifiersPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListDomainOwnershipIdentifiersOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListDomainOwnershipIdentifiersOptionalParams
   ): AsyncIterableIterator<Identifier[]> {
-    let result: WebAppsListDomainOwnershipIdentifiersResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listDomainOwnershipIdentifiers(
-        resourceGroupName,
-        name,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listDomainOwnershipIdentifiers(
+      resourceGroupName,
+      name,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listDomainOwnershipIdentifiersNext(
         resourceGroupName,
@@ -1859,9 +1698,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -1898,16 +1735,8 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listFunctionsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listFunctionsPagingPage(resourceGroupName, name, options);
       }
     };
   }
@@ -1915,18 +1744,11 @@ export class WebAppsImpl implements WebApps {
   private async *listFunctionsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListFunctionsOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListFunctionsOptionalParams
   ): AsyncIterableIterator<FunctionEnvelope[]> {
-    let result: WebAppsListFunctionsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listFunctions(resourceGroupName, name, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listFunctions(resourceGroupName, name, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listFunctionsNext(
         resourceGroupName,
@@ -1935,9 +1757,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -1978,15 +1798,11 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listHostNameBindingsPagingPage(
           resourceGroupName,
           name,
-          options,
-          settings
+          options
         );
       }
     };
@@ -1995,22 +1811,15 @@ export class WebAppsImpl implements WebApps {
   private async *listHostNameBindingsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListHostNameBindingsOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListHostNameBindingsOptionalParams
   ): AsyncIterableIterator<HostNameBinding[]> {
-    let result: WebAppsListHostNameBindingsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listHostNameBindings(
-        resourceGroupName,
-        name,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listHostNameBindings(
+      resourceGroupName,
+      name,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listHostNameBindingsNext(
         resourceGroupName,
@@ -2019,9 +1828,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -2062,15 +1869,11 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listInstanceIdentifiersPagingPage(
           resourceGroupName,
           name,
-          options,
-          settings
+          options
         );
       }
     };
@@ -2079,22 +1882,15 @@ export class WebAppsImpl implements WebApps {
   private async *listInstanceIdentifiersPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListInstanceIdentifiersOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListInstanceIdentifiersOptionalParams
   ): AsyncIterableIterator<WebSiteInstanceStatus[]> {
-    let result: WebAppsListInstanceIdentifiersResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listInstanceIdentifiers(
-        resourceGroupName,
-        name,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listInstanceIdentifiers(
+      resourceGroupName,
+      name,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listInstanceIdentifiersNext(
         resourceGroupName,
@@ -2103,9 +1899,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -2151,16 +1945,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listInstanceProcessesPagingPage(
           resourceGroupName,
           name,
           instanceId,
-          options,
-          settings
+          options
         );
       }
     };
@@ -2170,23 +1960,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     instanceId: string,
-    options?: WebAppsListInstanceProcessesOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListInstanceProcessesOptionalParams
   ): AsyncIterableIterator<ProcessInfo[]> {
-    let result: WebAppsListInstanceProcessesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listInstanceProcesses(
-        resourceGroupName,
-        name,
-        instanceId,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listInstanceProcesses(
+      resourceGroupName,
+      name,
+      instanceId,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listInstanceProcessesNext(
         resourceGroupName,
@@ -2196,9 +1979,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -2249,17 +2030,13 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listInstanceProcessModulesPagingPage(
           resourceGroupName,
           name,
           processId,
           instanceId,
-          options,
-          settings
+          options
         );
       }
     };
@@ -2270,24 +2047,17 @@ export class WebAppsImpl implements WebApps {
     name: string,
     processId: string,
     instanceId: string,
-    options?: WebAppsListInstanceProcessModulesOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListInstanceProcessModulesOptionalParams
   ): AsyncIterableIterator<ProcessModuleInfo[]> {
-    let result: WebAppsListInstanceProcessModulesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listInstanceProcessModules(
-        resourceGroupName,
-        name,
-        processId,
-        instanceId,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listInstanceProcessModules(
+      resourceGroupName,
+      name,
+      processId,
+      instanceId,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listInstanceProcessModulesNext(
         resourceGroupName,
@@ -2298,9 +2068,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -2353,17 +2121,13 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listInstanceProcessThreadsPagingPage(
           resourceGroupName,
           name,
           processId,
           instanceId,
-          options,
-          settings
+          options
         );
       }
     };
@@ -2374,24 +2138,17 @@ export class WebAppsImpl implements WebApps {
     name: string,
     processId: string,
     instanceId: string,
-    options?: WebAppsListInstanceProcessThreadsOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListInstanceProcessThreadsOptionalParams
   ): AsyncIterableIterator<ProcessThreadInfo[]> {
-    let result: WebAppsListInstanceProcessThreadsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listInstanceProcessThreads(
-        resourceGroupName,
-        name,
-        processId,
-        instanceId,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listInstanceProcessThreads(
+      resourceGroupName,
+      name,
+      processId,
+      instanceId,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listInstanceProcessThreadsNext(
         resourceGroupName,
@@ -2402,9 +2159,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -2449,16 +2204,8 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listSiteBackupsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listSiteBackupsPagingPage(resourceGroupName, name, options);
       }
     };
   }
@@ -2466,18 +2213,11 @@ export class WebAppsImpl implements WebApps {
   private async *listSiteBackupsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListSiteBackupsOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListSiteBackupsOptionalParams
   ): AsyncIterableIterator<BackupItem[]> {
-    let result: WebAppsListSiteBackupsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSiteBackups(resourceGroupName, name, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSiteBackups(resourceGroupName, name, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSiteBackupsNext(
         resourceGroupName,
@@ -2486,9 +2226,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -2529,15 +2267,11 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listPerfMonCountersPagingPage(
           resourceGroupName,
           name,
-          options,
-          settings
+          options
         );
       }
     };
@@ -2546,22 +2280,15 @@ export class WebAppsImpl implements WebApps {
   private async *listPerfMonCountersPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListPerfMonCountersOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListPerfMonCountersOptionalParams
   ): AsyncIterableIterator<PerfMonResponse[]> {
-    let result: WebAppsListPerfMonCountersResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listPerfMonCounters(
-        resourceGroupName,
-        name,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listPerfMonCounters(
+      resourceGroupName,
+      name,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listPerfMonCountersNext(
         resourceGroupName,
@@ -2570,9 +2297,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -2613,15 +2338,11 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.getPrivateEndpointConnectionListPagingPage(
           resourceGroupName,
           name,
-          options,
-          settings
+          options
         );
       }
     };
@@ -2630,22 +2351,15 @@ export class WebAppsImpl implements WebApps {
   private async *getPrivateEndpointConnectionListPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsGetPrivateEndpointConnectionListOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsGetPrivateEndpointConnectionListOptionalParams
   ): AsyncIterableIterator<RemotePrivateEndpointConnectionARMResource[]> {
-    let result: WebAppsGetPrivateEndpointConnectionListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._getPrivateEndpointConnectionList(
-        resourceGroupName,
-        name,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._getPrivateEndpointConnectionList(
+      resourceGroupName,
+      name,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._getPrivateEndpointConnectionListNext(
         resourceGroupName,
@@ -2654,9 +2368,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -2694,16 +2406,8 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listProcessesPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listProcessesPagingPage(resourceGroupName, name, options);
       }
     };
   }
@@ -2711,18 +2415,11 @@ export class WebAppsImpl implements WebApps {
   private async *listProcessesPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListProcessesOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListProcessesOptionalParams
   ): AsyncIterableIterator<ProcessInfo[]> {
-    let result: WebAppsListProcessesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listProcesses(resourceGroupName, name, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listProcesses(resourceGroupName, name, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listProcessesNext(
         resourceGroupName,
@@ -2731,9 +2428,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -2778,16 +2473,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listProcessModulesPagingPage(
           resourceGroupName,
           name,
           processId,
-          options,
-          settings
+          options
         );
       }
     };
@@ -2797,23 +2488,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     processId: string,
-    options?: WebAppsListProcessModulesOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListProcessModulesOptionalParams
   ): AsyncIterableIterator<ProcessModuleInfo[]> {
-    let result: WebAppsListProcessModulesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listProcessModules(
-        resourceGroupName,
-        name,
-        processId,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listProcessModules(
+      resourceGroupName,
+      name,
+      processId,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listProcessModulesNext(
         resourceGroupName,
@@ -2823,9 +2507,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -2872,16 +2554,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listProcessThreadsPagingPage(
           resourceGroupName,
           name,
           processId,
-          options,
-          settings
+          options
         );
       }
     };
@@ -2891,23 +2569,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     processId: string,
-    options?: WebAppsListProcessThreadsOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListProcessThreadsOptionalParams
   ): AsyncIterableIterator<ProcessThreadInfo[]> {
-    let result: WebAppsListProcessThreadsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listProcessThreads(
-        resourceGroupName,
-        name,
-        processId,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listProcessThreads(
+      resourceGroupName,
+      name,
+      processId,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listProcessThreadsNext(
         resourceGroupName,
@@ -2917,9 +2588,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -2962,15 +2631,11 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listPublicCertificatesPagingPage(
           resourceGroupName,
           name,
-          options,
-          settings
+          options
         );
       }
     };
@@ -2979,22 +2644,15 @@ export class WebAppsImpl implements WebApps {
   private async *listPublicCertificatesPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListPublicCertificatesOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListPublicCertificatesOptionalParams
   ): AsyncIterableIterator<PublicCertificate[]> {
-    let result: WebAppsListPublicCertificatesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listPublicCertificates(
-        resourceGroupName,
-        name,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listPublicCertificates(
+      resourceGroupName,
+      name,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listPublicCertificatesNext(
         resourceGroupName,
@@ -3003,9 +2661,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -3046,15 +2702,11 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listSiteExtensionsPagingPage(
           resourceGroupName,
           name,
-          options,
-          settings
+          options
         );
       }
     };
@@ -3063,18 +2715,15 @@ export class WebAppsImpl implements WebApps {
   private async *listSiteExtensionsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListSiteExtensionsOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListSiteExtensionsOptionalParams
   ): AsyncIterableIterator<SiteExtensionInfo[]> {
-    let result: WebAppsListSiteExtensionsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSiteExtensions(resourceGroupName, name, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSiteExtensions(
+      resourceGroupName,
+      name,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSiteExtensionsNext(
         resourceGroupName,
@@ -3083,9 +2732,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -3122,16 +2769,8 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listSlotsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listSlotsPagingPage(resourceGroupName, name, options);
       }
     };
   }
@@ -3139,18 +2778,11 @@ export class WebAppsImpl implements WebApps {
   private async *listSlotsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListSlotsOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListSlotsOptionalParams
   ): AsyncIterableIterator<Site[]> {
-    let result: WebAppsListSlotsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSlots(resourceGroupName, name, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSlots(resourceGroupName, name, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSlotsNext(
         resourceGroupName,
@@ -3159,9 +2791,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -3206,16 +2836,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listBackupsSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -3225,23 +2851,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListBackupsSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListBackupsSlotOptionalParams
   ): AsyncIterableIterator<BackupItem[]> {
-    let result: WebAppsListBackupsSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBackupsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBackupsSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBackupsSlotNext(
         resourceGroupName,
@@ -3251,9 +2870,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -3300,16 +2917,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listBasicPublishingCredentialsPoliciesSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -3319,23 +2932,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListBasicPublishingCredentialsPoliciesSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListBasicPublishingCredentialsPoliciesSlotOptionalParams
   ): AsyncIterableIterator<CsmPublishingCredentialsPoliciesEntity[]> {
-    let result: WebAppsListBasicPublishingCredentialsPoliciesSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBasicPublishingCredentialsPoliciesSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBasicPublishingCredentialsPoliciesSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBasicPublishingCredentialsPoliciesSlotNext(
         resourceGroupName,
@@ -3345,9 +2951,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -3394,16 +2998,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listConfigurationsSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -3413,23 +3013,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListConfigurationsSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListConfigurationsSlotOptionalParams
   ): AsyncIterableIterator<SiteConfigResource[]> {
-    let result: WebAppsListConfigurationsSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listConfigurationsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listConfigurationsSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listConfigurationsSlotNext(
         resourceGroupName,
@@ -3439,9 +3032,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -3487,16 +3078,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.getAppSettingsKeyVaultReferencesSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -3506,23 +3093,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsGetAppSettingsKeyVaultReferencesSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsGetAppSettingsKeyVaultReferencesSlotOptionalParams
   ): AsyncIterableIterator<ApiKVReference[]> {
-    let result: WebAppsGetAppSettingsKeyVaultReferencesSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._getAppSettingsKeyVaultReferencesSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._getAppSettingsKeyVaultReferencesSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._getAppSettingsKeyVaultReferencesSlotNext(
         resourceGroupName,
@@ -3532,9 +3112,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -3580,16 +3158,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.getSiteConnectionStringKeyVaultReferencesSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -3599,23 +3173,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsGetSiteConnectionStringKeyVaultReferencesSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsGetSiteConnectionStringKeyVaultReferencesSlotOptionalParams
   ): AsyncIterableIterator<ApiKVReference[]> {
-    let result: WebAppsGetSiteConnectionStringKeyVaultReferencesSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._getSiteConnectionStringKeyVaultReferencesSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._getSiteConnectionStringKeyVaultReferencesSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._getSiteConnectionStringKeyVaultReferencesSlotNext(
         resourceGroupName,
@@ -3625,9 +3192,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -3675,16 +3240,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listConfigurationSnapshotInfoSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -3694,23 +3255,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListConfigurationSnapshotInfoSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListConfigurationSnapshotInfoSlotOptionalParams
   ): AsyncIterableIterator<SiteConfigurationSnapshotInfo[]> {
-    let result: WebAppsListConfigurationSnapshotInfoSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listConfigurationSnapshotInfoSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listConfigurationSnapshotInfoSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listConfigurationSnapshotInfoSlotNext(
         resourceGroupName,
@@ -3720,9 +3274,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -3769,16 +3321,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listContinuousWebJobsSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -3788,23 +3336,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListContinuousWebJobsSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListContinuousWebJobsSlotOptionalParams
   ): AsyncIterableIterator<ContinuousWebJob[]> {
-    let result: WebAppsListContinuousWebJobsSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listContinuousWebJobsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listContinuousWebJobsSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listContinuousWebJobsSlotNext(
         resourceGroupName,
@@ -3814,9 +3355,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -3863,16 +3402,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listSlotSiteDeploymentStatusesSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -3882,23 +3417,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListSlotSiteDeploymentStatusesSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListSlotSiteDeploymentStatusesSlotOptionalParams
   ): AsyncIterableIterator<CsmDeploymentStatus[]> {
-    let result: WebAppsListSlotSiteDeploymentStatusesSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSlotSiteDeploymentStatusesSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSlotSiteDeploymentStatusesSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSlotSiteDeploymentStatusesSlotNext(
         resourceGroupName,
@@ -3908,9 +3436,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -3957,16 +3483,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listDeploymentsSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -3976,23 +3498,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListDeploymentsSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListDeploymentsSlotOptionalParams
   ): AsyncIterableIterator<Deployment[]> {
-    let result: WebAppsListDeploymentsSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listDeploymentsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listDeploymentsSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listDeploymentsSlotNext(
         resourceGroupName,
@@ -4002,9 +3517,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -4051,16 +3564,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listDomainOwnershipIdentifiersSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -4070,23 +3579,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListDomainOwnershipIdentifiersSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListDomainOwnershipIdentifiersSlotOptionalParams
   ): AsyncIterableIterator<Identifier[]> {
-    let result: WebAppsListDomainOwnershipIdentifiersSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listDomainOwnershipIdentifiersSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listDomainOwnershipIdentifiersSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listDomainOwnershipIdentifiersSlotNext(
         resourceGroupName,
@@ -4096,9 +3598,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -4144,16 +3644,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listInstanceFunctionsSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -4163,23 +3659,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListInstanceFunctionsSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListInstanceFunctionsSlotOptionalParams
   ): AsyncIterableIterator<FunctionEnvelope[]> {
-    let result: WebAppsListInstanceFunctionsSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listInstanceFunctionsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listInstanceFunctionsSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listInstanceFunctionsSlotNext(
         resourceGroupName,
@@ -4189,9 +3678,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -4238,16 +3725,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listHostNameBindingsSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -4257,23 +3740,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListHostNameBindingsSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListHostNameBindingsSlotOptionalParams
   ): AsyncIterableIterator<HostNameBinding[]> {
-    let result: WebAppsListHostNameBindingsSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listHostNameBindingsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listHostNameBindingsSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listHostNameBindingsSlotNext(
         resourceGroupName,
@@ -4283,9 +3759,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -4332,16 +3806,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listInstanceIdentifiersSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -4351,23 +3821,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListInstanceIdentifiersSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListInstanceIdentifiersSlotOptionalParams
   ): AsyncIterableIterator<WebSiteInstanceStatus[]> {
-    let result: WebAppsListInstanceIdentifiersSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listInstanceIdentifiersSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listInstanceIdentifiersSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listInstanceIdentifiersSlotNext(
         resourceGroupName,
@@ -4377,9 +3840,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -4431,17 +3892,13 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listInstanceProcessesSlotPagingPage(
           resourceGroupName,
           name,
           slot,
           instanceId,
-          options,
-          settings
+          options
         );
       }
     };
@@ -4452,24 +3909,17 @@ export class WebAppsImpl implements WebApps {
     name: string,
     slot: string,
     instanceId: string,
-    options?: WebAppsListInstanceProcessesSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListInstanceProcessesSlotOptionalParams
   ): AsyncIterableIterator<ProcessInfo[]> {
-    let result: WebAppsListInstanceProcessesSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listInstanceProcessesSlot(
-        resourceGroupName,
-        name,
-        slot,
-        instanceId,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listInstanceProcessesSlot(
+      resourceGroupName,
+      name,
+      slot,
+      instanceId,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listInstanceProcessesSlotNext(
         resourceGroupName,
@@ -4480,9 +3930,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -4539,18 +3987,14 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listInstanceProcessModulesSlotPagingPage(
           resourceGroupName,
           name,
           processId,
           slot,
           instanceId,
-          options,
-          settings
+          options
         );
       }
     };
@@ -4562,25 +4006,18 @@ export class WebAppsImpl implements WebApps {
     processId: string,
     slot: string,
     instanceId: string,
-    options?: WebAppsListInstanceProcessModulesSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListInstanceProcessModulesSlotOptionalParams
   ): AsyncIterableIterator<ProcessModuleInfo[]> {
-    let result: WebAppsListInstanceProcessModulesSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listInstanceProcessModulesSlot(
-        resourceGroupName,
-        name,
-        processId,
-        slot,
-        instanceId,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listInstanceProcessModulesSlot(
+      resourceGroupName,
+      name,
+      processId,
+      slot,
+      instanceId,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listInstanceProcessModulesSlotNext(
         resourceGroupName,
@@ -4592,9 +4029,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -4653,18 +4088,14 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listInstanceProcessThreadsSlotPagingPage(
           resourceGroupName,
           name,
           processId,
           slot,
           instanceId,
-          options,
-          settings
+          options
         );
       }
     };
@@ -4676,25 +4107,18 @@ export class WebAppsImpl implements WebApps {
     processId: string,
     slot: string,
     instanceId: string,
-    options?: WebAppsListInstanceProcessThreadsSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListInstanceProcessThreadsSlotOptionalParams
   ): AsyncIterableIterator<ProcessThreadInfo[]> {
-    let result: WebAppsListInstanceProcessThreadsSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listInstanceProcessThreadsSlot(
-        resourceGroupName,
-        name,
-        processId,
-        slot,
-        instanceId,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listInstanceProcessThreadsSlot(
+      resourceGroupName,
+      name,
+      processId,
+      slot,
+      instanceId,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listInstanceProcessThreadsSlotNext(
         resourceGroupName,
@@ -4706,9 +4130,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -4759,16 +4181,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listSiteBackupsSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -4778,23 +4196,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListSiteBackupsSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListSiteBackupsSlotOptionalParams
   ): AsyncIterableIterator<BackupItem[]> {
-    let result: WebAppsListSiteBackupsSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSiteBackupsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSiteBackupsSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSiteBackupsSlotNext(
         resourceGroupName,
@@ -4804,9 +4215,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -4852,16 +4261,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listPerfMonCountersSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -4871,23 +4276,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListPerfMonCountersSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListPerfMonCountersSlotOptionalParams
   ): AsyncIterableIterator<PerfMonResponse[]> {
-    let result: WebAppsListPerfMonCountersSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listPerfMonCountersSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listPerfMonCountersSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listPerfMonCountersSlotNext(
         resourceGroupName,
@@ -4897,9 +4295,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -4945,16 +4341,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.getPrivateEndpointConnectionListSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -4964,23 +4356,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsGetPrivateEndpointConnectionListSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsGetPrivateEndpointConnectionListSlotOptionalParams
   ): AsyncIterableIterator<RemotePrivateEndpointConnectionARMResource[]> {
-    let result: WebAppsGetPrivateEndpointConnectionListSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._getPrivateEndpointConnectionListSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._getPrivateEndpointConnectionListSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._getPrivateEndpointConnectionListSlotNext(
         resourceGroupName,
@@ -4990,9 +4375,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -5040,16 +4423,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listProcessesSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -5059,23 +4438,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListProcessesSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListProcessesSlotOptionalParams
   ): AsyncIterableIterator<ProcessInfo[]> {
-    let result: WebAppsListProcessesSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listProcessesSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listProcessesSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listProcessesSlotNext(
         resourceGroupName,
@@ -5085,9 +4457,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -5138,17 +4508,13 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listProcessModulesSlotPagingPage(
           resourceGroupName,
           name,
           processId,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -5159,24 +4525,17 @@ export class WebAppsImpl implements WebApps {
     name: string,
     processId: string,
     slot: string,
-    options?: WebAppsListProcessModulesSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListProcessModulesSlotOptionalParams
   ): AsyncIterableIterator<ProcessModuleInfo[]> {
-    let result: WebAppsListProcessModulesSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listProcessModulesSlot(
-        resourceGroupName,
-        name,
-        processId,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listProcessModulesSlot(
+      resourceGroupName,
+      name,
+      processId,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listProcessModulesSlotNext(
         resourceGroupName,
@@ -5187,9 +4546,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -5242,17 +4599,13 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listProcessThreadsSlotPagingPage(
           resourceGroupName,
           name,
           processId,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -5263,24 +4616,17 @@ export class WebAppsImpl implements WebApps {
     name: string,
     processId: string,
     slot: string,
-    options?: WebAppsListProcessThreadsSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListProcessThreadsSlotOptionalParams
   ): AsyncIterableIterator<ProcessThreadInfo[]> {
-    let result: WebAppsListProcessThreadsSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listProcessThreadsSlot(
-        resourceGroupName,
-        name,
-        processId,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listProcessThreadsSlot(
+      resourceGroupName,
+      name,
+      processId,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listProcessThreadsSlotNext(
         resourceGroupName,
@@ -5291,9 +4637,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -5342,16 +4686,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listPublicCertificatesSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -5361,23 +4701,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListPublicCertificatesSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListPublicCertificatesSlotOptionalParams
   ): AsyncIterableIterator<PublicCertificate[]> {
-    let result: WebAppsListPublicCertificatesSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listPublicCertificatesSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listPublicCertificatesSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listPublicCertificatesSlotNext(
         resourceGroupName,
@@ -5387,9 +4720,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -5436,16 +4767,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listSiteExtensionsSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -5455,23 +4782,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListSiteExtensionsSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListSiteExtensionsSlotOptionalParams
   ): AsyncIterableIterator<SiteExtensionInfo[]> {
-    let result: WebAppsListSiteExtensionsSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSiteExtensionsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSiteExtensionsSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSiteExtensionsSlotNext(
         resourceGroupName,
@@ -5481,9 +4801,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -5533,17 +4851,13 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listSlotDifferencesSlotPagingPage(
           resourceGroupName,
           name,
           slot,
           slotSwapEntity,
-          options,
-          settings
+          options
         );
       }
     };
@@ -5554,24 +4868,17 @@ export class WebAppsImpl implements WebApps {
     name: string,
     slot: string,
     slotSwapEntity: CsmSlotEntity,
-    options?: WebAppsListSlotDifferencesSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListSlotDifferencesSlotOptionalParams
   ): AsyncIterableIterator<SlotDifference[]> {
-    let result: WebAppsListSlotDifferencesSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSlotDifferencesSlot(
-        resourceGroupName,
-        name,
-        slot,
-        slotSwapEntity,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSlotDifferencesSlot(
+      resourceGroupName,
+      name,
+      slot,
+      slotSwapEntity,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSlotDifferencesSlotNext(
         resourceGroupName,
@@ -5582,9 +4889,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -5632,16 +4937,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listSnapshotsSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -5651,23 +4952,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListSnapshotsSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListSnapshotsSlotOptionalParams
   ): AsyncIterableIterator<Snapshot[]> {
-    let result: WebAppsListSnapshotsSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSnapshotsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSnapshotsSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSnapshotsSlotNext(
         resourceGroupName,
@@ -5677,9 +4971,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -5725,16 +5017,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listSnapshotsFromDRSecondarySlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -5744,23 +5032,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListSnapshotsFromDRSecondarySlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListSnapshotsFromDRSecondarySlotOptionalParams
   ): AsyncIterableIterator<Snapshot[]> {
-    let result: WebAppsListSnapshotsFromDRSecondarySlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSnapshotsFromDRSecondarySlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSnapshotsFromDRSecondarySlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSnapshotsFromDRSecondarySlotNext(
         resourceGroupName,
@@ -5770,9 +5051,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -5819,16 +5098,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listTriggeredWebJobsSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -5838,23 +5113,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListTriggeredWebJobsSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListTriggeredWebJobsSlotOptionalParams
   ): AsyncIterableIterator<TriggeredWebJob[]> {
-    let result: WebAppsListTriggeredWebJobsSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listTriggeredWebJobsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listTriggeredWebJobsSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listTriggeredWebJobsSlotNext(
         resourceGroupName,
@@ -5864,9 +5132,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -5916,17 +5182,13 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listTriggeredWebJobHistorySlotPagingPage(
           resourceGroupName,
           name,
           webJobName,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -5937,24 +5199,17 @@ export class WebAppsImpl implements WebApps {
     name: string,
     webJobName: string,
     slot: string,
-    options?: WebAppsListTriggeredWebJobHistorySlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListTriggeredWebJobHistorySlotOptionalParams
   ): AsyncIterableIterator<TriggeredJobHistory[]> {
-    let result: WebAppsListTriggeredWebJobHistorySlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listTriggeredWebJobHistorySlot(
-        resourceGroupName,
-        name,
-        webJobName,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listTriggeredWebJobHistorySlot(
+      resourceGroupName,
+      name,
+      webJobName,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listTriggeredWebJobHistorySlotNext(
         resourceGroupName,
@@ -5965,9 +5220,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -6016,16 +5269,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listUsagesSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -6035,23 +5284,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListUsagesSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListUsagesSlotOptionalParams
   ): AsyncIterableIterator<CsmUsageQuota[]> {
-    let result: WebAppsListUsagesSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listUsagesSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listUsagesSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listUsagesSlotNext(
         resourceGroupName,
@@ -6061,9 +5303,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -6110,16 +5350,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listWebJobsSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -6129,23 +5365,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsListWebJobsSlotOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListWebJobsSlotOptionalParams
   ): AsyncIterableIterator<WebJob[]> {
-    let result: WebAppsListWebJobsSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listWebJobsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listWebJobsSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listWebJobsSlotNext(
         resourceGroupName,
@@ -6155,9 +5384,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -6203,16 +5430,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listSlotDifferencesFromProductionPagingPage(
           resourceGroupName,
           name,
           slotSwapEntity,
-          options,
-          settings
+          options
         );
       }
     };
@@ -6222,23 +5445,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slotSwapEntity: CsmSlotEntity,
-    options?: WebAppsListSlotDifferencesFromProductionOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListSlotDifferencesFromProductionOptionalParams
   ): AsyncIterableIterator<SlotDifference[]> {
-    let result: WebAppsListSlotDifferencesFromProductionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSlotDifferencesFromProduction(
-        resourceGroupName,
-        name,
-        slotSwapEntity,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSlotDifferencesFromProduction(
+      resourceGroupName,
+      name,
+      slotSwapEntity,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSlotDifferencesFromProductionNext(
         resourceGroupName,
@@ -6248,9 +5464,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -6289,16 +5503,8 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listSnapshotsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listSnapshotsPagingPage(resourceGroupName, name, options);
       }
     };
   }
@@ -6306,18 +5512,11 @@ export class WebAppsImpl implements WebApps {
   private async *listSnapshotsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListSnapshotsOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListSnapshotsOptionalParams
   ): AsyncIterableIterator<Snapshot[]> {
-    let result: WebAppsListSnapshotsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSnapshots(resourceGroupName, name, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSnapshots(resourceGroupName, name, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSnapshotsNext(
         resourceGroupName,
@@ -6326,9 +5525,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -6369,15 +5566,11 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listSnapshotsFromDRSecondaryPagingPage(
           resourceGroupName,
           name,
-          options,
-          settings
+          options
         );
       }
     };
@@ -6386,22 +5579,15 @@ export class WebAppsImpl implements WebApps {
   private async *listSnapshotsFromDRSecondaryPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListSnapshotsFromDRSecondaryOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListSnapshotsFromDRSecondaryOptionalParams
   ): AsyncIterableIterator<Snapshot[]> {
-    let result: WebAppsListSnapshotsFromDRSecondaryResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSnapshotsFromDRSecondary(
-        resourceGroupName,
-        name,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSnapshotsFromDRSecondary(
+      resourceGroupName,
+      name,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSnapshotsFromDRSecondaryNext(
         resourceGroupName,
@@ -6410,9 +5596,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -6453,15 +5637,11 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listTriggeredWebJobsPagingPage(
           resourceGroupName,
           name,
-          options,
-          settings
+          options
         );
       }
     };
@@ -6470,22 +5650,15 @@ export class WebAppsImpl implements WebApps {
   private async *listTriggeredWebJobsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListTriggeredWebJobsOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListTriggeredWebJobsOptionalParams
   ): AsyncIterableIterator<TriggeredWebJob[]> {
-    let result: WebAppsListTriggeredWebJobsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listTriggeredWebJobs(
-        resourceGroupName,
-        name,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listTriggeredWebJobs(
+      resourceGroupName,
+      name,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listTriggeredWebJobsNext(
         resourceGroupName,
@@ -6494,9 +5667,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -6540,16 +5711,12 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listTriggeredWebJobHistoryPagingPage(
           resourceGroupName,
           name,
           webJobName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -6559,23 +5726,16 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     webJobName: string,
-    options?: WebAppsListTriggeredWebJobHistoryOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListTriggeredWebJobHistoryOptionalParams
   ): AsyncIterableIterator<TriggeredJobHistory[]> {
-    let result: WebAppsListTriggeredWebJobHistoryResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listTriggeredWebJobHistory(
-        resourceGroupName,
-        name,
-        webJobName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listTriggeredWebJobHistory(
+      resourceGroupName,
+      name,
+      webJobName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listTriggeredWebJobHistoryNext(
         resourceGroupName,
@@ -6585,9 +5745,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -6626,16 +5784,8 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listUsagesPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listUsagesPagingPage(resourceGroupName, name, options);
       }
     };
   }
@@ -6643,18 +5793,11 @@ export class WebAppsImpl implements WebApps {
   private async *listUsagesPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListUsagesOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListUsagesOptionalParams
   ): AsyncIterableIterator<CsmUsageQuota[]> {
-    let result: WebAppsListUsagesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listUsages(resourceGroupName, name, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listUsages(resourceGroupName, name, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listUsagesNext(
         resourceGroupName,
@@ -6663,9 +5806,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -6702,16 +5843,8 @@ export class WebAppsImpl implements WebApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listWebJobsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listWebJobsPagingPage(resourceGroupName, name, options);
       }
     };
   }
@@ -6719,18 +5852,11 @@ export class WebAppsImpl implements WebApps {
   private async *listWebJobsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: WebAppsListWebJobsOptionalParams,
-    settings?: PageSettings
+    options?: WebAppsListWebJobsOptionalParams
   ): AsyncIterableIterator<WebJob[]> {
-    let result: WebAppsListWebJobsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listWebJobs(resourceGroupName, name, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listWebJobs(resourceGroupName, name, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listWebJobsNext(
         resourceGroupName,
@@ -6739,9 +5865,7 @@ export class WebAppsImpl implements WebApps {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

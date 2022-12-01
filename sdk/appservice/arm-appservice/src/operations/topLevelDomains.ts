@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { TopLevelDomains } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,14 +16,14 @@ import {
   TopLevelDomain,
   TopLevelDomainsListNextOptionalParams,
   TopLevelDomainsListOptionalParams,
-  TopLevelDomainsListResponse,
   TldLegalAgreement,
   TopLevelDomainAgreementOption,
   TopLevelDomainsListAgreementsNextOptionalParams,
   TopLevelDomainsListAgreementsOptionalParams,
-  TopLevelDomainsListAgreementsResponse,
+  TopLevelDomainsListResponse,
   TopLevelDomainsGetOptionalParams,
   TopLevelDomainsGetResponse,
+  TopLevelDomainsListAgreementsResponse,
   TopLevelDomainsListNextResponse,
   TopLevelDomainsListAgreementsNextResponse
 } from "../models";
@@ -57,34 +56,22 @@ export class TopLevelDomainsImpl implements TopLevelDomains {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
+      byPage: () => {
+        return this.listPagingPage(options);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: TopLevelDomainsListOptionalParams,
-    settings?: PageSettings
+    options?: TopLevelDomainsListOptionalParams
   ): AsyncIterableIterator<TopLevelDomain[]> {
-    let result: TopLevelDomainsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -115,16 +102,8 @@ export class TopLevelDomainsImpl implements TopLevelDomains {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listAgreementsPagingPage(
-          name,
-          agreementOption,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listAgreementsPagingPage(name, agreementOption, options);
       }
     };
   }
@@ -132,18 +111,11 @@ export class TopLevelDomainsImpl implements TopLevelDomains {
   private async *listAgreementsPagingPage(
     name: string,
     agreementOption: TopLevelDomainAgreementOption,
-    options?: TopLevelDomainsListAgreementsOptionalParams,
-    settings?: PageSettings
+    options?: TopLevelDomainsListAgreementsOptionalParams
   ): AsyncIterableIterator<TldLegalAgreement[]> {
-    let result: TopLevelDomainsListAgreementsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listAgreements(name, agreementOption, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listAgreements(name, agreementOption, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listAgreementsNext(
         name,
@@ -152,9 +124,7 @@ export class TopLevelDomainsImpl implements TopLevelDomains {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

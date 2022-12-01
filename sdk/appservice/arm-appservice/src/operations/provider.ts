@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Provider } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,27 +16,27 @@ import {
   ApplicationStackResource,
   ProviderGetAvailableStacksNextOptionalParams,
   ProviderGetAvailableStacksOptionalParams,
-  ProviderGetAvailableStacksResponse,
   FunctionAppStack,
   ProviderGetFunctionAppStacksNextOptionalParams,
   ProviderGetFunctionAppStacksOptionalParams,
-  ProviderGetFunctionAppStacksResponse,
   ProviderGetFunctionAppStacksForLocationNextOptionalParams,
   ProviderGetFunctionAppStacksForLocationOptionalParams,
-  ProviderGetFunctionAppStacksForLocationResponse,
   WebAppStack,
   ProviderGetWebAppStacksForLocationNextOptionalParams,
   ProviderGetWebAppStacksForLocationOptionalParams,
-  ProviderGetWebAppStacksForLocationResponse,
   CsmOperationDescription,
   ProviderListOperationsNextOptionalParams,
   ProviderListOperationsOptionalParams,
-  ProviderListOperationsResponse,
   ProviderGetWebAppStacksNextOptionalParams,
   ProviderGetWebAppStacksOptionalParams,
-  ProviderGetWebAppStacksResponse,
   ProviderGetAvailableStacksOnPremNextOptionalParams,
   ProviderGetAvailableStacksOnPremOptionalParams,
+  ProviderGetAvailableStacksResponse,
+  ProviderGetFunctionAppStacksResponse,
+  ProviderGetFunctionAppStacksForLocationResponse,
+  ProviderGetWebAppStacksForLocationResponse,
+  ProviderListOperationsResponse,
+  ProviderGetWebAppStacksResponse,
   ProviderGetAvailableStacksOnPremResponse,
   ProviderGetAvailableStacksNextResponse,
   ProviderGetFunctionAppStacksNextResponse,
@@ -76,34 +75,22 @@ export class ProviderImpl implements Provider {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.getAvailableStacksPagingPage(options, settings);
+      byPage: () => {
+        return this.getAvailableStacksPagingPage(options);
       }
     };
   }
 
   private async *getAvailableStacksPagingPage(
-    options?: ProviderGetAvailableStacksOptionalParams,
-    settings?: PageSettings
+    options?: ProviderGetAvailableStacksOptionalParams
   ): AsyncIterableIterator<ApplicationStackResource[]> {
-    let result: ProviderGetAvailableStacksResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._getAvailableStacks(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._getAvailableStacks(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._getAvailableStacksNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -130,34 +117,22 @@ export class ProviderImpl implements Provider {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.getFunctionAppStacksPagingPage(options, settings);
+      byPage: () => {
+        return this.getFunctionAppStacksPagingPage(options);
       }
     };
   }
 
   private async *getFunctionAppStacksPagingPage(
-    options?: ProviderGetFunctionAppStacksOptionalParams,
-    settings?: PageSettings
+    options?: ProviderGetFunctionAppStacksOptionalParams
   ): AsyncIterableIterator<FunctionAppStack[]> {
-    let result: ProviderGetFunctionAppStacksResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._getFunctionAppStacks(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._getFunctionAppStacks(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._getFunctionAppStacksNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -189,14 +164,10 @@ export class ProviderImpl implements Provider {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.getFunctionAppStacksForLocationPagingPage(
           location,
-          options,
-          settings
+          options
         );
       }
     };
@@ -204,18 +175,11 @@ export class ProviderImpl implements Provider {
 
   private async *getFunctionAppStacksForLocationPagingPage(
     location: string,
-    options?: ProviderGetFunctionAppStacksForLocationOptionalParams,
-    settings?: PageSettings
+    options?: ProviderGetFunctionAppStacksForLocationOptionalParams
   ): AsyncIterableIterator<FunctionAppStack[]> {
-    let result: ProviderGetFunctionAppStacksForLocationResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._getFunctionAppStacksForLocation(location, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._getFunctionAppStacksForLocation(location, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._getFunctionAppStacksForLocationNext(
         location,
@@ -223,9 +187,7 @@ export class ProviderImpl implements Provider {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -258,33 +220,19 @@ export class ProviderImpl implements Provider {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.getWebAppStacksForLocationPagingPage(
-          location,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.getWebAppStacksForLocationPagingPage(location, options);
       }
     };
   }
 
   private async *getWebAppStacksForLocationPagingPage(
     location: string,
-    options?: ProviderGetWebAppStacksForLocationOptionalParams,
-    settings?: PageSettings
+    options?: ProviderGetWebAppStacksForLocationOptionalParams
   ): AsyncIterableIterator<WebAppStack[]> {
-    let result: ProviderGetWebAppStacksForLocationResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._getWebAppStacksForLocation(location, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._getWebAppStacksForLocation(location, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._getWebAppStacksForLocationNext(
         location,
@@ -292,9 +240,7 @@ export class ProviderImpl implements Provider {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -326,34 +272,22 @@ export class ProviderImpl implements Provider {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listOperationsPagingPage(options, settings);
+      byPage: () => {
+        return this.listOperationsPagingPage(options);
       }
     };
   }
 
   private async *listOperationsPagingPage(
-    options?: ProviderListOperationsOptionalParams,
-    settings?: PageSettings
+    options?: ProviderListOperationsOptionalParams
   ): AsyncIterableIterator<CsmOperationDescription[]> {
-    let result: ProviderListOperationsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listOperations(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listOperations(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listOperationsNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -380,34 +314,22 @@ export class ProviderImpl implements Provider {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.getWebAppStacksPagingPage(options, settings);
+      byPage: () => {
+        return this.getWebAppStacksPagingPage(options);
       }
     };
   }
 
   private async *getWebAppStacksPagingPage(
-    options?: ProviderGetWebAppStacksOptionalParams,
-    settings?: PageSettings
+    options?: ProviderGetWebAppStacksOptionalParams
   ): AsyncIterableIterator<WebAppStack[]> {
-    let result: ProviderGetWebAppStacksResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._getWebAppStacks(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._getWebAppStacks(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._getWebAppStacksNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -434,37 +356,25 @@ export class ProviderImpl implements Provider {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.getAvailableStacksOnPremPagingPage(options, settings);
+      byPage: () => {
+        return this.getAvailableStacksOnPremPagingPage(options);
       }
     };
   }
 
   private async *getAvailableStacksOnPremPagingPage(
-    options?: ProviderGetAvailableStacksOnPremOptionalParams,
-    settings?: PageSettings
+    options?: ProviderGetAvailableStacksOnPremOptionalParams
   ): AsyncIterableIterator<ApplicationStackResource[]> {
-    let result: ProviderGetAvailableStacksOnPremResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._getAvailableStacksOnPrem(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._getAvailableStacksOnPrem(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._getAvailableStacksOnPremNext(
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -730,7 +640,7 @@ const getFunctionAppStacksForLocationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.stackOsType1],
+  queryParameters: [Parameters.apiVersion, Parameters.stackOsType],
   urlParameters: [Parameters.$host, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer
@@ -746,7 +656,7 @@ const getWebAppStacksForLocationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.stackOsType2],
+  queryParameters: [Parameters.apiVersion, Parameters.stackOsType],
   urlParameters: [Parameters.$host, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer
@@ -778,7 +688,7 @@ const getWebAppStacksOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.stackOsType3],
+  queryParameters: [Parameters.apiVersion, Parameters.stackOsType],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer
@@ -795,7 +705,7 @@ const getAvailableStacksOnPremOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.osTypeSelected1],
+  queryParameters: [Parameters.apiVersion, Parameters.osTypeSelected],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -843,7 +753,7 @@ const getFunctionAppStacksForLocationNextOperationSpec: coreClient.OperationSpec
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.stackOsType1],
+  queryParameters: [Parameters.apiVersion, Parameters.stackOsType],
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer
@@ -859,7 +769,7 @@ const getWebAppStacksForLocationNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.stackOsType2],
+  queryParameters: [Parameters.apiVersion, Parameters.stackOsType],
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer
@@ -891,7 +801,7 @@ const getWebAppStacksNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.stackOsType3],
+  queryParameters: [Parameters.apiVersion, Parameters.stackOsType],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -907,7 +817,7 @@ const getAvailableStacksOnPremNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.osTypeSelected1],
+  queryParameters: [Parameters.apiVersion, Parameters.osTypeSelected],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
