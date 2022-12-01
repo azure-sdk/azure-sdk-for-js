@@ -20,11 +20,21 @@ export interface CheckNameAvailabilityParameters {
 }
 
 // @public
+export interface CorsConfiguration {
+    allowCredentials?: boolean;
+    headers?: string[];
+    maxAge?: number;
+    methods?: string[];
+    origins?: string[];
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
 export interface DicomService extends TaggedResource, ServiceManagedIdentity {
     authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
+    corsConfiguration?: CorsConfiguration;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -152,6 +162,7 @@ export interface FhirService extends TaggedResource, ServiceManagedIdentity {
     corsConfiguration?: FhirServiceCorsConfiguration;
     readonly eventState?: ServiceEventState;
     exportConfiguration?: FhirServiceExportConfiguration;
+    importConfiguration?: FhirServiceImportConfiguration;
     kind?: FhirServiceKind;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
@@ -196,6 +207,13 @@ export interface FhirServiceCorsConfiguration {
 // @public
 export interface FhirServiceExportConfiguration {
     storageAccountName?: string;
+}
+
+// @public
+export interface FhirServiceImportConfiguration {
+    enabled?: boolean;
+    initialImportMode?: boolean;
+    integrationDataStore?: string;
 }
 
 // @public
@@ -261,9 +279,6 @@ export interface FhirServicesUpdateOptionalParams extends coreClient.OperationOp
 
 // @public
 export type FhirServicesUpdateResponse = FhirService;
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public (undocumented)
 export class HealthcareApisManagementClient extends coreClient.ServiceClient {
@@ -595,8 +610,13 @@ export interface MetricSpecification {
     dimensions?: MetricDimension[];
     displayDescription?: string;
     displayName?: string;
+    enableRegionalMdmAccount?: boolean;
     fillGapWithZero?: boolean;
+    isInternal?: boolean;
+    metricFilterPattern?: string;
     name?: string;
+    resourceIdDimensionNameOverride?: string;
+    sourceMdmAccount?: string;
     sourceMdmNamespace?: string;
     supportedAggregationTypes?: string[];
     supportedTimeGrainTypes?: string[];
@@ -864,6 +884,13 @@ export interface ServiceExportConfigurationInfo {
 }
 
 // @public
+export interface ServiceImportConfigurationInfo {
+    enabled?: boolean;
+    initialImportMode?: boolean;
+    integrationDataStore?: string;
+}
+
+// @public
 export interface ServiceManagedIdentity {
     identity?: ServiceManagedIdentityIdentity;
 }
@@ -1003,6 +1030,7 @@ export interface ServicesProperties {
     corsConfiguration?: ServiceCorsConfigurationInfo;
     cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
     exportConfiguration?: ServiceExportConfigurationInfo;
+    importConfiguration?: ServiceImportConfigurationInfo;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;

@@ -1,15 +1,22 @@
 # Release History
+    
+## 2.3.0 (2022-12-01)
+    
+**Features**
 
-## 2.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface CorsConfiguration
+  - Added Interface FhirServiceImportConfiguration
+  - Added Interface ServiceImportConfigurationInfo
+  - Interface DicomService has a new optional parameter corsConfiguration
+  - Interface FhirService has a new optional parameter importConfiguration
+  - Interface MetricSpecification has a new optional parameter enableRegionalMdmAccount
+  - Interface MetricSpecification has a new optional parameter isInternal
+  - Interface MetricSpecification has a new optional parameter metricFilterPattern
+  - Interface MetricSpecification has a new optional parameter resourceIdDimensionNameOverride
+  - Interface MetricSpecification has a new optional parameter sourceMdmAccount
+  - Interface ServicesProperties has a new optional parameter importConfiguration
+    
+    
 ## 2.2.0 (2022-11-25)
     
 **Features**

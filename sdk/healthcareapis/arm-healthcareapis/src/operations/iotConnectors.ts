@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { IotConnectors } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -67,15 +66,11 @@ export class IotConnectorsImpl implements IotConnectors {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByWorkspacePagingPage(
           resourceGroupName,
           workspaceName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -84,22 +79,15 @@ export class IotConnectorsImpl implements IotConnectors {
   private async *listByWorkspacePagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: IotConnectorsListByWorkspaceOptionalParams,
-    settings?: PageSettings
+    options?: IotConnectorsListByWorkspaceOptionalParams
   ): AsyncIterableIterator<IotConnector[]> {
-    let result: IotConnectorsListByWorkspaceResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByWorkspace(
-        resourceGroupName,
-        workspaceName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByWorkspace(
+      resourceGroupName,
+      workspaceName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByWorkspaceNext(
         resourceGroupName,
@@ -108,9 +96,7 @@ export class IotConnectorsImpl implements IotConnectors {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

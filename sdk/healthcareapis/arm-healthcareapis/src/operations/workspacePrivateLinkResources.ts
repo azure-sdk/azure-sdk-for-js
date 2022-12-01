@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { WorkspacePrivateLinkResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -57,15 +57,11 @@ export class WorkspacePrivateLinkResourcesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByWorkspacePagingPage(
           resourceGroupName,
           workspaceName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -74,11 +70,9 @@ export class WorkspacePrivateLinkResourcesImpl
   private async *listByWorkspacePagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams,
-    _settings?: PageSettings
+    options?: WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams
   ): AsyncIterableIterator<PrivateLinkResourceDescription[]> {
-    let result: WorkspacePrivateLinkResourcesListByWorkspaceResponse;
-    result = await this._listByWorkspace(
+    let result = await this._listByWorkspace(
       resourceGroupName,
       workspaceName,
       options
