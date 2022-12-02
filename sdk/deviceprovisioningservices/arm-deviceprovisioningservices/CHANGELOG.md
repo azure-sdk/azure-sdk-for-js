@@ -1,15 +1,12 @@
 # Release History
+    
+## 5.1.0 (2022-12-02)
+    
+**Features**
 
-## 5.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ProvisioningServiceDescription
+  - Interface IotDpsPropertiesDescription has a new optional parameter portalOperationsHostName
+    
 ## 5.0.1 (2022-04-27)
     
 **Features**

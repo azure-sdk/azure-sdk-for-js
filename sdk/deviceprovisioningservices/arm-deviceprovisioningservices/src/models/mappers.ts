@@ -383,6 +383,12 @@ export const IotDpsPropertiesDescription: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      portalOperationsHostName: {
+        serializedName: "portalOperationsHostName",
+        type: {
+          name: "String"
+        }
       }
     }
   }
