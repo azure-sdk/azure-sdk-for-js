@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PrivateEndpointConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,12 +17,12 @@ import { LroImpl } from "../lroImpl";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListByResourceOptionalParams,
-  PrivateEndpointConnectionsListByResourceResponse,
   PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   PrivateEndpointConnectionsCreateOrUpdateResponse,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsGetResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsListByResourceResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -62,15 +62,11 @@ export class PrivateEndpointConnectionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByResourcePagingPage(
           resourceGroupName,
           farmBeatsResourceName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -79,11 +75,9 @@ export class PrivateEndpointConnectionsImpl
   private async *listByResourcePagingPage(
     resourceGroupName: string,
     farmBeatsResourceName: string,
-    options?: PrivateEndpointConnectionsListByResourceOptionalParams,
-    _settings?: PageSettings
+    options?: PrivateEndpointConnectionsListByResourceOptionalParams
   ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result: PrivateEndpointConnectionsListByResourceResponse;
-    result = await this._listByResource(
+    let result = await this._listByResource(
       resourceGroupName,
       farmBeatsResourceName,
       options
@@ -290,7 +284,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.farmBeatsResourceName,
     Parameters.privateEndpointConnectionName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
