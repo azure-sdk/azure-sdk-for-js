@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AvailableWorkloadProfiles } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -52,35 +51,23 @@ export class AvailableWorkloadProfilesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.getPagingPage(location, options, settings);
+      byPage: () => {
+        return this.getPagingPage(location, options);
       }
     };
   }
 
   private async *getPagingPage(
     location: string,
-    options?: AvailableWorkloadProfilesGetOptionalParams,
-    settings?: PageSettings
+    options?: AvailableWorkloadProfilesGetOptionalParams
   ): AsyncIterableIterator<AvailableWorkloadProfile[]> {
-    let result: AvailableWorkloadProfilesGetResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._get(location, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._get(location, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._getNext(location, continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

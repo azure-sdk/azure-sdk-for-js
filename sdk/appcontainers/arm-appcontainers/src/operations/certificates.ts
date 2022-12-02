@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Certificates } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -65,16 +64,8 @@ export class CertificatesImpl implements Certificates {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(
-          resourceGroupName,
-          environmentName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listPagingPage(resourceGroupName, environmentName, options);
       }
     };
   }
@@ -82,18 +73,11 @@ export class CertificatesImpl implements Certificates {
   private async *listPagingPage(
     resourceGroupName: string,
     environmentName: string,
-    options?: CertificatesListOptionalParams,
-    settings?: PageSettings
+    options?: CertificatesListOptionalParams
   ): AsyncIterableIterator<Certificate[]> {
-    let result: CertificatesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(resourceGroupName, environmentName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(resourceGroupName, environmentName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -102,9 +86,7 @@ export class CertificatesImpl implements Certificates {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -284,8 +266,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
-    Parameters.certificateName
+    Parameters.certificateName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -308,8 +290,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
-    Parameters.certificateName
+    Parameters.certificateName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -331,8 +313,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
-    Parameters.certificateName
+    Parameters.certificateName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -355,8 +337,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
-    Parameters.certificateName
+    Parameters.certificateName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
