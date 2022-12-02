@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ResourceHealthMetadataOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,18 +16,18 @@ import {
   ResourceHealthMetadata,
   ResourceHealthMetadataListNextOptionalParams,
   ResourceHealthMetadataListOptionalParams,
-  ResourceHealthMetadataListResponse,
   ResourceHealthMetadataListByResourceGroupNextOptionalParams,
   ResourceHealthMetadataListByResourceGroupOptionalParams,
-  ResourceHealthMetadataListByResourceGroupResponse,
   ResourceHealthMetadataListBySiteNextOptionalParams,
   ResourceHealthMetadataListBySiteOptionalParams,
-  ResourceHealthMetadataListBySiteResponse,
   ResourceHealthMetadataListBySiteSlotNextOptionalParams,
   ResourceHealthMetadataListBySiteSlotOptionalParams,
-  ResourceHealthMetadataListBySiteSlotResponse,
+  ResourceHealthMetadataListResponse,
+  ResourceHealthMetadataListByResourceGroupResponse,
+  ResourceHealthMetadataListBySiteResponse,
   ResourceHealthMetadataGetBySiteOptionalParams,
   ResourceHealthMetadataGetBySiteResponse,
+  ResourceHealthMetadataListBySiteSlotResponse,
   ResourceHealthMetadataGetBySiteSlotOptionalParams,
   ResourceHealthMetadataGetBySiteSlotResponse,
   ResourceHealthMetadataListNextResponse,
@@ -66,34 +65,22 @@ export class ResourceHealthMetadataOperationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
+      byPage: () => {
+        return this.listPagingPage(options);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ResourceHealthMetadataListOptionalParams,
-    settings?: PageSettings
+    options?: ResourceHealthMetadataListOptionalParams
   ): AsyncIterableIterator<ResourceHealthMetadata[]> {
-    let result: ResourceHealthMetadataListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -123,33 +110,19 @@ export class ResourceHealthMetadataOperationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ResourceHealthMetadataListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: ResourceHealthMetadataListByResourceGroupOptionalParams
   ): AsyncIterableIterator<ResourceHealthMetadata[]> {
-    let result: ResourceHealthMetadataListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -157,9 +130,7 @@ export class ResourceHealthMetadataOperationsImpl
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -195,16 +166,8 @@ export class ResourceHealthMetadataOperationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySitePagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listBySitePagingPage(resourceGroupName, name, options);
       }
     };
   }
@@ -212,18 +175,11 @@ export class ResourceHealthMetadataOperationsImpl
   private async *listBySitePagingPage(
     resourceGroupName: string,
     name: string,
-    options?: ResourceHealthMetadataListBySiteOptionalParams,
-    settings?: PageSettings
+    options?: ResourceHealthMetadataListBySiteOptionalParams
   ): AsyncIterableIterator<ResourceHealthMetadata[]> {
-    let result: ResourceHealthMetadataListBySiteResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySite(resourceGroupName, name, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBySite(resourceGroupName, name, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBySiteNext(
         resourceGroupName,
@@ -232,9 +188,7 @@ export class ResourceHealthMetadataOperationsImpl
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -279,16 +233,12 @@ export class ResourceHealthMetadataOperationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listBySiteSlotPagingPage(
           resourceGroupName,
           name,
           slot,
-          options,
-          settings
+          options
         );
       }
     };
@@ -298,23 +248,16 @@ export class ResourceHealthMetadataOperationsImpl
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: ResourceHealthMetadataListBySiteSlotOptionalParams,
-    settings?: PageSettings
+    options?: ResourceHealthMetadataListBySiteSlotOptionalParams
   ): AsyncIterableIterator<ResourceHealthMetadata[]> {
-    let result: ResourceHealthMetadataListBySiteSlotResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySiteSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBySiteSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBySiteSlotNext(
         resourceGroupName,
@@ -324,9 +267,7 @@ export class ResourceHealthMetadataOperationsImpl
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

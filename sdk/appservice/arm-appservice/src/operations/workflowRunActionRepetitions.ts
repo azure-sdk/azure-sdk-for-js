@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { WorkflowRunActionRepetitions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,13 +16,13 @@ import {
   WorkflowRunActionRepetitionDefinition,
   WorkflowRunActionRepetitionsListNextOptionalParams,
   WorkflowRunActionRepetitionsListOptionalParams,
-  WorkflowRunActionRepetitionsListResponse,
   ExpressionRoot,
   WorkflowRunActionRepetitionsListExpressionTracesNextOptionalParams,
   WorkflowRunActionRepetitionsListExpressionTracesOptionalParams,
-  WorkflowRunActionRepetitionsListExpressionTracesResponse,
+  WorkflowRunActionRepetitionsListResponse,
   WorkflowRunActionRepetitionsGetOptionalParams,
   WorkflowRunActionRepetitionsGetResponse,
+  WorkflowRunActionRepetitionsListExpressionTracesResponse,
   WorkflowRunActionRepetitionsListNextResponse,
   WorkflowRunActionRepetitionsListExpressionTracesNextResponse
 } from "../models";
@@ -74,18 +73,14 @@ export class WorkflowRunActionRepetitionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listPagingPage(
           resourceGroupName,
           name,
           workflowName,
           runName,
           actionName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -97,25 +92,18 @@ export class WorkflowRunActionRepetitionsImpl
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionRepetitionsListOptionalParams,
-    settings?: PageSettings
+    options?: WorkflowRunActionRepetitionsListOptionalParams
   ): AsyncIterableIterator<WorkflowRunActionRepetitionDefinition[]> {
-    let result: WorkflowRunActionRepetitionsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        name,
-        workflowName,
-        runName,
-        actionName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(
+      resourceGroupName,
+      name,
+      workflowName,
+      runName,
+      actionName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -127,9 +115,7 @@ export class WorkflowRunActionRepetitionsImpl
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -188,10 +174,7 @@ export class WorkflowRunActionRepetitionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listExpressionTracesPagingPage(
           resourceGroupName,
           name,
@@ -199,8 +182,7 @@ export class WorkflowRunActionRepetitionsImpl
           runName,
           actionName,
           repetitionName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -213,26 +195,19 @@ export class WorkflowRunActionRepetitionsImpl
     runName: string,
     actionName: string,
     repetitionName: string,
-    options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams,
-    settings?: PageSettings
+    options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams
   ): AsyncIterableIterator<ExpressionRoot[]> {
-    let result: WorkflowRunActionRepetitionsListExpressionTracesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listExpressionTraces(
-        resourceGroupName,
-        name,
-        workflowName,
-        runName,
-        actionName,
-        repetitionName,
-        options
-      );
-      let page = result.inputs || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listExpressionTraces(
+      resourceGroupName,
+      name,
+      workflowName,
+      runName,
+      actionName,
+      repetitionName,
+      options
+    );
+    yield result.inputs || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listExpressionTracesNext(
         resourceGroupName,
@@ -245,9 +220,7 @@ export class WorkflowRunActionRepetitionsImpl
         options
       );
       continuationToken = result.nextLink;
-      let page = result.inputs || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.inputs || [];
     }
   }
 

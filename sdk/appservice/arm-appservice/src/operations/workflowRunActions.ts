@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { WorkflowRunActions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,13 +16,13 @@ import {
   WorkflowRunAction,
   WorkflowRunActionsListNextOptionalParams,
   WorkflowRunActionsListOptionalParams,
-  WorkflowRunActionsListResponse,
   ExpressionRoot,
   WorkflowRunActionsListExpressionTracesNextOptionalParams,
   WorkflowRunActionsListExpressionTracesOptionalParams,
-  WorkflowRunActionsListExpressionTracesResponse,
+  WorkflowRunActionsListResponse,
   WorkflowRunActionsGetOptionalParams,
   WorkflowRunActionsGetResponse,
+  WorkflowRunActionsListExpressionTracesResponse,
   WorkflowRunActionsListNextResponse,
   WorkflowRunActionsListExpressionTracesNextResponse
 } from "../models";
@@ -70,17 +69,13 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listPagingPage(
           resourceGroupName,
           name,
           workflowName,
           runName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -91,24 +86,17 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
     name: string,
     workflowName: string,
     runName: string,
-    options?: WorkflowRunActionsListOptionalParams,
-    settings?: PageSettings
+    options?: WorkflowRunActionsListOptionalParams
   ): AsyncIterableIterator<WorkflowRunAction[]> {
-    let result: WorkflowRunActionsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        name,
-        workflowName,
-        runName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(
+      resourceGroupName,
+      name,
+      workflowName,
+      runName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -119,9 +107,7 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -175,18 +161,14 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listExpressionTracesPagingPage(
           resourceGroupName,
           name,
           workflowName,
           runName,
           actionName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -198,25 +180,18 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionsListExpressionTracesOptionalParams,
-    settings?: PageSettings
+    options?: WorkflowRunActionsListExpressionTracesOptionalParams
   ): AsyncIterableIterator<ExpressionRoot[]> {
-    let result: WorkflowRunActionsListExpressionTracesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listExpressionTraces(
-        resourceGroupName,
-        name,
-        workflowName,
-        runName,
-        actionName,
-        options
-      );
-      let page = result.inputs || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listExpressionTraces(
+      resourceGroupName,
+      name,
+      workflowName,
+      runName,
+      actionName,
+      options
+    );
+    yield result.inputs || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listExpressionTracesNext(
         resourceGroupName,
@@ -228,9 +203,7 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.inputs || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.inputs || [];
     }
   }
 

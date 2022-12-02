@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { WorkflowRunActionRepetitionsRequestHistories } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -72,10 +71,7 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listPagingPage(
           resourceGroupName,
           name,
@@ -83,8 +79,7 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
           runName,
           actionName,
           repetitionName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -97,26 +92,19 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
     runName: string,
     actionName: string,
     repetitionName: string,
-    options?: WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams,
-    settings?: PageSettings
+    options?: WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams
   ): AsyncIterableIterator<RequestHistory[]> {
-    let result: WorkflowRunActionRepetitionsRequestHistoriesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        name,
-        workflowName,
-        runName,
-        actionName,
-        repetitionName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(
+      resourceGroupName,
+      name,
+      workflowName,
+      runName,
+      actionName,
+      repetitionName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -129,9 +117,7 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
