@@ -26,6 +26,7 @@ import {
   FhirServicesImpl,
   WorkspacePrivateEndpointConnectionsImpl,
   WorkspacePrivateLinkResourcesImpl,
+  AnalyticsConnectorsImpl,
   OperationsImpl,
   OperationResultsImpl
 } from "./operations";
@@ -41,6 +42,7 @@ import {
   FhirServices,
   WorkspacePrivateEndpointConnections,
   WorkspacePrivateLinkResources,
+  AnalyticsConnectors,
   Operations,
   OperationResults
 } from "./operationsInterfaces";
@@ -78,19 +80,22 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-healthcareapis/2.2.1`;
+    const packageDetails = `azsdk-js-arm-healthcareapis/2.3.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      endpoint:
+      baseUri:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
@@ -116,9 +121,7 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
-          scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+          scopes: `${optionsWithDefaults.credentialScopes}`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
               coreClient.authorizeRequestOnClaimChallenge
@@ -131,7 +134,7 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-11-01";
+    this.apiVersion = options.apiVersion || "2022-10-01-preview";
     this.services = new ServicesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
@@ -149,6 +152,7 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
     this.workspacePrivateLinkResources = new WorkspacePrivateLinkResourcesImpl(
       this
     );
+    this.analyticsConnectors = new AnalyticsConnectorsImpl(this);
     this.operations = new OperationsImpl(this);
     this.operationResults = new OperationResultsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
@@ -193,6 +197,7 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
   fhirServices: FhirServices;
   workspacePrivateEndpointConnections: WorkspacePrivateEndpointConnections;
   workspacePrivateLinkResources: WorkspacePrivateLinkResources;
+  analyticsConnectors: AnalyticsConnectors;
   operations: Operations;
   operationResults: OperationResults;
 }

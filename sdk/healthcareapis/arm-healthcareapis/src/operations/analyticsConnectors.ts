@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { FhirServices } from "../operationsInterfaces";
+import { AnalyticsConnectors } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,28 +15,28 @@ import { HealthcareApisManagementClient } from "../healthcareApisManagementClien
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  FhirService,
-  FhirServicesListByWorkspaceNextOptionalParams,
-  FhirServicesListByWorkspaceOptionalParams,
-  FhirServicesListByWorkspaceResponse,
-  FhirServicesGetOptionalParams,
-  FhirServicesGetResponse,
-  FhirServicesCreateOrUpdateOptionalParams,
-  FhirServicesCreateOrUpdateResponse,
-  FhirServicePatchResource,
-  FhirServicesUpdateOptionalParams,
-  FhirServicesUpdateResponse,
-  FhirServicesDeleteOptionalParams,
-  FhirServicesListByWorkspaceNextResponse
+  AnalyticsConnector,
+  AnalyticsConnectorsListByWorkspaceNextOptionalParams,
+  AnalyticsConnectorsListByWorkspaceOptionalParams,
+  AnalyticsConnectorsListByWorkspaceResponse,
+  AnalyticsConnectorsGetOptionalParams,
+  AnalyticsConnectorsGetResponse,
+  AnalyticsConnectorsCreateOrUpdateOptionalParams,
+  AnalyticsConnectorsCreateOrUpdateResponse,
+  AnalyticsConnectorPatchResource,
+  AnalyticsConnectorsUpdateOptionalParams,
+  AnalyticsConnectorsUpdateResponse,
+  AnalyticsConnectorsDeleteOptionalParams,
+  AnalyticsConnectorsListByWorkspaceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing FhirServices operations. */
-export class FhirServicesImpl implements FhirServices {
+/** Class containing AnalyticsConnectors operations. */
+export class AnalyticsConnectorsImpl implements AnalyticsConnectors {
   private readonly client: HealthcareApisManagementClient;
 
   /**
-   * Initialize a new instance of the class FhirServices class.
+   * Initialize a new instance of the class AnalyticsConnectors class.
    * @param client Reference to the service client
    */
   constructor(client: HealthcareApisManagementClient) {
@@ -44,7 +44,7 @@ export class FhirServicesImpl implements FhirServices {
   }
 
   /**
-   * Lists all FHIR Services for the given workspace
+   * Lists all Analytics Connectors for the given workspace.
    * @param resourceGroupName The name of the resource group that contains the service instance.
    * @param workspaceName The name of workspace resource.
    * @param options The options parameters.
@@ -52,8 +52,8 @@ export class FhirServicesImpl implements FhirServices {
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FhirServicesListByWorkspaceOptionalParams
-  ): PagedAsyncIterableIterator<FhirService> {
+    options?: AnalyticsConnectorsListByWorkspaceOptionalParams
+  ): PagedAsyncIterableIterator<AnalyticsConnector> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
@@ -79,8 +79,8 @@ export class FhirServicesImpl implements FhirServices {
   private async *listByWorkspacePagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FhirServicesListByWorkspaceOptionalParams
-  ): AsyncIterableIterator<FhirService[]> {
+    options?: AnalyticsConnectorsListByWorkspaceOptionalParams
+  ): AsyncIterableIterator<AnalyticsConnector[]> {
     let result = await this._listByWorkspace(
       resourceGroupName,
       workspaceName,
@@ -103,8 +103,8 @@ export class FhirServicesImpl implements FhirServices {
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FhirServicesListByWorkspaceOptionalParams
-  ): AsyncIterableIterator<FhirService> {
+    options?: AnalyticsConnectorsListByWorkspaceOptionalParams
+  ): AsyncIterableIterator<AnalyticsConnector> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
@@ -115,7 +115,7 @@ export class FhirServicesImpl implements FhirServices {
   }
 
   /**
-   * Lists all FHIR Services for the given workspace
+   * Lists all Analytics Connectors for the given workspace.
    * @param resourceGroupName The name of the resource group that contains the service instance.
    * @param workspaceName The name of workspace resource.
    * @param options The options parameters.
@@ -123,8 +123,8 @@ export class FhirServicesImpl implements FhirServices {
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FhirServicesListByWorkspaceOptionalParams
-  ): Promise<FhirServicesListByWorkspaceResponse> {
+    options?: AnalyticsConnectorsListByWorkspaceOptionalParams
+  ): Promise<AnalyticsConnectorsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
       listByWorkspaceOperationSpec
@@ -132,48 +132,48 @@ export class FhirServicesImpl implements FhirServices {
   }
 
   /**
-   * Gets the properties of the specified FHIR Service.
+   * Gets the properties of the specified Analytics Connector.
    * @param resourceGroupName The name of the resource group that contains the service instance.
    * @param workspaceName The name of workspace resource.
-   * @param fhirServiceName The name of FHIR Service resource.
+   * @param analyticsConnectorName The name of Analytics Connector resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
-    fhirServiceName: string,
-    options?: FhirServicesGetOptionalParams
-  ): Promise<FhirServicesGetResponse> {
+    analyticsConnectorName: string,
+    options?: AnalyticsConnectorsGetOptionalParams
+  ): Promise<AnalyticsConnectorsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, fhirServiceName, options },
+      { resourceGroupName, workspaceName, analyticsConnectorName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates or updates a FHIR Service resource with the specified parameters.
+   * Creates or updates a Analytics Connector resource with the specified parameters.
    * @param resourceGroupName The name of the resource group that contains the service instance.
    * @param workspaceName The name of workspace resource.
-   * @param fhirServiceName The name of FHIR Service resource.
-   * @param fhirservice The parameters for creating or updating a Fhir Service resource.
+   * @param analyticsConnectorName The name of Analytics Connector resource.
+   * @param analyticsConnector The parameters for creating or updating a Analytics Connector resource.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
-    fhirServiceName: string,
-    fhirservice: FhirService,
-    options?: FhirServicesCreateOrUpdateOptionalParams
+    analyticsConnectorName: string,
+    analyticsConnector: AnalyticsConnector,
+    options?: AnalyticsConnectorsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<FhirServicesCreateOrUpdateResponse>,
-      FhirServicesCreateOrUpdateResponse
+      PollOperationState<AnalyticsConnectorsCreateOrUpdateResponse>,
+      AnalyticsConnectorsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<FhirServicesCreateOrUpdateResponse> => {
+    ): Promise<AnalyticsConnectorsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -214,69 +214,70 @@ export class FhirServicesImpl implements FhirServices {
       {
         resourceGroupName,
         workspaceName,
-        fhirServiceName,
-        fhirservice,
+        analyticsConnectorName,
+        analyticsConnector,
         options
       },
       createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates or updates a FHIR Service resource with the specified parameters.
+   * Creates or updates a Analytics Connector resource with the specified parameters.
    * @param resourceGroupName The name of the resource group that contains the service instance.
    * @param workspaceName The name of workspace resource.
-   * @param fhirServiceName The name of FHIR Service resource.
-   * @param fhirservice The parameters for creating or updating a Fhir Service resource.
+   * @param analyticsConnectorName The name of Analytics Connector resource.
+   * @param analyticsConnector The parameters for creating or updating a Analytics Connector resource.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    fhirServiceName: string,
-    fhirservice: FhirService,
-    options?: FhirServicesCreateOrUpdateOptionalParams
-  ): Promise<FhirServicesCreateOrUpdateResponse> {
+    analyticsConnectorName: string,
+    analyticsConnector: AnalyticsConnector,
+    options?: AnalyticsConnectorsCreateOrUpdateOptionalParams
+  ): Promise<AnalyticsConnectorsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       workspaceName,
-      fhirServiceName,
-      fhirservice,
+      analyticsConnectorName,
+      analyticsConnector,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Patch FHIR Service details.
+   * Patch Analytics Connector Service details.
    * @param resourceGroupName The name of the resource group that contains the service instance.
-   * @param fhirServiceName The name of FHIR Service resource.
    * @param workspaceName The name of workspace resource.
-   * @param fhirservicePatchResource The parameters for updating a Fhir Service.
+   * @param analyticsConnectorName The name of Analytics Connector resource.
+   * @param analyticsConnectorPatchResource The parameters for updating a Analytics Connector.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    fhirServiceName: string,
     workspaceName: string,
-    fhirservicePatchResource: FhirServicePatchResource,
-    options?: FhirServicesUpdateOptionalParams
+    analyticsConnectorName: string,
+    analyticsConnectorPatchResource: AnalyticsConnectorPatchResource,
+    options?: AnalyticsConnectorsUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<FhirServicesUpdateResponse>,
-      FhirServicesUpdateResponse
+      PollOperationState<AnalyticsConnectorsUpdateResponse>,
+      AnalyticsConnectorsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<FhirServicesUpdateResponse> => {
+    ): Promise<AnalyticsConnectorsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -316,58 +317,59 @@ export class FhirServicesImpl implements FhirServices {
       sendOperation,
       {
         resourceGroupName,
-        fhirServiceName,
         workspaceName,
-        fhirservicePatchResource,
+        analyticsConnectorName,
+        analyticsConnectorPatchResource,
         options
       },
       updateOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Patch FHIR Service details.
+   * Patch Analytics Connector Service details.
    * @param resourceGroupName The name of the resource group that contains the service instance.
-   * @param fhirServiceName The name of FHIR Service resource.
    * @param workspaceName The name of workspace resource.
-   * @param fhirservicePatchResource The parameters for updating a Fhir Service.
+   * @param analyticsConnectorName The name of Analytics Connector resource.
+   * @param analyticsConnectorPatchResource The parameters for updating a Analytics Connector.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    fhirServiceName: string,
     workspaceName: string,
-    fhirservicePatchResource: FhirServicePatchResource,
-    options?: FhirServicesUpdateOptionalParams
-  ): Promise<FhirServicesUpdateResponse> {
+    analyticsConnectorName: string,
+    analyticsConnectorPatchResource: AnalyticsConnectorPatchResource,
+    options?: AnalyticsConnectorsUpdateOptionalParams
+  ): Promise<AnalyticsConnectorsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      fhirServiceName,
       workspaceName,
-      fhirservicePatchResource,
+      analyticsConnectorName,
+      analyticsConnectorPatchResource,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes a FHIR Service.
+   * Deletes a Analytics Connector.
    * @param resourceGroupName The name of the resource group that contains the service instance.
-   * @param fhirServiceName The name of FHIR Service resource.
    * @param workspaceName The name of workspace resource.
+   * @param analyticsConnectorName The name of Analytics Connector resource.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    fhirServiceName: string,
     workspaceName: string,
-    options?: FhirServicesDeleteOptionalParams
+    analyticsConnectorName: string,
+    options?: AnalyticsConnectorsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -410,34 +412,35 @@ export class FhirServicesImpl implements FhirServices {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, fhirServiceName, workspaceName, options },
+      { resourceGroupName, workspaceName, analyticsConnectorName, options },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes a FHIR Service.
+   * Deletes a Analytics Connector.
    * @param resourceGroupName The name of the resource group that contains the service instance.
-   * @param fhirServiceName The name of FHIR Service resource.
    * @param workspaceName The name of workspace resource.
+   * @param analyticsConnectorName The name of Analytics Connector resource.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    fhirServiceName: string,
     workspaceName: string,
-    options?: FhirServicesDeleteOptionalParams
+    analyticsConnectorName: string,
+    options?: AnalyticsConnectorsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      fhirServiceName,
       workspaceName,
+      analyticsConnectorName,
       options
     );
     return poller.pollUntilDone();
@@ -454,8 +457,8 @@ export class FhirServicesImpl implements FhirServices {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: FhirServicesListByWorkspaceNextOptionalParams
-  ): Promise<FhirServicesListByWorkspaceNextResponse> {
+    options?: AnalyticsConnectorsListByWorkspaceNextOptionalParams
+  ): Promise<AnalyticsConnectorsListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
       listByWorkspaceNextOperationSpec
@@ -467,11 +470,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/fhirservices",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/analyticsconnectors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FhirServiceCollection
+      bodyMapper: Mappers.AnalyticsConnectorCollection
     },
     default: {
       bodyMapper: Mappers.ErrorDetails
@@ -489,11 +492,11 @@ const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/fhirservices/{fhirServiceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/analyticsconnectors/{analyticsConnectorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FhirService
+      bodyMapper: Mappers.AnalyticsConnector
     },
     default: {
       bodyMapper: Mappers.ErrorDetails
@@ -505,40 +508,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.fhirServiceName
+    Parameters.analyticsConnectorName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/fhirservices/{fhirServiceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/analyticsconnectors/{analyticsConnectorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.FhirService
+      bodyMapper: Mappers.AnalyticsConnector
     },
     201: {
-      bodyMapper: Mappers.FhirService
+      bodyMapper: Mappers.AnalyticsConnector
     },
     202: {
-      bodyMapper: Mappers.FhirService
+      bodyMapper: Mappers.AnalyticsConnector
     },
     204: {
-      bodyMapper: Mappers.FhirService
+      bodyMapper: Mappers.AnalyticsConnector
     },
     default: {
       bodyMapper: Mappers.ErrorDetails
     }
   },
-  requestBody: Parameters.fhirservice,
+  requestBody: Parameters.analyticsConnector,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.fhirServiceName
+    Parameters.analyticsConnectorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -546,33 +549,33 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/fhirservices/{fhirServiceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/analyticsconnectors/{analyticsConnectorName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.FhirService
+      bodyMapper: Mappers.AnalyticsConnector
     },
     201: {
-      bodyMapper: Mappers.FhirService
+      bodyMapper: Mappers.AnalyticsConnector
     },
     202: {
-      bodyMapper: Mappers.FhirService
+      bodyMapper: Mappers.AnalyticsConnector
     },
     204: {
-      bodyMapper: Mappers.FhirService
+      bodyMapper: Mappers.AnalyticsConnector
     },
     default: {
       bodyMapper: Mappers.ErrorDetails
     }
   },
-  requestBody: Parameters.fhirservicePatchResource,
+  requestBody: Parameters.analyticsConnectorPatchResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.fhirServiceName
+    Parameters.analyticsConnectorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -580,7 +583,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/fhirservices/{fhirServiceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/analyticsconnectors/{analyticsConnectorName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -597,7 +600,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.fhirServiceName
+    Parameters.analyticsConnectorName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -607,7 +610,7 @@ const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FhirServiceCollection
+      bodyMapper: Mappers.AnalyticsConnectorCollection
     },
     default: {
       bodyMapper: Mappers.ErrorDetails

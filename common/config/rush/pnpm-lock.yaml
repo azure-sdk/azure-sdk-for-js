@@ -3932,7 +3932,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221201
+      typescript: 5.0.0-dev.20221202
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8976,8 +8976,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221201:
-    resolution: {integrity: sha512-0GunPFtrZITqx11PJQThb8MdXJwjk88mhOgNBXeme1d9i0mJzymceJysDpwu6sfajognk2yiN86P82xAvbJ0Lw==}
+  /typescript/5.0.0-dev.20221202:
+    resolution: {integrity: sha512-HuvktBN/shznXMoHbebznvAGTuWSGOqyqIddiXcgn0SV7e004lIuLZXRqEdoqlX87nFZp/pkicSsN+y5vuNPNQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12512,7 +12512,7 @@ packages:
     dev: false
 
   file:projects/arm-healthcareapis.tgz:
-    resolution: {integrity: sha512-41r3LlnQx9Qw7Bl2VkkoFWA8A19CldqH/fnfGJGlZ/VgYpSMRUlOuckPfkiZJcU9iuuIjCsuqDK3FJDVmR2lkw==, tarball: file:projects/arm-healthcareapis.tgz}
+    resolution: {integrity: sha512-+DieeH0fWaUOOYC0c+t8yxNC6uRbxpviZHNrxaw4oR2p765mcW2OTQVYASBMsOuNYkDmfGXcB7I37StZnOL1qA==, tarball: file:projects/arm-healthcareapis.tgz}
     name: '@rush-temp/arm-healthcareapis'
     version: 0.0.0
     dependencies:
@@ -12531,11 +12531,12 @@ packages:
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.1
-      typescript: 4.8.4
+      typescript: 4.6.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - '@types/node'
       - supports-color
     dev: false
 
@@ -17800,7 +17801,7 @@ packages:
     dev: false
 
   file:projects/maps-geolocation.tgz:
-    resolution: {integrity: sha512-7bovLrtvyiDJg6UjAcBcGdlQXg/+Bta+eJ6gRNrsJ8B/zRGXOUgS3+TZ9LbhgjE7dAL8G1kBbrl9QXx040omIQ==, tarball: file:projects/maps-geolocation.tgz}
+    resolution: {integrity: sha512-53r+RwzC5ZTpy6FTKhD5zjjurN+a/BWB9VPslGL2oNZJpS9x5HWPKYfEyA22PyPlaZZhb9iYJKuzH7lMQrXoOw==, tarball: file:projects/maps-geolocation.tgz}
     name: '@rush-temp/maps-geolocation'
     version: 0.0.0
     dependencies:

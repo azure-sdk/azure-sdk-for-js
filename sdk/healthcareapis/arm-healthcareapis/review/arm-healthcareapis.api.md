@@ -14,9 +14,151 @@ import { PollOperationState } from '@azure/core-lro';
 export type ActionType = string;
 
 // @public
+export interface AnalyticsConnector extends TaggedResource, ServiceManagedIdentity {
+    dataDestinationConfiguration?: AnalyticsConnectorDataDestinationUnion;
+    dataMappingConfiguration?: AnalyticsConnectorMappingUnion;
+    dataSourceConfiguration?: AnalyticsConnectorDataSourceUnion;
+    readonly provisioningState?: ProvisioningState;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface AnalyticsConnectorCollection {
+    nextLink?: string;
+    value?: AnalyticsConnector[];
+}
+
+// @public
+export interface AnalyticsConnectorDataDestination {
+    [property: string]: any;
+    name?: string;
+    type: "datalake";
+}
+
+// @public
+export type AnalyticsConnectorDataDestinationType = string;
+
+// @public (undocumented)
+export type AnalyticsConnectorDataDestinationUnion = AnalyticsConnectorDataDestination | AnalyticsConnectorDataLakeDataDestination;
+
+// @public
+export interface AnalyticsConnectorDataLakeDataDestination extends AnalyticsConnectorDataDestination {
+    dataLakeName: string;
+    type: "datalake";
+}
+
+// @public
+export interface AnalyticsConnectorDataSource {
+    [property: string]: any;
+    type: "fhirservice";
+}
+
+// @public
+export type AnalyticsConnectorDataSourceType = string;
+
+// @public (undocumented)
+export type AnalyticsConnectorDataSourceUnion = AnalyticsConnectorDataSource | AnalyticsConnectorFhirServiceDataSource;
+
+// @public
+export interface AnalyticsConnectorFhirServiceDataSource extends AnalyticsConnectorDataSource {
+    kind: FhirServiceVersion;
+    type: "fhirservice";
+    url: string;
+}
+
+// @public
+export interface AnalyticsConnectorFhirToParquetMapping extends AnalyticsConnectorMapping {
+    extensionSchemaReference?: string;
+    filterConfigurationReference?: string;
+    type: "fhirToParquet";
+}
+
+// @public
+export interface AnalyticsConnectorMapping {
+    [property: string]: any;
+    type: "fhirToParquet";
+}
+
+// @public
+export type AnalyticsConnectorMappingType = string;
+
+// @public (undocumented)
+export type AnalyticsConnectorMappingUnion = AnalyticsConnectorMapping | AnalyticsConnectorFhirToParquetMapping;
+
+// @public
+export interface AnalyticsConnectorPatchResource extends ResourceTags, ServiceManagedIdentity {
+}
+
+// @public
+export interface AnalyticsConnectors {
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, analyticsConnectorName: string, analyticsConnector: AnalyticsConnector, options?: AnalyticsConnectorsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AnalyticsConnectorsCreateOrUpdateResponse>, AnalyticsConnectorsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, analyticsConnectorName: string, analyticsConnector: AnalyticsConnector, options?: AnalyticsConnectorsCreateOrUpdateOptionalParams): Promise<AnalyticsConnectorsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, workspaceName: string, analyticsConnectorName: string, options?: AnalyticsConnectorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, analyticsConnectorName: string, options?: AnalyticsConnectorsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, analyticsConnectorName: string, analyticsConnectorPatchResource: AnalyticsConnectorPatchResource, options?: AnalyticsConnectorsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AnalyticsConnectorsUpdateResponse>, AnalyticsConnectorsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, workspaceName: string, analyticsConnectorName: string, analyticsConnectorPatchResource: AnalyticsConnectorPatchResource, options?: AnalyticsConnectorsUpdateOptionalParams): Promise<AnalyticsConnectorsUpdateResponse>;
+    get(resourceGroupName: string, workspaceName: string, analyticsConnectorName: string, options?: AnalyticsConnectorsGetOptionalParams): Promise<AnalyticsConnectorsGetResponse>;
+    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: AnalyticsConnectorsListByWorkspaceOptionalParams): PagedAsyncIterableIterator<AnalyticsConnector>;
+}
+
+// @public
+export interface AnalyticsConnectorsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AnalyticsConnectorsCreateOrUpdateResponse = AnalyticsConnector;
+
+// @public
+export interface AnalyticsConnectorsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AnalyticsConnectorsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AnalyticsConnectorsGetResponse = AnalyticsConnector;
+
+// @public
+export interface AnalyticsConnectorsListByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AnalyticsConnectorsListByWorkspaceNextResponse = AnalyticsConnectorCollection;
+
+// @public
+export interface AnalyticsConnectorsListByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AnalyticsConnectorsListByWorkspaceResponse = AnalyticsConnectorCollection;
+
+// @public
+export interface AnalyticsConnectorsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AnalyticsConnectorsUpdateResponse = AnalyticsConnector;
+
+// @public
 export interface CheckNameAvailabilityParameters {
     name: string;
     type: string;
+}
+
+// @public
+export interface CorsConfiguration {
+    allowCredentials?: boolean;
+    headers?: string[];
+    maxAge?: number;
+    methods?: string[];
+    origins?: string[];
 }
 
 // @public
@@ -25,6 +167,7 @@ export type CreatedByType = string;
 // @public
 export interface DicomService extends TaggedResource, ServiceManagedIdentity {
     authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
+    corsConfiguration?: CorsConfiguration;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -152,6 +295,7 @@ export interface FhirService extends TaggedResource, ServiceManagedIdentity {
     corsConfiguration?: FhirServiceCorsConfiguration;
     readonly eventState?: ServiceEventState;
     exportConfiguration?: FhirServiceExportConfiguration;
+    importConfiguration?: FhirServiceImportConfiguration;
     kind?: FhirServiceKind;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
@@ -196,6 +340,13 @@ export interface FhirServiceCorsConfiguration {
 // @public
 export interface FhirServiceExportConfiguration {
     storageAccountName?: string;
+}
+
+// @public
+export interface FhirServiceImportConfiguration {
+    enabled?: boolean;
+    initialImportMode?: boolean;
+    integrationDataStore?: string;
 }
 
 // @public
@@ -263,13 +414,15 @@ export interface FhirServicesUpdateOptionalParams extends coreClient.OperationOp
 export type FhirServicesUpdateResponse = FhirService;
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export type FhirServiceVersion = string;
 
 // @public (undocumented)
 export class HealthcareApisManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: HealthcareApisManagementClientOptionalParams);
+    // (undocumented)
+    analyticsConnectors: AnalyticsConnectors;
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -466,6 +619,21 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownAnalyticsConnectorDataDestinationType {
+    Datalake = "datalake"
+}
+
+// @public
+export enum KnownAnalyticsConnectorDataSourceType {
+    Fhirservice = "fhirservice"
+}
+
+// @public
+export enum KnownAnalyticsConnectorMappingType {
+    FhirToParquet = "fhirToParquet"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -484,6 +652,12 @@ export enum KnownFhirResourceVersionPolicy {
 export enum KnownFhirServiceKind {
     FhirR4 = "fhir-R4",
     FhirStu3 = "fhir-Stu3"
+}
+
+// @public
+export enum KnownFhirServiceVersion {
+    R4 = "R4",
+    STU3 = "STU3"
 }
 
 // @public
@@ -595,8 +769,13 @@ export interface MetricSpecification {
     dimensions?: MetricDimension[];
     displayDescription?: string;
     displayName?: string;
+    enableRegionalMdmAccount?: boolean;
     fillGapWithZero?: boolean;
+    isInternal?: boolean;
+    metricFilterPattern?: string;
     name?: string;
+    resourceIdDimensionNameOverride?: string;
+    sourceMdmAccount?: string;
     sourceMdmNamespace?: string;
     supportedAggregationTypes?: string[];
     supportedTimeGrainTypes?: string[];
@@ -864,6 +1043,13 @@ export interface ServiceExportConfigurationInfo {
 }
 
 // @public
+export interface ServiceImportConfigurationInfo {
+    enabled?: boolean;
+    initialImportMode?: boolean;
+    integrationDataStore?: string;
+}
+
+// @public
 export interface ServiceManagedIdentity {
     identity?: ServiceManagedIdentityIdentity;
 }
@@ -1003,6 +1189,7 @@ export interface ServicesProperties {
     corsConfiguration?: ServiceCorsConfigurationInfo;
     cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
     exportConfiguration?: ServiceExportConfigurationInfo;
+    importConfiguration?: ServiceImportConfigurationInfo;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
