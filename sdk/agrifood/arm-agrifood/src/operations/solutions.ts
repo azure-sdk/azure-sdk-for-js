@@ -7,31 +7,31 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Extensions } from "../operationsInterfaces";
+import { Solutions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AgriFoodMgmtClient } from "../agriFoodMgmtClient";
 import {
-  Extension,
-  ExtensionsListByFarmBeatsNextOptionalParams,
-  ExtensionsListByFarmBeatsOptionalParams,
-  ExtensionsCreateOrUpdateOptionalParams,
-  ExtensionsCreateOrUpdateResponse,
-  ExtensionsGetOptionalParams,
-  ExtensionsGetResponse,
-  ExtensionsDeleteOptionalParams,
-  ExtensionsListByFarmBeatsResponse,
-  ExtensionsListByFarmBeatsNextResponse
+  Solution,
+  SolutionsListNextOptionalParams,
+  SolutionsListOptionalParams,
+  SolutionsCreateOrUpdateOptionalParams,
+  SolutionsCreateOrUpdateResponse,
+  SolutionsGetOptionalParams,
+  SolutionsGetResponse,
+  SolutionsDeleteOptionalParams,
+  SolutionsListResponse,
+  SolutionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Extensions operations. */
-export class ExtensionsImpl implements Extensions {
+/** Class containing Solutions operations. */
+export class SolutionsImpl implements Solutions {
   private readonly client: AgriFoodMgmtClient;
 
   /**
-   * Initialize a new instance of the class Extensions class.
+   * Initialize a new instance of the class Solutions class.
    * @param client Reference to the service client
    */
   constructor(client: AgriFoodMgmtClient) {
@@ -39,17 +39,17 @@ export class ExtensionsImpl implements Extensions {
   }
 
   /**
-   * Get installed extensions details.
+   * Get installed Solutions details.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param farmBeatsResourceName FarmBeats resource name.
    * @param options The options parameters.
    */
-  public listByFarmBeats(
+  public list(
     resourceGroupName: string,
     farmBeatsResourceName: string,
-    options?: ExtensionsListByFarmBeatsOptionalParams
-  ): PagedAsyncIterableIterator<Extension> {
-    const iter = this.listByFarmBeatsPagingAll(
+    options?: SolutionsListOptionalParams
+  ): PagedAsyncIterableIterator<Solution> {
+    const iter = this.listPagingAll(
       resourceGroupName,
       farmBeatsResourceName,
       options
@@ -62,7 +62,7 @@ export class ExtensionsImpl implements Extensions {
         return this;
       },
       byPage: () => {
-        return this.listByFarmBeatsPagingPage(
+        return this.listPagingPage(
           resourceGroupName,
           farmBeatsResourceName,
           options
@@ -71,12 +71,12 @@ export class ExtensionsImpl implements Extensions {
     };
   }
 
-  private async *listByFarmBeatsPagingPage(
+  private async *listPagingPage(
     resourceGroupName: string,
     farmBeatsResourceName: string,
-    options?: ExtensionsListByFarmBeatsOptionalParams
-  ): AsyncIterableIterator<Extension[]> {
-    let result = await this._listByFarmBeats(
+    options?: SolutionsListOptionalParams
+  ): AsyncIterableIterator<Solution[]> {
+    let result = await this._list(
       resourceGroupName,
       farmBeatsResourceName,
       options
@@ -84,7 +84,7 @@ export class ExtensionsImpl implements Extensions {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listByFarmBeatsNext(
+      result = await this._listNext(
         resourceGroupName,
         farmBeatsResourceName,
         continuationToken,
@@ -95,12 +95,12 @@ export class ExtensionsImpl implements Extensions {
     }
   }
 
-  private async *listByFarmBeatsPagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
     farmBeatsResourceName: string,
-    options?: ExtensionsListByFarmBeatsOptionalParams
-  ): AsyncIterableIterator<Extension> {
-    for await (const page of this.listByFarmBeatsPagingPage(
+    options?: SolutionsListOptionalParams
+  ): AsyncIterableIterator<Solution> {
+    for await (const page of this.listPagingPage(
       resourceGroupName,
       farmBeatsResourceName,
       options
@@ -110,97 +110,89 @@ export class ExtensionsImpl implements Extensions {
   }
 
   /**
-   * Install or Update extension. AdditionalApiProperties are merged patch and if the extension is
-   * updated to a new version then the obsolete entries will be auto deleted from
-   * AdditionalApiProperties.
+   * Install Or Update Solution.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param farmBeatsResourceName FarmBeats resource name.
-   * @param extensionId Id of extension resource.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     farmBeatsResourceName: string,
-    extensionId: string,
-    options?: ExtensionsCreateOrUpdateOptionalParams
-  ): Promise<ExtensionsCreateOrUpdateResponse> {
+    options?: SolutionsCreateOrUpdateOptionalParams
+  ): Promise<SolutionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, farmBeatsResourceName, extensionId, options },
+      { resourceGroupName, farmBeatsResourceName, options },
       createOrUpdateOperationSpec
     );
   }
 
   /**
-   * Get installed extension details by extension id.
+   * Get installed Solution details by Solution id.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param farmBeatsResourceName FarmBeats resource name.
-   * @param extensionId Id of extension resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     farmBeatsResourceName: string,
-    extensionId: string,
-    options?: ExtensionsGetOptionalParams
-  ): Promise<ExtensionsGetResponse> {
+    options?: SolutionsGetOptionalParams
+  ): Promise<SolutionsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, farmBeatsResourceName, extensionId, options },
+      { resourceGroupName, farmBeatsResourceName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Uninstall extension.
+   * Uninstall Solution.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param farmBeatsResourceName FarmBeats resource name.
-   * @param extensionId Id of extension resource.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     farmBeatsResourceName: string,
-    extensionId: string,
-    options?: ExtensionsDeleteOptionalParams
+    options?: SolutionsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, farmBeatsResourceName, extensionId, options },
+      { resourceGroupName, farmBeatsResourceName, options },
       deleteOperationSpec
     );
   }
 
   /**
-   * Get installed extensions details.
+   * Get installed Solutions details.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param farmBeatsResourceName FarmBeats resource name.
    * @param options The options parameters.
    */
-  private _listByFarmBeats(
+  private _list(
     resourceGroupName: string,
     farmBeatsResourceName: string,
-    options?: ExtensionsListByFarmBeatsOptionalParams
-  ): Promise<ExtensionsListByFarmBeatsResponse> {
+    options?: SolutionsListOptionalParams
+  ): Promise<SolutionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, farmBeatsResourceName, options },
-      listByFarmBeatsOperationSpec
+      listOperationSpec
     );
   }
 
   /**
-   * ListByFarmBeatsNext
+   * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param farmBeatsResourceName FarmBeats resource name.
-   * @param nextLink The nextLink from the previous successful call to the ListByFarmBeats method.
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  private _listByFarmBeatsNext(
+  private _listNext(
     resourceGroupName: string,
     farmBeatsResourceName: string,
     nextLink: string,
-    options?: ExtensionsListByFarmBeatsNextOptionalParams
-  ): Promise<ExtensionsListByFarmBeatsNextResponse> {
+    options?: SolutionsListNextOptionalParams
+  ): Promise<SolutionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, farmBeatsResourceName, nextLink, options },
-      listByFarmBeatsNextOperationSpec
+      listNextOperationSpec
     );
   }
 }
@@ -209,27 +201,27 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}/extensions/{extensionId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}/solutions/{solutionId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.Solution
     },
     201: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.Solution
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.requestBody,
+  requestBody: Parameters.body4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.farmBeatsResourceName,
-    Parameters.extensionId
+    Parameters.solutionId
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -237,11 +229,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}/extensions/{extensionId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}/solutions/{solutionId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.Solution
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -253,14 +245,14 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.farmBeatsResourceName,
-    Parameters.extensionId
+    Parameters.solutionId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}/extensions/{extensionId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}/solutions/{solutionId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -275,18 +267,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.farmBeatsResourceName,
-    Parameters.extensionId
+    Parameters.solutionId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByFarmBeatsOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}/extensions",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}/solutions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtensionListResponse
+      bodyMapper: Mappers.SolutionListResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -294,10 +286,17 @@ const listByFarmBeatsOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.extensionIds,
-    Parameters.extensionCategories,
     Parameters.maxPageSize,
-    Parameters.skipToken
+    Parameters.skipToken,
+    Parameters.solutionIds,
+    Parameters.ids,
+    Parameters.names,
+    Parameters.propertyFilters,
+    Parameters.statuses,
+    Parameters.minCreatedDateTime,
+    Parameters.maxCreatedDateTime,
+    Parameters.minLastModifiedDateTime,
+    Parameters.maxLastModifiedDateTime
   ],
   urlParameters: [
     Parameters.$host,
@@ -308,12 +307,12 @@ const listByFarmBeatsOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByFarmBeatsNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtensionListResponse
+      bodyMapper: Mappers.SolutionListResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -321,10 +320,17 @@ const listByFarmBeatsNextOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.extensionIds,
-    Parameters.extensionCategories,
     Parameters.maxPageSize,
-    Parameters.skipToken
+    Parameters.skipToken,
+    Parameters.solutionIds,
+    Parameters.ids,
+    Parameters.names,
+    Parameters.propertyFilters,
+    Parameters.statuses,
+    Parameters.minCreatedDateTime,
+    Parameters.maxCreatedDateTime,
+    Parameters.minLastModifiedDateTime,
+    Parameters.maxLastModifiedDateTime
   ],
   urlParameters: [
     Parameters.$host,

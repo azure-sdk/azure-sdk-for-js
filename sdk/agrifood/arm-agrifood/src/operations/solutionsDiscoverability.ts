@@ -7,26 +7,28 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Operations } from "../operationsInterfaces";
+import { SolutionsDiscoverability } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AgriFoodMgmtClient } from "../agriFoodMgmtClient";
 import {
-  Operation,
-  OperationsListNextOptionalParams,
-  OperationsListOptionalParams,
-  OperationsListResponse,
-  OperationsListNextResponse
+  FarmBeatsSolution,
+  SolutionsDiscoverabilityListNextOptionalParams,
+  SolutionsDiscoverabilityListOptionalParams,
+  SolutionsDiscoverabilityListResponse,
+  SolutionsDiscoverabilityGetOptionalParams,
+  SolutionsDiscoverabilityGetResponse,
+  SolutionsDiscoverabilityListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Operations operations. */
-export class OperationsImpl implements Operations {
+/** Class containing SolutionsDiscoverability operations. */
+export class SolutionsDiscoverabilityImpl implements SolutionsDiscoverability {
   private readonly client: AgriFoodMgmtClient;
 
   /**
-   * Initialize a new instance of the class Operations class.
+   * Initialize a new instance of the class SolutionsDiscoverability class.
    * @param client Reference to the service client
    */
   constructor(client: AgriFoodMgmtClient) {
@@ -34,12 +36,12 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists the available operations of Microsoft.AgFoodPlatform resource provider.
+   * Get list of farmBeats solutions.
    * @param options The options parameters.
    */
   public list(
-    options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<Operation> {
+    options?: SolutionsDiscoverabilityListOptionalParams
+  ): PagedAsyncIterableIterator<FarmBeatsSolution> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -55,8 +57,8 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingPage(
-    options?: OperationsListOptionalParams
-  ): AsyncIterableIterator<Operation[]> {
+    options?: SolutionsDiscoverabilityListOptionalParams
+  ): AsyncIterableIterator<FarmBeatsSolution[]> {
     let result = await this._list(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -68,21 +70,36 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingAll(
-    options?: OperationsListOptionalParams
-  ): AsyncIterableIterator<Operation> {
+    options?: SolutionsDiscoverabilityListOptionalParams
+  ): AsyncIterableIterator<FarmBeatsSolution> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists the available operations of Microsoft.AgFoodPlatform resource provider.
+   * Get list of farmBeats solutions.
    * @param options The options parameters.
    */
   private _list(
-    options?: OperationsListOptionalParams
-  ): Promise<OperationsListResponse> {
+    options?: SolutionsDiscoverabilityListOptionalParams
+  ): Promise<SolutionsDiscoverabilityListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
+  }
+
+  /**
+   * Get farmBeats solution by id.
+   * @param farmBeatsSolutionId farmBeatsSolutionId to be queried.
+   * @param options The options parameters.
+   */
+  get(
+    farmBeatsSolutionId: string,
+    options?: SolutionsDiscoverabilityGetOptionalParams
+  ): Promise<SolutionsDiscoverabilityGetResponse> {
+    return this.client.sendOperationRequest(
+      { farmBeatsSolutionId, options },
+      getOperationSpec
+    );
   }
 
   /**
@@ -92,8 +109,8 @@ export class OperationsImpl implements Operations {
    */
   private _listNext(
     nextLink: string,
-    options?: OperationsListNextOptionalParams
-  ): Promise<OperationsListNextResponse> {
+    options?: SolutionsDiscoverabilityListNextOptionalParams
+  ): Promise<SolutionsDiscoverabilityListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
@@ -104,18 +121,40 @@ export class OperationsImpl implements Operations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.AgFoodPlatform/operations",
+  path: "/providers/Microsoft.AgFoodPlatform/farmBeatsSolutionDefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.FarmBeatsSolutionListResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.maxPageSize,
+    Parameters.farmBeatsSolutionIds,
+    Parameters.farmBeatsSolutionNames
+  ],
+  urlParameters: [Parameters.$host],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.AgFoodPlatform/farmBeatsSolutionDefinitions/{farmBeatsSolutionId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FarmBeatsSolution
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host],
+  urlParameters: [Parameters.$host, Parameters.farmBeatsSolutionId],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -124,13 +163,18 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.FarmBeatsSolutionListResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.maxPageSize,
+    Parameters.farmBeatsSolutionIds,
+    Parameters.farmBeatsSolutionNames
+  ],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

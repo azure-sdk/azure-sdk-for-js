@@ -17,7 +17,7 @@ export type ActionType = string;
 export class AgriFoodMgmtClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AgriFoodMgmtClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, solutionId: string, options?: AgriFoodMgmtClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -35,6 +35,12 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
+    solutionId: string;
+    // (undocumented)
+    solutions: Solutions;
+    // (undocumented)
+    solutionsDiscoverability: SolutionsDiscoverability;
+    // (undocumented)
     subscriptionId: string;
 }
 
@@ -43,6 +49,11 @@ export interface AgriFoodMgmtClientOptionalParams extends coreClient.ServiceClie
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
+}
+
+// @public
+export interface ApiProperties {
+    apiFreshnessWindowInMinutes?: number;
 }
 
 // @public
@@ -100,12 +111,23 @@ export interface ErrorResponse {
 
 // @public
 export interface Extension extends ProxyResource {
+    readonly additionalApiProperties?: {
+        [propertyName: string]: ApiProperties;
+    };
     readonly eTag?: string;
     readonly extensionApiDocsLink?: string;
     readonly extensionAuthLink?: string;
     readonly extensionCategory?: string;
     readonly extensionId?: string;
     readonly installedExtensionVersion?: string;
+}
+
+// @public
+export interface ExtensionInstallationRequest {
+    additionalApiProperties?: {
+        [propertyName: string]: ApiProperties;
+    };
+    extensionVersion?: string;
 }
 
 // @public
@@ -116,19 +138,19 @@ export interface ExtensionListResponse {
 
 // @public
 export interface Extensions {
-    create(resourceGroupName: string, farmBeatsResourceName: string, extensionId: string, options?: ExtensionsCreateOptionalParams): Promise<ExtensionsCreateResponse>;
+    createOrUpdate(resourceGroupName: string, farmBeatsResourceName: string, extensionId: string, options?: ExtensionsCreateOrUpdateOptionalParams): Promise<ExtensionsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, farmBeatsResourceName: string, extensionId: string, options?: ExtensionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, farmBeatsResourceName: string, extensionId: string, options?: ExtensionsGetOptionalParams): Promise<ExtensionsGetResponse>;
     listByFarmBeats(resourceGroupName: string, farmBeatsResourceName: string, options?: ExtensionsListByFarmBeatsOptionalParams): PagedAsyncIterableIterator<Extension>;
-    update(resourceGroupName: string, farmBeatsResourceName: string, extensionId: string, options?: ExtensionsUpdateOptionalParams): Promise<ExtensionsUpdateResponse>;
 }
 
 // @public
-export interface ExtensionsCreateOptionalParams extends coreClient.OperationOptions {
+export interface ExtensionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    requestBody?: ExtensionInstallationRequest;
 }
 
 // @public
-export type ExtensionsCreateResponse = Extension;
+export type ExtensionsCreateOrUpdateResponse = Extension;
 
 // @public
 export interface ExtensionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -162,13 +184,6 @@ export interface ExtensionsListByFarmBeatsOptionalParams extends coreClient.Oper
 
 // @public
 export type ExtensionsListByFarmBeatsResponse = ExtensionListResponse;
-
-// @public
-export interface ExtensionsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExtensionsUpdateResponse = Extension;
 
 // @public
 export interface FarmBeats extends TrackedResource {
@@ -332,6 +347,38 @@ export interface FarmBeatsModelsUpdateOptionalParams extends coreClient.Operatio
 export type FarmBeatsModelsUpdateResponse = FarmBeats;
 
 // @public
+export interface FarmBeatsSolution extends ProxyResource {
+    properties?: FarmBeatsSolutionProperties;
+}
+
+// @public
+export interface FarmBeatsSolutionListResponse {
+    nextLink?: string;
+    skipToken?: string;
+    value?: FarmBeatsSolution[];
+}
+
+// @public
+export interface FarmBeatsSolutionProperties {
+    readonly accessFBApplicationId?: string;
+    readonly accessFBApplicationName?: string;
+    readonly dataAccessScopes?: string[];
+    readonly evaluatedOutputsDictionary?: {
+        [propertyName: string]: SolutionEvaluatedOutput;
+    };
+    readonly inputParametersValidationScopes?: ResourceParameter[];
+    // (undocumented)
+    marketplaceOfferDetails?: MarketplaceOfferDetails;
+    readonly openApiSpecsDictionary?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+    readonly partnerId?: string;
+    readonly partnerTenantId?: string;
+    readonly roleId?: string;
+    readonly roleName?: string;
+}
+
+// @public
 export interface FarmBeatsUpdateProperties {
     publicNetworkAccess?: PublicNetworkAccess;
     sensorIntegration?: SensorIntegration;
@@ -348,13 +395,80 @@ export interface FarmBeatsUpdateRequestModel {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: "SystemAssigned";
+}
+
+// @public (undocumented)
+export interface Insight {
+    // (undocumented)
+    createdDateTime?: Date;
+    // (undocumented)
+    description?: string;
+    // (undocumented)
+    eTag?: string;
+    // (undocumented)
+    farmerId?: string;
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    insightEndDateTime?: Date;
+    // (undocumented)
+    insightStartDateTime?: Date;
+    measures?: {
+        [propertyName: string]: Measure;
+    };
+    // (undocumented)
+    modelId?: string;
+    // (undocumented)
+    modelVersion?: string;
+    // (undocumented)
+    modifiedDateTime?: Date;
+    // (undocumented)
+    name?: string;
+    properties?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+    // (undocumented)
+    resourceId?: string;
+    // (undocumented)
+    resourceType?: string;
+    // (undocumented)
+    status?: string;
+}
+
+// @public (undocumented)
+export interface InsightAttachment {
+    // (undocumented)
+    createdDateTime?: Date;
+    // (undocumented)
+    description?: string;
+    // (undocumented)
+    eTag?: string;
+    // (undocumented)
+    farmerId?: string;
+    // (undocumented)
+    fileLink?: string;
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    insightId?: string;
+    // (undocumented)
+    modelId?: string;
+    // (undocumented)
+    modifiedDateTime?: Date;
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    originalFileName?: string;
+    // (undocumented)
+    resourceId?: string;
+    // (undocumented)
+    resourceType?: string;
+    // (undocumented)
+    status?: string;
 }
 
 // @public
@@ -425,6 +539,22 @@ export interface LocationsCheckNameAvailabilityOptionalParams extends coreClient
 // @public
 export type LocationsCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
 
+// @public (undocumented)
+export interface MarketplaceOfferDetails {
+    // (undocumented)
+    publisherId?: string;
+    // (undocumented)
+    saasOfferId?: string;
+}
+
+// @public (undocumented)
+export interface Measure {
+    // (undocumented)
+    unit?: string;
+    // (undocumented)
+    value?: number;
+}
+
 // @public
 export interface Operation {
     readonly actionType?: ActionType;
@@ -477,6 +607,7 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends Resource {
+    readonly groupIds?: string[];
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
@@ -592,12 +723,155 @@ export interface Resource {
     readonly type?: string;
 }
 
+// @public (undocumented)
+export interface ResourceParameter {
+    // (undocumented)
+    resourceIdName?: string;
+    // (undocumented)
+    resourceType?: string;
+}
+
 // @public
 export interface SensorIntegration {
     enabled?: string;
     provisioningInfo?: ErrorResponse;
     readonly provisioningState?: ProvisioningState;
 }
+
+// @public
+export interface Solution extends ProxyResource {
+    readonly eTag?: string;
+    properties?: SolutionProperties;
+}
+
+// @public (undocumented)
+export interface SolutionEvaluatedOutput {
+    // (undocumented)
+    insightAttachmentResponse?: InsightAttachment;
+    // (undocumented)
+    insightResponse?: Insight;
+}
+
+// @public
+export interface SolutionInstallationRequest {
+    properties?: SolutionProperties;
+}
+
+// @public
+export interface SolutionListResponse {
+    nextLink?: string;
+    skipToken?: string;
+    value?: Solution[];
+}
+
+// @public
+export interface SolutionProperties {
+    [property: string]: any;
+    marketplacePublisherId: string;
+    offerId: string;
+    readonly partnerId?: string;
+    planId: string;
+    saasSubscriptionId: string;
+    saasSubscriptionName: string;
+    readonly solutionId?: string;
+    termId: string;
+}
+
+// @public
+export interface Solutions {
+    createOrUpdate(resourceGroupName: string, farmBeatsResourceName: string, options?: SolutionsCreateOrUpdateOptionalParams): Promise<SolutionsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, farmBeatsResourceName: string, options?: SolutionsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, farmBeatsResourceName: string, options?: SolutionsGetOptionalParams): Promise<SolutionsGetResponse>;
+    list(resourceGroupName: string, farmBeatsResourceName: string, options?: SolutionsListOptionalParams): PagedAsyncIterableIterator<Solution>;
+}
+
+// @public
+export interface SolutionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: SolutionInstallationRequest;
+}
+
+// @public
+export type SolutionsCreateOrUpdateResponse = Solution;
+
+// @public
+export interface SolutionsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SolutionsDiscoverability {
+    get(farmBeatsSolutionId: string, options?: SolutionsDiscoverabilityGetOptionalParams): Promise<SolutionsDiscoverabilityGetResponse>;
+    list(options?: SolutionsDiscoverabilityListOptionalParams): PagedAsyncIterableIterator<FarmBeatsSolution>;
+}
+
+// @public
+export interface SolutionsDiscoverabilityGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SolutionsDiscoverabilityGetResponse = FarmBeatsSolution;
+
+// @public
+export interface SolutionsDiscoverabilityListNextOptionalParams extends coreClient.OperationOptions {
+    farmBeatsSolutionIds?: string[];
+    farmBeatsSolutionNames?: string[];
+    maxPageSize?: number;
+}
+
+// @public
+export type SolutionsDiscoverabilityListNextResponse = FarmBeatsSolutionListResponse;
+
+// @public
+export interface SolutionsDiscoverabilityListOptionalParams extends coreClient.OperationOptions {
+    farmBeatsSolutionIds?: string[];
+    farmBeatsSolutionNames?: string[];
+    maxPageSize?: number;
+}
+
+// @public
+export type SolutionsDiscoverabilityListResponse = FarmBeatsSolutionListResponse;
+
+// @public
+export interface SolutionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SolutionsGetResponse = Solution;
+
+// @public
+export interface SolutionsListNextOptionalParams extends coreClient.OperationOptions {
+    ids?: string[];
+    maxCreatedDateTime?: Date;
+    maxLastModifiedDateTime?: Date;
+    maxPageSize?: number;
+    minCreatedDateTime?: Date;
+    minLastModifiedDateTime?: Date;
+    names?: string[];
+    propertyFilters?: string[];
+    skipToken?: string;
+    solutionIds?: string[];
+    statuses?: string[];
+}
+
+// @public
+export type SolutionsListNextResponse = SolutionListResponse;
+
+// @public
+export interface SolutionsListOptionalParams extends coreClient.OperationOptions {
+    ids?: string[];
+    maxCreatedDateTime?: Date;
+    maxLastModifiedDateTime?: Date;
+    maxPageSize?: number;
+    minCreatedDateTime?: Date;
+    minLastModifiedDateTime?: Date;
+    names?: string[];
+    propertyFilters?: string[];
+    skipToken?: string;
+    solutionIds?: string[];
+    statuses?: string[];
+}
+
+// @public
+export type SolutionsListResponse = SolutionListResponse;
 
 // @public
 export interface SystemData {

@@ -8,10 +8,24 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** Extension Installation Request Body. */
+export interface ExtensionInstallationRequest {
+  /** Extension Version. */
+  extensionVersion?: string;
+  /** Additional Api Properties. */
+  additionalApiProperties?: { [propertyName: string]: ApiProperties };
+}
+
+/** Api properties. */
+export interface ApiProperties {
+  /** Interval in minutes for which the weather data for the api needs to be refreshed. */
+  apiFreshnessWindowInMinutes?: number;
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -144,12 +158,12 @@ export interface UnitSystemsInfo {
 /** Identity for the resource. */
 export interface Identity {
   /**
-   * The principal ID of resource identity.
+   * The principal ID of resource identity. The value must be an UUID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
   /**
-   * The tenant ID of resource.
+   * The tenant ID of resource. The value must be an UUID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
@@ -170,10 +184,10 @@ export interface SensorIntegration {
   provisioningInfo?: ErrorResponse;
 }
 
-/** The Private Endpoint resource. */
+/** The private endpoint resource. */
 export interface PrivateEndpoint {
   /**
-   * The ARM identifier for Private Endpoint
+   * The ARM identifier for private endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -311,24 +325,203 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-/** List of private endpoint connection associated with the specified storage account */
+/** List of private endpoint connections associated with the specified resource. */
 export interface PrivateEndpointConnectionListResult {
-  /** Array of private endpoint connections */
+  /** Array of private endpoint connections. */
   value?: PrivateEndpointConnection[];
 }
 
-/** A list of private link resources */
+/** A list of private link resources. */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
   value?: PrivateLinkResource[];
 }
 
+/** Solution Installation Request Body. */
+export interface SolutionInstallationRequest {
+  /** Solution resource properties. */
+  properties?: SolutionProperties;
+}
+
+/** Solution resource properties. */
+export interface SolutionProperties {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /**
+   * Solution Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly solutionId?: string;
+  /**
+   * Partner Id of the Solution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly partnerId?: string;
+  /** SaaS subscriptionId of the installed SaaS application. */
+  saasSubscriptionId: string;
+  /** SaaS subscription name of the installed SaaS application. */
+  saasSubscriptionName: string;
+  /** SaaS application Publisher Id. */
+  marketplacePublisherId: string;
+  /** SaaS application Plan Id. */
+  planId: string;
+  /** SaaS application Offer Id. */
+  offerId: string;
+  /** SaaS application Term Id. */
+  termId: string;
+}
+
+/** Paged response contains list of requested objects and a URL link to get the next set of results. */
+export interface SolutionListResponse {
+  /** List of requested objects. */
+  value?: Solution[];
+  /** Token used in retrieving the next page. If null, there are no additional pages. */
+  skipToken?: string;
+  /** Continuation link (absolute URI) to the next page of results in the list. */
+  nextLink?: string;
+}
+
+/** Paged response contains list of requested objects and a URL link to get the next set of results. */
+export interface FarmBeatsSolutionListResponse {
+  /** List of requested objects. */
+  value?: FarmBeatsSolution[];
+  /** Token used in retrieving the next page. If null, there are no additional pages. */
+  skipToken?: string;
+  /** Continuation link (absolute URI) to the next page of results in the list. */
+  nextLink?: string;
+}
+
+/** FarmBeatsSolution properties. */
+export interface FarmBeatsSolutionProperties {
+  /**
+   * Solution Partner Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly partnerId?: string;
+  /**
+   * Solution Partner Tenant Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly partnerTenantId?: string;
+  /**
+   * Gets scope of the FarmBeats data access that's required for processing solution request to partner.
+   * Example: For gdd they might need weatherScope and satelliteScope.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataAccessScopes?: string[];
+  marketplaceOfferDetails?: MarketplaceOfferDetails;
+  /**
+   * Gets scope of the FarmBeats related parameters that need to be validated in apiInputParameters.
+   * Example: For if 'FarmHierarchy' is the input scope for 'WeatherScope' data access
+   * For working with WeatherScope we need FarmHierarchy info implies 'farmerId', 'resourceId', 'resourceType' in request body.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inputParametersValidationScopes?: ResourceParameter[];
+  /**
+   * Gets apiVersion: Swagger Document Dictionary to capture all api versions of swagger exposed by partner to farmbeats.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly openApiSpecsDictionary?: {
+    [propertyName: string]: Record<string, unknown>;
+  };
+  /**
+   * Gets example name: insight sample response Dictionary to capture all variations of computed results ingested by partner.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly evaluatedOutputsDictionary?: {
+    [propertyName: string]: SolutionEvaluatedOutput;
+  };
+  /**
+   * Application id of the multi tenant application to be used by partner to access FarmBeats data.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accessFBApplicationId?: string;
+  /**
+   * Role Id of the SaaS multi tenant application to access relevant fb data.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly roleId?: string;
+  /**
+   * Role Name of the SaaS multi tenant application to access relevant fb data.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly roleName?: string;
+  /**
+   * Application name of the multi tenant application to be used by partner to access FarmBeatsData.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accessFBApplicationName?: string;
+}
+
+export interface MarketplaceOfferDetails {
+  saasOfferId?: string;
+  publisherId?: string;
+}
+
+export interface ResourceParameter {
+  resourceIdName?: string;
+  resourceType?: string;
+}
+
+export interface SolutionEvaluatedOutput {
+  insightResponse?: Insight;
+  insightAttachmentResponse?: InsightAttachment;
+}
+
+export interface Insight {
+  farmerId?: string;
+  modelId?: string;
+  resourceType?: string;
+  resourceId?: string;
+  modelVersion?: string;
+  insightStartDateTime?: Date;
+  insightEndDateTime?: Date;
+  /** Dictionary of <Measure> */
+  measures?: { [propertyName: string]: Measure };
+  id?: string;
+  status?: string;
+  createdDateTime?: Date;
+  modifiedDateTime?: Date;
+  eTag?: string;
+  name?: string;
+  description?: string;
+  /** Dictionary of <AnyObject> */
+  properties?: { [propertyName: string]: Record<string, unknown> };
+}
+
+export interface Measure {
+  unit?: string;
+  value?: number;
+}
+
+export interface InsightAttachment {
+  insightId?: string;
+  modelId?: string;
+  resourceType?: string;
+  resourceId?: string;
+  fileLink?: string;
+  originalFileName?: string;
+  farmerId?: string;
+  id?: string;
+  status?: string;
+  createdDateTime?: Date;
+  modifiedDateTime?: Date;
+  name?: string;
+  description?: string;
+  eTag?: string;
+}
+
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-/** The Private Endpoint Connection resource. */
+/** The private endpoint connection resource. */
 export interface PrivateEndpointConnection extends Resource {
-  /** The resource of private end point. */
+  /**
+   * The group ids for the private endpoint resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupIds?: string[];
+  /** The private endpoint resource. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
@@ -347,7 +540,7 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-/** A private link resource */
+/** A private link resource. */
 export interface PrivateLinkResource extends Resource {
   /**
    * The private link resource group id.
@@ -359,7 +552,7 @@ export interface PrivateLinkResource extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly requiredMembers?: string[];
-  /** The private link resource Private link DNS zone name. */
+  /** The private link resource private link DNS zone name. */
   requiredZoneNames?: string[];
 }
 
@@ -395,6 +588,11 @@ export interface Extension extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly extensionApiDocsLink?: string;
+  /**
+   * Additional api properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalApiProperties?: { [propertyName: string]: ApiProperties };
 }
 
 /** FarmBeats extension resource. */
@@ -454,6 +652,23 @@ export interface FarmBeatsExtension extends ProxyResource {
   readonly detailedInformation?: DetailedInformation[];
 }
 
+/** Solution resource. */
+export interface Solution extends ProxyResource {
+  /** Solution resource properties. */
+  properties?: SolutionProperties;
+  /**
+   * The ETag value to implement optimistic concurrency.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eTag?: string;
+}
+
+/** FarmBeats solution resource. */
+export interface FarmBeatsSolution extends ProxyResource {
+  /** FarmBeatsSolution properties. */
+  properties?: FarmBeatsSolutionProperties;
+}
+
 /** FarmBeats ARM Resource. */
 export interface FarmBeats extends TrackedResource {
   /** Identity for the resource. */
@@ -473,7 +688,7 @@ export interface FarmBeats extends TrackedResource {
   /** Property to allow or block public traffic for an Azure FarmBeats resource. */
   publicNetworkAccess?: PublicNetworkAccess;
   /**
-   * The Private Endpoint Connection resource.
+   * The private endpoint connection resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection;
@@ -658,11 +873,14 @@ export enum KnownActionType {
 export type ActionType = string;
 
 /** Optional parameters. */
-export interface ExtensionsCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExtensionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Extension resource request body. */
+  requestBody?: ExtensionInstallationRequest;
+}
 
-/** Contains response data for the create operation. */
-export type ExtensionsCreateResponse = Extension;
+/** Contains response data for the createOrUpdate operation. */
+export type ExtensionsCreateOrUpdateResponse = Extension;
 
 /** Optional parameters. */
 export interface ExtensionsGetOptionalParams
@@ -670,13 +888,6 @@ export interface ExtensionsGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type ExtensionsGetResponse = Extension;
-
-/** Optional parameters. */
-export interface ExtensionsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type ExtensionsUpdateResponse = Extension;
 
 /** Optional parameters. */
 export interface ExtensionsDeleteOptionalParams
@@ -930,6 +1141,140 @@ export interface PrivateLinkResourcesGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
+
+/** Optional parameters. */
+export interface SolutionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Solution resource request body. */
+  body?: SolutionInstallationRequest;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SolutionsCreateOrUpdateResponse = Solution;
+
+/** Optional parameters. */
+export interface SolutionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SolutionsGetResponse = Solution;
+
+/** Optional parameters. */
+export interface SolutionsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SolutionsListOptionalParams
+  extends coreClient.OperationOptions {
+  /**
+   * Maximum number of items needed (inclusive).
+   * Minimum = 10, Maximum = 1000, Default value = 50.
+   */
+  maxPageSize?: number;
+  /** Skip token for getting next set of results. */
+  skipToken?: string;
+  /** Installed Solution ids. */
+  solutionIds?: string[];
+  /** Ids of the resource. */
+  ids?: string[];
+  /** Names of the resource. */
+  names?: string[];
+  /**
+   * Filters on key-value pairs within the Properties object.
+   * eg. "{testKey} eq {testValue}".
+   */
+  propertyFilters?: string[];
+  /** Statuses of the resource. */
+  statuses?: string[];
+  /** Minimum creation date of resource (inclusive). */
+  minCreatedDateTime?: Date;
+  /** Maximum creation date of resource (inclusive). */
+  maxCreatedDateTime?: Date;
+  /** Minimum last modified date of resource (inclusive). */
+  minLastModifiedDateTime?: Date;
+  /** Maximum last modified date of resource (inclusive). */
+  maxLastModifiedDateTime?: Date;
+}
+
+/** Contains response data for the list operation. */
+export type SolutionsListResponse = SolutionListResponse;
+
+/** Optional parameters. */
+export interface SolutionsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /**
+   * Maximum number of items needed (inclusive).
+   * Minimum = 10, Maximum = 1000, Default value = 50.
+   */
+  maxPageSize?: number;
+  /** Skip token for getting next set of results. */
+  skipToken?: string;
+  /** Installed Solution ids. */
+  solutionIds?: string[];
+  /** Ids of the resource. */
+  ids?: string[];
+  /** Names of the resource. */
+  names?: string[];
+  /**
+   * Filters on key-value pairs within the Properties object.
+   * eg. "{testKey} eq {testValue}".
+   */
+  propertyFilters?: string[];
+  /** Statuses of the resource. */
+  statuses?: string[];
+  /** Minimum creation date of resource (inclusive). */
+  minCreatedDateTime?: Date;
+  /** Maximum creation date of resource (inclusive). */
+  maxCreatedDateTime?: Date;
+  /** Minimum last modified date of resource (inclusive). */
+  minLastModifiedDateTime?: Date;
+  /** Maximum last modified date of resource (inclusive). */
+  maxLastModifiedDateTime?: Date;
+}
+
+/** Contains response data for the listNext operation. */
+export type SolutionsListNextResponse = SolutionListResponse;
+
+/** Optional parameters. */
+export interface SolutionsDiscoverabilityListOptionalParams
+  extends coreClient.OperationOptions {
+  /**
+   * Maximum number of items needed (inclusive).
+   * Minimum = 10, Maximum = 1000, Default value = 50.
+   */
+  maxPageSize?: number;
+  /** Ids of FarmBeats Solutions which the customer requests to fetch. */
+  farmBeatsSolutionIds?: string[];
+  /** Names of FarmBeats Solutions which the customer requests to fetch. */
+  farmBeatsSolutionNames?: string[];
+}
+
+/** Contains response data for the list operation. */
+export type SolutionsDiscoverabilityListResponse = FarmBeatsSolutionListResponse;
+
+/** Optional parameters. */
+export interface SolutionsDiscoverabilityGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SolutionsDiscoverabilityGetResponse = FarmBeatsSolution;
+
+/** Optional parameters. */
+export interface SolutionsDiscoverabilityListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /**
+   * Maximum number of items needed (inclusive).
+   * Minimum = 10, Maximum = 1000, Default value = 50.
+   */
+  maxPageSize?: number;
+  /** Ids of FarmBeats Solutions which the customer requests to fetch. */
+  farmBeatsSolutionIds?: string[];
+  /** Names of FarmBeats Solutions which the customer requests to fetch. */
+  farmBeatsSolutionNames?: string[];
+}
+
+/** Contains response data for the listNext operation. */
+export type SolutionsDiscoverabilityListNextResponse = FarmBeatsSolutionListResponse;
 
 /** Optional parameters. */
 export interface AgriFoodMgmtClientOptionalParams
