@@ -1,15 +1,94 @@
 # Release History
+    
+## 31.0.0 (2022-12-04)
+    
+**Features**
 
-## 30.0.1 (Unreleased)
+  - Added Interface ProtocolCustomSettingsFormat
+  - Added Type Alias DdosCustomPolicyProtocol
+  - Added Type Alias DdosCustomPolicyTriggerSensitivityOverride
+  - Added Type Alias DdosSettingsProtectionCoverage
+  - Interface DdosCustomPolicy has a new optional parameter protocolCustomSettings
+  - Interface DdosCustomPolicy has a new optional parameter publicIPAddresses
+  - Interface DdosSettings has a new optional parameter ddosCustomPolicy
+  - Interface DdosSettings has a new optional parameter protectedIP
+  - Interface DdosSettings has a new optional parameter protectionCoverage
+  - Added Enum KnownDdosCustomPolicyProtocol
+  - Added Enum KnownDdosCustomPolicyTriggerSensitivityOverride
+  - Added Enum KnownDdosSettingsProtectionCoverage
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group ApplicationGatewayWafDynamicManifests
+  - Removed operation group ApplicationGatewayWafDynamicManifestsDefault
+  - Removed operation group RouteMaps
+  - Removed operation group VipSwap
+  - Removed operation PublicIPAddresses.beginDdosProtectionStatus
+  - Removed operation PublicIPAddresses.beginDdosProtectionStatusAndWait
+  - Removed operation VirtualHubs.beginGetInboundRoutes
+  - Removed operation VirtualHubs.beginGetInboundRoutesAndWait
+  - Removed operation VirtualHubs.beginGetOutboundRoutes
+  - Removed operation VirtualHubs.beginGetOutboundRoutesAndWait
+  - Removed operation VirtualNetworks.beginListDdosProtectionStatusAndWait
+  - Interface ApplicationGatewayClientAuthConfiguration no longer has parameter verifyClientRevocation
+  - Interface ApplicationGatewayFirewallRule no longer has parameter action
+  - Interface ApplicationGatewayFirewallRule no longer has parameter ruleIdString
+  - Interface ApplicationGatewayFirewallRule no longer has parameter state
+  - Interface ApplicationGatewayFirewallRuleSet no longer has parameter tiers
+  - Interface CustomIpPrefix no longer has parameter asn
+  - Interface CustomIpPrefix no longer has parameter expressRouteAdvertise
+  - Interface CustomIpPrefix no longer has parameter geo
+  - Interface CustomIpPrefix no longer has parameter prefixType
+  - Interface DdosProtectionPlan no longer has parameter publicIpAddresses
+  - Interface DdosSettings no longer has parameter ddosProtectionPlan
+  - Interface DdosSettings no longer has parameter protectionMode
+  - Interface ExpressRouteConnection no longer has parameter enablePrivateLinkFastPath
+  - Interface ExpressRouteGateway no longer has parameter allowNonVirtualWanTraffic
+  - Interface ExpressRouteLink no longer has parameter coloLocation
+  - Interface ExpressRoutePort no longer has parameter billingType
+  - Interface ListActiveConnectivityConfigurationsOptionalParams no longer has parameter top
+  - Interface ListActiveSecurityAdminRulesOptionalParams no longer has parameter top
+  - Interface ListNetworkManagerEffectiveConnectivityConfigurationsOptionalParams no longer has parameter top
+  - Interface ListNetworkManagerEffectiveSecurityAdminRulesOptionalParams no longer has parameter top
+  - Interface ManagedRuleOverride no longer has parameter action
+  - Interface NetworkInterface no longer has parameter disableTcpStateTracking
+  - Interface NetworkManagerDeploymentStatusListOptionalParams no longer has parameter top
+  - Interface Probe no longer has parameter probeThreshold
+  - Interface RoutingConfiguration no longer has parameter inboundRouteMap
+  - Interface RoutingConfiguration no longer has parameter outboundRouteMap
+  - Interface VirtualHub no longer has parameter routeMaps
+  - Interface VirtualNetworkGateway no longer has parameter allowRemoteVnetTraffic
+  - Interface VirtualNetworkGateway no longer has parameter allowVirtualWanTraffic
+  - Interface VirtualNetworkGateway no longer has parameter virtualNetworkGatewayPolicyGroups
+  - Interface VirtualNetworkGatewayConnection no longer has parameter enablePrivateLinkFastPath
+  - Interface VirtualNetworkGatewayConnectionListEntity no longer has parameter enablePrivateLinkFastPath
+  - Interface VnetRoute no longer has parameter staticRoutesConfig
+  - Interface VpnClientConfiguration no longer has parameter vngClientConnectionConfigurations
+  - Class NetworkManagementClient no longer has parameter applicationGatewayWafDynamicManifests
+  - Class NetworkManagementClient no longer has parameter applicationGatewayWafDynamicManifestsDefault
+  - Class NetworkManagementClient no longer has parameter routeMaps
+  - Class NetworkManagementClient no longer has parameter vipSwap
+  - Removed Enum KnownActionType
+  - Removed Enum KnownApplicationGatewayClientRevocationOptions
+  - Removed Enum KnownApplicationGatewayRuleSetStatusOptions
+  - Removed Enum KnownApplicationGatewayTierTypes
+  - Removed Enum KnownApplicationGatewayWafRuleActionTypes
+  - Removed Enum KnownApplicationGatewayWafRuleStateTypes
+  - Removed Enum KnownCustomIpPrefixType
+  - Removed Enum KnownDdosSettingsProtectionMode
+  - Removed Enum KnownExpressRoutePortsBillingType
+  - Removed Enum KnownGeo
+  - Removed Enum KnownIsWorkloadProtected
+  - Removed Enum KnownNextStep
+  - Removed Enum KnownRouteMapActionType
+  - Removed Enum KnownRouteMapMatchCondition
+  - Removed Enum KnownVnetLocalRouteOverrideCriteria
+  - Enum KnownCommissionedState no longer has value Deprovisioned
+  - Enum KnownManagedRuleEnabledState no longer has value Enabled
+  - Enum KnownNetworkIntentPolicyBasedService no longer has value AllowRulesOnly
+  - Enum KnownWebApplicationFirewallTransform no longer has value Uppercase
+    
+    
 ## 30.0.0 (2022-09-29)
     
 **Features**

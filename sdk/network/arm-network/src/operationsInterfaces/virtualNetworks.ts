@@ -14,8 +14,6 @@ import {
   VirtualNetworksListOptionalParams,
   VirtualNetworkUsage,
   VirtualNetworksListUsageOptionalParams,
-  PublicIpDdosProtectionStatusResult,
-  VirtualNetworksListDdosProtectionStatusOptionalParams,
   VirtualNetworksDeleteOptionalParams,
   VirtualNetworksGetOptionalParams,
   VirtualNetworksGetResponse,
@@ -58,17 +56,6 @@ export interface VirtualNetworks {
     virtualNetworkName: string,
     options?: VirtualNetworksListUsageOptionalParams
   ): PagedAsyncIterableIterator<VirtualNetworkUsage>;
-  /**
-   * Gets the Ddos Protection Status of all IP Addresses under the Virtual Network
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualNetworkName The name of the virtual network.
-   * @param options The options parameters.
-   */
-  beginListDdosProtectionStatusAndWait(
-    resourceGroupName: string,
-    virtualNetworkName: string,
-    options?: VirtualNetworksListDdosProtectionStatusOptionalParams
-  ): PagedAsyncIterableIterator<PublicIpDdosProtectionStatusResult>;
   /**
    * Deletes the specified virtual network.
    * @param resourceGroupName The name of the resource group.
