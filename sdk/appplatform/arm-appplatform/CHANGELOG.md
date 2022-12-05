@@ -1,32 +1,6 @@
 # Release History
-
-## 2.1.0-beta.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.1.0-beta.4 (2022-11-16)
-
-  - Bugs Fixed
-
-## 2.1.0-beta.3 (2022-10-08)
-
-**Bugs Fixed**
-
-  -  revert credential scopes
-
-## 2.1.0-beta.2 (2022-09-30)
-
-**Bugs Fixed**
-
-  -  fix better user experience of credential scopes in government cloud
-
-## 2.1.0-beta.1 (2022-09-09)
+    
+## 3.0.0 (2022-12-05)
     
 **Features**
 
@@ -134,7 +108,6 @@
   - Added Interface IngressSettingsClientAuth
   - Added Interface JarUploadedUserSourceInfo
   - Added Interface KeyVaultCertificateProperties
-  - Added Interface MarketplaceResource
   - Added Interface MonitoringSettingResource
   - Added Interface NetCoreZipUploadedUserSourceInfo
   - Added Interface Probe
@@ -214,7 +187,6 @@
   - Interface AppResourceProperties has a new optional parameter vnetAddons
   - Interface BuildProperties has a new optional parameter resourceRequests
   - Interface CertificateProperties has a new optional parameter provisioningState
-  - Interface ClusterResourceProperties has a new optional parameter marketplaceResource
   - Interface ClusterResourceProperties has a new optional parameter powerState
   - Interface ClusterResourceProperties has a new optional parameter vnetAddons
   - Interface CustomDomainProperties has a new optional parameter provisioningState
@@ -244,6 +216,11 @@
   - Added Enum KnownSessionAffinity
   - Added Enum KnownStorageType
   - Added Enum KnownType
+
+**Breaking Changes**
+
+  - Interface DeploymentsListForClusterNextOptionalParams no longer has parameter version
+  - Interface DeploymentsListNextOptionalParams no longer has parameter version
     
     
 ## 2.0.0 (2022-05-19)
