@@ -12,7 +12,7 @@ import { ModelVersions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
+import { AzureMachineLearningServices } from "../azureMachineLearningServices";
 import {
   ModelVersion,
   ModelVersionsListNextOptionalParams,
@@ -29,13 +29,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ModelVersions operations. */
 export class ModelVersionsImpl implements ModelVersions {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServices;
 
   /**
    * Initialize a new instance of the class ModelVersions class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServices) {
     this.client = client;
   }
 
@@ -260,9 +260,9 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.listViewType,
     Parameters.version1,
     Parameters.description,
-    Parameters.offset,
-    Parameters.tags1,
+    Parameters.tags,
     Parameters.properties1,
+    Parameters.offset,
     Parameters.feed
   ],
   urlParameters: [
@@ -292,8 +292,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name,
-    Parameters.version
+    Parameters.version,
+    Parameters.name
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -316,8 +316,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name,
-    Parameters.version
+    Parameters.version,
+    Parameters.name
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -337,15 +337,15 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body15,
+  requestBody: Parameters.body7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name1,
-    Parameters.version
+    Parameters.version,
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -362,19 +362,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.orderBy,
-    Parameters.top,
-    Parameters.listViewType,
-    Parameters.version1,
-    Parameters.description,
-    Parameters.offset,
-    Parameters.tags1,
-    Parameters.properties1,
-    Parameters.feed
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
