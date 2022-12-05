@@ -601,14 +601,6 @@ const listByServiceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.tags,
-    Parameters.apiVersion,
-    Parameters.expandGroups
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -630,13 +622,6 @@ const listByTagsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.includeNotTaggedProducts
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
