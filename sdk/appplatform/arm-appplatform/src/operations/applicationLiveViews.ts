@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ServiceRegistries } from "../operationsInterfaces";
+import { ApplicationLiveViews } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -16,25 +16,25 @@ import { AppPlatformManagementClient } from "../appPlatformManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  ServiceRegistryResource,
-  ServiceRegistriesListNextOptionalParams,
-  ServiceRegistriesListOptionalParams,
-  ServiceRegistriesListResponse,
-  ServiceRegistriesGetOptionalParams,
-  ServiceRegistriesGetResponse,
-  ServiceRegistriesCreateOrUpdateOptionalParams,
-  ServiceRegistriesCreateOrUpdateResponse,
-  ServiceRegistriesDeleteOptionalParams,
-  ServiceRegistriesListNextResponse
+  ApplicationLiveViewResource,
+  ApplicationLiveViewsListNextOptionalParams,
+  ApplicationLiveViewsListOptionalParams,
+  ApplicationLiveViewsListResponse,
+  ApplicationLiveViewsGetOptionalParams,
+  ApplicationLiveViewsGetResponse,
+  ApplicationLiveViewsCreateOrUpdateOptionalParams,
+  ApplicationLiveViewsCreateOrUpdateResponse,
+  ApplicationLiveViewsDeleteOptionalParams,
+  ApplicationLiveViewsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ServiceRegistries operations. */
-export class ServiceRegistriesImpl implements ServiceRegistries {
+/** Class containing ApplicationLiveViews operations. */
+export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   private readonly client: AppPlatformManagementClient;
 
   /**
-   * Initialize a new instance of the class ServiceRegistries class.
+   * Initialize a new instance of the class ApplicationLiveViews class.
    * @param client Reference to the service client
    */
   constructor(client: AppPlatformManagementClient) {
@@ -51,8 +51,8 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServiceRegistriesListOptionalParams
-  ): PagedAsyncIterableIterator<ServiceRegistryResource> {
+    options?: ApplicationLiveViewsListOptionalParams
+  ): PagedAsyncIterableIterator<ApplicationLiveViewResource> {
     const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
@@ -78,10 +78,10 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   private async *listPagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServiceRegistriesListOptionalParams,
+    options?: ApplicationLiveViewsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<ServiceRegistryResource[]> {
-    let result: ServiceRegistriesListResponse;
+  ): AsyncIterableIterator<ApplicationLiveViewResource[]> {
+    let result: ApplicationLiveViewsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, serviceName, options);
@@ -107,8 +107,8 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServiceRegistriesListOptionalParams
-  ): AsyncIterableIterator<ServiceRegistryResource> {
+    options?: ApplicationLiveViewsListOptionalParams
+  ): AsyncIterableIterator<ApplicationLiveViewResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
@@ -119,48 +119,68 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   }
 
   /**
-   * Get the Service Registry and its properties.
+   * Handles requests to list all resources in a Service.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param serviceRegistryName The name of Service Registry.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ApplicationLiveViewsListOptionalParams
+  ): Promise<ApplicationLiveViewsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, options },
+      listOperationSpec
+    );
+  }
+
+  /**
+   * Get the Application Live  and its properties.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param applicationLiveViewName The name of Application Live View.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    serviceRegistryName: string,
-    options?: ServiceRegistriesGetOptionalParams
-  ): Promise<ServiceRegistriesGetResponse> {
+    applicationLiveViewName: string,
+    options?: ApplicationLiveViewsGetOptionalParams
+  ): Promise<ApplicationLiveViewsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, serviceRegistryName, options },
+      { resourceGroupName, serviceName, applicationLiveViewName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create the default Service Registry or update the existing Service Registry.
+   * Create the default Application Live View or update the existing Application Live View.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param serviceRegistryName The name of Service Registry.
+   * @param applicationLiveViewName The name of Application Live View.
+   * @param applicationLiveViewResource Parameters for the update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    serviceRegistryName: string,
-    options?: ServiceRegistriesCreateOrUpdateOptionalParams
+    applicationLiveViewName: string,
+    applicationLiveViewResource: ApplicationLiveViewResource,
+    options?: ApplicationLiveViewsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<ServiceRegistriesCreateOrUpdateResponse>,
-      ServiceRegistriesCreateOrUpdateResponse
+      PollOperationState<ApplicationLiveViewsCreateOrUpdateResponse>,
+      ApplicationLiveViewsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ServiceRegistriesCreateOrUpdateResponse> => {
+    ): Promise<ApplicationLiveViewsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -198,7 +218,13 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, serviceName, serviceRegistryName, options },
+      {
+        resourceGroupName,
+        serviceName,
+        applicationLiveViewName,
+        applicationLiveViewResource,
+        options
+      },
       createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -210,41 +236,44 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   }
 
   /**
-   * Create the default Service Registry or update the existing Service Registry.
+   * Create the default Application Live View or update the existing Application Live View.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param serviceRegistryName The name of Service Registry.
+   * @param applicationLiveViewName The name of Application Live View.
+   * @param applicationLiveViewResource Parameters for the update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    serviceRegistryName: string,
-    options?: ServiceRegistriesCreateOrUpdateOptionalParams
-  ): Promise<ServiceRegistriesCreateOrUpdateResponse> {
+    applicationLiveViewName: string,
+    applicationLiveViewResource: ApplicationLiveViewResource,
+    options?: ApplicationLiveViewsCreateOrUpdateOptionalParams
+  ): Promise<ApplicationLiveViewsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
-      serviceRegistryName,
+      applicationLiveViewName,
+      applicationLiveViewResource,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Disable the default Service Registry.
+   * Disable the default Application Live View.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param serviceRegistryName The name of Service Registry.
+   * @param applicationLiveViewName The name of Application Live View.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    serviceRegistryName: string,
-    options?: ServiceRegistriesDeleteOptionalParams
+    applicationLiveViewName: string,
+    options?: ApplicationLiveViewsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -287,7 +316,7 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, serviceName, serviceRegistryName, options },
+      { resourceGroupName, serviceName, applicationLiveViewName, options },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -299,44 +328,26 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   }
 
   /**
-   * Disable the default Service Registry.
+   * Disable the default Application Live View.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param serviceRegistryName The name of Service Registry.
+   * @param applicationLiveViewName The name of Application Live View.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    serviceRegistryName: string,
-    options?: ServiceRegistriesDeleteOptionalParams
+    applicationLiveViewName: string,
+    options?: ApplicationLiveViewsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
-      serviceRegistryName,
+      applicationLiveViewName,
       options
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Handles requests to list all resources in a Service.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: ServiceRegistriesListOptionalParams
-  ): Promise<ServiceRegistriesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, options },
-      listOperationSpec
-    );
   }
 
   /**
@@ -351,8 +362,8 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ServiceRegistriesListNextOptionalParams
-  ): Promise<ServiceRegistriesListNextResponse> {
+    options?: ApplicationLiveViewsListNextOptionalParams
+  ): Promise<ApplicationLiveViewsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
       listNextOperationSpec
@@ -362,13 +373,35 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries/{serviceRegistryName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceRegistryResource
+      bodyMapper: Mappers.ApplicationLiveViewResourceCollection
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews/{applicationLiveViewName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationLiveViewResource
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -380,46 +413,48 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.serviceRegistryName
+    Parameters.applicationLiveViewName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries/{serviceRegistryName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews/{applicationLiveViewName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceRegistryResource
+      bodyMapper: Mappers.ApplicationLiveViewResource
     },
     201: {
-      bodyMapper: Mappers.ServiceRegistryResource
+      bodyMapper: Mappers.ApplicationLiveViewResource
     },
     202: {
-      bodyMapper: Mappers.ServiceRegistryResource
+      bodyMapper: Mappers.ApplicationLiveViewResource
     },
     204: {
-      bodyMapper: Mappers.ServiceRegistryResource
+      bodyMapper: Mappers.ApplicationLiveViewResource
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
+  requestBody: Parameters.applicationLiveViewResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.serviceRegistryName
+    Parameters.applicationLiveViewName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries/{serviceRegistryName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews/{applicationLiveViewName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -436,29 +471,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.serviceRegistryName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ServiceRegistryResourceCollection
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.applicationLiveViewName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -468,7 +481,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceRegistryResourceCollection
+      bodyMapper: Mappers.ApplicationLiveViewResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError

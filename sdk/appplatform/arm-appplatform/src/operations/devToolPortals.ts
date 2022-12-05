@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ServiceRegistries } from "../operationsInterfaces";
+import { DevToolPortals } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -16,25 +16,25 @@ import { AppPlatformManagementClient } from "../appPlatformManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  ServiceRegistryResource,
-  ServiceRegistriesListNextOptionalParams,
-  ServiceRegistriesListOptionalParams,
-  ServiceRegistriesListResponse,
-  ServiceRegistriesGetOptionalParams,
-  ServiceRegistriesGetResponse,
-  ServiceRegistriesCreateOrUpdateOptionalParams,
-  ServiceRegistriesCreateOrUpdateResponse,
-  ServiceRegistriesDeleteOptionalParams,
-  ServiceRegistriesListNextResponse
+  DevToolPortalResource,
+  DevToolPortalsListNextOptionalParams,
+  DevToolPortalsListOptionalParams,
+  DevToolPortalsListResponse,
+  DevToolPortalsGetOptionalParams,
+  DevToolPortalsGetResponse,
+  DevToolPortalsCreateOrUpdateOptionalParams,
+  DevToolPortalsCreateOrUpdateResponse,
+  DevToolPortalsDeleteOptionalParams,
+  DevToolPortalsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ServiceRegistries operations. */
-export class ServiceRegistriesImpl implements ServiceRegistries {
+/** Class containing DevToolPortals operations. */
+export class DevToolPortalsImpl implements DevToolPortals {
   private readonly client: AppPlatformManagementClient;
 
   /**
-   * Initialize a new instance of the class ServiceRegistries class.
+   * Initialize a new instance of the class DevToolPortals class.
    * @param client Reference to the service client
    */
   constructor(client: AppPlatformManagementClient) {
@@ -51,8 +51,8 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServiceRegistriesListOptionalParams
-  ): PagedAsyncIterableIterator<ServiceRegistryResource> {
+    options?: DevToolPortalsListOptionalParams
+  ): PagedAsyncIterableIterator<DevToolPortalResource> {
     const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
@@ -78,10 +78,10 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   private async *listPagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServiceRegistriesListOptionalParams,
+    options?: DevToolPortalsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<ServiceRegistryResource[]> {
-    let result: ServiceRegistriesListResponse;
+  ): AsyncIterableIterator<DevToolPortalResource[]> {
+    let result: DevToolPortalsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, serviceName, options);
@@ -107,8 +107,8 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServiceRegistriesListOptionalParams
-  ): AsyncIterableIterator<ServiceRegistryResource> {
+    options?: DevToolPortalsListOptionalParams
+  ): AsyncIterableIterator<DevToolPortalResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
@@ -119,48 +119,68 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   }
 
   /**
-   * Get the Service Registry and its properties.
+   * Handles requests to list all resources in a Service.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param serviceRegistryName The name of Service Registry.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: DevToolPortalsListOptionalParams
+  ): Promise<DevToolPortalsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, options },
+      listOperationSpec
+    );
+  }
+
+  /**
+   * Get the Application Live  and its properties.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param devToolPortalName The name of Dev Tool Portal.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    serviceRegistryName: string,
-    options?: ServiceRegistriesGetOptionalParams
-  ): Promise<ServiceRegistriesGetResponse> {
+    devToolPortalName: string,
+    options?: DevToolPortalsGetOptionalParams
+  ): Promise<DevToolPortalsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, serviceRegistryName, options },
+      { resourceGroupName, serviceName, devToolPortalName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create the default Service Registry or update the existing Service Registry.
+   * Create the default Dev Tool Portal or update the existing Dev Tool Portal.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param serviceRegistryName The name of Service Registry.
+   * @param devToolPortalName The name of Dev Tool Portal.
+   * @param devToolPortalResource Parameters for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    serviceRegistryName: string,
-    options?: ServiceRegistriesCreateOrUpdateOptionalParams
+    devToolPortalName: string,
+    devToolPortalResource: DevToolPortalResource,
+    options?: DevToolPortalsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<ServiceRegistriesCreateOrUpdateResponse>,
-      ServiceRegistriesCreateOrUpdateResponse
+      PollOperationState<DevToolPortalsCreateOrUpdateResponse>,
+      DevToolPortalsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ServiceRegistriesCreateOrUpdateResponse> => {
+    ): Promise<DevToolPortalsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -198,7 +218,13 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, serviceName, serviceRegistryName, options },
+      {
+        resourceGroupName,
+        serviceName,
+        devToolPortalName,
+        devToolPortalResource,
+        options
+      },
       createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -210,41 +236,44 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   }
 
   /**
-   * Create the default Service Registry or update the existing Service Registry.
+   * Create the default Dev Tool Portal or update the existing Dev Tool Portal.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param serviceRegistryName The name of Service Registry.
+   * @param devToolPortalName The name of Dev Tool Portal.
+   * @param devToolPortalResource Parameters for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    serviceRegistryName: string,
-    options?: ServiceRegistriesCreateOrUpdateOptionalParams
-  ): Promise<ServiceRegistriesCreateOrUpdateResponse> {
+    devToolPortalName: string,
+    devToolPortalResource: DevToolPortalResource,
+    options?: DevToolPortalsCreateOrUpdateOptionalParams
+  ): Promise<DevToolPortalsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
-      serviceRegistryName,
+      devToolPortalName,
+      devToolPortalResource,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Disable the default Service Registry.
+   * Disable the default Dev Tool Portal.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param serviceRegistryName The name of Service Registry.
+   * @param devToolPortalName The name of Dev Tool Portal.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    serviceRegistryName: string,
-    options?: ServiceRegistriesDeleteOptionalParams
+    devToolPortalName: string,
+    options?: DevToolPortalsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -287,7 +316,7 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, serviceName, serviceRegistryName, options },
+      { resourceGroupName, serviceName, devToolPortalName, options },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -299,44 +328,26 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   }
 
   /**
-   * Disable the default Service Registry.
+   * Disable the default Dev Tool Portal.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param serviceRegistryName The name of Service Registry.
+   * @param devToolPortalName The name of Dev Tool Portal.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    serviceRegistryName: string,
-    options?: ServiceRegistriesDeleteOptionalParams
+    devToolPortalName: string,
+    options?: DevToolPortalsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
-      serviceRegistryName,
+      devToolPortalName,
       options
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Handles requests to list all resources in a Service.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: ServiceRegistriesListOptionalParams
-  ): Promise<ServiceRegistriesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, options },
-      listOperationSpec
-    );
   }
 
   /**
@@ -351,8 +362,8 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ServiceRegistriesListNextOptionalParams
-  ): Promise<ServiceRegistriesListNextResponse> {
+    options?: DevToolPortalsListNextOptionalParams
+  ): Promise<DevToolPortalsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
       listNextOperationSpec
@@ -362,13 +373,35 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries/{serviceRegistryName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceRegistryResource
+      bodyMapper: Mappers.DevToolPortalResourceCollection
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals/{devToolPortalName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DevToolPortalResource
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -380,46 +413,48 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.serviceRegistryName
+    Parameters.devToolPortalName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries/{serviceRegistryName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals/{devToolPortalName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceRegistryResource
+      bodyMapper: Mappers.DevToolPortalResource
     },
     201: {
-      bodyMapper: Mappers.ServiceRegistryResource
+      bodyMapper: Mappers.DevToolPortalResource
     },
     202: {
-      bodyMapper: Mappers.ServiceRegistryResource
+      bodyMapper: Mappers.DevToolPortalResource
     },
     204: {
-      bodyMapper: Mappers.ServiceRegistryResource
+      bodyMapper: Mappers.DevToolPortalResource
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
+  requestBody: Parameters.devToolPortalResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.serviceRegistryName
+    Parameters.devToolPortalName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries/{serviceRegistryName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals/{devToolPortalName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -436,29 +471,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.serviceRegistryName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ServiceRegistryResourceCollection
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.devToolPortalName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -468,7 +481,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceRegistryResourceCollection
+      bodyMapper: Mappers.DevToolPortalResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError

@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ServiceRegistries } from "../operationsInterfaces";
+import { CustomizedAccelerators } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -16,25 +16,28 @@ import { AppPlatformManagementClient } from "../appPlatformManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  ServiceRegistryResource,
-  ServiceRegistriesListNextOptionalParams,
-  ServiceRegistriesListOptionalParams,
-  ServiceRegistriesListResponse,
-  ServiceRegistriesGetOptionalParams,
-  ServiceRegistriesGetResponse,
-  ServiceRegistriesCreateOrUpdateOptionalParams,
-  ServiceRegistriesCreateOrUpdateResponse,
-  ServiceRegistriesDeleteOptionalParams,
-  ServiceRegistriesListNextResponse
+  CustomizedAcceleratorResource,
+  CustomizedAcceleratorsListNextOptionalParams,
+  CustomizedAcceleratorsListOptionalParams,
+  CustomizedAcceleratorsListResponse,
+  CustomizedAcceleratorsGetOptionalParams,
+  CustomizedAcceleratorsGetResponse,
+  CustomizedAcceleratorsCreateOrUpdateOptionalParams,
+  CustomizedAcceleratorsCreateOrUpdateResponse,
+  CustomizedAcceleratorsDeleteOptionalParams,
+  CustomizedAcceleratorProperties,
+  CustomizedAcceleratorsValidateOptionalParams,
+  CustomizedAcceleratorsValidateResponse,
+  CustomizedAcceleratorsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ServiceRegistries operations. */
-export class ServiceRegistriesImpl implements ServiceRegistries {
+/** Class containing CustomizedAccelerators operations. */
+export class CustomizedAcceleratorsImpl implements CustomizedAccelerators {
   private readonly client: AppPlatformManagementClient;
 
   /**
-   * Initialize a new instance of the class ServiceRegistries class.
+   * Initialize a new instance of the class CustomizedAccelerators class.
    * @param client Reference to the service client
    */
   constructor(client: AppPlatformManagementClient) {
@@ -42,18 +45,25 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   }
 
   /**
-   * Handles requests to list all resources in a Service.
+   * Handle requests to list all customized accelerators.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
+   * @param applicationAcceleratorName The name of the application accelerator.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServiceRegistriesListOptionalParams
-  ): PagedAsyncIterableIterator<ServiceRegistryResource> {
-    const iter = this.listPagingAll(resourceGroupName, serviceName, options);
+    applicationAcceleratorName: string,
+    options?: CustomizedAcceleratorsListOptionalParams
+  ): PagedAsyncIterableIterator<CustomizedAcceleratorResource> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      serviceName,
+      applicationAcceleratorName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -68,6 +78,7 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
         return this.listPagingPage(
           resourceGroupName,
           serviceName,
+          applicationAcceleratorName,
           options,
           settings
         );
@@ -78,13 +89,19 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   private async *listPagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServiceRegistriesListOptionalParams,
+    applicationAcceleratorName: string,
+    options?: CustomizedAcceleratorsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<ServiceRegistryResource[]> {
-    let result: ServiceRegistriesListResponse;
+  ): AsyncIterableIterator<CustomizedAcceleratorResource[]> {
+    let result: CustomizedAcceleratorsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, serviceName, options);
+      result = await this._list(
+        resourceGroupName,
+        serviceName,
+        applicationAcceleratorName,
+        options
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -94,6 +111,7 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
       result = await this._listNext(
         resourceGroupName,
         serviceName,
+        applicationAcceleratorName,
         continuationToken,
         options
       );
@@ -107,11 +125,13 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServiceRegistriesListOptionalParams
-  ): AsyncIterableIterator<ServiceRegistryResource> {
+    applicationAcceleratorName: string,
+    options?: CustomizedAcceleratorsListOptionalParams
+  ): AsyncIterableIterator<CustomizedAcceleratorResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
+      applicationAcceleratorName,
       options
     )) {
       yield* page;
@@ -119,48 +139,80 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   }
 
   /**
-   * Get the Service Registry and its properties.
+   * Handle requests to list all customized accelerators.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param serviceRegistryName The name of Service Registry.
+   * @param applicationAcceleratorName The name of the application accelerator.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    serviceName: string,
+    applicationAcceleratorName: string,
+    options?: CustomizedAcceleratorsListOptionalParams
+  ): Promise<CustomizedAcceleratorsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, applicationAcceleratorName, options },
+      listOperationSpec
+    );
+  }
+
+  /**
+   * Get the customized accelerator.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param applicationAcceleratorName The name of the application accelerator.
+   * @param customizedAcceleratorName The name of the customized accelerator.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    serviceRegistryName: string,
-    options?: ServiceRegistriesGetOptionalParams
-  ): Promise<ServiceRegistriesGetResponse> {
+    applicationAcceleratorName: string,
+    customizedAcceleratorName: string,
+    options?: CustomizedAcceleratorsGetOptionalParams
+  ): Promise<CustomizedAcceleratorsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, serviceRegistryName, options },
+      {
+        resourceGroupName,
+        serviceName,
+        applicationAcceleratorName,
+        customizedAcceleratorName,
+        options
+      },
       getOperationSpec
     );
   }
 
   /**
-   * Create the default Service Registry or update the existing Service Registry.
+   * Create or update the customized accelerator.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param serviceRegistryName The name of Service Registry.
+   * @param applicationAcceleratorName The name of the application accelerator.
+   * @param customizedAcceleratorName The name of the customized accelerator.
+   * @param customizedAcceleratorResource The customized accelerator for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    serviceRegistryName: string,
-    options?: ServiceRegistriesCreateOrUpdateOptionalParams
+    applicationAcceleratorName: string,
+    customizedAcceleratorName: string,
+    customizedAcceleratorResource: CustomizedAcceleratorResource,
+    options?: CustomizedAcceleratorsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<ServiceRegistriesCreateOrUpdateResponse>,
-      ServiceRegistriesCreateOrUpdateResponse
+      PollOperationState<CustomizedAcceleratorsCreateOrUpdateResponse>,
+      CustomizedAcceleratorsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ServiceRegistriesCreateOrUpdateResponse> => {
+    ): Promise<CustomizedAcceleratorsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -198,7 +250,14 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, serviceName, serviceRegistryName, options },
+      {
+        resourceGroupName,
+        serviceName,
+        applicationAcceleratorName,
+        customizedAcceleratorName,
+        customizedAcceleratorResource,
+        options
+      },
       createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -210,41 +269,49 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   }
 
   /**
-   * Create the default Service Registry or update the existing Service Registry.
+   * Create or update the customized accelerator.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param serviceRegistryName The name of Service Registry.
+   * @param applicationAcceleratorName The name of the application accelerator.
+   * @param customizedAcceleratorName The name of the customized accelerator.
+   * @param customizedAcceleratorResource The customized accelerator for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    serviceRegistryName: string,
-    options?: ServiceRegistriesCreateOrUpdateOptionalParams
-  ): Promise<ServiceRegistriesCreateOrUpdateResponse> {
+    applicationAcceleratorName: string,
+    customizedAcceleratorName: string,
+    customizedAcceleratorResource: CustomizedAcceleratorResource,
+    options?: CustomizedAcceleratorsCreateOrUpdateOptionalParams
+  ): Promise<CustomizedAcceleratorsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
-      serviceRegistryName,
+      applicationAcceleratorName,
+      customizedAcceleratorName,
+      customizedAcceleratorResource,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Disable the default Service Registry.
+   * Delete the customized accelerator.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param serviceRegistryName The name of Service Registry.
+   * @param applicationAcceleratorName The name of the application accelerator.
+   * @param customizedAcceleratorName The name of the customized accelerator.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    serviceRegistryName: string,
-    options?: ServiceRegistriesDeleteOptionalParams
+    applicationAcceleratorName: string,
+    customizedAcceleratorName: string,
+    options?: CustomizedAcceleratorsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -287,7 +354,13 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, serviceName, serviceRegistryName, options },
+      {
+        resourceGroupName,
+        serviceName,
+        applicationAcceleratorName,
+        customizedAcceleratorName,
+        options
+      },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -299,43 +372,59 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   }
 
   /**
-   * Disable the default Service Registry.
+   * Delete the customized accelerator.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param serviceRegistryName The name of Service Registry.
+   * @param applicationAcceleratorName The name of the application accelerator.
+   * @param customizedAcceleratorName The name of the customized accelerator.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    serviceRegistryName: string,
-    options?: ServiceRegistriesDeleteOptionalParams
+    applicationAcceleratorName: string,
+    customizedAcceleratorName: string,
+    options?: CustomizedAcceleratorsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
-      serviceRegistryName,
+      applicationAcceleratorName,
+      customizedAcceleratorName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Handles requests to list all resources in a Service.
+   * Check the customized accelerator are valid.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
+   * @param applicationAcceleratorName The name of the application accelerator.
+   * @param customizedAcceleratorName The name of the customized accelerator.
+   * @param properties Customized accelerator properties to be validated
    * @param options The options parameters.
    */
-  private _list(
+  validate(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServiceRegistriesListOptionalParams
-  ): Promise<ServiceRegistriesListResponse> {
+    applicationAcceleratorName: string,
+    customizedAcceleratorName: string,
+    properties: CustomizedAcceleratorProperties,
+    options?: CustomizedAcceleratorsValidateOptionalParams
+  ): Promise<CustomizedAcceleratorsValidateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, options },
-      listOperationSpec
+      {
+        resourceGroupName,
+        serviceName,
+        applicationAcceleratorName,
+        customizedAcceleratorName,
+        properties,
+        options
+      },
+      validateOperationSpec
     );
   }
 
@@ -344,17 +433,25 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
+   * @param applicationAcceleratorName The name of the application accelerator.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     serviceName: string,
+    applicationAcceleratorName: string,
     nextLink: string,
-    options?: ServiceRegistriesListNextOptionalParams
-  ): Promise<ServiceRegistriesListNextResponse> {
+    options?: CustomizedAcceleratorsListNextOptionalParams
+  ): Promise<CustomizedAcceleratorsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, nextLink, options },
+      {
+        resourceGroupName,
+        serviceName,
+        applicationAcceleratorName,
+        nextLink,
+        options
+      },
       listNextOperationSpec
     );
   }
@@ -362,13 +459,13 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries/{serviceRegistryName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}/customizedAccelerators",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceRegistryResource
+      bodyMapper: Mappers.CustomizedAcceleratorResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -380,46 +477,73 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.serviceRegistryName
+    Parameters.applicationAcceleratorName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}/customizedAccelerators/{customizedAcceleratorName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CustomizedAcceleratorResource
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.applicationAcceleratorName,
+    Parameters.customizedAcceleratorName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries/{serviceRegistryName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}/customizedAccelerators/{customizedAcceleratorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceRegistryResource
+      bodyMapper: Mappers.CustomizedAcceleratorResource
     },
     201: {
-      bodyMapper: Mappers.ServiceRegistryResource
+      bodyMapper: Mappers.CustomizedAcceleratorResource
     },
     202: {
-      bodyMapper: Mappers.ServiceRegistryResource
+      bodyMapper: Mappers.CustomizedAcceleratorResource
     },
     204: {
-      bodyMapper: Mappers.ServiceRegistryResource
+      bodyMapper: Mappers.CustomizedAcceleratorResource
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
+  requestBody: Parameters.customizedAcceleratorResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.serviceRegistryName
+    Parameters.applicationAcceleratorName,
+    Parameters.customizedAcceleratorName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries/{serviceRegistryName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}/customizedAccelerators/{customizedAcceleratorName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -436,31 +560,37 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.serviceRegistryName
+    Parameters.applicationAcceleratorName,
+    Parameters.customizedAcceleratorName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listOperationSpec: coreClient.OperationSpec = {
+const validateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries",
-  httpMethod: "GET",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}/customizedAccelerators/{customizedAcceleratorName}/validate",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceRegistryResourceCollection
+      bodyMapper: Mappers.CustomizedAcceleratorValidateResult
     },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
+  requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
+    Parameters.applicationAcceleratorName,
+    Parameters.customizedAcceleratorName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -468,7 +598,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceRegistryResourceCollection
+      bodyMapper: Mappers.CustomizedAcceleratorResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -479,7 +609,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.applicationAcceleratorName
   ],
   headerParameters: [Parameters.accept],
   serializer
