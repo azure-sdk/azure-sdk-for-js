@@ -35,7 +35,7 @@ export class GovernanceRuleOperationsImpl implements GovernanceRuleOperations {
   }
 
   /**
-   * Get a list of all relevant governanceRules over a subscription level scope
+   * Get a list of the governance rules on the subscription level scope
    * @param options The options parameters.
    */
   public list(
@@ -89,7 +89,7 @@ export class GovernanceRuleOperationsImpl implements GovernanceRuleOperations {
   }
 
   /**
-   * Get a list of all relevant governanceRules over a subscription level scope
+   * Get a list of the governance rules on the subscription level scope
    * @param options The options parameters.
    */
   private _list(
@@ -144,7 +144,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion18],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

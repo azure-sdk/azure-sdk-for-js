@@ -63,8 +63,12 @@ import {
   GovernanceRulesImpl,
   SecurityConnectorGovernanceRuleImpl,
   SecurityConnectorGovernanceRulesImpl,
+  ManagementGroupGovernanceRuleImpl,
+  ManagementGroupGovernanceRulesImpl,
   SubscriptionGovernanceRulesExecuteStatusImpl,
   SecurityConnectorGovernanceRulesExecuteStatusImpl,
+  ManagementGroupGovernanceRulesExecuteStatusImpl,
+  ManagementGroupGovernanceRulesDeleteStatusImpl,
   GovernanceAssignmentsImpl,
   ApplicationsImpl,
   ApplicationOperationsImpl,
@@ -128,8 +132,12 @@ import {
   GovernanceRules,
   SecurityConnectorGovernanceRule,
   SecurityConnectorGovernanceRules,
+  ManagementGroupGovernanceRule,
+  ManagementGroupGovernanceRules,
   SubscriptionGovernanceRulesExecuteStatus,
   SecurityConnectorGovernanceRulesExecuteStatus,
+  ManagementGroupGovernanceRulesExecuteStatus,
+  ManagementGroupGovernanceRulesDeleteStatus,
   GovernanceAssignments,
   Applications,
   ApplicationOperations,
@@ -144,16 +152,19 @@ import { SecurityCenterOptionalParams } from "./models";
 export class SecurityCenter extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
+  managementGroupId: string;
 
   /**
    * Initializes a new instance of the SecurityCenter class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId Azure subscription ID
+   * @param managementGroupId Azure Management Group ID
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
+    managementGroupId: string,
     options?: SecurityCenterOptionalParams
   ) {
     if (credentials === undefined) {
@@ -161,6 +172,9 @@ export class SecurityCenter extends coreClient.ServiceClient {
     }
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
+    }
+    if (managementGroupId === undefined) {
+      throw new Error("'managementGroupId' cannot be null");
     }
 
     // Initializing default values for options
@@ -222,6 +236,7 @@ export class SecurityCenter extends coreClient.ServiceClient {
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
+    this.managementGroupId = managementGroupId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
@@ -316,10 +331,22 @@ export class SecurityCenter extends coreClient.ServiceClient {
     this.securityConnectorGovernanceRules = new SecurityConnectorGovernanceRulesImpl(
       this
     );
+    this.managementGroupGovernanceRule = new ManagementGroupGovernanceRuleImpl(
+      this
+    );
+    this.managementGroupGovernanceRules = new ManagementGroupGovernanceRulesImpl(
+      this
+    );
     this.subscriptionGovernanceRulesExecuteStatus = new SubscriptionGovernanceRulesExecuteStatusImpl(
       this
     );
     this.securityConnectorGovernanceRulesExecuteStatus = new SecurityConnectorGovernanceRulesExecuteStatusImpl(
+      this
+    );
+    this.managementGroupGovernanceRulesExecuteStatus = new ManagementGroupGovernanceRulesExecuteStatusImpl(
+      this
+    );
+    this.managementGroupGovernanceRulesDeleteStatus = new ManagementGroupGovernanceRulesDeleteStatusImpl(
       this
     );
     this.governanceAssignments = new GovernanceAssignmentsImpl(this);
@@ -389,8 +416,12 @@ export class SecurityCenter extends coreClient.ServiceClient {
   governanceRules: GovernanceRules;
   securityConnectorGovernanceRule: SecurityConnectorGovernanceRule;
   securityConnectorGovernanceRules: SecurityConnectorGovernanceRules;
+  managementGroupGovernanceRule: ManagementGroupGovernanceRule;
+  managementGroupGovernanceRules: ManagementGroupGovernanceRules;
   subscriptionGovernanceRulesExecuteStatus: SubscriptionGovernanceRulesExecuteStatus;
   securityConnectorGovernanceRulesExecuteStatus: SecurityConnectorGovernanceRulesExecuteStatus;
+  managementGroupGovernanceRulesExecuteStatus: ManagementGroupGovernanceRulesExecuteStatus;
+  managementGroupGovernanceRulesDeleteStatus: ManagementGroupGovernanceRulesDeleteStatus;
   governanceAssignments: GovernanceAssignments;
   applications: Applications;
   applicationOperations: ApplicationOperations;

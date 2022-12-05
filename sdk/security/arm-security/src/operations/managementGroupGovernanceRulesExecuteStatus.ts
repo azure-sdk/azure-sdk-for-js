@@ -6,23 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SecurityConnectorGovernanceRulesExecuteStatus } from "../operationsInterfaces";
+import { ManagementGroupGovernanceRulesExecuteStatus } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenter } from "../securityCenter";
 import {
-  SecurityConnectorGovernanceRulesExecuteStatusGetOptionalParams,
-  SecurityConnectorGovernanceRulesExecuteStatusGetResponse
+  ManagementGroupGovernanceRulesExecuteStatusGetOptionalParams,
+  ManagementGroupGovernanceRulesExecuteStatusGetResponse
 } from "../models";
 
-/** Class containing SecurityConnectorGovernanceRulesExecuteStatus operations. */
-export class SecurityConnectorGovernanceRulesExecuteStatusImpl
-  implements SecurityConnectorGovernanceRulesExecuteStatus {
+/** Class containing ManagementGroupGovernanceRulesExecuteStatus operations. */
+export class ManagementGroupGovernanceRulesExecuteStatusImpl
+  implements ManagementGroupGovernanceRulesExecuteStatus {
   private readonly client: SecurityCenter;
 
   /**
-   * Initialize a new instance of the class SecurityConnectorGovernanceRulesExecuteStatus class.
+   * Initialize a new instance of the class ManagementGroupGovernanceRulesExecuteStatus class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityCenter) {
@@ -31,29 +31,18 @@ export class SecurityConnectorGovernanceRulesExecuteStatusImpl
 
   /**
    * Get a specific governance rule execution status for the requested scope by ruleId and operationId
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param securityConnectorName The security connector name.
    * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param operationId The governance rule execution key - unique key for the execution of governance
    *                    rule
    * @param options The options parameters.
    */
   get(
-    resourceGroupName: string,
-    securityConnectorName: string,
     ruleId: string,
     operationId: string,
-    options?: SecurityConnectorGovernanceRulesExecuteStatusGetOptionalParams
-  ): Promise<SecurityConnectorGovernanceRulesExecuteStatusGetResponse> {
+    options?: ManagementGroupGovernanceRulesExecuteStatusGetOptionalParams
+  ): Promise<ManagementGroupGovernanceRulesExecuteStatusGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        securityConnectorName,
-        ruleId,
-        operationId,
-        options
-      },
+      { ruleId, operationId, options },
       getOperationSpec
     );
   }
@@ -63,7 +52,7 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/providers/Microsoft.Security/governanceRules/{ruleId}/operationResults/{operationId}",
+    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Security/governanceRules/{ruleId}/execute/operationResults/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -71,7 +60,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     202: {
       headersMapper:
-        Mappers.SecurityConnectorGovernanceRulesExecuteStatusGetHeaders
+        Mappers.ManagementGroupGovernanceRulesExecuteStatusGetHeaders
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -80,10 +69,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion18],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.ruleId,
-    Parameters.securityConnectorName1,
+    Parameters.managementGroupId,
     Parameters.operationId
   ],
   headerParameters: [Parameters.accept],

@@ -1,16 +1,6 @@
 # Release History
-
-## 6.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 6.0.0-beta.2 (2022-11-15)
+    
+## 6.0.0-beta.3 (2022-12-05)
     
 **Features**
 
@@ -22,6 +12,10 @@
   - Added operation group GovernanceAssignments
   - Added operation group GovernanceRuleOperations
   - Added operation group GovernanceRules
+  - Added operation group ManagementGroupGovernanceRule
+  - Added operation group ManagementGroupGovernanceRules
+  - Added operation group ManagementGroupGovernanceRulesDeleteStatus
+  - Added operation group ManagementGroupGovernanceRulesExecuteStatus
   - Added operation group SecurityConnectorApplication
   - Added operation group SecurityConnectorApplications
   - Added operation group SecurityConnectorGovernanceRule
@@ -166,10 +160,13 @@
   - Added Interface GovernanceRuleList
   - Added Interface GovernanceRuleListNextOptionalParams
   - Added Interface GovernanceRuleListOptionalParams
+  - Added Interface GovernanceRuleMetadata
   - Added Interface GovernanceRuleOwnerSource
   - Added Interface GovernanceRulesCreateOrUpdateOptionalParams
   - Added Interface GovernanceRulesDeleteOptionalParams
   - Added Interface GovernanceRulesGetOptionalParams
+  - Added Interface GovernanceRulesRuleIdExecuteSingleManagementGroupHeaders
+  - Added Interface GovernanceRulesRuleIdExecuteSingleManagementGroupOptionalParams
   - Added Interface GovernanceRulesRuleIdExecuteSingleSecurityConnectorHeaders
   - Added Interface GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams
   - Added Interface GovernanceRulesRuleIdExecuteSingleSubscriptionHeaders
@@ -188,6 +185,16 @@
   - Added Interface ListCustomAlertRule
   - Added Interface LocalUserNotAllowed
   - Added Interface LogAnalyticsIdentifier
+  - Added Interface ManagementGroupGovernanceRuleListNextOptionalParams
+  - Added Interface ManagementGroupGovernanceRuleListOptionalParams
+  - Added Interface ManagementGroupGovernanceRulesCreateOrUpdateOptionalParams
+  - Added Interface ManagementGroupGovernanceRulesDeleteHeaders
+  - Added Interface ManagementGroupGovernanceRulesDeleteOptionalParams
+  - Added Interface ManagementGroupGovernanceRulesDeleteStatusGetHeaders
+  - Added Interface ManagementGroupGovernanceRulesDeleteStatusGetOptionalParams
+  - Added Interface ManagementGroupGovernanceRulesExecuteStatusGetHeaders
+  - Added Interface ManagementGroupGovernanceRulesExecuteStatusGetOptionalParams
+  - Added Interface ManagementGroupGovernanceRulesGetOptionalParams
   - Added Interface MdeOnboardingData
   - Added Interface MqttC2DMessagesNotInAllowedRange
   - Added Interface MqttC2DRejectedMessagesNotInAllowedRange
@@ -223,6 +230,7 @@
   - Added Interface SecurityConnectorGovernanceRuleListNextOptionalParams
   - Added Interface SecurityConnectorGovernanceRuleListOptionalParams
   - Added Interface SecurityConnectorGovernanceRulesCreateOrUpdateOptionalParams
+  - Added Interface SecurityConnectorGovernanceRulesDeleteHeaders
   - Added Interface SecurityConnectorGovernanceRulesDeleteOptionalParams
   - Added Interface SecurityConnectorGovernanceRulesExecuteStatusGetHeaders
   - Added Interface SecurityConnectorGovernanceRulesExecuteStatusGetOptionalParams
@@ -275,9 +283,17 @@
   - Added Type Alias GovernanceRulesCreateOrUpdateResponse
   - Added Type Alias GovernanceRulesGetResponse
   - Added Type Alias GovernanceRuleSourceResourceType
+  - Added Type Alias GovernanceRulesRuleIdExecuteSingleManagementGroupResponse
   - Added Type Alias GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse
   - Added Type Alias GovernanceRulesRuleIdExecuteSingleSubscriptionResponse
   - Added Type Alias GovernanceRuleType
+  - Added Type Alias ManagementGroupGovernanceRuleListNextResponse
+  - Added Type Alias ManagementGroupGovernanceRuleListResponse
+  - Added Type Alias ManagementGroupGovernanceRulesCreateOrUpdateResponse
+  - Added Type Alias ManagementGroupGovernanceRulesDeleteResponse
+  - Added Type Alias ManagementGroupGovernanceRulesDeleteStatusGetResponse
+  - Added Type Alias ManagementGroupGovernanceRulesExecuteStatusGetResponse
+  - Added Type Alias ManagementGroupGovernanceRulesGetResponse
   - Added Type Alias MinimalSeverity
   - Added Type Alias Roles
   - Added Type Alias ScanningMode
@@ -304,6 +320,11 @@
   - Class SecurityCenter has a new parameter governanceAssignments
   - Class SecurityCenter has a new parameter governanceRuleOperations
   - Class SecurityCenter has a new parameter governanceRules
+  - Class SecurityCenter has a new parameter managementGroupGovernanceRule
+  - Class SecurityCenter has a new parameter managementGroupGovernanceRules
+  - Class SecurityCenter has a new parameter managementGroupGovernanceRulesDeleteStatus
+  - Class SecurityCenter has a new parameter managementGroupGovernanceRulesExecuteStatus
+  - Class SecurityCenter has a new parameter managementGroupId
   - Class SecurityCenter has a new parameter securityConnectorApplication
   - Class SecurityCenter has a new parameter securityConnectorApplications
   - Class SecurityCenter has a new parameter securityConnectorGovernanceRule
@@ -344,7 +365,21 @@
   - Removed operation Alerts.simulate
   - Removed operation SecurityContacts.update
   - Operation AllowedConnections.get has a new signature
+  - Class SecurityCenter has a new signature
+  - Interface AlertsSuppressionRulesListNextOptionalParams no longer has parameter alertType
   - Interface DefenderForServersAwsOfferingArcAutoProvisioning no longer has parameter servicePrincipalSecretMetadata
+  - Interface IotSecuritySolutionListByResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface IotSecuritySolutionListBySubscriptionNextOptionalParams no longer has parameter filter
+  - Interface IotSecuritySolutionsAnalyticsAggregatedAlertListNextOptionalParams no longer has parameter top
+  - Interface IotSecuritySolutionsAnalyticsRecommendationListNextOptionalParams no longer has parameter top
+  - Interface RegulatoryComplianceAssessmentsListNextOptionalParams no longer has parameter filter
+  - Interface RegulatoryComplianceControlsListNextOptionalParams no longer has parameter filter
+  - Interface RegulatoryComplianceStandardsListNextOptionalParams no longer has parameter filter
+  - Interface SecureScoreControlsListBySecureScoreNextOptionalParams no longer has parameter expand
+  - Interface SecureScoreControlsListNextOptionalParams no longer has parameter expand
+  - Interface TasksListByHomeRegionNextOptionalParams no longer has parameter filter
+  - Interface TasksListByResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface TasksListNextOptionalParams no longer has parameter filter
   - Removed Enum KnownAlertNotifications
   - Removed Enum KnownAlertsToAdmins
     

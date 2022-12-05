@@ -6,23 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SubscriptionGovernanceRulesExecuteStatus } from "../operationsInterfaces";
+import { ManagementGroupGovernanceRulesDeleteStatus } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenter } from "../securityCenter";
 import {
-  SubscriptionGovernanceRulesExecuteStatusGetOptionalParams,
-  SubscriptionGovernanceRulesExecuteStatusGetResponse
+  ManagementGroupGovernanceRulesDeleteStatusGetOptionalParams,
+  ManagementGroupGovernanceRulesDeleteStatusGetResponse
 } from "../models";
 
-/** Class containing SubscriptionGovernanceRulesExecuteStatus operations. */
-export class SubscriptionGovernanceRulesExecuteStatusImpl
-  implements SubscriptionGovernanceRulesExecuteStatus {
+/** Class containing ManagementGroupGovernanceRulesDeleteStatus operations. */
+export class ManagementGroupGovernanceRulesDeleteStatusImpl
+  implements ManagementGroupGovernanceRulesDeleteStatus {
   private readonly client: SecurityCenter;
 
   /**
-   * Initialize a new instance of the class SubscriptionGovernanceRulesExecuteStatus class.
+   * Initialize a new instance of the class ManagementGroupGovernanceRulesDeleteStatus class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityCenter) {
@@ -30,7 +30,7 @@ export class SubscriptionGovernanceRulesExecuteStatusImpl
   }
 
   /**
-   * Get a specific governance rule execution status for the requested scope by ruleId and operationId
+   * Get a specific governance rule deletion status for the requested scope by rule ID and operation ID
    * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param operationId The governance rule execution key - unique key for the execution of governance
    *                    rule
@@ -39,8 +39,8 @@ export class SubscriptionGovernanceRulesExecuteStatusImpl
   get(
     ruleId: string,
     operationId: string,
-    options?: SubscriptionGovernanceRulesExecuteStatusGetOptionalParams
-  ): Promise<SubscriptionGovernanceRulesExecuteStatusGetResponse> {
+    options?: ManagementGroupGovernanceRulesDeleteStatusGetOptionalParams
+  ): Promise<ManagementGroupGovernanceRulesDeleteStatusGetResponse> {
     return this.client.sendOperationRequest(
       { ruleId, operationId, options },
       getOperationSpec
@@ -52,15 +52,14 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/governanceRules/{ruleId}/operationResults/{operationId}",
+    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Security/governanceRules/{ruleId}/delete/operationResults/{operationId}",
   httpMethod: "GET",
   responses: {
-    200: {
-      bodyMapper: Mappers.ExecuteRuleStatus
-    },
     202: {
-      headersMapper: Mappers.SubscriptionGovernanceRulesExecuteStatusGetHeaders
+      headersMapper:
+        Mappers.ManagementGroupGovernanceRulesDeleteStatusGetHeaders
     },
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -68,8 +67,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion18],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.ruleId,
+    Parameters.managementGroupId,
     Parameters.operationId
   ],
   headerParameters: [Parameters.accept],

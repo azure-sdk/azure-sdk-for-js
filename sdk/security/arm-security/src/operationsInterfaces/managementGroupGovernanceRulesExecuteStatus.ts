@@ -7,12 +7,12 @@
  */
 
 import {
-  SubscriptionGovernanceRulesExecuteStatusGetOptionalParams,
-  SubscriptionGovernanceRulesExecuteStatusGetResponse
+  ManagementGroupGovernanceRulesExecuteStatusGetOptionalParams,
+  ManagementGroupGovernanceRulesExecuteStatusGetResponse
 } from "../models";
 
-/** Interface representing a SubscriptionGovernanceRulesExecuteStatus. */
-export interface SubscriptionGovernanceRulesExecuteStatus {
+/** Interface representing a ManagementGroupGovernanceRulesExecuteStatus. */
+export interface ManagementGroupGovernanceRulesExecuteStatus {
   /**
    * Get a specific governance rule execution status for the requested scope by ruleId and operationId
    * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
@@ -23,6 +23,6 @@ export interface SubscriptionGovernanceRulesExecuteStatus {
   get(
     ruleId: string,
     operationId: string,
-    options?: SubscriptionGovernanceRulesExecuteStatusGetOptionalParams
-  ): Promise<SubscriptionGovernanceRulesExecuteStatusGetResponse>;
+    options?: ManagementGroupGovernanceRulesExecuteStatusGetOptionalParams
+  ): Promise<ManagementGroupGovernanceRulesExecuteStatusGetResponse>;
 }

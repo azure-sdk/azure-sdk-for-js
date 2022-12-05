@@ -8,28 +8,27 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Locations } from "../operationsInterfaces";
+import { ManagementGroupGovernanceRule } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenter } from "../securityCenter";
 import {
-  AscLocation,
-  LocationsListNextOptionalParams,
-  LocationsListOptionalParams,
-  LocationsListResponse,
-  LocationsGetOptionalParams,
-  LocationsGetResponse,
-  LocationsListNextResponse
+  GovernanceRule,
+  ManagementGroupGovernanceRuleListNextOptionalParams,
+  ManagementGroupGovernanceRuleListOptionalParams,
+  ManagementGroupGovernanceRuleListResponse,
+  ManagementGroupGovernanceRuleListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Locations operations. */
-export class LocationsImpl implements Locations {
+/** Class containing ManagementGroupGovernanceRule operations. */
+export class ManagementGroupGovernanceRuleImpl
+  implements ManagementGroupGovernanceRule {
   private readonly client: SecurityCenter;
 
   /**
-   * Initialize a new instance of the class Locations class.
+   * Initialize a new instance of the class ManagementGroupGovernanceRule class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityCenter) {
@@ -37,14 +36,12 @@ export class LocationsImpl implements Locations {
   }
 
   /**
-   * The location of the responsible ASC of the specific subscription (home region). For each
-   * subscription there is only one responsible location. The location in the response should be used to
-   * read or write other resources in ASC according to their ID.
+   * Get a list of all relevant governance rules over a management group level scope
    * @param options The options parameters.
    */
   public list(
-    options?: LocationsListOptionalParams
-  ): PagedAsyncIterableIterator<AscLocation> {
+    options?: ManagementGroupGovernanceRuleListOptionalParams
+  ): PagedAsyncIterableIterator<GovernanceRule> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -63,10 +60,10 @@ export class LocationsImpl implements Locations {
   }
 
   private async *listPagingPage(
-    options?: LocationsListOptionalParams,
+    options?: ManagementGroupGovernanceRuleListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<AscLocation[]> {
-    let result: LocationsListResponse;
+  ): AsyncIterableIterator<GovernanceRule[]> {
+    let result: ManagementGroupGovernanceRuleListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
@@ -85,39 +82,21 @@ export class LocationsImpl implements Locations {
   }
 
   private async *listPagingAll(
-    options?: LocationsListOptionalParams
-  ): AsyncIterableIterator<AscLocation> {
+    options?: ManagementGroupGovernanceRuleListOptionalParams
+  ): AsyncIterableIterator<GovernanceRule> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * The location of the responsible ASC of the specific subscription (home region). For each
-   * subscription there is only one responsible location. The location in the response should be used to
-   * read or write other resources in ASC according to their ID.
+   * Get a list of all relevant governance rules over a management group level scope
    * @param options The options parameters.
    */
   private _list(
-    options?: LocationsListOptionalParams
-  ): Promise<LocationsListResponse> {
+    options?: ManagementGroupGovernanceRuleListOptionalParams
+  ): Promise<ManagementGroupGovernanceRuleListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
-   * Details of a specific location
-   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
-   *                    Get locations
-   * @param options The options parameters.
-   */
-  get(
-    ascLocation: string,
-    options?: LocationsGetOptionalParams
-  ): Promise<LocationsGetResponse> {
-    return this.client.sendOperationRequest(
-      { ascLocation, options },
-      getOperationSpec
-    );
   }
 
   /**
@@ -127,8 +106,8 @@ export class LocationsImpl implements Locations {
    */
   private _listNext(
     nextLink: string,
-    options?: LocationsListNextOptionalParams
-  ): Promise<LocationsListNextResponse> {
+    options?: ManagementGroupGovernanceRuleListNextOptionalParams
+  ): Promise<ManagementGroupGovernanceRuleListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
@@ -140,39 +119,18 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations",
+    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Security/governanceRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AscLocationList
+      bodyMapper: Mappers.GovernanceRuleList
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion6],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AscLocation
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion6],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.ascLocation
-  ],
+  queryParameters: [Parameters.apiVersion18],
+  urlParameters: [Parameters.$host, Parameters.managementGroupId],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -181,7 +139,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AscLocationList
+      bodyMapper: Mappers.GovernanceRuleList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -189,8 +147,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.managementGroupId
   ],
   headerParameters: [Parameters.accept],
   serializer
