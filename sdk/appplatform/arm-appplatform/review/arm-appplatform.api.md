@@ -1021,7 +1021,6 @@ export interface CloudErrorBody {
 // @public
 export interface ClusterResourceProperties {
     readonly fqdn?: string;
-    marketplaceResource?: MarketplaceResource;
     networkProfile?: NetworkProfile;
     readonly powerState?: PowerState;
     readonly provisioningState?: ProvisioningState;
@@ -1550,7 +1549,6 @@ export type DeploymentsGetResponse = DeploymentResource;
 
 // @public
 export interface DeploymentsListForClusterNextOptionalParams extends coreClient.OperationOptions {
-    version?: string[];
 }
 
 // @public
@@ -1566,7 +1564,6 @@ export type DeploymentsListForClusterResponse = DeploymentResourceCollection;
 
 // @public
 export interface DeploymentsListNextOptionalParams extends coreClient.OperationOptions {
-    version?: string[];
 }
 
 // @public
@@ -2307,13 +2304,6 @@ export interface ManagedIdentityProperties {
 
 // @public
 export type ManagedIdentityType = string;
-
-// @public
-export interface MarketplaceResource {
-    plan?: string;
-    product?: string;
-    publisher?: string;
-}
 
 // @public
 export interface MetricDimension {

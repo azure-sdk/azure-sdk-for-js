@@ -64,8 +64,6 @@ export interface ClusterResourceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly fqdn?: string;
-  /** Purchasing 3rd party product of the Service resource. */
-  marketplaceResource?: MarketplaceResource;
 }
 
 /** Service network profile payload */
@@ -144,16 +142,6 @@ export interface IngressConfig {
 export interface ServiceVNetAddons {
   /** Indicates whether the log stream in vnet injection instance could be accessed from internet. */
   logStreamPublicEndpoint?: boolean;
-}
-
-/** Purchasing 3rd Party product for one Azure Spring Apps instance */
-export interface MarketplaceResource {
-  /** The plan id of the 3rd Party Artifact that is being procured. */
-  plan?: string;
-  /** The publisher id of the 3rd Party Artifact that is being bought. */
-  publisher?: string;
-  /** The 3rd Party artifact that is being procured. */
-  product?: string;
 }
 
 /** Sku of Azure Spring Apps */
@@ -4062,20 +4050,14 @@ export interface DeploymentsStartJFROptionalParams
 
 /** Optional parameters. */
 export interface DeploymentsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Version of the deployments to be listed */
-  version?: string[];
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DeploymentsListNextResponse = DeploymentResourceCollection;
 
 /** Optional parameters. */
 export interface DeploymentsListForClusterNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Version of the deployments to be listed */
-  version?: string[];
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForClusterNext operation. */
 export type DeploymentsListForClusterNextResponse = DeploymentResourceCollection;
