@@ -8,35 +8,35 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ApiRelease } from "../operationsInterfaces";
+import { GlobalSchema } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ApiManagementClient } from "../apiManagementClient";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
-  ApiReleaseContract,
-  ApiReleaseListByServiceNextOptionalParams,
-  ApiReleaseListByServiceOptionalParams,
-  ApiReleaseListByServiceResponse,
-  ApiReleaseGetEntityTagOptionalParams,
-  ApiReleaseGetEntityTagResponse,
-  ApiReleaseGetOptionalParams,
-  ApiReleaseGetResponse,
-  ApiReleaseCreateOrUpdateOptionalParams,
-  ApiReleaseCreateOrUpdateResponse,
-  ApiReleaseUpdateOptionalParams,
-  ApiReleaseUpdateResponse,
-  ApiReleaseDeleteOptionalParams,
-  ApiReleaseListByServiceNextResponse
+  GlobalSchemaContract,
+  GlobalSchemaListByServiceNextOptionalParams,
+  GlobalSchemaListByServiceOptionalParams,
+  GlobalSchemaListByServiceResponse,
+  GlobalSchemaGetEntityTagOptionalParams,
+  GlobalSchemaGetEntityTagResponse,
+  GlobalSchemaGetOptionalParams,
+  GlobalSchemaGetResponse,
+  GlobalSchemaCreateOrUpdateOptionalParams,
+  GlobalSchemaCreateOrUpdateResponse,
+  GlobalSchemaDeleteOptionalParams,
+  GlobalSchemaListByServiceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ApiRelease operations. */
-export class ApiReleaseImpl implements ApiRelease {
+/** Class containing GlobalSchema operations. */
+export class GlobalSchemaImpl implements GlobalSchema {
   private readonly client: ApiManagementClient;
 
   /**
-   * Initialize a new instance of the class ApiRelease class.
+   * Initialize a new instance of the class GlobalSchema class.
    * @param client Reference to the service client
    */
   constructor(client: ApiManagementClient) {
@@ -44,24 +44,19 @@ export class ApiReleaseImpl implements ApiRelease {
   }
 
   /**
-   * Lists all releases of an API. An API release is created when making an API Revision current.
-   * Releases are also used to rollback to previous revisions. Results will be paged and can be
-   * constrained by the $top and $skip parameters.
+   * Lists a collection of schemas registered with service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
    */
   public listByService(
     resourceGroupName: string,
     serviceName: string,
-    apiId: string,
-    options?: ApiReleaseListByServiceOptionalParams
-  ): PagedAsyncIterableIterator<ApiReleaseContract> {
+    options?: GlobalSchemaListByServiceOptionalParams
+  ): PagedAsyncIterableIterator<GlobalSchemaContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
-      apiId,
       options
     );
     return {
@@ -78,7 +73,6 @@ export class ApiReleaseImpl implements ApiRelease {
         return this.listByServicePagingPage(
           resourceGroupName,
           serviceName,
-          apiId,
           options,
           settings
         );
@@ -89,17 +83,15 @@ export class ApiReleaseImpl implements ApiRelease {
   private async *listByServicePagingPage(
     resourceGroupName: string,
     serviceName: string,
-    apiId: string,
-    options?: ApiReleaseListByServiceOptionalParams,
+    options?: GlobalSchemaListByServiceOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<ApiReleaseContract[]> {
-    let result: ApiReleaseListByServiceResponse;
+  ): AsyncIterableIterator<GlobalSchemaContract[]> {
+    let result: GlobalSchemaListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByService(
         resourceGroupName,
         serviceName,
-        apiId,
         options
       );
       let page = result.value || [];
@@ -111,7 +103,6 @@ export class ApiReleaseImpl implements ApiRelease {
       result = await this._listByServiceNext(
         resourceGroupName,
         serviceName,
-        apiId,
         continuationToken,
         options
       );
@@ -125,13 +116,11 @@ export class ApiReleaseImpl implements ApiRelease {
   private async *listByServicePagingAll(
     resourceGroupName: string,
     serviceName: string,
-    apiId: string,
-    options?: ApiReleaseListByServiceOptionalParams
-  ): AsyncIterableIterator<ApiReleaseContract> {
+    options?: GlobalSchemaListByServiceOptionalParams
+  ): AsyncIterableIterator<GlobalSchemaContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
-      apiId,
       options
     )) {
       yield* page;
@@ -139,136 +128,163 @@ export class ApiReleaseImpl implements ApiRelease {
   }
 
   /**
-   * Lists all releases of an API. An API release is created when making an API Revision current.
-   * Releases are also used to rollback to previous revisions. Results will be paged and can be
-   * constrained by the $top and $skip parameters.
+   * Lists a collection of schemas registered with service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
    */
   private _listByService(
     resourceGroupName: string,
     serviceName: string,
-    apiId: string,
-    options?: ApiReleaseListByServiceOptionalParams
-  ): Promise<ApiReleaseListByServiceResponse> {
+    options?: GlobalSchemaListByServiceOptionalParams
+  ): Promise<GlobalSchemaListByServiceResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, apiId, options },
+      { resourceGroupName, serviceName, options },
       listByServiceOperationSpec
     );
   }
 
   /**
-   * Returns the etag of an API release.
+   * Gets the entity state (Etag) version of the Schema specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
-   * @param releaseId Release identifier within an API. Must be unique in the current API Management
-   *                  service instance.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
    */
   getEntityTag(
     resourceGroupName: string,
     serviceName: string,
-    apiId: string,
-    releaseId: string,
-    options?: ApiReleaseGetEntityTagOptionalParams
-  ): Promise<ApiReleaseGetEntityTagResponse> {
+    schemaId: string,
+    options?: GlobalSchemaGetEntityTagOptionalParams
+  ): Promise<GlobalSchemaGetEntityTagResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, apiId, releaseId, options },
+      { resourceGroupName, serviceName, schemaId, options },
       getEntityTagOperationSpec
     );
   }
 
   /**
-   * Returns the details of an API release.
+   * Gets the details of the Schema specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
-   * @param releaseId Release identifier within an API. Must be unique in the current API Management
-   *                  service instance.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    apiId: string,
-    releaseId: string,
-    options?: ApiReleaseGetOptionalParams
-  ): Promise<ApiReleaseGetResponse> {
+    schemaId: string,
+    options?: GlobalSchemaGetOptionalParams
+  ): Promise<GlobalSchemaGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, apiId, releaseId, options },
+      { resourceGroupName, serviceName, schemaId, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates a new Release for the API.
+   * Creates new or updates existing specified Schema of the API Management service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
-   * @param releaseId Release identifier within an API. Must be unique in the current API Management
-   *                  service instance.
-   * @param parameters Create parameters.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
+   * @param parameters Create or update parameters.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    apiId: string,
-    releaseId: string,
-    parameters: ApiReleaseContract,
-    options?: ApiReleaseCreateOrUpdateOptionalParams
-  ): Promise<ApiReleaseCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, apiId, releaseId, parameters, options },
+    schemaId: string,
+    parameters: GlobalSchemaContract,
+    options?: GlobalSchemaCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<GlobalSchemaCreateOrUpdateResponse>,
+      GlobalSchemaCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<GlobalSchemaCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, serviceName, schemaId, parameters, options },
       createOrUpdateOperationSpec
     );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Updates the details of the release of the API specified by its identifier.
+   * Creates new or updates existing specified Schema of the API Management service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
-   * @param releaseId Release identifier within an API. Must be unique in the current API Management
-   *                  service instance.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   *                response of the GET request or it should be * for unconditional update.
-   * @param parameters API Release Update parameters.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
+   * @param parameters Create or update parameters.
    * @param options The options parameters.
    */
-  update(
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    apiId: string,
-    releaseId: string,
-    ifMatch: string,
-    parameters: ApiReleaseContract,
-    options?: ApiReleaseUpdateOptionalParams
-  ): Promise<ApiReleaseUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        apiId,
-        releaseId,
-        ifMatch,
-        parameters,
-        options
-      },
-      updateOperationSpec
+    schemaId: string,
+    parameters: GlobalSchemaContract,
+    options?: GlobalSchemaCreateOrUpdateOptionalParams
+  ): Promise<GlobalSchemaCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      serviceName,
+      schemaId,
+      parameters,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
-   * Deletes the specified release in the API.
+   * Deletes specific Schema.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
-   * @param releaseId Release identifier within an API. Must be unique in the current API Management
-   *                  service instance.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    *                response of the GET request or it should be * for unconditional update.
    * @param options The options parameters.
@@ -276,13 +292,12 @@ export class ApiReleaseImpl implements ApiRelease {
   delete(
     resourceGroupName: string,
     serviceName: string,
-    apiId: string,
-    releaseId: string,
+    schemaId: string,
     ifMatch: string,
-    options?: ApiReleaseDeleteOptionalParams
+    options?: GlobalSchemaDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, apiId, releaseId, ifMatch, options },
+      { resourceGroupName, serviceName, schemaId, ifMatch, options },
       deleteOperationSpec
     );
   }
@@ -291,19 +306,17 @@ export class ApiReleaseImpl implements ApiRelease {
    * ListByServiceNext
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
    */
   private _listByServiceNext(
     resourceGroupName: string,
     serviceName: string,
-    apiId: string,
     nextLink: string,
-    options?: ApiReleaseListByServiceNextOptionalParams
-  ): Promise<ApiReleaseListByServiceNextResponse> {
+    options?: GlobalSchemaListByServiceNextOptionalParams
+  ): Promise<GlobalSchemaListByServiceNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, apiId, nextLink, options },
+      { resourceGroupName, serviceName, nextLink, options },
       listByServiceNextOperationSpec
     );
   }
@@ -313,11 +326,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/schemas",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiReleaseCollection
+      bodyMapper: Mappers.GlobalSchemaCollection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -333,19 +346,18 @@ const listByServiceOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.apiId1
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/schemas/{schemaId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.ApiReleaseGetEntityTagHeaders
+      headersMapper: Mappers.GlobalSchemaGetEntityTagHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -357,20 +369,19 @@ const getEntityTagOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId1,
-    Parameters.releaseId
+    Parameters.schemaId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/schemas/{schemaId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiReleaseContract,
-      headersMapper: Mappers.ApiReleaseGetHeaders
+      bodyMapper: Mappers.GlobalSchemaContract,
+      headersMapper: Mappers.GlobalSchemaGetHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -382,38 +393,44 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId1,
-    Parameters.releaseId
+    Parameters.schemaId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/schemas/{schemaId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiReleaseContract,
-      headersMapper: Mappers.ApiReleaseCreateOrUpdateHeaders
+      bodyMapper: Mappers.GlobalSchemaContract,
+      headersMapper: Mappers.GlobalSchemaCreateOrUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.ApiReleaseContract,
-      headersMapper: Mappers.ApiReleaseCreateOrUpdateHeaders
+      bodyMapper: Mappers.GlobalSchemaContract,
+      headersMapper: Mappers.GlobalSchemaCreateOrUpdateHeaders
+    },
+    202: {
+      bodyMapper: Mappers.GlobalSchemaContract,
+      headersMapper: Mappers.GlobalSchemaCreateOrUpdateHeaders
+    },
+    204: {
+      bodyMapper: Mappers.GlobalSchemaContract,
+      headersMapper: Mappers.GlobalSchemaCreateOrUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters53,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId1,
-    Parameters.releaseId
+    Parameters.schemaId
   ],
   headerParameters: [
     Parameters.accept,
@@ -423,40 +440,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiReleaseContract,
-      headersMapper: Mappers.ApiReleaseUpdateHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.apiId1,
-    Parameters.releaseId
-  ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch1
-  ],
-  mediaType: "json",
-  serializer
-};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/schemas/{schemaId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -471,8 +457,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId1,
-    Parameters.releaseId
+    Parameters.schemaId
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
   serializer
@@ -482,7 +467,7 @@ const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiReleaseCollection
+      bodyMapper: Mappers.GlobalSchemaCollection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -493,8 +478,7 @@ const listByServiceNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.apiId1
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
