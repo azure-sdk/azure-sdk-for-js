@@ -327,6 +327,8 @@ export class AutomationClient extends coreClient.ServiceClient {
     // (undocumented)
     python2Package: Python2Package;
     // (undocumented)
+    python3Package: Python3Package;
+    // (undocumented)
     runbookDraftOperations: RunbookDraftOperations;
     // (undocumented)
     runbookOperations: RunbookOperations;
@@ -459,12 +461,6 @@ export interface CertificateUpdateParameters {
 
 // @public
 export type CertificateUpdateResponse = Certificate;
-
-// @public (undocumented)
-export interface ComponentsSgqdofSchemasIdentityPropertiesUserassignedidentitiesAdditionalproperties {
-    readonly clientId?: string;
-    readonly principalId?: string;
-}
 
 // @public
 export interface Connection extends ProxyResource {
@@ -770,6 +766,12 @@ export interface DeletedAutomationAccountsListBySubscriptionOptionalParams exten
 export type DeletedAutomationAccountsListBySubscriptionResponse = DeletedAutomationAccountListResult;
 
 // @public
+export interface Dimension {
+    displayName?: string;
+    name?: string;
+}
+
+// @public
 export interface DscCompilationJob extends ProxyResource {
     configuration?: DscConfigurationAssociationProperty;
     readonly creationTime?: Date;
@@ -828,7 +830,6 @@ export type DscCompilationJobGetStreamResponse = JobStream;
 
 // @public
 export interface DscCompilationJobListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -928,7 +929,7 @@ export interface DscConfigurationGetContentOptionalParams extends coreClient.Ope
 
 // @public
 export type DscConfigurationGetContentResponse = {
-    body: string;
+    body: coreRestPipeline.RequestBodyType;
 };
 
 // @public
@@ -940,10 +941,6 @@ export type DscConfigurationGetResponse = DscConfiguration;
 
 // @public
 export interface DscConfigurationListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    inlinecount?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -1107,10 +1104,6 @@ export type DscNodeConfigurationGetResponse = DscNodeConfiguration;
 
 // @public
 export interface DscNodeConfigurationListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    inlinecount?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -1162,10 +1155,6 @@ export type DscNodeGetResponse = DscNode;
 
 // @public
 export interface DscNodeListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    inlinecount?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -1315,6 +1304,9 @@ export interface FieldsListByTypeOptionalParams extends coreClient.OperationOpti
 export type FieldsListByTypeResponse = TypeFieldListResult;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GraphicalRunbookContent {
     graphRunbookJson?: string;
     rawContent?: RawGraphicalRunbookContent;
@@ -1379,7 +1371,6 @@ export type HybridRunbookWorkerGroupGetResponse = HybridRunbookWorkerGroup;
 
 // @public
 export interface HybridRunbookWorkerGroupListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1449,7 +1440,6 @@ export type HybridRunbookWorkersGetResponse = HybridRunbookWorker;
 
 // @public
 export interface HybridRunbookWorkersListByHybridRunbookWorkerGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1479,7 +1469,7 @@ export interface Identity {
     readonly tenantId?: string;
     type?: ResourceIdentityType;
     userAssignedIdentities?: {
-        [propertyName: string]: ComponentsSgqdofSchemasIdentityPropertiesUserassignedidentitiesAdditionalproperties;
+        [propertyName: string]: UserAssignedIdentitiesProperties;
     };
 }
 
@@ -1564,7 +1554,6 @@ export type JobGetRunbookContentResponse = {
 // @public
 export interface JobListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
     clientRequestId?: string;
-    filter?: string;
 }
 
 // @public
@@ -1654,7 +1643,6 @@ export type JobScheduleGetResponse = JobSchedule;
 
 // @public
 export interface JobScheduleListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1714,7 +1702,6 @@ export type JobStreamGetResponse = JobStream;
 // @public
 export interface JobStreamListByJobNextOptionalParams extends coreClient.OperationOptions {
     clientRequestId?: string;
-    filter?: string;
 }
 
 // @public
@@ -1940,6 +1927,26 @@ export enum KnownLinuxUpdateClasses {
 }
 
 // @public
+export enum KnownModuleProvisioningState {
+    ActivitiesStored = "ActivitiesStored",
+    Cancelled = "Cancelled",
+    ConnectionTypeImported = "ConnectionTypeImported",
+    ContentDownloaded = "ContentDownloaded",
+    ContentRetrieved = "ContentRetrieved",
+    ContentStored = "ContentStored",
+    ContentValidated = "ContentValidated",
+    Created = "Created",
+    Creating = "Creating",
+    Failed = "Failed",
+    ModuleDataStored = "ModuleDataStored",
+    ModuleImportRunbookComplete = "ModuleImportRunbookComplete",
+    RunningImportModuleRunbook = "RunningImportModuleRunbook",
+    StartingImportModuleRunbook = "StartingImportModuleRunbook",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownProvisioningState {
     Completed = "Completed",
     Failed = "Failed",
@@ -2065,6 +2072,23 @@ export interface LinuxProperties {
 export type LinuxUpdateClasses = string;
 
 // @public
+export interface LogSpecification {
+    blobDuration?: string;
+    displayName?: string;
+    name?: string;
+}
+
+// @public
+export interface MetricSpecification {
+    aggregationType?: string;
+    dimensions?: Dimension[];
+    displayDescription?: string;
+    displayName?: string;
+    name?: string;
+    unit?: string;
+}
+
+// @public
 export interface Module extends TrackedResource {
     activityCount?: number;
     contentLink?: ContentLink;
@@ -2144,7 +2168,7 @@ export interface ModuleOperations {
 }
 
 // @public
-export type ModuleProvisioningState = "Created" | "Creating" | "StartingImportModuleRunbook" | "RunningImportModuleRunbook" | "ContentRetrieved" | "ContentDownloaded" | "ContentValidated" | "ConnectionTypeImported" | "ContentStored" | "ModuleDataStored" | "ActivitiesStored" | "ModuleImportRunbookComplete" | "Succeeded" | "Failed" | "Cancelled" | "Updating";
+export type ModuleProvisioningState = string;
 
 // @public
 export interface ModuleUpdateOptionalParams extends coreClient.OperationOptions {
@@ -2216,7 +2240,6 @@ export type NodeReportsGetResponse = DscNodeReport;
 
 // @public
 export interface NodeReportsListByNodeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -2263,10 +2286,13 @@ export type OperatingSystemType = "Windows" | "Linux";
 export interface Operation {
     display?: OperationDisplay;
     name?: string;
+    origin?: string;
+    serviceSpecification?: OperationPropertiesFormatServiceSpecification;
 }
 
 // @public
 export interface OperationDisplay {
+    description?: string;
     operation?: string;
     provider?: string;
     resource?: string;
@@ -2275,6 +2301,12 @@ export interface OperationDisplay {
 // @public
 export interface OperationListResult {
     value?: Operation[];
+}
+
+// @public
+export interface OperationPropertiesFormatServiceSpecification {
+    logSpecifications?: LogSpecification[];
+    metricSpecifications?: MetricSpecification[];
 }
 
 // @public
@@ -2429,6 +2461,54 @@ export interface Python2PackageUpdateOptionalParams extends coreClient.Operation
 
 // @public
 export type Python2PackageUpdateResponse = Module;
+
+// @public
+export interface Python3Package {
+    createOrUpdate(resourceGroupName: string, automationAccountName: string, packageName: string, parameters: PythonPackageCreateParameters, options?: Python3PackageCreateOrUpdateOptionalParams): Promise<Python3PackageCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, automationAccountName: string, packageName: string, options?: Python3PackageDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, automationAccountName: string, packageName: string, options?: Python3PackageGetOptionalParams): Promise<Python3PackageGetResponse>;
+    listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Python3PackageListByAutomationAccountOptionalParams): PagedAsyncIterableIterator<Module>;
+    update(resourceGroupName: string, automationAccountName: string, packageName: string, parameters: PythonPackageUpdateParameters, options?: Python3PackageUpdateOptionalParams): Promise<Python3PackageUpdateResponse>;
+}
+
+// @public
+export interface Python3PackageCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type Python3PackageCreateOrUpdateResponse = Module;
+
+// @public
+export interface Python3PackageDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface Python3PackageGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type Python3PackageGetResponse = Module;
+
+// @public
+export interface Python3PackageListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type Python3PackageListByAutomationAccountNextResponse = ModuleListResult;
+
+// @public
+export interface Python3PackageListByAutomationAccountOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type Python3PackageListByAutomationAccountResponse = ModuleListResult;
+
+// @public
+export interface Python3PackageUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type Python3PackageUpdateResponse = Module;
 
 // @public
 export interface PythonPackageCreateParameters {
@@ -3053,7 +3133,6 @@ export type SourceControlGetResponse = SourceControl;
 
 // @public
 export interface SourceControlListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -3135,7 +3214,6 @@ export type SourceControlSyncJobGetResponse = SourceControlSyncJobById;
 
 // @public
 export interface SourceControlSyncJobListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -3205,7 +3283,6 @@ export interface SourceControlSyncJobStreamsListBySyncJob {
 
 // @public
 export interface SourceControlSyncJobStreamsListBySyncJobNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -3396,7 +3473,6 @@ export type TestJobStreamsGetResponse = JobStream;
 
 // @public
 export interface TestJobStreamsListByTestJobNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -3484,6 +3560,12 @@ export interface UsagesListByAutomationAccountOptionalParams extends coreClient.
 
 // @public
 export type UsagesListByAutomationAccountResponse = UsageListResult;
+
+// @public (undocumented)
+export interface UserAssignedIdentitiesProperties {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
 
 // @public
 export interface Variable extends ProxyResource {
@@ -3603,7 +3685,6 @@ export type WatcherGetResponse = Watcher;
 
 // @public
 export interface WatcherListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -3714,7 +3795,6 @@ export type WebhookGetResponse = Webhook;
 
 // @public
 export interface WebhookListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
