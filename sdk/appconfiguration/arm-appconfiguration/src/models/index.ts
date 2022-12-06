@@ -882,30 +882,21 @@ export interface ConfigurationStoresPurgeDeletedOptionalParams
 
 /** Optional parameters. */
 export interface ConfigurationStoresListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ConfigurationStoresListNextResponse = ConfigurationStoreListResult;
 
 /** Optional parameters. */
 export interface ConfigurationStoresListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ConfigurationStoresListByResourceGroupNextResponse = ConfigurationStoreListResult;
 
 /** Optional parameters. */
 export interface ConfigurationStoresListKeysNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeysNext operation. */
 export type ConfigurationStoresListKeysNextResponse = ApiKeyListResult;
@@ -943,10 +934,7 @@ export type OperationsRegionalCheckNameAvailabilityResponse = NameAvailabilitySt
 
 /** Optional parameters. */
 export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationDefinitionListResult;
@@ -1052,10 +1040,7 @@ export interface KeyValuesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface KeyValuesListByConfigurationStoreNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByConfigurationStoreNext operation. */
 export type KeyValuesListByConfigurationStoreNextResponse = KeyValueListResult;
