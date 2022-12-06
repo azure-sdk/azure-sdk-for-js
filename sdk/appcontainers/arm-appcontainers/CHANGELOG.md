@@ -1,21 +1,7 @@
 # Release History
-
-## 2.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.0.0-beta.2 (2022-11-15)
     
-  - Bugs Fixed
-
-## 2.0.0-beta.1 (2022-10-12)
-
+## 2.0.0-beta.3 (2022-12-06)
+    
 **Features**
 
   - Added operation group AvailableWorkloadProfiles
@@ -151,6 +137,7 @@
   - Added Type Alias ContainerAppsDiagnosticsListRevisionsNextResponse
   - Added Type Alias ContainerAppsDiagnosticsListRevisionsResponse
   - Added Type Alias ContainerAppsGetAuthTokenResponse
+  - Added Type Alias ContainerAppsUpdateResponse
   - Added Type Alias ExtendedLocationTypes
   - Added Type Alias LogLevel
   - Added Type Alias ManagedEnvironmentDiagnosticsGetDetectorResponse
@@ -160,6 +147,7 @@
   - Added Type Alias ManagedEnvironmentsGetAuthTokenResponse
   - Added Type Alias ManagedEnvironmentsListWorkloadProfileStatesNextResponse
   - Added Type Alias ManagedEnvironmentsListWorkloadProfileStatesResponse
+  - Added Type Alias ManagedEnvironmentsUpdateResponse
   - Added Type Alias SkuName
   - Interface CertificateProperties has a new optional parameter subjectAlternativeNames
   - Interface Configuration has a new optional parameter maxInactiveRevisions
@@ -207,13 +195,7 @@
 
 **Breaking Changes**
 
-  - Interface Container no longer has parameter args
-  - Interface Container no longer has parameter command
-  - Interface Container no longer has parameter env
-  - Interface Container no longer has parameter image
-  - Interface Container no longer has parameter name
-  - Interface Container no longer has parameter resources
-  - Interface Container no longer has parameter volumeMounts
+  - Interface ContainerAppsRevisionsListRevisionsNextOptionalParams no longer has parameter filter
     
 ## 1.1.2 (2022-10-08)
 
