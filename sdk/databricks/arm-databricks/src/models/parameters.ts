@@ -12,6 +12,8 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  AccessConnector as AccessConnectorMapper,
+  AccessConnectorUpdate as AccessConnectorUpdateMapper,
   Workspace as WorkspaceMapper,
   WorkspaceUpdate as WorkspaceUpdateMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
@@ -58,14 +60,14 @@ export const resourceGroupName: OperationURLParameter = {
   }
 };
 
-export const workspaceName: OperationURLParameter = {
-  parameterPath: "workspaceName",
+export const connectorName: OperationURLParameter = {
+  parameterPath: "connectorName",
   mapper: {
     constraints: {
       MaxLength: 64,
       MinLength: 3
     },
-    serializedName: "workspaceName",
+    serializedName: "connectorName",
     required: true,
     type: {
       name: "String"
@@ -76,7 +78,7 @@ export const workspaceName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-04-01-preview",
+    defaultValue: "2022-10-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -110,12 +112,12 @@ export const contentType: OperationParameter = {
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: WorkspaceMapper
+  mapper: AccessConnectorMapper
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: WorkspaceUpdateMapper
+  mapper: AccessConnectorUpdateMapper
 };
 
 export const nextLink: OperationURLParameter = {
@@ -128,6 +130,43 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const workspaceName: OperationURLParameter = {
+  parameterPath: "workspaceName",
+  mapper: {
+    constraints: {
+      MaxLength: 64,
+      MinLength: 3
+    },
+    serializedName: "workspaceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-04-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters2: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: WorkspaceMapper
+};
+
+export const parameters3: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: WorkspaceUpdateMapper
 };
 
 export const groupId: OperationURLParameter = {

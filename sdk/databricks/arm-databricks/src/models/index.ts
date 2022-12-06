@@ -8,6 +8,125 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+export interface AccessConnectorProperties {
+  /**
+   * Provisioning status of the accessConnector.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** The core properties of ARM resources */
+export interface Resource {
+  /**
+   * Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
+/** Contains details when the response code indicates an error. */
+export interface ErrorResponse {
+  /** The error details. */
+  error: ErrorInfo;
+}
+
+/** The code and message for an error. */
+export interface ErrorInfo {
+  /** A machine readable error code. */
+  code: string;
+  /** A human readable error message. */
+  message: string;
+  /** error details. */
+  details?: ErrorDetail[];
+  /** Inner error details if they exist. */
+  innererror?: string;
+}
+
+/** Error details. */
+export interface ErrorDetail {
+  /** The error's code. */
+  code: string;
+  /** A human readable error message. */
+  message: string;
+  /** Indicates which property in the request is responsible for the error. */
+  target?: string;
+}
+
+/** An update to an azure databricks accessConnector. */
+export interface AccessConnectorUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ManagedServiceIdentity;
+}
+
+/** List of azure databricks accessConnector. */
+export interface AccessConnectorListResult {
+  /** The array of azure databricks accessConnector. */
+  value?: AccessConnector[];
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
+}
+
 /** Custom Parameters used for Cluster Creation. */
 export interface WorkspaceCustomParameters {
   /** The ID of a Azure Machine Learning workspace to link with Databricks workspace */
@@ -159,6 +278,8 @@ export interface WorkspacePropertiesEncryption {
 export interface EncryptionEntitiesDefinition {
   /** Encryption properties for the databricks managed services. */
   managedServices?: EncryptionV2;
+  /** Encryption properties for the databricks managed disks. */
+  managedDisk?: ManagedDiskEncryption;
 }
 
 /** The object that contains details of encryption used on the workspace. */
@@ -172,6 +293,26 @@ export interface EncryptionV2 {
 /** Key Vault input properties for encryption. */
 export interface EncryptionV2KeyVaultProperties {
   /** The Uri of KeyVault. */
+  keyVaultUri: string;
+  /** The name of KeyVault key. */
+  keyName: string;
+  /** The version of KeyVault key. */
+  keyVersion: string;
+}
+
+/** The object that contains details of encryption used on the workspace. */
+export interface ManagedDiskEncryption {
+  /** The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Keyvault */
+  keySource: EncryptionKeySource;
+  /** Key Vault input properties for encryption. */
+  keyVaultProperties: ManagedDiskEncryptionKeyVaultProperties;
+  /** Indicate whether the latest key version should be automatically used for Managed Disk Encryption. */
+  rotationToLatestKeyVersionEnabled?: boolean;
+}
+
+/** Key Vault input properties for encryption. */
+export interface ManagedDiskEncryptionKeyVaultProperties {
+  /** The URI of KeyVault. */
   keyVaultUri: string;
   /** The name of KeyVault key. */
   keyName: string;
@@ -238,69 +379,6 @@ export interface Sku {
   name: string;
   /** The SKU tier. */
   tier?: string;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-/** The core properties of ARM resources */
-export interface Resource {
-  /**
-   * Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
-/** Contains details when the response code indicates an error. */
-export interface ErrorResponse {
-  /** The error details. */
-  error: ErrorInfo;
-}
-
-/** The code and message for an error. */
-export interface ErrorInfo {
-  /** A machine readable error code. */
-  code: string;
-  /** A human readable error message. */
-  message: string;
-  /** error details. */
-  details?: ErrorDetail[];
-  /** Inner error details if they exist. */
-  innererror?: string;
-}
-
-/** Error details. */
-export interface ErrorDetail {
-  /** The error's code. */
-  code: string;
-  /** A human readable error message. */
-  message: string;
-  /** Indicates which property in the request is responsible for the error. */
-  target?: string;
 }
 
 /** An update to a workspace. */
@@ -482,6 +560,19 @@ export interface GroupIdInformation extends Resource {
   properties: GroupIdInformationProperties;
 }
 
+/** Information about azure databricks accessConnector. */
+export interface AccessConnector extends TrackedResource {
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ManagedServiceIdentity;
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Azure Databricks accessConnector properties */
+  properties?: AccessConnectorProperties;
+}
+
 /** Information about workspace. */
 export interface Workspace extends TrackedResource {
   /** The SKU of the resource. */
@@ -525,6 +616,10 @@ export interface Workspace extends TrackedResource {
   readonly workspaceUrl?: string;
   /** The details of Managed Identity of Storage Account */
   storageAccountIdentity?: ManagedIdentityConfiguration;
+  /** The details of Managed Identity of Disk Encryption Set used for Managed Disk Encryption */
+  managedDiskIdentity?: ManagedIdentityConfiguration;
+  /** The resource Id of the managed disk encryption set. */
+  diskEncryptionSetId?: string;
   /** Encryption properties for databricks workspace */
   encryption?: WorkspacePropertiesEncryption;
   /**
@@ -538,44 +633,53 @@ export interface Workspace extends TrackedResource {
   requiredNsgRules?: RequiredNsgRules;
 }
 
-/** Known values of {@link CustomParameterType} that the service accepts. */
-export enum KnownCustomParameterType {
-  /** Bool */
-  Bool = "Bool",
-  /** Object */
-  Object = "Object",
-  /** String */
-  String = "String"
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
 }
 
 /**
- * Defines values for CustomParameterType. \
- * {@link KnownCustomParameterType} can be used interchangeably with CustomParameterType,
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Bool** \
- * **Object** \
- * **String**
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
  */
-export type CustomParameterType = string;
+export type ManagedServiceIdentityType = string;
 
-/** Known values of {@link KeySource} that the service accepts. */
-export enum KnownKeySource {
-  /** Default */
-  Default = "Default",
-  /** MicrosoftKeyvault */
-  MicrosoftKeyvault = "Microsoft.Keyvault"
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key"
 }
 
 /**
- * Defines values for KeySource. \
- * {@link KnownKeySource} can be used interchangeably with KeySource,
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Default** \
- * **Microsoft.Keyvault**
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
  */
-export type KeySource = string;
+export type CreatedByType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
@@ -621,6 +725,45 @@ export enum KnownProvisioningState {
  * **Updating**
  */
 export type ProvisioningState = string;
+
+/** Known values of {@link CustomParameterType} that the service accepts. */
+export enum KnownCustomParameterType {
+  /** Bool */
+  Bool = "Bool",
+  /** Object */
+  Object = "Object",
+  /** String */
+  String = "String"
+}
+
+/**
+ * Defines values for CustomParameterType. \
+ * {@link KnownCustomParameterType} can be used interchangeably with CustomParameterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Bool** \
+ * **Object** \
+ * **String**
+ */
+export type CustomParameterType = string;
+
+/** Known values of {@link KeySource} that the service accepts. */
+export enum KnownKeySource {
+  /** Default */
+  Default = "Default",
+  /** MicrosoftKeyvault */
+  MicrosoftKeyvault = "Microsoft.Keyvault"
+}
+
+/**
+ * Defines values for KeySource. \
+ * {@link KnownKeySource} can be used interchangeably with KeySource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **Microsoft.Keyvault**
+ */
+export type KeySource = string;
 
 /** Known values of {@link EncryptionKeySource} that the service accepts. */
 export enum KnownEncryptionKeySource {
@@ -727,30 +870,6 @@ export enum KnownRequiredNsgRules {
  */
 export type RequiredNsgRules = string;
 
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
 /** Known values of {@link PeeringState} that the service accepts. */
 export enum KnownPeeringState {
   /** Initiated */
@@ -795,6 +914,74 @@ export enum KnownPeeringProvisioningState {
  * **Failed**
  */
 export type PeeringProvisioningState = string;
+
+/** Optional parameters. */
+export interface AccessConnectorsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AccessConnectorsGetResponse = AccessConnector;
+
+/** Optional parameters. */
+export interface AccessConnectorsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface AccessConnectorsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AccessConnectorsCreateOrUpdateResponse = AccessConnector;
+
+/** Optional parameters. */
+export interface AccessConnectorsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type AccessConnectorsUpdateResponse = AccessConnector;
+
+/** Optional parameters. */
+export interface AccessConnectorsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type AccessConnectorsListByResourceGroupResponse = AccessConnectorListResult;
+
+/** Optional parameters. */
+export interface AccessConnectorsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type AccessConnectorsListBySubscriptionResponse = AccessConnectorListResult;
+
+/** Optional parameters. */
+export interface AccessConnectorsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type AccessConnectorsListByResourceGroupNextResponse = AccessConnectorListResult;
+
+/** Optional parameters. */
+export interface AccessConnectorsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type AccessConnectorsListBySubscriptionNextResponse = AccessConnectorListResult;
 
 /** Optional parameters. */
 export interface WorkspacesGetOptionalParams
@@ -995,8 +1182,6 @@ export interface AzureDatabricksManagementClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
-  /** Api Version */
-  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

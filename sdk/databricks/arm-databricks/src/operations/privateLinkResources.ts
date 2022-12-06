@@ -182,12 +182,12 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.workspaceName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -204,12 +204,12 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
     Parameters.subscriptionId,
+    Parameters.workspaceName,
     Parameters.groupId
   ],
   headerParameters: [Parameters.accept],
@@ -226,13 +226,12 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.workspaceName
   ],
   headerParameters: [Parameters.accept],
   serializer
