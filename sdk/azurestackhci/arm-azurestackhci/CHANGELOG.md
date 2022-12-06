@@ -1,15 +1,138 @@
 # Release History
+    
+## 4.0.0 (2022-12-06)
+    
+**Features**
 
-## 3.1.1 (Unreleased)
+  - Added operation group Offers
+  - Added operation group Publishers
+  - Added operation group Skus
+  - Added operation group UpdateRuns
+  - Added operation group Updates
+  - Added operation group UpdateSummariesOperations
+  - Added operation Clusters.beginExtendSoftwareAssuranceBenefit
+  - Added operation Clusters.beginExtendSoftwareAssuranceBenefitAndWait
+  - Added Interface ClustersExtendSoftwareAssuranceBenefitOptionalParams
+  - Added Interface Offer
+  - Added Interface OfferList
+  - Added Interface OffersGetOptionalParams
+  - Added Interface OffersListByClusterNextOptionalParams
+  - Added Interface OffersListByClusterOptionalParams
+  - Added Interface OffersListByPublisherNextOptionalParams
+  - Added Interface OffersListByPublisherOptionalParams
+  - Added Interface PackageVersionInfo
+  - Added Interface Publisher
+  - Added Interface PublisherList
+  - Added Interface PublishersGetOptionalParams
+  - Added Interface PublishersListByClusterNextOptionalParams
+  - Added Interface PublishersListByClusterOptionalParams
+  - Added Interface Sku
+  - Added Interface SkuList
+  - Added Interface SkuMappings
+  - Added Interface SkusGetOptionalParams
+  - Added Interface SkusListByOfferNextOptionalParams
+  - Added Interface SkusListByOfferOptionalParams
+  - Added Interface SoftwareAssuranceChangeRequest
+  - Added Interface SoftwareAssuranceChangeRequestProperties
+  - Added Interface SoftwareAssuranceProperties
+  - Added Interface Step
+  - Added Interface SystemData
+  - Added Interface Update
+  - Added Interface UpdateList
+  - Added Interface UpdatePrerequisite
+  - Added Interface UpdateRun
+  - Added Interface UpdateRunList
+  - Added Interface UpdateRunsGetOptionalParams
+  - Added Interface UpdateRunsListNextOptionalParams
+  - Added Interface UpdateRunsListOptionalParams
+  - Added Interface UpdatesGetOptionalParams
+  - Added Interface UpdatesListNextOptionalParams
+  - Added Interface UpdatesListOptionalParams
+  - Added Interface UpdatesPostOptionalParams
+  - Added Interface UpdateSummaries
+  - Added Interface UpdateSummariesGetOptionalParams
+  - Added Interface UpdateSummariesList
+  - Added Interface UpdateSummariesListNextOptionalParams
+  - Added Interface UpdateSummariesListOptionalParams
+  - Added Interface UserAssignedIdentity
+  - Added Type Alias AvailabilityType
+  - Added Type Alias ClusterNodeType
+  - Added Type Alias ClustersExtendSoftwareAssuranceBenefitResponse
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias OffersGetResponse
+  - Added Type Alias OffersListByClusterNextResponse
+  - Added Type Alias OffersListByClusterResponse
+  - Added Type Alias OffersListByPublisherNextResponse
+  - Added Type Alias OffersListByPublisherResponse
+  - Added Type Alias PublishersGetResponse
+  - Added Type Alias PublishersListByClusterNextResponse
+  - Added Type Alias PublishersListByClusterResponse
+  - Added Type Alias SkusGetResponse
+  - Added Type Alias SkusListByOfferNextResponse
+  - Added Type Alias SkusListByOfferResponse
+  - Added Type Alias SoftwareAssuranceIntent
+  - Added Type Alias SoftwareAssuranceStatus
+  - Added Type Alias State
+  - Added Type Alias UpdateRunPropertiesState
+  - Added Type Alias UpdateRunsGetResponse
+  - Added Type Alias UpdateRunsListNextResponse
+  - Added Type Alias UpdateRunsListResponse
+  - Added Type Alias UpdatesGetResponse
+  - Added Type Alias UpdatesListNextResponse
+  - Added Type Alias UpdatesListResponse
+  - Added Type Alias UpdateSummariesGetResponse
+  - Added Type Alias UpdateSummariesListNextResponse
+  - Added Type Alias UpdateSummariesListResponse
+  - Added Type Alias UpdateSummariesPropertiesState
+  - Interface Cluster has a new optional parameter principalId
+  - Interface Cluster has a new optional parameter softwareAssuranceProperties
+  - Interface Cluster has a new optional parameter tenantId
+  - Interface Cluster has a new optional parameter typeIdentityType
+  - Interface Cluster has a new optional parameter userAssignedIdentities
+  - Interface ClusterNode has a new optional parameter nodeType
+  - Interface ClusterNode has a new optional parameter osDisplayVersion
+  - Interface ClusterPatch has a new optional parameter principalId
+  - Interface ClusterPatch has a new optional parameter tenantId
+  - Interface ClusterPatch has a new optional parameter type
+  - Interface ClusterPatch has a new optional parameter userAssignedIdentities
+  - Interface Resource has a new optional parameter systemData
+  - Class AzureStackHCIClient has a new parameter offers
+  - Class AzureStackHCIClient has a new parameter publishers
+  - Class AzureStackHCIClient has a new parameter skus
+  - Class AzureStackHCIClient has a new parameter updateRuns
+  - Class AzureStackHCIClient has a new parameter updates
+  - Class AzureStackHCIClient has a new parameter updateSummariesOperations
+  - Added Enum KnownAvailabilityType
+  - Added Enum KnownClusterNodeType
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownSoftwareAssuranceIntent
+  - Added Enum KnownSoftwareAssuranceStatus
+  - Added Enum KnownState
+  - Added Enum KnownUpdateRunPropertiesState
+  - Added Enum KnownUpdateSummariesPropertiesState
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ArcSetting no longer has parameter createdAt
+  - Interface ArcSetting no longer has parameter createdBy
+  - Interface ArcSetting no longer has parameter createdByType
+  - Interface ArcSetting no longer has parameter lastModifiedAt
+  - Interface ArcSetting no longer has parameter lastModifiedBy
+  - Interface ArcSetting no longer has parameter lastModifiedByType
+  - Interface Cluster no longer has parameter createdAt
+  - Interface Cluster no longer has parameter createdBy
+  - Interface Cluster no longer has parameter createdByType
+  - Interface Cluster no longer has parameter lastModifiedAt
+  - Interface Cluster no longer has parameter lastModifiedBy
+  - Interface Cluster no longer has parameter lastModifiedByType
+  - Interface Extension no longer has parameter createdAt
+  - Interface Extension no longer has parameter createdBy
+  - Interface Extension no longer has parameter createdByType
+  - Interface Extension no longer has parameter lastModifiedAt
+  - Interface Extension no longer has parameter lastModifiedBy
+  - Interface Extension no longer has parameter lastModifiedByType
+    
+    
 ## 3.1.0 (2022-11-16)
     
 **Features**

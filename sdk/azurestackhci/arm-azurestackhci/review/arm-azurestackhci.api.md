@@ -39,12 +39,6 @@ export interface ArcSetting extends ProxyResource {
     arcInstanceResourceGroup?: string;
     arcServicePrincipalObjectId?: string;
     connectivityProperties?: Record<string, unknown>;
-    createdAt?: Date;
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    lastModifiedAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
     readonly perNodeDetails?: PerNodeState[];
     readonly provisioningState?: ProvisioningState;
 }
@@ -136,6 +130,9 @@ export interface ArcSettingsUpdateOptionalParams extends coreClient.OperationOpt
 // @public
 export type ArcSettingsUpdateResponse = ArcSetting;
 
+// @public
+export type AvailabilityType = string;
+
 // @public (undocumented)
 export class AzureStackHCIClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -150,9 +147,21 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
     // (undocumented)
     extensions: Extensions;
     // (undocumented)
+    offers: Offers;
+    // (undocumented)
     operations: Operations;
     // (undocumented)
+    publishers: Publishers;
+    // (undocumented)
+    skus: Skus;
+    // (undocumented)
     subscriptionId: string;
+    // (undocumented)
+    updateRuns: UpdateRuns;
+    // (undocumented)
+    updates: Updates;
+    // (undocumented)
+    updateSummariesOperations: UpdateSummariesOperations;
 }
 
 // @public
@@ -171,21 +180,22 @@ export interface Cluster extends TrackedResource {
     readonly billingModel?: string;
     readonly cloudId?: string;
     cloudManagementEndpoint?: string;
-    createdAt?: Date;
-    createdBy?: string;
-    createdByType?: CreatedByType;
     desiredProperties?: ClusterDesiredProperties;
     readonly lastBillingTimestamp?: Date;
-    lastModifiedAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
     readonly lastSyncTimestamp?: Date;
+    readonly principalId?: string;
     readonly provisioningState?: ProvisioningState;
     readonly registrationTimestamp?: Date;
     readonly reportedProperties?: ClusterReportedProperties;
     readonly serviceEndpoint?: string;
+    softwareAssuranceProperties?: SoftwareAssuranceProperties;
     readonly status?: Status;
+    readonly tenantId?: string;
     readonly trialDaysRemaining?: number;
+    typeIdentityType?: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
 }
 
 // @public
@@ -220,6 +230,8 @@ export interface ClusterNode {
     readonly memoryInGiB?: number;
     readonly model?: string;
     readonly name?: string;
+    readonly nodeType?: ClusterNodeType;
+    readonly osDisplayVersion?: string;
     readonly osName?: string;
     readonly osVersion?: string;
     readonly serialNumber?: string;
@@ -227,13 +239,22 @@ export interface ClusterNode {
 }
 
 // @public
+export type ClusterNodeType = string;
+
+// @public
 export interface ClusterPatch {
     aadClientId?: string;
     aadTenantId?: string;
     cloudManagementEndpoint?: string;
     desiredProperties?: ClusterDesiredProperties;
+    readonly principalId?: string;
     tags?: {
         [propertyName: string]: string;
+    };
+    readonly tenantId?: string;
+    type?: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
     };
 }
 
@@ -254,6 +275,8 @@ export interface Clusters {
     beginCreateIdentityAndWait(resourceGroupName: string, clusterName: string, options?: ClustersCreateIdentityOptionalParams): Promise<ClustersCreateIdentityResponse>;
     beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
+    beginExtendSoftwareAssuranceBenefit(resourceGroupName: string, clusterName: string, softwareAssuranceChangeRequest: SoftwareAssuranceChangeRequest, options?: ClustersExtendSoftwareAssuranceBenefitOptionalParams): Promise<PollerLike<PollOperationState<ClustersExtendSoftwareAssuranceBenefitResponse>, ClustersExtendSoftwareAssuranceBenefitResponse>>;
+    beginExtendSoftwareAssuranceBenefitAndWait(resourceGroupName: string, clusterName: string, softwareAssuranceChangeRequest: SoftwareAssuranceChangeRequest, options?: ClustersExtendSoftwareAssuranceBenefitOptionalParams): Promise<ClustersExtendSoftwareAssuranceBenefitResponse>;
     beginUploadCertificate(resourceGroupName: string, clusterName: string, uploadCertificateRequest: UploadCertificateRequest, options?: ClustersUploadCertificateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginUploadCertificateAndWait(resourceGroupName: string, clusterName: string, uploadCertificateRequest: UploadCertificateRequest, options?: ClustersUploadCertificateOptionalParams): Promise<void>;
     create(resourceGroupName: string, clusterName: string, cluster: Cluster, options?: ClustersCreateOptionalParams): Promise<ClustersCreateResponse>;
@@ -284,6 +307,15 @@ export interface ClustersDeleteOptionalParams extends coreClient.OperationOption
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface ClustersExtendSoftwareAssuranceBenefitOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ClustersExtendSoftwareAssuranceBenefitResponse = Cluster;
 
 // @public
 export interface ClustersGetOptionalParams extends coreClient.OperationOptions {
@@ -363,13 +395,7 @@ export interface ErrorResponse {
 export interface Extension extends ProxyResource {
     readonly aggregateState?: ExtensionAggregateState;
     autoUpgradeMinorVersion?: boolean;
-    createdAt?: Date;
-    createdBy?: string;
-    createdByType?: CreatedByType;
     forceUpdateTag?: string;
-    lastModifiedAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
     readonly perNodeExtensionDetails?: PerNodeExtensionState[];
     protectedSettings?: Record<string, unknown>;
     readonly provisioningState?: ProvisioningState;
@@ -476,6 +502,19 @@ export enum KnownArcSettingAggregateState {
 }
 
 // @public
+export enum KnownAvailabilityType {
+    Local = "Local",
+    Notify = "Notify",
+    Online = "Online"
+}
+
+// @public
+export enum KnownClusterNodeType {
+    FirstParty = "FirstParty",
+    ThirdParty = "ThirdParty"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -513,6 +552,14 @@ export enum KnownExtensionAggregateState {
 export enum KnownImdsAttestation {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -564,6 +611,40 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownSoftwareAssuranceIntent {
+    Disable = "Disable",
+    Enable = "Enable"
+}
+
+// @public
+export enum KnownSoftwareAssuranceStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownState {
+    DownloadFailed = "DownloadFailed",
+    Downloading = "Downloading",
+    HasPrerequisite = "HasPrerequisite",
+    HealthCheckFailed = "HealthCheckFailed",
+    HealthChecking = "HealthChecking",
+    InstallationFailed = "InstallationFailed",
+    Installed = "Installed",
+    Installing = "Installing",
+    Invalid = "Invalid",
+    NotApplicableBecauseAnotherUpdateIsInProgress = "NotApplicableBecauseAnotherUpdateIsInProgress",
+    Obsolete = "Obsolete",
+    PreparationFailed = "PreparationFailed",
+    Preparing = "Preparing",
+    Ready = "Ready",
+    ReadyToInstall = "ReadyToInstall",
+    Recalled = "Recalled",
+    ScanFailed = "ScanFailed",
+    ScanInProgress = "ScanInProgress"
+}
+
+// @public
 export enum KnownStatus {
     ConnectedRecently = "ConnectedRecently",
     Disconnected = "Disconnected",
@@ -573,16 +654,99 @@ export enum KnownStatus {
 }
 
 // @public
+export enum KnownUpdateRunPropertiesState {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownUpdateSummariesPropertiesState {
+    AppliedSuccessfully = "AppliedSuccessfully",
+    NeedsAttention = "NeedsAttention",
+    PreparationFailed = "PreparationFailed",
+    PreparationInProgress = "PreparationInProgress",
+    Unknown = "Unknown",
+    UpdateAvailable = "UpdateAvailable",
+    UpdateFailed = "UpdateFailed",
+    UpdateInProgress = "UpdateInProgress"
+}
+
+// @public
 export enum KnownWindowsServerSubscription {
     Disabled = "Disabled",
     Enabled = "Enabled"
 }
 
 // @public
+export type ManagedServiceIdentityType = string;
+
+// @public
 export type NodeArcState = string;
 
 // @public
 export type NodeExtensionState = string;
+
+// @public
+export interface Offer extends ProxyResource {
+    content?: string;
+    contentVersion?: string;
+    readonly provisioningState?: string;
+    publisherId?: string;
+    skuMappings?: SkuMappings[];
+}
+
+// @public
+export interface OfferList {
+    readonly nextLink?: string;
+    readonly value?: Offer[];
+}
+
+// @public
+export interface Offers {
+    get(resourceGroupName: string, clusterName: string, publisherName: string, offerName: string, options?: OffersGetOptionalParams): Promise<OffersGetResponse>;
+    listByCluster(resourceGroupName: string, clusterName: string, options?: OffersListByClusterOptionalParams): PagedAsyncIterableIterator<Offer>;
+    listByPublisher(resourceGroupName: string, clusterName: string, publisherName: string, options?: OffersListByPublisherOptionalParams): PagedAsyncIterableIterator<Offer>;
+}
+
+// @public
+export interface OffersGetOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+}
+
+// @public
+export type OffersGetResponse = Offer;
+
+// @public
+export interface OffersListByClusterNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OffersListByClusterNextResponse = OfferList;
+
+// @public
+export interface OffersListByClusterOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+}
+
+// @public
+export type OffersListByClusterResponse = OfferList;
+
+// @public
+export interface OffersListByPublisherNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OffersListByPublisherNextResponse = OfferList;
+
+// @public
+export interface OffersListByPublisherOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+}
+
+// @public
+export type OffersListByPublisherResponse = OfferList;
 
 // @public
 export interface Operation {
@@ -622,6 +786,13 @@ export type OperationsListResponse = OperationListResult;
 // @public
 export type Origin = string;
 
+// @public
+export interface PackageVersionInfo {
+    lastUpdated?: Date;
+    packageType?: string;
+    version?: string;
+}
+
 // @public (undocumented)
 export interface PasswordCredential {
     // (undocumented)
@@ -655,6 +826,44 @@ export type ProvisioningState = string;
 export interface ProxyResource extends Resource {
 }
 
+// @public
+export interface Publisher extends ProxyResource {
+    readonly provisioningState?: string;
+}
+
+// @public
+export interface PublisherList {
+    readonly nextLink?: string;
+    readonly value?: Publisher[];
+}
+
+// @public
+export interface Publishers {
+    get(resourceGroupName: string, clusterName: string, publisherName: string, options?: PublishersGetOptionalParams): Promise<PublishersGetResponse>;
+    listByCluster(resourceGroupName: string, clusterName: string, options?: PublishersListByClusterOptionalParams): PagedAsyncIterableIterator<Publisher>;
+}
+
+// @public
+export interface PublishersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PublishersGetResponse = Publisher;
+
+// @public
+export interface PublishersListByClusterNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PublishersListByClusterNextResponse = PublisherList;
+
+// @public
+export interface PublishersListByClusterOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PublishersListByClusterResponse = PublisherList;
+
 // @public (undocumented)
 export interface RawCertificateData {
     // (undocumented)
@@ -665,11 +874,113 @@ export interface RawCertificateData {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
+export interface Sku extends ProxyResource {
+    content?: string;
+    contentVersion?: string;
+    offerId?: string;
+    readonly provisioningState?: string;
+    publisherId?: string;
+    skuMappings?: SkuMappings[];
+}
+
+// @public
+export interface SkuList {
+    readonly nextLink?: string;
+    readonly value?: Sku[];
+}
+
+// @public
+export interface SkuMappings {
+    catalogPlanId?: string;
+    marketplaceSkuId?: string;
+    marketplaceSkuVersions?: string[];
+}
+
+// @public
+export interface Skus {
+    get(resourceGroupName: string, clusterName: string, publisherName: string, offerName: string, skuName: string, options?: SkusGetOptionalParams): Promise<SkusGetResponse>;
+    listByOffer(resourceGroupName: string, clusterName: string, publisherName: string, offerName: string, options?: SkusListByOfferOptionalParams): PagedAsyncIterableIterator<Sku>;
+}
+
+// @public
+export interface SkusGetOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+}
+
+// @public
+export type SkusGetResponse = Sku;
+
+// @public
+export interface SkusListByOfferNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SkusListByOfferNextResponse = SkuList;
+
+// @public
+export interface SkusListByOfferOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+}
+
+// @public
+export type SkusListByOfferResponse = SkuList;
+
+// @public (undocumented)
+export interface SoftwareAssuranceChangeRequest {
+    // (undocumented)
+    properties?: SoftwareAssuranceChangeRequestProperties;
+}
+
+// @public (undocumented)
+export interface SoftwareAssuranceChangeRequestProperties {
+    softwareAssuranceIntent?: SoftwareAssuranceIntent;
+}
+
+// @public
+export type SoftwareAssuranceIntent = string;
+
+// @public
+export interface SoftwareAssuranceProperties {
+    readonly lastUpdated?: Date;
+    softwareAssuranceIntent?: SoftwareAssuranceIntent;
+    softwareAssuranceStatus?: SoftwareAssuranceStatus;
+}
+
+// @public
+export type SoftwareAssuranceStatus = string;
+
+// @public
+export type State = string;
+
+// @public
 export type Status = string;
+
+// @public
+export interface Step {
+    description?: string;
+    endTimeUtc?: Date;
+    errorMessage?: string;
+    lastUpdatedTimeUtc?: Date;
+    name?: string;
+    startTimeUtc?: Date;
+    status?: string;
+    steps?: Step[];
+}
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
 
 // @public
 export interface TrackedResource extends Resource {
@@ -679,10 +990,184 @@ export interface TrackedResource extends Resource {
     };
 }
 
+// @public
+export interface Update extends ProxyResource {
+    additionalProperties?: string;
+    availabilityType?: AvailabilityType;
+    description?: string;
+    displayName?: string;
+    installedDate?: Date;
+    location?: string;
+    notifyMessage?: string;
+    packagePath?: string;
+    packageSizeInMb?: number;
+    packageType?: string;
+    prerequisites?: UpdatePrerequisite[];
+    progressPercentage?: number;
+    readonly provisioningState?: ProvisioningState;
+    publisher?: string;
+    releaseLink?: string;
+    state?: State;
+    version?: string;
+}
+
+// @public
+export interface UpdateList {
+    readonly nextLink?: string;
+    value?: Update[];
+}
+
+// @public
+export interface UpdatePrerequisite {
+    packageName?: string;
+    updateType?: string;
+    version?: string;
+}
+
+// @public
+export interface UpdateRun extends ProxyResource {
+    description?: string;
+    duration?: string;
+    endTimeUtc?: Date;
+    errorMessage?: string;
+    lastUpdatedTimeUtc?: Date;
+    location?: string;
+    namePropertiesProgressName?: string;
+    readonly provisioningState?: ProvisioningState;
+    startTimeUtc?: Date;
+    state?: UpdateRunPropertiesState;
+    status?: string;
+    steps?: Step[];
+}
+
+// @public
+export interface UpdateRunList {
+    readonly nextLink?: string;
+    value?: UpdateRun[];
+}
+
+// @public
+export type UpdateRunPropertiesState = string;
+
+// @public
+export interface UpdateRuns {
+    get(resourceGroupName: string, clusterName: string, updateName: string, updateRunName: string, options?: UpdateRunsGetOptionalParams): Promise<UpdateRunsGetResponse>;
+    list(resourceGroupName: string, clusterName: string, updateName: string, options?: UpdateRunsListOptionalParams): PagedAsyncIterableIterator<UpdateRun>;
+}
+
+// @public
+export interface UpdateRunsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UpdateRunsGetResponse = UpdateRun;
+
+// @public
+export interface UpdateRunsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UpdateRunsListNextResponse = UpdateRunList;
+
+// @public
+export interface UpdateRunsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UpdateRunsListResponse = UpdateRunList;
+
+// @public
+export interface Updates {
+    beginPost(resourceGroupName: string, clusterName: string, updateName: string, options?: UpdatesPostOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginPostAndWait(resourceGroupName: string, clusterName: string, updateName: string, options?: UpdatesPostOptionalParams): Promise<void>;
+    get(resourceGroupName: string, clusterName: string, updateName: string, options?: UpdatesGetOptionalParams): Promise<UpdatesGetResponse>;
+    list(resourceGroupName: string, clusterName: string, options?: UpdatesListOptionalParams): PagedAsyncIterableIterator<Update>;
+}
+
+// @public
+export interface UpdatesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UpdatesGetResponse = Update;
+
+// @public
+export interface UpdatesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UpdatesListNextResponse = UpdateList;
+
+// @public
+export interface UpdatesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UpdatesListResponse = UpdateList;
+
+// @public
+export interface UpdatesPostOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface UpdateSummaries extends ProxyResource {
+    currentVersion?: string;
+    hardwareModel?: string;
+    location?: string;
+    oemFamily?: string;
+    packageVersions?: PackageVersionInfo[];
+    readonly provisioningState?: ProvisioningState;
+    state?: UpdateSummariesPropertiesState;
+}
+
+// @public
+export interface UpdateSummariesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UpdateSummariesGetResponse = UpdateSummaries;
+
+// @public
+export interface UpdateSummariesList {
+    readonly nextLink?: string;
+    value?: UpdateSummaries[];
+}
+
+// @public
+export interface UpdateSummariesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UpdateSummariesListNextResponse = UpdateSummariesList;
+
+// @public
+export interface UpdateSummariesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UpdateSummariesListResponse = UpdateSummariesList;
+
+// @public
+export interface UpdateSummariesOperations {
+    get(resourceGroupName: string, clusterName: string, options?: UpdateSummariesGetOptionalParams): Promise<UpdateSummariesGetResponse>;
+    list(resourceGroupName: string, clusterName: string, options?: UpdateSummariesListOptionalParams): PagedAsyncIterableIterator<UpdateSummaries>;
+}
+
+// @public
+export type UpdateSummariesPropertiesState = string;
+
 // @public (undocumented)
 export interface UploadCertificateRequest {
     // (undocumented)
     properties?: RawCertificateData;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public
