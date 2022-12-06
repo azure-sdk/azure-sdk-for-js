@@ -1,15 +1,27 @@
 # Release History
+    
+## 14.0.0 (2022-12-06)
+    
+**Breaking Changes**
 
-## 13.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AssetsListNextOptionalParams no longer has parameter filter
+  - Interface AssetsListNextOptionalParams no longer has parameter orderby
+  - Interface AssetsListNextOptionalParams no longer has parameter top
+  - Interface ContentKeyPoliciesListNextOptionalParams no longer has parameter filter
+  - Interface ContentKeyPoliciesListNextOptionalParams no longer has parameter orderby
+  - Interface ContentKeyPoliciesListNextOptionalParams no longer has parameter top
+  - Interface JobsListNextOptionalParams no longer has parameter filter
+  - Interface JobsListNextOptionalParams no longer has parameter orderby
+  - Interface StreamingLocatorsListNextOptionalParams no longer has parameter filter
+  - Interface StreamingLocatorsListNextOptionalParams no longer has parameter orderby
+  - Interface StreamingLocatorsListNextOptionalParams no longer has parameter top
+  - Interface StreamingPoliciesListNextOptionalParams no longer has parameter filter
+  - Interface StreamingPoliciesListNextOptionalParams no longer has parameter orderby
+  - Interface StreamingPoliciesListNextOptionalParams no longer has parameter top
+  - Interface TransformsListNextOptionalParams no longer has parameter filter
+  - Interface TransformsListNextOptionalParams no longer has parameter orderby
+    
+    
 ## 13.0.0 (2022-09-06)
     
 **Features**

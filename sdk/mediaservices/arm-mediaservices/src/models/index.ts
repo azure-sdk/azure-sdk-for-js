@@ -1757,7 +1757,7 @@ export interface ContentKeyPolicyFairPlayConfiguration
   extends ContentKeyPolicyConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyFairPlayConfiguration";
-  /** The key that must be used as FairPlay Application Secret key. */
+  /** The key that must be used as FairPlay Application Secret key. This needs to be base64 encoded. */
   ask: Uint8Array | null;
   /** The password encrypting FairPlay certificate in PKCS 12 (pfx) format. */
   fairPlayPfxPassword: string | null;
@@ -4507,14 +4507,7 @@ export type AssetsListStreamingLocatorsResponse = ListStreamingLocatorsResponse;
 
 /** Optional parameters. */
 export interface AssetsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Restricts the set of items returned. */
-  filter?: string;
-  /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
-  top?: number;
-  /** Specifies the key by which the result collection should be ordered. */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AssetsListNextResponse = AssetCollection;
@@ -4681,14 +4674,7 @@ export type ContentKeyPoliciesGetPolicyPropertiesWithSecretsResponse = ContentKe
 
 /** Optional parameters. */
 export interface ContentKeyPoliciesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Restricts the set of items returned. */
-  filter?: string;
-  /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
-  top?: number;
-  /** Specifies the key by which the result collection should be ordered. */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ContentKeyPoliciesListNextResponse = ContentKeyPolicyCollection;
@@ -4732,12 +4718,7 @@ export type TransformsUpdateResponse = Transform;
 
 /** Optional parameters. */
 export interface TransformsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Restricts the set of items returned. */
-  filter?: string;
-  /** Specifies the key by which the result collection should be ordered. */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type TransformsListNextResponse = TransformCollection;
@@ -4780,12 +4761,7 @@ export interface JobsCancelJobOptionalParams
 
 /** Optional parameters. */
 export interface JobsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Restricts the set of items returned. */
-  filter?: string;
-  /** Specifies the key by which the result collection should be ordered. */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type JobsListNextResponse = JobCollection;
@@ -4824,14 +4800,7 @@ export interface StreamingPoliciesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface StreamingPoliciesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Restricts the set of items returned. */
-  filter?: string;
-  /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
-  top?: number;
-  /** Specifies the key by which the result collection should be ordered. */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type StreamingPoliciesListNextResponse = StreamingPolicyCollection;
@@ -4884,14 +4853,7 @@ export type StreamingLocatorsListPathsResponse = ListPathsResponse;
 
 /** Optional parameters. */
 export interface StreamingLocatorsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Restricts the set of items returned. */
-  filter?: string;
-  /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
-  top?: number;
-  /** Specifies the key by which the result collection should be ordered. */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type StreamingLocatorsListNextResponse = StreamingLocatorCollection;

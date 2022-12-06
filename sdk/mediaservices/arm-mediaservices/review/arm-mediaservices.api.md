@@ -291,9 +291,6 @@ export type AssetsListContainerSasResponse = AssetContainerSas;
 
 // @public
 export interface AssetsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -595,9 +592,6 @@ export type ContentKeyPoliciesGetResponse = ContentKeyPolicy;
 
 // @public
 export interface ContentKeyPoliciesListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -1019,6 +1013,9 @@ export interface FromEachInputFile extends InputDefinition {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type H264Complexity = string;
 
 // @public
@@ -1291,8 +1288,6 @@ export type JobsGetResponse = Job;
 
 // @public
 export interface JobsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
 }
 
 // @public
@@ -2973,9 +2968,6 @@ export type StreamingLocatorsListContentKeysResponse = ListContentKeysResponse;
 
 // @public
 export interface StreamingLocatorsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -3033,9 +3025,6 @@ export type StreamingPoliciesGetResponse = StreamingPolicy;
 
 // @public
 export interface StreamingPoliciesListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -3321,8 +3310,6 @@ export type TransformsGetResponse = Transform;
 
 // @public
 export interface TransformsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
 }
 
 // @public
