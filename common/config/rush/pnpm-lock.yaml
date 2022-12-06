@@ -3934,7 +3934,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221204
+      typescript: 5.0.0-dev.20221205
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8979,8 +8979,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221204:
-    resolution: {integrity: sha512-6luaUPpnzzwTjG+UrdMsftnvyxkj2nhPR/LrZlZInnuMNuNyhz3TVH7SpxampW990Xw6usgYdhpf/cWBO1MOQw==}
+  /typescript/5.0.0-dev.20221205:
+    resolution: {integrity: sha512-afHkcfhaQqUk+Hjn+lUKtMqMttizIy5K2r75cz8l7/K+m0k6Yx9IoHRC5v8cjxB77ub2COdbr+0xsNodB7q6dg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -15430,7 +15430,7 @@ packages:
     dev: false
 
   file:projects/arm-vmwarecloudsimple.tgz:
-    resolution: {integrity: sha512-eUyrH2PrWkDatcMvkoe1sR4avEmtlkS2TWClIVjrENdFIH9KSahTX82z2kjnDz8XiFmdYcveA7nNNdChEqAPig==, tarball: file:projects/arm-vmwarecloudsimple.tgz}
+    resolution: {integrity: sha512-mwAoRM7nf7On81j0iEcRLMupYdMFnOLppGkqepPr383O8yB2polZKhPRKo6QFJPPOgJw1P4CWL8IKYIDvFEs8g==, tarball: file:projects/arm-vmwarecloudsimple.tgz}
     name: '@rush-temp/arm-vmwarecloudsimple'
     version: 0.0.0
     dependencies:
@@ -15441,18 +15441,18 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.33
       chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
