@@ -68,13 +68,6 @@ export const ClusterResourceProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      marketplaceResource: {
-        serializedName: "marketplaceResource",
-        type: {
-          name: "Composite",
-          className: "MarketplaceResource"
-        }
       }
     }
   }
@@ -252,33 +245,6 @@ export const ServiceVNetAddons: coreClient.CompositeMapper = {
         serializedName: "logStreamPublicEndpoint",
         type: {
           name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const MarketplaceResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MarketplaceResource",
-    modelProperties: {
-      plan: {
-        serializedName: "plan",
-        type: {
-          name: "String"
-        }
-      },
-      publisher: {
-        serializedName: "publisher",
-        type: {
-          name: "String"
-        }
-      },
-      product: {
-        serializedName: "product",
-        type: {
-          name: "String"
         }
       }
     }
