@@ -35,6 +35,9 @@ import {
   ClustersUploadCertificateOptionalParams,
   ClustersCreateIdentityOptionalParams,
   ClustersCreateIdentityResponse,
+  SoftwareAssuranceChangeRequest,
+  ClustersExtendSoftwareAssuranceBenefitOptionalParams,
+  ClustersExtendSoftwareAssuranceBenefitResponse,
   ClustersListBySubscriptionNextResponse,
   ClustersListByResourceGroupNextResponse
 } from "../models";
@@ -517,6 +520,104 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
+   * Extends Software Assurance Benefit to a cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param softwareAssuranceChangeRequest Software Assurance Change Request Payload
+   * @param options The options parameters.
+   */
+  async beginExtendSoftwareAssuranceBenefit(
+    resourceGroupName: string,
+    clusterName: string,
+    softwareAssuranceChangeRequest: SoftwareAssuranceChangeRequest,
+    options?: ClustersExtendSoftwareAssuranceBenefitOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ClustersExtendSoftwareAssuranceBenefitResponse>,
+      ClustersExtendSoftwareAssuranceBenefitResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ClustersExtendSoftwareAssuranceBenefitResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        clusterName,
+        softwareAssuranceChangeRequest,
+        options
+      },
+      extendSoftwareAssuranceBenefitOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Extends Software Assurance Benefit to a cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param softwareAssuranceChangeRequest Software Assurance Change Request Payload
+   * @param options The options parameters.
+   */
+  async beginExtendSoftwareAssuranceBenefitAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    softwareAssuranceChangeRequest: SoftwareAssuranceChangeRequest,
+    options?: ClustersExtendSoftwareAssuranceBenefitOptionalParams
+  ): Promise<ClustersExtendSoftwareAssuranceBenefitResponse> {
+    const poller = await this.beginExtendSoftwareAssuranceBenefit(
+      resourceGroupName,
+      clusterName,
+      softwareAssuranceChangeRequest,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -738,6 +839,39 @@ const createIdentityOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const extendSoftwareAssuranceBenefitOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/extendSoftwareAssuranceBenefit",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Cluster
+    },
+    201: {
+      bodyMapper: Mappers.Cluster
+    },
+    202: {
+      bodyMapper: Mappers.Cluster
+    },
+    204: {
+      bodyMapper: Mappers.Cluster
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.softwareAssuranceChangeRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -749,7 +883,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -769,7 +902,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
