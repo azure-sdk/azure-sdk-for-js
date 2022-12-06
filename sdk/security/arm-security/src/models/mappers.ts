@@ -4532,6 +4532,43 @@ export const GovernanceRuleEmailNotification: coreClient.CompositeMapper = {
   }
 };
 
+export const GovernanceRuleMetadata: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GovernanceRuleMetadata",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdOn: {
+        serializedName: "createdOn",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      updatedBy: {
+        serializedName: "updatedBy",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      updatedOn: {
+        serializedName: "updatedOn",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const ExecuteGovernanceRuleParams: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -8127,6 +8164,13 @@ export const GovernanceRule: coreClient.CompositeMapper = {
     className: "GovernanceRule",
     modelProperties: {
       ...Resource.type.modelProperties,
+      tenantId: {
+        serializedName: "properties.tenantId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       displayName: {
         serializedName: "properties.displayName",
         type: {
@@ -8140,6 +8184,9 @@ export const GovernanceRule: coreClient.CompositeMapper = {
         }
       },
       remediationTimeframe: {
+        constraints: {
+          Pattern: new RegExp("^[0-9]+\\.[0-9]{2}:[0-9]{2}:[0-9]{2}$")
+        },
         serializedName: "properties.remediationTimeframe",
         type: {
           name: "String"
@@ -8179,6 +8226,17 @@ export const GovernanceRule: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      excludedScopes: {
+        serializedName: "properties.excludedScopes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       conditionSets: {
         serializedName: "properties.conditionSets",
         type: {
@@ -8189,6 +8247,12 @@ export const GovernanceRule: coreClient.CompositeMapper = {
               value: { type: { name: "any" } }
             }
           }
+        }
+      },
+      includeMemberScopes: {
+        serializedName: "properties.includeMemberScopes",
+        type: {
+          name: "Boolean"
         }
       },
       ownerSource: {
@@ -8203,6 +8267,13 @@ export const GovernanceRule: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "GovernanceRuleEmailNotification"
+        }
+      },
+      metadata: {
+        serializedName: "properties.metadata",
+        type: {
+          name: "Composite",
+          className: "GovernanceRuleMetadata"
         }
       }
     }
@@ -10483,6 +10554,51 @@ export const GovernanceRulesRuleIdExecuteSingleSecurityConnectorHeaders: coreCli
   }
 };
 
+export const GovernanceRulesRuleIdExecuteSingleManagementGroupHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GovernanceRulesRuleIdExecuteSingleManagementGroupHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SecurityConnectorGovernanceRulesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SecurityConnectorGovernanceRulesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagementGroupGovernanceRulesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagementGroupGovernanceRulesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SubscriptionGovernanceRulesExecuteStatusGetHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -10502,6 +10618,36 @@ export const SecurityConnectorGovernanceRulesExecuteStatusGetHeaders: coreClient
   type: {
     name: "Composite",
     className: "SecurityConnectorGovernanceRulesExecuteStatusGetHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagementGroupGovernanceRulesExecuteStatusGetHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagementGroupGovernanceRulesExecuteStatusGetHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagementGroupGovernanceRulesDeleteStatusGetHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagementGroupGovernanceRulesDeleteStatusGetHeaders",
     modelProperties: {
       location: {
         serializedName: "location",

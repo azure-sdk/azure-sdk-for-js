@@ -410,7 +410,6 @@ export interface AlertsSuppressionRulesList {
 
 // @public
 export interface AlertsSuppressionRulesListNextOptionalParams extends coreClient.OperationOptions {
-    alertType?: string;
 }
 
 // @public
@@ -2265,14 +2264,18 @@ export interface GovernanceRule extends Resource {
     conditionSets?: Record<string, unknown>[];
     description?: string;
     displayName?: string;
+    excludedScopes?: string[];
     governanceEmailNotification?: GovernanceRuleEmailNotification;
+    includeMemberScopes?: boolean;
     isDisabled?: boolean;
     isGracePeriod?: boolean;
+    metadata?: GovernanceRuleMetadata;
     ownerSource?: GovernanceRuleOwnerSource;
     remediationTimeframe?: string;
     rulePriority?: number;
     ruleType?: GovernanceRuleType;
     sourceResourceType?: GovernanceRuleSourceResourceType;
+    readonly tenantId?: string;
 }
 
 // @public
@@ -2305,6 +2308,14 @@ export interface GovernanceRuleListOptionalParams extends coreClient.OperationOp
 export type GovernanceRuleListResponse = GovernanceRuleList;
 
 // @public
+export interface GovernanceRuleMetadata {
+    readonly createdBy?: string;
+    readonly createdOn?: Date;
+    readonly updatedBy?: string;
+    readonly updatedOn?: Date;
+}
+
+// @public
 export interface GovernanceRuleOperations {
     list(options?: GovernanceRuleListOptionalParams): PagedAsyncIterableIterator<GovernanceRule>;
 }
@@ -2320,6 +2331,8 @@ export type GovernanceRuleOwnerSourceType = string;
 
 // @public
 export interface GovernanceRules {
+    beginRuleIdExecuteSingleManagementGroup(ruleId: string, options?: GovernanceRulesRuleIdExecuteSingleManagementGroupOptionalParams): Promise<PollerLike<PollOperationState<GovernanceRulesRuleIdExecuteSingleManagementGroupResponse>, GovernanceRulesRuleIdExecuteSingleManagementGroupResponse>>;
+    beginRuleIdExecuteSingleManagementGroupAndWait(ruleId: string, options?: GovernanceRulesRuleIdExecuteSingleManagementGroupOptionalParams): Promise<GovernanceRulesRuleIdExecuteSingleManagementGroupResponse>;
     beginRuleIdExecuteSingleSecurityConnector(resourceGroupName: string, securityConnectorName: string, ruleId: string, options?: GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams): Promise<PollerLike<PollOperationState<GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse>, GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse>>;
     beginRuleIdExecuteSingleSecurityConnectorAndWait(resourceGroupName: string, securityConnectorName: string, ruleId: string, options?: GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams): Promise<GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse>;
     beginRuleIdExecuteSingleSubscription(ruleId: string, options?: GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams): Promise<PollerLike<PollOperationState<GovernanceRulesRuleIdExecuteSingleSubscriptionResponse>, GovernanceRulesRuleIdExecuteSingleSubscriptionResponse>>;
@@ -2349,6 +2362,21 @@ export type GovernanceRulesGetResponse = GovernanceRule;
 
 // @public
 export type GovernanceRuleSourceResourceType = string;
+
+// @public
+export interface GovernanceRulesRuleIdExecuteSingleManagementGroupHeaders {
+    location?: string;
+}
+
+// @public
+export interface GovernanceRulesRuleIdExecuteSingleManagementGroupOptionalParams extends coreClient.OperationOptions {
+    executeGovernanceRuleParams?: ExecuteGovernanceRuleParams;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GovernanceRulesRuleIdExecuteSingleManagementGroupResponse = GovernanceRulesRuleIdExecuteSingleManagementGroupHeaders;
 
 // @public
 export interface GovernanceRulesRuleIdExecuteSingleSecurityConnectorHeaders {
@@ -2723,7 +2751,6 @@ export type IotSecuritySolutionGetResponse = IoTSecuritySolutionModel;
 
 // @public
 export interface IotSecuritySolutionListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -2739,7 +2766,6 @@ export type IotSecuritySolutionListByResourceGroupResponse = IoTSecuritySolution
 
 // @public
 export interface IotSecuritySolutionListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -2790,7 +2816,6 @@ export type IotSecuritySolutionsAnalyticsAggregatedAlertGetResponse = IoTSecurit
 
 // @public
 export interface IotSecuritySolutionsAnalyticsAggregatedAlertListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -2819,7 +2844,6 @@ export type IotSecuritySolutionsAnalyticsRecommendationGetResponse = IoTSecurity
 
 // @public
 export interface IotSecuritySolutionsAnalyticsRecommendationListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -3897,6 +3921,95 @@ export interface LogAnalyticsIdentifier extends ResourceIdentifier {
 }
 
 // @public
+export interface ManagementGroupGovernanceRule {
+    list(options?: ManagementGroupGovernanceRuleListOptionalParams): PagedAsyncIterableIterator<GovernanceRule>;
+}
+
+// @public
+export interface ManagementGroupGovernanceRuleListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagementGroupGovernanceRuleListNextResponse = GovernanceRuleList;
+
+// @public
+export interface ManagementGroupGovernanceRuleListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagementGroupGovernanceRuleListResponse = GovernanceRuleList;
+
+// @public
+export interface ManagementGroupGovernanceRules {
+    beginDelete(ruleId: string, options?: ManagementGroupGovernanceRulesDeleteOptionalParams): Promise<PollerLike<PollOperationState<ManagementGroupGovernanceRulesDeleteResponse>, ManagementGroupGovernanceRulesDeleteResponse>>;
+    beginDeleteAndWait(ruleId: string, options?: ManagementGroupGovernanceRulesDeleteOptionalParams): Promise<ManagementGroupGovernanceRulesDeleteResponse>;
+    createOrUpdate(ruleId: string, governanceRule: GovernanceRule, options?: ManagementGroupGovernanceRulesCreateOrUpdateOptionalParams): Promise<ManagementGroupGovernanceRulesCreateOrUpdateResponse>;
+    get(ruleId: string, options?: ManagementGroupGovernanceRulesGetOptionalParams): Promise<ManagementGroupGovernanceRulesGetResponse>;
+}
+
+// @public
+export interface ManagementGroupGovernanceRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagementGroupGovernanceRulesCreateOrUpdateResponse = GovernanceRule;
+
+// @public
+export interface ManagementGroupGovernanceRulesDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface ManagementGroupGovernanceRulesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ManagementGroupGovernanceRulesDeleteResponse = ManagementGroupGovernanceRulesDeleteHeaders;
+
+// @public
+export interface ManagementGroupGovernanceRulesDeleteStatus {
+    get(ruleId: string, operationId: string, options?: ManagementGroupGovernanceRulesDeleteStatusGetOptionalParams): Promise<ManagementGroupGovernanceRulesDeleteStatusGetResponse>;
+}
+
+// @public
+export interface ManagementGroupGovernanceRulesDeleteStatusGetHeaders {
+    location?: string;
+}
+
+// @public
+export interface ManagementGroupGovernanceRulesDeleteStatusGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagementGroupGovernanceRulesDeleteStatusGetResponse = ManagementGroupGovernanceRulesDeleteStatusGetHeaders;
+
+// @public
+export interface ManagementGroupGovernanceRulesExecuteStatus {
+    get(ruleId: string, operationId: string, options?: ManagementGroupGovernanceRulesExecuteStatusGetOptionalParams): Promise<ManagementGroupGovernanceRulesExecuteStatusGetResponse>;
+}
+
+// @public
+export interface ManagementGroupGovernanceRulesExecuteStatusGetHeaders {
+    location?: string;
+}
+
+// @public
+export interface ManagementGroupGovernanceRulesExecuteStatusGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagementGroupGovernanceRulesExecuteStatusGetResponse = ExecuteRuleStatus;
+
+// @public
+export interface ManagementGroupGovernanceRulesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagementGroupGovernanceRulesGetResponse = GovernanceRule;
+
+// @public
 export interface MdeOnboardingData extends Resource {
     onboardingPackageLinux?: Uint8Array;
     onboardingPackageWindows?: Uint8Array;
@@ -4180,7 +4293,6 @@ export type RegulatoryComplianceAssessmentsGetResponse = RegulatoryComplianceAss
 
 // @public
 export interface RegulatoryComplianceAssessmentsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -4224,7 +4336,6 @@ export type RegulatoryComplianceControlsGetResponse = RegulatoryComplianceContro
 
 // @public
 export interface RegulatoryComplianceControlsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -4269,7 +4380,6 @@ export type RegulatoryComplianceStandardsGetResponse = RegulatoryComplianceStand
 
 // @public
 export interface RegulatoryComplianceStandardsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -4534,7 +4644,6 @@ export interface SecureScoreControlScore {
 
 // @public
 export interface SecureScoreControlsListBySecureScoreNextOptionalParams extends coreClient.OperationOptions {
-    expand?: ExpandControlsEnum;
 }
 
 // @public
@@ -4550,7 +4659,6 @@ export type SecureScoreControlsListBySecureScoreResponse = SecureScoreControlLis
 
 // @public
 export interface SecureScoreControlsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: ExpandControlsEnum;
 }
 
 // @public
@@ -4765,7 +4873,7 @@ export interface SecurityAssessmentResponse extends Resource {
 export class SecurityCenter extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: SecurityCenterOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, managementGroupId: string, options?: SecurityCenterOptionalParams);
     // (undocumented)
     adaptiveApplicationControls: AdaptiveApplicationControls;
     // (undocumented)
@@ -4834,6 +4942,16 @@ export class SecurityCenter extends coreClient.ServiceClient {
     jitNetworkAccessPolicies: JitNetworkAccessPolicies;
     // (undocumented)
     locations: Locations;
+    // (undocumented)
+    managementGroupGovernanceRule: ManagementGroupGovernanceRule;
+    // (undocumented)
+    managementGroupGovernanceRules: ManagementGroupGovernanceRules;
+    // (undocumented)
+    managementGroupGovernanceRulesDeleteStatus: ManagementGroupGovernanceRulesDeleteStatus;
+    // (undocumented)
+    managementGroupGovernanceRulesExecuteStatus: ManagementGroupGovernanceRulesExecuteStatus;
+    // (undocumented)
+    managementGroupId: string;
     // (undocumented)
     mdeOnboardings: MdeOnboardings;
     // (undocumented)
@@ -4977,8 +5095,9 @@ export type SecurityConnectorGovernanceRuleListResponse = GovernanceRuleList;
 
 // @public
 export interface SecurityConnectorGovernanceRules {
+    beginDelete(resourceGroupName: string, securityConnectorName: string, ruleId: string, options?: SecurityConnectorGovernanceRulesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, securityConnectorName: string, ruleId: string, options?: SecurityConnectorGovernanceRulesDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, securityConnectorName: string, ruleId: string, governanceRule: GovernanceRule, options?: SecurityConnectorGovernanceRulesCreateOrUpdateOptionalParams): Promise<SecurityConnectorGovernanceRulesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, securityConnectorName: string, ruleId: string, options?: SecurityConnectorGovernanceRulesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, securityConnectorName: string, ruleId: string, options?: SecurityConnectorGovernanceRulesGetOptionalParams): Promise<SecurityConnectorGovernanceRulesGetResponse>;
 }
 
@@ -4990,13 +5109,19 @@ export interface SecurityConnectorGovernanceRulesCreateOrUpdateOptionalParams ex
 export type SecurityConnectorGovernanceRulesCreateOrUpdateResponse = GovernanceRule;
 
 // @public
+export interface SecurityConnectorGovernanceRulesDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface SecurityConnectorGovernanceRulesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
 export interface SecurityConnectorGovernanceRulesExecuteStatus {
-    beginGet(resourceGroupName: string, securityConnectorName: string, ruleId: string, operationId: string, options?: SecurityConnectorGovernanceRulesExecuteStatusGetOptionalParams): Promise<PollerLike<PollOperationState<SecurityConnectorGovernanceRulesExecuteStatusGetResponse>, SecurityConnectorGovernanceRulesExecuteStatusGetResponse>>;
-    beginGetAndWait(resourceGroupName: string, securityConnectorName: string, ruleId: string, operationId: string, options?: SecurityConnectorGovernanceRulesExecuteStatusGetOptionalParams): Promise<SecurityConnectorGovernanceRulesExecuteStatusGetResponse>;
+    get(resourceGroupName: string, securityConnectorName: string, ruleId: string, operationId: string, options?: SecurityConnectorGovernanceRulesExecuteStatusGetOptionalParams): Promise<SecurityConnectorGovernanceRulesExecuteStatusGetResponse>;
 }
 
 // @public
@@ -5006,8 +5131,6 @@ export interface SecurityConnectorGovernanceRulesExecuteStatusGetHeaders {
 
 // @public
 export interface SecurityConnectorGovernanceRulesExecuteStatusGetOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -5646,8 +5769,7 @@ export type SubPlan = string;
 
 // @public
 export interface SubscriptionGovernanceRulesExecuteStatus {
-    beginGet(ruleId: string, operationId: string, options?: SubscriptionGovernanceRulesExecuteStatusGetOptionalParams): Promise<PollerLike<PollOperationState<SubscriptionGovernanceRulesExecuteStatusGetResponse>, SubscriptionGovernanceRulesExecuteStatusGetResponse>>;
-    beginGetAndWait(ruleId: string, operationId: string, options?: SubscriptionGovernanceRulesExecuteStatusGetOptionalParams): Promise<SubscriptionGovernanceRulesExecuteStatusGetResponse>;
+    get(ruleId: string, operationId: string, options?: SubscriptionGovernanceRulesExecuteStatusGetOptionalParams): Promise<SubscriptionGovernanceRulesExecuteStatusGetResponse>;
 }
 
 // @public
@@ -5657,8 +5779,6 @@ export interface SubscriptionGovernanceRulesExecuteStatusGetHeaders {
 
 // @public
 export interface SubscriptionGovernanceRulesExecuteStatusGetOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -5726,7 +5846,6 @@ export type TasksGetSubscriptionLevelTaskResponse = SecurityTask;
 
 // @public
 export interface TasksListByHomeRegionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -5742,7 +5861,6 @@ export type TasksListByHomeRegionResponse = SecurityTaskList;
 
 // @public
 export interface TasksListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -5758,7 +5876,6 @@ export type TasksListByResourceGroupResponse = SecurityTaskList;
 
 // @public
 export interface TasksListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public

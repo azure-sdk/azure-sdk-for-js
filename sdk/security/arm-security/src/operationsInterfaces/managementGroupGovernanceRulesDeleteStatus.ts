@@ -7,14 +7,14 @@
  */
 
 import {
-  SubscriptionGovernanceRulesExecuteStatusGetOptionalParams,
-  SubscriptionGovernanceRulesExecuteStatusGetResponse
+  ManagementGroupGovernanceRulesDeleteStatusGetOptionalParams,
+  ManagementGroupGovernanceRulesDeleteStatusGetResponse
 } from "../models";
 
-/** Interface representing a SubscriptionGovernanceRulesExecuteStatus. */
-export interface SubscriptionGovernanceRulesExecuteStatus {
+/** Interface representing a ManagementGroupGovernanceRulesDeleteStatus. */
+export interface ManagementGroupGovernanceRulesDeleteStatus {
   /**
-   * Get a specific governance rule execution status for the requested scope by ruleId and operationId
+   * Get a specific governance rule deletion status for the requested scope by rule ID and operation ID
    * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param operationId The governance rule execution key - unique key for the execution of governance
    *                    rule
@@ -23,6 +23,6 @@ export interface SubscriptionGovernanceRulesExecuteStatus {
   get(
     ruleId: string,
     operationId: string,
-    options?: SubscriptionGovernanceRulesExecuteStatusGetOptionalParams
-  ): Promise<SubscriptionGovernanceRulesExecuteStatusGetResponse>;
+    options?: ManagementGroupGovernanceRulesDeleteStatusGetOptionalParams
+  ): Promise<ManagementGroupGovernanceRulesDeleteStatusGetResponse>;
 }

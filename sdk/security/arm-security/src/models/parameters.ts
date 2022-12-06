@@ -1140,10 +1140,49 @@ export const executeGovernanceRuleParams: OperationParameter = {
   mapper: ExecuteGovernanceRuleParamsMapper
 };
 
+export const securityConnectorName1: OperationURLParameter = {
+  parameterPath: "securityConnectorName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$")
+    },
+    serializedName: "securityConnectorName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const managementGroupId: OperationURLParameter = {
+  parameterPath: "managementGroupId",
+  mapper: {
+    serializedName: "managementGroupId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const operationId: OperationURLParameter = {
   parameterPath: "operationId",
   mapper: {
     serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const assessmentName1: OperationURLParameter = {
+  parameterPath: "assessmentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$")
+    },
+    serializedName: "assessmentName",
     required: true,
     type: {
       name: "String"

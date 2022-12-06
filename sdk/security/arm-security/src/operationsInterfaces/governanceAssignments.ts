@@ -21,11 +21,11 @@ import {
 /** Interface representing a GovernanceAssignments. */
 export interface GovernanceAssignments {
   /**
-   * Get security governanceAssignments on all your resources inside a scope
+   * Get governance assignments on all of your resources inside a scope
    * @param scope Scope of the query, can be subscription
    *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
    *              (/providers/Microsoft.Management/managementGroups/mgName).
-   * @param assessmentName The Assessment Key - Unique key for the assessment type
+   * @param assessmentName The Assessment Key - A unique key for the assessment type
    * @param options The options parameters.
    */
   list(
@@ -38,9 +38,9 @@ export interface GovernanceAssignments {
    * @param scope Scope of the query, can be subscription
    *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
    *              (/providers/Microsoft.Management/managementGroups/mgName).
-   * @param assessmentName The Assessment Key - Unique key for the assessment type
-   * @param assignmentKey The security governance assignment key - the assessment key of the required
-   *                      governance assignment
+   * @param assessmentName The Assessment Key - A unique key for the assessment type
+   * @param assignmentKey The governance assignment key - the assessment key of the required governance
+   *                      assignment
    * @param options The options parameters.
    */
   get(
@@ -50,14 +50,14 @@ export interface GovernanceAssignments {
     options?: GovernanceAssignmentsGetOptionalParams
   ): Promise<GovernanceAssignmentsGetResponse>;
   /**
-   * Creates or update a security GovernanceAssignment on the given subscription.
+   * Creates or updates a governance assignment on the given subscription.
    * @param scope Scope of the query, can be subscription
    *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
    *              (/providers/Microsoft.Management/managementGroups/mgName).
-   * @param assessmentName The Assessment Key - Unique key for the assessment type
-   * @param assignmentKey The security governance assignment key - the assessment key of the required
-   *                      governance assignment
-   * @param governanceAssignment GovernanceAssignment over a subscription scope
+   * @param assessmentName The Assessment Key - A unique key for the assessment type
+   * @param assignmentKey The governance assignment key - the assessment key of the required governance
+   *                      assignment
+   * @param governanceAssignment Governance assignment over a subscription scope
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -72,9 +72,9 @@ export interface GovernanceAssignments {
    * @param scope Scope of the query, can be subscription
    *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
    *              (/providers/Microsoft.Management/managementGroups/mgName).
-   * @param assessmentName The Assessment Key - Unique key for the assessment type
-   * @param assignmentKey The security governance assignment key - the assessment key of the required
-   *                      governance assignment
+   * @param assessmentName The Assessment Key - A unique key for the assessment type
+   * @param assignmentKey The governance assignment key - the assessment key of the required governance
+   *                      assignment
    * @param options The options parameters.
    */
   delete(

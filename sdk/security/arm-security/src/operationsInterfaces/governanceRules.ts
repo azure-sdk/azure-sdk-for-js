@@ -17,14 +17,16 @@ import {
   GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams,
   GovernanceRulesRuleIdExecuteSingleSubscriptionResponse,
   GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams,
-  GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse
+  GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse,
+  GovernanceRulesRuleIdExecuteSingleManagementGroupOptionalParams,
+  GovernanceRulesRuleIdExecuteSingleManagementGroupResponse
 } from "../models";
 
 /** Interface representing a GovernanceRules. */
 export interface GovernanceRules {
   /**
-   * Get a specific governanceRule for the requested scope by ruleId
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * Get a specific governance rule for the requested scope by ruleId
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param options The options parameters.
    */
   get(
@@ -32,9 +34,9 @@ export interface GovernanceRules {
     options?: GovernanceRulesGetOptionalParams
   ): Promise<GovernanceRulesGetResponse>;
   /**
-   * Creates or update a security GovernanceRule on the given subscription.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
-   * @param governanceRule GovernanceRule over a subscription scope
+   * Creates or updates a governance rule on a subscription
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
+   * @param governanceRule Governance rule over a given scope
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -43,8 +45,8 @@ export interface GovernanceRules {
     options?: GovernanceRulesCreateOrUpdateOptionalParams
   ): Promise<GovernanceRulesCreateOrUpdateResponse>;
   /**
-   * Delete a GovernanceRule over a given scope
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * Delete a Governance rule over a given scope
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param options The options parameters.
    */
   delete(
@@ -52,8 +54,8 @@ export interface GovernanceRules {
     options?: GovernanceRulesDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Execute a security GovernanceRule on the given subscription.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * Execute a governance rule on a subscription
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param options The options parameters.
    */
   beginRuleIdExecuteSingleSubscription(
@@ -68,8 +70,8 @@ export interface GovernanceRules {
     >
   >;
   /**
-   * Execute a security GovernanceRule on the given subscription.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * Execute a governance rule on a subscription
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param options The options parameters.
    */
   beginRuleIdExecuteSingleSubscriptionAndWait(
@@ -77,11 +79,11 @@ export interface GovernanceRules {
     options?: GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams
   ): Promise<GovernanceRulesRuleIdExecuteSingleSubscriptionResponse>;
   /**
-   * Execute a security GovernanceRule on the given security connector.
+   * Execute a governance rule on the given security connector
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param securityConnectorName The security connector name.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param options The options parameters.
    */
   beginRuleIdExecuteSingleSecurityConnector(
@@ -98,11 +100,11 @@ export interface GovernanceRules {
     >
   >;
   /**
-   * Execute a security GovernanceRule on the given security connector.
+   * Execute a governance rule on the given security connector
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param securityConnectorName The security connector name.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param options The options parameters.
    */
   beginRuleIdExecuteSingleSecurityConnectorAndWait(
@@ -111,4 +113,29 @@ export interface GovernanceRules {
     ruleId: string,
     options?: GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams
   ): Promise<GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse>;
+  /**
+   * Execute governance rule on the given management group
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
+   * @param options The options parameters.
+   */
+  beginRuleIdExecuteSingleManagementGroup(
+    ruleId: string,
+    options?: GovernanceRulesRuleIdExecuteSingleManagementGroupOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        GovernanceRulesRuleIdExecuteSingleManagementGroupResponse
+      >,
+      GovernanceRulesRuleIdExecuteSingleManagementGroupResponse
+    >
+  >;
+  /**
+   * Execute governance rule on the given management group
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
+   * @param options The options parameters.
+   */
+  beginRuleIdExecuteSingleManagementGroupAndWait(
+    ruleId: string,
+    options?: GovernanceRulesRuleIdExecuteSingleManagementGroupOptionalParams
+  ): Promise<GovernanceRulesRuleIdExecuteSingleManagementGroupResponse>;
 }

@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   SecurityConnectorGovernanceRulesExecuteStatusGetOptionalParams,
   SecurityConnectorGovernanceRulesExecuteStatusGetResponse
@@ -15,40 +14,16 @@ import {
 /** Interface representing a SecurityConnectorGovernanceRulesExecuteStatus. */
 export interface SecurityConnectorGovernanceRulesExecuteStatus {
   /**
-   * Get a specific governanceRule execution status for the requested scope by ruleId and operationId
+   * Get a specific governance rule execution status for the requested scope by ruleId and operationId
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param securityConnectorName The security connector name.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
-   * @param operationId The security GovernanceRule execution key - unique key for the execution of
-   *                    GovernanceRule
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
+   * @param operationId The governance rule execution key - unique key for the execution of governance
+   *                    rule
    * @param options The options parameters.
    */
-  beginGet(
-    resourceGroupName: string,
-    securityConnectorName: string,
-    ruleId: string,
-    operationId: string,
-    options?: SecurityConnectorGovernanceRulesExecuteStatusGetOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<
-        SecurityConnectorGovernanceRulesExecuteStatusGetResponse
-      >,
-      SecurityConnectorGovernanceRulesExecuteStatusGetResponse
-    >
-  >;
-  /**
-   * Get a specific governanceRule execution status for the requested scope by ruleId and operationId
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param securityConnectorName The security connector name.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
-   * @param operationId The security GovernanceRule execution key - unique key for the execution of
-   *                    GovernanceRule
-   * @param options The options parameters.
-   */
-  beginGetAndWait(
+  get(
     resourceGroupName: string,
     securityConnectorName: string,
     ruleId: string,
