@@ -1,15 +1,68 @@
 # Release History
+    
+## 14.0.0 (2022-12-06)
+    
+**Features**
 
-## 13.0.4 (Unreleased)
+  - Added Type Alias ProviderOsTypeSelected
+  - Added Type Alias ProviderStackOsType
+  - Added Enum KnownProviderOsTypeSelected
+  - Added Enum KnownProviderStackOsType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AppServiceEnvironmentsListUsagesNextOptionalParams no longer has parameter filter
+  - Interface AppServiceEnvironmentsListWebAppsNextOptionalParams no longer has parameter propertiesToInclude
+  - Interface AppServicePlansListNextOptionalParams no longer has parameter detailed
+  - Interface AppServicePlansListUsagesNextOptionalParams no longer has parameter filter
+  - Interface AppServicePlansListWebAppsNextOptionalParams no longer has parameter filter
+  - Interface AppServicePlansListWebAppsNextOptionalParams no longer has parameter skipToken
+  - Interface AppServicePlansListWebAppsNextOptionalParams no longer has parameter top
+  - Interface CertificatesListNextOptionalParams no longer has parameter filter
+  - Interface ListBillingMetersNextOptionalParams no longer has parameter billingLocation
+  - Interface ListBillingMetersNextOptionalParams no longer has parameter osType
+  - Interface ListCustomHostNameSitesNextOptionalParams no longer has parameter hostname
+  - Interface ListGeoRegionsNextOptionalParams no longer has parameter linuxDynamicWorkersEnabled
+  - Interface ListGeoRegionsNextOptionalParams no longer has parameter linuxWorkersEnabled
+  - Interface ListGeoRegionsNextOptionalParams no longer has parameter sku
+  - Interface ListGeoRegionsNextOptionalParams no longer has parameter xenonWorkersEnabled
+  - Interface ProviderGetAvailableStacksNextOptionalParams no longer has parameter osTypeSelected
+  - Interface ProviderGetAvailableStacksOnPremNextOptionalParams no longer has parameter osTypeSelected
+  - Interface ProviderGetFunctionAppStacksForLocationNextOptionalParams no longer has parameter stackOsType
+  - Interface ProviderGetFunctionAppStacksNextOptionalParams no longer has parameter stackOsType
+  - Interface ProviderGetWebAppStacksForLocationNextOptionalParams no longer has parameter stackOsType
+  - Interface ProviderGetWebAppStacksNextOptionalParams no longer has parameter stackOsType
+  - Interface RecommendationsListHistoryForHostingEnvironmentNextOptionalParams no longer has parameter expiredOnly
+  - Interface RecommendationsListHistoryForHostingEnvironmentNextOptionalParams no longer has parameter filter
+  - Interface RecommendationsListHistoryForWebAppNextOptionalParams no longer has parameter expiredOnly
+  - Interface RecommendationsListHistoryForWebAppNextOptionalParams no longer has parameter filter
+  - Interface RecommendationsListNextOptionalParams no longer has parameter featured
+  - Interface RecommendationsListNextOptionalParams no longer has parameter filter
+  - Interface RecommendationsListRecommendedRulesForHostingEnvironmentNextOptionalParams no longer has parameter featured
+  - Interface RecommendationsListRecommendedRulesForHostingEnvironmentNextOptionalParams no longer has parameter filter
+  - Interface RecommendationsListRecommendedRulesForWebAppNextOptionalParams no longer has parameter featured
+  - Interface RecommendationsListRecommendedRulesForWebAppNextOptionalParams no longer has parameter filter
+  - Interface WebAppsListByResourceGroupNextOptionalParams no longer has parameter includeSlots
+  - Interface WebAppsListPerfMonCountersNextOptionalParams no longer has parameter filter
+  - Interface WebAppsListPerfMonCountersSlotNextOptionalParams no longer has parameter filter
+  - Interface WebAppsListUsagesNextOptionalParams no longer has parameter filter
+  - Interface WebAppsListUsagesSlotNextOptionalParams no longer has parameter filter
+  - Interface WorkflowRunActionsListNextOptionalParams no longer has parameter filter
+  - Interface WorkflowRunActionsListNextOptionalParams no longer has parameter top
+  - Interface WorkflowRunsListNextOptionalParams no longer has parameter filter
+  - Interface WorkflowRunsListNextOptionalParams no longer has parameter top
+  - Interface WorkflowTriggerHistoriesListNextOptionalParams no longer has parameter filter
+  - Interface WorkflowTriggerHistoriesListNextOptionalParams no longer has parameter top
+  - Interface WorkflowTriggersListNextOptionalParams no longer has parameter filter
+  - Interface WorkflowTriggersListNextOptionalParams no longer has parameter top
+  - Interface WorkflowVersionsListNextOptionalParams no longer has parameter top
+  - Removed Enum KnownEnum14
+  - Removed Enum KnownEnum15
+  - Removed Enum KnownEnum16
+  - Removed Enum KnownEnum17
+  - Removed Enum KnownEnum18
+  - Removed Enum KnownEnum19
+    
 ## 13.0.3 (2022-11-16)
 
   - Bugs Fixed
