@@ -8,28 +8,27 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { BackupEngines } from "../operationsInterfaces";
+import { DeletedProtectionContainers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
-  BackupEngineBaseResource,
-  BackupEnginesListNextOptionalParams,
-  BackupEnginesListOptionalParams,
-  BackupEnginesListResponse,
-  BackupEnginesGetOptionalParams,
-  BackupEnginesGetResponse,
-  BackupEnginesListNextResponse
+  ProtectionContainerResource,
+  DeletedProtectionContainersListNextOptionalParams,
+  DeletedProtectionContainersListOptionalParams,
+  DeletedProtectionContainersListResponse,
+  DeletedProtectionContainersListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing BackupEngines operations. */
-export class BackupEnginesImpl implements BackupEngines {
+/** Class containing DeletedProtectionContainers operations. */
+export class DeletedProtectionContainersImpl
+  implements DeletedProtectionContainers {
   private readonly client: RecoveryServicesBackupClient;
 
   /**
-   * Initialize a new instance of the class BackupEngines class.
+   * Initialize a new instance of the class DeletedProtectionContainers class.
    * @param client Reference to the service client
    */
   constructor(client: RecoveryServicesBackupClient) {
@@ -37,18 +36,18 @@ export class BackupEnginesImpl implements BackupEngines {
   }
 
   /**
-   * Backup management servers registered to Recovery Services Vault. Returns a pageable list of servers.
-   * @param vaultName The name of the recovery services vault.
+   * Lists the soft deleted containers registered to Recovery Services Vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param vaultName The name of the recovery services vault.
    * @param options The options parameters.
    */
   public list(
-    vaultName: string,
     resourceGroupName: string,
-    options?: BackupEnginesListOptionalParams
-  ): PagedAsyncIterableIterator<BackupEngineBaseResource> {
-    const iter = this.listPagingAll(vaultName, resourceGroupName, options);
+    vaultName: string,
+    options?: DeletedProtectionContainersListOptionalParams
+  ): PagedAsyncIterableIterator<ProtectionContainerResource> {
+    const iter = this.listPagingAll(resourceGroupName, vaultName, options);
     return {
       next() {
         return iter.next();
@@ -61,8 +60,8 @@ export class BackupEnginesImpl implements BackupEngines {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(
-          vaultName,
           resourceGroupName,
+          vaultName,
           options,
           settings
         );
@@ -71,15 +70,15 @@ export class BackupEnginesImpl implements BackupEngines {
   }
 
   private async *listPagingPage(
-    vaultName: string,
     resourceGroupName: string,
-    options?: BackupEnginesListOptionalParams,
+    vaultName: string,
+    options?: DeletedProtectionContainersListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<BackupEngineBaseResource[]> {
-    let result: BackupEnginesListResponse;
+  ): AsyncIterableIterator<ProtectionContainerResource[]> {
+    let result: DeletedProtectionContainersListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(vaultName, resourceGroupName, options);
+      result = await this._list(resourceGroupName, vaultName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -87,8 +86,8 @@ export class BackupEnginesImpl implements BackupEngines {
     }
     while (continuationToken) {
       result = await this._listNext(
-        vaultName,
         resourceGroupName,
+        vaultName,
         continuationToken,
         options
       );
@@ -100,13 +99,13 @@ export class BackupEnginesImpl implements BackupEngines {
   }
 
   private async *listPagingAll(
-    vaultName: string,
     resourceGroupName: string,
-    options?: BackupEnginesListOptionalParams
-  ): AsyncIterableIterator<BackupEngineBaseResource> {
+    vaultName: string,
+    options?: DeletedProtectionContainersListOptionalParams
+  ): AsyncIterableIterator<ProtectionContainerResource> {
     for await (const page of this.listPagingPage(
-      vaultName,
       resourceGroupName,
+      vaultName,
       options
     )) {
       yield* page;
@@ -114,59 +113,39 @@ export class BackupEnginesImpl implements BackupEngines {
   }
 
   /**
-   * Backup management servers registered to Recovery Services Vault. Returns a pageable list of servers.
-   * @param vaultName The name of the recovery services vault.
+   * Lists the soft deleted containers registered to Recovery Services Vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param vaultName The name of the recovery services vault.
    * @param options The options parameters.
    */
   private _list(
-    vaultName: string,
     resourceGroupName: string,
-    options?: BackupEnginesListOptionalParams
-  ): Promise<BackupEnginesListResponse> {
+    vaultName: string,
+    options?: DeletedProtectionContainersListOptionalParams
+  ): Promise<DeletedProtectionContainersListResponse> {
     return this.client.sendOperationRequest(
-      { vaultName, resourceGroupName, options },
+      { resourceGroupName, vaultName, options },
       listOperationSpec
     );
   }
 
   /**
-   * Returns backup management server registered to Recovery Services Vault.
-   * @param vaultName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
-   * @param backupEngineName Name of the backup management server.
-   * @param options The options parameters.
-   */
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    backupEngineName: string,
-    options?: BackupEnginesGetOptionalParams
-  ): Promise<BackupEnginesGetResponse> {
-    return this.client.sendOperationRequest(
-      { vaultName, resourceGroupName, backupEngineName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
    * ListNext
-   * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param vaultName The name of the recovery services vault.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    vaultName: string,
     resourceGroupName: string,
+    vaultName: string,
     nextLink: string,
-    options?: BackupEnginesListNextOptionalParams
-  ): Promise<BackupEnginesListNextResponse> {
+    options?: DeletedProtectionContainersListNextOptionalParams
+  ): Promise<DeletedProtectionContainersListNextResponse> {
     return this.client.sendOperationRequest(
-      { vaultName, resourceGroupName, nextLink, options },
+      { resourceGroupName, vaultName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -176,21 +155,17 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupEngines",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupDeletedProtectionContainers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupEngineBaseResourceList
+      bodyMapper: Mappers.ProtectionContainerResourceList
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.skipToken
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,
@@ -200,39 +175,12 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupEngines/{backupEngineName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BackupEngineBaseResource
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.vaultName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.backupEngineName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupEngineBaseResourceList
+      bodyMapper: Mappers.ProtectionContainerResourceList
     },
     default: {
       bodyMapper: Mappers.CloudError
