@@ -29,9 +29,9 @@ export class OperationsStatusImpl implements OperationsStatus {
   }
 
   /**
-   * Gets the status of operation.
-   * @param location The region the operation is in.
-   * @param operationId The operation's unique identifier.
+   * Gets information about a database in a RedisEnterprise cluster
+   * @param location The location name.
+   * @param operationId Operation ID
    * @param options The options parameters.
    */
   get(
@@ -63,9 +63,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.location,
-    Parameters.operationId,
-    Parameters.subscriptionId
+    Parameters.operationId
   ],
   headerParameters: [Parameters.accept],
   serializer

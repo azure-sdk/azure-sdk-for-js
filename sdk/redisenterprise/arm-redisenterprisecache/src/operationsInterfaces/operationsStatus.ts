@@ -14,9 +14,9 @@ import {
 /** Interface representing a OperationsStatus. */
 export interface OperationsStatus {
   /**
-   * Gets the status of operation.
-   * @param location The region the operation is in.
-   * @param operationId The operation's unique identifier.
+   * Gets information about a database in a RedisEnterprise cluster
+   * @param location The location name.
+   * @param operationId Operation ID
    * @param options The options parameters.
    */
   get(

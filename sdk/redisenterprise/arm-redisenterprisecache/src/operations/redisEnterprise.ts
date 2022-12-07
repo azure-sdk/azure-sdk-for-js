@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { RedisEnterprise } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,22 +17,22 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   Cluster,
+  RedisEnterpriseListBySubscriptionNextOptionalParams,
+  RedisEnterpriseListBySubscriptionOptionalParams,
+  RedisEnterpriseListBySubscriptionResponse,
   RedisEnterpriseListByResourceGroupNextOptionalParams,
   RedisEnterpriseListByResourceGroupOptionalParams,
-  RedisEnterpriseListNextOptionalParams,
-  RedisEnterpriseListOptionalParams,
+  RedisEnterpriseListByResourceGroupResponse,
+  RedisEnterpriseGetOptionalParams,
+  RedisEnterpriseGetResponse,
   RedisEnterpriseCreateOptionalParams,
   RedisEnterpriseCreateResponse,
   ClusterUpdate,
   RedisEnterpriseUpdateOptionalParams,
   RedisEnterpriseUpdateResponse,
   RedisEnterpriseDeleteOptionalParams,
-  RedisEnterpriseGetOptionalParams,
-  RedisEnterpriseGetResponse,
-  RedisEnterpriseListByResourceGroupResponse,
-  RedisEnterpriseListResponse,
-  RedisEnterpriseListByResourceGroupNextResponse,
-  RedisEnterpriseListNextResponse
+  RedisEnterpriseListBySubscriptionNextResponse,
+  RedisEnterpriseListByResourceGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,6 +46,60 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
    */
   constructor(client: RedisEnterpriseManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * Lists all RedisEnterprise clusters in a subscription.
+   * @param options The options parameters.
+   */
+  public listBySubscription(
+    options?: RedisEnterpriseListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<Cluster> {
+    const iter = this.listBySubscriptionPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
+      }
+    };
+  }
+
+  private async *listBySubscriptionPagingPage(
+    options?: RedisEnterpriseListBySubscriptionOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<Cluster[]> {
+    let result: RedisEnterpriseListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBySubscriptionNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listBySubscriptionPagingAll(
+    options?: RedisEnterpriseListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<Cluster> {
+    for await (const page of this.listBySubscriptionPagingPage(options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -64,19 +119,33 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: RedisEnterpriseListByResourceGroupOptionalParams
+    options?: RedisEnterpriseListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Cluster[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RedisEnterpriseListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -84,7 +153,9 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -101,58 +172,61 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Gets all RedisEnterprise clusters in the specified subscription.
+   * Lists all RedisEnterprise clusters in a subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: RedisEnterpriseListOptionalParams
-  ): PagedAsyncIterableIterator<Cluster> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listPagingPage(options);
-      }
-    };
-  }
-
-  private async *listPagingPage(
-    options?: RedisEnterpriseListOptionalParams
-  ): AsyncIterableIterator<Cluster[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listPagingAll(
-    options?: RedisEnterpriseListOptionalParams
-  ): AsyncIterableIterator<Cluster> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
+  private _listBySubscription(
+    options?: RedisEnterpriseListBySubscriptionOptionalParams
+  ): Promise<RedisEnterpriseListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec
+    );
   }
 
   /**
-   * Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
+   * Lists all RedisEnterprise clusters in a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param parameters Parameters supplied to the Create RedisEnterprise operation.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: RedisEnterpriseListByResourceGroupOptionalParams
+  ): Promise<RedisEnterpriseListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec
+    );
+  }
+
+  /**
+   * Gets information about a RedisEnterprise cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: RedisEnterpriseGetOptionalParams
+  ): Promise<RedisEnterpriseGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, options },
+      getOperationSpec
+    );
+  }
+
+  /**
+   * Creates a RedisEnterprise cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
     clusterName: string,
-    parameters: Cluster,
+    resource: Cluster,
     options?: RedisEnterpriseCreateOptionalParams
   ): Promise<
     PollerLike<
@@ -201,51 +275,51 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, clusterName, parameters, options },
+      { resourceGroupName, clusterName, resource, options },
       createOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "original-uri"
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
+   * Creates a RedisEnterprise cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param parameters Parameters supplied to the Create RedisEnterprise operation.
+   * @param clusterName Name of cluster
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
     clusterName: string,
-    parameters: Cluster,
+    resource: Cluster,
     options?: RedisEnterpriseCreateOptionalParams
   ): Promise<RedisEnterpriseCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       clusterName,
-      parameters,
+      resource,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Updates an existing RedisEnterprise cluster
+   * Updates a RedisEnterprise cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param parameters Parameters supplied to the Update RedisEnterprise operation.
+   * @param clusterName Name of cluster
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     clusterName: string,
-    parameters: ClusterUpdate,
+    properties: ClusterUpdate,
     options?: RedisEnterpriseUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -294,7 +368,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, clusterName, parameters, options },
+      { resourceGroupName, clusterName, properties, options },
       updateOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -307,31 +381,31 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Updates an existing RedisEnterprise cluster
+   * Updates a RedisEnterprise cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param parameters Parameters supplied to the Update RedisEnterprise operation.
+   * @param clusterName Name of cluster
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     clusterName: string,
-    parameters: ClusterUpdate,
+    properties: ClusterUpdate,
     options?: RedisEnterpriseUpdateOptionalParams
   ): Promise<RedisEnterpriseUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       clusterName,
-      parameters,
+      properties,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes a RedisEnterprise cache cluster.
+   * Deletes a RedisEnterprise cluster and its databases
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param clusterName Name of cluster
    * @param options The options parameters.
    */
   async beginDelete(
@@ -393,9 +467,9 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Deletes a RedisEnterprise cache cluster.
+   * Deletes a RedisEnterprise cluster and its databases
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param clusterName Name of cluster
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -412,45 +486,18 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Gets information about a RedisEnterprise cluster
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
    */
-  get(
-    resourceGroupName: string,
-    clusterName: string,
-    options?: RedisEnterpriseGetOptionalParams
-  ): Promise<RedisEnterpriseGetResponse> {
+  private _listBySubscriptionNext(
+    nextLink: string,
+    options?: RedisEnterpriseListBySubscriptionNextOptionalParams
+  ): Promise<RedisEnterpriseListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, options },
-      getOperationSpec
+      { nextLink, options },
+      listBySubscriptionNextOperationSpec
     );
-  }
-
-  /**
-   * Lists all RedisEnterprise clusters in a resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: RedisEnterpriseListByResourceGroupOptionalParams
-  ): Promise<RedisEnterpriseListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec
-    );
-  }
-
-  /**
-   * Gets all RedisEnterprise clusters in the specified subscription.
-   * @param options The options parameters.
-   */
-  private _list(
-    options?: RedisEnterpriseListOptionalParams
-  ): Promise<RedisEnterpriseListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
@@ -469,25 +516,70 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
       listByResourceGroupNextOperationSpec
     );
   }
-
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    nextLink: string,
-    options?: RedisEnterpriseListNextOptionalParams
-  ): Promise<RedisEnterpriseListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Cache/redisEnterprise",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClusterListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClusterListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Cluster
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const createOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}",
@@ -509,7 +601,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.resource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -542,7 +634,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -577,63 +669,22 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}",
+const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.ClusterListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.nextLink,
+    Parameters.subscriptionId
   ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ClusterList
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Cache/redisEnterprise",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ClusterList
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -642,38 +693,17 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterList
+      bodyMapper: Mappers.ClusterListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ClusterList
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer

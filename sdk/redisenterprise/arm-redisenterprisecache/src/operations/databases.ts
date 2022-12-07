@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Databases } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,25 +20,24 @@ import {
   DatabasesListByClusterNextOptionalParams,
   DatabasesListByClusterOptionalParams,
   DatabasesListByClusterResponse,
-  DatabasesCreateOptionalParams,
-  DatabasesCreateResponse,
-  DatabaseUpdate,
-  DatabasesUpdateOptionalParams,
-  DatabasesUpdateResponse,
   DatabasesGetOptionalParams,
   DatabasesGetResponse,
+  DatabasesCreateOptionalParams,
+  DatabasesCreateResponse,
+  DatabasesUpdateOptionalParams,
+  DatabasesUpdateResponse,
   DatabasesDeleteOptionalParams,
+  ExportParameters,
+  DatabasesExportRdbOptionalParams,
+  ForceUnlinkParameters,
+  DatabasesForceUnlinkOptionalParams,
+  ImportParameters,
+  DatabasesImportRdbOptionalParams,
   DatabasesListKeysOptionalParams,
   DatabasesListKeysResponse,
   RegenerateKeyParameters,
   DatabasesRegenerateKeyOptionalParams,
   DatabasesRegenerateKeyResponse,
-  ImportClusterParameters,
-  DatabasesImportOptionalParams,
-  ExportClusterParameters,
-  DatabasesExportOptionalParams,
-  ForceUnlinkParameters,
-  DatabasesForceUnlinkOptionalParams,
   DatabasesListByClusterNextResponse
 } from "../models";
 
@@ -55,9 +55,9 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Gets all databases in the specified RedisEnterprise cluster.
+   * Lists all databases in a RedisEnterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param clusterName Name of cluster
    * @param options The options parameters.
    */
   public listByCluster(
@@ -77,11 +77,15 @@ export class DatabasesImpl implements Databases {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByClusterPagingPage(
           resourceGroupName,
           clusterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -90,15 +94,22 @@ export class DatabasesImpl implements Databases {
   private async *listByClusterPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: DatabasesListByClusterOptionalParams
+    options?: DatabasesListByClusterOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Database[]> {
-    let result = await this._listByCluster(
-      resourceGroupName,
-      clusterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DatabasesListByClusterResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByCluster(
+        resourceGroupName,
+        clusterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByClusterNext(
         resourceGroupName,
@@ -107,7 +118,9 @@ export class DatabasesImpl implements Databases {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -126,9 +139,9 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Gets all databases in the specified RedisEnterprise cluster.
+   * Lists all databases in a RedisEnterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param clusterName Name of cluster
    * @param options The options parameters.
    */
   private _listByCluster(
@@ -143,18 +156,37 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
+   * Gets information about a database in a RedisEnterprise cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    options?: DatabasesGetOptionalParams
+  ): Promise<DatabasesGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, databaseName, options },
+      getOperationSpec
+    );
+  }
+
+  /**
    * Creates a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Parameters supplied to the create or update database operation.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    parameters: Database,
+    resource: Database,
     options?: DatabasesCreateOptionalParams
   ): Promise<
     PollerLike<
@@ -203,13 +235,13 @@ export class DatabasesImpl implements Databases {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, clusterName, databaseName, parameters, options },
+      { resourceGroupName, clusterName, databaseName, resource, options },
       createOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "original-uri"
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -218,23 +250,23 @@ export class DatabasesImpl implements Databases {
   /**
    * Creates a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Parameters supplied to the create or update database operation.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    parameters: Database,
+    resource: Database,
     options?: DatabasesCreateOptionalParams
   ): Promise<DatabasesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       clusterName,
       databaseName,
-      parameters,
+      resource,
       options
     );
     return poller.pollUntilDone();
@@ -243,16 +275,16 @@ export class DatabasesImpl implements Databases {
   /**
    * Updates a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Parameters supplied to the create or update database operation.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    parameters: DatabaseUpdate,
+    properties: Record<string, unknown>,
     options?: DatabasesUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -301,7 +333,7 @@ export class DatabasesImpl implements Databases {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, clusterName, databaseName, parameters, options },
+      { resourceGroupName, clusterName, databaseName, properties, options },
       updateOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -316,52 +348,33 @@ export class DatabasesImpl implements Databases {
   /**
    * Updates a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Parameters supplied to the create or update database operation.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    parameters: DatabaseUpdate,
+    properties: Record<string, unknown>,
     options?: DatabasesUpdateOptionalParams
   ): Promise<DatabasesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       clusterName,
       databaseName,
-      parameters,
+      properties,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets information about a database in a RedisEnterprise cluster.
+   * Deletes a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    options?: DatabasesGetOptionalParams
-  ): Promise<DatabasesGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, databaseName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * Deletes a single database
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
    * @param options The options parameters.
    */
   async beginDelete(
@@ -424,10 +437,10 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Deletes a single database
+   * Deletes a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -446,10 +459,289 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Retrieves the access keys for the RedisEnterprise database.
+   * Exports RDB file(s)
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginExportRdb(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    body: ExportParameters,
+    options?: DatabasesExportRdbOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, clusterName, databaseName, body, options },
+      exportRdbOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Exports RDB file(s)
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginExportRdbAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    body: ExportParameters,
+    options?: DatabasesExportRdbOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginExportRdb(
+      resourceGroupName,
+      clusterName,
+      databaseName,
+      body,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Forcibly unlinks one or more databases from a replication group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginForceUnlink(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    body: ForceUnlinkParameters,
+    options?: DatabasesForceUnlinkOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, clusterName, databaseName, body, options },
+      forceUnlinkOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Forcibly unlinks one or more databases from a replication group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginForceUnlinkAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    body: ForceUnlinkParameters,
+    options?: DatabasesForceUnlinkOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginForceUnlink(
+      resourceGroupName,
+      clusterName,
+      databaseName,
+      body,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Imports RDB file(s)
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginImportRdb(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    body: ImportParameters,
+    options?: DatabasesImportRdbOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, clusterName, databaseName, body, options },
+      importRdbOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Imports RDB file(s)
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginImportRdbAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    body: ImportParameters,
+    options?: DatabasesImportRdbOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginImportRdb(
+      resourceGroupName,
+      clusterName,
+      databaseName,
+      body,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Retrieves the access keys for the RedisEnterprise database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
    * @param options The options parameters.
    */
   listKeys(
@@ -465,18 +757,18 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Regenerates the RedisEnterprise database's access keys.
+   * Regenerates an access key for the RedisEnterprise database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Specifies which key to regenerate.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param body The content of the action request
    * @param options The options parameters.
    */
   async beginRegenerateKey(
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    parameters: RegenerateKeyParameters,
+    body: RegenerateKeyParameters,
     options?: DatabasesRegenerateKeyOptionalParams
   ): Promise<
     PollerLike<
@@ -525,7 +817,7 @@ export class DatabasesImpl implements Databases {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, clusterName, databaseName, parameters, options },
+      { resourceGroupName, clusterName, databaseName, body, options },
       regenerateKeyOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -538,304 +830,25 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Regenerates the RedisEnterprise database's access keys.
+   * Regenerates an access key for the RedisEnterprise database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Specifies which key to regenerate.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param body The content of the action request
    * @param options The options parameters.
    */
   async beginRegenerateKeyAndWait(
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    parameters: RegenerateKeyParameters,
+    body: RegenerateKeyParameters,
     options?: DatabasesRegenerateKeyOptionalParams
   ): Promise<DatabasesRegenerateKeyResponse> {
     const poller = await this.beginRegenerateKey(
       resourceGroupName,
       clusterName,
       databaseName,
-      parameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Imports database files to target database.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Storage information for importing into the cluster
-   * @param options The options parameters.
-   */
-  async beginImport(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    parameters: ImportClusterParameters,
-    options?: DatabasesImportOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, databaseName, parameters, options },
-      importOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Imports database files to target database.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Storage information for importing into the cluster
-   * @param options The options parameters.
-   */
-  async beginImportAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    parameters: ImportClusterParameters,
-    options?: DatabasesImportOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginImport(
-      resourceGroupName,
-      clusterName,
-      databaseName,
-      parameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Exports a database file from target database.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Storage information for exporting into the cluster
-   * @param options The options parameters.
-   */
-  async beginExport(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    parameters: ExportClusterParameters,
-    options?: DatabasesExportOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, databaseName, parameters, options },
-      exportOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Exports a database file from target database.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Storage information for exporting into the cluster
-   * @param options The options parameters.
-   */
-  async beginExportAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    parameters: ExportClusterParameters,
-    options?: DatabasesExportOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginExport(
-      resourceGroupName,
-      clusterName,
-      databaseName,
-      parameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Forcibly removes the link to the specified database resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Information identifying the database to be unlinked.
-   * @param options The options parameters.
-   */
-  async beginForceUnlink(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    parameters: ForceUnlinkParameters,
-    options?: DatabasesForceUnlinkOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, databaseName, parameters, options },
-      forceUnlinkOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Forcibly removes the link to the specified database resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Information identifying the database to be unlinked.
-   * @param options The options parameters.
-   */
-  async beginForceUnlinkAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    parameters: ForceUnlinkParameters,
-    options?: DatabasesForceUnlinkOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginForceUnlink(
-      resourceGroupName,
-      clusterName,
-      databaseName,
-      parameters,
+      body,
       options
     );
     return poller.pollUntilDone();
@@ -844,7 +857,7 @@ export class DatabasesImpl implements Databases {
   /**
    * ListByClusterNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param clusterName Name of cluster
    * @param nextLink The nextLink from the previous successful call to the ListByCluster method.
    * @param options The options parameters.
    */
@@ -869,7 +882,7 @@ const listByClusterOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseList
+      bodyMapper: Mappers.DatabaseListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -881,6 +894,29 @@ const listByClusterOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Database
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.databaseName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -906,7 +942,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.resource1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -940,7 +976,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.properties1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -951,29 +987,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Database
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
@@ -998,6 +1011,84 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.databaseName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const exportRdbOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/export",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.databaseName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const forceUnlinkOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/forceUnlink",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.databaseName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const importRdbOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/import",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.databaseName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listKeysOperationSpec: coreClient.OperationSpec = {
@@ -1044,85 +1135,7 @@ const regenerateKeyOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const importOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/import",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters5,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const exportOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/export",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters6,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const forceUnlinkOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/forceUnlink",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1140,13 +1153,12 @@ const listByClusterNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseList
+      bodyMapper: Mappers.DatabaseListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

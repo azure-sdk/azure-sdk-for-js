@@ -15,11 +15,10 @@ import {
   Cluster as ClusterMapper,
   ClusterUpdate as ClusterUpdateMapper,
   Database as DatabaseMapper,
-  DatabaseUpdate as DatabaseUpdateMapper,
-  RegenerateKeyParameters as RegenerateKeyParametersMapper,
-  ImportClusterParameters as ImportClusterParametersMapper,
-  ExportClusterParameters as ExportClusterParametersMapper,
+  ExportParameters as ExportParametersMapper,
   ForceUnlinkParameters as ForceUnlinkParametersMapper,
+  ImportParameters as ImportParametersMapper,
+  RegenerateKeyParameters as RegenerateKeyParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper
 } from "../models/mappers";
 
@@ -71,28 +70,6 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const location: OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    serializedName: "location",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const operationId: OperationURLParameter = {
-  parameterPath: "operationId",
-  mapper: {
-    serializedName: "operationId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
@@ -107,21 +84,33 @@ export const subscriptionId: OperationURLParameter = {
   }
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
+export const location: OperationURLParameter = {
+  parameterPath: "location",
   mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
+    constraints: {
+      MinLength: 1
+    },
+    serializedName: "location",
+    required: true,
     type: {
       name: "String"
     }
   }
 };
 
-export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ClusterMapper
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-z0-9][-a-z0-9]*"),
+      MinLength: 1
+    },
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -142,6 +131,10 @@ export const resourceGroupName: OperationURLParameter = {
 export const clusterName: OperationURLParameter = {
   parameterPath: "clusterName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-z0-9][-a-z0-9]*"),
+      MinLength: 1
+    },
     serializedName: "clusterName",
     required: true,
     type: {
@@ -150,19 +143,35 @@ export const clusterName: OperationURLParameter = {
   }
 };
 
-export const parameters1: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ClusterUpdateMapper
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
 };
 
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: DatabaseMapper
+export const resource: OperationParameter = {
+  parameterPath: "resource",
+  mapper: ClusterMapper
+};
+
+export const properties: OperationParameter = {
+  parameterPath: "properties",
+  mapper: ClusterUpdateMapper
 };
 
 export const databaseName: OperationURLParameter = {
   parameterPath: "databaseName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-z0-9][-a-z0-9]*"),
+      MinLength: 1
+    },
     serializedName: "databaseName",
     required: true,
     type: {
@@ -171,34 +180,50 @@ export const databaseName: OperationURLParameter = {
   }
 };
 
-export const parameters3: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: DatabaseUpdateMapper
+export const resource1: OperationParameter = {
+  parameterPath: "resource",
+  mapper: DatabaseMapper
 };
 
-export const parameters4: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: RegenerateKeyParametersMapper
+export const properties1: OperationParameter = {
+  parameterPath: "properties",
+  mapper: {
+    serializedName: "properties",
+    required: true,
+    type: {
+      name: "Dictionary",
+      value: { type: { name: "any" } }
+    }
+  }
 };
 
-export const parameters5: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ImportClusterParametersMapper
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: ExportParametersMapper
 };
 
-export const parameters6: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ExportClusterParametersMapper
-};
-
-export const parameters7: OperationParameter = {
-  parameterPath: "parameters",
+export const body1: OperationParameter = {
+  parameterPath: "body",
   mapper: ForceUnlinkParametersMapper
+};
+
+export const body2: OperationParameter = {
+  parameterPath: "body",
+  mapper: ImportParametersMapper
+};
+
+export const body3: OperationParameter = {
+  parameterPath: "body",
+  mapper: RegenerateKeyParametersMapper
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-z0-9][-a-z0-9]*"),
+      MinLength: 1
+    },
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
@@ -207,7 +232,7 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   }
 };
 
-export const properties: OperationParameter = {
-  parameterPath: "properties",
+export const resource2: OperationParameter = {
+  parameterPath: "resource",
   mapper: PrivateEndpointConnectionMapper
 };

@@ -6,16 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PrivateLinkResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { RedisEnterpriseManagementClient } from "../redisEnterpriseManagementClient";
 import {
-  PrivateLinkResource,
+  PrivateLink,
+  PrivateLinkResourcesListByClusterNextOptionalParams,
   PrivateLinkResourcesListByClusterOptionalParams,
-  PrivateLinkResourcesListByClusterResponse
+  PrivateLinkResourcesListByClusterResponse,
+  PrivateLinkResourcesListByClusterNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,16 +35,16 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   }
 
   /**
-   * Gets the private link resources that need to be created for a RedisEnterprise cluster.
+   * Lists all private link resources in a RedisEnterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param clusterName Name of cluster
    * @param options The options parameters.
    */
   public listByCluster(
     resourceGroupName: string,
     clusterName: string,
     options?: PrivateLinkResourcesListByClusterOptionalParams
-  ): PagedAsyncIterableIterator<PrivateLinkResource> {
+  ): PagedAsyncIterableIterator<PrivateLink> {
     const iter = this.listByClusterPagingAll(
       resourceGroupName,
       clusterName,
@@ -54,11 +57,15 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByClusterPagingPage(
           resourceGroupName,
           clusterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -67,21 +74,41 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private async *listByClusterPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: PrivateLinkResourcesListByClusterOptionalParams
-  ): AsyncIterableIterator<PrivateLinkResource[]> {
-    let result = await this._listByCluster(
-      resourceGroupName,
-      clusterName,
-      options
-    );
-    yield result.value || [];
+    options?: PrivateLinkResourcesListByClusterOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<PrivateLink[]> {
+    let result: PrivateLinkResourcesListByClusterResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByCluster(
+        resourceGroupName,
+        clusterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByClusterNext(
+        resourceGroupName,
+        clusterName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listByClusterPagingAll(
     resourceGroupName: string,
     clusterName: string,
     options?: PrivateLinkResourcesListByClusterOptionalParams
-  ): AsyncIterableIterator<PrivateLinkResource> {
+  ): AsyncIterableIterator<PrivateLink> {
     for await (const page of this.listByClusterPagingPage(
       resourceGroupName,
       clusterName,
@@ -92,9 +119,9 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   }
 
   /**
-   * Gets the private link resources that need to be created for a RedisEnterprise cluster.
+   * Lists all private link resources in a RedisEnterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param clusterName Name of cluster
    * @param options The options parameters.
    */
   private _listByCluster(
@@ -107,6 +134,25 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
       listByClusterOperationSpec
     );
   }
+
+  /**
+   * ListByClusterNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param nextLink The nextLink from the previous successful call to the ListByCluster method.
+   * @param options The options parameters.
+   */
+  private _listByClusterNext(
+    resourceGroupName: string,
+    clusterName: string,
+    nextLink: string,
+    options?: PrivateLinkResourcesListByClusterNextOptionalParams
+  ): Promise<PrivateLinkResourcesListByClusterNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, nextLink, options },
+      listByClusterNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -117,7 +163,7 @@ const listByClusterOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
+      bodyMapper: Mappers.PrivateLinkListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -126,6 +172,27 @@ const listByClusterOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByClusterNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateLinkListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName

@@ -10,11 +10,13 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnection,
-  PrivateEndpointConnectionsListOptionalParams,
+  PrivateEndpointConnectionsListByClusterOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsGetResponse,
-  PrivateEndpointConnectionsPutOptionalParams,
-  PrivateEndpointConnectionsPutResponse,
+  PrivateEndpointConnectionsCreateOptionalParams,
+  PrivateEndpointConnectionsCreateResponse,
+  PrivateEndpointConnectionsUpdateOptionalParams,
+  PrivateEndpointConnectionsUpdateResponse,
   PrivateEndpointConnectionsDeleteOptionalParams
 } from "../models";
 
@@ -22,22 +24,21 @@ import {
 /** Interface representing a PrivateEndpointConnections. */
 export interface PrivateEndpointConnections {
   /**
-   * Lists all the private endpoint connections associated with the RedisEnterprise cluster.
+   * Lists all private endpoint connections in a RedisEnterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param clusterName Name of cluster
    * @param options The options parameters.
    */
-  list(
+  listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
+    options?: PrivateEndpointConnectionsListByClusterOptionalParams
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
-   * Gets the specified private endpoint connection associated with the RedisEnterprise cluster.
+   * Gets information about a private endpoint connection in a RedisEnterprise cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource
+   * @param clusterName Name of cluster
+   * @param privateEndpointConnectionName Name of private endpoint connection
    * @param options The options parameters.
    */
   get(
@@ -47,53 +48,96 @@ export interface PrivateEndpointConnections {
     options?: PrivateEndpointConnectionsGetOptionalParams
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
-   * Updates the state of the specified private endpoint connection associated with the RedisEnterprise
-   * cluster.
+   * Creates a private endpoint connection
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource
-   * @param properties The private endpoint connection properties.
+   * @param clusterName Name of cluster
+   * @param privateEndpointConnectionName Name of private endpoint connection
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
-  beginPut(
+  beginCreate(
     resourceGroupName: string,
     clusterName: string,
     privateEndpointConnectionName: string,
-    properties: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsPutOptionalParams
+    resource: PrivateEndpointConnection,
+    options?: PrivateEndpointConnectionsCreateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<PrivateEndpointConnectionsPutResponse>,
-      PrivateEndpointConnectionsPutResponse
+      PollOperationState<PrivateEndpointConnectionsCreateResponse>,
+      PrivateEndpointConnectionsCreateResponse
     >
   >;
   /**
-   * Updates the state of the specified private endpoint connection associated with the RedisEnterprise
-   * cluster.
+   * Creates a private endpoint connection
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource
-   * @param properties The private endpoint connection properties.
+   * @param clusterName Name of cluster
+   * @param privateEndpointConnectionName Name of private endpoint connection
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
-  beginPutAndWait(
+  beginCreateAndWait(
     resourceGroupName: string,
     clusterName: string,
     privateEndpointConnectionName: string,
-    properties: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsPutOptionalParams
-  ): Promise<PrivateEndpointConnectionsPutResponse>;
+    resource: PrivateEndpointConnection,
+    options?: PrivateEndpointConnectionsCreateOptionalParams
+  ): Promise<PrivateEndpointConnectionsCreateResponse>;
   /**
-   * Deletes the specified private endpoint connection associated with the RedisEnterprise cluster.
+   * Updates a private endpoint connection
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource
+   * @param clusterName Name of cluster
+   * @param privateEndpointConnectionName Name of private endpoint connection
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
-  delete(
+  beginUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    privateEndpointConnectionName: string,
+    properties: Record<string, unknown>,
+    options?: PrivateEndpointConnectionsUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<PrivateEndpointConnectionsUpdateResponse>,
+      PrivateEndpointConnectionsUpdateResponse
+    >
+  >;
+  /**
+   * Updates a private endpoint connection
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param privateEndpointConnectionName Name of private endpoint connection
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    privateEndpointConnectionName: string,
+    properties: Record<string, unknown>,
+    options?: PrivateEndpointConnectionsUpdateOptionalParams
+  ): Promise<PrivateEndpointConnectionsUpdateResponse>;
+  /**
+   * Deletes a private endpoint connection
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param privateEndpointConnectionName Name of private endpoint connection
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    clusterName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Deletes a private endpoint connection
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param privateEndpointConnectionName Name of private endpoint connection
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
     privateEndpointConnectionName: string,

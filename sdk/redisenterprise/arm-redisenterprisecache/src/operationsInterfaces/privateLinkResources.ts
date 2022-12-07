@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  PrivateLinkResource,
+  PrivateLink,
   PrivateLinkResourcesListByClusterOptionalParams
 } from "../models";
 
@@ -16,14 +16,14 @@ import {
 /** Interface representing a PrivateLinkResources. */
 export interface PrivateLinkResources {
   /**
-   * Gets the private link resources that need to be created for a RedisEnterprise cluster.
+   * Lists all private link resources in a RedisEnterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param clusterName Name of cluster
    * @param options The options parameters.
    */
   listByCluster(
     resourceGroupName: string,
     clusterName: string,
     options?: PrivateLinkResourcesListByClusterOptionalParams
-  ): PagedAsyncIterableIterator<PrivateLinkResource>;
+  ): PagedAsyncIterableIterator<PrivateLink>;
 }

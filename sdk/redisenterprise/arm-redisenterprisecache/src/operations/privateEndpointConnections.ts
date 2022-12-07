@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PrivateEndpointConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,13 +17,17 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   PrivateEndpointConnection,
-  PrivateEndpointConnectionsListOptionalParams,
-  PrivateEndpointConnectionsListResponse,
+  PrivateEndpointConnectionsListByClusterNextOptionalParams,
+  PrivateEndpointConnectionsListByClusterOptionalParams,
+  PrivateEndpointConnectionsListByClusterResponse,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsGetResponse,
-  PrivateEndpointConnectionsPutOptionalParams,
-  PrivateEndpointConnectionsPutResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams
+  PrivateEndpointConnectionsCreateOptionalParams,
+  PrivateEndpointConnectionsCreateResponse,
+  PrivateEndpointConnectionsUpdateOptionalParams,
+  PrivateEndpointConnectionsUpdateResponse,
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsListByClusterNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,17 +45,21 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Lists all the private endpoint connections associated with the RedisEnterprise cluster.
+   * Lists all private endpoint connections in a RedisEnterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param clusterName Name of cluster
    * @param options The options parameters.
    */
-  public list(
+  public listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
+    options?: PrivateEndpointConnectionsListByClusterOptionalParams
   ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
-    const iter = this.listPagingAll(resourceGroupName, clusterName, options);
+    const iter = this.listByClusterPagingAll(
+      resourceGroupName,
+      clusterName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -58,27 +67,59 @@ export class PrivateEndpointConnectionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, clusterName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByClusterPagingPage(
+          resourceGroupName,
+          clusterName,
+          options,
+          settings
+        );
       }
     };
   }
 
-  private async *listPagingPage(
+  private async *listByClusterPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
+    options?: PrivateEndpointConnectionsListByClusterOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result = await this._list(resourceGroupName, clusterName, options);
-    yield result.value || [];
+    let result: PrivateEndpointConnectionsListByClusterResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByCluster(
+        resourceGroupName,
+        clusterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByClusterNext(
+        resourceGroupName,
+        clusterName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
-  private async *listPagingAll(
+  private async *listByClusterPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
+    options?: PrivateEndpointConnectionsListByClusterOptionalParams
   ): AsyncIterableIterator<PrivateEndpointConnection> {
-    for await (const page of this.listPagingPage(
+    for await (const page of this.listByClusterPagingPage(
       resourceGroupName,
       clusterName,
       options
@@ -88,28 +129,27 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Lists all the private endpoint connections associated with the RedisEnterprise cluster.
+   * Lists all private endpoint connections in a RedisEnterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param clusterName Name of cluster
    * @param options The options parameters.
    */
-  private _list(
+  private _listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
-  ): Promise<PrivateEndpointConnectionsListResponse> {
+    options?: PrivateEndpointConnectionsListByClusterOptionalParams
+  ): Promise<PrivateEndpointConnectionsListByClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listOperationSpec
+      listByClusterOperationSpec
     );
   }
 
   /**
-   * Gets the specified private endpoint connection associated with the RedisEnterprise cluster.
+   * Gets information about a private endpoint connection in a RedisEnterprise cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource
+   * @param clusterName Name of cluster
+   * @param privateEndpointConnectionName Name of private endpoint connection
    * @param options The options parameters.
    */
   get(
@@ -130,31 +170,133 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Updates the state of the specified private endpoint connection associated with the RedisEnterprise
-   * cluster.
+   * Creates a private endpoint connection
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource
-   * @param properties The private endpoint connection properties.
+   * @param clusterName Name of cluster
+   * @param privateEndpointConnectionName Name of private endpoint connection
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
-  async beginPut(
+  async beginCreate(
     resourceGroupName: string,
     clusterName: string,
     privateEndpointConnectionName: string,
-    properties: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsPutOptionalParams
+    resource: PrivateEndpointConnection,
+    options?: PrivateEndpointConnectionsCreateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<PrivateEndpointConnectionsPutResponse>,
-      PrivateEndpointConnectionsPutResponse
+      PollOperationState<PrivateEndpointConnectionsCreateResponse>,
+      PrivateEndpointConnectionsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<PrivateEndpointConnectionsPutResponse> => {
+    ): Promise<PrivateEndpointConnectionsCreateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        clusterName,
+        privateEndpointConnectionName,
+        resource,
+        options
+      },
+      createOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Creates a private endpoint connection
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param privateEndpointConnectionName Name of private endpoint connection
+   * @param resource Resource create parameters.
+   * @param options The options parameters.
+   */
+  async beginCreateAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    privateEndpointConnectionName: string,
+    resource: PrivateEndpointConnection,
+    options?: PrivateEndpointConnectionsCreateOptionalParams
+  ): Promise<PrivateEndpointConnectionsCreateResponse> {
+    const poller = await this.beginCreate(
+      resourceGroupName,
+      clusterName,
+      privateEndpointConnectionName,
+      resource,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Updates a private endpoint connection
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param privateEndpointConnectionName Name of private endpoint connection
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    privateEndpointConnectionName: string,
+    properties: Record<string, unknown>,
+    options?: PrivateEndpointConnectionsUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<PrivateEndpointConnectionsUpdateResponse>,
+      PrivateEndpointConnectionsUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<PrivateEndpointConnectionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -199,34 +341,33 @@ export class PrivateEndpointConnectionsImpl
         properties,
         options
       },
-      putOperationSpec
+      updateOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Updates the state of the specified private endpoint connection associated with the RedisEnterprise
-   * cluster.
+   * Updates a private endpoint connection
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource
-   * @param properties The private endpoint connection properties.
+   * @param clusterName Name of cluster
+   * @param privateEndpointConnectionName Name of private endpoint connection
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
-  async beginPutAndWait(
+  async beginUpdateAndWait(
     resourceGroupName: string,
     clusterName: string,
     privateEndpointConnectionName: string,
-    properties: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsPutOptionalParams
-  ): Promise<PrivateEndpointConnectionsPutResponse> {
-    const poller = await this.beginPut(
+    properties: Record<string, unknown>,
+    options?: PrivateEndpointConnectionsUpdateOptionalParams
+  ): Promise<PrivateEndpointConnectionsUpdateResponse> {
+    const poller = await this.beginUpdate(
       resourceGroupName,
       clusterName,
       privateEndpointConnectionName,
@@ -237,20 +378,59 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Deletes the specified private endpoint connection associated with the RedisEnterprise cluster.
+   * Deletes a private endpoint connection
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource
+   * @param clusterName Name of cluster
+   * @param privateEndpointConnectionName Name of private endpoint connection
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
     resourceGroupName: string,
     clusterName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
       {
         resourceGroupName,
         clusterName,
@@ -259,12 +439,60 @@ export class PrivateEndpointConnectionsImpl
       },
       deleteOperationSpec
     );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes a private endpoint connection
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param privateEndpointConnectionName Name of private endpoint connection
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      clusterName,
+      privateEndpointConnectionName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * ListByClusterNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param nextLink The nextLink from the previous successful call to the ListByCluster method.
+   * @param options The options parameters.
+   */
+  private _listByClusterNext(
+    resourceGroupName: string,
+    clusterName: string,
+    nextLink: string,
+    options?: PrivateEndpointConnectionsListByClusterNextOptionalParams
+  ): Promise<PrivateEndpointConnectionsListByClusterNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, nextLink, options },
+      listByClusterNextOperationSpec
+    );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
+const listByClusterOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/privateEndpointConnections",
   httpMethod: "GET",
@@ -309,7 +537,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const putOperationSpec: coreClient.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "PUT",
@@ -330,7 +558,41 @@ const putOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.properties,
+  requestBody: Parameters.resource2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.privateEndpointConnectionName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnection
+    },
+    201: {
+      bodyMapper: Mappers.PrivateEndpointConnection
+    },
+    202: {
+      bodyMapper: Mappers.PrivateEndpointConnection
+    },
+    204: {
+      bodyMapper: Mappers.PrivateEndpointConnection
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.properties1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -349,6 +611,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
+    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -361,6 +625,27 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.privateEndpointConnectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByClusterNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
   ],
   headerParameters: [Parameters.accept],
   serializer

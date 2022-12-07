@@ -11,34 +11,33 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   Database,
   DatabasesListByClusterOptionalParams,
-  DatabasesCreateOptionalParams,
-  DatabasesCreateResponse,
-  DatabaseUpdate,
-  DatabasesUpdateOptionalParams,
-  DatabasesUpdateResponse,
   DatabasesGetOptionalParams,
   DatabasesGetResponse,
+  DatabasesCreateOptionalParams,
+  DatabasesCreateResponse,
+  DatabasesUpdateOptionalParams,
+  DatabasesUpdateResponse,
   DatabasesDeleteOptionalParams,
+  ExportParameters,
+  DatabasesExportRdbOptionalParams,
+  ForceUnlinkParameters,
+  DatabasesForceUnlinkOptionalParams,
+  ImportParameters,
+  DatabasesImportRdbOptionalParams,
   DatabasesListKeysOptionalParams,
   DatabasesListKeysResponse,
   RegenerateKeyParameters,
   DatabasesRegenerateKeyOptionalParams,
-  DatabasesRegenerateKeyResponse,
-  ImportClusterParameters,
-  DatabasesImportOptionalParams,
-  ExportClusterParameters,
-  DatabasesExportOptionalParams,
-  ForceUnlinkParameters,
-  DatabasesForceUnlinkOptionalParams
+  DatabasesRegenerateKeyResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Databases. */
 export interface Databases {
   /**
-   * Gets all databases in the specified RedisEnterprise cluster.
+   * Lists all databases in a RedisEnterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param clusterName Name of cluster
    * @param options The options parameters.
    */
   listByCluster(
@@ -47,18 +46,31 @@ export interface Databases {
     options?: DatabasesListByClusterOptionalParams
   ): PagedAsyncIterableIterator<Database>;
   /**
+   * Gets information about a database in a RedisEnterprise cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    options?: DatabasesGetOptionalParams
+  ): Promise<DatabasesGetResponse>;
+  /**
    * Creates a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Parameters supplied to the create or update database operation.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreate(
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    parameters: Database,
+    resource: Database,
     options?: DatabasesCreateOptionalParams
   ): Promise<
     PollerLike<
@@ -69,31 +81,31 @@ export interface Databases {
   /**
    * Creates a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Parameters supplied to the create or update database operation.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateAndWait(
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    parameters: Database,
+    resource: Database,
     options?: DatabasesCreateOptionalParams
   ): Promise<DatabasesCreateResponse>;
   /**
    * Updates a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Parameters supplied to the create or update database operation.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    parameters: DatabaseUpdate,
+    properties: Record<string, unknown>,
     options?: DatabasesUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -104,36 +116,23 @@ export interface Databases {
   /**
    * Updates a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Parameters supplied to the create or update database operation.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    parameters: DatabaseUpdate,
+    properties: Record<string, unknown>,
     options?: DatabasesUpdateOptionalParams
   ): Promise<DatabasesUpdateResponse>;
   /**
-   * Gets information about a database in a RedisEnterprise cluster.
+   * Deletes a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    options?: DatabasesGetOptionalParams
-  ): Promise<DatabasesGetResponse>;
-  /**
-   * Deletes a single database
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
    * @param options The options parameters.
    */
   beginDelete(
@@ -143,10 +142,10 @@ export interface Databases {
     options?: DatabasesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Deletes a single database
+   * Deletes a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -156,10 +155,100 @@ export interface Databases {
     options?: DatabasesDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Retrieves the access keys for the RedisEnterprise database.
+   * Exports RDB file(s)
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  beginExportRdb(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    body: ExportParameters,
+    options?: DatabasesExportRdbOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Exports RDB file(s)
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  beginExportRdbAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    body: ExportParameters,
+    options?: DatabasesExportRdbOptionalParams
+  ): Promise<void>;
+  /**
+   * Forcibly unlinks one or more databases from a replication group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  beginForceUnlink(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    body: ForceUnlinkParameters,
+    options?: DatabasesForceUnlinkOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Forcibly unlinks one or more databases from a replication group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  beginForceUnlinkAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    body: ForceUnlinkParameters,
+    options?: DatabasesForceUnlinkOptionalParams
+  ): Promise<void>;
+  /**
+   * Imports RDB file(s)
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  beginImportRdb(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    body: ImportParameters,
+    options?: DatabasesImportRdbOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Imports RDB file(s)
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  beginImportRdbAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    body: ImportParameters,
+    options?: DatabasesImportRdbOptionalParams
+  ): Promise<void>;
+  /**
+   * Retrieves the access keys for the RedisEnterprise database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
    * @param options The options parameters.
    */
   listKeys(
@@ -169,18 +258,18 @@ export interface Databases {
     options?: DatabasesListKeysOptionalParams
   ): Promise<DatabasesListKeysResponse>;
   /**
-   * Regenerates the RedisEnterprise database's access keys.
+   * Regenerates an access key for the RedisEnterprise database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Specifies which key to regenerate.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param body The content of the action request
    * @param options The options parameters.
    */
   beginRegenerateKey(
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    parameters: RegenerateKeyParameters,
+    body: RegenerateKeyParameters,
     options?: DatabasesRegenerateKeyOptionalParams
   ): Promise<
     PollerLike<
@@ -189,108 +278,18 @@ export interface Databases {
     >
   >;
   /**
-   * Regenerates the RedisEnterprise database's access keys.
+   * Regenerates an access key for the RedisEnterprise database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Specifies which key to regenerate.
+   * @param clusterName Name of cluster
+   * @param databaseName Name of database
+   * @param body The content of the action request
    * @param options The options parameters.
    */
   beginRegenerateKeyAndWait(
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    parameters: RegenerateKeyParameters,
+    body: RegenerateKeyParameters,
     options?: DatabasesRegenerateKeyOptionalParams
   ): Promise<DatabasesRegenerateKeyResponse>;
-  /**
-   * Imports database files to target database.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Storage information for importing into the cluster
-   * @param options The options parameters.
-   */
-  beginImport(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    parameters: ImportClusterParameters,
-    options?: DatabasesImportOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Imports database files to target database.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Storage information for importing into the cluster
-   * @param options The options parameters.
-   */
-  beginImportAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    parameters: ImportClusterParameters,
-    options?: DatabasesImportOptionalParams
-  ): Promise<void>;
-  /**
-   * Exports a database file from target database.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Storage information for exporting into the cluster
-   * @param options The options parameters.
-   */
-  beginExport(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    parameters: ExportClusterParameters,
-    options?: DatabasesExportOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Exports a database file from target database.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Storage information for exporting into the cluster
-   * @param options The options parameters.
-   */
-  beginExportAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    parameters: ExportClusterParameters,
-    options?: DatabasesExportOptionalParams
-  ): Promise<void>;
-  /**
-   * Forcibly removes the link to the specified database resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Information identifying the database to be unlinked.
-   * @param options The options parameters.
-   */
-  beginForceUnlink(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    parameters: ForceUnlinkParameters,
-    options?: DatabasesForceUnlinkOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Forcibly removes the link to the specified database resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param databaseName The name of the database.
-   * @param parameters Information identifying the database to be unlinked.
-   * @param options The options parameters.
-   */
-  beginForceUnlinkAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    parameters: ForceUnlinkParameters,
-    options?: DatabasesForceUnlinkOptionalParams
-  ): Promise<void>;
 }

@@ -12,98 +12,84 @@ import { PollOperationState } from '@azure/core-lro';
 
 // @public
 export interface AccessKeys {
-    readonly primaryKey?: string;
-    readonly secondaryKey?: string;
+    primaryKey: string;
+    secondaryKey: string;
 }
-
-// @public
-export type AccessKeyType = "Primary" | "Secondary";
 
 // @public
 export type ActionType = string;
 
 // @public
-export type AofFrequency = string;
+export type ClientProtocol = string;
 
 // @public
-export type Cluster = TrackedResource & {
-    sku: Sku;
-    zones?: string[];
-    minimumTlsVersion?: TlsVersion;
+export interface Cluster extends TrackedResource {
     readonly hostName?: string;
+    minTlsVersion?: TlsVersion;
     readonly provisioningState?: ProvisioningState;
-    readonly resourceState?: ResourceState;
     readonly redisVersion?: string;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+    readonly resourceState?: ResourceState;
+    sku: Sku;
+}
 
 // @public
-export type ClusteringPolicy = string;
-
-// @public
-export interface ClusterList {
-    readonly nextLink?: string;
-    value?: Cluster[];
+export interface ClusterListResult {
+    nextLink?: string;
+    value: Cluster[];
 }
 
 // @public
 export interface ClusterUpdate {
-    readonly hostName?: string;
-    minimumTlsVersion?: TlsVersion;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly provisioningState?: ProvisioningState;
-    readonly redisVersion?: string;
-    readonly resourceState?: ResourceState;
     sku?: Sku;
+    skuPropertiesSku?: Sku;
     tags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesTags?: {
         [propertyName: string]: string;
     };
 }
 
 // @public
-export type Database = ProxyResource & {
-    clientProtocol?: Protocol;
-    port?: number;
-    readonly provisioningState?: ProvisioningState;
-    readonly resourceState?: ResourceState;
-    clusteringPolicy?: ClusteringPolicy;
-    evictionPolicy?: EvictionPolicy;
-    persistence?: Persistence;
-    modules?: Module[];
-    geoReplication?: DatabasePropertiesGeoReplication;
-};
+export type CreatedByType = string;
 
 // @public
-export interface DatabaseList {
-    readonly nextLink?: string;
-    value?: Database[];
+export interface Database extends ProxyResource {
+    clientProtocol?: ClientProtocol;
+    port?: number;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
-export interface DatabasePropertiesGeoReplication {
-    groupNickname?: string;
-    linkedDatabases?: LinkedDatabase[];
+export interface DatabaseListResult {
+    nextLink?: string;
+    value: Database[];
 }
 
 // @public
 export interface Databases {
-    beginCreate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Database, options?: DatabasesCreateOptionalParams): Promise<PollerLike<PollOperationState<DatabasesCreateResponse>, DatabasesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Database, options?: DatabasesCreateOptionalParams): Promise<DatabasesCreateResponse>;
+    beginCreate(resourceGroupName: string, clusterName: string, databaseName: string, resource: Database, options?: DatabasesCreateOptionalParams): Promise<PollerLike<PollOperationState<DatabasesCreateResponse>, DatabasesCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, resource: Database, options?: DatabasesCreateOptionalParams): Promise<DatabasesCreateResponse>;
     beginDelete(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesDeleteOptionalParams): Promise<void>;
-    beginExport(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ExportClusterParameters, options?: DatabasesExportOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginExportAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ExportClusterParameters, options?: DatabasesExportOptionalParams): Promise<void>;
-    beginForceUnlink(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ForceUnlinkParameters, options?: DatabasesForceUnlinkOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginForceUnlinkAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ForceUnlinkParameters, options?: DatabasesForceUnlinkOptionalParams): Promise<void>;
-    beginImport(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ImportClusterParameters, options?: DatabasesImportOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginImportAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ImportClusterParameters, options?: DatabasesImportOptionalParams): Promise<void>;
-    beginRegenerateKey(resourceGroupName: string, clusterName: string, databaseName: string, parameters: RegenerateKeyParameters, options?: DatabasesRegenerateKeyOptionalParams): Promise<PollerLike<PollOperationState<DatabasesRegenerateKeyResponse>, DatabasesRegenerateKeyResponse>>;
-    beginRegenerateKeyAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: RegenerateKeyParameters, options?: DatabasesRegenerateKeyOptionalParams): Promise<DatabasesRegenerateKeyResponse>;
-    beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUpdate, options?: DatabasesUpdateOptionalParams): Promise<PollerLike<PollOperationState<DatabasesUpdateResponse>, DatabasesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUpdate, options?: DatabasesUpdateOptionalParams): Promise<DatabasesUpdateResponse>;
+    beginExportRdb(resourceGroupName: string, clusterName: string, databaseName: string, body: ExportParameters, options?: DatabasesExportRdbOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginExportRdbAndWait(resourceGroupName: string, clusterName: string, databaseName: string, body: ExportParameters, options?: DatabasesExportRdbOptionalParams): Promise<void>;
+    beginForceUnlink(resourceGroupName: string, clusterName: string, databaseName: string, body: ForceUnlinkParameters, options?: DatabasesForceUnlinkOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginForceUnlinkAndWait(resourceGroupName: string, clusterName: string, databaseName: string, body: ForceUnlinkParameters, options?: DatabasesForceUnlinkOptionalParams): Promise<void>;
+    beginImportRdb(resourceGroupName: string, clusterName: string, databaseName: string, body: ImportParameters, options?: DatabasesImportRdbOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginImportRdbAndWait(resourceGroupName: string, clusterName: string, databaseName: string, body: ImportParameters, options?: DatabasesImportRdbOptionalParams): Promise<void>;
+    beginRegenerateKey(resourceGroupName: string, clusterName: string, databaseName: string, body: RegenerateKeyParameters, options?: DatabasesRegenerateKeyOptionalParams): Promise<PollerLike<PollOperationState<DatabasesRegenerateKeyResponse>, DatabasesRegenerateKeyResponse>>;
+    beginRegenerateKeyAndWait(resourceGroupName: string, clusterName: string, databaseName: string, body: RegenerateKeyParameters, options?: DatabasesRegenerateKeyOptionalParams): Promise<DatabasesRegenerateKeyResponse>;
+    beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, properties: Record<string, unknown>, options?: DatabasesUpdateOptionalParams): Promise<PollerLike<PollOperationState<DatabasesUpdateResponse>, DatabasesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, properties: Record<string, unknown>, options?: DatabasesUpdateOptionalParams): Promise<DatabasesUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesGetOptionalParams): Promise<DatabasesGetResponse>;
     listByCluster(resourceGroupName: string, clusterName: string, options?: DatabasesListByClusterOptionalParams): PagedAsyncIterableIterator<Database>;
     listKeys(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesListKeysOptionalParams): Promise<DatabasesListKeysResponse>;
+}
+
+// @public
+export interface DatabasesCreateHeaders {
+    retryAfter?: number;
 }
 
 // @public
@@ -116,15 +102,30 @@ export interface DatabasesCreateOptionalParams extends coreClient.OperationOptio
 export type DatabasesCreateResponse = Database;
 
 // @public
+export interface DatabasesDeleteHeaders {
+    retryAfter?: number;
+}
+
+// @public
 export interface DatabasesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DatabasesExportOptionalParams extends coreClient.OperationOptions {
+export interface DatabasesExportRdbHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface DatabasesExportRdbOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface DatabasesForceUnlinkHeaders {
+    retryAfter?: number;
 }
 
 // @public
@@ -141,7 +142,12 @@ export interface DatabasesGetOptionalParams extends coreClient.OperationOptions 
 export type DatabasesGetResponse = Database;
 
 // @public
-export interface DatabasesImportOptionalParams extends coreClient.OperationOptions {
+export interface DatabasesImportRdbHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface DatabasesImportRdbOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -151,14 +157,14 @@ export interface DatabasesListByClusterNextOptionalParams extends coreClient.Ope
 }
 
 // @public
-export type DatabasesListByClusterNextResponse = DatabaseList;
+export type DatabasesListByClusterNextResponse = DatabaseListResult;
 
 // @public
 export interface DatabasesListByClusterOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type DatabasesListByClusterResponse = DatabaseList;
+export type DatabasesListByClusterResponse = DatabaseListResult;
 
 // @public
 export interface DatabasesListKeysOptionalParams extends coreClient.OperationOptions {
@@ -166,6 +172,11 @@ export interface DatabasesListKeysOptionalParams extends coreClient.OperationOpt
 
 // @public
 export type DatabasesListKeysResponse = AccessKeys;
+
+// @public
+export interface DatabasesRegenerateKeyHeaders {
+    retryAfter?: number;
+}
 
 // @public
 export interface DatabasesRegenerateKeyOptionalParams extends coreClient.OperationOptions {
@@ -177,6 +188,11 @@ export interface DatabasesRegenerateKeyOptionalParams extends coreClient.Operati
 export type DatabasesRegenerateKeyResponse = AccessKeys;
 
 // @public
+export interface DatabasesUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
 export interface DatabasesUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -184,19 +200,6 @@ export interface DatabasesUpdateOptionalParams extends coreClient.OperationOptio
 
 // @public
 export type DatabasesUpdateResponse = Database;
-
-// @public
-export interface DatabaseUpdate {
-    clientProtocol?: Protocol;
-    clusteringPolicy?: ClusteringPolicy;
-    evictionPolicy?: EvictionPolicy;
-    geoReplication?: DatabasePropertiesGeoReplication;
-    modules?: Module[];
-    persistence?: Persistence;
-    port?: number;
-    readonly provisioningState?: ProvisioningState;
-    readonly resourceState?: ResourceState;
-}
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -219,11 +222,8 @@ export interface ErrorResponse {
 }
 
 // @public
-export type EvictionPolicy = string;
-
-// @public
-export interface ExportClusterParameters {
-    sasUri: string;
+export interface ExportParameters {
+    sasUris: string;
 }
 
 // @public
@@ -232,202 +232,108 @@ export interface ForceUnlinkParameters {
 }
 
 // @public
-export interface ImportClusterParameters {
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface ImportParameters {
     sasUris: string[];
 }
 
 // @public
+type KeyType_2 = string;
+export { KeyType_2 as KeyType }
+
+// @public
 export enum KnownActionType {
-    // (undocumented)
     Internal = "Internal"
 }
 
 // @public
-export enum KnownAofFrequency {
-    // (undocumented)
-    Always = "always",
-    // (undocumented)
-    OneS = "1s"
+export enum KnownClientProtocol {
+    Encrypted = "Encrypted",
+    Plaintext = "Plaintext"
 }
 
 // @public
-export enum KnownClusteringPolicy {
-    // (undocumented)
-    EnterpriseCluster = "EnterpriseCluster",
-    // (undocumented)
-    OSSCluster = "OSSCluster"
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
-export enum KnownEvictionPolicy {
-    // (undocumented)
-    AllKeysLFU = "AllKeysLFU",
-    // (undocumented)
-    AllKeysLRU = "AllKeysLRU",
-    // (undocumented)
-    AllKeysRandom = "AllKeysRandom",
-    // (undocumented)
-    NoEviction = "NoEviction",
-    // (undocumented)
-    VolatileLFU = "VolatileLFU",
-    // (undocumented)
-    VolatileLRU = "VolatileLRU",
-    // (undocumented)
-    VolatileRandom = "VolatileRandom",
-    // (undocumented)
-    VolatileTTL = "VolatileTTL"
-}
-
-// @public
-export enum KnownLinkState {
-    // (undocumented)
-    Linked = "Linked",
-    // (undocumented)
-    LinkFailed = "LinkFailed",
-    // (undocumented)
-    Linking = "Linking",
-    // (undocumented)
-    UnlinkFailed = "UnlinkFailed",
-    // (undocumented)
-    Unlinking = "Unlinking"
+export enum KnownKeyType {
+    Primary = "Primary",
+    Secondary = "Secondary"
 }
 
 // @public
 export enum KnownOrigin {
-    // (undocumented)
     System = "system",
-    // (undocumented)
     User = "user",
-    // (undocumented)
     UserSystem = "user,system"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
+    Canceled = "Canceled",
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
-export enum KnownProtocol {
-    // (undocumented)
-    Encrypted = "Encrypted",
-    // (undocumented)
-    Plaintext = "Plaintext"
-}
-
-// @public
 export enum KnownProvisioningState {
-    // (undocumented)
+    Accepted = "Accepted",
     Canceled = "Canceled",
-    // (undocumented)
-    Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
+    Provisioning = "Provisioning",
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
-export enum KnownRdbFrequency {
-    // (undocumented)
-    OneH = "1h",
-    // (undocumented)
-    SixH = "6h",
-    // (undocumented)
-    TwelveH = "12h"
-}
-
-// @public
 export enum KnownResourceState {
-    // (undocumented)
     CreateFailed = "CreateFailed",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     DeleteFailed = "DeleteFailed",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     DisableFailed = "DisableFailed",
-    // (undocumented)
     Disabling = "Disabling",
-    // (undocumented)
     EnableFailed = "EnableFailed",
-    // (undocumented)
     Enabling = "Enabling",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     UpdateFailed = "UpdateFailed",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownSkuName {
-    // (undocumented)
     EnterpriseE10 = "Enterprise_E10",
-    // (undocumented)
     EnterpriseE100 = "Enterprise_E100",
-    // (undocumented)
     EnterpriseE20 = "Enterprise_E20",
-    // (undocumented)
     EnterpriseE50 = "Enterprise_E50",
-    // (undocumented)
     EnterpriseFlashF1500 = "EnterpriseFlash_F1500",
-    // (undocumented)
     EnterpriseFlashF300 = "EnterpriseFlash_F300",
-    // (undocumented)
     EnterpriseFlashF700 = "EnterpriseFlash_F700"
 }
 
 // @public
 export enum KnownTlsVersion {
-    // (undocumented)
-    One0 = "1.0",
-    // (undocumented)
-    One1 = "1.1",
-    // (undocumented)
-    One2 = "1.2"
-}
-
-// @public
-export interface LinkedDatabase {
-    id?: string;
-    readonly state?: LinkState;
-}
-
-// @public
-export type LinkState = string;
-
-// @public
-export interface Module {
-    args?: string;
-    name: string;
-    readonly version?: string;
+    OnePointOne = "1.1",
+    OnePointTwo = "1.2",
+    OnePointZero = "1.0"
 }
 
 // @public
@@ -485,41 +391,29 @@ export interface OperationsStatusGetOptionalParams extends coreClient.OperationO
 export type OperationsStatusGetResponse = OperationStatus;
 
 // @public
-export interface OperationStatus {
-    endTime?: string;
-    error?: ErrorResponse;
-    id?: string;
-    name?: string;
-    startTime?: string;
-    status?: string;
+export interface OperationStatus extends ProxyResource {
+    properties?: Record<string, unknown>;
 }
 
 // @public
 export type Origin = string;
 
 // @public
-export interface Persistence {
-    aofEnabled?: boolean;
-    aofFrequency?: AofFrequency;
-    rdbEnabled?: boolean;
-    rdbFrequency?: RdbFrequency;
-}
-
-// @public
 export interface PrivateEndpoint {
-    readonly id?: string;
+    id?: string;
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends ProxyResource {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
-    value?: PrivateEndpointConnection[];
+    nextLink?: string;
+    value: PrivateEndpointConnection[];
 }
 
 // @public
@@ -527,15 +421,39 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
 export interface PrivateEndpointConnections {
-    beginPut(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsPutOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsPutResponse>, PrivateEndpointConnectionsPutResponse>>;
-    beginPutAndWait(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsPutOptionalParams): Promise<PrivateEndpointConnectionsPutResponse>;
-    delete(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
+    beginCreate(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsCreateResponse>, PrivateEndpointConnectionsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<PrivateEndpointConnectionsCreateResponse>;
+    beginDelete(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, properties: Record<string, unknown>, options?: PrivateEndpointConnectionsUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsUpdateResponse>, PrivateEndpointConnectionsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, properties: Record<string, unknown>, options?: PrivateEndpointConnectionsUpdateOptionalParams): Promise<PrivateEndpointConnectionsUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
-    list(resourceGroupName: string, clusterName: string, options?: PrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+    listByCluster(resourceGroupName: string, clusterName: string, options?: PrivateEndpointConnectionsListByClusterOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+}
+
+// @public
+export interface PrivateEndpointConnectionsCreateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsDeleteHeaders {
+    retryAfter?: number;
 }
 
 // @public
 export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -546,78 +464,98 @@ export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.
 export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
 
 // @public
-export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsListByClusterNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByClusterNextResponse = PrivateEndpointConnectionListResult;
 
 // @public
-export interface PrivateEndpointConnectionsPutOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsListByClusterOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsListByClusterResponse = PrivateEndpointConnectionListResult;
+
+// @public
+export interface PrivateEndpointConnectionsUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PrivateEndpointConnectionsPutResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection;
 
 // @public
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export type PrivateLinkResource = Resource & {
-    readonly groupId?: string;
-    readonly requiredMembers?: string[];
+export interface PrivateLink extends ProxyResource {
+    groupId?: string;
+    requiredMembers?: string[];
     requiredZoneNames?: string[];
-};
+}
 
 // @public
-export interface PrivateLinkResourceListResult {
-    value?: PrivateLinkResource[];
+export interface PrivateLinkListResult {
+    nextLink?: string;
+    value: PrivateLink[];
 }
 
 // @public
 export interface PrivateLinkResources {
-    listByCluster(resourceGroupName: string, clusterName: string, options?: PrivateLinkResourcesListByClusterOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+    listByCluster(resourceGroupName: string, clusterName: string, options?: PrivateLinkResourcesListByClusterOptionalParams): PagedAsyncIterableIterator<PrivateLink>;
 }
+
+// @public
+export interface PrivateLinkResourcesListByClusterNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesListByClusterNextResponse = PrivateLinkListResult;
 
 // @public
 export interface PrivateLinkResourcesListByClusterOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type PrivateLinkResourcesListByClusterResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByClusterResponse = PrivateLinkListResult;
 
 // @public
 export interface PrivateLinkServiceConnectionState {
-    actionsRequired?: string;
-    description?: string;
-    status?: PrivateEndpointServiceConnectionStatus;
+    actionsRequired: string;
+    description: string;
+    status: PrivateEndpointServiceConnectionStatus;
 }
-
-// @public
-export type Protocol = string;
 
 // @public
 export type ProvisioningState = string;
 
 // @public
-export type ProxyResource = Resource & {};
-
-// @public
-export type RdbFrequency = string;
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface RedisEnterprise {
-    beginCreate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: RedisEnterpriseCreateOptionalParams): Promise<PollerLike<PollOperationState<RedisEnterpriseCreateResponse>, RedisEnterpriseCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: RedisEnterpriseCreateOptionalParams): Promise<RedisEnterpriseCreateResponse>;
+    beginCreate(resourceGroupName: string, clusterName: string, resource: Cluster, options?: RedisEnterpriseCreateOptionalParams): Promise<PollerLike<PollOperationState<RedisEnterpriseCreateResponse>, RedisEnterpriseCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, clusterName: string, resource: Cluster, options?: RedisEnterpriseCreateOptionalParams): Promise<RedisEnterpriseCreateResponse>;
     beginDelete(resourceGroupName: string, clusterName: string, options?: RedisEnterpriseDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: RedisEnterpriseDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterName: string, parameters: ClusterUpdate, options?: RedisEnterpriseUpdateOptionalParams): Promise<PollerLike<PollOperationState<RedisEnterpriseUpdateResponse>, RedisEnterpriseUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: ClusterUpdate, options?: RedisEnterpriseUpdateOptionalParams): Promise<RedisEnterpriseUpdateResponse>;
+    beginUpdate(resourceGroupName: string, clusterName: string, properties: ClusterUpdate, options?: RedisEnterpriseUpdateOptionalParams): Promise<PollerLike<PollOperationState<RedisEnterpriseUpdateResponse>, RedisEnterpriseUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, clusterName: string, properties: ClusterUpdate, options?: RedisEnterpriseUpdateOptionalParams): Promise<RedisEnterpriseUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, options?: RedisEnterpriseGetOptionalParams): Promise<RedisEnterpriseGetResponse>;
-    list(options?: RedisEnterpriseListOptionalParams): PagedAsyncIterableIterator<Cluster>;
     listByResourceGroup(resourceGroupName: string, options?: RedisEnterpriseListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cluster>;
+    listBySubscription(options?: RedisEnterpriseListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Cluster>;
+}
+
+// @public
+export interface RedisEnterpriseCreateHeaders {
+    retryAfter?: number;
 }
 
 // @public
@@ -628,6 +566,11 @@ export interface RedisEnterpriseCreateOptionalParams extends coreClient.Operatio
 
 // @public
 export type RedisEnterpriseCreateResponse = Cluster;
+
+// @public
+export interface RedisEnterpriseDeleteHeaders {
+    retryAfter?: number;
+}
 
 // @public
 export interface RedisEnterpriseDeleteOptionalParams extends coreClient.OperationOptions {
@@ -647,28 +590,28 @@ export interface RedisEnterpriseListByResourceGroupNextOptionalParams extends co
 }
 
 // @public
-export type RedisEnterpriseListByResourceGroupNextResponse = ClusterList;
+export type RedisEnterpriseListByResourceGroupNextResponse = ClusterListResult;
 
 // @public
 export interface RedisEnterpriseListByResourceGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type RedisEnterpriseListByResourceGroupResponse = ClusterList;
+export type RedisEnterpriseListByResourceGroupResponse = ClusterListResult;
 
 // @public
-export interface RedisEnterpriseListNextOptionalParams extends coreClient.OperationOptions {
+export interface RedisEnterpriseListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type RedisEnterpriseListNextResponse = ClusterList;
+export type RedisEnterpriseListBySubscriptionNextResponse = ClusterListResult;
 
 // @public
-export interface RedisEnterpriseListOptionalParams extends coreClient.OperationOptions {
+export interface RedisEnterpriseListBySubscriptionOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type RedisEnterpriseListResponse = ClusterList;
+export type RedisEnterpriseListBySubscriptionResponse = ClusterListResult;
 
 // @public (undocumented)
 export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
@@ -701,6 +644,11 @@ export interface RedisEnterpriseManagementClientOptionalParams extends coreClien
 }
 
 // @public
+export interface RedisEnterpriseUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
 export interface RedisEnterpriseUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -711,13 +659,14 @@ export type RedisEnterpriseUpdateResponse = Cluster;
 
 // @public
 export interface RegenerateKeyParameters {
-    keyType: AccessKeyType;
+    keyType: KeyType_2;
 }
 
 // @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -726,7 +675,7 @@ export type ResourceState = string;
 
 // @public
 export interface Sku {
-    capacity?: number;
+    capacity: number;
     name: SkuName;
 }
 
@@ -734,15 +683,25 @@ export interface Sku {
 export type SkuName = string;
 
 // @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
 export type TlsVersion = string;
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // (No @packageDocumentation comment for this package)
 
