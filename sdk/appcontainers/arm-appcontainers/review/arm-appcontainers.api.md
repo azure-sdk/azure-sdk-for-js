@@ -670,8 +670,8 @@ export interface ContainerApps {
     beginCreateOrUpdateAndWait(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams): Promise<ContainerAppsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginUpdateAndWait(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ContainerAppsUpdateResponse>, ContainerAppsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<ContainerAppsUpdateResponse>;
     get(resourceGroupName: string, containerAppName: string, options?: ContainerAppsGetOptionalParams): Promise<ContainerAppsGetResponse>;
     getAuthToken(resourceGroupName: string, containerAppName: string, options?: ContainerAppsGetAuthTokenOptionalParams): Promise<ContainerAppsGetAuthTokenResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ContainerAppsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ContainerApp>;
@@ -839,7 +839,6 @@ export type ContainerAppsDiagnosticsListDetectorsResponse = DiagnosticsCollectio
 
 // @public
 export interface ContainerAppsDiagnosticsListRevisionsNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -962,7 +961,6 @@ export type ContainerAppsRevisionsGetRevisionResponse = Revision;
 
 // @public
 export interface ContainerAppsRevisionsListRevisionsNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1033,6 +1031,9 @@ export interface ContainerAppsUpdateOptionalParams extends coreClient.OperationO
 }
 
 // @public
+export type ContainerAppsUpdateResponse = ContainerApp;
+
+// @public
 export interface ContainerResources {
     cpu?: number;
     readonly ephemeralStorage?: string;
@@ -1060,7 +1061,7 @@ export interface CustomDomain {
 
 // @public
 export interface CustomDomainConfiguration {
-    certificatePassword?: Uint8Array;
+    certificatePassword?: string;
     certificateValue?: Uint8Array;
     readonly customDomainVerificationId?: string;
     dnsSuffix?: string;
@@ -1209,7 +1210,7 @@ export interface DaprSecret {
 
 // @public
 export interface DaprSecretsCollection {
-    value: Secret[];
+    value: DaprSecret[];
 }
 
 // @public
@@ -1764,8 +1765,8 @@ export interface ManagedEnvironments {
     beginCreateOrUpdateAndWait(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsCreateOrUpdateOptionalParams): Promise<ManagedEnvironmentsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginUpdateAndWait(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ManagedEnvironmentsUpdateResponse>, ManagedEnvironmentsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<ManagedEnvironmentsUpdateResponse>;
     get(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsGetOptionalParams): Promise<ManagedEnvironmentsGetResponse>;
     getAuthToken(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsGetAuthTokenOptionalParams): Promise<ManagedEnvironmentsGetAuthTokenResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ManagedEnvironmentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ManagedEnvironment>;
@@ -1915,6 +1916,9 @@ export interface ManagedEnvironmentsUpdateOptionalParams extends coreClient.Oper
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type ManagedEnvironmentsUpdateResponse = ManagedEnvironment;
 
 // @public
 export interface ManagedServiceIdentity {
