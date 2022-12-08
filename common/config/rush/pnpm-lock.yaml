@@ -34,6 +34,7 @@ specifiers:
   '@rush-temp/arm-automation': file:./projects/arm-automation.tgz
   '@rush-temp/arm-avs': file:./projects/arm-avs.tgz
   '@rush-temp/arm-azureadexternalidentities': file:./projects/arm-azureadexternalidentities.tgz
+  '@rush-temp/arm-azurearcdata': file:./projects/arm-azurearcdata.tgz
   '@rush-temp/arm-azurestack': file:./projects/arm-azurestack.tgz
   '@rush-temp/arm-azurestackhci': file:./projects/arm-azurestackhci.tgz
   '@rush-temp/arm-batch': file:./projects/arm-batch.tgz
@@ -361,6 +362,7 @@ dependencies:
   '@rush-temp/arm-automation': file:projects/arm-automation.tgz
   '@rush-temp/arm-avs': file:projects/arm-avs.tgz
   '@rush-temp/arm-azureadexternalidentities': file:projects/arm-azureadexternalidentities.tgz
+  '@rush-temp/arm-azurearcdata': file:projects/arm-azurearcdata.tgz
   '@rush-temp/arm-azurestack': file:projects/arm-azurestack.tgz
   '@rush-temp/arm-azurestackhci': file:projects/arm-azurestackhci.tgz
   '@rush-temp/arm-batch': file:projects/arm-batch.tgz
@@ -10818,6 +10820,33 @@ packages:
   file:projects/arm-azureadexternalidentities.tgz:
     resolution: {integrity: sha512-BVB3mVEhdhGrIdWRRxpeBCKy3UJUvK0y0KeOfUYnZ9/DXEhOb2D4Tcw/6d1yleW4iDhhg8CM6Gi4iikQBIsRwQ==, tarball: file:projects/arm-azureadexternalidentities.tgz}
     name: '@rush-temp/arm-azureadexternalidentities'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.33.6
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
+      tslib: 2.4.1
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-azurearcdata.tgz:
+    resolution: {integrity: sha512-VMCnDtqMQXDYwJlJ49Ze3Yv6h4YIK3api11BTUk17g/glNF15hZ1qvFS9RalIT8DqrOJOScFva9e64hgAah07Q==, tarball: file:projects/arm-azurearcdata.tgz}
+    name: '@rush-temp/arm-azurearcdata'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
