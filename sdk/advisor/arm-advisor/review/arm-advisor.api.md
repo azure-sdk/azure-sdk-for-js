@@ -19,6 +19,7 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
     configurations: Configurations;
     // (undocumented)
     operations: Operations;
+    predict(predictionRequest: PredictionRequest, options?: PredictOptionalParams): Promise<PredictResponse>;
     // (undocumented)
     recommendationMetadata: RecommendationMetadata;
     // (undocumented)
@@ -53,6 +54,7 @@ export type Category = string;
 // @public
 export interface ConfigData extends Resource {
     digests?: DigestConfig[];
+    duration?: Duration;
     exclude?: boolean;
     lowCpuThreshold?: CpuThreshold;
 }
@@ -126,6 +128,9 @@ export interface DigestConfig {
 export type DigestConfigState = string;
 
 // @public
+export type Duration = string;
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
@@ -160,10 +165,25 @@ export enum KnownDigestConfigState {
 }
 
 // @public
+export enum KnownDuration {
+    Fourteen = "14",
+    Ninety = "90",
+    Seven = "7",
+    Sixty = "60",
+    Thirty = "30",
+    TwentyOne = "21"
+}
+
+// @public
 export enum KnownImpact {
     High = "High",
     Low = "Low",
     Medium = "Medium"
+}
+
+// @public
+export enum KnownPredictionType {
+    PredictiveRightsizing = "PredictiveRightsizing"
 }
 
 // @public
@@ -241,6 +261,33 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationEntityListResult;
 
 // @public
+export interface PredictionRequest {
+    extendedProperties?: Record<string, unknown>;
+    predictionType?: PredictionType;
+}
+
+// @public
+export interface PredictionResponse {
+    category?: Category;
+    extendedProperties?: Record<string, unknown>;
+    impact?: Impact;
+    impactedField?: string;
+    lastUpdated?: Date;
+    predictionType?: PredictionType;
+    shortDescription?: ShortDescription;
+}
+
+// @public
+export type PredictionType = string;
+
+// @public
+export interface PredictOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PredictResponse = PredictionResponse;
+
+// @public
 export interface RecommendationMetadata {
     get(name: string, options?: RecommendationMetadataGetOptionalParams): Promise<RecommendationMetadataGetResponse>;
     list(options?: RecommendationMetadataListOptionalParams): PagedAsyncIterableIterator<MetadataEntity>;
@@ -301,9 +348,6 @@ export type RecommendationsGetResponse = ResourceRecommendationBase;
 
 // @public
 export interface RecommendationsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -429,8 +473,6 @@ export type SuppressionsGetResponse = SuppressionContract;
 
 // @public
 export interface SuppressionsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
