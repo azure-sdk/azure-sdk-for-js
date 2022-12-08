@@ -431,11 +431,6 @@ export interface Reports {
 
 // @public
 export interface ReportsListNextOptionalParams extends coreClient.OperationOptions {
-    offerGuid?: string;
-    reportCreatorTenantId?: string;
-    select?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -554,11 +549,6 @@ export interface Snapshots {
 
 // @public
 export interface SnapshotsListNextOptionalParams extends coreClient.OperationOptions {
-    offerGuid?: string;
-    reportCreatorTenantId?: string;
-    select?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
