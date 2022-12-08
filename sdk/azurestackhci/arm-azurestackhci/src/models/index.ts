@@ -58,6 +58,27 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -143,6 +164,33 @@ export interface ClusterList {
   readonly nextLink?: string;
 }
 
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** Software Assurance properties of the cluster. */
+export interface SoftwareAssuranceProperties {
+  /** Status of the Software Assurance for the cluster. */
+  softwareAssuranceStatus?: SoftwareAssuranceStatus;
+  /** Customer Intent for Software Assurance Benefit. */
+  softwareAssuranceIntent?: SoftwareAssuranceIntent;
+  /**
+   * TimeStamp denoting the latest SA benefit applicability is validated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdated?: Date;
+}
+
 /** Desired properties of the cluster. */
 export interface ClusterDesiredProperties {
   /** Desired state of Windows Server Subscription. */
@@ -185,6 +233,11 @@ export interface ClusterReportedProperties {
   readonly imdsAttestation?: ImdsAttestation;
   /** Level of diagnostic data emitted by the cluster. */
   diagnosticLevel?: DiagnosticLevel;
+  /**
+   * Capabilities supported by the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly supportedCapabilities?: string[];
 }
 
 /** Cluster node details. */
@@ -205,6 +258,16 @@ export interface ClusterNode {
    */
   readonly windowsServerSubscription?: WindowsServerSubscription;
   /**
+   * Type of the cluster node hardware.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nodeType?: ClusterNodeType;
+  /**
+   * Edge Hardware Center Resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ehcResourceId?: string;
+  /**
    * Manufacturer of the cluster node hardware.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -224,6 +287,11 @@ export interface ClusterNode {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly osVersion?: string;
+  /**
+   * Display version of the operating system running on the cluster node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly osDisplayVersion?: string;
   /**
    * Immutable id of the cluster node.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -253,6 +321,20 @@ export interface ClusterPatch {
   aadTenantId?: string;
   /** Desired properties of the cluster. */
   desiredProperties?: ClusterDesiredProperties;
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type?: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
 }
 
 export interface UploadCertificateRequest {
@@ -269,6 +351,15 @@ export interface ClusterIdentityResponse {
   aadTenantId?: string;
   aadServicePrincipalObjectId?: string;
   aadApplicationObjectId?: string;
+}
+
+export interface SoftwareAssuranceChangeRequest {
+  properties?: SoftwareAssuranceChangeRequestProperties;
+}
+
+export interface SoftwareAssuranceChangeRequestProperties {
+  /** Customer Intent for Software Assurance Benefit. */
+  softwareAssuranceIntent?: SoftwareAssuranceIntent;
 }
 
 /** List of Extensions in HCI cluster. */
@@ -302,6 +393,30 @@ export interface PerNodeExtensionState {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly state?: NodeExtensionState;
+}
+
+/** List of Offer proxy resources for the HCI cluster. */
+export interface OfferList {
+  /**
+   * List of Offer proxy resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Offer[];
+  /**
+   * Link to the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** SKU Mapping details. */
+export interface SkuMappings {
+  /** Identifier of the CatalogPlan for the sku */
+  catalogPlanId?: string;
+  /** Identifier for the sku */
+  marketplaceSkuId?: string;
+  /** Array of SKU versions available */
+  marketplaceSkuVersions?: string[];
 }
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
@@ -368,6 +483,142 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
+/** List of Publisher proxy resources for the HCI cluster. */
+export interface PublisherList {
+  /**
+   * List of Publisher proxy resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Publisher[];
+  /**
+   * Link to the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** List of SKU proxy resources for the HCI cluster. */
+export interface SkuList {
+  /**
+   * List of SKU proxy resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Sku[];
+  /**
+   * Link to the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** List of Update runs */
+export interface UpdateRunList {
+  /** List of Update runs */
+  value?: UpdateRun[];
+  /**
+   * Link to the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Progress representation of the update run steps. */
+export interface Step {
+  /** Name of the step. */
+  name?: string;
+  /** More detailed description of the step. */
+  description?: string;
+  /** Error message, specified if the step is in a failed state. */
+  errorMessage?: string;
+  /** Status of the step, bubbled up from the ECE action plan for installation attempts. Values are: 'Success', 'Error', 'InProgress', and 'Unknown status'. */
+  status?: string;
+  /** When the step started, or empty if it has not started executing. */
+  startTimeUtc?: Date;
+  /** When the step reached a terminal state. */
+  endTimeUtc?: Date;
+  /** Completion time of this step or the last completed sub-step. */
+  lastUpdatedTimeUtc?: Date;
+  /** Recursive model for child steps of this step. */
+  steps?: Step[];
+}
+
+/** List of Update Summaries */
+export interface UpdateSummariesList {
+  /** List of Update Summaries */
+  value?: UpdateSummaries[];
+  /**
+   * Link to the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Current version of each updatable component. */
+export interface PackageVersionInfo {
+  /** Package type */
+  packageType?: string;
+  /** Package version */
+  version?: string;
+  /** Last time this component was updated. */
+  lastUpdated?: Date;
+}
+
+export interface PrecheckResult {
+  /** Name of the individual test/rule/alert that was executed. Unique, not exposed to the customer. */
+  name?: string;
+  /** Key-value pairs that allow grouping/filtering individual tests. */
+  tags?: PrecheckResultTags;
+  /** User-facing name; one or more sentences indicating the direct issue. */
+  title?: string;
+  /** The status of the check running (i.e. Failed, Succeeded, In Progress). This answers whether the check ran, and passed or failed. */
+  status?: Status;
+  /** Severity of the result (Critical, Warning, Informational, Hidden). This answers how important the result is. Critical is the only update-blocking severity. */
+  severity?: Severity;
+  /** Detailed overview of the issue and what impact the issue has on the stamp. */
+  description?: string;
+  /** Set of steps that can be taken to resolve the issue found. */
+  remediation?: string;
+  /** The unique identifier for the affected resource (such as a node or drive). */
+  targetResourceID?: string;
+  /** The name of the affected resource. */
+  targetResourceName?: string;
+  /** The Time in which the HealthCheck was called. */
+  timestamp?: Date;
+  /** Property bag of key value pairs for additional information. */
+  additionalData?: string;
+  /** The name of the services called for the HealthCheck (I.E. Test-AzureStack, Test-Cluster). */
+  healthCheckSource?: string;
+}
+
+/** Key-value pairs that allow grouping/filtering individual tests. */
+export interface PrecheckResultTags {
+  /** Key that allow grouping/filtering individual tests. */
+  key?: string;
+  /** Value of the key that allow grouping/filtering individual tests. */
+  value?: string;
+}
+
+/** List of Updates */
+export interface UpdateList {
+  /** List of Updates */
+  value?: Update[];
+  /**
+   * Link to the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** If update State is HasPrerequisite, this property contains an array of objects describing prerequisite updates before installing this update. Otherwise, it is empty. */
+export interface UpdatePrerequisite {
+  /** Updatable component type. */
+  updateType?: string;
+  /** Version of the prerequisite. */
+  version?: string;
+  /** Friendly name of the prerequisite. */
+  packageName?: string;
+}
+
 /** Connectivity related configuration required by arc server. */
 export interface ArcConnectivityProperties {
   /** True indicates ARC connectivity is enabled */
@@ -414,18 +665,6 @@ export interface ArcSetting extends ProxyResource {
   readonly perNodeDetails?: PerNodeState[];
   /** contains connectivity related configuration for ARC resources */
   connectivityProperties?: Record<string, unknown>;
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
 }
 
 /** Details of a particular extension in HCI Cluster. */
@@ -459,18 +698,169 @@ export interface Extension extends ProxyResource {
   settings?: Record<string, unknown>;
   /** Protected settings (may contain secrets). */
   protectedSettings?: Record<string, unknown>;
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
+  /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version available. */
+  enableAutomaticUpgrade?: boolean;
+}
+
+/** Offer details. */
+export interface Offer extends ProxyResource {
+  /**
+   * Provisioning State
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** Identifier of the Publisher for the offer */
+  publisherId?: string;
+  /** JSON serialized catalog content of the offer */
+  content?: string;
+  /** The API version of the catalog service used to serve the catalog content */
+  contentVersion?: string;
+  /** Array of SKU mappings */
+  skuMappings?: SkuMappings[];
+}
+
+/** Publisher details. */
+export interface Publisher extends ProxyResource {
+  /**
+   * Provisioning State
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+}
+
+/** Sku details. */
+export interface Sku extends ProxyResource {
+  /**
+   * Provisioning State
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** Identifier of the Publisher for the offer */
+  publisherId?: string;
+  /** Identifier of the Offer for the sku */
+  offerId?: string;
+  /** JSON serialized catalog content of the sku offer */
+  content?: string;
+  /** The API version of the catalog service used to serve the catalog content */
+  contentVersion?: string;
+  /** Array of SKU mappings */
+  skuMappings?: SkuMappings[];
+}
+
+/** Details of an Update run */
+export interface UpdateRun extends ProxyResource {
+  /** The geo-location where the resource lives */
+  location?: string;
+  /**
+   * Provisioning state of the UpdateRuns proxy resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Timestamp of the update run was started. */
+  timeStarted?: Date;
+  /** Timestamp of the most recently completed step in the update run. */
+  lastUpdatedTime?: Date;
+  /** Duration of the update run. */
+  duration?: string;
+  /** State of the update run. */
+  state?: UpdateRunPropertiesState;
+  /** Name of the step. */
+  namePropertiesProgressName?: string;
+  /** More detailed description of the step. */
+  description?: string;
+  /** Error message, specified if the step is in a failed state. */
+  errorMessage?: string;
+  /** Status of the step, bubbled up from the ECE action plan for installation attempts. Values are: 'Success', 'Error', 'InProgress', and 'Unknown status'. */
+  status?: string;
+  /** When the step started, or empty if it has not started executing. */
+  startTimeUtc?: Date;
+  /** When the step reached a terminal state. */
+  endTimeUtc?: Date;
+  /** Completion time of this step or the last completed sub-step. */
+  lastUpdatedTimeUtc?: Date;
+  /** Recursive model for child steps of this step. */
+  steps?: Step[];
+}
+
+/** Get the update summaries for the cluster */
+export interface UpdateSummaries extends ProxyResource {
+  /** The geo-location where the resource lives */
+  location?: string;
+  /**
+   * Provisioning state of the UpdateSummaries proxy resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** OEM family name. */
+  oemFamily?: string;
+  /** Name of the hardware model. */
+  hardwareModel?: string;
+  /** Current version of each updatable component. */
+  packageVersions?: PackageVersionInfo[];
+  /** Current Solution Bundle version of the stamp. */
+  currentVersion?: string;
+  /** Last time an update installation completed successfully. */
+  lastUpdated?: Date;
+  /** Last time the update service successfully checked for updates */
+  lastChecked?: Date;
+  /** Overall health state for update-specific health checks. */
+  healthState?: HealthState;
+  /** An array of pre-check result objects. */
+  healthCheckResult?: PrecheckResult[];
+  /** Last time the package-specific checks were run. */
+  healthCheckDate?: Date;
+  /** Overall update state of the stamp. */
+  state?: UpdateSummariesPropertiesState;
+}
+
+/** Update details */
+export interface Update extends ProxyResource {
+  /** The geo-location where the resource lives */
+  location?: string;
+  /**
+   * Provisioning state of the Updates proxy resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Date that the update was installed. */
+  installedDate?: Date;
+  /** Description of the update. */
+  description?: string;
+  /** State of the update as it relates to this stamp. */
+  state?: State;
+  /** If update State is HasPrerequisite, this property contains an array of objects describing prerequisite updates before installing this update. Otherwise, it is empty. */
+  prerequisites?: UpdatePrerequisite[];
+  /** An array of component versions for a Solution Bundle update, and an empty array otherwise.  */
+  componentVersions?: PackageVersionInfo[];
+  rebootRequired?: RebootRequirement;
+  /** Overall health state for update-specific health checks. */
+  healthState?: HealthState;
+  /** An array of PrecheckResult objects. */
+  healthCheckResult?: PrecheckResult[];
+  /** Last time the package-specific checks were run. */
+  healthCheckDate?: Date;
+  /** Path where the update package is available. */
+  packagePath?: string;
+  /** Size of the package. This value is a combination of the size from update metadata and size of the payload that results from the live scan operation for OS update content. */
+  packageSizeInMb?: number;
+  /** Display name of the Update */
+  displayName?: string;
+  /** Version of the update. */
+  version?: string;
+  /** Publisher of the update package. */
+  publisher?: string;
+  /** Link to release notes for the update. */
+  releaseLink?: string;
+  /** Indicates the way the update content can be downloaded. */
+  availabilityType?: AvailabilityType;
+  /** Customer-visible type of the update. */
+  packageType?: string;
+  /** Extensible KV pairs serialized as a string. This is currently used to report the stamp OEM family and hardware model information when an update is flagged as Invalid for the stamp based on OEM type. */
+  additionalProperties?: string;
+  /** Progress percentage of ongoing operation. Currently this property is only valid when the update is in the Downloading state, where it maps to how much of the update content has been downloaded. */
+  progressPercentage?: number;
+  /** Brief message with instructions for updates of AvailabilityType Notify. */
+  notifyMessage?: string;
 }
 
 /** Cluster details. */
@@ -500,6 +890,8 @@ export interface Cluster extends TrackedResource {
   aadApplicationObjectId?: string;
   /** Id of cluster identity service principal. */
   aadServicePrincipalObjectId?: string;
+  /** Software Assurance properties of the cluster. */
+  softwareAssuranceProperties?: SoftwareAssuranceProperties;
   /** Desired properties of the cluster. */
   desiredProperties?: ClusterDesiredProperties;
   /**
@@ -537,56 +929,89 @@ export interface Cluster extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly serviceEndpoint?: string;
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
+  /**
+   * Object id of RP Service Principal
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceProviderObjectId?: string;
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  typeIdentityType?: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
 }
 
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
+/** Defines headers for UpdateRuns_delete operation. */
+export interface UpdateRunsDeleteHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
 }
 
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
+/** Defines headers for UpdateSummaries_delete operation. */
+export interface UpdateSummariesDeleteHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Updates_post operation. */
+export interface UpdatesPostHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Updates_delete operation. */
+export interface UpdatesDeleteHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** Error */
+  Error = "Error",
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
   Failed = "Failed",
   /** Canceled */
   Canceled = "Canceled",
+  /** Connected */
+  Connected = "Connected",
+  /** Disconnected */
+  Disconnected = "Disconnected",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Moving */
+  Moving = "Moving",
+  /** PartiallySucceeded */
+  PartiallySucceeded = "PartiallySucceeded",
+  /** PartiallyConnected */
+  PartiallyConnected = "PartiallyConnected",
+  /** InProgress */
+  InProgress = "InProgress",
   /** Accepted */
   Accepted = "Accepted",
   /** Provisioning */
-  Provisioning = "Provisioning"
+  Provisioning = "Provisioning",
+  /** DisableInProgress */
+  DisableInProgress = "DisableInProgress"
 }
 
 /**
@@ -594,11 +1019,24 @@ export enum KnownProvisioningState {
  * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **NotSpecified** \
+ * **Error** \
  * **Succeeded** \
  * **Failed** \
  * **Canceled** \
+ * **Connected** \
+ * **Disconnected** \
+ * **Deleted** \
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Moving** \
+ * **PartiallySucceeded** \
+ * **PartiallyConnected** \
+ * **InProgress** \
  * **Accepted** \
- * **Provisioning**
+ * **Provisioning** \
+ * **DisableInProgress**
  */
 export type ProvisioningState = string;
 
@@ -633,7 +1071,13 @@ export enum KnownArcSettingAggregateState {
   /** PartiallyConnected */
   PartiallyConnected = "PartiallyConnected",
   /** InProgress */
-  InProgress = "InProgress"
+  InProgress = "InProgress",
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Provisioning */
+  Provisioning = "Provisioning",
+  /** DisableInProgress */
+  DisableInProgress = "DisableInProgress"
 }
 
 /**
@@ -655,7 +1099,10 @@ export enum KnownArcSettingAggregateState {
  * **Moving** \
  * **PartiallySucceeded** \
  * **PartiallyConnected** \
- * **InProgress**
+ * **InProgress** \
+ * **Accepted** \
+ * **Provisioning** \
+ * **DisableInProgress**
  */
 export type ArcSettingAggregateState = string;
 
@@ -684,7 +1131,19 @@ export enum KnownNodeArcState {
   /** Deleting */
   Deleting = "Deleting",
   /** Moving */
-  Moving = "Moving"
+  Moving = "Moving",
+  /** PartiallySucceeded */
+  PartiallySucceeded = "PartiallySucceeded",
+  /** PartiallyConnected */
+  PartiallyConnected = "PartiallyConnected",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Provisioning */
+  Provisioning = "Provisioning",
+  /** DisableInProgress */
+  DisableInProgress = "DisableInProgress"
 }
 
 /**
@@ -703,9 +1162,63 @@ export enum KnownNodeArcState {
  * **Creating** \
  * **Updating** \
  * **Deleting** \
- * **Moving**
+ * **Moving** \
+ * **PartiallySucceeded** \
+ * **PartiallyConnected** \
+ * **InProgress** \
+ * **Accepted** \
+ * **Provisioning** \
+ * **DisableInProgress**
  */
 export type NodeArcState = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned, UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link Status} that the service accepts. */
 export enum KnownStatus {
@@ -718,7 +1231,15 @@ export enum KnownStatus {
   /** Disconnected */
   Disconnected = "Disconnected",
   /** Error */
-  Error = "Error"
+  Error = "Error",
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** InProgress */
+  InProgress = "InProgress"
 }
 
 /**
@@ -730,9 +1251,49 @@ export enum KnownStatus {
  * **ConnectedRecently** \
  * **NotConnectedRecently** \
  * **Disconnected** \
- * **Error**
+ * **Error** \
+ * **NotSpecified** \
+ * **Succeeded** \
+ * **Failed** \
+ * **InProgress**
  */
 export type Status = string;
+
+/** Known values of {@link SoftwareAssuranceStatus} that the service accepts. */
+export enum KnownSoftwareAssuranceStatus {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for SoftwareAssuranceStatus. \
+ * {@link KnownSoftwareAssuranceStatus} can be used interchangeably with SoftwareAssuranceStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type SoftwareAssuranceStatus = string;
+
+/** Known values of {@link SoftwareAssuranceIntent} that the service accepts. */
+export enum KnownSoftwareAssuranceIntent {
+  /** Enable */
+  Enable = "Enable",
+  /** Disable */
+  Disable = "Disable"
+}
+
+/**
+ * Defines values for SoftwareAssuranceIntent. \
+ * {@link KnownSoftwareAssuranceIntent} can be used interchangeably with SoftwareAssuranceIntent,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enable** \
+ * **Disable**
+ */
+export type SoftwareAssuranceIntent = string;
 
 /** Known values of {@link WindowsServerSubscription} that the service accepts. */
 export enum KnownWindowsServerSubscription {
@@ -772,6 +1333,24 @@ export enum KnownDiagnosticLevel {
  * **Enhanced**
  */
 export type DiagnosticLevel = string;
+
+/** Known values of {@link ClusterNodeType} that the service accepts. */
+export enum KnownClusterNodeType {
+  /** FirstParty */
+  FirstParty = "FirstParty",
+  /** ThirdParty */
+  ThirdParty = "ThirdParty"
+}
+
+/**
+ * Defines values for ClusterNodeType. \
+ * {@link KnownClusterNodeType} can be used interchangeably with ClusterNodeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **FirstParty** \
+ * **ThirdParty**
+ */
+export type ClusterNodeType = string;
 
 /** Known values of {@link ImdsAttestation} that the service accepts. */
 export enum KnownImdsAttestation {
@@ -822,7 +1401,11 @@ export enum KnownExtensionAggregateState {
   /** PartiallyConnected */
   PartiallyConnected = "PartiallyConnected",
   /** InProgress */
-  InProgress = "InProgress"
+  InProgress = "InProgress",
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Provisioning */
+  Provisioning = "Provisioning"
 }
 
 /**
@@ -844,7 +1427,9 @@ export enum KnownExtensionAggregateState {
  * **Moving** \
  * **PartiallySucceeded** \
  * **PartiallyConnected** \
- * **InProgress**
+ * **InProgress** \
+ * **Accepted** \
+ * **Provisioning**
  */
 export type ExtensionAggregateState = string;
 
@@ -873,7 +1458,17 @@ export enum KnownNodeExtensionState {
   /** Deleting */
   Deleting = "Deleting",
   /** Moving */
-  Moving = "Moving"
+  Moving = "Moving",
+  /** PartiallySucceeded */
+  PartiallySucceeded = "PartiallySucceeded",
+  /** PartiallyConnected */
+  PartiallyConnected = "PartiallyConnected",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Provisioning */
+  Provisioning = "Provisioning"
 }
 
 /**
@@ -892,7 +1487,12 @@ export enum KnownNodeExtensionState {
  * **Creating** \
  * **Updating** \
  * **Deleting** \
- * **Moving**
+ * **Moving** \
+ * **PartiallySucceeded** \
+ * **PartiallyConnected** \
+ * **InProgress** \
+ * **Accepted** \
+ * **Provisioning**
  */
 export type NodeExtensionState = string;
 
@@ -931,6 +1531,228 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
+
+/** Known values of {@link UpdateRunPropertiesState} that the service accepts. */
+export enum KnownUpdateRunPropertiesState {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Failed */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for UpdateRunPropertiesState. \
+ * {@link KnownUpdateRunPropertiesState} can be used interchangeably with UpdateRunPropertiesState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Succeeded** \
+ * **InProgress** \
+ * **Failed**
+ */
+export type UpdateRunPropertiesState = string;
+
+/** Known values of {@link HealthState} that the service accepts. */
+export enum KnownHealthState {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Success */
+  Success = "Success",
+  /** Failure */
+  Failure = "Failure",
+  /** Warning */
+  Warning = "Warning",
+  /** Error */
+  Error = "Error",
+  /** InProgress */
+  InProgress = "InProgress"
+}
+
+/**
+ * Defines values for HealthState. \
+ * {@link KnownHealthState} can be used interchangeably with HealthState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Success** \
+ * **Failure** \
+ * **Warning** \
+ * **Error** \
+ * **InProgress**
+ */
+export type HealthState = string;
+
+/** Known values of {@link Severity} that the service accepts. */
+export enum KnownSeverity {
+  /** Critical */
+  Critical = "Critical",
+  /** Warning */
+  Warning = "Warning",
+  /** Informational */
+  Informational = "Informational",
+  /** Hidden */
+  Hidden = "Hidden"
+}
+
+/**
+ * Defines values for Severity. \
+ * {@link KnownSeverity} can be used interchangeably with Severity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Critical** \
+ * **Warning** \
+ * **Informational** \
+ * **Hidden**
+ */
+export type Severity = string;
+
+/** Known values of {@link UpdateSummariesPropertiesState} that the service accepts. */
+export enum KnownUpdateSummariesPropertiesState {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** AppliedSuccessfully */
+  AppliedSuccessfully = "AppliedSuccessfully",
+  /** UpdateAvailable */
+  UpdateAvailable = "UpdateAvailable",
+  /** UpdateInProgress */
+  UpdateInProgress = "UpdateInProgress",
+  /** UpdateFailed */
+  UpdateFailed = "UpdateFailed",
+  /** NeedsAttention */
+  NeedsAttention = "NeedsAttention",
+  /** PreparationInProgress */
+  PreparationInProgress = "PreparationInProgress",
+  /** PreparationFailed */
+  PreparationFailed = "PreparationFailed"
+}
+
+/**
+ * Defines values for UpdateSummariesPropertiesState. \
+ * {@link KnownUpdateSummariesPropertiesState} can be used interchangeably with UpdateSummariesPropertiesState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **AppliedSuccessfully** \
+ * **UpdateAvailable** \
+ * **UpdateInProgress** \
+ * **UpdateFailed** \
+ * **NeedsAttention** \
+ * **PreparationInProgress** \
+ * **PreparationFailed**
+ */
+export type UpdateSummariesPropertiesState = string;
+
+/** Known values of {@link State} that the service accepts. */
+export enum KnownState {
+  /** HasPrerequisite */
+  HasPrerequisite = "HasPrerequisite",
+  /** Obsolete */
+  Obsolete = "Obsolete",
+  /** Ready */
+  Ready = "Ready",
+  /** NotApplicableBecauseAnotherUpdateIsInProgress */
+  NotApplicableBecauseAnotherUpdateIsInProgress = "NotApplicableBecauseAnotherUpdateIsInProgress",
+  /** Preparing */
+  Preparing = "Preparing",
+  /** Installing */
+  Installing = "Installing",
+  /** Installed */
+  Installed = "Installed",
+  /** PreparationFailed */
+  PreparationFailed = "PreparationFailed",
+  /** InstallationFailed */
+  InstallationFailed = "InstallationFailed",
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Recalled */
+  Recalled = "Recalled",
+  /** Downloading */
+  Downloading = "Downloading",
+  /** DownloadFailed */
+  DownloadFailed = "DownloadFailed",
+  /** HealthChecking */
+  HealthChecking = "HealthChecking",
+  /** HealthCheckFailed */
+  HealthCheckFailed = "HealthCheckFailed",
+  /** ReadyToInstall */
+  ReadyToInstall = "ReadyToInstall",
+  /** ScanInProgress */
+  ScanInProgress = "ScanInProgress",
+  /** ScanFailed */
+  ScanFailed = "ScanFailed"
+}
+
+/**
+ * Defines values for State. \
+ * {@link KnownState} can be used interchangeably with State,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **HasPrerequisite** \
+ * **Obsolete** \
+ * **Ready** \
+ * **NotApplicableBecauseAnotherUpdateIsInProgress** \
+ * **Preparing** \
+ * **Installing** \
+ * **Installed** \
+ * **PreparationFailed** \
+ * **InstallationFailed** \
+ * **Invalid** \
+ * **Recalled** \
+ * **Downloading** \
+ * **DownloadFailed** \
+ * **HealthChecking** \
+ * **HealthCheckFailed** \
+ * **ReadyToInstall** \
+ * **ScanInProgress** \
+ * **ScanFailed**
+ */
+export type State = string;
+
+/** Known values of {@link RebootRequirement} that the service accepts. */
+export enum KnownRebootRequirement {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** True */
+  True = "True",
+  /** False */
+  False = "False"
+}
+
+/**
+ * Defines values for RebootRequirement. \
+ * {@link KnownRebootRequirement} can be used interchangeably with RebootRequirement,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **True** \
+ * **False**
+ */
+export type RebootRequirement = string;
+
+/** Known values of {@link AvailabilityType} that the service accepts. */
+export enum KnownAvailabilityType {
+  /** Local */
+  Local = "Local",
+  /** Online */
+  Online = "Online",
+  /** Notify */
+  Notify = "Notify"
+}
+
+/**
+ * Defines values for AvailabilityType. \
+ * {@link KnownAvailabilityType} can be used interchangeably with AvailabilityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Local** \
+ * **Online** \
+ * **Notify**
+ */
+export type AvailabilityType = string;
 
 /** Optional parameters. */
 export interface ArcSettingsListByClusterOptionalParams
@@ -1061,6 +1883,18 @@ export interface ClustersCreateIdentityOptionalParams
 export type ClustersCreateIdentityResponse = ClusterIdentityResponse;
 
 /** Optional parameters. */
+export interface ClustersExtendSoftwareAssuranceBenefitOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the extendSoftwareAssuranceBenefit operation. */
+export type ClustersExtendSoftwareAssuranceBenefitResponse = Cluster;
+
+/** Optional parameters. */
 export interface ClustersListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1129,11 +1963,218 @@ export interface ExtensionsListByArcSettingNextOptionalParams
 export type ExtensionsListByArcSettingNextResponse = ExtensionList;
 
 /** Optional parameters. */
+export interface OffersListByPublisherOptionalParams
+  extends coreClient.OperationOptions {
+  /** Specify $expand=content,contentVersion to populate additional fields related to the marketplace offer. */
+  expand?: string;
+}
+
+/** Contains response data for the listByPublisher operation. */
+export type OffersListByPublisherResponse = OfferList;
+
+/** Optional parameters. */
+export interface OffersListByClusterOptionalParams
+  extends coreClient.OperationOptions {
+  /** Specify $expand=content,contentVersion to populate additional fields related to the marketplace offer. */
+  expand?: string;
+}
+
+/** Contains response data for the listByCluster operation. */
+export type OffersListByClusterResponse = OfferList;
+
+/** Optional parameters. */
+export interface OffersGetOptionalParams extends coreClient.OperationOptions {
+  /** Specify $expand=content,contentVersion to populate additional fields related to the marketplace offer. */
+  expand?: string;
+}
+
+/** Contains response data for the get operation. */
+export type OffersGetResponse = Offer;
+
+/** Optional parameters. */
+export interface OffersListByPublisherNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByPublisherNext operation. */
+export type OffersListByPublisherNextResponse = OfferList;
+
+/** Optional parameters. */
+export interface OffersListByClusterNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByClusterNext operation. */
+export type OffersListByClusterNextResponse = OfferList;
+
+/** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface PublishersListByClusterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCluster operation. */
+export type PublishersListByClusterResponse = PublisherList;
+
+/** Optional parameters. */
+export interface PublishersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PublishersGetResponse = Publisher;
+
+/** Optional parameters. */
+export interface PublishersListByClusterNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByClusterNext operation. */
+export type PublishersListByClusterNextResponse = PublisherList;
+
+/** Optional parameters. */
+export interface SkusListByOfferOptionalParams
+  extends coreClient.OperationOptions {
+  /** Specify $expand=content,contentVersion to populate additional fields related to the marketplace offer. */
+  expand?: string;
+}
+
+/** Contains response data for the listByOffer operation. */
+export type SkusListByOfferResponse = SkuList;
+
+/** Optional parameters. */
+export interface SkusGetOptionalParams extends coreClient.OperationOptions {
+  /** Specify $expand=content,contentVersion to populate additional fields related to the marketplace offer. */
+  expand?: string;
+}
+
+/** Contains response data for the get operation. */
+export type SkusGetResponse = Sku;
+
+/** Optional parameters. */
+export interface SkusListByOfferNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByOfferNext operation. */
+export type SkusListByOfferNextResponse = SkuList;
+
+/** Optional parameters. */
+export interface UpdateRunsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type UpdateRunsListResponse = UpdateRunList;
+
+/** Optional parameters. */
+export interface UpdateRunsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface UpdateRunsPutOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the put operation. */
+export type UpdateRunsPutResponse = UpdateRun;
+
+/** Optional parameters. */
+export interface UpdateRunsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type UpdateRunsGetResponse = UpdateRun;
+
+/** Optional parameters. */
+export interface UpdateRunsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type UpdateRunsListNextResponse = UpdateRunList;
+
+/** Optional parameters. */
+export interface UpdateSummariesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type UpdateSummariesListResponse = UpdateSummariesList;
+
+/** Optional parameters. */
+export interface UpdateSummariesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface UpdateSummariesPutOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the put operation. */
+export type UpdateSummariesPutResponse = UpdateSummaries;
+
+/** Optional parameters. */
+export interface UpdateSummariesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type UpdateSummariesGetResponse = UpdateSummaries;
+
+/** Optional parameters. */
+export interface UpdateSummariesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type UpdateSummariesListNextResponse = UpdateSummariesList;
+
+/** Optional parameters. */
+export interface UpdatesPostOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface UpdatesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type UpdatesListResponse = UpdateList;
+
+/** Optional parameters. */
+export interface UpdatesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface UpdatesPutOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the put operation. */
+export type UpdatesPutResponse = Update;
+
+/** Optional parameters. */
+export interface UpdatesGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type UpdatesGetResponse = Update;
+
+/** Optional parameters. */
+export interface UpdatesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type UpdatesListNextResponse = UpdateList;
 
 /** Optional parameters. */
 export interface AzureStackHCIClientOptionalParams
