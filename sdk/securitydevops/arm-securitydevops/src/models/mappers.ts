@@ -42,6 +42,7 @@ export const AzureDevOpsConnectorProperties: coreClient.CompositeMapper = {
     modelProperties: {
       provisioningState: {
         serializedName: "provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -361,36 +362,42 @@ export const AzureDevOpsRepoProperties: coreClient.CompositeMapper = {
     modelProperties: {
       provisioningState: {
         serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      repoId: {
-        serializedName: "repoId",
-        type: {
-          name: "String"
-        }
-      },
-      repoUrl: {
-        serializedName: "repoUrl",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       orgName: {
         serializedName: "orgName",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       projectName: {
         serializedName: "projectName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      repoId: {
+        serializedName: "repoId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      repoUrl: {
+        serializedName: "repoUrl",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       visibility: {
         serializedName: "visibility",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -504,6 +511,7 @@ export const AzureDevOpsConnectorStatsProperties: coreClient.CompositeMapper = {
     modelProperties: {
       provisioningState: {
         serializedName: "provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -564,6 +572,7 @@ export const AzureDevOpsOrgProperties: coreClient.CompositeMapper = {
     modelProperties: {
       provisioningState: {
         serializedName: "provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -612,18 +621,19 @@ export const AzureDevOpsProjectProperties: coreClient.CompositeMapper = {
     modelProperties: {
       provisioningState: {
         serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      projectId: {
-        serializedName: "projectId",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       orgName: {
         serializedName: "orgName",
+        type: {
+          name: "String"
+        }
+      },
+      projectId: {
+        serializedName: "projectId",
         type: {
           name: "String"
         }
@@ -672,6 +682,7 @@ export const GitHubConnectorProperties: coreClient.CompositeMapper = {
     modelProperties: {
       provisioningState: {
         serializedName: "provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -720,6 +731,7 @@ export const GitHubRepoProperties: coreClient.CompositeMapper = {
     modelProperties: {
       provisioningState: {
         serializedName: "provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -780,6 +792,7 @@ export const GitHubConnectorStatsProperties: coreClient.CompositeMapper = {
     modelProperties: {
       provisioningState: {
         serializedName: "provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -834,6 +847,7 @@ export const GitHubOwnerProperties: coreClient.CompositeMapper = {
     modelProperties: {
       provisioningState: {
         serializedName: "provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -965,6 +979,7 @@ export const GitHubReposProperties: coreClient.CompositeMapper = {
     modelProperties: {
       provisioningState: {
         serializedName: "provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }

@@ -17,7 +17,6 @@ export interface ActionableRemediation {
     categories?: RuleCategory[];
     // (undocumented)
     severityLevels?: string[];
-    // (undocumented)
     state?: ActionableRemediationState;
 }
 
@@ -116,8 +115,7 @@ export interface AzureDevOpsConnectorProperties {
     // (undocumented)
     authorization?: AuthorizationInfo;
     orgs?: AzureDevOpsOrgMetadata[];
-    // (undocumented)
-    provisioningState?: ProvisioningState;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public (undocumented)
@@ -148,8 +146,7 @@ export interface AzureDevOpsConnectorStatsOperations {
 export interface AzureDevOpsConnectorStatsProperties {
     orgsCount?: number;
     projectsCount?: number;
-    // (undocumented)
-    provisioningState?: ProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     reposCount?: number;
 }
 
@@ -228,8 +225,7 @@ export interface AzureDevOpsOrgOperations {
 export interface AzureDevOpsOrgProperties {
     // (undocumented)
     autoDiscovery?: AutoDiscovery;
-    // (undocumented)
-    provisioningState?: ProvisioningState;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -308,8 +304,7 @@ export interface AzureDevOpsProjectProperties {
     autoDiscovery?: AutoDiscovery;
     orgName?: string;
     projectId?: string;
-    // (undocumented)
-    provisioningState?: ProvisioningState;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -394,13 +389,12 @@ export interface AzureDevOpsRepoOperations {
 export interface AzureDevOpsRepoProperties {
     // (undocumented)
     actionableRemediation?: ActionableRemediation;
-    orgName?: string;
-    projectName?: string;
-    // (undocumented)
-    provisioningState?: ProvisioningState;
-    repoId?: string;
-    repoUrl?: string;
-    visibility?: string;
+    readonly orgName?: string;
+    readonly projectName?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly repoId?: string;
+    readonly repoUrl?: string;
+    readonly visibility?: string;
 }
 
 // @public
@@ -435,6 +429,9 @@ export interface ErrorDetail {
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GitHubConnector extends TrackedResource {
@@ -514,8 +511,7 @@ export interface GitHubConnectorOperations {
 // @public
 export interface GitHubConnectorProperties {
     code?: string;
-    // (undocumented)
-    provisioningState?: ProvisioningState;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public (undocumented)
@@ -545,8 +541,7 @@ export interface GitHubConnectorStatsOperations {
 // @public (undocumented)
 export interface GitHubConnectorStatsProperties {
     ownersCount?: number;
-    // (undocumented)
-    provisioningState?: ProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     reposCount?: number;
 }
 
@@ -614,8 +609,7 @@ export interface GitHubOwnerOperations {
 // @public
 export interface GitHubOwnerProperties {
     ownerUrl?: string;
-    // (undocumented)
-    provisioningState?: ProvisioningState;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -698,16 +692,14 @@ export interface GitHubRepoOperations {
 export interface GitHubRepoProperties {
     accountId?: number;
     ownerName?: string;
-    // (undocumented)
-    provisioningState?: ProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     repoUrl?: string;
 }
 
 // @public (undocumented)
 export interface GitHubReposProperties {
     accountId?: number;
-    // (undocumented)
-    provisioningState?: ProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     repoName?: string;
     repoUrl?: string;
 }
