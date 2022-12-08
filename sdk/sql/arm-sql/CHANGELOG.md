@@ -1,15 +1,608 @@
 # Release History
+    
+## 10.0.0-beta.1 (2022-12-08)
+    
+**Features**
 
-## 9.0.2 (Unreleased)
+  - Added operation group DatabaseAdvancedThreatProtectionSettings
+  - Added operation group DatabaseSqlVulnerabilityAssessmentBaselines
+  - Added operation group DatabaseSqlVulnerabilityAssessmentExecuteScan
+  - Added operation group DatabaseSqlVulnerabilityAssessmentRuleBaselines
+  - Added operation group DatabaseSqlVulnerabilityAssessmentScanResult
+  - Added operation group DatabaseSqlVulnerabilityAssessmentScans
+  - Added operation group DatabaseSqlVulnerabilityAssessmentsSettings
+  - Added operation group DistributedAvailabilityGroups
+  - Added operation group EndpointCertificates
+  - Added operation group IPv6FirewallRules
+  - Added operation group ManagedDatabaseAdvancedThreatProtectionSettings
+  - Added operation group ManagedDatabaseMoveOperations
+  - Added operation group ManagedInstanceAdvancedThreatProtectionSettings
+  - Added operation group ManagedInstanceDtcs
+  - Added operation group ManagedLedgerDigestUploadsOperations
+  - Added operation group ManagedServerDnsAliases
+  - Added operation group ServerAdvancedThreatProtectionSettings
+  - Added operation group ServerConfigurationOptions
+  - Added operation group ServerTrustCertificates
+  - Added operation group SqlVulnerabilityAssessmentBaseline
+  - Added operation group SqlVulnerabilityAssessmentBaselines
+  - Added operation group SqlVulnerabilityAssessmentExecuteScan
+  - Added operation group SqlVulnerabilityAssessmentRuleBaseline
+  - Added operation group SqlVulnerabilityAssessmentRuleBaselines
+  - Added operation group SqlVulnerabilityAssessments
+  - Added operation group SqlVulnerabilityAssessmentScanResult
+  - Added operation group SqlVulnerabilityAssessmentScans
+  - Added operation group SqlVulnerabilityAssessmentsSettings
+  - Added operation group SynapseLinkWorkspaces
+  - Added operation ManagedDatabases.beginCancelMove
+  - Added operation ManagedDatabases.beginCancelMoveAndWait
+  - Added operation ManagedDatabases.beginCompleteMove
+  - Added operation ManagedDatabases.beginCompleteMoveAndWait
+  - Added operation ManagedDatabases.beginStartMove
+  - Added operation ManagedDatabases.beginStartMoveAndWait
+  - Added operation ReplicationLinks.beginDelete
+  - Added operation ReplicationLinks.beginDeleteAndWait
+  - Added operation VirtualClusters.beginUpdateDnsServers
+  - Added operation VirtualClusters.beginUpdateDnsServersAndWait
+  - Added Interface Advisor
+  - Added Interface BackupShortTermRetentionPolicy
+  - Added Interface Baseline
+  - Added Interface BaselineAdjustedResult
+  - Added Interface BenchmarkReference
+  - Added Interface Database
+  - Added Interface DatabaseAdvancedThreatProtection
+  - Added Interface DatabaseAdvancedThreatProtectionListResult
+  - Added Interface DatabaseAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams
+  - Added Interface DatabaseAdvancedThreatProtectionSettingsGetOptionalParams
+  - Added Interface DatabaseAdvancedThreatProtectionSettingsListByDatabaseNextOptionalParams
+  - Added Interface DatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalParams
+  - Added Interface DatabaseAutomaticTuning
+  - Added Interface DatabaseBlobAuditingPolicy
+  - Added Interface DatabaseColumn
+  - Added Interface DatabaseExtensions
+  - Added Interface DatabaseOperation
+  - Added Interface DatabaseSchema
+  - Added Interface DatabaseSecurityAlertPolicy
+  - Added Interface DatabaseSqlVulnerabilityAssessmentBaselinesCreateOrUpdateOptionalParams
+  - Added Interface DatabaseSqlVulnerabilityAssessmentBaselineSet
+  - Added Interface DatabaseSqlVulnerabilityAssessmentBaselineSetListResult
+  - Added Interface DatabaseSqlVulnerabilityAssessmentBaselinesGetOptionalParams
+  - Added Interface DatabaseSqlVulnerabilityAssessmentBaselinesListBySqlVulnerabilityAssessmentNextOptionalParams
+  - Added Interface DatabaseSqlVulnerabilityAssessmentBaselinesListBySqlVulnerabilityAssessmentOptionalParams
+  - Added Interface DatabaseSqlVulnerabilityAssessmentExecuteScanExecuteOptionalParams
+  - Added Interface DatabaseSqlVulnerabilityAssessmentRuleBaseline
+  - Added Interface DatabaseSqlVulnerabilityAssessmentRuleBaselineInput
+  - Added Interface DatabaseSqlVulnerabilityAssessmentRuleBaselineListInput
+  - Added Interface DatabaseSqlVulnerabilityAssessmentRuleBaselineListResult
+  - Added Interface DatabaseSqlVulnerabilityAssessmentRuleBaselinesCreateOrUpdateOptionalParams
+  - Added Interface DatabaseSqlVulnerabilityAssessmentRuleBaselinesDeleteOptionalParams
+  - Added Interface DatabaseSqlVulnerabilityAssessmentRuleBaselinesGetOptionalParams
+  - Added Interface DatabaseSqlVulnerabilityAssessmentRuleBaselinesListByBaselineNextOptionalParams
+  - Added Interface DatabaseSqlVulnerabilityAssessmentRuleBaselinesListByBaselineOptionalParams
+  - Added Interface DatabaseSqlVulnerabilityAssessmentScanResultGetOptionalParams
+  - Added Interface DatabaseSqlVulnerabilityAssessmentScanResultListByScanNextOptionalParams
+  - Added Interface DatabaseSqlVulnerabilityAssessmentScanResultListByScanOptionalParams
+  - Added Interface DatabaseSqlVulnerabilityAssessmentScansGetOptionalParams
+  - Added Interface DatabaseSqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsNextOptionalParams
+  - Added Interface DatabaseSqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsOptionalParams
+  - Added Interface DatabaseSqlVulnerabilityAssessmentsSettingsGetOptionalParams
+  - Added Interface DatabaseSqlVulnerabilityAssessmentsSettingsListByDatabaseNextOptionalParams
+  - Added Interface DatabaseSqlVulnerabilityAssessmentsSettingsListByDatabaseOptionalParams
+  - Added Interface DatabaseTable
+  - Added Interface DatabaseUsage
+  - Added Interface DatabaseVulnerabilityAssessment
+  - Added Interface DatabaseVulnerabilityAssessmentRuleBaseline
+  - Added Interface DatabaseVulnerabilityAssessmentScansExport
+  - Added Interface DataMaskingPolicy
+  - Added Interface DataMaskingRule
+  - Added Interface DataWarehouseUserActivities
+  - Added Interface DeletedServer
+  - Added Interface DistributedAvailabilityGroup
+  - Added Interface DistributedAvailabilityGroupsCreateOrUpdateOptionalParams
+  - Added Interface DistributedAvailabilityGroupsDeleteOptionalParams
+  - Added Interface DistributedAvailabilityGroupsGetOptionalParams
+  - Added Interface DistributedAvailabilityGroupsListByInstanceNextOptionalParams
+  - Added Interface DistributedAvailabilityGroupsListByInstanceOptionalParams
+  - Added Interface DistributedAvailabilityGroupsListResult
+  - Added Interface DistributedAvailabilityGroupsUpdateOptionalParams
+  - Added Interface ElasticPool
+  - Added Interface ElasticPoolActivity
+  - Added Interface ElasticPoolDatabaseActivity
+  - Added Interface ElasticPoolOperation
+  - Added Interface EncryptionProtector
+  - Added Interface EndpointCertificate
+  - Added Interface EndpointCertificateListResult
+  - Added Interface EndpointCertificatesGetOptionalParams
+  - Added Interface EndpointCertificatesListByInstanceNextOptionalParams
+  - Added Interface EndpointCertificatesListByInstanceOptionalParams
+  - Added Interface ExtendedDatabaseBlobAuditingPolicy
+  - Added Interface ExtendedServerBlobAuditingPolicy
+  - Added Interface FailoverGroup
+  - Added Interface FirewallRule
+  - Added Interface GeoBackupPolicy
+  - Added Interface ImportExportExtensionsOperationResult
+  - Added Interface ImportExportOperationResult
+  - Added Interface InstanceFailoverGroup
+  - Added Interface InstancePool
+  - Added Interface IPv6FirewallRule
+  - Added Interface IPv6FirewallRuleListResult
+  - Added Interface IPv6FirewallRulesCreateOrUpdateOptionalParams
+  - Added Interface IPv6FirewallRulesDeleteOptionalParams
+  - Added Interface IPv6FirewallRulesGetOptionalParams
+  - Added Interface IPv6FirewallRulesListByServerNextOptionalParams
+  - Added Interface IPv6FirewallRulesListByServerOptionalParams
+  - Added Interface Job
+  - Added Interface JobAgent
+  - Added Interface JobCredential
+  - Added Interface JobExecution
+  - Added Interface JobStep
+  - Added Interface JobTargetGroup
+  - Added Interface JobVersion
+  - Added Interface LedgerDigestUploads
+  - Added Interface LogicalDatabaseTransparentDataEncryption
+  - Added Interface LogicalServerAdvancedThreatProtectionListResult
+  - Added Interface LongTermRetentionBackup
+  - Added Interface LongTermRetentionBackupOperationResult
+  - Added Interface LongTermRetentionPolicy
+  - Added Interface MaintenanceWindowOptions
+  - Added Interface MaintenanceWindows
+  - Added Interface ManagedBackupShortTermRetentionPolicy
+  - Added Interface ManagedDatabase
+  - Added Interface ManagedDatabaseAdvancedThreatProtection
+  - Added Interface ManagedDatabaseAdvancedThreatProtectionListResult
+  - Added Interface ManagedDatabaseAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams
+  - Added Interface ManagedDatabaseAdvancedThreatProtectionSettingsGetOptionalParams
+  - Added Interface ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseNextOptionalParams
+  - Added Interface ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalParams
+  - Added Interface ManagedDatabaseMoveDefinition
+  - Added Interface ManagedDatabaseMoveOperationListResult
+  - Added Interface ManagedDatabaseMoveOperationResult
+  - Added Interface ManagedDatabaseMoveOperationsGetOptionalParams
+  - Added Interface ManagedDatabaseMoveOperationsListByLocationNextOptionalParams
+  - Added Interface ManagedDatabaseMoveOperationsListByLocationOptionalParams
+  - Added Interface ManagedDatabaseRestoreDetailsBackupSetProperties
+  - Added Interface ManagedDatabaseRestoreDetailsResult
+  - Added Interface ManagedDatabaseRestoreDetailsUnrestorableFileProperties
+  - Added Interface ManagedDatabasesCancelMoveOptionalParams
+  - Added Interface ManagedDatabasesCompleteMoveOptionalParams
+  - Added Interface ManagedDatabaseSecurityAlertPolicy
+  - Added Interface ManagedDatabasesStartMoveOptionalParams
+  - Added Interface ManagedDatabaseStartMoveDefinition
+  - Added Interface ManagedInstance
+  - Added Interface ManagedInstanceAdministrator
+  - Added Interface ManagedInstanceAdvancedThreatProtection
+  - Added Interface ManagedInstanceAdvancedThreatProtectionListResult
+  - Added Interface ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams
+  - Added Interface ManagedInstanceAdvancedThreatProtectionSettingsGetOptionalParams
+  - Added Interface ManagedInstanceAdvancedThreatProtectionSettingsListByInstanceNextOptionalParams
+  - Added Interface ManagedInstanceAdvancedThreatProtectionSettingsListByInstanceOptionalParams
+  - Added Interface ManagedInstanceAzureADOnlyAuthentication
+  - Added Interface ManagedInstanceDtc
+  - Added Interface ManagedInstanceDtcListResult
+  - Added Interface ManagedInstanceDtcsCreateOrUpdateOptionalParams
+  - Added Interface ManagedInstanceDtcSecuritySettings
+  - Added Interface ManagedInstanceDtcsGetOptionalParams
+  - Added Interface ManagedInstanceDtcsListByManagedInstanceNextOptionalParams
+  - Added Interface ManagedInstanceDtcsListByManagedInstanceOptionalParams
+  - Added Interface ManagedInstanceDtcTransactionManagerCommunicationSettings
+  - Added Interface ManagedInstanceEncryptionProtector
+  - Added Interface ManagedInstanceKey
+  - Added Interface ManagedInstanceLongTermRetentionBackup
+  - Added Interface ManagedInstanceLongTermRetentionPolicy
+  - Added Interface ManagedInstanceOperation
+  - Added Interface ManagedInstancePrivateEndpointConnection
+  - Added Interface ManagedInstancePrivateLink
+  - Added Interface ManagedInstanceQuery
+  - Added Interface ManagedInstanceVulnerabilityAssessment
+  - Added Interface ManagedLedgerDigestUploads
+  - Added Interface ManagedLedgerDigestUploadsCreateOrUpdateOptionalParams
+  - Added Interface ManagedLedgerDigestUploadsDisableOptionalParams
+  - Added Interface ManagedLedgerDigestUploadsGetOptionalParams
+  - Added Interface ManagedLedgerDigestUploadsListByDatabaseNextOptionalParams
+  - Added Interface ManagedLedgerDigestUploadsListByDatabaseOptionalParams
+  - Added Interface ManagedLedgerDigestUploadsListResult
+  - Added Interface ManagedServerDnsAlias
+  - Added Interface ManagedServerDnsAliasAcquisition
+  - Added Interface ManagedServerDnsAliasCreation
+  - Added Interface ManagedServerDnsAliasesAcquireOptionalParams
+  - Added Interface ManagedServerDnsAliasesCreateOrUpdateOptionalParams
+  - Added Interface ManagedServerDnsAliasesDeleteOptionalParams
+  - Added Interface ManagedServerDnsAliasesGetOptionalParams
+  - Added Interface ManagedServerDnsAliasesListByManagedInstanceNextOptionalParams
+  - Added Interface ManagedServerDnsAliasesListByManagedInstanceOptionalParams
+  - Added Interface ManagedServerDnsAliasListResult
+  - Added Interface ManagedServerSecurityAlertPolicy
+  - Added Interface ManagedTransparentDataEncryption
+  - Added Interface OutboundFirewallRule
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface ProxyResource
+  - Added Interface ProxyResourceWithWritableName
+  - Added Interface QueryCheck
+  - Added Interface QueryStatistics
+  - Added Interface RecommendedAction
+  - Added Interface RecommendedSensitivityLabelUpdate
+  - Added Interface RecoverableDatabase
+  - Added Interface RecoverableManagedDatabase
+  - Added Interface Remediation
+  - Added Interface ReplicationLink
+  - Added Interface RestorableDroppedDatabase
+  - Added Interface RestorableDroppedManagedDatabase
+  - Added Interface RestorePoint
+  - Added Interface SecurityEvent
+  - Added Interface SensitivityLabel
+  - Added Interface SensitivityLabelUpdate
+  - Added Interface Server
+  - Added Interface ServerAdvancedThreatProtection
+  - Added Interface ServerAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams
+  - Added Interface ServerAdvancedThreatProtectionSettingsGetOptionalParams
+  - Added Interface ServerAdvancedThreatProtectionSettingsListByServerNextOptionalParams
+  - Added Interface ServerAdvancedThreatProtectionSettingsListByServerOptionalParams
+  - Added Interface ServerAutomaticTuning
+  - Added Interface ServerAzureADAdministrator
+  - Added Interface ServerAzureADOnlyAuthentication
+  - Added Interface ServerBlobAuditingPolicy
+  - Added Interface ServerCommunicationLink
+  - Added Interface ServerConfigurationOption
+  - Added Interface ServerConfigurationOptionListResult
+  - Added Interface ServerConfigurationOptionsCreateOrUpdateOptionalParams
+  - Added Interface ServerConfigurationOptionsGetOptionalParams
+  - Added Interface ServerConfigurationOptionsListByManagedInstanceNextOptionalParams
+  - Added Interface ServerConfigurationOptionsListByManagedInstanceOptionalParams
+  - Added Interface ServerConnectionPolicy
+  - Added Interface ServerDevOpsAuditingSettings
+  - Added Interface ServerDnsAlias
+  - Added Interface ServerKey
+  - Added Interface ServerOperation
+  - Added Interface ServerSecurityAlertPolicy
+  - Added Interface ServerTrustCertificate
+  - Added Interface ServerTrustCertificatesCreateOrUpdateOptionalParams
+  - Added Interface ServerTrustCertificatesDeleteOptionalParams
+  - Added Interface ServerTrustCertificatesGetOptionalParams
+  - Added Interface ServerTrustCertificatesListByInstanceNextOptionalParams
+  - Added Interface ServerTrustCertificatesListByInstanceOptionalParams
+  - Added Interface ServerTrustCertificatesListResult
+  - Added Interface ServerTrustGroup
+  - Added Interface ServerVulnerabilityAssessment
+  - Added Interface ServiceObjective
+  - Added Interface SqlAgentConfiguration
+  - Added Interface SqlVulnerabilityAssessment
+  - Added Interface SqlVulnerabilityAssessmentBaselineGetOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentBaselineListBySqlVulnerabilityAssessmentNextOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentBaselineListBySqlVulnerabilityAssessmentOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentBaselinesCreateOrUpdateOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentExecuteScanExecuteOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentListResult
+  - Added Interface SqlVulnerabilityAssessmentRuleBaselineCreateOrUpdateOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentRuleBaselineGetOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentRuleBaselineListByBaselineNextOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentRuleBaselineListByBaselineOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentRuleBaselinesDeleteOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentScanError
+  - Added Interface SQLVulnerabilityAssessmentScanListResult
+  - Added Interface SqlVulnerabilityAssessmentScanRecord
+  - Added Interface SqlVulnerabilityAssessmentScanRecordListResult
+  - Added Interface SqlVulnerabilityAssessmentScanResultGetOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentScanResultListByScanNextOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentScanResultListByScanOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentScanResults
+  - Added Interface SqlVulnerabilityAssessmentScansGetOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsNextOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentsDeleteOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentsSettingsCreateOrUpdateOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentsSettingsGetOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentsSettingsListByServerNextOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentsSettingsListByServerOptionalParams
+  - Added Interface SubscriptionUsage
+  - Added Interface SynapseLinkWorkspace
+  - Added Interface SynapseLinkWorkspaceInfoProperties
+  - Added Interface SynapseLinkWorkspaceListResult
+  - Added Interface SynapseLinkWorkspacesListByDatabaseNextOptionalParams
+  - Added Interface SynapseLinkWorkspacesListByDatabaseOptionalParams
+  - Added Interface SyncAgent
+  - Added Interface SyncAgentLinkedDatabase
+  - Added Interface SyncGroup
+  - Added Interface SyncMember
+  - Added Interface TdeCertificate
+  - Added Interface TimeZone
+  - Added Interface TrackedResource
+  - Added Interface UpdateVirtualClusterDnsServersOperation
+  - Added Interface VaRule
+  - Added Interface VirtualCluster
+  - Added Interface VirtualNetworkRule
+  - Added Interface VulnerabilityAssessmentScanRecord
+  - Added Interface WorkloadClassifier
+  - Added Interface WorkloadGroup
+  - Added Type Alias AdvancedThreatProtectionName
+  - Added Type Alias AdvancedThreatProtectionState
+  - Added Type Alias BaselineName
+  - Added Type Alias DatabaseAdvancedThreatProtectionSettingsCreateOrUpdateResponse
+  - Added Type Alias DatabaseAdvancedThreatProtectionSettingsGetResponse
+  - Added Type Alias DatabaseAdvancedThreatProtectionSettingsListByDatabaseNextResponse
+  - Added Type Alias DatabaseAdvancedThreatProtectionSettingsListByDatabaseResponse
+  - Added Type Alias DatabaseSqlVulnerabilityAssessmentBaselinesCreateOrUpdateResponse
+  - Added Type Alias DatabaseSqlVulnerabilityAssessmentBaselinesGetResponse
+  - Added Type Alias DatabaseSqlVulnerabilityAssessmentBaselinesListBySqlVulnerabilityAssessmentNextResponse
+  - Added Type Alias DatabaseSqlVulnerabilityAssessmentBaselinesListBySqlVulnerabilityAssessmentResponse
+  - Added Type Alias DatabaseSqlVulnerabilityAssessmentRuleBaselinesCreateOrUpdateResponse
+  - Added Type Alias DatabaseSqlVulnerabilityAssessmentRuleBaselinesGetResponse
+  - Added Type Alias DatabaseSqlVulnerabilityAssessmentRuleBaselinesListByBaselineNextResponse
+  - Added Type Alias DatabaseSqlVulnerabilityAssessmentRuleBaselinesListByBaselineResponse
+  - Added Type Alias DatabaseSqlVulnerabilityAssessmentScanResultGetResponse
+  - Added Type Alias DatabaseSqlVulnerabilityAssessmentScanResultListByScanNextResponse
+  - Added Type Alias DatabaseSqlVulnerabilityAssessmentScanResultListByScanResponse
+  - Added Type Alias DatabaseSqlVulnerabilityAssessmentScansGetResponse
+  - Added Type Alias DatabaseSqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsNextResponse
+  - Added Type Alias DatabaseSqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsResponse
+  - Added Type Alias DatabaseSqlVulnerabilityAssessmentsSettingsGetResponse
+  - Added Type Alias DatabaseSqlVulnerabilityAssessmentsSettingsListByDatabaseNextResponse
+  - Added Type Alias DatabaseSqlVulnerabilityAssessmentsSettingsListByDatabaseResponse
+  - Added Type Alias DistributedAvailabilityGroupsCreateOrUpdateResponse
+  - Added Type Alias DistributedAvailabilityGroupsGetResponse
+  - Added Type Alias DistributedAvailabilityGroupsListByInstanceNextResponse
+  - Added Type Alias DistributedAvailabilityGroupsListByInstanceResponse
+  - Added Type Alias DistributedAvailabilityGroupsUpdateResponse
+  - Added Type Alias DNSRefreshOperationStatus
+  - Added Type Alias DtcName
+  - Added Type Alias EndpointCertificatesGetResponse
+  - Added Type Alias EndpointCertificatesListByInstanceNextResponse
+  - Added Type Alias EndpointCertificatesListByInstanceResponse
+  - Added Type Alias IPv6FirewallRulesCreateOrUpdateResponse
+  - Added Type Alias IPv6FirewallRulesGetResponse
+  - Added Type Alias IPv6FirewallRulesListByServerNextResponse
+  - Added Type Alias IPv6FirewallRulesListByServerResponse
+  - Added Type Alias ManagedDatabaseAdvancedThreatProtectionSettingsCreateOrUpdateResponse
+  - Added Type Alias ManagedDatabaseAdvancedThreatProtectionSettingsGetResponse
+  - Added Type Alias ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseNextResponse
+  - Added Type Alias ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseResponse
+  - Added Type Alias ManagedDatabaseMoveOperationsGetResponse
+  - Added Type Alias ManagedDatabaseMoveOperationsListByLocationNextResponse
+  - Added Type Alias ManagedDatabaseMoveOperationsListByLocationResponse
+  - Added Type Alias ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateResponse
+  - Added Type Alias ManagedInstanceAdvancedThreatProtectionSettingsGetResponse
+  - Added Type Alias ManagedInstanceAdvancedThreatProtectionSettingsListByInstanceNextResponse
+  - Added Type Alias ManagedInstanceAdvancedThreatProtectionSettingsListByInstanceResponse
+  - Added Type Alias ManagedInstanceDtcsCreateOrUpdateResponse
+  - Added Type Alias ManagedInstanceDtcsGetResponse
+  - Added Type Alias ManagedInstanceDtcsListByManagedInstanceNextResponse
+  - Added Type Alias ManagedInstanceDtcsListByManagedInstanceResponse
+  - Added Type Alias ManagedLedgerDigestUploadsCreateOrUpdateResponse
+  - Added Type Alias ManagedLedgerDigestUploadsDisableResponse
+  - Added Type Alias ManagedLedgerDigestUploadsGetResponse
+  - Added Type Alias ManagedLedgerDigestUploadsListByDatabaseNextResponse
+  - Added Type Alias ManagedLedgerDigestUploadsListByDatabaseResponse
+  - Added Type Alias ManagedLedgerDigestUploadsName
+  - Added Type Alias ManagedLedgerDigestUploadsState
+  - Added Type Alias ManagedServerDnsAliasesAcquireResponse
+  - Added Type Alias ManagedServerDnsAliasesCreateOrUpdateResponse
+  - Added Type Alias ManagedServerDnsAliasesGetResponse
+  - Added Type Alias ManagedServerDnsAliasesListByManagedInstanceNextResponse
+  - Added Type Alias ManagedServerDnsAliasesListByManagedInstanceResponse
+  - Added Type Alias MoveOperationMode
+  - Added Type Alias ReplicationLinksFailoverAllowDataLossResponse
+  - Added Type Alias ReplicationLinksFailoverResponse
+  - Added Type Alias ReplicationMode
+  - Added Type Alias RuleSeverity
+  - Added Type Alias RuleStatus
+  - Added Type Alias RuleType
+  - Added Type Alias ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse
+  - Added Type Alias ServerAdvancedThreatProtectionSettingsGetResponse
+  - Added Type Alias ServerAdvancedThreatProtectionSettingsListByServerNextResponse
+  - Added Type Alias ServerAdvancedThreatProtectionSettingsListByServerResponse
+  - Added Type Alias ServerConfigurationOptionName
+  - Added Type Alias ServerConfigurationOptionsCreateOrUpdateResponse
+  - Added Type Alias ServerConfigurationOptionsGetResponse
+  - Added Type Alias ServerConfigurationOptionsListByManagedInstanceNextResponse
+  - Added Type Alias ServerConfigurationOptionsListByManagedInstanceResponse
+  - Added Type Alias ServerTrustCertificatesCreateOrUpdateResponse
+  - Added Type Alias ServerTrustCertificatesGetResponse
+  - Added Type Alias ServerTrustCertificatesListByInstanceNextResponse
+  - Added Type Alias ServerTrustCertificatesListByInstanceResponse
+  - Added Type Alias SqlVulnerabilityAssessmentBaselineGetResponse
+  - Added Type Alias SqlVulnerabilityAssessmentBaselineListBySqlVulnerabilityAssessmentNextResponse
+  - Added Type Alias SqlVulnerabilityAssessmentBaselineListBySqlVulnerabilityAssessmentResponse
+  - Added Type Alias SqlVulnerabilityAssessmentBaselinesCreateOrUpdateResponse
+  - Added Type Alias SQLVulnerabilityAssessmentName
+  - Added Type Alias SqlVulnerabilityAssessmentName
+  - Added Type Alias SqlVulnerabilityAssessmentRuleBaselineCreateOrUpdateResponse
+  - Added Type Alias SqlVulnerabilityAssessmentRuleBaselineGetResponse
+  - Added Type Alias SqlVulnerabilityAssessmentRuleBaselineListByBaselineNextResponse
+  - Added Type Alias SqlVulnerabilityAssessmentRuleBaselineListByBaselineResponse
+  - Added Type Alias SqlVulnerabilityAssessmentScanResultGetResponse
+  - Added Type Alias SqlVulnerabilityAssessmentScanResultListByScanNextResponse
+  - Added Type Alias SqlVulnerabilityAssessmentScanResultListByScanResponse
+  - Added Type Alias SqlVulnerabilityAssessmentScansGetResponse
+  - Added Type Alias SqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsNextResponse
+  - Added Type Alias SqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsResponse
+  - Added Type Alias SqlVulnerabilityAssessmentsSettingsCreateOrUpdateResponse
+  - Added Type Alias SqlVulnerabilityAssessmentsSettingsGetResponse
+  - Added Type Alias SqlVulnerabilityAssessmentsSettingsListByServerNextResponse
+  - Added Type Alias SqlVulnerabilityAssessmentsSettingsListByServerResponse
+  - Added Type Alias SqlVulnerabilityAssessmentState
+  - Added Type Alias SynapseLinkWorkspacesListByDatabaseNextResponse
+  - Added Type Alias SynapseLinkWorkspacesListByDatabaseResponse
+  - Added Type Alias SyncGroupsType
+  - Interface ElasticPoolUpdate has a new optional parameter highAvailabilityReplicaCount
+  - Interface ManagedDatabaseUpdate has a new optional parameter storageContainerIdentity
+  - Interface ReplicationLinksDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface ReplicationLinksDeleteOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface VirtualClustersUpdateDnsServersOptionalParams has a new optional parameter resumeFrom
+  - Interface VirtualClustersUpdateDnsServersOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface VirtualClusterUpdate has a new optional parameter version
+  - Class SqlManagementClient has a new parameter databaseAdvancedThreatProtectionSettings
+  - Class SqlManagementClient has a new parameter databaseSqlVulnerabilityAssessmentBaselines
+  - Class SqlManagementClient has a new parameter databaseSqlVulnerabilityAssessmentExecuteScan
+  - Class SqlManagementClient has a new parameter databaseSqlVulnerabilityAssessmentRuleBaselines
+  - Class SqlManagementClient has a new parameter databaseSqlVulnerabilityAssessmentScanResult
+  - Class SqlManagementClient has a new parameter databaseSqlVulnerabilityAssessmentScans
+  - Class SqlManagementClient has a new parameter databaseSqlVulnerabilityAssessmentsSettings
+  - Class SqlManagementClient has a new parameter distributedAvailabilityGroups
+  - Class SqlManagementClient has a new parameter endpointCertificates
+  - Class SqlManagementClient has a new parameter iPv6FirewallRules
+  - Class SqlManagementClient has a new parameter managedDatabaseAdvancedThreatProtectionSettings
+  - Class SqlManagementClient has a new parameter managedDatabaseMoveOperations
+  - Class SqlManagementClient has a new parameter managedInstanceAdvancedThreatProtectionSettings
+  - Class SqlManagementClient has a new parameter managedInstanceDtcs
+  - Class SqlManagementClient has a new parameter managedLedgerDigestUploadsOperations
+  - Class SqlManagementClient has a new parameter managedServerDnsAliases
+  - Class SqlManagementClient has a new parameter serverAdvancedThreatProtectionSettings
+  - Class SqlManagementClient has a new parameter serverConfigurationOptions
+  - Class SqlManagementClient has a new parameter serverTrustCertificates
+  - Class SqlManagementClient has a new parameter sqlVulnerabilityAssessmentBaseline
+  - Class SqlManagementClient has a new parameter sqlVulnerabilityAssessmentBaselines
+  - Class SqlManagementClient has a new parameter sqlVulnerabilityAssessmentExecuteScan
+  - Class SqlManagementClient has a new parameter sqlVulnerabilityAssessmentRuleBaseline
+  - Class SqlManagementClient has a new parameter sqlVulnerabilityAssessmentRuleBaselines
+  - Class SqlManagementClient has a new parameter sqlVulnerabilityAssessments
+  - Class SqlManagementClient has a new parameter sqlVulnerabilityAssessmentScanResult
+  - Class SqlManagementClient has a new parameter sqlVulnerabilityAssessmentScans
+  - Class SqlManagementClient has a new parameter sqlVulnerabilityAssessmentsSettings
+  - Class SqlManagementClient has a new parameter synapseLinkWorkspaces
+  - Added Enum KnownAdvancedThreatProtectionName
+  - Added Enum KnownBaselineName
+  - Added Enum KnownDNSRefreshOperationStatus
+  - Added Enum KnownDtcName
+  - Added Enum KnownManagedLedgerDigestUploadsName
+  - Added Enum KnownManagedLedgerDigestUploadsState
+  - Added Enum KnownMoveOperationMode
+  - Added Enum KnownReplicationMode
+  - Added Enum KnownRuleSeverity
+  - Added Enum KnownRuleStatus
+  - Added Enum KnownRuleType
+  - Added Enum KnownServerConfigurationOptionName
+  - Added Enum KnownSQLVulnerabilityAssessmentName
+  - Added Enum KnownSqlVulnerabilityAssessmentName
+  - Added Enum KnownSyncGroupsType
+  - Enum KnownReplicationLinkType has a new value Standby
+  - Enum KnownSecondaryType has a new value Standby
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group OperationsHealthOperations
+  - Removed operation ReplicationLinks.beginUnlink
+  - Removed operation ReplicationLinks.beginUnlinkAndWait
+  - Removed operation ReplicationLinks.delete
+  - Removed operation VirtualClusters.updateDnsServers
+  - Operation SyncGroups.listLogs has a new signature
+  - Interface DatabaseColumnsListByDatabaseNextOptionalParams no longer has parameter column
+  - Interface DatabaseColumnsListByDatabaseNextOptionalParams no longer has parameter orderBy
+  - Interface DatabaseColumnsListByDatabaseNextOptionalParams no longer has parameter schema
+  - Interface DatabaseColumnsListByDatabaseNextOptionalParams no longer has parameter skiptoken
+  - Interface DatabaseColumnsListByDatabaseNextOptionalParams no longer has parameter table
+  - Interface DatabaseColumnsListByTableNextOptionalParams no longer has parameter filter
+  - Interface DatabaseIdentity no longer has parameter delegatedResources
+  - Interface DatabaseSchemasListByDatabaseNextOptionalParams no longer has parameter filter
+  - Interface DatabasesListByServerNextOptionalParams no longer has parameter skipToken
+  - Interface DatabaseTablesListBySchemaNextOptionalParams no longer has parameter filter
+  - Interface DatabaseUpdate no longer has parameter primaryDelegatedIdentityClientId
+  - Interface ElasticPoolsListByServerNextOptionalParams no longer has parameter skip
+  - Interface JobExecutionsListByAgentNextOptionalParams no longer has parameter createTimeMax
+  - Interface JobExecutionsListByAgentNextOptionalParams no longer has parameter createTimeMin
+  - Interface JobExecutionsListByAgentNextOptionalParams no longer has parameter endTimeMax
+  - Interface JobExecutionsListByAgentNextOptionalParams no longer has parameter endTimeMin
+  - Interface JobExecutionsListByAgentNextOptionalParams no longer has parameter isActive
+  - Interface JobExecutionsListByAgentNextOptionalParams no longer has parameter skip
+  - Interface JobExecutionsListByAgentNextOptionalParams no longer has parameter top
+  - Interface JobExecutionsListByJobNextOptionalParams no longer has parameter createTimeMax
+  - Interface JobExecutionsListByJobNextOptionalParams no longer has parameter createTimeMin
+  - Interface JobExecutionsListByJobNextOptionalParams no longer has parameter endTimeMax
+  - Interface JobExecutionsListByJobNextOptionalParams no longer has parameter endTimeMin
+  - Interface JobExecutionsListByJobNextOptionalParams no longer has parameter isActive
+  - Interface JobExecutionsListByJobNextOptionalParams no longer has parameter skip
+  - Interface JobExecutionsListByJobNextOptionalParams no longer has parameter top
+  - Interface JobStepExecutionsListByJobExecutionNextOptionalParams no longer has parameter createTimeMax
+  - Interface JobStepExecutionsListByJobExecutionNextOptionalParams no longer has parameter createTimeMin
+  - Interface JobStepExecutionsListByJobExecutionNextOptionalParams no longer has parameter endTimeMax
+  - Interface JobStepExecutionsListByJobExecutionNextOptionalParams no longer has parameter endTimeMin
+  - Interface JobStepExecutionsListByJobExecutionNextOptionalParams no longer has parameter isActive
+  - Interface JobStepExecutionsListByJobExecutionNextOptionalParams no longer has parameter skip
+  - Interface JobStepExecutionsListByJobExecutionNextOptionalParams no longer has parameter top
+  - Interface JobTargetExecutionsListByJobExecutionNextOptionalParams no longer has parameter createTimeMax
+  - Interface JobTargetExecutionsListByJobExecutionNextOptionalParams no longer has parameter createTimeMin
+  - Interface JobTargetExecutionsListByJobExecutionNextOptionalParams no longer has parameter endTimeMax
+  - Interface JobTargetExecutionsListByJobExecutionNextOptionalParams no longer has parameter endTimeMin
+  - Interface JobTargetExecutionsListByJobExecutionNextOptionalParams no longer has parameter isActive
+  - Interface JobTargetExecutionsListByJobExecutionNextOptionalParams no longer has parameter skip
+  - Interface JobTargetExecutionsListByJobExecutionNextOptionalParams no longer has parameter top
+  - Interface JobTargetExecutionsListByStepNextOptionalParams no longer has parameter createTimeMax
+  - Interface JobTargetExecutionsListByStepNextOptionalParams no longer has parameter createTimeMin
+  - Interface JobTargetExecutionsListByStepNextOptionalParams no longer has parameter endTimeMax
+  - Interface JobTargetExecutionsListByStepNextOptionalParams no longer has parameter endTimeMin
+  - Interface JobTargetExecutionsListByStepNextOptionalParams no longer has parameter isActive
+  - Interface JobTargetExecutionsListByStepNextOptionalParams no longer has parameter skip
+  - Interface JobTargetExecutionsListByStepNextOptionalParams no longer has parameter top
+  - Interface LongTermRetentionBackupsListByDatabaseNextOptionalParams no longer has parameter databaseState
+  - Interface LongTermRetentionBackupsListByDatabaseNextOptionalParams no longer has parameter onlyLatestPerDatabase
+  - Interface LongTermRetentionBackupsListByLocationNextOptionalParams no longer has parameter databaseState
+  - Interface LongTermRetentionBackupsListByLocationNextOptionalParams no longer has parameter onlyLatestPerDatabase
+  - Interface LongTermRetentionBackupsListByResourceGroupDatabaseNextOptionalParams no longer has parameter databaseState
+  - Interface LongTermRetentionBackupsListByResourceGroupDatabaseNextOptionalParams no longer has parameter onlyLatestPerDatabase
+  - Interface LongTermRetentionBackupsListByResourceGroupLocationNextOptionalParams no longer has parameter databaseState
+  - Interface LongTermRetentionBackupsListByResourceGroupLocationNextOptionalParams no longer has parameter onlyLatestPerDatabase
+  - Interface LongTermRetentionBackupsListByResourceGroupServerNextOptionalParams no longer has parameter databaseState
+  - Interface LongTermRetentionBackupsListByResourceGroupServerNextOptionalParams no longer has parameter onlyLatestPerDatabase
+  - Interface LongTermRetentionBackupsListByServerNextOptionalParams no longer has parameter databaseState
+  - Interface LongTermRetentionBackupsListByServerNextOptionalParams no longer has parameter onlyLatestPerDatabase
+  - Interface LongTermRetentionManagedInstanceBackupsListByDatabaseNextOptionalParams no longer has parameter databaseState
+  - Interface LongTermRetentionManagedInstanceBackupsListByDatabaseNextOptionalParams no longer has parameter onlyLatestPerDatabase
+  - Interface LongTermRetentionManagedInstanceBackupsListByInstanceNextOptionalParams no longer has parameter databaseState
+  - Interface LongTermRetentionManagedInstanceBackupsListByInstanceNextOptionalParams no longer has parameter onlyLatestPerDatabase
+  - Interface LongTermRetentionManagedInstanceBackupsListByLocationNextOptionalParams no longer has parameter databaseState
+  - Interface LongTermRetentionManagedInstanceBackupsListByLocationNextOptionalParams no longer has parameter onlyLatestPerDatabase
+  - Interface LongTermRetentionManagedInstanceBackupsListByResourceGroupDatabaseNextOptionalParams no longer has parameter databaseState
+  - Interface LongTermRetentionManagedInstanceBackupsListByResourceGroupDatabaseNextOptionalParams no longer has parameter onlyLatestPerDatabase
+  - Interface LongTermRetentionManagedInstanceBackupsListByResourceGroupInstanceNextOptionalParams no longer has parameter databaseState
+  - Interface LongTermRetentionManagedInstanceBackupsListByResourceGroupInstanceNextOptionalParams no longer has parameter onlyLatestPerDatabase
+  - Interface LongTermRetentionManagedInstanceBackupsListByResourceGroupLocationNextOptionalParams no longer has parameter databaseState
+  - Interface LongTermRetentionManagedInstanceBackupsListByResourceGroupLocationNextOptionalParams no longer has parameter onlyLatestPerDatabase
+  - Interface ManagedDatabaseColumnsListByDatabaseNextOptionalParams no longer has parameter column
+  - Interface ManagedDatabaseColumnsListByDatabaseNextOptionalParams no longer has parameter orderBy
+  - Interface ManagedDatabaseColumnsListByDatabaseNextOptionalParams no longer has parameter schema
+  - Interface ManagedDatabaseColumnsListByDatabaseNextOptionalParams no longer has parameter skiptoken
+  - Interface ManagedDatabaseColumnsListByDatabaseNextOptionalParams no longer has parameter table
+  - Interface ManagedDatabaseColumnsListByTableNextOptionalParams no longer has parameter filter
+  - Interface ManagedDatabaseQueriesListByQueryNextOptionalParams no longer has parameter endTime
+  - Interface ManagedDatabaseQueriesListByQueryNextOptionalParams no longer has parameter interval
+  - Interface ManagedDatabaseQueriesListByQueryNextOptionalParams no longer has parameter startTime
+  - Interface ManagedDatabaseSchemasListByDatabaseNextOptionalParams no longer has parameter filter
+  - Interface ManagedDatabaseSecurityEventsListByDatabaseNextOptionalParams no longer has parameter filter
+  - Interface ManagedDatabaseSecurityEventsListByDatabaseNextOptionalParams no longer has parameter skip
+  - Interface ManagedDatabaseSecurityEventsListByDatabaseNextOptionalParams no longer has parameter skiptoken
+  - Interface ManagedDatabaseSecurityEventsListByDatabaseNextOptionalParams no longer has parameter top
+  - Interface ManagedDatabaseSensitivityLabelsListCurrentByDatabaseNextOptionalParams no longer has parameter count
+  - Interface ManagedDatabaseSensitivityLabelsListCurrentByDatabaseNextOptionalParams no longer has parameter filter
+  - Interface ManagedDatabaseSensitivityLabelsListCurrentByDatabaseNextOptionalParams no longer has parameter skipToken
+  - Interface ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseNextOptionalParams no longer has parameter filter
+  - Interface ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseNextOptionalParams no longer has parameter includeDisabledRecommendations
+  - Interface ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseNextOptionalParams no longer has parameter skipToken
+  - Interface ManagedDatabaseTablesListBySchemaNextOptionalParams no longer has parameter filter
+  - Interface ManagedInstanceKeysListByInstanceNextOptionalParams no longer has parameter filter
+  - Interface ManagedInstancesListByInstancePoolNextOptionalParams no longer has parameter expand
+  - Interface ManagedInstancesListByManagedInstanceNextOptionalParams no longer has parameter aggregationFunction
+  - Interface ManagedInstancesListByManagedInstanceNextOptionalParams no longer has parameter databases
+  - Interface ManagedInstancesListByManagedInstanceNextOptionalParams no longer has parameter endTime
+  - Interface ManagedInstancesListByManagedInstanceNextOptionalParams no longer has parameter interval
+  - Interface ManagedInstancesListByManagedInstanceNextOptionalParams no longer has parameter numberOfQueries
+  - Interface ManagedInstancesListByManagedInstanceNextOptionalParams no longer has parameter observationMetric
+  - Interface ManagedInstancesListByManagedInstanceNextOptionalParams no longer has parameter startTime
+  - Interface ManagedInstancesListByResourceGroupNextOptionalParams no longer has parameter expand
+  - Interface ManagedInstancesListNextOptionalParams no longer has parameter expand
+  - Interface SensitivityLabelsListCurrentByDatabaseNextOptionalParams no longer has parameter count
+  - Interface SensitivityLabelsListCurrentByDatabaseNextOptionalParams no longer has parameter filter
+  - Interface SensitivityLabelsListCurrentByDatabaseNextOptionalParams no longer has parameter skipToken
+  - Interface SensitivityLabelsListRecommendedByDatabaseNextOptionalParams no longer has parameter filter
+  - Interface SensitivityLabelsListRecommendedByDatabaseNextOptionalParams no longer has parameter includeDisabledRecommendations
+  - Interface SensitivityLabelsListRecommendedByDatabaseNextOptionalParams no longer has parameter skipToken
+  - Interface ServersListByResourceGroupNextOptionalParams no longer has parameter expand
+  - Interface ServersListNextOptionalParams no longer has parameter expand
+  - Interface SyncGroupsListLogsNextOptionalParams no longer has parameter continuationToken
+  - Interface UsagesListByInstancePoolNextOptionalParams no longer has parameter expandChildren
+  - Interface VirtualClusterUpdate no longer has parameter family
+  - Interface VirtualClusterUpdate no longer has parameter maintenanceConfigurationId
+  - Class SqlManagementClient no longer has parameter operationsHealthOperations
+  - Removed Enum KnownDnsRefreshConfigurationPropertiesStatus
+  - Removed Enum KnownEnum60
+    
 ## 9.0.1 (2022-05-01)
 
 **Features**
