@@ -17,18 +17,18 @@ import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   CloudManifestFileImpl,
+  DeploymentLicenseImpl,
   CustomerSubscriptionsImpl,
   ProductsImpl,
-  RegistrationsImpl,
-  LinkedSubscriptionsImpl
+  RegistrationsImpl
 } from "./operations";
 import {
   Operations,
   CloudManifestFile,
+  DeploymentLicense,
   CustomerSubscriptions,
   Products,
-  Registrations,
-  LinkedSubscriptions
+  Registrations
 } from "./operationsInterfaces";
 import { AzureStackManagementClientOptionalParams } from "./models";
 
@@ -65,7 +65,7 @@ export class AzureStackManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-azurestack/3.0.0-beta.6`;
+    const packageDetails = `azsdk-js-arm-azurestack/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -118,13 +118,13 @@ export class AzureStackManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-06-01-preview";
+    this.apiVersion = options.apiVersion || "2022-06-01";
     this.operations = new OperationsImpl(this);
     this.cloudManifestFile = new CloudManifestFileImpl(this);
+    this.deploymentLicense = new DeploymentLicenseImpl(this);
     this.customerSubscriptions = new CustomerSubscriptionsImpl(this);
     this.products = new ProductsImpl(this);
     this.registrations = new RegistrationsImpl(this);
-    this.linkedSubscriptions = new LinkedSubscriptionsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -158,8 +158,8 @@ export class AzureStackManagementClient extends coreClient.ServiceClient {
 
   operations: Operations;
   cloudManifestFile: CloudManifestFile;
+  deploymentLicense: DeploymentLicense;
   customerSubscriptions: CustomerSubscriptions;
   products: Products;
   registrations: Registrations;
-  linkedSubscriptions: LinkedSubscriptions;
 }

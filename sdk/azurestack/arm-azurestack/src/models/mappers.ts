@@ -233,6 +233,47 @@ export const Resource: coreClient.CompositeMapper = {
   }
 };
 
+export const DeploymentLicenseRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeploymentLicenseRequest",
+    modelProperties: {
+      verificationVersion: {
+        serializedName: "verificationVersion",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DeploymentLicenseResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeploymentLicenseResponse",
+    modelProperties: {
+      temporaryLicenseChain: {
+        serializedName: "temporaryLicenseChain",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      signature: {
+        serializedName: "signature",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CustomerSubscriptionList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -254,51 +295,6 @@ export const CustomerSubscriptionList: coreClient.CompositeMapper = {
               className: "CustomerSubscription"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const SystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
         }
       }
     }
@@ -883,20 +879,6 @@ export const TrackedResource: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      kind: {
-        serializedName: "kind",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
       location: {
         serializedName: "location",
         required: true,
@@ -959,63 +941,6 @@ export const ActivationKeyResult: coreClient.CompositeMapper = {
   }
 };
 
-export const LinkedSubscriptionsList: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LinkedSubscriptionsList",
-    modelProperties: {
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      },
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "LinkedSubscription"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const LinkedSubscriptionParameter: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LinkedSubscriptionParameter",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      linkedSubscriptionId: {
-        serializedName: "properties.linkedSubscriptionId",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      registrationResourceId: {
-        serializedName: "properties.registrationResourceId",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const CloudManifestFileResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1039,13 +964,6 @@ export const CustomerSubscription: coreClient.CompositeMapper = {
     className: "CustomerSubscription",
     modelProperties: {
       ...Resource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
       tenantId: {
         serializedName: "properties.tenantId",
         type: {
@@ -1062,13 +980,6 @@ export const Product: coreClient.CompositeMapper = {
     className: "Product",
     modelProperties: {
       ...Resource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
       displayName: {
         serializedName: "properties.displayName",
         type: {
@@ -1221,63 +1132,6 @@ export const Registration: coreClient.CompositeMapper = {
       },
       billingModel: {
         serializedName: "properties.billingModel",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const LinkedSubscription: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LinkedSubscription",
-    modelProperties: {
-      ...TrackedResource.type.modelProperties,
-      linkedSubscriptionId: {
-        serializedName: "properties.linkedSubscriptionId",
-        type: {
-          name: "String"
-        }
-      },
-      registrationResourceId: {
-        serializedName: "properties.registrationResourceId",
-        type: {
-          name: "String"
-        }
-      },
-      deviceId: {
-        serializedName: "properties.deviceId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      deviceObjectId: {
-        serializedName: "properties.deviceObjectId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      deviceLinkState: {
-        serializedName: "properties.deviceLinkState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      lastConnectedTime: {
-        serializedName: "properties.lastConnectedTime",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      deviceConnectionStatus: {
-        serializedName: "properties.deviceConnectionStatus",
-        readOnly: true,
         type: {
           name: "String"
         }

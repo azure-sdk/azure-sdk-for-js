@@ -22,6 +22,8 @@ import {
   ProductsGetResponse,
   ProductsListDetailsOptionalParams,
   ProductsListDetailsResponse,
+  ProductsListProductsOptionalParams,
+  ProductsListProductsResponse,
   ProductsGetProductsOptionalParams,
   ProductsGetProductsResponse,
   ProductsGetProductOptionalParams,
@@ -182,6 +184,25 @@ export class ProductsImpl implements Products {
    * @param productName Name of the product.
    * @param options The options parameters.
    */
+  listProducts(
+    resourceGroup: string,
+    registrationName: string,
+    productName: string,
+    options?: ProductsListProductsOptionalParams
+  ): Promise<ProductsListProductsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroup, registrationName, productName, options },
+      listProductsOperationSpec
+    );
+  }
+
+  /**
+   * Returns a list of products.
+   * @param resourceGroup Name of the resource group.
+   * @param registrationName Name of the Azure Stack registration.
+   * @param productName Name of the product.
+   * @param options The options parameters.
+   */
   getProducts(
     resourceGroup: string,
     registrationName: string,
@@ -322,6 +343,31 @@ const listDetailsOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const listProductsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}/listProducts",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProductList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.deviceConfiguration,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroup,
+    Parameters.registrationName,
+    Parameters.productName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const getProductsOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}/getProducts",
@@ -408,7 +454,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
