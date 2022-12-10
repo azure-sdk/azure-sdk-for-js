@@ -161,7 +161,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApiError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
