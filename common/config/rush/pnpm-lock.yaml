@@ -4015,7 +4015,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221209
+      typescript: 5.0.0-dev.20221210
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9076,8 +9076,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221209:
-    resolution: {integrity: sha512-1FzCXMc5vFSoL9j9R5GsMEHlDk03EyC+33UMCQvVW1La4suWPvNCqKA5EQBw6zbfE9fQPawKOcWlhOJ6uhRp4g==}
+  /typescript/5.0.0-dev.20221210:
+    resolution: {integrity: sha512-j+HrsNSe+sCqEJdqKT7NZi6MdeOUutCYd+oxzMpkoWFK87h6yqRs1suxK/ueic0Oou7zZMeT0XD3eqFiY8VLQw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14475,7 +14475,7 @@ packages:
     dev: false
 
   file:projects/arm-resourcehealth.tgz:
-    resolution: {integrity: sha512-Wgl98neDnGlahm6+x5H/b22PmI9RmUy4DJzmR97JTM/oO8EWyAHiM4eVG9fvZnQR1QggVkAXCqzl8hFKHSLoVw==, tarball: file:projects/arm-resourcehealth.tgz}
+    resolution: {integrity: sha512-HM+IwIjB2qouQsji8DAR0kepKgesfg1s4Byq+o5hybOMnzL0Tb6Jn8R+4SX5ANvWZ1O+bhFg2uoSrPL3D5n1Eg==, tarball: file:projects/arm-resourcehealth.tgz}
     name: '@rush-temp/arm-resourcehealth'
     version: 0.0.0
     dependencies:
@@ -14486,18 +14486,18 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.33
       chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -20155,7 +20155,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-client.tgz:
-    resolution: {integrity: sha512-7gOoevPIYyhxg9TekmZn9VXM79KwcmMyYx5Kef48XgcfqcHK8C5fWZzv9smFZBukGtCqjHDWSlHhgSR5FC0wgg==, tarball: file:projects/web-pubsub-client.tgz}
+    resolution: {integrity: sha512-jIBeW0as9y1/9Wseubgf49GeRWURiOaKJy4UTSBGXsW1+DWY2aoLc7vCqiZHVoByjeFe8GAsPLaszW7W6oYmkg==, tarball: file:projects/web-pubsub-client.tgz}
     name: '@rush-temp/web-pubsub-client'
     version: 0.0.0
     dependencies:
