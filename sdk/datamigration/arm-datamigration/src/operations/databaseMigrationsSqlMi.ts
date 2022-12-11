@@ -37,7 +37,7 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
   }
 
   /**
-   * Retrieve the Database Migration resource.
+   * Retrieve the specified database migration for a given SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
@@ -57,7 +57,7 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
   }
 
   /**
-   * Create or Update Database Migration resource.
+   * Create a new database migration to a given SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
@@ -136,7 +136,7 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
   }
 
   /**
-   * Create or Update Database Migration resource.
+   * Create a new database migration to a given SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
@@ -162,7 +162,7 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
   }
 
   /**
-   * Stop migrations in progress for the database
+   * Stop in-progress database migration to SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
@@ -236,7 +236,7 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
   }
 
   /**
-   * Stop migrations in progress for the database
+   * Stop in-progress database migration to SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
@@ -262,7 +262,7 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
   }
 
   /**
-   * Initiate cutover for online migration in progress for the database.
+   * Initiate cutover for in-progress online database migration to SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
@@ -336,7 +336,7 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
   }
 
   /**
-   * Initiate cutover for online migration in progress for the database.
+   * Initiate cutover for in-progress online database migration to SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
@@ -375,16 +375,16 @@ const getOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.migrationOperationId,
+    Parameters.apiVersion,
     Parameters.expand,
-    Parameters.apiVersion
+    Parameters.migrationOperationId
   ],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.managedInstanceName,
     Parameters.targetDbName,
-    Parameters.subscriptionId
+    Parameters.managedInstanceName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -408,14 +408,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.managedInstanceName,
     Parameters.targetDbName,
-    Parameters.subscriptionId
+    Parameters.managedInstanceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -426,14 +426,14 @@ const cancelOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/providers/Microsoft.DataMigration/databaseMigrations/{targetDbName}/cancel",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.managedInstanceName,
     Parameters.targetDbName,
-    Parameters.subscriptionId
+    Parameters.managedInstanceName
   ],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
@@ -444,14 +444,14 @@ const cutoverOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/providers/Microsoft.DataMigration/databaseMigrations/{targetDbName}/cutover",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.managedInstanceName,
     Parameters.targetDbName,
-    Parameters.subscriptionId
+    Parameters.managedInstanceName
   ],
   headerParameters: [Parameters.contentType],
   mediaType: "json",

@@ -50,9 +50,10 @@ export interface AvailableServiceSkuSku {
 
 // @public
 export interface AzureActiveDirectoryApp {
-    appKey: string;
-    applicationId: string;
-    tenantId: string;
+    appKey?: string;
+    applicationId?: string;
+    ignoreAzurePermissions?: boolean;
+    tenantId?: string;
 }
 
 // @public
@@ -100,25 +101,7 @@ export type BackupType = string;
 
 // @public
 export interface BlobShare {
-    sasUri: string;
-}
-
-// @public
-export interface CheckOCIDriverTaskInput {
-    serverVersion?: string;
-}
-
-// @public
-export interface CheckOCIDriverTaskOutput {
-    installedDriver?: OracleOCIDriverInfo;
-    readonly validationErrors?: ReportableException[];
-}
-
-// @public
-export interface CheckOCIDriverTaskProperties extends ProjectTaskProperties {
-    input?: CheckOCIDriverTaskInput;
-    readonly output?: CheckOCIDriverTaskOutput[];
-    taskType: "Service.Check.OCI";
+    sasUri?: string;
 }
 
 // @public
@@ -233,6 +216,7 @@ export interface ConnectToSourceSqlServerTaskInput {
     collectDatabases?: boolean;
     collectLogins?: boolean;
     collectTdeCertificateInfo?: boolean;
+    encryptedKeyForSecureFields?: string;
     sourceConnectionInfo: SqlConnectionInfo;
     validateSsisCatalogOnly?: boolean;
 }
@@ -294,6 +278,7 @@ export type ConnectToSourceSqlServerTaskOutputUnion = ConnectToSourceSqlServerTa
 export interface ConnectToSourceSqlServerTaskProperties extends ProjectTaskProperties {
     input?: ConnectToSourceSqlServerTaskInput;
     readonly output?: ConnectToSourceSqlServerTaskOutputUnion[];
+    taskId?: string;
     taskType: "ConnectToSource.SqlServer";
 }
 
@@ -386,6 +371,7 @@ export interface ConnectToTargetSqlDbSyncTaskProperties extends ProjectTaskPrope
 
 // @public
 export interface ConnectToTargetSqlDbTaskInput {
+    queryObjectCounts?: boolean;
     targetConnectionInfo: SqlConnectionInfo;
 }
 
@@ -399,6 +385,7 @@ export interface ConnectToTargetSqlDbTaskOutput {
 
 // @public
 export interface ConnectToTargetSqlDbTaskProperties extends ProjectTaskProperties {
+    createdOn?: string;
     input?: ConnectToTargetSqlDbTaskInput;
     readonly output?: ConnectToTargetSqlDbTaskOutput[];
     taskType: "ConnectToTarget.SqlDb";
@@ -450,28 +437,22 @@ export interface ConnectToTargetSqlMITaskProperties extends ProjectTaskPropertie
 }
 
 // @public
-export type CreatedByType = string;
+export interface CopyProgressDetails {
+    readonly copyDuration?: number;
+    readonly copyStart?: Date;
+    readonly copyThroughput?: number;
+    readonly dataRead?: number;
+    readonly dataWritten?: number;
+    readonly parallelCopyType?: string;
+    readonly rowsCopied?: number;
+    readonly rowsRead?: number;
+    readonly status?: string;
+    readonly tableName?: string;
+    readonly usedParallelCopies?: number;
+}
 
 // @public
-export interface Database {
-    collation?: string;
-    compatibilityLevel?: DatabaseCompatLevel;
-    databaseState?: DatabaseState;
-    fqdn?: string;
-    id?: string;
-    installId?: string;
-    name?: string;
-    serverCoreCount?: number;
-    serverDefaultBackupPath?: string;
-    serverDefaultDataPath?: string;
-    serverDefaultLogPath?: string;
-    serverEdition?: string;
-    serverId?: string;
-    serverLevel?: string;
-    serverName?: string;
-    serverVersion?: string;
-    serverVisibleOnlineCoreCount?: number;
-}
+export type CreatedByType = string;
 
 // @public
 export interface DatabaseBackupInfo {
@@ -500,15 +481,6 @@ export interface DatabaseFileInfo {
 }
 
 // @public
-export interface DatabaseFileInput {
-    fileType?: DatabaseFileType;
-    id?: string;
-    logicalName?: string;
-    physicalFullName?: string;
-    restoreFullName?: string;
-}
-
-// @public
 export type DatabaseFileType = string;
 
 // @public
@@ -531,16 +503,28 @@ export interface DatabaseMigrationListResult {
 // @public
 export interface DatabaseMigrationProperties {
     readonly endedOn?: Date;
-    kind: "SqlMi" | "SqlVm";
+    kind: "SqlDb" | "SqlMi" | "SqlVm";
     readonly migrationFailureError?: ErrorInfo;
     migrationOperationId?: string;
     migrationService?: string;
     readonly migrationStatus?: string;
+    provisioningError?: string;
     readonly provisioningState?: string;
     scope?: string;
     sourceDatabaseName?: string;
+    readonly sourceServerName?: string;
     sourceSqlConnection?: SqlConnectionInformation;
     readonly startedOn?: Date;
+    targetDatabaseCollation?: string;
+}
+
+// @public
+export interface DatabaseMigrationPropertiesSqlDb extends DatabaseMigrationProperties {
+    kind: "SqlDb";
+    readonly migrationStatusDetails?: SqlDbMigrationStatusDetails;
+    readonly offlineConfiguration?: SqlDbOfflineConfiguration;
+    tableList?: string[];
+    targetSqlConnection?: SqlConnectionInformation;
 }
 
 // @public
@@ -549,8 +533,6 @@ export interface DatabaseMigrationPropertiesSqlMi extends DatabaseMigrationPrope
     kind: "SqlMi";
     readonly migrationStatusDetails?: MigrationStatusDetails;
     offlineConfiguration?: OfflineConfiguration;
-    provisioningError?: string;
-    targetDatabaseCollation?: string;
 }
 
 // @public
@@ -559,12 +541,16 @@ export interface DatabaseMigrationPropertiesSqlVm extends DatabaseMigrationPrope
     kind: "SqlVm";
     readonly migrationStatusDetails?: MigrationStatusDetails;
     offlineConfiguration?: OfflineConfiguration;
-    provisioningError?: string;
-    targetDatabaseCollation?: string;
 }
 
 // @public (undocumented)
-export type DatabaseMigrationPropertiesUnion = DatabaseMigrationProperties | DatabaseMigrationPropertiesSqlMi | DatabaseMigrationPropertiesSqlVm;
+export type DatabaseMigrationPropertiesUnion = DatabaseMigrationProperties | DatabaseMigrationPropertiesSqlDb | DatabaseMigrationPropertiesSqlMi | DatabaseMigrationPropertiesSqlVm;
+
+// @public
+export interface DatabaseMigrationSqlDb extends ProxyResource {
+    properties?: DatabaseMigrationPropertiesSqlDb;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface DatabaseMigrationSqlMi extends ProxyResource {
@@ -577,6 +563,48 @@ export interface DatabaseMigrationSqlVm extends ProxyResource {
     properties?: DatabaseMigrationPropertiesSqlVm;
     readonly systemData?: SystemData;
 }
+
+// @public
+export interface DatabaseMigrationsSqlDb {
+    beginCancel(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlDbCancelOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginCancelAndWait(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlDbCancelOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, parameters: DatabaseMigrationSqlDb, options?: DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DatabaseMigrationsSqlDbCreateOrUpdateResponse>, DatabaseMigrationsSqlDbCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, parameters: DatabaseMigrationSqlDb, options?: DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams): Promise<DatabaseMigrationsSqlDbCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlDbDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlDbDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlDbGetOptionalParams): Promise<DatabaseMigrationsSqlDbGetResponse>;
+}
+
+// @public
+export interface DatabaseMigrationsSqlDbCancelOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DatabaseMigrationsSqlDbCreateOrUpdateResponse = DatabaseMigrationSqlDb;
+
+// @public
+export interface DatabaseMigrationsSqlDbDeleteOptionalParams extends coreClient.OperationOptions {
+    force?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DatabaseMigrationsSqlDbGetOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+    migrationOperationId?: string;
+}
+
+// @public
+export type DatabaseMigrationsSqlDbGetResponse = DatabaseMigrationSqlDb;
 
 // @public
 export interface DatabaseMigrationsSqlMi {
@@ -667,14 +695,6 @@ export type DatabaseMigrationStage = string;
 export type DatabaseMigrationState = string;
 
 // @public
-export interface DatabaseObjectName {
-    readonly databaseName?: string;
-    readonly objectName?: string;
-    objectType?: ObjectType;
-    readonly schemaName?: string;
-}
-
-// @public
 export type DatabaseState = string;
 
 // @public
@@ -709,12 +729,6 @@ export interface DataItemMigrationSummaryResult {
     readonly statusMessage?: string;
 }
 
-// @public
-export interface DataMigrationError {
-    readonly message?: string;
-    type?: ErrorType;
-}
-
 // @public (undocumented)
 export class DataMigrationManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -722,6 +736,8 @@ export class DataMigrationManagementClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DataMigrationManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    databaseMigrationsSqlDb: DatabaseMigrationsSqlDb;
     // (undocumented)
     databaseMigrationsSqlMi: DatabaseMigrationsSqlMi;
     // (undocumented)
@@ -756,21 +772,6 @@ export interface DataMigrationManagementClientOptionalParams extends coreClient.
 }
 
 // @public
-export interface DataMigrationProjectMetadata {
-    readonly selectedMigrationTables?: MigrationTableMetadata[];
-    readonly sourceServerName?: string;
-    readonly sourceServerPort?: string;
-    readonly sourceUsername?: string;
-    readonly targetDbName?: string;
-    readonly targetServerName?: string;
-    readonly targetUsername?: string;
-    readonly targetUsingWinAuth?: boolean;
-}
-
-// @public
-export type DataMigrationResultCode = string;
-
-// @public
 export interface DataMigrationService extends TrackedResource {
     autoStopDelay?: string;
     deleteResourcesOnStop?: boolean;
@@ -791,6 +792,7 @@ export interface DataMigrationServiceList {
 
 // @public
 export interface DataMigrationServiceStatusResponse {
+    agentConfiguration?: Record<string, unknown>;
     agentVersion?: string;
     status?: string;
     supportedTaskTypes?: string[];
@@ -808,9 +810,6 @@ export interface ErrorInfo {
     readonly code?: string;
     readonly message?: string;
 }
-
-// @public
-export type ErrorType = string;
 
 // @public
 export interface ExecutionStatistics {
@@ -912,12 +911,6 @@ export type FilesUpdateResponse = ProjectFile;
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
-export interface GetProjectDetailsNonSqlTaskInput {
-    projectLocation: string;
-    projectName: string;
-}
 
 // @public
 export interface GetTdeCertificatesSqlTaskInput {
@@ -1025,6 +1018,7 @@ export interface GetUserTablesSqlSyncTaskProperties extends ProjectTaskPropertie
 // @public
 export interface GetUserTablesSqlTaskInput {
     connectionInfo: SqlConnectionInfo;
+    encryptedKeyForSecureFields?: string;
     selectedDatabases: string[];
 }
 
@@ -1039,24 +1033,8 @@ export interface GetUserTablesSqlTaskOutput {
 export interface GetUserTablesSqlTaskProperties extends ProjectTaskProperties {
     input?: GetUserTablesSqlTaskInput;
     readonly output?: GetUserTablesSqlTaskOutput[];
+    taskId?: string;
     taskType: "GetUserTables.Sql";
-}
-
-// @public
-export interface InstallOCIDriverTaskInput {
-    driverPackageName?: string;
-}
-
-// @public
-export interface InstallOCIDriverTaskOutput {
-    readonly validationErrors?: ReportableException[];
-}
-
-// @public
-export interface InstallOCIDriverTaskProperties extends ProjectTaskProperties {
-    input?: InstallOCIDriverTaskInput;
-    readonly output?: InstallOCIDriverTaskOutput[];
-    taskType: "Service.Install.OCI";
 }
 
 // @public
@@ -1183,23 +1161,6 @@ export enum KnownDatabaseState {
     RecoveryPending = "RecoveryPending",
     Restoring = "Restoring",
     Suspect = "Suspect"
-}
-
-// @public
-export enum KnownDataMigrationResultCode {
-    Completed = "Completed",
-    FatalError = "FatalError",
-    Initial = "Initial",
-    ObjectNotExistsInSource = "ObjectNotExistsInSource",
-    ObjectNotExistsInTarget = "ObjectNotExistsInTarget",
-    TargetObjectIsInaccessible = "TargetObjectIsInaccessible"
-}
-
-// @public
-export enum KnownErrorType {
-    Default = "Default",
-    Error = "Error",
-    Warning = "Warning"
 }
 
 // @public
@@ -1383,6 +1344,7 @@ export enum KnownResourceSkuRestrictionsType {
 
 // @public
 export enum KnownResourceType {
+    SqlDb = "SqlDb",
     SqlMi = "SqlMi",
     SqlVm = "SqlVm"
 }
@@ -1411,27 +1373,6 @@ export enum KnownScenarioTarget {
     Sqldw = "SQLDW",
     Sqlmi = "SQLMI",
     SQLServer = "SQLServer"
-}
-
-// @public
-export enum KnownSchemaMigrationOption {
-    ExtractFromSource = "ExtractFromSource",
-    None = "None",
-    UseStorageFile = "UseStorageFile"
-}
-
-// @public
-export enum KnownSchemaMigrationStage {
-    CollectingObjects = "CollectingObjects",
-    Completed = "Completed",
-    CompletedWithWarnings = "CompletedWithWarnings",
-    DeployingSchema = "DeployingSchema",
-    DownloadingScript = "DownloadingScript",
-    Failed = "Failed",
-    GeneratingScript = "GeneratingScript",
-    NotStarted = "NotStarted",
-    UploadingScript = "UploadingScript",
-    ValidatingInputs = "ValidatingInputs"
 }
 
 // @public
@@ -1632,6 +1573,7 @@ export interface MigrateMySqlAzureDbForMySqlOfflineDatabaseInput {
 
 // @public
 export interface MigrateMySqlAzureDbForMySqlOfflineTaskInput {
+    encryptedKeyForSecureFields?: string;
     makeSourceServerReadOnly?: boolean;
     optionalAgentSettings?: {
         [propertyName: string]: string;
@@ -1715,7 +1657,9 @@ export type MigrateMySqlAzureDbForMySqlOfflineTaskOutputUnion = MigrateMySqlAzur
 // @public
 export interface MigrateMySqlAzureDbForMySqlOfflineTaskProperties extends ProjectTaskProperties {
     input?: MigrateMySqlAzureDbForMySqlOfflineTaskInput;
+    isCloneable?: boolean;
     readonly output?: MigrateMySqlAzureDbForMySqlOfflineTaskOutputUnion[];
+    taskId?: string;
     taskType: "Migrate.MySql.AzureDbForMySql";
 }
 
@@ -1929,8 +1873,9 @@ export type MigrateOracleAzureDbPostgreSqlSyncTaskOutputUnion = MigrateOracleAzu
 
 // @public
 export interface MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput {
+    readonly id?: string;
     migrationSetting?: {
-        [propertyName: string]: string;
+        [propertyName: string]: any;
     };
     name?: string;
     selectedTables?: MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseTableInput[];
@@ -1953,6 +1898,7 @@ export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput {
     encryptedKeyForSecureFields?: string;
     selectedDatabases: MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput[];
     sourceConnectionInfo: PostgreSqlConnectionInfo;
+    readonly startedOn?: Date;
     targetConnectionInfo: PostgreSqlConnectionInfo;
 }
 
@@ -2036,90 +1982,10 @@ export type MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputUnion = MigratePo
 export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties extends ProjectTaskProperties {
     createdOn?: string;
     input?: MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput;
+    isCloneable?: boolean;
     readonly output?: MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputUnion[];
     taskId?: string;
     taskType: "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2";
-}
-
-// @public
-export interface MigrateSchemaSqlServerSqlDbDatabaseInput {
-    id?: string;
-    name?: string;
-    schemaSetting?: SchemaMigrationSetting;
-    targetDatabaseName?: string;
-}
-
-// @public
-export interface MigrateSchemaSqlServerSqlDbTaskInput extends SqlMigrationTaskInput {
-    encryptedKeyForSecureFields?: string;
-    selectedDatabases: MigrateSchemaSqlServerSqlDbDatabaseInput[];
-    startedOn?: string;
-}
-
-// @public
-export interface MigrateSchemaSqlServerSqlDbTaskOutput {
-    readonly id?: string;
-    resultType: "MigrationLevelOutput" | "DatabaseLevelOutput" | "SchemaErrorOutput" | "ErrorOutput";
-}
-
-// @public (undocumented)
-export interface MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel extends MigrateSchemaSqlServerSqlDbTaskOutput {
-    readonly databaseErrorResultPrefix?: string;
-    readonly databaseName?: string;
-    readonly endedOn?: Date;
-    readonly fileId?: string;
-    readonly numberOfFailedOperations?: number;
-    readonly numberOfSuccessfulOperations?: number;
-    resultType: "DatabaseLevelOutput";
-    readonly schemaErrorResultPrefix?: string;
-    readonly stage?: SchemaMigrationStage;
-    readonly startedOn?: Date;
-    readonly state?: MigrationState;
-}
-
-// @public (undocumented)
-export interface MigrateSchemaSqlServerSqlDbTaskOutputError extends MigrateSchemaSqlServerSqlDbTaskOutput {
-    readonly commandText?: string;
-    readonly errorText?: string;
-    resultType: "SchemaErrorOutput";
-}
-
-// @public (undocumented)
-export interface MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel extends MigrateSchemaSqlServerSqlDbTaskOutput {
-    readonly endedOn?: Date;
-    resultType: "MigrationLevelOutput";
-    readonly sourceServerBrandVersion?: string;
-    readonly sourceServerVersion?: string;
-    readonly startedOn?: Date;
-    readonly state?: MigrationState;
-    readonly targetServerBrandVersion?: string;
-    readonly targetServerVersion?: string;
-}
-
-// @public (undocumented)
-export type MigrateSchemaSqlServerSqlDbTaskOutputUnion = MigrateSchemaSqlServerSqlDbTaskOutput | MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel | MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel | MigrateSchemaSqlServerSqlDbTaskOutputError | MigrateSchemaSqlTaskOutputError;
-
-// @public
-export interface MigrateSchemaSqlServerSqlDbTaskProperties extends ProjectTaskProperties {
-    createdOn?: string;
-    input?: MigrateSchemaSqlServerSqlDbTaskInput;
-    readonly output?: MigrateSchemaSqlServerSqlDbTaskOutputUnion[];
-    taskId?: string;
-    taskType: "MigrateSchemaSqlServerSqlDb";
-}
-
-// @public (undocumented)
-export interface MigrateSchemaSqlTaskOutputError extends MigrateSchemaSqlServerSqlDbTaskOutput {
-    readonly error?: ReportableException;
-    resultType: "ErrorOutput";
-}
-
-// @public
-export interface MigrateSqlServerDatabaseInput {
-    backupAndRestoreFolder?: string;
-    databaseFiles?: DatabaseFileInput[];
-    name?: string;
-    restoreDatabaseName?: string;
 }
 
 // @public
@@ -2327,6 +2193,7 @@ export interface MigrateSqlServerSqlDbTaskOutputValidationResult extends Migrate
 
 // @public
 export interface MigrateSqlServerSqlDbTaskProperties extends ProjectTaskProperties {
+    createdOn?: string;
     input?: MigrateSqlServerSqlDbTaskInput;
     isCloneable?: boolean;
     readonly output?: MigrateSqlServerSqlDbTaskOutputUnion[];
@@ -2345,6 +2212,7 @@ export interface MigrateSqlServerSqlMIDatabaseInput {
 
 // @public
 export interface MigrateSqlServerSqlMISyncTaskInput extends SqlServerSqlMISyncTaskInput {
+    numberOfParallelDatabaseMigrations?: number;
 }
 
 // @public
@@ -2396,6 +2264,7 @@ export type MigrateSqlServerSqlMISyncTaskOutputUnion = MigrateSqlServerSqlMISync
 
 // @public
 export interface MigrateSqlServerSqlMISyncTaskProperties extends ProjectTaskProperties {
+    createdOn?: string;
     input?: MigrateSqlServerSqlMISyncTaskInput;
     readonly output?: MigrateSqlServerSqlMISyncTaskOutputUnion[];
     taskType: "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS";
@@ -2407,6 +2276,7 @@ export interface MigrateSqlServerSqlMITaskInput extends SqlMigrationTaskInput {
     backupBlobShare: BlobShare;
     backupFileShare?: FileShare;
     backupMode?: BackupMode;
+    encryptedKeyForSecureFields?: string;
     selectedAgentJobs?: string[];
     selectedDatabases: MigrateSqlServerSqlMIDatabaseInput[];
     selectedLogins?: string[];
@@ -2487,8 +2357,11 @@ export type MigrateSqlServerSqlMITaskOutputUnion = MigrateSqlServerSqlMITaskOutp
 
 // @public
 export interface MigrateSqlServerSqlMITaskProperties extends ProjectTaskProperties {
+    createdOn?: string;
     input?: MigrateSqlServerSqlMITaskInput;
+    isCloneable?: boolean;
     readonly output?: MigrateSqlServerSqlMITaskOutputUnion[];
+    parentTaskId?: string;
     taskId?: string;
     taskType: "Migrate.SqlServer.AzureSqlDbMI";
 }
@@ -2556,6 +2429,7 @@ export interface MigrateSyncCompleteCommandOutput {
 
 // @public
 export interface MigrateSyncCompleteCommandProperties extends CommandProperties {
+    commandId?: string;
     commandType: "Migrate.Sync.Complete.Database";
     input?: MigrateSyncCompleteCommandInput;
     readonly output?: MigrateSyncCompleteCommandOutput;
@@ -2599,12 +2473,6 @@ export interface MigrationStatusDetails {
     readonly migrationState?: string;
     readonly pendingLogBackupsCount?: number;
     readonly restoreBlockingReason?: string;
-}
-
-// @public
-export interface MigrationTableMetadata {
-    readonly sourceTableName?: string;
-    readonly targetTableName?: string;
 }
 
 // @public
@@ -2703,6 +2571,7 @@ export interface MongoDbCommandInput {
 // @public
 export interface MongoDbConnectionInfo extends ConnectionInfo {
     additionalSettings?: string;
+    authentication?: AuthenticationType;
     connectionString: string;
     dataSource?: string;
     encryptConnection?: boolean;
@@ -2710,6 +2579,9 @@ export interface MongoDbConnectionInfo extends ConnectionInfo {
     enforceSSL?: boolean;
     port?: number;
     serverBrandVersion?: string;
+    serverName?: string;
+    serverVersion?: string;
+    trustServerCertificate?: boolean;
     type: "MongoDbConnectionInfo";
 }
 
@@ -2843,7 +2715,7 @@ export type MongoDbShardKeyOrder = string;
 // @public
 export interface MongoDbShardKeySetting {
     fields: MongoDbShardKeyField[];
-    isUnique: boolean;
+    isUnique?: boolean;
 }
 
 // @public
@@ -2855,6 +2727,8 @@ export interface MongoDbThrottlingSettings {
 
 // @public
 export interface MySqlConnectionInfo extends ConnectionInfo {
+    additionalSettings?: string;
+    authentication?: AuthenticationType;
     dataSource?: string;
     encryptConnection?: boolean;
     port: number;
@@ -2894,43 +2768,6 @@ export interface NodeMonitoringData {
     readonly nodeName?: string;
     readonly receivedBytes?: number;
     readonly sentBytes?: number;
-}
-
-// @public
-export interface NonSqlDataMigrationTable {
-    sourceName?: string;
-}
-
-// @public
-export interface NonSqlDataMigrationTableResult {
-    readonly elapsedTimeInMiliseconds?: number;
-    readonly errors?: DataMigrationError[];
-    readonly resultCode?: DataMigrationResultCode;
-    readonly sourceName?: string;
-    readonly sourceRowCount?: number;
-    readonly targetName?: string;
-    readonly targetRowCount?: number;
-}
-
-// @public
-export interface NonSqlMigrationTaskInput {
-    projectLocation: string;
-    projectName: string;
-    selectedTables: NonSqlDataMigrationTable[];
-    targetConnectionInfo: SqlConnectionInfo;
-    targetDatabaseName: string;
-}
-
-// @public
-export interface NonSqlMigrationTaskOutput {
-    readonly dataMigrationTableResults?: string;
-    readonly endedOn?: Date;
-    readonly id?: string;
-    readonly progressMessage?: string;
-    readonly sourceServerName?: string;
-    readonly startedOn?: Date;
-    readonly status?: MigrationStatus;
-    readonly targetServerName?: string;
 }
 
 // @public
@@ -2998,18 +2835,12 @@ export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface OracleConnectionInfo extends ConnectionInfo {
+    authentication?: AuthenticationType;
     dataSource: string;
+    port?: number;
+    serverName?: string;
+    serverVersion?: string;
     type: "OracleConnectionInfo";
-}
-
-// @public
-export interface OracleOCIDriverInfo {
-    readonly archiveChecksum?: string;
-    readonly assemblyVersion?: string;
-    readonly driverName?: string;
-    readonly driverSize?: string;
-    readonly oracleChecksum?: string;
-    readonly supportedOracleVersions?: string[];
 }
 
 // @public
@@ -3020,10 +2851,13 @@ export interface OrphanedUserInfo {
 
 // @public
 export interface PostgreSqlConnectionInfo extends ConnectionInfo {
+    additionalSettings?: string;
+    authentication?: AuthenticationType;
     databaseName?: string;
     dataSource?: string;
     encryptConnection?: boolean;
     port: number;
+    serverBrandVersion?: string;
     serverName: string;
     serverVersion?: string;
     trustServerCertificate?: boolean;
@@ -3032,10 +2866,10 @@ export interface PostgreSqlConnectionInfo extends ConnectionInfo {
 
 // @public
 export interface Project extends TrackedResource {
-    azureAuthenticationInfo?: string;
+    azureAuthenticationInfo?: AzureActiveDirectoryApp;
     readonly creationTime?: Date;
     databasesInfo?: DatabaseInfo[];
-    eTag?: string;
+    etag?: string;
     readonly provisioningState?: ProjectProvisioningState;
     sourceConnectionInfo?: ConnectionInfoUnion;
     sourcePlatform?: ProjectSourcePlatform;
@@ -3138,11 +2972,11 @@ export interface ProjectTaskProperties {
     readonly commands?: CommandPropertiesUnion[];
     readonly errors?: ODataError[];
     readonly state?: TaskState;
-    taskType: "MigrateSchemaSqlServerSqlDb" | "Service.Check.OCI" | "Service.Upload.OCI" | "Service.Install.OCI" | "Connect.MongoDb" | "ConnectToSource.SqlServer" | "ConnectToSource.SqlServer.Sync" | "ConnectToSource.PostgreSql.Sync" | "ConnectToSource.MySql" | "ConnectToSource.Oracle.Sync" | "ConnectToTarget.SqlDb" | "ConnectToTarget.SqlDb.Sync" | "ConnectToTarget.AzureDbForPostgreSql.Sync" | "ConnectToTarget.Oracle.AzureDbForPostgreSql.Sync" | "GetUserTables.Sql" | "GetUserTables.AzureSqlDb.Sync" | "GetUserTablesOracle" | "GetUserTablesPostgreSql" | "GetUserTablesMySql" | "ConnectToTarget.AzureSqlDbMI" | "ConnectToTarget.AzureSqlDbMI.Sync.LRS" | "ConnectToTarget.AzureDbForMySql" | "Migrate.MongoDb" | "Migrate.SqlServer.AzureSqlDbMI" | "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS" | "Migrate.SqlServer.SqlDb" | "Migrate.SqlServer.AzureSqlDb.Sync" | "Migrate.MySql.AzureDbForMySql.Sync" | "Migrate.MySql.AzureDbForMySql" | "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2" | "Migrate.Oracle.AzureDbForPostgreSql.Sync" | "ValidateMigrationInput.SqlServer.SqlDb.Sync" | "ValidateMigrationInput.SqlServer.AzureSqlDbMI" | "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS" | "Validate.MongoDb" | "Validate.Oracle.AzureDbPostgreSql.Sync" | "GetTDECertificates.Sql" | "Migrate.Ssis";
+    taskType: "Connect.MongoDb" | "ConnectToSource.SqlServer" | "ConnectToSource.SqlServer.Sync" | "ConnectToSource.PostgreSql.Sync" | "ConnectToSource.MySql" | "ConnectToSource.Oracle.Sync" | "ConnectToTarget.SqlDb" | "ConnectToTarget.SqlDb.Sync" | "ConnectToTarget.AzureDbForPostgreSql.Sync" | "ConnectToTarget.Oracle.AzureDbForPostgreSql.Sync" | "GetUserTables.Sql" | "GetUserTables.AzureSqlDb.Sync" | "GetUserTablesOracle" | "GetUserTablesPostgreSql" | "GetUserTablesMySql" | "ConnectToTarget.AzureSqlDbMI" | "ConnectToTarget.AzureSqlDbMI.Sync.LRS" | "ConnectToTarget.AzureDbForMySql" | "Migrate.MongoDb" | "Migrate.SqlServer.AzureSqlDbMI" | "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS" | "Migrate.SqlServer.SqlDb" | "Migrate.SqlServer.AzureSqlDb.Sync" | "Migrate.MySql.AzureDbForMySql.Sync" | "Migrate.MySql.AzureDbForMySql" | "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2" | "Migrate.Oracle.AzureDbForPostgreSql.Sync" | "ValidateMigrationInput.SqlServer.SqlDb.Sync" | "ValidateMigrationInput.SqlServer.AzureSqlDbMI" | "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS" | "Validate.MongoDb" | "Validate.Oracle.AzureDbPostgreSql.Sync" | "GetTDECertificates.Sql" | "Migrate.Ssis";
 }
 
 // @public (undocumented)
-export type ProjectTaskPropertiesUnion = ProjectTaskProperties | MigrateSchemaSqlServerSqlDbTaskProperties | CheckOCIDriverTaskProperties | UploadOCIDriverTaskProperties | InstallOCIDriverTaskProperties | ConnectToMongoDbTaskProperties | ConnectToSourceSqlServerTaskProperties | ConnectToSourceSqlServerSyncTaskProperties | ConnectToSourcePostgreSqlSyncTaskProperties | ConnectToSourceMySqlTaskProperties | ConnectToSourceOracleSyncTaskProperties | ConnectToTargetSqlDbTaskProperties | ConnectToTargetSqlDbSyncTaskProperties | ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties | ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties | GetUserTablesSqlTaskProperties | GetUserTablesSqlSyncTaskProperties | GetUserTablesOracleTaskProperties | GetUserTablesPostgreSqlTaskProperties | GetUserTablesMySqlTaskProperties | ConnectToTargetSqlMITaskProperties | ConnectToTargetSqlMISyncTaskProperties | ConnectToTargetAzureDbForMySqlTaskProperties | MigrateMongoDbTaskProperties | MigrateSqlServerSqlMITaskProperties | MigrateSqlServerSqlMISyncTaskProperties | MigrateSqlServerSqlDbTaskProperties | MigrateSqlServerSqlDbSyncTaskProperties | MigrateMySqlAzureDbForMySqlSyncTaskProperties | MigrateMySqlAzureDbForMySqlOfflineTaskProperties | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties | MigrateOracleAzureDbForPostgreSqlSyncTaskProperties | ValidateMigrationInputSqlServerSqlDbSyncTaskProperties | ValidateMigrationInputSqlServerSqlMITaskProperties | ValidateMigrationInputSqlServerSqlMISyncTaskProperties | ValidateMongoDbTaskProperties | ValidateOracleAzureDbForPostgreSqlSyncTaskProperties | GetTdeCertificatesSqlTaskProperties | MigrateSsisTaskProperties;
+export type ProjectTaskPropertiesUnion = ProjectTaskProperties | ConnectToMongoDbTaskProperties | ConnectToSourceSqlServerTaskProperties | ConnectToSourceSqlServerSyncTaskProperties | ConnectToSourcePostgreSqlSyncTaskProperties | ConnectToSourceMySqlTaskProperties | ConnectToSourceOracleSyncTaskProperties | ConnectToTargetSqlDbTaskProperties | ConnectToTargetSqlDbSyncTaskProperties | ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties | ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties | GetUserTablesSqlTaskProperties | GetUserTablesSqlSyncTaskProperties | GetUserTablesOracleTaskProperties | GetUserTablesPostgreSqlTaskProperties | GetUserTablesMySqlTaskProperties | ConnectToTargetSqlMITaskProperties | ConnectToTargetSqlMISyncTaskProperties | ConnectToTargetAzureDbForMySqlTaskProperties | MigrateMongoDbTaskProperties | MigrateSqlServerSqlMITaskProperties | MigrateSqlServerSqlMISyncTaskProperties | MigrateSqlServerSqlDbTaskProperties | MigrateSqlServerSqlDbSyncTaskProperties | MigrateMySqlAzureDbForMySqlSyncTaskProperties | MigrateMySqlAzureDbForMySqlOfflineTaskProperties | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties | MigrateOracleAzureDbForPostgreSqlSyncTaskProperties | ValidateMigrationInputSqlServerSqlDbSyncTaskProperties | ValidateMigrationInputSqlServerSqlMITaskProperties | ValidateMigrationInputSqlServerSqlMISyncTaskProperties | ValidateMongoDbTaskProperties | ValidateOracleAzureDbForPostgreSqlSyncTaskProperties | GetTdeCertificatesSqlTaskProperties | MigrateSsisTaskProperties;
 
 // @public (undocumented)
 export interface ProxyResource {
@@ -3320,26 +3154,13 @@ export interface SchemaComparisonValidationResultType {
 }
 
 // @public
-export type SchemaMigrationOption = string;
-
-// @public
-export interface SchemaMigrationSetting {
-    fileId?: string;
-    fileName?: string;
-    schemaOption?: SchemaMigrationOption;
-}
-
-// @public
-export type SchemaMigrationStage = string;
-
-// @public
 export interface SelectedCertificateInput {
     certificateName: string;
     password: string;
 }
 
 // @public
-export type ServerLevelPermissionsGroup = "Default" | "MigrationFromSqlServerToAzureDB" | "MigrationFromSqlServerToAzureMI" | "MigrationFromMySQLToAzureDBForMySQL";
+export type ServerLevelPermissionsGroup = "Default" | "MigrationFromSqlServerToAzureDB" | "MigrationFromSqlServerToAzureMI" | "MigrationFromMySQLToAzureDBForMySQL" | "MigrationFromSqlServerToAzureVM";
 
 // @public
 export interface ServerProperties {
@@ -3349,26 +3170,6 @@ export interface ServerProperties {
     readonly serverOperatingSystemVersion?: string;
     readonly serverPlatform?: string;
     readonly serverVersion?: string;
-}
-
-// @public
-export interface ServiceOperation {
-    display?: ServiceOperationDisplay;
-    name?: string;
-}
-
-// @public
-export interface ServiceOperationDisplay {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
-}
-
-// @public
-export interface ServiceOperationList {
-    nextLink?: string;
-    value?: ServiceOperation[];
 }
 
 // @public
@@ -3559,7 +3360,6 @@ export type ServiceTasksGetResponse = ProjectTask;
 
 // @public
 export interface ServiceTasksListNextOptionalParams extends coreClient.OperationOptions {
-    taskType?: string;
 }
 
 // @public
@@ -3587,6 +3387,7 @@ export type Severity = string;
 export interface SourceLocation {
     azureBlob?: AzureBlob;
     fileShare?: SqlFileShare;
+    readonly fileStorageType?: string;
 }
 
 // @public
@@ -3623,9 +3424,11 @@ export interface SqlConnectionInfo extends ConnectionInfo {
     dataSource: string;
     encryptConnection?: boolean;
     platform?: SqlSourcePlatform;
-    port?: string;
+    port?: number;
     resourceId?: string;
+    serverBrandVersion?: string;
     serverName?: string;
+    serverVersion?: string;
     trustServerCertificate?: boolean;
     type: "SqlConnectionInfo";
 }
@@ -3638,6 +3441,18 @@ export interface SqlConnectionInformation {
     password?: string;
     trustServerCertificate?: boolean;
     userName?: string;
+}
+
+// @public
+export interface SqlDbMigrationStatusDetails {
+    readonly listOfCopyProgressDetails?: CopyProgressDetails[];
+    readonly migrationState?: string;
+    readonly sqlDataCopyErrors?: string[];
+}
+
+// @public
+export interface SqlDbOfflineConfiguration {
+    readonly offline?: boolean;
 }
 
 // @public
@@ -3915,7 +3730,6 @@ export type TasksGetResponse = ProjectTask;
 
 // @public
 export interface TasksListNextOptionalParams extends coreClient.OperationOptions {
-    taskType?: string;
 }
 
 // @public
@@ -3957,24 +3771,6 @@ export interface TrackedResource {
 
 // @public
 export type UpdateActionType = string;
-
-// @public
-export interface UploadOCIDriverTaskInput {
-    driverShare?: FileShare;
-}
-
-// @public
-export interface UploadOCIDriverTaskOutput {
-    readonly driverPackageName?: string;
-    readonly validationErrors?: ReportableException[];
-}
-
-// @public
-export interface UploadOCIDriverTaskProperties extends ProjectTaskProperties {
-    input?: UploadOCIDriverTaskInput;
-    readonly output?: UploadOCIDriverTaskOutput[];
-    taskType: "Service.Upload.OCI";
-}
 
 // @public
 export interface Usages {

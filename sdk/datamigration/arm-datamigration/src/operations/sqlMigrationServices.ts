@@ -273,7 +273,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Retrieve the Migration Service.
+   * Retrieve the Database Migration Service
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -291,7 +291,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Create or Update SQL Migration Service.
+   * Create or Update Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -362,7 +362,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Create or Update SQL Migration Service.
+   * Create or Update Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -385,7 +385,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Delete SQL Migration Service.
+   * Delete Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -449,7 +449,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Delete SQL Migration Service.
+   * Delete Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -469,7 +469,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Update SQL Migration Service.
+   * Update Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -540,7 +540,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Update SQL Migration Service.
+   * Update Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -655,7 +655,8 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Retrieve the Monitoring Data.
+   * Retrieve the registered Integration Runtime nodes and their monitoring data for a given Database
+   * Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -754,8 +755,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.sqlMigrationServiceName
   ],
   headerParameters: [Parameters.accept],
@@ -780,12 +781,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.sqlMigrationServiceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -800,8 +801,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.sqlMigrationServiceName
   ],
   serializer
@@ -825,12 +826,12 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.sqlMigrationServiceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -850,8 +851,8 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -869,8 +870,8 @@ const listAuthKeysOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.sqlMigrationServiceName
   ],
   headerParameters: [Parameters.accept],
@@ -886,12 +887,12 @@ const regenerateAuthKeysOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.sqlMigrationServiceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -908,12 +909,12 @@ const deleteNodeOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.sqlMigrationServiceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -933,8 +934,8 @@ const listMigrationsOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.sqlMigrationServiceName
   ],
   headerParameters: [Parameters.accept],
@@ -953,8 +954,8 @@ const listMonitoringDataOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.sqlMigrationServiceName
   ],
   headerParameters: [Parameters.accept],
@@ -984,12 +985,11 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1003,12 +1003,11 @@ const listMigrationsNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.sqlMigrationServiceName
   ],
   headerParameters: [Parameters.accept],
@@ -1023,7 +1022,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

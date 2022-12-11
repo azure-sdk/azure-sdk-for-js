@@ -15,30 +15,32 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  DatabaseMigrationsSqlMiImpl,
-  DatabaseMigrationsSqlVmImpl,
-  OperationsImpl,
-  SqlMigrationServicesImpl,
   ResourceSkusImpl,
   ServicesImpl,
   TasksImpl,
   ServiceTasksImpl,
   ProjectsImpl,
   UsagesImpl,
-  FilesImpl
+  FilesImpl,
+  DatabaseMigrationsSqlDbImpl,
+  DatabaseMigrationsSqlMiImpl,
+  DatabaseMigrationsSqlVmImpl,
+  OperationsImpl,
+  SqlMigrationServicesImpl
 } from "./operations";
 import {
-  DatabaseMigrationsSqlMi,
-  DatabaseMigrationsSqlVm,
-  Operations,
-  SqlMigrationServices,
   ResourceSkus,
   Services,
   Tasks,
   ServiceTasks,
   Projects,
   Usages,
-  Files
+  Files,
+  DatabaseMigrationsSqlDb,
+  DatabaseMigrationsSqlMi,
+  DatabaseMigrationsSqlVm,
+  Operations,
+  SqlMigrationServices
 } from "./operationsInterfaces";
 import { DataMigrationManagementClientOptionalParams } from "./models";
 
@@ -127,11 +129,7 @@ export class DataMigrationManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-10-30-preview";
-    this.databaseMigrationsSqlMi = new DatabaseMigrationsSqlMiImpl(this);
-    this.databaseMigrationsSqlVm = new DatabaseMigrationsSqlVmImpl(this);
-    this.operations = new OperationsImpl(this);
-    this.sqlMigrationServices = new SqlMigrationServicesImpl(this);
+    this.apiVersion = options.apiVersion || "2022-11-30-preview";
     this.resourceSkus = new ResourceSkusImpl(this);
     this.services = new ServicesImpl(this);
     this.tasks = new TasksImpl(this);
@@ -139,6 +137,11 @@ export class DataMigrationManagementClient extends coreClient.ServiceClient {
     this.projects = new ProjectsImpl(this);
     this.usages = new UsagesImpl(this);
     this.files = new FilesImpl(this);
+    this.databaseMigrationsSqlDb = new DatabaseMigrationsSqlDbImpl(this);
+    this.databaseMigrationsSqlMi = new DatabaseMigrationsSqlMiImpl(this);
+    this.databaseMigrationsSqlVm = new DatabaseMigrationsSqlVmImpl(this);
+    this.operations = new OperationsImpl(this);
+    this.sqlMigrationServices = new SqlMigrationServicesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -170,10 +173,6 @@ export class DataMigrationManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  databaseMigrationsSqlMi: DatabaseMigrationsSqlMi;
-  databaseMigrationsSqlVm: DatabaseMigrationsSqlVm;
-  operations: Operations;
-  sqlMigrationServices: SqlMigrationServices;
   resourceSkus: ResourceSkus;
   services: Services;
   tasks: Tasks;
@@ -181,4 +180,9 @@ export class DataMigrationManagementClient extends coreClient.ServiceClient {
   projects: Projects;
   usages: Usages;
   files: Files;
+  databaseMigrationsSqlDb: DatabaseMigrationsSqlDb;
+  databaseMigrationsSqlMi: DatabaseMigrationsSqlMi;
+  databaseMigrationsSqlVm: DatabaseMigrationsSqlVm;
+  operations: Operations;
+  sqlMigrationServices: SqlMigrationServices;
 }

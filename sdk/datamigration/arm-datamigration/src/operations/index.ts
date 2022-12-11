@@ -6,10 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./databaseMigrationsSqlMi";
-export * from "./databaseMigrationsSqlVm";
-export * from "./operations";
-export * from "./sqlMigrationServices";
 export * from "./resourceSkus";
 export * from "./services";
 export * from "./tasks";
@@ -17,3 +13,8 @@ export * from "./serviceTasks";
 export * from "./projects";
 export * from "./usages";
 export * from "./files";
+export * from "./databaseMigrationsSqlDb";
+export * from "./databaseMigrationsSqlMi";
+export * from "./databaseMigrationsSqlVm";
+export * from "./operations";
+export * from "./sqlMigrationServices";

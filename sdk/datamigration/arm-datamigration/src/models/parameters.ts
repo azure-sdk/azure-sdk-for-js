@@ -12,19 +12,20 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
-  DatabaseMigrationSqlMi as DatabaseMigrationSqlMiMapper,
-  MigrationOperationInput as MigrationOperationInputMapper,
-  DatabaseMigrationSqlVm as DatabaseMigrationSqlVmMapper,
-  SqlMigrationService as SqlMigrationServiceMapper,
-  SqlMigrationServiceUpdate as SqlMigrationServiceUpdateMapper,
-  RegenAuthKeys as RegenAuthKeysMapper,
-  DeleteNode as DeleteNodeMapper,
   DataMigrationService as DataMigrationServiceMapper,
   NameAvailabilityRequest as NameAvailabilityRequestMapper,
   ProjectTask as ProjectTaskMapper,
   CommandProperties as CommandPropertiesMapper,
   Project as ProjectMapper,
-  ProjectFile as ProjectFileMapper
+  ProjectFile as ProjectFileMapper,
+  DatabaseMigrationSqlDb as DatabaseMigrationSqlDbMapper,
+  MigrationOperationInput as MigrationOperationInputMapper,
+  DatabaseMigrationSqlMi as DatabaseMigrationSqlMiMapper,
+  DatabaseMigrationSqlVm as DatabaseMigrationSqlVmMapper,
+  SqlMigrationService as SqlMigrationServiceMapper,
+  SqlMigrationServiceUpdate as SqlMigrationServiceUpdateMapper,
+  RegenAuthKeys as RegenAuthKeysMapper,
+  DeleteNode as DeleteNodeMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -51,59 +52,6 @@ export const $host: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const managedInstanceName: OperationURLParameter = {
-  parameterPath: "managedInstanceName",
-  mapper: {
-    serializedName: "managedInstanceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const targetDbName: OperationURLParameter = {
-  parameterPath: "targetDbName",
-  mapper: {
-    serializedName: "targetDbName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const migrationOperationId: OperationQueryParameter = {
-  parameterPath: ["options", "migrationOperationId"],
-  mapper: {
-    serializedName: "migrationOperationId",
-    type: {
-      name: "Uuid"
-    }
-  }
-};
-
-export const expand: OperationQueryParameter = {
-  parameterPath: ["options", "expand"],
-  mapper: {
-    serializedName: "$expand",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
@@ -118,13 +66,25 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10-30-preview",
+    defaultValue: "2022-11-30-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
       name: "String"
     }
   }
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 
 export const contentType: OperationParameter = {
@@ -140,75 +100,6 @@ export const contentType: OperationParameter = {
 };
 
 export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: DatabaseMigrationSqlMiMapper
-};
-
-export const parameters1: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: MigrationOperationInputMapper
-};
-
-export const sqlVirtualMachineName: OperationURLParameter = {
-  parameterPath: "sqlVirtualMachineName",
-  mapper: {
-    serializedName: "sqlVirtualMachineName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: DatabaseMigrationSqlVmMapper
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const sqlMigrationServiceName: OperationURLParameter = {
-  parameterPath: "sqlMigrationServiceName",
-  mapper: {
-    serializedName: "sqlMigrationServiceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters3: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: SqlMigrationServiceMapper
-};
-
-export const parameters4: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: SqlMigrationServiceUpdateMapper
-};
-
-export const parameters5: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: RegenAuthKeysMapper
-};
-
-export const parameters6: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: DeleteNodeMapper
-};
-
-export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: DataMigrationServiceMapper
 };
@@ -245,7 +136,7 @@ export const deleteRunningTasks: OperationQueryParameter = {
   }
 };
 
-export const parameters8: OperationParameter = {
+export const parameters1: OperationParameter = {
   parameterPath: "parameters",
   mapper: NameAvailabilityRequestMapper
 };
@@ -282,7 +173,7 @@ export const taskType: OperationQueryParameter = {
   }
 };
 
-export const parameters9: OperationParameter = {
+export const parameters2: OperationParameter = {
   parameterPath: "parameters",
   mapper: ProjectTaskMapper
 };
@@ -298,12 +189,22 @@ export const taskName: OperationURLParameter = {
   }
 };
 
-export const parameters10: OperationParameter = {
+export const expand: OperationQueryParameter = {
+  parameterPath: ["options", "expand"],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters3: OperationParameter = {
   parameterPath: "parameters",
   mapper: CommandPropertiesMapper
 };
 
-export const parameters11: OperationParameter = {
+export const parameters4: OperationParameter = {
   parameterPath: "parameters",
   mapper: ProjectMapper
 };
@@ -319,7 +220,133 @@ export const fileName: OperationURLParameter = {
   }
 };
 
-export const parameters12: OperationParameter = {
+export const parameters5: OperationParameter = {
   parameterPath: "parameters",
   mapper: ProjectFileMapper
+};
+
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const sqlDbInstanceName: OperationURLParameter = {
+  parameterPath: "sqlDbInstanceName",
+  mapper: {
+    serializedName: "sqlDbInstanceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const targetDbName: OperationURLParameter = {
+  parameterPath: "targetDbName",
+  mapper: {
+    serializedName: "targetDbName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const migrationOperationId: OperationQueryParameter = {
+  parameterPath: ["options", "migrationOperationId"],
+  mapper: {
+    serializedName: "migrationOperationId",
+    type: {
+      name: "Uuid"
+    }
+  }
+};
+
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DatabaseMigrationSqlDbMapper
+};
+
+export const force: OperationQueryParameter = {
+  parameterPath: ["options", "force"],
+  mapper: {
+    serializedName: "force",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const parameters7: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: MigrationOperationInputMapper
+};
+
+export const managedInstanceName: OperationURLParameter = {
+  parameterPath: "managedInstanceName",
+  mapper: {
+    serializedName: "managedInstanceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters8: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DatabaseMigrationSqlMiMapper
+};
+
+export const sqlVirtualMachineName: OperationURLParameter = {
+  parameterPath: "sqlVirtualMachineName",
+  mapper: {
+    serializedName: "sqlVirtualMachineName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters9: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DatabaseMigrationSqlVmMapper
+};
+
+export const sqlMigrationServiceName: OperationURLParameter = {
+  parameterPath: "sqlMigrationServiceName",
+  mapper: {
+    serializedName: "sqlMigrationServiceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters10: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SqlMigrationServiceMapper
+};
+
+export const parameters11: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SqlMigrationServiceUpdateMapper
+};
+
+export const parameters12: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: RegenAuthKeysMapper
+};
+
+export const parameters13: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DeleteNodeMapper
 };
