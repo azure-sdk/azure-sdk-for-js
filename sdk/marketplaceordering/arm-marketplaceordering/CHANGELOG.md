@@ -1,15 +1,15 @@
 # Release History
+    
+## 3.2.0 (2022-12-11)
+    
+**Features**
 
-## 3.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface OldAgreementTerms
+  - Added Interface OldAgreementTermsList
+  - Added Type Alias State
+  - Added Enum KnownState
+    
+    
 ## 3.1.0 (2022-07-08)
     
 **Features**
