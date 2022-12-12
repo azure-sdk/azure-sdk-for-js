@@ -20,7 +20,8 @@ import {
   PrivateLinkResourcesImpl,
   PrivateEndpointConnectionsImpl,
   OutboundNetworkDependenciesEndpointsImpl,
-  VNetPeeringImpl
+  VNetPeeringImpl,
+  AccessConnectorsImpl
 } from "./operations";
 import {
   Workspaces,
@@ -28,7 +29,8 @@ import {
   PrivateLinkResources,
   PrivateEndpointConnections,
   OutboundNetworkDependenciesEndpoints,
-  VNetPeering
+  VNetPeering,
+  AccessConnectors
 } from "./operationsInterfaces";
 import { AzureDatabricksManagementClientOptionalParams } from "./models";
 
@@ -117,7 +119,7 @@ export class AzureDatabricksManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-04-01-preview";
+    this.apiVersion = options.apiVersion || "2022-04-01-preview";
     this.workspaces = new WorkspacesImpl(this);
     this.operations = new OperationsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
@@ -126,6 +128,7 @@ export class AzureDatabricksManagementClient extends coreClient.ServiceClient {
       this
     );
     this.vNetPeering = new VNetPeeringImpl(this);
+    this.accessConnectors = new AccessConnectorsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -163,4 +166,5 @@ export class AzureDatabricksManagementClient extends coreClient.ServiceClient {
   privateEndpointConnections: PrivateEndpointConnections;
   outboundNetworkDependenciesEndpoints: OutboundNetworkDependenciesEndpoints;
   vNetPeering: VNetPeering;
+  accessConnectors: AccessConnectors;
 }
