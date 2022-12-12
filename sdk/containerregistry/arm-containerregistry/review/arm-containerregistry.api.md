@@ -17,14 +17,6 @@ export type Action = string;
 export type ActionsRequired = string;
 
 // @public
-export interface ActivationProperties {
-    readonly status?: ActivationStatus;
-}
-
-// @public
-export type ActivationStatus = string;
-
-// @public
 export interface ActiveDirectoryObject {
     objectId?: string;
     tenantId?: string;
@@ -144,9 +136,6 @@ export interface Argument {
 }
 
 // @public
-export type AuditLogStatus = string;
-
-// @public
 export interface AuthInfo {
     expiresIn?: number;
     refreshToken?: string;
@@ -163,14 +152,6 @@ export interface AuthInfoUpdateParameters {
     token?: string;
     tokenType?: TokenType;
 }
-
-// @public
-export interface AzureADAuthenticationAsArmPolicy {
-    status?: AzureADAuthenticationAsArmPolicyStatus;
-}
-
-// @public
-export type AzureADAuthenticationAsArmPolicyStatus = string;
 
 // @public
 export interface BaseImageDependency {
@@ -214,112 +195,6 @@ export interface CallbackConfig {
 }
 
 // @public
-export type CertificateType = string;
-
-// @public
-export interface ConnectedRegistries {
-    beginCreate(resourceGroupName: string, registryName: string, connectedRegistryName: string, connectedRegistryCreateParameters: ConnectedRegistry, options?: ConnectedRegistriesCreateOptionalParams): Promise<PollerLike<PollOperationState<ConnectedRegistriesCreateResponse>, ConnectedRegistriesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, registryName: string, connectedRegistryName: string, connectedRegistryCreateParameters: ConnectedRegistry, options?: ConnectedRegistriesCreateOptionalParams): Promise<ConnectedRegistriesCreateResponse>;
-    beginDeactivate(resourceGroupName: string, registryName: string, connectedRegistryName: string, options?: ConnectedRegistriesDeactivateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeactivateAndWait(resourceGroupName: string, registryName: string, connectedRegistryName: string, options?: ConnectedRegistriesDeactivateOptionalParams): Promise<void>;
-    beginDelete(resourceGroupName: string, registryName: string, connectedRegistryName: string, options?: ConnectedRegistriesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, registryName: string, connectedRegistryName: string, options?: ConnectedRegistriesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, registryName: string, connectedRegistryName: string, connectedRegistryUpdateParameters: ConnectedRegistryUpdateParameters, options?: ConnectedRegistriesUpdateOptionalParams): Promise<PollerLike<PollOperationState<ConnectedRegistriesUpdateResponse>, ConnectedRegistriesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, registryName: string, connectedRegistryName: string, connectedRegistryUpdateParameters: ConnectedRegistryUpdateParameters, options?: ConnectedRegistriesUpdateOptionalParams): Promise<ConnectedRegistriesUpdateResponse>;
-    get(resourceGroupName: string, registryName: string, connectedRegistryName: string, options?: ConnectedRegistriesGetOptionalParams): Promise<ConnectedRegistriesGetResponse>;
-    list(resourceGroupName: string, registryName: string, options?: ConnectedRegistriesListOptionalParams): PagedAsyncIterableIterator<ConnectedRegistry>;
-}
-
-// @public
-export interface ConnectedRegistriesCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ConnectedRegistriesCreateResponse = ConnectedRegistry;
-
-// @public
-export interface ConnectedRegistriesDeactivateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ConnectedRegistriesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ConnectedRegistriesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ConnectedRegistriesGetResponse = ConnectedRegistry;
-
-// @public
-export interface ConnectedRegistriesListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-}
-
-// @public
-export type ConnectedRegistriesListNextResponse = ConnectedRegistryListResult;
-
-// @public
-export interface ConnectedRegistriesListOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-}
-
-// @public
-export type ConnectedRegistriesListResponse = ConnectedRegistryListResult;
-
-// @public
-export interface ConnectedRegistriesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ConnectedRegistriesUpdateResponse = ConnectedRegistry;
-
-// @public
-export interface ConnectedRegistry extends ProxyResource {
-    readonly activation?: ActivationProperties;
-    clientTokenIds?: string[];
-    readonly connectionState?: ConnectionState;
-    readonly lastActivityTime?: Date;
-    logging?: LoggingProperties;
-    loginServer?: LoginServerProperties;
-    mode?: ConnectedRegistryMode;
-    notificationsList?: string[];
-    parent?: ParentProperties;
-    readonly provisioningState?: ProvisioningState;
-    readonly statusDetails?: StatusDetailProperties[];
-    readonly version?: string;
-}
-
-// @public
-export interface ConnectedRegistryListResult {
-    nextLink?: string;
-    value?: ConnectedRegistry[];
-}
-
-// @public
-export type ConnectedRegistryMode = string;
-
-// @public
-export interface ConnectedRegistryUpdateParameters {
-    clientTokenIds?: string[];
-    logging?: LoggingProperties;
-    notificationsList?: string[];
-    syncProperties?: SyncUpdateProperties;
-}
-
-// @public
-export type ConnectionState = string;
-
-// @public
 export type ConnectionStatus = string;
 
 // @public (undocumented)
@@ -330,15 +205,7 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
     // (undocumented)
     agentPools: AgentPools;
     // (undocumented)
-    connectedRegistries: ConnectedRegistries;
-    // (undocumented)
-    exportPipelines: ExportPipelines;
-    // (undocumented)
-    importPipelines: ImportPipelines;
-    // (undocumented)
     operations: Operations;
-    // (undocumented)
-    pipelineRuns: PipelineRuns;
     // (undocumented)
     privateEndpointConnections: PrivateEndpointConnections;
     // (undocumented)
@@ -529,74 +396,6 @@ export interface EventResponseMessage {
 }
 
 // @public
-export interface ExportPipeline extends ProxyResource {
-    identity?: IdentityProperties;
-    location?: string;
-    options?: PipelineOptions[];
-    readonly provisioningState?: ProvisioningState;
-    target?: ExportPipelineTargetProperties;
-}
-
-// @public
-export interface ExportPipelineListResult {
-    nextLink?: string;
-    value?: ExportPipeline[];
-}
-
-// @public
-export interface ExportPipelines {
-    beginCreate(resourceGroupName: string, registryName: string, exportPipelineName: string, exportPipelineCreateParameters: ExportPipeline, options?: ExportPipelinesCreateOptionalParams): Promise<PollerLike<PollOperationState<ExportPipelinesCreateResponse>, ExportPipelinesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, registryName: string, exportPipelineName: string, exportPipelineCreateParameters: ExportPipeline, options?: ExportPipelinesCreateOptionalParams): Promise<ExportPipelinesCreateResponse>;
-    beginDelete(resourceGroupName: string, registryName: string, exportPipelineName: string, options?: ExportPipelinesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, registryName: string, exportPipelineName: string, options?: ExportPipelinesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, registryName: string, exportPipelineName: string, options?: ExportPipelinesGetOptionalParams): Promise<ExportPipelinesGetResponse>;
-    list(resourceGroupName: string, registryName: string, options?: ExportPipelinesListOptionalParams): PagedAsyncIterableIterator<ExportPipeline>;
-}
-
-// @public
-export interface ExportPipelinesCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ExportPipelinesCreateResponse = ExportPipeline;
-
-// @public
-export interface ExportPipelinesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ExportPipelinesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExportPipelinesGetResponse = ExportPipeline;
-
-// @public
-export interface ExportPipelinesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExportPipelinesListNextResponse = ExportPipelineListResult;
-
-// @public
-export interface ExportPipelinesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExportPipelinesListResponse = ExportPipelineListResult;
-
-// @public
-export interface ExportPipelineTargetProperties {
-    keyVaultUri: string;
-    type?: string;
-    uri?: string;
-}
-
-// @public
 export interface ExportPolicy {
     status?: ExportPolicyStatus;
 }
@@ -685,75 +484,6 @@ export interface ImportImageParameters {
 // @public
 export type ImportMode = string;
 
-// @public
-export interface ImportPipeline extends ProxyResource {
-    identity?: IdentityProperties;
-    location?: string;
-    options?: PipelineOptions[];
-    readonly provisioningState?: ProvisioningState;
-    source?: ImportPipelineSourceProperties;
-    trigger?: PipelineTriggerProperties;
-}
-
-// @public
-export interface ImportPipelineListResult {
-    nextLink?: string;
-    value?: ImportPipeline[];
-}
-
-// @public
-export interface ImportPipelines {
-    beginCreate(resourceGroupName: string, registryName: string, importPipelineName: string, importPipelineCreateParameters: ImportPipeline, options?: ImportPipelinesCreateOptionalParams): Promise<PollerLike<PollOperationState<ImportPipelinesCreateResponse>, ImportPipelinesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, registryName: string, importPipelineName: string, importPipelineCreateParameters: ImportPipeline, options?: ImportPipelinesCreateOptionalParams): Promise<ImportPipelinesCreateResponse>;
-    beginDelete(resourceGroupName: string, registryName: string, importPipelineName: string, options?: ImportPipelinesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, registryName: string, importPipelineName: string, options?: ImportPipelinesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, registryName: string, importPipelineName: string, options?: ImportPipelinesGetOptionalParams): Promise<ImportPipelinesGetResponse>;
-    list(resourceGroupName: string, registryName: string, options?: ImportPipelinesListOptionalParams): PagedAsyncIterableIterator<ImportPipeline>;
-}
-
-// @public
-export interface ImportPipelinesCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ImportPipelinesCreateResponse = ImportPipeline;
-
-// @public
-export interface ImportPipelinesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ImportPipelinesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ImportPipelinesGetResponse = ImportPipeline;
-
-// @public
-export interface ImportPipelinesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ImportPipelinesListNextResponse = ImportPipelineListResult;
-
-// @public
-export interface ImportPipelinesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ImportPipelinesListResponse = ImportPipelineListResult;
-
-// @public
-export interface ImportPipelineSourceProperties {
-    keyVaultUri: string;
-    type?: PipelineSourceType;
-    uri?: string;
-}
-
 // @public (undocumented)
 export interface ImportSource {
     credentials?: ImportSourceCredentials;
@@ -802,30 +532,12 @@ export enum KnownActionsRequired {
 }
 
 // @public
-export enum KnownActivationStatus {
-    Active = "Active",
-    Inactive = "Inactive"
-}
-
-// @public
 export enum KnownArchitecture {
     Amd64 = "amd64",
     Arm = "arm",
     Arm64 = "arm64",
     ThreeHundredEightySix = "386",
     X86 = "x86"
-}
-
-// @public
-export enum KnownAuditLogStatus {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
-export enum KnownAzureADAuthenticationAsArmPolicyStatus {
-    Disabled = "disabled",
-    Enabled = "enabled"
 }
 
 // @public
@@ -838,27 +550,6 @@ export enum KnownBaseImageDependencyType {
 export enum KnownBaseImageTriggerType {
     All = "All",
     Runtime = "Runtime"
-}
-
-// @public
-export enum KnownCertificateType {
-    LocalDirectory = "LocalDirectory"
-}
-
-// @public
-export enum KnownConnectedRegistryMode {
-    Mirror = "Mirror",
-    ReadOnly = "ReadOnly",
-    ReadWrite = "ReadWrite",
-    Registry = "Registry"
-}
-
-// @public
-export enum KnownConnectionState {
-    Offline = "Offline",
-    Online = "Online",
-    Syncing = "Syncing",
-    Unhealthy = "Unhealthy"
 }
 
 // @public
@@ -910,15 +601,6 @@ export enum KnownLastModifiedByType {
 }
 
 // @public
-export enum KnownLogLevel {
-    Debug = "Debug",
-    Error = "Error",
-    Information = "Information",
-    None = "None",
-    Warning = "Warning"
-}
-
-// @public
 export enum KnownNetworkRuleBypassOptions {
     AzureServices = "AzureServices",
     None = "None"
@@ -928,29 +610,6 @@ export enum KnownNetworkRuleBypassOptions {
 export enum KnownOS {
     Linux = "Linux",
     Windows = "Windows"
-}
-
-// @public
-export enum KnownPipelineOptions {
-    ContinueOnErrors = "ContinueOnErrors",
-    DeleteSourceBlobOnSuccess = "DeleteSourceBlobOnSuccess",
-    OverwriteBlobs = "OverwriteBlobs",
-    OverwriteTags = "OverwriteTags"
-}
-
-// @public
-export enum KnownPipelineRunSourceType {
-    AzureStorageBlob = "AzureStorageBlob"
-}
-
-// @public
-export enum KnownPipelineRunTargetType {
-    AzureStorageBlob = "AzureStorageBlob"
-}
-
-// @public
-export enum KnownPipelineSourceType {
-    AzureStorageBlobContainer = "AzureStorageBlobContainer"
 }
 
 // @public
@@ -1055,12 +714,6 @@ export enum KnownTaskStatus {
 }
 
 // @public
-export enum KnownTlsStatus {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
 export enum KnownTokenCertificateName {
     Certificate1 = "certificate1",
     Certificate2 = "certificate2"
@@ -1131,21 +784,6 @@ export enum KnownZoneRedundancy {
 
 // @public
 export type LastModifiedByType = string;
-
-// @public
-export interface LoggingProperties {
-    auditLogStatus?: AuditLogStatus;
-    logLevel?: LogLevel;
-}
-
-// @public
-export interface LoginServerProperties {
-    readonly host?: string;
-    readonly tls?: TlsProperties;
-}
-
-// @public
-export type LogLevel = string;
 
 // @public
 export type NetworkRuleBypassOptions = string;
@@ -1241,140 +879,7 @@ export interface PackageType {
 }
 
 // @public
-export interface ParentProperties {
-    id?: string;
-    syncProperties: SyncProperties;
-}
-
-// @public
 export type PasswordName = "password" | "password2";
-
-// @public
-export type PipelineOptions = string;
-
-// @public
-export interface PipelineRun extends ProxyResource {
-    forceUpdateTag?: string;
-    readonly provisioningState?: ProvisioningState;
-    request?: PipelineRunRequest;
-    readonly response?: PipelineRunResponse;
-}
-
-// @public
-export interface PipelineRunListResult {
-    nextLink?: string;
-    value?: PipelineRun[];
-}
-
-// @public
-export interface PipelineRunRequest {
-    artifacts?: string[];
-    catalogDigest?: string;
-    pipelineResourceId?: string;
-    source?: PipelineRunSourceProperties;
-    target?: PipelineRunTargetProperties;
-}
-
-// @public
-export interface PipelineRunResponse {
-    catalogDigest?: string;
-    finishTime?: Date;
-    importedArtifacts?: string[];
-    pipelineRunErrorMessage?: string;
-    progress?: ProgressProperties;
-    source?: ImportPipelineSourceProperties;
-    startTime?: Date;
-    status?: string;
-    target?: ExportPipelineTargetProperties;
-    trigger?: PipelineTriggerDescriptor;
-}
-
-// @public
-export interface PipelineRuns {
-    beginCreate(resourceGroupName: string, registryName: string, pipelineRunName: string, pipelineRunCreateParameters: PipelineRun, options?: PipelineRunsCreateOptionalParams): Promise<PollerLike<PollOperationState<PipelineRunsCreateResponse>, PipelineRunsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, registryName: string, pipelineRunName: string, pipelineRunCreateParameters: PipelineRun, options?: PipelineRunsCreateOptionalParams): Promise<PipelineRunsCreateResponse>;
-    beginDelete(resourceGroupName: string, registryName: string, pipelineRunName: string, options?: PipelineRunsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, registryName: string, pipelineRunName: string, options?: PipelineRunsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, registryName: string, pipelineRunName: string, options?: PipelineRunsGetOptionalParams): Promise<PipelineRunsGetResponse>;
-    list(resourceGroupName: string, registryName: string, options?: PipelineRunsListOptionalParams): PagedAsyncIterableIterator<PipelineRun>;
-}
-
-// @public
-export interface PipelineRunsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type PipelineRunsCreateResponse = PipelineRun;
-
-// @public
-export interface PipelineRunsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PipelineRunsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PipelineRunsGetResponse = PipelineRun;
-
-// @public
-export interface PipelineRunsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PipelineRunsListNextResponse = PipelineRunListResult;
-
-// @public
-export interface PipelineRunsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PipelineRunsListResponse = PipelineRunListResult;
-
-// @public (undocumented)
-export interface PipelineRunSourceProperties {
-    name?: string;
-    type?: PipelineRunSourceType;
-}
-
-// @public
-export type PipelineRunSourceType = string;
-
-// @public (undocumented)
-export interface PipelineRunTargetProperties {
-    name?: string;
-    type?: PipelineRunTargetType;
-}
-
-// @public
-export type PipelineRunTargetType = string;
-
-// @public (undocumented)
-export interface PipelineSourceTriggerDescriptor {
-    timestamp?: Date;
-}
-
-// @public (undocumented)
-export interface PipelineSourceTriggerProperties {
-    status: TriggerStatus;
-}
-
-// @public
-export type PipelineSourceType = string;
-
-// @public (undocumented)
-export interface PipelineTriggerDescriptor {
-    sourceTrigger?: PipelineSourceTriggerDescriptor;
-}
-
-// @public (undocumented)
-export interface PipelineTriggerProperties {
-    sourceTrigger?: PipelineSourceTriggerProperties;
-}
 
 // @public
 export interface PlatformProperties {
@@ -1392,11 +897,9 @@ export interface PlatformUpdateParameters {
 
 // @public
 export interface Policies {
-    azureADAuthenticationAsArmPolicy?: AzureADAuthenticationAsArmPolicy;
     exportPolicy?: ExportPolicy;
     quarantinePolicy?: QuarantinePolicy;
     retentionPolicy?: RetentionPolicy;
-    softDeletePolicy?: SoftDeletePolicy;
     trustPolicy?: TrustPolicy;
 }
 
@@ -1432,6 +935,12 @@ export interface PrivateEndpointConnections {
 }
 
 // @public
+export interface PrivateEndpointConnectionsCreateOrUpdateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1439,6 +948,12 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends 
 
 // @public
 export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1488,11 +1003,6 @@ export interface PrivateLinkServiceConnectionState {
     actionsRequired?: ActionsRequired;
     description?: string;
     status?: ConnectionStatus;
-}
-
-// @public (undocumented)
-export interface ProgressProperties {
-    percentage?: string;
 }
 
 // @public
@@ -1553,6 +1063,12 @@ export interface RegistriesCheckNameAvailabilityOptionalParams extends coreClien
 export type RegistriesCheckNameAvailabilityResponse = RegistryNameStatus;
 
 // @public
+export interface RegistriesCreateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface RegistriesCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1562,9 +1078,21 @@ export interface RegistriesCreateOptionalParams extends coreClient.OperationOpti
 export type RegistriesCreateResponse = Registry;
 
 // @public
+export interface RegistriesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface RegistriesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface RegistriesGenerateCredentialsHeaders {
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -1596,6 +1124,12 @@ export type RegistriesGetPrivateLinkResourceResponse = PrivateLinkResource;
 
 // @public
 export type RegistriesGetResponse = Registry;
+
+// @public
+export interface RegistriesImportImageHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface RegistriesImportImageOptionalParams extends coreClient.OperationOptions {
@@ -1676,6 +1210,12 @@ export interface RegistriesScheduleRunOptionalParams extends coreClient.Operatio
 export type RegistriesScheduleRunResponse = Run;
 
 // @public
+export interface RegistriesUpdateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface RegistriesUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1687,7 +1227,6 @@ export type RegistriesUpdateResponse = Registry;
 // @public
 export interface Registry extends Resource {
     adminUserEnabled?: boolean;
-    anonymousPullEnabled?: boolean;
     readonly creationDate?: Date;
     dataEndpointEnabled?: boolean;
     readonly dataEndpointHostNames?: string[];
@@ -1739,7 +1278,6 @@ export interface RegistryPassword {
 // @public
 export interface RegistryUpdateParameters {
     adminUserEnabled?: boolean;
-    anonymousPullEnabled?: boolean;
     dataEndpointEnabled?: boolean;
     encryption?: EncryptionProperty;
     identity?: IdentityProperties;
@@ -1796,6 +1334,12 @@ export interface Replications {
 }
 
 // @public
+export interface ReplicationsCreateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface ReplicationsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1803,6 +1347,12 @@ export interface ReplicationsCreateOptionalParams extends coreClient.OperationOp
 
 // @public
 export type ReplicationsCreateResponse = Replication;
+
+// @public
+export interface ReplicationsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface ReplicationsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1830,6 +1380,12 @@ export interface ReplicationsListOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type ReplicationsListResponse = ReplicationListResult;
+
+// @public
+export interface ReplicationsUpdateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
 
 // @public
 export interface ReplicationsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1975,8 +1531,6 @@ export type RunsGetResponse = Run;
 
 // @public
 export interface RunsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -2039,6 +1593,12 @@ export interface ScopeMaps {
 }
 
 // @public
+export interface ScopeMapsCreateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface ScopeMapsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2046,6 +1606,12 @@ export interface ScopeMapsCreateOptionalParams extends coreClient.OperationOptio
 
 // @public
 export type ScopeMapsCreateResponse = ScopeMap;
+
+// @public
+export interface ScopeMapsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface ScopeMapsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -2073,6 +1639,12 @@ export interface ScopeMapsListOptionalParams extends coreClient.OperationOptions
 
 // @public
 export type ScopeMapsListResponse = ScopeMapListResult;
+
+// @public
+export interface ScopeMapsUpdateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
 
 // @public
 export interface ScopeMapsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -2116,13 +1688,6 @@ export type SkuName = string;
 
 // @public
 export type SkuTier = string;
-
-// @public
-export interface SoftDeletePolicy {
-    readonly lastUpdatedTime?: Date;
-    retentionDays?: number;
-    status?: PolicyStatus;
-}
 
 // @public
 export interface Source {
@@ -2201,37 +1766,11 @@ export interface Status {
 }
 
 // @public
-export interface StatusDetailProperties {
-    readonly code?: string;
-    readonly correlationId?: string;
-    readonly description?: string;
-    readonly timestamp?: Date;
-    readonly type?: string;
-}
-
-// @public
 export type StepType = string;
 
 // @public
 export interface StorageAccountProperties {
     id: string;
-}
-
-// @public
-export interface SyncProperties {
-    readonly gatewayEndpoint?: string;
-    readonly lastSyncTime?: Date;
-    messageTtl: string;
-    schedule?: string;
-    syncWindow?: string;
-    tokenId: string;
-}
-
-// @public
-export interface SyncUpdateProperties {
-    messageTtl?: string;
-    schedule?: string;
-    syncWindow?: string;
 }
 
 // @public
@@ -2506,21 +2045,6 @@ export interface TimerTriggerUpdateParameters {
 }
 
 // @public
-export interface TlsCertificateProperties {
-    readonly location?: string;
-    readonly type?: CertificateType;
-}
-
-// @public
-export interface TlsProperties {
-    readonly certificate?: TlsCertificateProperties;
-    readonly status?: TlsStatus;
-}
-
-// @public
-export type TlsStatus = string;
-
-// @public
 export interface Token extends ProxyResource {
     readonly creationDate?: Date;
     credentials?: TokenCredentialsProperties;
@@ -2579,6 +2103,12 @@ export interface Tokens {
 }
 
 // @public
+export interface TokensCreateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface TokensCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2586,6 +2116,12 @@ export interface TokensCreateOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type TokensCreateResponse = Token;
+
+// @public
+export interface TokensDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface TokensDeleteOptionalParams extends coreClient.OperationOptions {
@@ -2616,6 +2152,12 @@ export type TokensListResponse = TokenListResult;
 
 // @public
 export type TokenStatus = string;
+
+// @public
+export interface TokensUpdateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
 
 // @public
 export interface TokensUpdateOptionalParams extends coreClient.OperationOptions {
@@ -2722,6 +2264,12 @@ export interface Webhooks {
 }
 
 // @public
+export interface WebhooksCreateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface WebhooksCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2729,6 +2277,12 @@ export interface WebhooksCreateOptionalParams extends coreClient.OperationOption
 
 // @public
 export type WebhooksCreateResponse = Webhook;
+
+// @public
+export interface WebhooksDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface WebhooksDeleteOptionalParams extends coreClient.OperationOptions {
@@ -2787,6 +2341,12 @@ export type WebhooksPingResponse = EventInfo;
 
 // @public
 export type WebhookStatus = string;
+
+// @public
+export interface WebhooksUpdateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
 
 // @public
 export interface WebhooksUpdateOptionalParams extends coreClient.OperationOptions {

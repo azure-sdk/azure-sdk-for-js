@@ -390,12 +390,12 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
+  queryParameters: [Parameters.apiVersion1, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
+    Parameters.registryName,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -416,8 +416,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.runId
   ],
   headerParameters: [Parameters.accept],
@@ -449,11 +449,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.runId
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -473,8 +473,8 @@ const getLogSasUrlOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.runId
   ],
   headerParameters: [Parameters.accept],
@@ -497,8 +497,8 @@ const cancelOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.runId
   ],
   headerParameters: [Parameters.accept],
@@ -515,12 +515,11 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
