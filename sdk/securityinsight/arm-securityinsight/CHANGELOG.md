@@ -1,15 +1,107 @@
 # Release History
+    
+## 1.0.0-beta.6 (2022-12-12)
+    
+**Features**
 
-## 1.0.0-beta.6 (Unreleased)
+  - Added operation group Get
+  - Added operation group GetRecommendations
+  - Added operation group IncidentTasks
+  - Added operation group Update
+  - Added Interface AddIncidentTaskActionProperties
+  - Added Interface AlertPropertyMapping
+  - Added Interface AutomationRuleAddIncidentTaskAction
+  - Added Interface Content
+  - Added Interface GetRecommendationsListOptionalParams
+  - Added Interface GetSingleRecommendationOptionalParams
+  - Added Interface IncidentTask
+  - Added Interface IncidentTaskList
+  - Added Interface IncidentTasksCreateOrUpdateOptionalParams
+  - Added Interface IncidentTasksDeleteOptionalParams
+  - Added Interface IncidentTasksGetOptionalParams
+  - Added Interface IncidentTasksListNextOptionalParams
+  - Added Interface IncidentTasksListOptionalParams
+  - Added Interface Instructions
+  - Added Interface Recommendation
+  - Added Interface RecommendationList
+  - Added Interface RecommendationPatch
+  - Added Interface RecommendedAction
+  - Added Interface SentinelEntityMapping
+  - Added Interface UpdateRecommendationOptionalParams
+  - Added Type Alias AlertProperty
+  - Added Type Alias Category
+  - Added Type Alias Context
+  - Added Type Alias GetRecommendationsListResponse
+  - Added Type Alias GetSingleRecommendationResponse
+  - Added Type Alias IncidentTasksCreateOrUpdateResponse
+  - Added Type Alias IncidentTasksGetResponse
+  - Added Type Alias IncidentTasksListNextResponse
+  - Added Type Alias IncidentTasksListResponse
+  - Added Type Alias IncidentTaskStatus
+  - Added Type Alias Priority
+  - Added Type Alias State
+  - Added Type Alias UpdateRecommendationResponse
+  - Interface AlertDetailsOverride has a new optional parameter alertDynamicProperties
+  - Interface NrtAlertRule has a new optional parameter sentinelEntitiesMappings
+  - Interface NrtAlertRuleTemplate has a new optional parameter sentinelEntitiesMappings
+  - Interface QueryBasedAlertRuleTemplateProperties has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRule has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRuleCommonProperties has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRuleTemplate has a new optional parameter sentinelEntitiesMappings
+  - Interface SecurityAlertTimelineItem has a new optional parameter intent
+  - Interface SecurityAlertTimelineItem has a new optional parameter techniques
+  - Class SecurityInsights has a new parameter get
+  - Class SecurityInsights has a new parameter getRecommendations
+  - Class SecurityInsights has a new parameter incidentTasks
+  - Class SecurityInsights has a new parameter update
+  - Added Enum KnownAlertProperty
+  - Added Enum KnownCategory
+  - Added Enum KnownContext
+  - Added Enum KnownIncidentTaskStatus
+  - Added Enum KnownPriority
+  - Added Enum KnownState
+  - Enum KnownActionType has a new value AddIncidentTask
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation Incidents.createTeam has a new signature
+  - Interface BookmarkRelationsListNextOptionalParams no longer has parameter filter
+  - Interface BookmarkRelationsListNextOptionalParams no longer has parameter orderby
+  - Interface BookmarkRelationsListNextOptionalParams no longer has parameter skipToken
+  - Interface BookmarkRelationsListNextOptionalParams no longer has parameter top
+  - Interface EntitiesRelationsListNextOptionalParams no longer has parameter filter
+  - Interface EntitiesRelationsListNextOptionalParams no longer has parameter orderby
+  - Interface EntitiesRelationsListNextOptionalParams no longer has parameter skipToken
+  - Interface EntitiesRelationsListNextOptionalParams no longer has parameter top
+  - Interface EntityQueriesListNextOptionalParams no longer has parameter kind
+  - Interface FileImportsListNextOptionalParams no longer has parameter filter
+  - Interface FileImportsListNextOptionalParams no longer has parameter orderby
+  - Interface FileImportsListNextOptionalParams no longer has parameter skipToken
+  - Interface FileImportsListNextOptionalParams no longer has parameter top
+  - Interface IncidentCommentsListNextOptionalParams no longer has parameter filter
+  - Interface IncidentCommentsListNextOptionalParams no longer has parameter orderby
+  - Interface IncidentCommentsListNextOptionalParams no longer has parameter skipToken
+  - Interface IncidentCommentsListNextOptionalParams no longer has parameter top
+  - Interface IncidentRelationsListNextOptionalParams no longer has parameter filter
+  - Interface IncidentRelationsListNextOptionalParams no longer has parameter orderby
+  - Interface IncidentRelationsListNextOptionalParams no longer has parameter skipToken
+  - Interface IncidentRelationsListNextOptionalParams no longer has parameter top
+  - Interface IncidentsListNextOptionalParams no longer has parameter filter
+  - Interface IncidentsListNextOptionalParams no longer has parameter orderby
+  - Interface IncidentsListNextOptionalParams no longer has parameter skipToken
+  - Interface IncidentsListNextOptionalParams no longer has parameter top
+  - Interface MetadataListNextOptionalParams no longer has parameter filter
+  - Interface MetadataListNextOptionalParams no longer has parameter orderby
+  - Interface MetadataListNextOptionalParams no longer has parameter skip
+  - Interface MetadataListNextOptionalParams no longer has parameter top
+  - Interface ThreatIntelligenceIndicatorsListNextOptionalParams no longer has parameter filter
+  - Interface ThreatIntelligenceIndicatorsListNextOptionalParams no longer has parameter orderby
+  - Interface ThreatIntelligenceIndicatorsListNextOptionalParams no longer has parameter skipToken
+  - Interface ThreatIntelligenceIndicatorsListNextOptionalParams no longer has parameter top
+  - Interface WatchlistItemsListNextOptionalParams no longer has parameter skipToken
+  - Interface WatchlistsListNextOptionalParams no longer has parameter skipToken
+    
+    
 ## 1.0.0-beta.5 (2022-09-27)
     
 **Features**
