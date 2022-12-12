@@ -399,6 +399,8 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
     // (undocumented)
     myWorkbooks: MyWorkbooks;
     // (undocumented)
+    operations: Operations;
+    // (undocumented)
     proactiveDetectionConfigurations: ProactiveDetectionConfigurations;
     // (undocumented)
     subscriptionId: string;
@@ -655,8 +657,16 @@ export interface ErrorDefinition {
 }
 
 // @public
+export interface ErrorFieldContract {
+    code?: string;
+    message?: string;
+    target?: string;
+}
+
+// @public
 export interface ErrorResponse {
     code?: string;
+    details?: ErrorFieldContract[];
     message?: string;
 }
 
@@ -782,6 +792,12 @@ export type FlowType = string;
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface HeaderField {
+    headerFieldName?: string;
+    headerFieldValue?: string;
+}
 
 // @public
 export type IngestionMode = string;
@@ -1044,9 +1060,6 @@ export type MyWorkbooksGetResponse = MyWorkbook;
 
 // @public
 export interface MyWorkbooksListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    canFetchContent?: boolean;
-    sourceId?: string;
-    tags?: string[];
 }
 
 // @public
@@ -1064,8 +1077,6 @@ export type MyWorkbooksListByResourceGroupResponse = MyWorkbooksListResult;
 
 // @public
 export interface MyWorkbooksListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    canFetchContent?: boolean;
-    tags?: string[];
 }
 
 // @public
@@ -1136,6 +1147,25 @@ export interface OperationLive {
     origin?: string;
     properties?: Record<string, unknown>;
 }
+
+// @public
+export interface Operations {
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+}
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface OperationsListResult {
@@ -1240,9 +1270,11 @@ export interface WebTest extends WebtestsResource {
     kind?: WebTestKind;
     locations?: WebTestGeolocation[];
     readonly provisioningState?: string;
+    request?: WebTestPropertiesRequest;
     retryEnabled?: boolean;
     syntheticMonitorId?: string;
     timeout?: number;
+    validationRules?: WebTestPropertiesValidationRules;
     webTestKind?: WebTestKind;
     webTestName?: string;
 }
@@ -1253,7 +1285,7 @@ export interface WebTestGeolocation {
 }
 
 // @public
-export type WebTestKind = "ping" | "multistep";
+export type WebTestKind = "ping" | "multistep" | "standard";
 
 // @public
 export interface WebTestListResult {
@@ -1276,6 +1308,32 @@ export type WebTestLocationsListResponse = ApplicationInsightsWebTestLocationsLi
 // @public
 export interface WebTestPropertiesConfiguration {
     webTest?: string;
+}
+
+// @public
+export interface WebTestPropertiesRequest {
+    followRedirects?: boolean;
+    headers?: HeaderField[];
+    httpVerb?: string;
+    parseDependentRequests?: boolean;
+    requestBody?: string;
+    requestUrl?: string;
+}
+
+// @public
+export interface WebTestPropertiesValidationRules {
+    contentValidation?: WebTestPropertiesValidationRulesContentValidation;
+    expectedHttpStatusCode?: number;
+    ignoreHttpsStatusCode?: boolean;
+    sSLCertRemainingLifetimeCheck?: number;
+    sSLCheck?: boolean;
+}
+
+// @public
+export interface WebTestPropertiesValidationRulesContentValidation {
+    contentMatch?: string;
+    ignoreCase?: boolean;
+    passIfTextFound?: boolean;
 }
 
 // @public
@@ -1391,7 +1449,7 @@ export interface WorkbookError {
 // @public
 export interface WorkbookErrorDefinition {
     readonly code?: string;
-    readonly innerError?: any;
+    readonly innererror?: WorkbookInnerErrorTrace;
     readonly message?: string;
 }
 
@@ -1448,9 +1506,6 @@ export type WorkbookSharedTypeKind = string;
 
 // @public
 export interface WorkbooksListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    canFetchContent?: boolean;
-    sourceId?: string;
-    tags?: string[];
 }
 
 // @public
@@ -1468,8 +1523,6 @@ export type WorkbooksListByResourceGroupResponse = WorkbooksListResult;
 
 // @public
 export interface WorkbooksListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    canFetchContent?: boolean;
-    tags?: string[];
 }
 
 // @public

@@ -242,11 +242,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkItemConfigurationError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
@@ -262,11 +262,11 @@ const createOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.workItemConfigurationProperties,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -282,11 +282,11 @@ const getDefaultOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkItemConfiguration
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
@@ -297,11 +297,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/WorkItemConfigs/{workItemConfigId}",
   httpMethod: "DELETE",
   responses: { 200: {} },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.workItemConfigId
   ],
@@ -316,11 +316,11 @@ const getItemOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkItemConfiguration
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.workItemConfigId
   ],
@@ -337,11 +337,11 @@ const updateItemOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.workItemConfigurationProperties,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.workItemConfigId
   ],
