@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure HybridComputeManagement client.
 
-The Hybrid Compute Management Client.
+The Hybrid Compute Management  Client.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridcompute/arm-hybridcompute) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-hybridcompute) |

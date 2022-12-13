@@ -19,6 +19,7 @@ import { LroImpl } from "./lroImpl";
 import {
   MachinesImpl,
   MachineExtensionsImpl,
+  ExtensionMetadataImpl,
   OperationsImpl,
   PrivateLinkScopesImpl,
   PrivateLinkResourcesImpl,
@@ -27,6 +28,7 @@ import {
 import {
   Machines,
   MachineExtensions,
+  ExtensionMetadata,
   Operations,
   PrivateLinkScopes,
   PrivateLinkResources,
@@ -72,7 +74,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-hybridcompute/3.1.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-hybridcompute/4.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -125,9 +127,10 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-06-10-preview";
+    this.apiVersion = options.apiVersion || "2022-08-11-preview";
     this.machines = new MachinesImpl(this);
     this.machineExtensions = new MachineExtensionsImpl(this);
+    this.extensionMetadata = new ExtensionMetadataImpl(this);
     this.operations = new OperationsImpl(this);
     this.privateLinkScopes = new PrivateLinkScopesImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
@@ -252,6 +255,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
 
   machines: Machines;
   machineExtensions: MachineExtensions;
+  extensionMetadata: ExtensionMetadata;
   operations: Operations;
   privateLinkScopes: PrivateLinkScopes;
   privateLinkResources: PrivateLinkResources;
