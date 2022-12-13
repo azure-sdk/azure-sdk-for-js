@@ -16,7 +16,7 @@ import { LoadTestClient } from "../loadTestClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  LoadTestResource,
+  LoadTestingResource,
   LoadTestsListBySubscriptionNextOptionalParams,
   LoadTestsListBySubscriptionOptionalParams,
   LoadTestsListBySubscriptionResponse,
@@ -31,7 +31,7 @@ import {
   LoadTestsGetResponse,
   LoadTestsCreateOrUpdateOptionalParams,
   LoadTestsCreateOrUpdateResponse,
-  LoadTestResourcePatchRequestBody,
+  LoadTestingResourcePatch,
   LoadTestsUpdateOptionalParams,
   LoadTestsUpdateResponse,
   LoadTestsDeleteOptionalParams,
@@ -59,7 +59,7 @@ export class LoadTestsImpl implements LoadTests {
    */
   public listBySubscription(
     options?: LoadTestsListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<LoadTestResource> {
+  ): PagedAsyncIterableIterator<LoadTestingResource> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -80,7 +80,7 @@ export class LoadTestsImpl implements LoadTests {
   private async *listBySubscriptionPagingPage(
     options?: LoadTestsListBySubscriptionOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<LoadTestResource[]> {
+  ): AsyncIterableIterator<LoadTestingResource[]> {
     let result: LoadTestsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -101,7 +101,7 @@ export class LoadTestsImpl implements LoadTests {
 
   private async *listBySubscriptionPagingAll(
     options?: LoadTestsListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<LoadTestResource> {
+  ): AsyncIterableIterator<LoadTestingResource> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
@@ -115,7 +115,7 @@ export class LoadTestsImpl implements LoadTests {
   public listByResourceGroup(
     resourceGroupName: string,
     options?: LoadTestsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<LoadTestResource> {
+  ): PagedAsyncIterableIterator<LoadTestingResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -141,7 +141,7 @@ export class LoadTestsImpl implements LoadTests {
     resourceGroupName: string,
     options?: LoadTestsListByResourceGroupOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<LoadTestResource[]> {
+  ): AsyncIterableIterator<LoadTestingResource[]> {
     let result: LoadTestsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -167,7 +167,7 @@ export class LoadTestsImpl implements LoadTests {
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
     options?: LoadTestsListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<LoadTestResource> {
+  ): AsyncIterableIterator<LoadTestingResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options
@@ -315,7 +315,7 @@ export class LoadTestsImpl implements LoadTests {
   async beginCreateOrUpdate(
     resourceGroupName: string,
     loadTestName: string,
-    loadTestResource: LoadTestResource,
+    loadTestResource: LoadTestingResource,
     options?: LoadTestsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -386,7 +386,7 @@ export class LoadTestsImpl implements LoadTests {
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     loadTestName: string,
-    loadTestResource: LoadTestResource,
+    loadTestResource: LoadTestingResource,
     options?: LoadTestsCreateOrUpdateOptionalParams
   ): Promise<LoadTestsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
@@ -408,7 +408,7 @@ export class LoadTestsImpl implements LoadTests {
   async beginUpdate(
     resourceGroupName: string,
     loadTestName: string,
-    loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody,
+    loadTestResourcePatchRequestBody: LoadTestingResourcePatch,
     options?: LoadTestsUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -484,7 +484,7 @@ export class LoadTestsImpl implements LoadTests {
   async beginUpdateAndWait(
     resourceGroupName: string,
     loadTestName: string,
-    loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody,
+    loadTestResourcePatchRequestBody: LoadTestingResourcePatch,
     options?: LoadTestsUpdateOptionalParams
   ): Promise<LoadTestsUpdateResponse> {
     const poller = await this.beginUpdate(
@@ -657,7 +657,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadTestResourcePageList
+      bodyMapper: Mappers.LoadTestingResourcePageList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -674,7 +674,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadTestResourcePageList
+      bodyMapper: Mappers.LoadTestingResourcePageList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -695,7 +695,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadTestResource
+      bodyMapper: Mappers.LoadTestingResource
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -717,16 +717,16 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadTestResource
+      bodyMapper: Mappers.LoadTestingResource
     },
     201: {
-      bodyMapper: Mappers.LoadTestResource
+      bodyMapper: Mappers.LoadTestingResource
     },
     202: {
-      bodyMapper: Mappers.LoadTestResource
+      bodyMapper: Mappers.LoadTestingResource
     },
     204: {
-      bodyMapper: Mappers.LoadTestResource
+      bodyMapper: Mappers.LoadTestingResource
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -750,16 +750,16 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadTestResource
+      bodyMapper: Mappers.LoadTestingResource
     },
     201: {
-      bodyMapper: Mappers.LoadTestResource
+      bodyMapper: Mappers.LoadTestingResource
     },
     202: {
-      bodyMapper: Mappers.LoadTestResource
+      bodyMapper: Mappers.LoadTestingResource
     },
     204: {
-      bodyMapper: Mappers.LoadTestResource
+      bodyMapper: Mappers.LoadTestingResource
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -806,7 +806,7 @@ const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.Operatio
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
+      bodyMapper: Mappers.OutboundEnvironmentEndpointListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -827,13 +827,12 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadTestResourcePageList
+      bodyMapper: Mappers.LoadTestingResourcePageList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -847,13 +846,12 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadTestResourcePageList
+      bodyMapper: Mappers.LoadTestingResourcePageList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -868,13 +866,12 @@ const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.Oper
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
+      bodyMapper: Mappers.OutboundEnvironmentEndpointListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

@@ -214,10 +214,10 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   }
 };
 
-export const QuotaResourceList: coreClient.CompositeMapper = {
+export const LoadTestingQuotaListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "QuotaResourceList",
+    className: "LoadTestingQuotaListResult",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -227,7 +227,7 @@ export const QuotaResourceList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "QuotaResource"
+              className: "LoadTestingQuota"
             }
           }
         }
@@ -352,10 +352,10 @@ export const QuotaBucketRequestPropertiesDimensions: coreClient.CompositeMapper 
   }
 };
 
-export const LoadTestResourcePageList: coreClient.CompositeMapper = {
+export const LoadTestingResourcePageList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "LoadTestResourcePageList",
+    className: "LoadTestingResourcePageList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -364,7 +364,7 @@ export const LoadTestResourcePageList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "LoadTestResource"
+              className: "LoadTestingResource"
             }
           }
         }
@@ -379,12 +379,12 @@ export const LoadTestResourcePageList: coreClient.CompositeMapper = {
   }
 };
 
-export const EncryptionProperties: coreClient.CompositeMapper = {
+export const CustomerManagedKeyEncryptionProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "EncryptionProperties",
+    className: "CustomerManagedKeyEncryptionProperties",
     modelProperties: {
-      identity: {
+      customerManagedKeyIdentity: {
         serializedName: "identity",
         type: {
           name: "Composite",
@@ -406,13 +406,13 @@ export const EncryptionPropertiesIdentity: coreClient.CompositeMapper = {
     name: "Composite",
     className: "EncryptionPropertiesIdentity",
     modelProperties: {
-      type: {
+      customerManagedKeyIdentityType: {
         serializedName: "type",
         type: {
           name: "String"
         }
       },
-      resourceId: {
+      resourceIdentifier: {
         serializedName: "resourceId",
         nullable: true,
         type: {
@@ -485,10 +485,10 @@ export const UserAssignedIdentity: coreClient.CompositeMapper = {
   }
 };
 
-export const LoadTestResourcePatchRequestBody: coreClient.CompositeMapper = {
+export const LoadTestingResourcePatch: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "LoadTestResourcePatchRequestBody",
+    className: "LoadTestingResourcePatch",
     modelProperties: {
       tags: {
         serializedName: "tags",
@@ -518,17 +518,17 @@ export const LoadTestResourcePatchRequestBody: coreClient.CompositeMapper = {
         serializedName: "properties.encryption",
         type: {
           name: "Composite",
-          className: "EncryptionProperties"
+          className: "CustomerManagedKeyEncryptionProperties"
         }
       }
     }
   }
 };
 
-export const OutboundEnvironmentEndpointCollection: coreClient.CompositeMapper = {
+export const OutboundEnvironmentEndpointListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OutboundEnvironmentEndpointCollection",
+    className: "OutboundEnvironmentEndpointListResult",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -573,7 +573,7 @@ export const OutboundEnvironmentEndpoint: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "EndpointDependency"
+              className: "LoadTestingEndpointDependency"
             }
           }
         }
@@ -582,10 +582,10 @@ export const OutboundEnvironmentEndpoint: coreClient.CompositeMapper = {
   }
 };
 
-export const EndpointDependency: coreClient.CompositeMapper = {
+export const LoadTestingEndpointDependency: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "EndpointDependency",
+    className: "LoadTestingEndpointDependency",
     modelProperties: {
       domainName: {
         serializedName: "domainName",
@@ -609,7 +609,7 @@ export const EndpointDependency: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "EndpointDetail"
+              className: "LoadTestingEndpointDetail"
             }
           }
         }
@@ -618,10 +618,10 @@ export const EndpointDependency: coreClient.CompositeMapper = {
   }
 };
 
-export const EndpointDetail: coreClient.CompositeMapper = {
+export const LoadTestingEndpointDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "EndpointDetail",
+    className: "LoadTestingEndpointDetail",
     modelProperties: {
       port: {
         serializedName: "port",
@@ -634,10 +634,10 @@ export const EndpointDetail: coreClient.CompositeMapper = {
   }
 };
 
-export const QuotaResource: coreClient.CompositeMapper = {
+export const LoadTestingQuota: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "QuotaResource",
+    className: "LoadTestingQuota",
     modelProperties: {
       ...Resource.type.modelProperties,
       limit: {
@@ -669,10 +669,10 @@ export const QuotaResource: coreClient.CompositeMapper = {
   }
 };
 
-export const QuotaBucketRequest: coreClient.CompositeMapper = {
+export const LoadTestingQuotaBucketContent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "QuotaBucketRequest",
+    className: "LoadTestingQuotaBucketContent",
     modelProperties: {
       ...Resource.type.modelProperties,
       currentUsage: {
@@ -702,7 +702,7 @@ export const QuotaBucketRequest: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
-      dimensions: {
+      loadTestingQuotaBucketDimensions: {
         serializedName: "properties.dimensions",
         type: {
           name: "Composite",
@@ -713,10 +713,10 @@ export const QuotaBucketRequest: coreClient.CompositeMapper = {
   }
 };
 
-export const CheckQuotaAvailabilityResponse: coreClient.CompositeMapper = {
+export const LoadTestingQuotaAvailabilityResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CheckQuotaAvailabilityResponse",
+    className: "LoadTestingQuotaAvailabilityResponse",
     modelProperties: {
       ...Resource.type.modelProperties,
       isAvailable: {
@@ -759,10 +759,10 @@ export const TrackedResource: coreClient.CompositeMapper = {
   }
 };
 
-export const LoadTestResource: coreClient.CompositeMapper = {
+export const LoadTestingResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "LoadTestResource",
+    className: "LoadTestingResource",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
       identity: {
@@ -802,7 +802,7 @@ export const LoadTestResource: coreClient.CompositeMapper = {
         serializedName: "properties.encryption",
         type: {
           name: "Composite",
-          className: "EncryptionProperties"
+          className: "CustomerManagedKeyEncryptionProperties"
         }
       }
     }

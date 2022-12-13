@@ -12,9 +12,9 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
-  QuotaBucketRequest as QuotaBucketRequestMapper,
-  LoadTestResource as LoadTestResourceMapper,
-  LoadTestResourcePatchRequestBody as LoadTestResourcePatchRequestBodyMapper
+  LoadTestingQuotaBucketContent as LoadTestingQuotaBucketContentMapper,
+  LoadTestingResource as LoadTestingResourceMapper,
+  LoadTestingResourcePatch as LoadTestingResourcePatchMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -118,7 +118,7 @@ export const contentType: OperationParameter = {
 
 export const quotaBucketRequest: OperationParameter = {
   parameterPath: "quotaBucketRequest",
-  mapper: QuotaBucketRequestMapper
+  mapper: LoadTestingQuotaBucketContentMapper
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -149,10 +149,10 @@ export const loadTestName: OperationURLParameter = {
 
 export const loadTestResource: OperationParameter = {
   parameterPath: "loadTestResource",
-  mapper: LoadTestResourceMapper
+  mapper: LoadTestingResourceMapper
 };
 
 export const loadTestResourcePatchRequestBody: OperationParameter = {
   parameterPath: "loadTestResourcePatchRequestBody",
-  mapper: LoadTestResourcePatchRequestBodyMapper
+  mapper: LoadTestingResourcePatchMapper
 };

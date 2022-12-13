@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  LoadTestResource,
+  LoadTestingResource,
   LoadTestsListBySubscriptionOptionalParams,
   LoadTestsListByResourceGroupOptionalParams,
   OutboundEnvironmentEndpoint,
@@ -18,7 +18,7 @@ import {
   LoadTestsGetResponse,
   LoadTestsCreateOrUpdateOptionalParams,
   LoadTestsCreateOrUpdateResponse,
-  LoadTestResourcePatchRequestBody,
+  LoadTestingResourcePatch,
   LoadTestsUpdateOptionalParams,
   LoadTestsUpdateResponse,
   LoadTestsDeleteOptionalParams
@@ -33,7 +33,7 @@ export interface LoadTests {
    */
   listBySubscription(
     options?: LoadTestsListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<LoadTestResource>;
+  ): PagedAsyncIterableIterator<LoadTestingResource>;
   /**
    * Lists loadtest resources in a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -42,7 +42,7 @@ export interface LoadTests {
   listByResourceGroup(
     resourceGroupName: string,
     options?: LoadTestsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<LoadTestResource>;
+  ): PagedAsyncIterableIterator<LoadTestingResource>;
   /**
    * Lists the endpoints that agents may call as part of load testing.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -75,7 +75,7 @@ export interface LoadTests {
   beginCreateOrUpdate(
     resourceGroupName: string,
     loadTestName: string,
-    loadTestResource: LoadTestResource,
+    loadTestResource: LoadTestingResource,
     options?: LoadTestsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -93,7 +93,7 @@ export interface LoadTests {
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     loadTestName: string,
-    loadTestResource: LoadTestResource,
+    loadTestResource: LoadTestingResource,
     options?: LoadTestsCreateOrUpdateOptionalParams
   ): Promise<LoadTestsCreateOrUpdateResponse>;
   /**
@@ -106,7 +106,7 @@ export interface LoadTests {
   beginUpdate(
     resourceGroupName: string,
     loadTestName: string,
-    loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody,
+    loadTestResourcePatchRequestBody: LoadTestingResourcePatch,
     options?: LoadTestsUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -124,7 +124,7 @@ export interface LoadTests {
   beginUpdateAndWait(
     resourceGroupName: string,
     loadTestName: string,
-    loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody,
+    loadTestResourcePatchRequestBody: LoadTestingResourcePatch,
     options?: LoadTestsUpdateOptionalParams
   ): Promise<LoadTestsUpdateResponse>;
   /**
