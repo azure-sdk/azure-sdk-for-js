@@ -123,11 +123,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       }
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
@@ -143,11 +143,11 @@ const getOperationSpec: coreClient.OperationSpec = {
         Mappers.ApplicationInsightsComponentProactiveDetectionConfiguration
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.configurationId
   ],
@@ -165,11 +165,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.proactiveDetectionProperties,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.configurationId
   ],
