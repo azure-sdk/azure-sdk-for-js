@@ -1,15 +1,38 @@
 # Release History
+    
+## 3.0.0 (2022-12-13)
+    
+**Features**
 
-## 2.0.1 (Unreleased)
+  - Added Interface AzureKeyVaultProperties
+  - Added Interface AzureResource
+  - Added Interface ConfluentBootstrapServer
+  - Added Interface ConfluentSchemaRegistry
+  - Added Interface KeyVaultSecretReferenceSecretInfo
+  - Added Interface KeyVaultSecretUriSecretInfo
+  - Added Interface LinkerResource
+  - Added Interface ProxyResource
+  - Added Interface SecretAuthInfo
+  - Added Interface ServicePrincipalCertificateAuthInfo
+  - Added Interface ServicePrincipalSecretAuthInfo
+  - Added Interface SystemAssignedIdentityAuthInfo
+  - Added Interface UserAssignedIdentityAuthInfo
+  - Added Interface ValidateResult
+  - Added Interface ValueSecretInfo
+  - Added Type Alias Type
+  - Added Type Alias ValidationItemResult
+  - Added Enum KnownType
+  - Added Enum KnownValidationItemResult
+  - Added function getContinuationToken
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter result of interface ValidationResultItem is changed from ValidationResultStatus to ValidationItemResult
+  - Removed Enum KnownAzureResourceType
+  - Removed Enum KnownTargetServiceType
+  - Removed Enum KnownValidationResultStatus
+    
+    
 ## 2.0.0 (2022-05-16)
     
 **Features**
