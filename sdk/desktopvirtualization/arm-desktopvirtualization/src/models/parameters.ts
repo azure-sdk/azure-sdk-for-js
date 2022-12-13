@@ -14,8 +14,11 @@ import {
 import {
   Workspace as WorkspaceMapper,
   WorkspacePatch as WorkspacePatchMapper,
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   ScalingPlan as ScalingPlanMapper,
   ScalingPlanPatch as ScalingPlanPatchMapper,
+  ScalingPlanPooledSchedule as ScalingPlanPooledScheduleMapper,
+  ScalingPlanPooledSchedulePatch as ScalingPlanPooledSchedulePatchMapper,
   ApplicationGroup as ApplicationGroupMapper,
   ApplicationGroupPatch as ApplicationGroupPatchMapper,
   Application as ApplicationMapper,
@@ -27,8 +30,7 @@ import {
   SessionHostPatch as SessionHostPatchMapper,
   MsixPackage as MsixPackageMapper,
   MsixPackagePatch as MsixPackagePatchMapper,
-  MsixImageURI as MsixImageURIMapper,
-  PrivateEndpointConnection as PrivateEndpointConnectionMapper
+  MsixImageURI as MsixImageURIMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -58,7 +60,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-09-03-preview",
+    defaultValue: "2022-10-14-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -145,6 +147,67 @@ export const workspace1: OperationParameter = {
   mapper: WorkspacePatchMapper
 };
 
+export const pageSize: OperationQueryParameter = {
+  parameterPath: ["options", "pageSize"],
+  mapper: {
+    serializedName: "pageSize",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const isDescending: OperationQueryParameter = {
+  parameterPath: ["options", "isDescending"],
+  mapper: {
+    serializedName: "isDescending",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const initialSkip: OperationQueryParameter = {
+  parameterPath: ["options", "initialSkip"],
+  mapper: {
+    serializedName: "initialSkip",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    serializedName: "privateEndpointConnectionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const connection: OperationParameter = {
+  parameterPath: "connection",
+  mapper: PrivateEndpointConnectionMapper
+};
+
+export const hostPoolName: OperationURLParameter = {
+  parameterPath: "hostPoolName",
+  mapper: {
+    constraints: {
+      MaxLength: 64,
+      MinLength: 3
+    },
+    serializedName: "hostPoolName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const scalingPlanName: OperationURLParameter = {
   parameterPath: "scalingPlanName",
   mapper: {
@@ -170,19 +233,29 @@ export const scalingPlan1: OperationParameter = {
   mapper: ScalingPlanPatchMapper
 };
 
-export const hostPoolName: OperationURLParameter = {
-  parameterPath: "hostPoolName",
+export const scalingPlanScheduleName: OperationURLParameter = {
+  parameterPath: "scalingPlanScheduleName",
   mapper: {
     constraints: {
       MaxLength: 64,
-      MinLength: 3
+      MinLength: 1
     },
-    serializedName: "hostPoolName",
+    serializedName: "scalingPlanScheduleName",
     required: true,
     type: {
       name: "String"
     }
   }
+};
+
+export const scalingPlanSchedule: OperationParameter = {
+  parameterPath: "scalingPlanSchedule",
+  mapper: ScalingPlanPooledScheduleMapper
+};
+
+export const scalingPlanSchedule1: OperationParameter = {
+  parameterPath: ["options", "scalingPlanSchedule"],
+  mapper: ScalingPlanPooledSchedulePatchMapper
 };
 
 export const applicationGroupName: OperationURLParameter = {
@@ -353,20 +426,4 @@ export const msixPackage1: OperationParameter = {
 export const msixImageURI: OperationParameter = {
   parameterPath: "msixImageURI",
   mapper: MsixImageURIMapper
-};
-
-export const privateEndpointConnectionName: OperationURLParameter = {
-  parameterPath: "privateEndpointConnectionName",
-  mapper: {
-    serializedName: "privateEndpointConnectionName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const connection: OperationParameter = {
-  parameterPath: "connection",
-  mapper: PrivateEndpointConnectionMapper
 };
