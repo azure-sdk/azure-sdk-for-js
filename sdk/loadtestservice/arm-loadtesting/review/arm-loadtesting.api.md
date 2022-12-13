@@ -14,36 +14,18 @@ import { PollOperationState } from '@azure/core-lro';
 export type ActionType = string;
 
 // @public
-export interface CheckQuotaAvailabilityResponse extends Resource {
-    availabilityStatus?: string;
-    isAvailable?: boolean;
-}
-
-// @public
 export type CreatedByType = string;
 
 // @public
-export interface EncryptionProperties {
-    identity?: EncryptionPropertiesIdentity;
+export interface CustomerManagedKeyEncryptionProperties {
+    customerManagedKeyIdentity?: EncryptionPropertiesIdentity;
     keyUrl?: string;
 }
 
 // @public
 export interface EncryptionPropertiesIdentity {
-    resourceId?: string;
-    type?: Type;
-}
-
-// @public
-export interface EndpointDependency {
-    readonly description?: string;
-    readonly domainName?: string;
-    readonly endpointDetails?: EndpointDetail[];
-}
-
-// @public
-export interface EndpointDetail {
-    readonly port?: number;
+    customerManagedKeyIdentityType?: Type;
+    resourceIdentifier?: string;
 }
 
 // @public
@@ -136,24 +118,63 @@ export interface LoadTestClientOptionalParams extends coreClient.ServiceClientOp
 }
 
 // @public
-export interface LoadTestResource extends TrackedResource {
+export interface LoadTestingEndpointDependency {
+    readonly description?: string;
+    readonly domainName?: string;
+    readonly endpointDetails?: LoadTestingEndpointDetail[];
+}
+
+// @public
+export interface LoadTestingEndpointDetail {
+    readonly port?: number;
+}
+
+// @public
+export interface LoadTestingQuota extends Resource {
+    limit?: number;
+    readonly provisioningState?: ResourceState;
+    usage?: number;
+}
+
+// @public
+export interface LoadTestingQuotaAvailabilityResponse extends Resource {
+    availabilityStatus?: string;
+    isAvailable?: boolean;
+}
+
+// @public
+export interface LoadTestingQuotaBucketContent extends Resource {
+    currentQuota?: number;
+    currentUsage?: number;
+    loadTestingQuotaBucketDimensions?: QuotaBucketRequestPropertiesDimensions;
+    newQuota?: number;
+}
+
+// @public
+export interface LoadTestingQuotaListResult {
+    readonly nextLink?: string;
+    readonly value?: LoadTestingQuota[];
+}
+
+// @public
+export interface LoadTestingResource extends TrackedResource {
     readonly dataPlaneURI?: string;
     description?: string;
-    encryption?: EncryptionProperties;
+    encryption?: CustomerManagedKeyEncryptionProperties;
     identity?: ManagedServiceIdentity;
     readonly provisioningState?: ResourceState;
 }
 
 // @public
-export interface LoadTestResourcePageList {
+export interface LoadTestingResourcePageList {
     nextLink?: string;
-    value?: LoadTestResource[];
+    value?: LoadTestingResource[];
 }
 
 // @public
-export interface LoadTestResourcePatchRequestBody {
+export interface LoadTestingResourcePatch {
     description?: string;
-    encryption?: EncryptionProperties;
+    encryption?: CustomerManagedKeyEncryptionProperties;
     identity?: ManagedServiceIdentity;
     tags?: {
         [propertyName: string]: string;
@@ -162,15 +183,15 @@ export interface LoadTestResourcePatchRequestBody {
 
 // @public
 export interface LoadTests {
-    beginCreateOrUpdate(resourceGroupName: string, loadTestName: string, loadTestResource: LoadTestResource, options?: LoadTestsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<LoadTestsCreateOrUpdateResponse>, LoadTestsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, loadTestName: string, loadTestResource: LoadTestResource, options?: LoadTestsCreateOrUpdateOptionalParams): Promise<LoadTestsCreateOrUpdateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, loadTestName: string, loadTestResource: LoadTestingResource, options?: LoadTestsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<LoadTestsCreateOrUpdateResponse>, LoadTestsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, loadTestName: string, loadTestResource: LoadTestingResource, options?: LoadTestsCreateOrUpdateOptionalParams): Promise<LoadTestsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, loadTestName: string, options?: LoadTestsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, loadTestName: string, options?: LoadTestsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, loadTestName: string, loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody, options?: LoadTestsUpdateOptionalParams): Promise<PollerLike<PollOperationState<LoadTestsUpdateResponse>, LoadTestsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, loadTestName: string, loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody, options?: LoadTestsUpdateOptionalParams): Promise<LoadTestsUpdateResponse>;
+    beginUpdate(resourceGroupName: string, loadTestName: string, loadTestResourcePatchRequestBody: LoadTestingResourcePatch, options?: LoadTestsUpdateOptionalParams): Promise<PollerLike<PollOperationState<LoadTestsUpdateResponse>, LoadTestsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, loadTestName: string, loadTestResourcePatchRequestBody: LoadTestingResourcePatch, options?: LoadTestsUpdateOptionalParams): Promise<LoadTestsUpdateResponse>;
     get(resourceGroupName: string, loadTestName: string, options?: LoadTestsGetOptionalParams): Promise<LoadTestsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: LoadTestsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<LoadTestResource>;
-    listBySubscription(options?: LoadTestsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<LoadTestResource>;
+    listByResourceGroup(resourceGroupName: string, options?: LoadTestsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<LoadTestingResource>;
+    listBySubscription(options?: LoadTestsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<LoadTestingResource>;
     listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, loadTestName: string, options?: LoadTestsListOutboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
 }
 
@@ -186,7 +207,7 @@ export interface LoadTestsCreateOrUpdateOptionalParams extends coreClient.Operat
 }
 
 // @public
-export type LoadTestsCreateOrUpdateResponse = LoadTestResource;
+export type LoadTestsCreateOrUpdateResponse = LoadTestingResource;
 
 // @public
 export interface LoadTestsDeleteHeaders {
@@ -204,49 +225,49 @@ export interface LoadTestsGetOptionalParams extends coreClient.OperationOptions 
 }
 
 // @public
-export type LoadTestsGetResponse = LoadTestResource;
+export type LoadTestsGetResponse = LoadTestingResource;
 
 // @public
 export interface LoadTestsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type LoadTestsListByResourceGroupNextResponse = LoadTestResourcePageList;
+export type LoadTestsListByResourceGroupNextResponse = LoadTestingResourcePageList;
 
 // @public
 export interface LoadTestsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type LoadTestsListByResourceGroupResponse = LoadTestResourcePageList;
+export type LoadTestsListByResourceGroupResponse = LoadTestingResourcePageList;
 
 // @public
 export interface LoadTestsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type LoadTestsListBySubscriptionNextResponse = LoadTestResourcePageList;
+export type LoadTestsListBySubscriptionNextResponse = LoadTestingResourcePageList;
 
 // @public
 export interface LoadTestsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type LoadTestsListBySubscriptionResponse = LoadTestResourcePageList;
+export type LoadTestsListBySubscriptionResponse = LoadTestingResourcePageList;
 
 // @public
 export interface LoadTestsListOutboundNetworkDependenciesEndpointsNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type LoadTestsListOutboundNetworkDependenciesEndpointsNextResponse = OutboundEnvironmentEndpointCollection;
+export type LoadTestsListOutboundNetworkDependenciesEndpointsNextResponse = OutboundEnvironmentEndpointListResult;
 
 // @public
 export interface LoadTestsListOutboundNetworkDependenciesEndpointsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type LoadTestsListOutboundNetworkDependenciesEndpointsResponse = OutboundEnvironmentEndpointCollection;
+export type LoadTestsListOutboundNetworkDependenciesEndpointsResponse = OutboundEnvironmentEndpointListResult;
 
 // @public
 export interface LoadTestsUpdateHeaders {
@@ -260,7 +281,7 @@ export interface LoadTestsUpdateOptionalParams extends coreClient.OperationOptio
 }
 
 // @public
-export type LoadTestsUpdateResponse = LoadTestResource;
+export type LoadTestsUpdateResponse = LoadTestingResource;
 
 // @public
 export interface ManagedServiceIdentity {
@@ -323,21 +344,13 @@ export type Origin = string;
 // @public
 export interface OutboundEnvironmentEndpoint {
     readonly category?: string;
-    readonly endpoints?: EndpointDependency[];
+    readonly endpoints?: LoadTestingEndpointDependency[];
 }
 
 // @public
-export interface OutboundEnvironmentEndpointCollection {
+export interface OutboundEnvironmentEndpointListResult {
     nextLink?: string;
     readonly value?: OutboundEnvironmentEndpoint[];
-}
-
-// @public
-export interface QuotaBucketRequest extends Resource {
-    currentQuota?: number;
-    currentUsage?: number;
-    dimensions?: QuotaBucketRequestPropertiesDimensions;
-    newQuota?: number;
 }
 
 // @public
@@ -347,23 +360,10 @@ export interface QuotaBucketRequestPropertiesDimensions {
 }
 
 // @public
-export interface QuotaResource extends Resource {
-    limit?: number;
-    readonly provisioningState?: ResourceState;
-    usage?: number;
-}
-
-// @public
-export interface QuotaResourceList {
-    readonly nextLink?: string;
-    readonly value?: QuotaResource[];
-}
-
-// @public
 export interface Quotas {
-    checkAvailability(location: string, quotaBucketName: string, quotaBucketRequest: QuotaBucketRequest, options?: QuotasCheckAvailabilityOptionalParams): Promise<QuotasCheckAvailabilityResponse>;
+    checkAvailability(location: string, quotaBucketName: string, quotaBucketRequest: LoadTestingQuotaBucketContent, options?: QuotasCheckAvailabilityOptionalParams): Promise<QuotasCheckAvailabilityResponse>;
     get(location: string, quotaBucketName: string, options?: QuotasGetOptionalParams): Promise<QuotasGetResponse>;
-    list(location: string, options?: QuotasListOptionalParams): PagedAsyncIterableIterator<QuotaResource>;
+    list(location: string, options?: QuotasListOptionalParams): PagedAsyncIterableIterator<LoadTestingQuota>;
 }
 
 // @public
@@ -371,28 +371,28 @@ export interface QuotasCheckAvailabilityOptionalParams extends coreClient.Operat
 }
 
 // @public
-export type QuotasCheckAvailabilityResponse = CheckQuotaAvailabilityResponse;
+export type QuotasCheckAvailabilityResponse = LoadTestingQuotaAvailabilityResponse;
 
 // @public
 export interface QuotasGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type QuotasGetResponse = QuotaResource;
+export type QuotasGetResponse = LoadTestingQuota;
 
 // @public
 export interface QuotasListNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type QuotasListNextResponse = QuotaResourceList;
+export type QuotasListNextResponse = LoadTestingQuotaListResult;
 
 // @public
 export interface QuotasListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type QuotasListResponse = QuotaResourceList;
+export type QuotasListResponse = LoadTestingQuotaListResult;
 
 // @public
 export interface Resource {

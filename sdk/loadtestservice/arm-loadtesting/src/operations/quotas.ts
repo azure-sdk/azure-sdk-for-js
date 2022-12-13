@@ -14,13 +14,13 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { LoadTestClient } from "../loadTestClient";
 import {
-  QuotaResource,
+  LoadTestingQuota,
   QuotasListNextOptionalParams,
   QuotasListOptionalParams,
   QuotasListResponse,
   QuotasGetOptionalParams,
   QuotasGetResponse,
-  QuotaBucketRequest,
+  LoadTestingQuotaBucketContent,
   QuotasCheckAvailabilityOptionalParams,
   QuotasCheckAvailabilityResponse,
   QuotasListNextResponse
@@ -47,7 +47,7 @@ export class QuotasImpl implements Quotas {
   public list(
     location: string,
     options?: QuotasListOptionalParams
-  ): PagedAsyncIterableIterator<QuotaResource> {
+  ): PagedAsyncIterableIterator<LoadTestingQuota> {
     const iter = this.listPagingAll(location, options);
     return {
       next() {
@@ -69,7 +69,7 @@ export class QuotasImpl implements Quotas {
     location: string,
     options?: QuotasListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<QuotaResource[]> {
+  ): AsyncIterableIterator<LoadTestingQuota[]> {
     let result: QuotasListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -91,7 +91,7 @@ export class QuotasImpl implements Quotas {
   private async *listPagingAll(
     location: string,
     options?: QuotasListOptionalParams
-  ): AsyncIterableIterator<QuotaResource> {
+  ): AsyncIterableIterator<LoadTestingQuota> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
     }
@@ -139,7 +139,7 @@ export class QuotasImpl implements Quotas {
   checkAvailability(
     location: string,
     quotaBucketName: string,
-    quotaBucketRequest: QuotaBucketRequest,
+    quotaBucketRequest: LoadTestingQuotaBucketContent,
     options?: QuotasCheckAvailabilityOptionalParams
   ): Promise<QuotasCheckAvailabilityResponse> {
     return this.client.sendOperationRequest(
@@ -174,7 +174,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaResourceList
+      bodyMapper: Mappers.LoadTestingQuotaListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -195,7 +195,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaResource
+      bodyMapper: Mappers.LoadTestingQuota
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -217,7 +217,7 @@ const checkAvailabilityOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckQuotaAvailabilityResponse
+      bodyMapper: Mappers.LoadTestingQuotaAvailabilityResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -240,13 +240,12 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaResourceList
+      bodyMapper: Mappers.LoadTestingQuotaListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

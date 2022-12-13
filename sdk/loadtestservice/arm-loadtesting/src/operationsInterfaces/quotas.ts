@@ -8,11 +8,11 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  QuotaResource,
+  LoadTestingQuota,
   QuotasListOptionalParams,
   QuotasGetOptionalParams,
   QuotasGetResponse,
-  QuotaBucketRequest,
+  LoadTestingQuotaBucketContent,
   QuotasCheckAvailabilityOptionalParams,
   QuotasCheckAvailabilityResponse
 } from "../models";
@@ -28,7 +28,7 @@ export interface Quotas {
   list(
     location: string,
     options?: QuotasListOptionalParams
-  ): PagedAsyncIterableIterator<QuotaResource>;
+  ): PagedAsyncIterableIterator<LoadTestingQuota>;
   /**
    * Get the available quota for a quota bucket per region per subscription.
    * @param location The name of Azure region.
@@ -50,7 +50,7 @@ export interface Quotas {
   checkAvailability(
     location: string,
     quotaBucketName: string,
-    quotaBucketRequest: QuotaBucketRequest,
+    quotaBucketRequest: LoadTestingQuotaBucketContent,
     options?: QuotasCheckAvailabilityOptionalParams
   ): Promise<QuotasCheckAvailabilityResponse>;
 }

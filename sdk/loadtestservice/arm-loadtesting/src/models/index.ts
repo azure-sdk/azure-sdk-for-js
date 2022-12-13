@@ -122,12 +122,12 @@ export interface ErrorAdditionalInfo {
 }
 
 /** List of quota bucket objects. It contains a URL link to get the next set of results. */
-export interface QuotaResourceList {
+export interface LoadTestingQuotaListResult {
   /**
    * List of quota bucket objects provided by the loadtestservice.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: QuotaResource[];
+  readonly value?: LoadTestingQuota[];
   /**
    * URL to get the next set of quota bucket objects results (if there are any).
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -184,17 +184,17 @@ export interface QuotaBucketRequestPropertiesDimensions {
 }
 
 /** List of resources page result. */
-export interface LoadTestResourcePageList {
+export interface LoadTestingResourcePageList {
   /** List of resources in current page. */
-  value?: LoadTestResource[];
+  value?: LoadTestingResource[];
   /** Link to next page of resources. */
   nextLink?: string;
 }
 
 /** Key and identity details for Customer Managed Key encryption of load test resource */
-export interface EncryptionProperties {
+export interface CustomerManagedKeyEncryptionProperties {
   /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-  identity?: EncryptionPropertiesIdentity;
+  customerManagedKeyIdentity?: EncryptionPropertiesIdentity;
   /** key encryption key Url, versioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek. */
   keyUrl?: string;
 }
@@ -202,9 +202,9 @@ export interface EncryptionProperties {
 /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
 export interface EncryptionPropertiesIdentity {
   /** Managed identity type to use for accessing encryption key Url */
-  type?: Type;
+  customerManagedKeyIdentityType?: Type;
   /** user assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId */
-  resourceId?: string;
+  resourceIdentifier?: string;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -242,7 +242,7 @@ export interface UserAssignedIdentity {
 }
 
 /** LoadTest resource patch request body. */
-export interface LoadTestResourcePatchRequestBody {
+export interface LoadTestingResourcePatch {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The type of identity used for the resource. */
@@ -250,11 +250,11 @@ export interface LoadTestResourcePatchRequestBody {
   /** Description of the resource. */
   description?: string;
   /** CMK Encryption property. */
-  encryption?: EncryptionProperties;
+  encryption?: CustomerManagedKeyEncryptionProperties;
 }
 
 /** Values returned by the List operation. */
-export interface OutboundEnvironmentEndpointCollection {
+export interface OutboundEnvironmentEndpointListResult {
   /**
    * The collection of outbound network dependency endpoints returned by the listing operation.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -275,11 +275,11 @@ export interface OutboundEnvironmentEndpoint {
    * The endpoints for this service to which the Batch service makes outbound calls.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly endpoints?: EndpointDependency[];
+  readonly endpoints?: LoadTestingEndpointDependency[];
 }
 
 /** A domain name and connection details used to access a dependency. */
-export interface EndpointDependency {
+export interface LoadTestingEndpointDependency {
   /**
    * The domain name of the dependency. Domain names may be fully qualified or may contain a * wildcard.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -294,11 +294,11 @@ export interface EndpointDependency {
    * The list of connection details for this endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly endpointDetails?: EndpointDetail[];
+  readonly endpointDetails?: LoadTestingEndpointDetail[];
 }
 
 /** Details about the connection between the Batch service and the endpoint. */
-export interface EndpointDetail {
+export interface LoadTestingEndpointDetail {
   /**
    * The port an endpoint is connected to.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -307,7 +307,7 @@ export interface EndpointDetail {
 }
 
 /** Quota bucket details object. */
-export interface QuotaResource extends Resource {
+export interface LoadTestingQuota extends Resource {
   /** Current quota limit of the quota bucket. */
   limit?: number;
   /** Current quota usage of the quota bucket. */
@@ -320,7 +320,7 @@ export interface QuotaResource extends Resource {
 }
 
 /** Request object of new quota for a quota bucket. */
-export interface QuotaBucketRequest extends Resource {
+export interface LoadTestingQuotaBucketContent extends Resource {
   /** Current quota usage of the quota bucket. */
   currentUsage?: number;
   /** Current quota limit of the quota bucket. */
@@ -328,11 +328,11 @@ export interface QuotaBucketRequest extends Resource {
   /** New quota limit of the quota bucket. */
   newQuota?: number;
   /** Dimensions for new quota request. */
-  dimensions?: QuotaBucketRequestPropertiesDimensions;
+  loadTestingQuotaBucketDimensions?: QuotaBucketRequestPropertiesDimensions;
 }
 
 /** Check quota availability response object. */
-export interface CheckQuotaAvailabilityResponse extends Resource {
+export interface LoadTestingQuotaAvailabilityResponse extends Resource {
   /** True/False indicating whether the quota request be granted based on availability. */
   isAvailable?: boolean;
   /** Message indicating additional details to add to quota support request. */
@@ -348,7 +348,7 @@ export interface TrackedResource extends Resource {
 }
 
 /** LoadTest details */
-export interface LoadTestResource extends TrackedResource {
+export interface LoadTestingResource extends TrackedResource {
   /** The type of identity used for the resource. */
   identity?: ManagedServiceIdentity;
   /** Description of the resource. */
@@ -364,7 +364,7 @@ export interface LoadTestResource extends TrackedResource {
    */
   readonly dataPlaneURI?: string;
   /** CMK Encryption property. */
-  encryption?: EncryptionProperties;
+  encryption?: CustomerManagedKeyEncryptionProperties;
 }
 
 /** Defines headers for LoadTests_createOrUpdate operation. */
@@ -529,48 +529,48 @@ export type OperationsListNextResponse = OperationListResult;
 export interface QuotasListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type QuotasListResponse = QuotaResourceList;
+export type QuotasListResponse = LoadTestingQuotaListResult;
 
 /** Optional parameters. */
 export interface QuotasGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type QuotasGetResponse = QuotaResource;
+export type QuotasGetResponse = LoadTestingQuota;
 
 /** Optional parameters. */
 export interface QuotasCheckAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkAvailability operation. */
-export type QuotasCheckAvailabilityResponse = CheckQuotaAvailabilityResponse;
+export type QuotasCheckAvailabilityResponse = LoadTestingQuotaAvailabilityResponse;
 
 /** Optional parameters. */
 export interface QuotasListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type QuotasListNextResponse = QuotaResourceList;
+export type QuotasListNextResponse = LoadTestingQuotaListResult;
 
 /** Optional parameters. */
 export interface LoadTestsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type LoadTestsListBySubscriptionResponse = LoadTestResourcePageList;
+export type LoadTestsListBySubscriptionResponse = LoadTestingResourcePageList;
 
 /** Optional parameters. */
 export interface LoadTestsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type LoadTestsListByResourceGroupResponse = LoadTestResourcePageList;
+export type LoadTestsListByResourceGroupResponse = LoadTestingResourcePageList;
 
 /** Optional parameters. */
 export interface LoadTestsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type LoadTestsGetResponse = LoadTestResource;
+export type LoadTestsGetResponse = LoadTestingResource;
 
 /** Optional parameters. */
 export interface LoadTestsCreateOrUpdateOptionalParams
@@ -582,7 +582,7 @@ export interface LoadTestsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type LoadTestsCreateOrUpdateResponse = LoadTestResource;
+export type LoadTestsCreateOrUpdateResponse = LoadTestingResource;
 
 /** Optional parameters. */
 export interface LoadTestsUpdateOptionalParams
@@ -594,7 +594,7 @@ export interface LoadTestsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type LoadTestsUpdateResponse = LoadTestResource;
+export type LoadTestsUpdateResponse = LoadTestingResource;
 
 /** Optional parameters. */
 export interface LoadTestsDeleteOptionalParams
@@ -610,28 +610,28 @@ export interface LoadTestsListOutboundNetworkDependenciesEndpointsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOutboundNetworkDependenciesEndpoints operation. */
-export type LoadTestsListOutboundNetworkDependenciesEndpointsResponse = OutboundEnvironmentEndpointCollection;
+export type LoadTestsListOutboundNetworkDependenciesEndpointsResponse = OutboundEnvironmentEndpointListResult;
 
 /** Optional parameters. */
 export interface LoadTestsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type LoadTestsListBySubscriptionNextResponse = LoadTestResourcePageList;
+export type LoadTestsListBySubscriptionNextResponse = LoadTestingResourcePageList;
 
 /** Optional parameters. */
 export interface LoadTestsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type LoadTestsListByResourceGroupNextResponse = LoadTestResourcePageList;
+export type LoadTestsListByResourceGroupNextResponse = LoadTestingResourcePageList;
 
 /** Optional parameters. */
 export interface LoadTestsListOutboundNetworkDependenciesEndpointsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOutboundNetworkDependenciesEndpointsNext operation. */
-export type LoadTestsListOutboundNetworkDependenciesEndpointsNextResponse = OutboundEnvironmentEndpointCollection;
+export type LoadTestsListOutboundNetworkDependenciesEndpointsNextResponse = OutboundEnvironmentEndpointListResult;
 
 /** Optional parameters. */
 export interface LoadTestClientOptionalParams
