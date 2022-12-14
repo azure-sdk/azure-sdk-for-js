@@ -10,6 +10,35 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
+// @public
+export interface AgentConfiguration {
+    readonly configMode?: AgentConfigurationMode;
+    readonly extensionsAllowList?: ConfigurationExtension[];
+    readonly extensionsBlockList?: ConfigurationExtension[];
+    readonly extensionsEnabled?: string;
+    readonly guestConfigurationEnabled?: string;
+    readonly incomingConnectionsPorts?: string[];
+    readonly proxyBypass?: string[];
+    readonly proxyUrl?: string;
+}
+
+// @public
+export type AgentConfigurationMode = string;
+
+// @public
+export type AssessmentModeTypes = string;
+
+// @public
+export interface CloudMetadata {
+    readonly provider?: string;
+}
+
+// @public
+export interface ConfigurationExtension {
+    readonly publisher?: string;
+    readonly type?: string;
+}
+
 // @public (undocumented)
 export interface ConnectionDetail {
     readonly groupId?: string;
@@ -43,8 +72,40 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface ExtensionMetadata {
+    get(location: string, publisher: string, extensionType: string, version: string, options?: ExtensionMetadataGetOptionalParams): Promise<ExtensionMetadataGetResponse>;
+    list(location: string, publisher: string, extensionType: string, options?: ExtensionMetadataListOptionalParams): PagedAsyncIterableIterator<ExtensionValue>;
+}
+
+// @public
+export interface ExtensionMetadataGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExtensionMetadataGetResponse = ExtensionValue;
+
+// @public
+export interface ExtensionMetadataListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExtensionMetadataListResponse = ExtensionValueListResult;
+
+// @public
 export interface ExtensionTargetProperties {
     targetVersion?: string;
+}
+
+// @public
+export interface ExtensionValue extends ProxyResource {
+    readonly extensionType?: string;
+    readonly publisher?: string;
+    readonly version?: string;
+}
+
+// @public
+export interface ExtensionValueListResult {
+    readonly value?: ExtensionValue[];
 }
 
 // @public
@@ -59,6 +120,8 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
     apiVersion: string;
     beginUpgradeExtensions(resourceGroupName: string, machineName: string, extensionUpgradeParameters: MachineExtensionUpgrade, options?: UpgradeExtensionsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginUpgradeExtensionsAndWait(resourceGroupName: string, machineName: string, extensionUpgradeParameters: MachineExtensionUpgrade, options?: UpgradeExtensionsOptionalParams): Promise<void>;
+    // (undocumented)
+    extensionMetadata: ExtensionMetadata;
     // (undocumented)
     machineExtensions: MachineExtensions;
     // (undocumented)
@@ -80,6 +143,13 @@ export interface HybridComputeManagementClientOptionalParams extends coreClient.
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
+}
+
+// @public
+export interface HybridComputeManagementClientUpgradeExtensionsHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -113,6 +183,18 @@ export interface Identity {
 export type InstanceViewTypes = string;
 
 // @public
+export enum KnownAgentConfigurationMode {
+    Full = "full",
+    Monitor = "monitor"
+}
+
+// @public
+export enum KnownAssessmentModeTypes {
+    AutomaticByPlatform = "AutomaticByPlatform",
+    ImageDefault = "ImageDefault"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -123,6 +205,14 @@ export enum KnownCreatedByType {
 // @public
 export enum KnownInstanceViewTypes {
     InstanceView = "instanceView"
+}
+
+// @public
+export enum KnownPatchModeTypes {
+    AutomaticByOS = "AutomaticByOS",
+    AutomaticByPlatform = "AutomaticByPlatform",
+    ImageDefault = "ImageDefault",
+    Manual = "Manual"
 }
 
 // @public
@@ -155,15 +245,55 @@ export interface LocationData {
 
 // @public
 export interface Machine extends TrackedResource {
+    readonly adFqdn?: string;
+    readonly agentConfiguration?: AgentConfiguration;
+    readonly agentVersion?: string;
+    clientPublicKey?: string;
+    cloudMetadata?: CloudMetadata;
+    readonly detectedProperties?: {
+        [propertyName: string]: string;
+    };
+    readonly displayName?: string;
+    readonly dnsFqdn?: string;
+    readonly domainName?: string;
+    readonly errorDetails?: ErrorDetail[];
+    extensions?: MachineExtensionInstanceView[];
     identity?: Identity;
-    properties?: MachineProperties;
-    readonly systemData?: SystemData;
+    readonly lastStatusChange?: Date;
+    locationData?: LocationData;
+    readonly machineFqdn?: string;
+    mssqlDiscovered?: string;
+    readonly osName?: string;
+    osProfile?: OSProfile;
+    readonly osSku?: string;
+    osType?: string;
+    readonly osVersion?: string;
+    parentClusterResourceId?: string;
+    privateLinkScopeResourceId?: string;
+    readonly provisioningState?: string;
+    readonly resources?: MachineExtension[];
+    serviceStatuses?: ServiceStatuses;
+    readonly status?: StatusTypes;
+    vmId?: string;
+    readonly vmUuid?: string;
 }
 
 // @public
 export interface MachineExtension extends TrackedResource {
-    properties?: MachineExtensionProperties;
-    readonly systemData?: SystemData;
+    autoUpgradeMinorVersion?: boolean;
+    enableAutomaticUpgrade?: boolean;
+    forceUpdateTag?: string;
+    instanceView?: MachineExtensionInstanceView;
+    protectedSettings?: {
+        [propertyName: string]: any;
+    };
+    readonly provisioningState?: string;
+    publisher?: string;
+    settings?: {
+        [propertyName: string]: any;
+    };
+    typeHandlerVersion?: string;
+    typePropertiesType?: string;
 }
 
 // @public
@@ -181,19 +311,6 @@ export interface MachineExtensionInstanceViewStatus {
     level?: StatusLevelTypes;
     message?: string;
     time?: Date;
-}
-
-// @public
-export interface MachineExtensionProperties {
-    autoUpgradeMinorVersion?: boolean;
-    forceUpdateTag?: string;
-    instanceView?: MachineExtensionInstanceView;
-    protectedSettings?: Record<string, unknown>;
-    readonly provisioningState?: string;
-    publisher?: string;
-    settings?: Record<string, unknown>;
-    type?: string;
-    typeHandlerVersion?: string;
 }
 
 // @public
@@ -218,6 +335,13 @@ export interface MachineExtensionsCreateOrUpdateOptionalParams extends coreClien
 export type MachineExtensionsCreateOrUpdateResponse = MachineExtension;
 
 // @public
+export interface MachineExtensionsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface MachineExtensionsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -232,7 +356,6 @@ export type MachineExtensionsGetResponse = MachineExtension;
 
 // @public
 export interface MachineExtensionsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -253,6 +376,13 @@ export interface MachineExtensionsListResult {
 }
 
 // @public
+export interface MachineExtensionsUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface MachineExtensionsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -263,16 +393,16 @@ export type MachineExtensionsUpdateResponse = MachineExtension;
 
 // @public
 export interface MachineExtensionUpdate extends ResourceUpdate {
-    properties?: MachineExtensionUpdateProperties;
-}
-
-// @public
-export interface MachineExtensionUpdateProperties {
     autoUpgradeMinorVersion?: boolean;
+    enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
-    protectedSettings?: Record<string, unknown>;
+    protectedSettings?: {
+        [propertyName: string]: any;
+    };
     publisher?: string;
-    settings?: Record<string, unknown>;
+    settings?: {
+        [propertyName: string]: any;
+    };
     type?: string;
     typeHandlerVersion?: string;
 }
@@ -288,36 +418,6 @@ export interface MachineExtensionUpgrade {
 export interface MachineListResult {
     nextLink?: string;
     value: Machine[];
-}
-
-// @public
-export interface MachineProperties {
-    readonly adFqdn?: string;
-    readonly agentVersion?: string;
-    clientPublicKey?: string;
-    readonly detectedProperties?: {
-        [propertyName: string]: string;
-    };
-    readonly displayName?: string;
-    readonly dnsFqdn?: string;
-    readonly domainName?: string;
-    readonly errorDetails?: ErrorDetail[];
-    extensions?: MachineExtensionInstanceView[];
-    readonly lastStatusChange?: Date;
-    locationData?: LocationData;
-    readonly machineFqdn?: string;
-    mssqlDiscovered?: string;
-    readonly osName?: string;
-    osProfile?: OSProfile;
-    readonly osSku?: string;
-    osType?: string;
-    readonly osVersion?: string;
-    parentClusterResourceId?: string;
-    privateLinkScopeResourceId?: string;
-    readonly provisioningState?: string;
-    readonly status?: StatusTypes;
-    vmId?: string;
-    readonly vmUuid?: string;
 }
 
 // @public
@@ -370,12 +470,8 @@ export type MachinesListBySubscriptionResponse = MachineListResult;
 
 // @public
 export interface MachineUpdate extends ResourceUpdate {
+    cloudMetadata?: CloudMetadata;
     identity?: Identity;
-    properties?: MachineUpdateProperties;
-}
-
-// @public
-export interface MachineUpdateProperties {
     locationData?: LocationData;
     osProfile?: OSProfile;
     parentClusterResourceId?: string;
@@ -402,6 +498,7 @@ export type OperationsListResponse = OperationListResult;
 // @public
 export interface OperationValue {
     display?: OperationValueDisplay;
+    readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: string;
 }
@@ -423,18 +520,22 @@ export interface OSProfile {
 
 // @public
 export interface OSProfileLinuxConfiguration {
-    assessmentMode?: string;
+    assessmentMode?: AssessmentModeTypes;
+    patchMode?: PatchModeTypes;
 }
 
 // @public
 export interface OSProfileWindowsConfiguration {
-    assessmentMode?: string;
+    assessmentMode?: AssessmentModeTypes;
+    patchMode?: PatchModeTypes;
 }
+
+// @public
+export type PatchModeTypes = string;
 
 // @public
 export interface PrivateEndpointConnection extends ProxyResource {
     properties?: PrivateEndpointConnectionProperties;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -453,6 +554,7 @@ export interface PrivateEndpointConnectionListResult {
 
 // @public
 export interface PrivateEndpointConnectionProperties {
+    readonly groupIds?: string[];
     privateEndpoint?: PrivateEndpointProperty;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
     readonly provisioningState?: string;
@@ -476,6 +578,13 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends 
 
 // @public
 export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -512,7 +621,6 @@ export interface PrivateEndpointProperty {
 // @public
 export interface PrivateLinkResource extends ProxyResource {
     properties?: PrivateLinkResourceProperties;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -574,6 +682,13 @@ export interface PrivateLinkScopesCreateOrUpdateOptionalParams extends coreClien
 
 // @public
 export type PrivateLinkScopesCreateOrUpdateResponse = HybridComputePrivateLinkScope;
+
+// @public
+export interface PrivateLinkScopesDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface PrivateLinkScopesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -673,6 +788,7 @@ export type PublicNetworkAccessType = string;
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -681,6 +797,18 @@ export interface ResourceUpdate {
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface ServiceStatus {
+    startupType?: string;
+    status?: string;
+}
+
+// @public
+export interface ServiceStatuses {
+    extensionService?: ServiceStatus;
+    guestConfigurationService?: ServiceStatus;
 }
 
 // @public
