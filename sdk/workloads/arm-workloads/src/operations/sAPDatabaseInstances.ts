@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SAPDatabaseInstances } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   SAPDatabaseInstance,
   SAPDatabaseInstancesListNextOptionalParams,
   SAPDatabaseInstancesListOptionalParams,
+  SAPDatabaseInstancesListResponse,
   SAPDatabaseInstancesGetOptionalParams,
   SAPDatabaseInstancesGetResponse,
   SAPDatabaseInstancesCreateOptionalParams,
@@ -26,7 +28,6 @@ import {
   SAPDatabaseInstancesUpdateResponse,
   SAPDatabaseInstancesDeleteOptionalParams,
   SAPDatabaseInstancesDeleteResponse,
-  SAPDatabaseInstancesListResponse,
   SAPDatabaseInstancesListNextResponse
 } from "../models";
 
@@ -44,9 +45,9 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   }
 
   /**
-   * Lists the SAP Database Instances in an SVI.
+   * Lists the Database resources associated with a Virtual Instance for SAP solutions resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   public list(
@@ -66,11 +67,15 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           sapVirtualInstanceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,15 +84,22 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   private async *listPagingPage(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPDatabaseInstancesListOptionalParams
+    options?: SAPDatabaseInstancesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SAPDatabaseInstance[]> {
-    let result = await this._list(
-      resourceGroupName,
-      sapVirtualInstanceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SAPDatabaseInstancesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        sapVirtualInstanceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -96,7 +108,9 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -115,11 +129,11 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   }
 
   /**
-   * Gets the SAP Database Instance.
+   * Gets the SAP Database Instance resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param databaseInstanceName Database Instance string modeled as parameter for auto generation to
-   *                             work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
+   *                             to work correctly.
    * @param options The options parameters.
    */
   get(
@@ -140,12 +154,12 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   }
 
   /**
-   * Puts the SAP Database Instance. <br><br>This will be used by service only. PUT by end user will
-   * return a Bad Request error.
+   * Creates the Database resource corresponding to the Virtual Instance for SAP solutions resource.
+   * <br><br>This will be used by service only. PUT by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param databaseInstanceName Database Instance string modeled as parameter for auto generation to
-   *                             work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
+   *                             to work correctly.
    * @param options The options parameters.
    */
   async beginCreate(
@@ -217,12 +231,12 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   }
 
   /**
-   * Puts the SAP Database Instance. <br><br>This will be used by service only. PUT by end user will
-   * return a Bad Request error.
+   * Creates the Database resource corresponding to the Virtual Instance for SAP solutions resource.
+   * <br><br>This will be used by service only. PUT by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param databaseInstanceName Database Instance string modeled as parameter for auto generation to
-   *                             work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
+   *                             to work correctly.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
@@ -241,11 +255,11 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   }
 
   /**
-   * Puts the SAP Database Instance.
+   * Updates the Database resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param databaseInstanceName Database Instance string modeled as parameter for auto generation to
-   *                             work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
+   *                             to work correctly.
    * @param options The options parameters.
    */
   async beginUpdate(
@@ -317,11 +331,11 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   }
 
   /**
-   * Puts the SAP Database Instance.
+   * Updates the Database resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param databaseInstanceName Database Instance string modeled as parameter for auto generation to
-   *                             work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
+   *                             to work correctly.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
@@ -340,12 +354,12 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   }
 
   /**
-   * Deletes the SAP Database Instance. <br><br>This will be used by service only. Delete by end user
-   * will return a Bad Request error.
+   * Deletes the Database resource corresponding to a Virtual Instance for SAP solutions resource.
+   * <br><br>This will be used by service only. Delete by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param databaseInstanceName Database Instance string modeled as parameter for auto generation to
-   *                             work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
+   *                             to work correctly.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -418,12 +432,12 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   }
 
   /**
-   * Deletes the SAP Database Instance. <br><br>This will be used by service only. Delete by end user
-   * will return a Bad Request error.
+   * Deletes the Database resource corresponding to a Virtual Instance for SAP solutions resource.
+   * <br><br>This will be used by service only. Delete by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param databaseInstanceName Database Instance string modeled as parameter for auto generation to
-   *                             work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
+   *                             to work correctly.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -442,9 +456,9 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   }
 
   /**
-   * Lists the SAP Database Instances in an SVI.
+   * Lists the Database resources associated with a Virtual Instance for SAP solutions resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   private _list(
@@ -461,7 +475,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -636,7 +650,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

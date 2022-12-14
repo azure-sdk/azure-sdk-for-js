@@ -90,41 +90,47 @@ export class WorkloadsClient extends coreClient.ServiceClient {
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
 
+    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
+    }
+    if (
+      !options ||
+      !options.pipeline ||
+      options.pipeline.getOrderedPolicies().length == 0 ||
+      !bearerTokenAuthenticationPolicyFound
+    ) {
+      this.pipeline.removePolicy({
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+      });
+      this.pipeline.addPolicy(
+        coreRestPipeline.bearerTokenAuthenticationPolicy({
+          credential: credentials,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
+          challengeCallbacks: {
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge
+          }
+        })
+      );
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
@@ -176,7 +182,8 @@ export class WorkloadsClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Get SAP sizing recommendations.
+   * Get SAP sizing recommendations by providing input SAPS for application tier and memory required for
+   * database tier
    * @param location The name of Azure region.
    * @param options The options parameters.
    */
@@ -191,7 +198,7 @@ export class WorkloadsClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Get SAP supported SKUs.
+   * Get a list of SAP supported SKUs for ASCS, Application and Database tier.
    * @param location The name of Azure region.
    * @param options The options parameters.
    */
@@ -206,7 +213,7 @@ export class WorkloadsClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Get SAP Disk Configurations.
+   * Get the SAP Disk Configuration Layout prod/non-prod SAP System.
    * @param location The name of Azure region.
    * @param options The options parameters.
    */
@@ -221,7 +228,7 @@ export class WorkloadsClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Get SAP Availability Zone Details.
+   * Get the recommended SAP Availability Zone Pair Details for your region.
    * @param location The name of Azure region.
    * @param options The options parameters.
    */
