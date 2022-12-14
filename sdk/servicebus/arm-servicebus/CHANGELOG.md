@@ -1,15 +1,41 @@
 # Release History
+    
+## 7.0.0-beta.1 (2022-12-14)
+    
+**Features**
 
-## 6.0.1 (Unreleased)
+  - Added Interface ArmDisasterRecovery
+  - Added Interface MigrationConfigProperties
+  - Added Interface NetworkRuleSet
+  - Added Interface PrivateEndpointConnection
+  - Added Interface ResourceNamespacePatch
+  - Added Interface Rule
+  - Added Interface SBAuthorizationRule
+  - Added Interface SBNamespace
+  - Added Interface SBNamespaceUpdateParameters
+  - Added Interface SBQueue
+  - Added Interface SBSubscription
+  - Added Interface SBTopic
+  - Added Interface SqlRuleAction
+  - Added Interface TrackedResource
+  - Added Type Alias PublicNetworkAccess
+  - Added Type Alias TlsVersion
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownTlsVersion
+  - Added function getContinuationToken
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface QueuesListByNamespaceNextOptionalParams no longer has parameter skip
+  - Interface QueuesListByNamespaceNextOptionalParams no longer has parameter top
+  - Interface RulesListBySubscriptionsNextOptionalParams no longer has parameter skip
+  - Interface RulesListBySubscriptionsNextOptionalParams no longer has parameter top
+  - Interface SubscriptionsListByTopicNextOptionalParams no longer has parameter skip
+  - Interface SubscriptionsListByTopicNextOptionalParams no longer has parameter top
+  - Interface TopicsListByNamespaceNextOptionalParams no longer has parameter skip
+  - Interface TopicsListByNamespaceNextOptionalParams no longer has parameter top
+    
+    
 ## 6.0.0 (2022-05-01)
     
 **Features**
