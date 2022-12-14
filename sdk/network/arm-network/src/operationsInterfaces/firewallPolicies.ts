@@ -19,7 +19,14 @@ import {
   FirewallPoliciesCreateOrUpdateResponse,
   TagsObject,
   FirewallPoliciesUpdateTagsOptionalParams,
-  FirewallPoliciesUpdateTagsResponse
+  FirewallPoliciesUpdateTagsResponse,
+  FirewallPolicyDraft,
+  FirewallPoliciesCreateOrUpdateDraftOptionalParams,
+  FirewallPoliciesCreateOrUpdateDraftResponse,
+  FirewallPoliciesGetDraftOptionalParams,
+  FirewallPoliciesGetDraftResponse,
+  FirewallPoliciesDeployDraftOptionalParams,
+  FirewallPoliciesDeleteDraftOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -118,4 +125,64 @@ export interface FirewallPolicies {
     parameters: TagsObject,
     options?: FirewallPoliciesUpdateTagsOptionalParams
   ): Promise<FirewallPoliciesUpdateTagsResponse>;
+  /**
+   * Creates or updates the draft version of the specified Firewall Policy.
+   * @param resourceGroupName The name of the resource group.
+   * @param firewallPolicyName The name of the Firewall Policy.
+   * @param parameters Parameters supplied to the create or update Firewall Policy operation.
+   * @param options The options parameters.
+   */
+  createOrUpdateDraft(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    parameters: FirewallPolicyDraft,
+    options?: FirewallPoliciesCreateOrUpdateDraftOptionalParams
+  ): Promise<FirewallPoliciesCreateOrUpdateDraftResponse>;
+  /**
+   * Gets the current draft version of the specified Firewall Policy.
+   * @param resourceGroupName The name of the resource group.
+   * @param firewallPolicyName The name of the Firewall Policy.
+   * @param options The options parameters.
+   */
+  getDraft(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    options?: FirewallPoliciesGetDraftOptionalParams
+  ): Promise<FirewallPoliciesGetDraftResponse>;
+  /**
+   * Sets the current live Firewall Policy body to the body of the current state of the draft Firewall
+   * Policy
+   * @param resourceGroupName The name of the resource group.
+   * @param firewallPolicyName The name of the Firewall Policy.
+   * @param options The options parameters.
+   */
+  beginDeployDraft(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    options?: FirewallPoliciesDeployDraftOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Sets the current live Firewall Policy body to the body of the current state of the draft Firewall
+   * Policy
+   * @param resourceGroupName The name of the resource group.
+   * @param firewallPolicyName The name of the Firewall Policy.
+   * @param options The options parameters.
+   */
+  beginDeployDraftAndWait(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    options?: FirewallPoliciesDeployDraftOptionalParams
+  ): Promise<void>;
+  /**
+   * Sets the current live Firewall Policy body to the body of the current state of the draft Firewall
+   * Policy
+   * @param resourceGroupName The name of the resource group.
+   * @param firewallPolicyName The name of the Firewall Policy.
+   * @param options The options parameters.
+   */
+  deleteDraft(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    options?: FirewallPoliciesDeleteDraftOptionalParams
+  ): Promise<void>;
 }
