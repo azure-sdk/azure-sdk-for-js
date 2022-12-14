@@ -8,31 +8,31 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ManagedPrivateEndpoints } from "../operationsInterfaces";
+import { CredentialOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataFactoryManagementClient } from "../dataFactoryManagementClient";
 import {
-  ManagedPrivateEndpointResource,
-  ManagedPrivateEndpointsListByFactoryNextOptionalParams,
-  ManagedPrivateEndpointsListByFactoryOptionalParams,
-  ManagedPrivateEndpointsListByFactoryResponse,
-  ManagedPrivateEndpointsCreateOrUpdateOptionalParams,
-  ManagedPrivateEndpointsCreateOrUpdateResponse,
-  ManagedPrivateEndpointsGetOptionalParams,
-  ManagedPrivateEndpointsGetResponse,
-  ManagedPrivateEndpointsDeleteOptionalParams,
-  ManagedPrivateEndpointsListByFactoryNextResponse
+  ManagedIdentityCredentialResource,
+  CredentialOperationsListByFactoryNextOptionalParams,
+  CredentialOperationsListByFactoryOptionalParams,
+  CredentialOperationsListByFactoryResponse,
+  CredentialOperationsCreateOrUpdateOptionalParams,
+  CredentialOperationsCreateOrUpdateResponse,
+  CredentialOperationsGetOptionalParams,
+  CredentialOperationsGetResponse,
+  CredentialOperationsDeleteOptionalParams,
+  CredentialOperationsListByFactoryNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ManagedPrivateEndpoints operations. */
-export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
+/** Class containing CredentialOperations operations. */
+export class CredentialOperationsImpl implements CredentialOperations {
   private readonly client: DataFactoryManagementClient;
 
   /**
-   * Initialize a new instance of the class ManagedPrivateEndpoints class.
+   * Initialize a new instance of the class CredentialOperations class.
    * @param client Reference to the service client
    */
   constructor(client: DataFactoryManagementClient) {
@@ -40,22 +40,19 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   }
 
   /**
-   * Lists managed private endpoints.
+   * List credentials.
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
-   * @param managedVirtualNetworkName Managed virtual network name
    * @param options The options parameters.
    */
   public listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    managedVirtualNetworkName: string,
-    options?: ManagedPrivateEndpointsListByFactoryOptionalParams
-  ): PagedAsyncIterableIterator<ManagedPrivateEndpointResource> {
+    options?: CredentialOperationsListByFactoryOptionalParams
+  ): PagedAsyncIterableIterator<ManagedIdentityCredentialResource> {
     const iter = this.listByFactoryPagingAll(
       resourceGroupName,
       factoryName,
-      managedVirtualNetworkName,
       options
     );
     return {
@@ -72,7 +69,6 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         return this.listByFactoryPagingPage(
           resourceGroupName,
           factoryName,
-          managedVirtualNetworkName,
           options,
           settings
         );
@@ -83,17 +79,15 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   private async *listByFactoryPagingPage(
     resourceGroupName: string,
     factoryName: string,
-    managedVirtualNetworkName: string,
-    options?: ManagedPrivateEndpointsListByFactoryOptionalParams,
+    options?: CredentialOperationsListByFactoryOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<ManagedPrivateEndpointResource[]> {
-    let result: ManagedPrivateEndpointsListByFactoryResponse;
+  ): AsyncIterableIterator<ManagedIdentityCredentialResource[]> {
+    let result: CredentialOperationsListByFactoryResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByFactory(
         resourceGroupName,
         factoryName,
-        managedVirtualNetworkName,
         options
       );
       let page = result.value || [];
@@ -105,7 +99,6 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
       result = await this._listByFactoryNext(
         resourceGroupName,
         factoryName,
-        managedVirtualNetworkName,
         continuationToken,
         options
       );
@@ -119,13 +112,11 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   private async *listByFactoryPagingAll(
     resourceGroupName: string,
     factoryName: string,
-    managedVirtualNetworkName: string,
-    options?: ManagedPrivateEndpointsListByFactoryOptionalParams
-  ): AsyncIterableIterator<ManagedPrivateEndpointResource> {
+    options?: CredentialOperationsListByFactoryOptionalParams
+  ): AsyncIterableIterator<ManagedIdentityCredentialResource> {
     for await (const page of this.listByFactoryPagingPage(
       resourceGroupName,
       factoryName,
-      managedVirtualNetworkName,
       options
     )) {
       yield* page;
@@ -133,104 +124,77 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   }
 
   /**
-   * Lists managed private endpoints.
+   * List credentials.
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
-   * @param managedVirtualNetworkName Managed virtual network name
    * @param options The options parameters.
    */
   private _listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    managedVirtualNetworkName: string,
-    options?: ManagedPrivateEndpointsListByFactoryOptionalParams
-  ): Promise<ManagedPrivateEndpointsListByFactoryResponse> {
+    options?: CredentialOperationsListByFactoryOptionalParams
+  ): Promise<CredentialOperationsListByFactoryResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, factoryName, managedVirtualNetworkName, options },
+      { resourceGroupName, factoryName, options },
       listByFactoryOperationSpec
     );
   }
 
   /**
-   * Creates or updates a managed private endpoint.
+   * Creates or updates a credential.
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
-   * @param managedVirtualNetworkName Managed virtual network name
-   * @param managedPrivateEndpointName Managed private endpoint name
-   * @param managedPrivateEndpoint Managed private endpoint resource definition.
+   * @param credentialName Credential name
+   * @param credential Credential resource definition.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     factoryName: string,
-    managedVirtualNetworkName: string,
-    managedPrivateEndpointName: string,
-    managedPrivateEndpoint: ManagedPrivateEndpointResource,
-    options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams
-  ): Promise<ManagedPrivateEndpointsCreateOrUpdateResponse> {
+    credentialName: string,
+    credential: ManagedIdentityCredentialResource,
+    options?: CredentialOperationsCreateOrUpdateOptionalParams
+  ): Promise<CredentialOperationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        factoryName,
-        managedVirtualNetworkName,
-        managedPrivateEndpointName,
-        managedPrivateEndpoint,
-        options
-      },
+      { resourceGroupName, factoryName, credentialName, credential, options },
       createOrUpdateOperationSpec
     );
   }
 
   /**
-   * Gets a managed private endpoint.
+   * Gets a credential.
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
-   * @param managedVirtualNetworkName Managed virtual network name
-   * @param managedPrivateEndpointName Managed private endpoint name
+   * @param credentialName Credential name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     factoryName: string,
-    managedVirtualNetworkName: string,
-    managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsGetOptionalParams
-  ): Promise<ManagedPrivateEndpointsGetResponse> {
+    credentialName: string,
+    options?: CredentialOperationsGetOptionalParams
+  ): Promise<CredentialOperationsGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        factoryName,
-        managedVirtualNetworkName,
-        managedPrivateEndpointName,
-        options
-      },
+      { resourceGroupName, factoryName, credentialName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Deletes a managed private endpoint.
+   * Deletes a credential.
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
-   * @param managedVirtualNetworkName Managed virtual network name
-   * @param managedPrivateEndpointName Managed private endpoint name
+   * @param credentialName Credential name
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     factoryName: string,
-    managedVirtualNetworkName: string,
-    managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsDeleteOptionalParams
+    credentialName: string,
+    options?: CredentialOperationsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        factoryName,
-        managedVirtualNetworkName,
-        managedPrivateEndpointName,
-        options
-      },
+      { resourceGroupName, factoryName, credentialName, options },
       deleteOperationSpec
     );
   }
@@ -239,25 +203,17 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
    * ListByFactoryNext
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
-   * @param managedVirtualNetworkName Managed virtual network name
    * @param nextLink The nextLink from the previous successful call to the ListByFactory method.
    * @param options The options parameters.
    */
   private _listByFactoryNext(
     resourceGroupName: string,
     factoryName: string,
-    managedVirtualNetworkName: string,
     nextLink: string,
-    options?: ManagedPrivateEndpointsListByFactoryNextOptionalParams
-  ): Promise<ManagedPrivateEndpointsListByFactoryNextResponse> {
+    options?: CredentialOperationsListByFactoryNextOptionalParams
+  ): Promise<CredentialOperationsListByFactoryNextResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        factoryName,
-        managedVirtualNetworkName,
-        nextLink,
-        options
-      },
+      { resourceGroupName, factoryName, nextLink, options },
       listByFactoryNextOperationSpec
     );
   }
@@ -267,11 +223,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByFactoryOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/managedVirtualNetworks/{managedVirtualNetworkName}/managedPrivateEndpoints",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/credentials",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedPrivateEndpointListResponse
+      bodyMapper: Mappers.CredentialListResponse
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -282,33 +238,31 @@ const listByFactoryOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName,
-    Parameters.managedVirtualNetworkName
+    Parameters.factoryName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/managedVirtualNetworks/{managedVirtualNetworkName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/credentials/{credentialName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedPrivateEndpointResource
+      bodyMapper: Mappers.ManagedIdentityCredentialResource
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.managedPrivateEndpoint,
+  requestBody: Parameters.credential,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.managedVirtualNetworkName,
-    Parameters.managedPrivateEndpointName
+    Parameters.credentialName
   ],
   headerParameters: [
     Parameters.accept,
@@ -320,12 +274,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/managedVirtualNetworks/{managedVirtualNetworkName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/credentials/{credentialName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedPrivateEndpointResource
+      bodyMapper: Mappers.ManagedIdentityCredentialResource
     },
+    304: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -336,15 +291,14 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.managedVirtualNetworkName,
-    Parameters.managedPrivateEndpointName
+    Parameters.credentialName
   ],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/managedVirtualNetworks/{managedVirtualNetworkName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/credentials/{credentialName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -359,8 +313,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.managedVirtualNetworkName,
-    Parameters.managedPrivateEndpointName
+    Parameters.credentialName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -370,7 +323,7 @@ const listByFactoryNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedPrivateEndpointListResponse
+      bodyMapper: Mappers.CredentialListResponse
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -381,8 +334,7 @@ const listByFactoryNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName,
-    Parameters.managedVirtualNetworkName
+    Parameters.factoryName
   ],
   headerParameters: [Parameters.accept],
   serializer

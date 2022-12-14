@@ -3523,6 +3523,74 @@ export const ConnectionStateProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const CredentialListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CredentialListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedIdentityCredentialResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Credential: coreClient.CompositeMapper = {
+  serializedName: "Credential",
+  type: {
+    name: "Composite",
+    className: "Credential",
+    uberParent: "Credential",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      annotations: {
+        serializedName: "annotations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "any"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const PrivateEndpointConnectionListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4003,46 +4071,6 @@ export const CredentialReference: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Credential: coreClient.CompositeMapper = {
-  serializedName: "Credential",
-  type: {
-    name: "Composite",
-    className: "Credential",
-    uberParent: "Credential",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: {
-      serializedName: "type",
-      clientName: "type"
-    },
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      annotations: {
-        serializedName: "annotations",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "any"
-            }
-          }
         }
       }
     }
@@ -7466,6 +7494,23 @@ export const ManagedPrivateEndpointResource: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedPrivateEndpoint"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedIdentityCredentialResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedIdentityCredentialResource",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ManagedIdentityCredential"
         }
       }
     }
@@ -14665,6 +14710,34 @@ export const AzureSynapseArtifactsLinkedService: coreClient.CompositeMapper = {
   }
 };
 
+export const PowerBILinkedService: coreClient.CompositeMapper = {
+  serializedName: "PowerBI",
+  type: {
+    name: "Composite",
+    className: "PowerBILinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      workspaceId: {
+        serializedName: "typeProperties.workspaceId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "typeProperties.tenantId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AmazonS3Dataset: coreClient.CompositeMapper = {
   serializedName: "AmazonS3Object",
   type: {
@@ -17862,6 +17935,59 @@ export const LinkedServiceDebugResource: coreClient.CompositeMapper = {
   }
 };
 
+export const ManagedIdentityCredential: coreClient.CompositeMapper = {
+  serializedName: "ManagedIdentity",
+  type: {
+    name: "Composite",
+    className: "ManagedIdentityCredential",
+    uberParent: "Credential",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Credential.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Credential.type.modelProperties,
+      resourceId: {
+        serializedName: "typeProperties.resourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServicePrincipalCredential: coreClient.CompositeMapper = {
+  serializedName: "ServicePrincipal",
+  type: {
+    name: "Composite",
+    className: "ServicePrincipalCredential",
+    uberParent: "Credential",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Credential.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Credential.type.modelProperties,
+      servicePrincipalId: {
+        serializedName: "typeProperties.servicePrincipalId",
+        type: {
+          name: "any"
+        }
+      },
+      servicePrincipalKey: {
+        serializedName: "typeProperties.servicePrincipalKey",
+        type: {
+          name: "Composite",
+          className: "AzureKeyVaultSecretReference"
+        }
+      },
+      tenant: {
+        serializedName: "typeProperties.tenant",
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
 export const SecureString: coreClient.CompositeMapper = {
   serializedName: "SecureString",
   type: {
@@ -17909,59 +18035,6 @@ export const AzureKeyVaultSecretReference: coreClient.CompositeMapper = {
         serializedName: "secretVersion",
         type: {
           name: "any"
-        }
-      }
-    }
-  }
-};
-
-export const ServicePrincipalCredential: coreClient.CompositeMapper = {
-  serializedName: "ServicePrincipal",
-  type: {
-    name: "Composite",
-    className: "ServicePrincipalCredential",
-    uberParent: "Credential",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: Credential.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...Credential.type.modelProperties,
-      servicePrincipalId: {
-        serializedName: "typeProperties.servicePrincipalId",
-        type: {
-          name: "any"
-        }
-      },
-      servicePrincipalKey: {
-        serializedName: "typeProperties.servicePrincipalKey",
-        type: {
-          name: "Composite",
-          className: "AzureKeyVaultSecretReference"
-        }
-      },
-      tenant: {
-        serializedName: "typeProperties.tenant",
-        type: {
-          name: "any"
-        }
-      }
-    }
-  }
-};
-
-export const ManagedIdentityCredential: coreClient.CompositeMapper = {
-  serializedName: "ManagedIdentity",
-  type: {
-    name: "Composite",
-    className: "ManagedIdentityCredential",
-    uberParent: "Credential",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: Credential.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...Credential.type.modelProperties,
-      resourceId: {
-        serializedName: "typeProperties.resourceId",
-        type: {
-          name: "String"
         }
       }
     }
@@ -26610,8 +26683,8 @@ export let discriminators = {
   Activity: Activity,
   Trigger: Trigger,
   DataFlow: DataFlow,
-  SecretBase: SecretBase,
   Credential: Credential,
+  SecretBase: SecretBase,
   DatasetLocation: DatasetLocation,
   DatasetStorageFormat: DatasetStorageFormat,
   CustomSetupBase: CustomSetupBase,
@@ -26751,6 +26824,7 @@ export let discriminators = {
   "LinkedService.Snowflake": SnowflakeLinkedService,
   "LinkedService.SharePointOnlineList": SharePointOnlineListLinkedService,
   "LinkedService.AzureSynapseArtifacts": AzureSynapseArtifactsLinkedService,
+  "LinkedService.PowerBI": PowerBILinkedService,
   "Dataset.AmazonS3Object": AmazonS3Dataset,
   "Dataset.Avro": AvroDataset,
   "Dataset.Excel": ExcelDataset,
@@ -26857,10 +26931,10 @@ export let discriminators = {
   "DataFlow.MappingDataFlow": MappingDataFlow,
   "DataFlow.Flowlet": Flowlet,
   "DataFlow.WranglingDataFlow": WranglingDataFlow,
+  "Credential.ManagedIdentity": ManagedIdentityCredential,
+  "Credential.ServicePrincipal": ServicePrincipalCredential,
   "SecretBase.SecureString": SecureString,
   "SecretBase.AzureKeyVaultSecret": AzureKeyVaultSecretReference,
-  "Credential.ServicePrincipal": ServicePrincipalCredential,
-  "Credential.ManagedIdentity": ManagedIdentityCredential,
   "DatasetLocation.AzureBlobStorageLocation": AzureBlobStorageLocation,
   "DatasetLocation.AzureBlobFSLocation": AzureBlobFSLocation,
   "DatasetLocation.AzureDataLakeStoreLocation": AzureDataLakeStoreLocation,
