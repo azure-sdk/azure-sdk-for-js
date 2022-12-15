@@ -27033,6 +27033,19 @@ export const VirtualNetwork: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      flowLogs: {
+        serializedName: "properties.flowLogs",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FlowLog"
+            }
+          }
+        }
       }
     }
   }
