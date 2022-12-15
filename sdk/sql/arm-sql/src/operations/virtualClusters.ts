@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { VirtualClusters } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,11 +19,9 @@ import {
   VirtualCluster,
   VirtualClustersListNextOptionalParams,
   VirtualClustersListOptionalParams,
+  VirtualClustersListResponse,
   VirtualClustersListByResourceGroupNextOptionalParams,
   VirtualClustersListByResourceGroupOptionalParams,
-  VirtualClustersUpdateDnsServersOptionalParams,
-  VirtualClustersUpdateDnsServersResponse,
-  VirtualClustersListResponse,
   VirtualClustersListByResourceGroupResponse,
   VirtualClustersGetOptionalParams,
   VirtualClustersGetResponse,
@@ -30,6 +29,8 @@ import {
   VirtualClusterUpdate,
   VirtualClustersUpdateOptionalParams,
   VirtualClustersUpdateResponse,
+  VirtualClustersUpdateDnsServersOptionalParams,
+  VirtualClustersUpdateDnsServersResponse,
   VirtualClustersListNextResponse,
   VirtualClustersListByResourceGroupNextResponse
 } from "../models";
@@ -62,22 +63,34 @@ export class VirtualClustersImpl implements VirtualClusters {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: VirtualClustersListOptionalParams
+    options?: VirtualClustersListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualCluster[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualClustersListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -107,19 +120,33 @@ export class VirtualClustersImpl implements VirtualClusters {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: VirtualClustersListByResourceGroupOptionalParams
+    options?: VirtualClustersListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualCluster[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualClustersListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -127,7 +154,9 @@ export class VirtualClustersImpl implements VirtualClusters {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -141,24 +170,6 @@ export class VirtualClustersImpl implements VirtualClusters {
     )) {
       yield* page;
     }
-  }
-
-  /**
-   * Synchronizes the DNS server settings used by the managed instances inside the given virtual cluster.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param virtualClusterName The name of the virtual cluster.
-   * @param options The options parameters.
-   */
-  updateDnsServers(
-    resourceGroupName: string,
-    virtualClusterName: string,
-    options?: VirtualClustersUpdateDnsServersOptionalParams
-  ): Promise<VirtualClustersUpdateDnsServersResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, virtualClusterName, options },
-      updateDnsServersOperationSpec
-    );
   }
 
   /**
@@ -290,7 +301,7 @@ export class VirtualClustersImpl implements VirtualClusters {
   }
 
   /**
-   * Updates a virtual cluster.
+   * Updates an existing virtual cluster.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param virtualClusterName The name of the virtual cluster.
@@ -361,7 +372,7 @@ export class VirtualClustersImpl implements VirtualClusters {
   }
 
   /**
-   * Updates a virtual cluster.
+   * Updates an existing virtual cluster.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param virtualClusterName The name of the virtual cluster.
@@ -378,6 +389,95 @@ export class VirtualClustersImpl implements VirtualClusters {
       resourceGroupName,
       virtualClusterName,
       parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Synchronizes the DNS server settings used by the managed instances inside the given virtual cluster.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param virtualClusterName The name of the virtual cluster.
+   * @param options The options parameters.
+   */
+  async beginUpdateDnsServers(
+    resourceGroupName: string,
+    virtualClusterName: string,
+    options?: VirtualClustersUpdateDnsServersOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<VirtualClustersUpdateDnsServersResponse>,
+      VirtualClustersUpdateDnsServersResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<VirtualClustersUpdateDnsServersResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, virtualClusterName, options },
+      updateDnsServersOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Synchronizes the DNS server settings used by the managed instances inside the given virtual cluster.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param virtualClusterName The name of the virtual cluster.
+   * @param options The options parameters.
+   */
+  async beginUpdateDnsServersAndWait(
+    resourceGroupName: string,
+    virtualClusterName: string,
+    options?: VirtualClustersUpdateDnsServersOptionalParams
+  ): Promise<VirtualClustersUpdateDnsServersResponse> {
+    const poller = await this.beginUpdateDnsServers(
+      resourceGroupName,
+      virtualClusterName,
       options
     );
     return poller.pollUntilDone();
@@ -419,26 +519,6 @@ export class VirtualClustersImpl implements VirtualClusters {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const updateDnsServersOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/virtualClusters/{virtualClusterName}/updateManagedInstanceDnsServers",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.UpdateManagedInstanceDnsServersOperation
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.virtualClusterName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/virtualClusters",
@@ -449,7 +529,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -464,7 +544,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -483,7 +563,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -498,7 +578,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/virtualClusters/{virtualClusterName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -526,8 +606,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters71,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters102,
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -536,6 +616,35 @@ const updateOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const updateDnsServersOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/virtualClusters/{virtualClusterName}/updateManagedInstanceDnsServers",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.UpdateVirtualClusterDnsServersOperation
+    },
+    201: {
+      bodyMapper: Mappers.UpdateVirtualClusterDnsServersOperation
+    },
+    202: {
+      bodyMapper: Mappers.UpdateVirtualClusterDnsServersOperation
+    },
+    204: {
+      bodyMapper: Mappers.UpdateVirtualClusterDnsServersOperation
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion7],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.virtualClusterName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -547,7 +656,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -565,7 +673,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
