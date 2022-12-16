@@ -20,6 +20,23 @@ export interface Acr {
 export type ActionType = string;
 
 // @public
+export interface ArtifactGenerationProperties {
+    appName?: string;
+    builderVersion?: string;
+    dockerfileGenerationMode?: DockerfileGenerationMode;
+    dockerfileOutputDirectory?: string;
+    generationLanguage?: GenerationLanguage;
+    languageVersion?: string;
+    manifestGenerationMode?: ManifestGenerationMode;
+    manifestOutputDirectory?: string;
+    manifestType?: ManifestType;
+    port?: string;
+}
+
+// @public
+export type AuthorizationStatus = string;
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -43,14 +60,20 @@ export interface DeploymentProperties {
 export class DeveloperHubServiceClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DeveloperHubServiceClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, code: string, state: string, options?: DeveloperHubServiceClientOptionalParams);
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    code: string;
     gitHubOAuth(location: string, options?: GitHubOAuthOptionalParams): Promise<GitHubOAuthOperationResponse>;
-    gitHubOAuthCallback(location: string, code: string, state: string, options?: GitHubOAuthCallbackOptionalParams): Promise<GitHubOAuthCallbackResponse>;
+    gitHubOAuthCallback(location: string, options?: GitHubOAuthCallbackOptionalParams): Promise<GitHubOAuthCallbackResponse>;
     listGitHubOAuth(location: string, options?: ListGitHubOAuthOptionalParams): Promise<ListGitHubOAuthResponse>;
     // (undocumented)
+    managedClusterResource?: string;
+    // (undocumented)
     operations: Operations;
+    // (undocumented)
+    state: string;
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
@@ -62,7 +85,11 @@ export interface DeveloperHubServiceClientOptionalParams extends coreClient.Serv
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
+    managedClusterResource?: string;
 }
+
+// @public
+export type DockerfileGenerationMode = string;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -83,6 +110,12 @@ export interface ErrorDetail {
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
+
+// @public
+export type GenerationLanguage = string;
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GitHubOAuthCallbackOptionalParams extends coreClient.OperationOptions {
@@ -132,6 +165,13 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownAuthorizationStatus {
+    Authorized = "Authorized",
+    Error = "Error",
+    NotFound = "NotFound"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -140,9 +180,39 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDockerfileGenerationMode {
+    Disabled = "disabled",
+    Enabled = "enabled"
+}
+
+// @public
+export enum KnownGenerationLanguage {
+    Clojure = "clojure",
+    Csharp = "csharp",
+    Erlang = "erlang",
+    Go = "go",
+    Gomodule = "gomodule",
+    Gradle = "gradle",
+    Java = "java",
+    Javascript = "javascript",
+    Php = "php",
+    Python = "python",
+    Ruby = "ruby",
+    Rust = "rust",
+    Swift = "swift"
+}
+
+// @public
+export enum KnownManifestGenerationMode {
+    Disabled = "disabled",
+    Enabled = "enabled"
+}
+
+// @public
 export enum KnownManifestType {
     Helm = "helm",
-    Kube = "kube"
+    Kube = "kube",
+    Kustomize = "kustomize"
 }
 
 // @public
@@ -166,6 +236,9 @@ export interface ListGitHubOAuthOptionalParams extends coreClient.OperationOptio
 
 // @public
 export type ListGitHubOAuthResponse = GitHubOAuthListResponse;
+
+// @public
+export type ManifestGenerationMode = string;
 
 // @public
 export type ManifestType = string;
@@ -252,7 +325,8 @@ export interface TrackedResource extends Resource {
 export interface Workflow extends TrackedResource {
     acr?: Acr;
     aksResourceId?: string;
-    authStatus?: ManifestType;
+    artifactGenerationProperties?: ArtifactGenerationProperties;
+    readonly authStatus?: AuthorizationStatus;
     branchName?: string;
     // (undocumented)
     deploymentProperties?: DeploymentProperties;
@@ -292,7 +366,6 @@ export type WorkflowGetResponse = Workflow;
 
 // @public
 export interface WorkflowListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    managedClusterResource?: string;
 }
 
 // @public
@@ -300,7 +373,6 @@ export type WorkflowListByResourceGroupNextResponse = WorkflowListResult;
 
 // @public
 export interface WorkflowListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-    managedClusterResource?: string;
 }
 
 // @public

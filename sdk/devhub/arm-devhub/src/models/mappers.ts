@@ -510,6 +510,75 @@ export const WorkflowRun: coreClient.CompositeMapper = {
   }
 };
 
+export const ArtifactGenerationProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ArtifactGenerationProperties",
+    modelProperties: {
+      generationLanguage: {
+        serializedName: "generationLanguage",
+        type: {
+          name: "String"
+        }
+      },
+      languageVersion: {
+        serializedName: "languageVersion",
+        type: {
+          name: "String"
+        }
+      },
+      builderVersion: {
+        serializedName: "builderVersion",
+        type: {
+          name: "String"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "String"
+        }
+      },
+      appName: {
+        serializedName: "appName",
+        type: {
+          name: "String"
+        }
+      },
+      manifestType: {
+        serializedName: "manifestType",
+        type: {
+          name: "String"
+        }
+      },
+      dockerfileGenerationMode: {
+        serializedName: "dockerfileGenerationMode",
+        type: {
+          name: "String"
+        }
+      },
+      manifestGenerationMode: {
+        serializedName: "manifestGenerationMode",
+        type: {
+          name: "String"
+        }
+      },
+      dockerfileOutputDirectory: {
+        serializedName: "dockerfileOutputDirectory",
+        type: {
+          name: "String"
+        }
+      },
+      manifestOutputDirectory: {
+        serializedName: "manifestOutputDirectory",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DeleteWorkflowResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -690,8 +759,17 @@ export const Workflow: coreClient.CompositeMapper = {
       },
       authStatus: {
         serializedName: "properties.githubWorkflowProfile.authStatus",
+        readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      artifactGenerationProperties: {
+        serializedName:
+          "properties.githubWorkflowProfile.artifactGenerationProperties",
+        type: {
+          name: "Composite",
+          className: "ArtifactGenerationProperties"
         }
       }
     }

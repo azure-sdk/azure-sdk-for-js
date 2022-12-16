@@ -32,16 +32,23 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
+  code: string;
+  state: string;
+  managedClusterResource?: string;
 
   /**
    * Initializes a new instance of the DeveloperHubServiceClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
+   * @param code The code response from authenticating the GitHub App.
+   * @param state The state response from authenticating the GitHub App.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
+    code: string,
+    state: string,
     options?: DeveloperHubServiceClientOptionalParams
   ) {
     if (credentials === undefined) {
@@ -49,6 +56,12 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
     }
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
+    }
+    if (code === undefined) {
+      throw new Error("'code' cannot be null");
+    }
+    if (state === undefined) {
+      throw new Error("'state' cannot be null");
     }
 
     // Initializing default values for options
@@ -66,16 +79,13 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
@@ -101,7 +111,9 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
               coreClient.authorizeRequestOnClaimChallenge
@@ -111,10 +123,12 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
+    this.code = code;
+    this.state = state;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-04-01-preview";
+    this.apiVersion = options.apiVersion || "2022-10-11-preview";
     this.operations = new OperationsImpl(this);
     this.workflowOperations = new WorkflowOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
@@ -166,18 +180,14 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
   /**
    * Callback URL to hit once authenticated with GitHub App to have the service store the OAuth token.
    * @param location The name of Azure region.
-   * @param code The code response from authenticating the GitHub App.
-   * @param state The state response from authenticating the GitHub App.
    * @param options The options parameters.
    */
   gitHubOAuthCallback(
     location: string,
-    code: string,
-    state: string,
     options?: GitHubOAuthCallbackOptionalParams
   ): Promise<GitHubOAuthCallbackResponse> {
     return this.sendOperationRequest(
-      { location, code, state, options },
+      { location, options },
       gitHubOAuthCallbackOperationSpec
     );
   }
