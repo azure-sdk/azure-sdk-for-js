@@ -71,6 +71,7 @@ specifiers:
   '@rush-temp/arm-datafactory': file:./projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:./projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-datamigration': file:./projects/arm-datamigration.tgz
+  '@rush-temp/arm-dataprotectionplatform': file:./projects/arm-dataprotectionplatform.tgz
   '@rush-temp/arm-deploymentmanager': file:./projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:./projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:./projects/arm-devcenter.tgz
@@ -395,6 +396,7 @@ dependencies:
   '@rush-temp/arm-datafactory': file:projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-datamigration': file:projects/arm-datamigration.tgz
+  '@rush-temp/arm-dataprotectionplatform': file:projects/arm-dataprotectionplatform.tgz
   '@rush-temp/arm-deploymentmanager': file:projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:projects/arm-devcenter.tgz
@@ -3784,7 +3786,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221216
+      typescript: 5.0.0-dev.20221218
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8488,8 +8490,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221216:
-    resolution: {integrity: sha512-69mskYxo8qKjwdtzRxpbZrueutt4BTbbTUlZvcl8Lu5pM42ZJ7GuJw6ZLb6GVUx6T8/dk46erSFT3O4SNCi7LA==}
+  /typescript/5.0.0-dev.20221218:
+    resolution: {integrity: sha512-H9OjIoDzurBIgB+Gq/9aAudpSKtfaN+dRCwWc/Ugg8B6/p5VA5KFlnwm2sLjOyTzApusKKUJUpV+u/hXEfxaOA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11190,6 +11192,33 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.33.6
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
+      tslib: 2.4.1
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-dataprotectionplatform.tgz:
+    resolution: {integrity: sha512-J97n5UBN3q1ZqnxnR5/1h+JGDu6lQ+1Ty15k8sKiZ7n2sD+k0AplikU5LeSaN3PtpidzLnmiqveP6Eg+YMaFKw==, tarball: file:projects/arm-dataprotectionplatform.tgz}
+    name: '@rush-temp/arm-dataprotectionplatform'
+    version: 0.0.0
+    dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.6
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
@@ -17875,7 +17904,7 @@ packages:
     dev: false
 
   file:projects/perf-app-configuration.tgz:
-    resolution: {integrity: sha512-b33BULpxOX6J9dR9f56lJ7afd7XBXxEQZBtZwG3pq0Slu6LjWh717zNT0t+HV/uNPpDTUySako6JAzVPT5yJWQ==, tarball: file:projects/perf-app-configuration.tgz}
+    resolution: {integrity: sha512-zONfA8eryfXMv7dDQ8oOicWovwpUCIiVTvvt/1ikDN+WhJAqABG129yjG5q5EdMJMjD4LT1tjau/Iio+BniaTw==, tarball: file:projects/perf-app-configuration.tgz}
     name: '@rush-temp/perf-app-configuration'
     version: 0.0.0
     dependencies:
@@ -17893,7 +17922,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
@@ -18265,7 +18293,7 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-vkGuclIBHH0EYig/IAlJuKXo0FPxnqH3LWulE/Ibe4LUnjHFEv6qTEtps9HpSL/UhkERBiBJo5o7wsNO/ElgwA==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-MZxB6rQNQjf8AA07H9444XgoA7iVdfreodIdV8wSq3nlpT5Bt5GuvZgnCGTPeiMs3myDHPKBrEePVuWJFMh1ZQ==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
@@ -18284,7 +18312,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
