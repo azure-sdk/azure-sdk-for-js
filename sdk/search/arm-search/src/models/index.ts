@@ -132,12 +132,30 @@ export interface IpRule {
   value?: string;
 }
 
+/** Defines the options for how the data plane API of a Search service authenticates requests. This cannot be set if 'disableLocalAuth' is set to true. */
+export interface DataPlaneAuthOptions {
+  /** Indicates that only the API key needs to be used for authentication. */
+  apiKeyOnly?: Record<string, unknown>;
+  /** Indicates that either the API key or an access token from Azure Active Directory can be used for authentication. */
+  aadOrApiKey?: DataPlaneAadOrApiKeyAuthOption;
+}
+
+/** Indicates that either the API key or an access token from Azure Active Directory can be used for authentication. */
+export interface DataPlaneAadOrApiKeyAuthOption {
+  /** Describes what response the data plane API of a Search service would send for requests that failed authentication. */
+  aadAuthFailureMode?: AadAuthFailureMode;
+}
+
 /** Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service. */
 export interface PrivateEndpointConnectionProperties {
   /** The private endpoint resource from Microsoft.Network provider. */
   privateEndpoint?: PrivateEndpointConnectionPropertiesPrivateEndpoint;
   /** Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint. */
   privateLinkServiceConnectionState?: PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState;
+  /** The group id from the provider of resource the private link service connection is for. */
+  groupId?: string;
+  /** The provisioning state of the private link service connection. Can be Updating, Deleting, Failed, Succeeded, or Incomplete */
+  provisioningState?: PrivateLinkServiceConnectionProvisioningState;
 }
 
 /** The private endpoint resource from Microsoft.Network provider. */
@@ -200,12 +218,12 @@ export interface Sku {
 /** Identity for the resource. */
 export interface Identity {
   /**
-   * The principal ID of resource identity.
+   * The principal ID of the system-assigned identity of the search service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
   /**
-   * The tenant ID of resource.
+   * The tenant ID of the system-assigned identity of the search service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
@@ -216,7 +234,7 @@ export interface Identity {
 /** Response containing a list of Azure Cognitive Search services. */
 export interface SearchServiceListResult {
   /**
-   * The list of search services.
+   * The list of Search services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: SearchService[];
@@ -352,27 +370,27 @@ export interface AsyncOperationResult {
 }
 
 /** Describes an existing Private Endpoint connection to the Azure Cognitive Search service. */
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
   /** Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service. */
   properties?: PrivateEndpointConnectionProperties;
-};
+}
 
 /** Describes a Shared Private Link Resource managed by the Azure Cognitive Search service. */
-export type SharedPrivateLinkResource = Resource & {
+export interface SharedPrivateLinkResource extends Resource {
   /** Describes the properties of a Shared Private Link Resource managed by the Azure Cognitive Search service. */
   properties?: SharedPrivateLinkResourceProperties;
-};
+}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The parameters used to update an Azure Cognitive Search service. */
-export type SearchServiceUpdate = Resource & {
+export interface SearchServiceUpdate extends Resource {
   /** The SKU of the Search Service, which determines price tier and capacity limits. This property is required when creating a new Search Service. */
   sku?: Sku;
   /** The geographic location of the resource. This must be one of the supported and registered Azure Geo Regions (for example, West US, East US, Southeast Asia, and so forth). This property is required when creating a new resource. */
@@ -406,6 +424,10 @@ export type SearchServiceUpdate = Resource & {
   readonly provisioningState?: ProvisioningState;
   /** Network specific rules that determine how the Azure Cognitive Search service may be reached. */
   networkRuleSet?: NetworkRuleSet;
+  /** When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if 'dataPlaneAuthOptions' are defined. */
+  disableLocalAuth?: boolean;
+  /** Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if 'disableLocalAuth' is set to true. */
+  authOptions?: DataPlaneAuthOptions;
   /**
    * The list of private endpoint connections to the Azure Cognitive Search service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -416,19 +438,19 @@ export type SearchServiceUpdate = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
-};
+}
 
 /** Describes a supported private link resource for the Azure Cognitive Search service. */
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
   /**
    * Describes the properties of a supported private link resource for the Azure Cognitive Search service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly properties?: PrivateLinkResourceProperties;
-};
+}
 
 /** Describes an Azure Cognitive Search service and its current state. */
-export type SearchService = TrackedResource & {
+export interface SearchService extends TrackedResource {
   /** The SKU of the Search Service, which determines price tier and capacity limits. This property is required when creating a new Search Service. */
   sku?: Sku;
   /** The identity of the resource. */
@@ -458,6 +480,10 @@ export type SearchService = TrackedResource & {
   readonly provisioningState?: ProvisioningState;
   /** Network specific rules that determine how the Azure Cognitive Search service may be reached. */
   networkRuleSet?: NetworkRuleSet;
+  /** When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if 'dataPlaneAuthOptions' are defined. */
+  disableLocalAuth?: boolean;
+  /** Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if 'disableLocalAuth' is set to true. */
+  authOptions?: DataPlaneAuthOptions;
   /**
    * The list of private endpoint connections to the Azure Cognitive Search service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -468,7 +494,7 @@ export type SearchService = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
-};
+}
 
 /** Parameter group */
 export interface SearchManagementRequestOptions {
@@ -476,9 +502,41 @@ export interface SearchManagementRequestOptions {
   clientRequestId?: string;
 }
 
+/** Known values of {@link PrivateLinkServiceConnectionProvisioningState} that the service accepts. */
+export enum KnownPrivateLinkServiceConnectionProvisioningState {
+  /** The private link service connection is in the process of being created along with other resources for it to be fully functional. */
+  Updating = "Updating",
+  /** The private link service connection is in the process of being deleted. */
+  Deleting = "Deleting",
+  /** The private link service connection has failed to be provisioned or deleted. */
+  Failed = "Failed",
+  /** The private link service connection has finished provisioning and is ready for approval. */
+  Succeeded = "Succeeded",
+  /** Provisioning request for the private link service connection resource has been accepted but the process of creation has not commenced yet. */
+  Incomplete = "Incomplete",
+  /** Provisioning request for the private link service connection resource has been canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for PrivateLinkServiceConnectionProvisioningState. \
+ * {@link KnownPrivateLinkServiceConnectionProvisioningState} can be used interchangeably with PrivateLinkServiceConnectionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Updating**: The private link service connection is in the process of being created along with other resources for it to be fully functional. \
+ * **Deleting**: The private link service connection is in the process of being deleted. \
+ * **Failed**: The private link service connection has failed to be provisioned or deleted. \
+ * **Succeeded**: The private link service connection has finished provisioning and is ready for approval. \
+ * **Incomplete**: Provisioning request for the private link service connection resource has been accepted but the process of creation has not commenced yet. \
+ * **Canceled**: Provisioning request for the private link service connection resource has been canceled
+ */
+export type PrivateLinkServiceConnectionProvisioningState = string;
+
 /** Known values of {@link UnavailableNameReason} that the service accepts. */
 export enum KnownUnavailableNameReason {
+  /** The search service name does not match naming requirements. */
   Invalid = "Invalid",
+  /** The search service name is already assigned to a different search service. */
   AlreadyExists = "AlreadyExists"
 }
 
@@ -487,15 +545,18 @@ export enum KnownUnavailableNameReason {
  * {@link KnownUnavailableNameReason} can be used interchangeably with UnavailableNameReason,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Invalid** \
- * **AlreadyExists**
+ * **Invalid**: The search service name does not match naming requirements. \
+ * **AlreadyExists**: The search service name is already assigned to a different search service.
  */
 export type UnavailableNameReason = string;
 
 /** Known values of {@link SharedPrivateLinkResourceAsyncOperationResult} that the service accepts. */
 export enum KnownSharedPrivateLinkResourceAsyncOperationResult {
+  /** Running */
   Running = "Running",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -522,9 +583,12 @@ export type SearchServiceStatus =
   | "deleting"
   | "degraded"
   | "disabled"
-  | "error";
+  | "error"
+  | "stopped";
 /** Defines values for ProvisioningState. */
 export type ProvisioningState = "succeeded" | "provisioning" | "failed";
+/** Defines values for AadAuthFailureMode. */
+export type AadAuthFailureMode = "http403" | "http401WithBearerChallenge";
 /** Defines values for PrivateLinkServiceConnectionStatus. */
 export type PrivateLinkServiceConnectionStatus =
   | "Pending"
