@@ -282,6 +282,18 @@ export const PrivateEndpointConnectionProperties: coreClient.CompositeMapper = {
           className:
             "PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState"
         }
+      },
+      groupId: {
+        serializedName: "groupId",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
       }
     }
   }
