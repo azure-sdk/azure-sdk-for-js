@@ -31,6 +31,8 @@ export interface ServicesProperties {
   publicNetworkAccess?: PublicNetworkAccess;
   /** The azure container registry settings used for convert data operation of the service instance. */
   acrConfiguration?: ServiceAcrConfigurationInfo;
+  /** The settings for the import operation of the service instance. */
+  importConfiguration?: ServiceImportConfigurationInfo;
 }
 
 /** An access policy entry. */
@@ -131,6 +133,16 @@ export interface ServiceOciArtifactEntry {
   imageName?: string;
   /** The artifact digest. */
   digest?: string;
+}
+
+/** Import operation configuration information */
+export interface ServiceImportConfigurationInfo {
+  /** The name of the default integration storage account. */
+  integrationDataStore?: string;
+  /** If the FHIR service is in InitialImportMode. */
+  initialImportMode?: boolean;
+  /** If the import operation is enabled. */
+  enabled?: boolean;
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -350,6 +362,20 @@ export interface DicomServiceAuthenticationConfiguration {
   readonly audiences?: string[];
 }
 
+/** The settings for the CORS configuration of the service instance. */
+export interface CorsConfiguration {
+  /** The origins to be allowed via CORS. */
+  origins?: string[];
+  /** The headers to be allowed via CORS. */
+  headers?: string[];
+  /** The methods to be allowed via CORS. */
+  methods?: string[];
+  /** The max age to be allowed via CORS. */
+  maxAge?: number;
+  /** If credentials are allowed via CORS. */
+  allowCredentials?: boolean;
+}
+
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ServiceManagedIdentity {
   /** Setting indicating whether the service has a managed identity associated with it. */
@@ -487,6 +513,16 @@ export interface ResourceVersionPolicyConfiguration {
   default?: FhirResourceVersionPolicy;
   /** A list of FHIR Resources and their version policy overrides. */
   resourceTypeOverrides?: { [propertyName: string]: FhirResourceVersionPolicy };
+}
+
+/** Import operation configuration information */
+export interface FhirServiceImportConfiguration {
+  /** The name of the default integration storage account. */
+  integrationDataStore?: string;
+  /** If the FHIR service is in InitialImportMode. */
+  initialImportMode?: boolean;
+  /** If the import operation is enabled. */
+  enabled?: boolean;
 }
 
 /** Available operations of the service */
@@ -646,6 +682,104 @@ export interface OperationResultsDescription {
   properties?: Record<string, unknown>;
 }
 
+/** Input values for the Medtech Mapping Validation Service. */
+export interface ValidateMedtechMappingsParameters {
+  /** Indicates if validation results will be aggregated */
+  aggregateErrors?: AggregateErrors;
+  /** The Medtech device mapping template. */
+  deviceMapping: IotMappingProperties;
+  /** The Medtech FHIR mapping template. */
+  fhirMapping?: IotMappingProperties;
+  /** A collection of device events. */
+  deviceEvents?: Record<string, unknown>[];
+}
+
+/** The result returned from the Medtech Mapping Validation Service. */
+export interface ValidateMedtechMappingsResult {
+  /** The result from validating the mapping templates. */
+  templateResult?: ValidateMedtechMappingsResultTemplateResult;
+  /** Results from validating each device event against the supplied mapping templates. */
+  deviceResults?: ValidateMedtechMappingsDeviceResult[];
+}
+
+/** The result from validating the mapping templates. */
+export interface ValidateMedtechMappingsResultTemplateResult {
+  /**
+   * A list of mapping validation error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly exceptions?: MedtechMappingValidationError[];
+}
+
+/** A mapping validation error. */
+export interface MedtechMappingValidationError {
+  /** The validation error message. */
+  message?: string;
+  /**
+   * Indicates the severity of the validation error
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly level?: MedtechMappingValidationErrorLevel;
+  /**
+   * Indicates the type of validation being performed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly category?: MedtechMappingValidationCategory;
+  /**
+   * Associates the validation error with the position on the mapping template where it occurred
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lineInfo?: MedtechMappingValidationLineInfo;
+}
+
+/** Associates the validation error with the position on the mapping template where it occurred */
+export interface MedtechMappingValidationLineInfo {
+  /** The line on which the validation error was discovered */
+  lineNumber?: number;
+  /** The position on the line which the validation error was discovered */
+  linePosition?: number;
+}
+
+/** A result returned when processing a single device event in Medtech Mapping Validation Service. */
+export interface ValidateMedtechMappingsDeviceResult {
+  /** Indicates how many Device Events produced the associated Exception. */
+  aggregatedCount?: Record<string, unknown>;
+  /** The device event which was validated. */
+  deviceEvent?: Record<string, unknown>;
+  /**
+   * A list of mapping validation error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly exceptions?: MedtechMappingValidationError[];
+  /** A collection of measurements which were produced. */
+  measurements?: MedtechMeasurement[];
+  /** A collection of observations which were produced. */
+  observations?: Record<string, unknown>[];
+}
+
+/** A measurement extracted during the Medtech device event normalization process. */
+export interface MedtechMeasurement {
+  /** The type of measurement being collected. */
+  type?: string;
+  /** The id used to group values into a single observation. */
+  correlationId?: string;
+  /** The id of the device that collected the measurement. */
+  deviceId?: string;
+  /** The id of the encounter. */
+  encounterId?: string;
+  /** The time that device collected the measurement. */
+  occurrenceTimeUtc?: string;
+  properties?: MedtechMeasurementProperty[];
+}
+
+/** The values for an extracted measurment */
+export interface MedtechMeasurementProperty {
+  /** The name of the measurement */
+  name?: string;
+  /** The value of the measurement */
+  value?: string;
+}
+
 /** List of private endpoint connection associated with the specified storage account */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private endpoint connections */
@@ -733,6 +867,8 @@ export interface DicomService extends TaggedResource, ServiceManagedIdentity {
   readonly provisioningState?: ProvisioningState;
   /** Dicom Service authentication configuration. */
   authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
+  /** Dicom Service Cors configuration. */
+  corsConfiguration?: CorsConfiguration;
   /**
    * The url of the Dicom Services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -803,6 +939,8 @@ export interface FhirService extends TaggedResource, ServiceManagedIdentity {
   readonly eventState?: ServiceEventState;
   /** Determines tracking of history for resources. */
   resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration;
+  /** Fhir Service import configuration. */
+  importConfiguration?: FhirServiceImportConfiguration;
 }
 
 /** IoT Connector destination properties for an Azure FHIR service. */
@@ -1164,6 +1302,60 @@ export enum KnownOperationResultStatus {
  * **Running**
  */
 export type OperationResultStatus = string;
+
+/** Known values of {@link AggregateErrors} that the service accepts. */
+export enum KnownAggregateErrors {
+  /** True */
+  True = "True",
+  /** False */
+  False = "False"
+}
+
+/**
+ * Defines values for AggregateErrors. \
+ * {@link KnownAggregateErrors} can be used interchangeably with AggregateErrors,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **True** \
+ * **False**
+ */
+export type AggregateErrors = string;
+
+/** Known values of {@link MedtechMappingValidationErrorLevel} that the service accepts. */
+export enum KnownMedtechMappingValidationErrorLevel {
+  /** Error */
+  Error = "ERROR",
+  /** Warn */
+  Warn = "WARN"
+}
+
+/**
+ * Defines values for MedtechMappingValidationErrorLevel. \
+ * {@link KnownMedtechMappingValidationErrorLevel} can be used interchangeably with MedtechMappingValidationErrorLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ERROR** \
+ * **WARN**
+ */
+export type MedtechMappingValidationErrorLevel = string;
+
+/** Known values of {@link MedtechMappingValidationCategory} that the service accepts. */
+export enum KnownMedtechMappingValidationCategory {
+  /** Normalization */
+  Normalization = "NORMALIZATION",
+  /** Fhirtransformation */
+  Fhirtransformation = "FHIRTRANSFORMATION"
+}
+
+/**
+ * Defines values for MedtechMappingValidationCategory. \
+ * {@link KnownMedtechMappingValidationCategory} can be used interchangeably with MedtechMappingValidationCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NORMALIZATION** \
+ * **FHIRTRANSFORMATION**
+ */
+export type MedtechMappingValidationCategory = string;
 /** Defines values for Kind. */
 export type Kind = "fhir" | "fhir-Stu3" | "fhir-R4";
 /** Defines values for ServiceNameUnavailabilityReason. */
@@ -1229,6 +1421,13 @@ export interface ServicesCheckNameAvailabilityOptionalParams
 
 /** Contains response data for the checkNameAvailability operation. */
 export type ServicesCheckNameAvailabilityResponse = ServicesNameAvailabilityInfo;
+
+/** Optional parameters. */
+export interface ServicesValidateMedtechMappingsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the validateMedtechMappings operation. */
+export type ServicesValidateMedtechMappingsResponse = ValidateMedtechMappingsResult;
 
 /** Optional parameters. */
 export interface ServicesListNextOptionalParams

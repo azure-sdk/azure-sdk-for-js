@@ -22,7 +22,10 @@ import {
   ServicesDeleteOptionalParams,
   CheckNameAvailabilityParameters,
   ServicesCheckNameAvailabilityOptionalParams,
-  ServicesCheckNameAvailabilityResponse
+  ServicesCheckNameAvailabilityResponse,
+  ValidateMedtechMappingsParameters,
+  ServicesValidateMedtechMappingsOptionalParams,
+  ServicesValidateMedtechMappingsResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -149,4 +152,13 @@ export interface Services {
     checkNameAvailabilityInputs: CheckNameAvailabilityParameters,
     options?: ServicesCheckNameAvailabilityOptionalParams
   ): Promise<ServicesCheckNameAvailabilityResponse>;
+  /**
+   * Validates Medtech mapping files against sample device data.
+   * @param validationRequestInputs The mapping files and device events which will be validated
+   * @param options The options parameters.
+   */
+  validateMedtechMappings(
+    validationRequestInputs: ValidateMedtechMappingsParameters,
+    options?: ServicesValidateMedtechMappingsOptionalParams
+  ): Promise<ServicesValidateMedtechMappingsResponse>;
 }

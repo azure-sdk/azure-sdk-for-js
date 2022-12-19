@@ -84,6 +84,13 @@ export const ServicesProperties: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ServiceAcrConfigurationInfo"
         }
+      },
+      importConfiguration: {
+        serializedName: "importConfiguration",
+        type: {
+          name: "Composite",
+          className: "ServiceImportConfigurationInfo"
+        }
       }
     }
   }
@@ -117,6 +124,7 @@ export const ServiceCosmosDbConfigurationInfo: coreClient.CompositeMapper = {
     modelProperties: {
       offerThroughput: {
         constraints: {
+          InclusiveMaximum: 10000,
           InclusiveMinimum: 400
         },
         serializedName: "offerThroughput",
@@ -365,6 +373,33 @@ export const ServiceOciArtifactEntry: coreClient.CompositeMapper = {
         serializedName: "digest",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceImportConfigurationInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServiceImportConfigurationInfo",
+    modelProperties: {
+      integrationDataStore: {
+        serializedName: "integrationDataStore",
+        type: {
+          name: "String"
+        }
+      },
+      initialImportMode: {
+        serializedName: "initialImportMode",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -891,6 +926,69 @@ export const DicomServiceAuthenticationConfiguration: coreClient.CompositeMapper
   }
 };
 
+export const CorsConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CorsConfiguration",
+    modelProperties: {
+      origins: {
+        serializedName: "origins",
+        type: {
+          name: "Sequence",
+          element: {
+            constraints: {
+              Pattern: new RegExp(
+                "^(?:(?:(?:[hH][tT][tT][pP](?:[sS]|))\\:\\/\\/(?:[a-zA-Z0-9-]+[.]?)+(?:\\:[0-9]{1,5})?|[*]))$"
+              )
+            },
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      headers: {
+        serializedName: "headers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      methods: {
+        serializedName: "methods",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      maxAge: {
+        constraints: {
+          InclusiveMaximum: 99999,
+          InclusiveMinimum: 0
+        },
+        serializedName: "maxAge",
+        type: {
+          name: "Number"
+        }
+      },
+      allowCredentials: {
+        serializedName: "allowCredentials",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const ServiceManagedIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1289,6 +1387,33 @@ export const ResourceVersionPolicyConfiguration: coreClient.CompositeMapper = {
   }
 };
 
+export const FhirServiceImportConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FhirServiceImportConfiguration",
+    modelProperties: {
+      integrationDataStore: {
+        serializedName: "integrationDataStore",
+        type: {
+          name: "String"
+        }
+      },
+      initialImportMode: {
+        serializedName: "initialImportMode",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const ListOperations: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1650,6 +1775,286 @@ export const OperationResultsDescription: coreClient.CompositeMapper = {
   }
 };
 
+export const ValidateMedtechMappingsParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ValidateMedtechMappingsParameters",
+    modelProperties: {
+      aggregateErrors: {
+        serializedName: "aggregateErrors",
+        type: {
+          name: "String"
+        }
+      },
+      deviceMapping: {
+        serializedName: "deviceMapping",
+        type: {
+          name: "Composite",
+          className: "IotMappingProperties"
+        }
+      },
+      fhirMapping: {
+        serializedName: "fhirMapping",
+        type: {
+          name: "Composite",
+          className: "IotMappingProperties"
+        }
+      },
+      deviceEvents: {
+        serializedName: "deviceEvents",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Dictionary",
+              value: { type: { name: "any" } }
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ValidateMedtechMappingsResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ValidateMedtechMappingsResult",
+    modelProperties: {
+      templateResult: {
+        serializedName: "templateResult",
+        type: {
+          name: "Composite",
+          className: "ValidateMedtechMappingsResultTemplateResult"
+        }
+      },
+      deviceResults: {
+        serializedName: "deviceResults",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ValidateMedtechMappingsDeviceResult"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ValidateMedtechMappingsResultTemplateResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ValidateMedtechMappingsResultTemplateResult",
+    modelProperties: {
+      exceptions: {
+        serializedName: "exceptions",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MedtechMappingValidationError"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MedtechMappingValidationError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MedtechMappingValidationError",
+    modelProperties: {
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      level: {
+        serializedName: "level",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      category: {
+        serializedName: "category",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      lineInfo: {
+        serializedName: "lineInfo",
+        type: {
+          name: "Composite",
+          className: "MedtechMappingValidationLineInfo"
+        }
+      }
+    }
+  }
+};
+
+export const MedtechMappingValidationLineInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MedtechMappingValidationLineInfo",
+    modelProperties: {
+      lineNumber: {
+        serializedName: "lineNumber",
+        type: {
+          name: "Number"
+        }
+      },
+      linePosition: {
+        serializedName: "linePosition",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ValidateMedtechMappingsDeviceResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ValidateMedtechMappingsDeviceResult",
+    modelProperties: {
+      aggregatedCount: {
+        serializedName: "aggregatedCount",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      deviceEvent: {
+        serializedName: "deviceEvent",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      exceptions: {
+        serializedName: "exceptions",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MedtechMappingValidationError"
+            }
+          }
+        }
+      },
+      measurements: {
+        serializedName: "measurements",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MedtechMeasurement"
+            }
+          }
+        }
+      },
+      observations: {
+        serializedName: "observations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Dictionary",
+              value: { type: { name: "any" } }
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MedtechMeasurement: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MedtechMeasurement",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        type: {
+          name: "String"
+        }
+      },
+      deviceId: {
+        serializedName: "deviceId",
+        type: {
+          name: "String"
+        }
+      },
+      encounterId: {
+        serializedName: "encounterId",
+        type: {
+          name: "String"
+        }
+      },
+      occurrenceTimeUtc: {
+        serializedName: "occurrenceTimeUtc",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MedtechMeasurementProperty"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MedtechMeasurementProperty: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MedtechMeasurementProperty",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PrivateEndpointConnectionListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1864,6 +2269,13 @@ export const DicomService: coreClient.CompositeMapper = {
           className: "DicomServiceAuthenticationConfiguration"
         }
       },
+      corsConfiguration: {
+        serializedName: "properties.corsConfiguration",
+        type: {
+          name: "Composite",
+          className: "CorsConfiguration"
+        }
+      },
       serviceUrl: {
         serializedName: "properties.serviceUrl",
         readOnly: true,
@@ -2031,6 +2443,13 @@ export const FhirService: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ResourceVersionPolicyConfiguration"
+        }
+      },
+      importConfiguration: {
+        serializedName: "properties.importConfiguration",
+        type: {
+          name: "Composite",
+          className: "FhirServiceImportConfiguration"
         }
       }
     }

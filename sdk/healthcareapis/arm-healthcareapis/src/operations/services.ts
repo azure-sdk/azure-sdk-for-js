@@ -34,6 +34,9 @@ import {
   CheckNameAvailabilityParameters,
   ServicesCheckNameAvailabilityOptionalParams,
   ServicesCheckNameAvailabilityResponse,
+  ValidateMedtechMappingsParameters,
+  ServicesValidateMedtechMappingsOptionalParams,
+  ServicesValidateMedtechMappingsResponse,
   ServicesListNextResponse,
   ServicesListByResourceGroupNextResponse
 } from "../models";
@@ -499,6 +502,21 @@ export class ServicesImpl implements Services {
   }
 
   /**
+   * Validates Medtech mapping files against sample device data.
+   * @param validationRequestInputs The mapping files and device events which will be validated
+   * @param options The options parameters.
+   */
+  validateMedtechMappings(
+    validationRequestInputs: ValidateMedtechMappingsParameters,
+    options?: ServicesValidateMedtechMappingsOptionalParams
+  ): Promise<ServicesValidateMedtechMappingsResponse> {
+    return this.client.sendOperationRequest(
+      { validationRequestInputs, options },
+      validateMedtechMappingsOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -701,6 +719,25 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
+const validateMedtechMappingsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HealthcareApis/validateMedtechMappings",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ValidateMedtechMappingsResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorDetails
+    }
+  },
+  requestBody: Parameters.validationRequestInputs,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -712,7 +749,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorDetails
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -732,7 +768,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorDetails
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -1,15 +1,34 @@
 # Release History
+    
+## 2.3.0-beta.1 (2022-12-19)
+    
+**Features**
 
-## 2.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation Services.validateMedtechMappings
+  - Added Interface CorsConfiguration
+  - Added Interface FhirServiceImportConfiguration
+  - Added Interface MedtechMappingValidationError
+  - Added Interface MedtechMappingValidationLineInfo
+  - Added Interface MedtechMeasurement
+  - Added Interface MedtechMeasurementProperty
+  - Added Interface ServiceImportConfigurationInfo
+  - Added Interface ServicesValidateMedtechMappingsOptionalParams
+  - Added Interface ValidateMedtechMappingsDeviceResult
+  - Added Interface ValidateMedtechMappingsParameters
+  - Added Interface ValidateMedtechMappingsResult
+  - Added Interface ValidateMedtechMappingsResultTemplateResult
+  - Added Type Alias AggregateErrors
+  - Added Type Alias MedtechMappingValidationCategory
+  - Added Type Alias MedtechMappingValidationErrorLevel
+  - Added Type Alias ServicesValidateMedtechMappingsResponse
+  - Interface DicomService has a new optional parameter corsConfiguration
+  - Interface FhirService has a new optional parameter importConfiguration
+  - Interface ServicesProperties has a new optional parameter importConfiguration
+  - Added Enum KnownAggregateErrors
+  - Added Enum KnownMedtechMappingValidationCategory
+  - Added Enum KnownMedtechMappingValidationErrorLevel
+    
+    
 ## 2.2.0 (2022-11-25)
     
 **Features**
