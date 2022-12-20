@@ -24,6 +24,9 @@ import {
   PoliciesGetResponse,
   PoliciesCreateOrUpdateOptionalParams,
   PoliciesCreateOrUpdateResponse,
+  TagsObject,
+  PoliciesUpdateOptionalParams,
+  PoliciesUpdateResponse,
   PoliciesDeleteOptionalParams,
   PoliciesListNextResponse
 } from "../models";
@@ -228,6 +231,100 @@ export class PoliciesImpl implements Policies {
   }
 
   /**
+   * Patch a specific frontdoor webApplicationFirewall policy for tags update under the specified
+   * subscription and resource group.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param policyName The name of the Web Application Firewall Policy.
+   * @param parameters FrontdoorWebApplicationFirewallPolicy parameters to be patched.
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    policyName: string,
+    parameters: TagsObject,
+    options?: PoliciesUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<PoliciesUpdateResponse>,
+      PoliciesUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<PoliciesUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, policyName, parameters, options },
+      updateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Patch a specific frontdoor webApplicationFirewall policy for tags update under the specified
+   * subscription and resource group.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param policyName The name of the Web Application Firewall Policy.
+   * @param parameters FrontdoorWebApplicationFirewallPolicy parameters to be patched.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    policyName: string,
+    parameters: TagsObject,
+    options?: PoliciesUpdateOptionalParams
+  ): Promise<PoliciesUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      policyName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Deletes Policy
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param policyName The name of the Web Application Firewall Policy.
@@ -341,11 +438,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -362,11 +459,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.policyName
   ],
   headerParameters: [Parameters.accept],
@@ -393,12 +490,45 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.policyName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WebApplicationFirewallPolicy
+    },
+    201: {
+      bodyMapper: Mappers.WebApplicationFirewallPolicy
+    },
+    202: {
+      bodyMapper: Mappers.WebApplicationFirewallPolicy
+    },
+    204: {
+      bodyMapper: Mappers.WebApplicationFirewallPolicy
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.policyName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -410,11 +540,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.policyName
   ],
   serializer
@@ -430,11 +560,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
