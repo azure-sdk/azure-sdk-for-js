@@ -108,6 +108,11 @@ export enum KnownSaaSOfferStatus {
 }
 
 // @public
+export interface LinkOrganization {
+    token: string;
+}
+
+// @public
 export interface MarketplaceAgreements {
     create(options?: MarketplaceAgreementsCreateOptionalParams): Promise<MarketplaceAgreementsCreateResponse>;
     list(options?: MarketplaceAgreementsListOptionalParams): PagedAsyncIterableIterator<ConfluentAgreementResource>;
@@ -140,8 +145,11 @@ export interface OfferDetail {
     id: string;
     planId: string;
     planName: string;
+    privateOfferId?: string;
+    privateOfferIds?: string[];
     publisherId: string;
-    readonly status?: SaaSOfferStatus;
+    status?: SaaSOfferStatus;
+    termId?: string;
     termUnit: string;
 }
 
@@ -252,6 +260,7 @@ export type OrganizationOperationsListResponse = OperationListResult;
 export interface OrganizationResource {
     readonly createdTime?: Date;
     readonly id?: string;
+    linkOrganization?: LinkOrganization;
     location?: string;
     readonly name?: string;
     offerDetail: OfferDetail;
@@ -310,14 +319,24 @@ export interface SystemData {
 
 // @public
 export interface UserDetail {
+    aadEmail?: string;
     emailAddress: string;
     firstName?: string;
     lastName?: string;
+    userPrincipalName?: string;
+}
+
+// @public
+export interface ValidationResponse {
+    info?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
 export interface Validations {
     validateOrganization(resourceGroupName: string, organizationName: string, body: OrganizationResource, options?: ValidationsValidateOrganizationOptionalParams): Promise<ValidationsValidateOrganizationResponse>;
+    validateOrganizationV2(resourceGroupName: string, organizationName: string, body: OrganizationResource, options?: ValidationsValidateOrganizationV2OptionalParams): Promise<ValidationsValidateOrganizationV2Response>;
 }
 
 // @public
@@ -326,6 +345,13 @@ export interface ValidationsValidateOrganizationOptionalParams extends coreClien
 
 // @public
 export type ValidationsValidateOrganizationResponse = OrganizationResource;
+
+// @public
+export interface ValidationsValidateOrganizationV2OptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ValidationsValidateOrganizationV2Response = ValidationResponse;
 
 // (No @packageDocumentation comment for this package)
 

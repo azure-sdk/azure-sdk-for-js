@@ -426,6 +426,13 @@ export const OrganizationResource: coreClient.CompositeMapper = {
           name: "Composite",
           className: "UserDetail"
         }
+      },
+      linkOrganization: {
+        serializedName: "properties.linkOrganization",
+        type: {
+          name: "Composite",
+          className: "LinkOrganization"
+        }
       }
     }
   }
@@ -458,7 +465,7 @@ export const OfferDetail: coreClient.CompositeMapper = {
       },
       planId: {
         constraints: {
-          MaxLength: 50
+          MaxLength: 200
         },
         serializedName: "planId",
         required: true,
@@ -468,7 +475,7 @@ export const OfferDetail: coreClient.CompositeMapper = {
       },
       planName: {
         constraints: {
-          MaxLength: 50
+          MaxLength: 200
         },
         serializedName: "planName",
         required: true,
@@ -486,9 +493,37 @@ export const OfferDetail: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      termId: {
+        constraints: {
+          MaxLength: 50
+        },
+        serializedName: "termId",
+        type: {
+          name: "String"
+        }
+      },
+      privateOfferId: {
+        constraints: {
+          MaxLength: 255
+        },
+        serializedName: "privateOfferId",
+        type: {
+          name: "String"
+        }
+      },
+      privateOfferIds: {
+        serializedName: "privateOfferIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       status: {
         serializedName: "status",
-        readOnly: true,
         type: {
           name: "String"
         }
@@ -529,6 +564,34 @@ export const UserDetail: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      userPrincipalName: {
+        serializedName: "userPrincipalName",
+        type: {
+          name: "String"
+        }
+      },
+      aadEmail: {
+        serializedName: "aadEmail",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LinkOrganization: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkOrganization",
+    modelProperties: {
+      token: {
+        serializedName: "token",
+        required: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -541,6 +604,22 @@ export const OrganizationResourceUpdate: coreClient.CompositeMapper = {
     modelProperties: {
       tags: {
         serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const ValidationResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ValidationResponse",
+    modelProperties: {
+      info: {
+        serializedName: "info",
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }

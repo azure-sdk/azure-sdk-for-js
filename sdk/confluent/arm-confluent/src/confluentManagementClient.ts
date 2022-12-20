@@ -113,7 +113,7 @@ export class ConfluentManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-09-01-preview";
+    this.apiVersion = options.apiVersion || "2022-10-07-preview";
     this.marketplaceAgreements = new MarketplaceAgreementsImpl(this);
     this.organizationOperations = new OrganizationOperationsImpl(this);
     this.organization = new OrganizationImpl(this);

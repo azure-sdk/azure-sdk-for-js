@@ -193,6 +193,8 @@ export interface OrganizationResource {
   offerDetail: OfferDetail;
   /** Subscriber detail */
   userDetail: UserDetail;
+  /** Link an existing Confluent organization */
+  linkOrganization?: LinkOrganization;
 }
 
 /** Confluent Offer detail */
@@ -207,11 +209,14 @@ export interface OfferDetail {
   planName: string;
   /** Offer Plan Term unit */
   termUnit: string;
-  /**
-   * SaaS Offer Status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: SaaSOfferStatus;
+  /** Offer Plan Term Id */
+  termId?: string;
+  /** Private Offer Id */
+  privateOfferId?: string;
+  /** Array of Private Offer Ids */
+  privateOfferIds?: string[];
+  /** SaaS Offer Status */
+  status?: SaaSOfferStatus;
 }
 
 /** Subscriber detail */
@@ -222,12 +227,28 @@ export interface UserDetail {
   lastName?: string;
   /** Email address */
   emailAddress: string;
+  /** User principal name */
+  userPrincipalName?: string;
+  /** AAD email address */
+  aadEmail?: string;
+}
+
+/** Link an existing Confluent organization */
+export interface LinkOrganization {
+  /** User auth token */
+  token: string;
 }
 
 /** Organization Resource update */
 export interface OrganizationResourceUpdate {
   /** ARM resource tags */
   tags?: { [propertyName: string]: string };
+}
+
+/** Validation response from the provider */
+export interface ValidationResponse {
+  /** Info from the response */
+  info?: { [propertyName: string]: string };
 }
 
 /** Known values of {@link CreatedByType} that the service accepts. */
@@ -447,6 +468,13 @@ export interface ValidationsValidateOrganizationOptionalParams
 
 /** Contains response data for the validateOrganization operation. */
 export type ValidationsValidateOrganizationResponse = OrganizationResource;
+
+/** Optional parameters. */
+export interface ValidationsValidateOrganizationV2OptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the validateOrganizationV2 operation. */
+export type ValidationsValidateOrganizationV2Response = ValidationResponse;
 
 /** Optional parameters. */
 export interface ConfluentManagementClientOptionalParams
