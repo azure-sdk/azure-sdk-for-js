@@ -3784,7 +3784,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221218
+      typescript: 5.0.0-dev.20221219
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8488,8 +8488,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221218:
-    resolution: {integrity: sha512-H9OjIoDzurBIgB+Gq/9aAudpSKtfaN+dRCwWc/Ugg8B6/p5VA5KFlnwm2sLjOyTzApusKKUJUpV+u/hXEfxaOA==}
+  /typescript/5.0.0-dev.20221219:
+    resolution: {integrity: sha512-/ZglDGQtpeVudCAVJuEdM8K8vUCA1yPMpsk3y08/ZXn6dxk/D1hy59FEI25/EHqsACElN++9CoKzkJS1wBTiRw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12854,7 +12854,7 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-JqAHhcYJwMaGSP5SvF2dZyO6RFZaYueuYmtilPzpg6vje557tOyo94Ud179y+XPTayevkly2risLB+bRd6JM3w==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-JDZVaV0iO02HyTSiiyi0nfvk4oVJXBBVGA4nfQoPJWHSpfJH1/iGLw2KMylK9+vDUhuiBd/wMTfXp+0qXZqjzw==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
@@ -12867,18 +12867,18 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.33
       chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
