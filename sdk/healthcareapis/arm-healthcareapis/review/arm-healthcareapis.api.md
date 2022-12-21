@@ -14,9 +14,21 @@ import { PollOperationState } from '@azure/core-lro';
 export type ActionType = string;
 
 // @public
+export type AggregateErrors = string;
+
+// @public
 export interface CheckNameAvailabilityParameters {
     name: string;
     type: string;
+}
+
+// @public
+export interface CorsConfiguration {
+    allowCredentials?: boolean;
+    headers?: string[];
+    maxAge?: number;
+    methods?: string[];
+    origins?: string[];
 }
 
 // @public
@@ -25,6 +37,7 @@ export type CreatedByType = string;
 // @public
 export interface DicomService extends TaggedResource, ServiceManagedIdentity {
     authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
+    corsConfiguration?: CorsConfiguration;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -152,6 +165,7 @@ export interface FhirService extends TaggedResource, ServiceManagedIdentity {
     corsConfiguration?: FhirServiceCorsConfiguration;
     readonly eventState?: ServiceEventState;
     exportConfiguration?: FhirServiceExportConfiguration;
+    importConfiguration?: FhirServiceImportConfiguration;
     kind?: FhirServiceKind;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
@@ -196,6 +210,13 @@ export interface FhirServiceCorsConfiguration {
 // @public
 export interface FhirServiceExportConfiguration {
     storageAccountName?: string;
+}
+
+// @public
+export interface FhirServiceImportConfiguration {
+    enabled?: boolean;
+    initialImportMode?: boolean;
+    integrationDataStore?: string;
 }
 
 // @public
@@ -466,6 +487,12 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownAggregateErrors {
+    False = "False",
+    True = "True"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -496,6 +523,18 @@ export enum KnownIotIdentityResolutionType {
 export enum KnownManagedServiceIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned"
+}
+
+// @public
+export enum KnownMedtechMappingValidationCategory {
+    Fhirtransformation = "FHIRTRANSFORMATION",
+    Normalization = "NORMALIZATION"
+}
+
+// @public
+export enum KnownMedtechMappingValidationErrorLevel {
+    Error = "ERROR",
+    Warn = "WARN"
 }
 
 // @public
@@ -582,6 +621,43 @@ export interface LogSpecification {
 export type ManagedServiceIdentityType = string;
 
 // @public
+export type MedtechMappingValidationCategory = string;
+
+// @public
+export interface MedtechMappingValidationError {
+    readonly category?: MedtechMappingValidationCategory;
+    readonly level?: MedtechMappingValidationErrorLevel;
+    readonly lineInfo?: MedtechMappingValidationLineInfo;
+    message?: string;
+}
+
+// @public
+export type MedtechMappingValidationErrorLevel = string;
+
+// @public
+export interface MedtechMappingValidationLineInfo {
+    lineNumber?: number;
+    linePosition?: number;
+}
+
+// @public
+export interface MedtechMeasurement {
+    correlationId?: string;
+    deviceId?: string;
+    encounterId?: string;
+    occurrenceTimeUtc?: Date;
+    // (undocumented)
+    properties?: MedtechMeasurementProperty[];
+    type?: string;
+}
+
+// @public
+export interface MedtechMeasurementProperty {
+    name?: string;
+    value?: string;
+}
+
+// @public
 export interface MetricDimension {
     displayName?: string;
     name?: string;
@@ -595,8 +671,13 @@ export interface MetricSpecification {
     dimensions?: MetricDimension[];
     displayDescription?: string;
     displayName?: string;
+    enableRegionalMdmAccount?: boolean;
     fillGapWithZero?: boolean;
+    isInternal?: boolean;
+    metricFilterPattern?: string;
     name?: string;
+    resourceIdDimensionNameOverride?: string;
+    sourceMdmAccount?: string;
     sourceMdmNamespace?: string;
     supportedAggregationTypes?: string[];
     supportedTimeGrainTypes?: string[];
@@ -864,6 +945,13 @@ export interface ServiceExportConfigurationInfo {
 }
 
 // @public
+export interface ServiceImportConfigurationInfo {
+    enabled?: boolean;
+    initialImportMode?: boolean;
+    integrationDataStore?: string;
+}
+
+// @public
 export interface ServiceManagedIdentity {
     identity?: ServiceManagedIdentityIdentity;
 }
@@ -903,6 +991,7 @@ export interface Services {
     get(resourceGroupName: string, resourceName: string, options?: ServicesGetOptionalParams): Promise<ServicesGetResponse>;
     list(options?: ServicesListOptionalParams): PagedAsyncIterableIterator<ServicesDescription>;
     listByResourceGroup(resourceGroupName: string, options?: ServicesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ServicesDescription>;
+    validateMedtechMappings(validationRequestInputs: ValidateMedtechMappingsParameters, options?: ServicesValidateMedtechMappingsOptionalParams): Promise<ServicesValidateMedtechMappingsResponse>;
 }
 
 // @public
@@ -1003,6 +1092,7 @@ export interface ServicesProperties {
     corsConfiguration?: ServiceCorsConfigurationInfo;
     cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
     exportConfiguration?: ServiceExportConfigurationInfo;
+    importConfiguration?: ServiceImportConfigurationInfo;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -1039,6 +1129,13 @@ export interface ServicesUpdateOptionalParams extends coreClient.OperationOption
 export type ServicesUpdateResponse = ServicesDescription;
 
 // @public
+export interface ServicesValidateMedtechMappingsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServicesValidateMedtechMappingsResponse = ValidateMedtechMappingsResult;
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -1056,6 +1153,34 @@ export interface TaggedResource extends ResourceTags, LocationBasedResource {
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
+}
+
+// @public
+export interface ValidateMedtechMappingsDeviceResult {
+    aggregatedCount?: Record<string, unknown>;
+    deviceEvent?: Record<string, unknown>;
+    readonly exceptions?: MedtechMappingValidationError[];
+    measurements?: MedtechMeasurement[];
+    observations?: Record<string, unknown>[];
+}
+
+// @public
+export interface ValidateMedtechMappingsParameters {
+    aggregateErrors?: AggregateErrors;
+    deviceEvents?: Record<string, unknown>[];
+    deviceMapping: IotMappingProperties;
+    fhirMapping?: IotMappingProperties;
+}
+
+// @public
+export interface ValidateMedtechMappingsResult {
+    deviceResults?: ValidateMedtechMappingsDeviceResult[];
+    templateResult?: ValidateMedtechMappingsResultTemplateResult;
+}
+
+// @public
+export interface ValidateMedtechMappingsResultTemplateResult {
+    readonly exceptions?: MedtechMappingValidationError[];
 }
 
 // @public
