@@ -16,14 +16,20 @@ export interface AzureDevOpsConnectorListResponse {
 }
 
 export interface AzureDevOpsConnectorProperties {
-  provisioningState?: ProvisioningState;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
   authorization?: AuthorizationInfo;
   /** Gets or sets org onboarding information. */
   orgs?: AzureDevOpsOrgMetadata[];
 }
 
 export interface AuthorizationInfo {
-  /** Gets or sets one-time OAuth code to exchange for refresh and access tokens. */
+  /**
+   * Gets or sets one-time OAuth code to exchange for refresh and access tokens.
+   *
+   * Only used during PUT operations. The secret is cleared during GET.
+   * In general, RPaaS does not return any property marked as a secret.
+   */
   code?: string;
 }
 
@@ -142,21 +148,43 @@ export interface AzureDevOpsRepoListResponse {
 
 /** AzureDevOps Repo properties. */
 export interface AzureDevOpsRepoProperties {
-  provisioningState?: ProvisioningState;
-  /** Gets or sets Azure DevOps repo id. */
-  repoId?: string;
-  /** Gets or sets AzureDevOps repo url. */
-  repoUrl?: string;
-  /** Gets or sets AzureDevOps Org Name. */
-  orgName?: string;
-  /** Gets or sets AzureDevOps Project Name. */
-  projectName?: string;
-  /** Gets or sets AzureDevOps repo visibility, whether it is public or private etc. */
-  visibility?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Gets or sets AzureDevOps org Name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly orgName?: string;
+  /**
+   * Gets or sets AzureDevOps project Name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly projectName?: string;
+  /**
+   * Gets or sets Azure DevOps repo id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly repoId?: string;
+  /**
+   * Gets or sets AzureDevOps repo url.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly repoUrl?: string;
+  /**
+   * Gets or sets AzureDevOps repo visibility, whether it is public or private etc.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly visibility?: string;
   actionableRemediation?: ActionableRemediation;
 }
 
 export interface ActionableRemediation {
+  /**
+   * ActionableRemediation Setting.
+   * None - the setting was never set.
+   * Enabled - ActionableRemediation is enabled.
+   * Disabled - ActionableRemediation is disabled.
+   */
   state?: ActionableRemediationState;
   severityLevels?: string[];
   categories?: RuleCategory[];
@@ -182,7 +210,8 @@ export interface AzureDevOpsConnectorStatsListResponse {
 }
 
 export interface AzureDevOpsConnectorStatsProperties {
-  provisioningState?: ProvisioningState;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
   /** Gets or sets orgs count. */
   orgsCount?: number;
   /** Gets or sets projects count. */
@@ -200,7 +229,8 @@ export interface AzureDevOpsOrgListResponse {
 
 /** AzureDevOps Org properties. */
 export interface AzureDevOpsOrgProperties {
-  provisioningState?: ProvisioningState;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
   autoDiscovery?: AutoDiscovery;
 }
 
@@ -213,11 +243,12 @@ export interface AzureDevOpsProjectListResponse {
 
 /** AzureDevOps Project properties. */
 export interface AzureDevOpsProjectProperties {
-  provisioningState?: ProvisioningState;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
+  /** Gets or sets AzureDevOps org Name. */
+  orgName?: string;
   /** Gets or sets AzureDevOps Project Id. */
   projectId?: string;
-  /** Gets or sets AzureDevOps Org Name. */
-  orgName?: string;
   autoDiscovery?: AutoDiscovery;
 }
 
@@ -230,8 +261,14 @@ export interface GitHubConnectorListResponse {
 
 /** Properties of the ARM resource for /subscriptions/xxx/resourceGroups/xxx/providers/Microsoft.SecurityDevOps/gitHubConnectors. */
 export interface GitHubConnectorProperties {
-  provisioningState?: ProvisioningState;
-  /** Gets or sets one-time OAuth code to exchange for refresh and access tokens. */
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Gets or sets one-time OAuth code to exchange for refresh and access tokens.
+   *
+   * Only used during PUT operations. The secret is cleared during GET.
+   * In general, RPaaS does not return any property marked as a secret.
+   */
   code?: string;
 }
 
@@ -244,7 +281,8 @@ export interface GitHubRepoListResponse {
 
 /** GitHub Repo properties. */
 export interface GitHubRepoProperties {
-  provisioningState?: ProvisioningState;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
   /** Gets or sets gitHub repo account id. */
   accountId?: number;
   /** Gets or sets gitHub repo url. */
@@ -261,7 +299,8 @@ export interface GitHubConnectorStatsListResponse {
 }
 
 export interface GitHubConnectorStatsProperties {
-  provisioningState?: ProvisioningState;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
   /** Gets or sets owners count. */
   ownersCount?: number;
   /** Gets or sets repos count. */
@@ -277,7 +316,8 @@ export interface GitHubOwnerListResponse {
 
 /** GitHub Repo Owner properties. */
 export interface GitHubOwnerProperties {
-  provisioningState?: ProvisioningState;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
   /** Gets or sets gitHub owner url. */
   ownerUrl?: string;
 }
@@ -347,7 +387,8 @@ export interface OperationDisplay {
 }
 
 export interface GitHubReposProperties {
-  provisioningState?: ProvisioningState;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
   /** Gets or sets gitHub repo account id. */
   accountId?: number;
   /** Gets or sets gitHub repo name. */
@@ -671,7 +712,7 @@ export type AzureDevOpsRepoCreateOrUpdateResponse = AzureDevOpsRepo;
 /** Optional parameters. */
 export interface AzureDevOpsRepoUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** Azure DevOps Org resource payload. */
+  /** Azure DevOps Repo resource payload. */
   azureDevOpsRepo?: AzureDevOpsRepo;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -779,7 +820,7 @@ export type AzureDevOpsProjectCreateOrUpdateResponse = AzureDevOpsProject;
 /** Optional parameters. */
 export interface AzureDevOpsProjectUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** Azure DevOps Org resource payload. */
+  /** Azure DevOps Project resource payload. */
   azureDevOpsProject?: AzureDevOpsProject;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
