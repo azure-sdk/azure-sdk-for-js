@@ -94,6 +94,11 @@ export interface OperationDisplay {
   description?: string;
 }
 
+/** Agreement Terms definition list */
+export interface OldAgreementTermsList {
+  value?: OldAgreementTerms[];
+}
+
 /** Terms properties for provided Publisher/Offer/Plan tuple */
 export interface AgreementTerms extends Resource {
   /**
@@ -119,6 +124,22 @@ export interface AgreementTerms extends Resource {
   signature?: string;
   /** If any version of the terms have been accepted, otherwise false. */
   accepted?: boolean;
+}
+
+/** Terms properties for provided Publisher/Offer/Plan tuple */
+export interface OldAgreementTerms extends Resource {
+  /** A unique identifier of the agreement. */
+  idPropertiesId?: string;
+  /** Publisher identifier string of image being deployed. */
+  publisher?: string;
+  /** Offer identifier string of image being deployed. */
+  offer?: string;
+  /** Date and time in UTC of when the terms were accepted. This is empty if state is cancelled. */
+  signDate?: Date;
+  /** Date and time in UTC of when the terms were cancelled. This is empty if state is active. */
+  cancelDate?: Date;
+  /** Whether the agreement is active or cancelled */
+  state?: State;
 }
 
 /** Known values of {@link OfferType} that the service accepts. */
@@ -160,6 +181,24 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link State} that the service accepts. */
+export enum KnownState {
+  /** Active */
+  Active = "Active",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for State. \
+ * {@link KnownState} can be used interchangeably with State,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active** \
+ * **Canceled**
+ */
+export type State = string;
+
 /** Optional parameters. */
 export interface MarketplaceAgreementsGetOptionalParams
   extends coreClient.OperationOptions {}
@@ -179,28 +218,28 @@ export interface MarketplaceAgreementsSignOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the sign operation. */
-export type MarketplaceAgreementsSignResponse = AgreementTerms;
+export type MarketplaceAgreementsSignResponse = OldAgreementTerms;
 
 /** Optional parameters. */
 export interface MarketplaceAgreementsCancelOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the cancel operation. */
-export type MarketplaceAgreementsCancelResponse = AgreementTerms;
+export type MarketplaceAgreementsCancelResponse = OldAgreementTerms;
 
 /** Optional parameters. */
 export interface MarketplaceAgreementsGetAgreementOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAgreement operation. */
-export type MarketplaceAgreementsGetAgreementResponse = AgreementTerms;
+export type MarketplaceAgreementsGetAgreementResponse = OldAgreementTerms;
 
 /** Optional parameters. */
 export interface MarketplaceAgreementsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type MarketplaceAgreementsListResponse = AgreementTerms[];
+export type MarketplaceAgreementsListResponse = OldAgreementTermsList;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
