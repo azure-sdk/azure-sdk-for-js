@@ -1,15 +1,24 @@
 # Release History
+    
+## 7.3.0 (2022-12-21)
+    
+**Features**
 
-## 7.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group Skus
+  - Added Interface CosmosDbDataConnection
+  - Added Interface ResourceSkuCapabilities
+  - Added Interface ResourceSkuZoneDetails
+  - Added Interface SkusListOptionalParams
+  - Added Type Alias LanguageExtensionImageName
+  - Added Type Alias SkusListResponse
+  - Interface LanguageExtension has a new optional parameter languageExtensionImageName
+  - Interface SkuLocationInfoItem has a new optional parameter zoneDetails
+  - Added Enum KnownLanguageExtensionImageName
+  - Enum KnownDataConnectionKind has a new value CosmosDb
+  - Enum KnownProvisioningState has a new value Canceled
+  - Added function getContinuationToken
+    
+    
 ## 7.2.0 (2022-09-15)
     
 **Features**
