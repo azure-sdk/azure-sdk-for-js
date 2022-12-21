@@ -8,34 +8,31 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { DataConnectors } from "../operationsInterfaces";
+import { IncidentTasks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
-  DataConnectorUnion,
-  DataConnectorsListNextOptionalParams,
-  DataConnectorsListOptionalParams,
-  DataConnectorsListResponse,
-  DataConnectorsGetOptionalParams,
-  DataConnectorsGetResponse,
-  DataConnectorsCreateOrUpdateOptionalParams,
-  DataConnectorsCreateOrUpdateResponse,
-  DataConnectorsDeleteOptionalParams,
-  DataConnectorConnectBody,
-  DataConnectorsConnectOptionalParams,
-  DataConnectorsDisconnectOptionalParams,
-  DataConnectorsListNextResponse
+  IncidentTask,
+  IncidentTasksListNextOptionalParams,
+  IncidentTasksListOptionalParams,
+  IncidentTasksListResponse,
+  IncidentTasksGetOptionalParams,
+  IncidentTasksGetResponse,
+  IncidentTasksCreateOrUpdateOptionalParams,
+  IncidentTasksCreateOrUpdateResponse,
+  IncidentTasksDeleteOptionalParams,
+  IncidentTasksListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DataConnectors operations. */
-export class DataConnectorsImpl implements DataConnectors {
+/** Class containing IncidentTasks operations. */
+export class IncidentTasksImpl implements IncidentTasks {
   private readonly client: SecurityInsights;
 
   /**
-   * Initialize a new instance of the class DataConnectors class.
+   * Initialize a new instance of the class IncidentTasks class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityInsights) {
@@ -43,17 +40,24 @@ export class DataConnectorsImpl implements DataConnectors {
   }
 
   /**
-   * Gets all data connectors.
+   * Gets all incident tasks.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
+   * @param incidentId Incident ID
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataConnectorsListOptionalParams
-  ): PagedAsyncIterableIterator<DataConnectorUnion> {
-    const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
+    incidentId: string,
+    options?: IncidentTasksListOptionalParams
+  ): PagedAsyncIterableIterator<IncidentTask> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      workspaceName,
+      incidentId,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -68,6 +72,7 @@ export class DataConnectorsImpl implements DataConnectors {
         return this.listPagingPage(
           resourceGroupName,
           workspaceName,
+          incidentId,
           options,
           settings
         );
@@ -78,13 +83,19 @@ export class DataConnectorsImpl implements DataConnectors {
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataConnectorsListOptionalParams,
+    incidentId: string,
+    options?: IncidentTasksListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<DataConnectorUnion[]> {
-    let result: DataConnectorsListResponse;
+  ): AsyncIterableIterator<IncidentTask[]> {
+    let result: IncidentTasksListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, workspaceName, options);
+      result = await this._list(
+        resourceGroupName,
+        workspaceName,
+        incidentId,
+        options
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -94,6 +105,7 @@ export class DataConnectorsImpl implements DataConnectors {
       result = await this._listNext(
         resourceGroupName,
         workspaceName,
+        incidentId,
         continuationToken,
         options
       );
@@ -107,11 +119,13 @@ export class DataConnectorsImpl implements DataConnectors {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataConnectorsListOptionalParams
-  ): AsyncIterableIterator<DataConnectorUnion> {
+    incidentId: string,
+    options?: IncidentTasksListOptionalParams
+  ): AsyncIterableIterator<IncidentTask> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
+      incidentId,
       options
     )) {
       yield* page;
@@ -119,62 +133,69 @@ export class DataConnectorsImpl implements DataConnectors {
   }
 
   /**
-   * Gets all data connectors.
+   * Gets all incident tasks.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
+   * @param incidentId Incident ID
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataConnectorsListOptionalParams
-  ): Promise<DataConnectorsListResponse> {
+    incidentId: string,
+    options?: IncidentTasksListOptionalParams
+  ): Promise<IncidentTasksListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, options },
+      { resourceGroupName, workspaceName, incidentId, options },
       listOperationSpec
     );
   }
 
   /**
-   * Gets a data connector.
+   * Gets an incident task.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
+   * @param incidentId Incident ID
+   * @param incidentTaskId Incident task ID
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
-    dataConnectorId: string,
-    options?: DataConnectorsGetOptionalParams
-  ): Promise<DataConnectorsGetResponse> {
+    incidentId: string,
+    incidentTaskId: string,
+    options?: IncidentTasksGetOptionalParams
+  ): Promise<IncidentTasksGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, dataConnectorId, options },
+      { resourceGroupName, workspaceName, incidentId, incidentTaskId, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates or updates the data connector.
+   * Creates or updates the incident task.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
-   * @param dataConnector The data connector
+   * @param incidentId Incident ID
+   * @param incidentTaskId Incident task ID
+   * @param incidentTask The incident task
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
-    dataConnectorId: string,
-    dataConnector: DataConnectorUnion,
-    options?: DataConnectorsCreateOrUpdateOptionalParams
-  ): Promise<DataConnectorsCreateOrUpdateResponse> {
+    incidentId: string,
+    incidentTaskId: string,
+    incidentTask: IncidentTask,
+    options?: IncidentTasksCreateOrUpdateOptionalParams
+  ): Promise<IncidentTasksCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         workspaceName,
-        dataConnectorId,
-        dataConnector,
+        incidentId,
+        incidentTaskId,
+        incidentTask,
         options
       },
       createOrUpdateOperationSpec
@@ -182,67 +203,23 @@ export class DataConnectorsImpl implements DataConnectors {
   }
 
   /**
-   * Delete the data connector.
+   * Delete the incident task.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
+   * @param incidentId Incident ID
+   * @param incidentTaskId Incident task ID
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     workspaceName: string,
-    dataConnectorId: string,
-    options?: DataConnectorsDeleteOptionalParams
+    incidentId: string,
+    incidentTaskId: string,
+    options?: IncidentTasksDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, dataConnectorId, options },
+      { resourceGroupName, workspaceName, incidentId, incidentTaskId, options },
       deleteOperationSpec
-    );
-  }
-
-  /**
-   * Connects a data connector.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
-   * @param connectBody The data connector
-   * @param options The options parameters.
-   */
-  connect(
-    resourceGroupName: string,
-    workspaceName: string,
-    dataConnectorId: string,
-    connectBody: DataConnectorConnectBody,
-    options?: DataConnectorsConnectOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        dataConnectorId,
-        connectBody,
-        options
-      },
-      connectOperationSpec
-    );
-  }
-
-  /**
-   * Disconnect a data connector.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
-   * @param options The options parameters.
-   */
-  disconnect(
-    resourceGroupName: string,
-    workspaceName: string,
-    dataConnectorId: string,
-    options?: DataConnectorsDisconnectOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, dataConnectorId, options },
-      disconnectOperationSpec
     );
   }
 
@@ -250,17 +227,19 @@ export class DataConnectorsImpl implements DataConnectors {
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
+   * @param incidentId Incident ID
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     workspaceName: string,
+    incidentId: string,
     nextLink: string,
-    options?: DataConnectorsListNextOptionalParams
-  ): Promise<DataConnectorsListNextResponse> {
+    options?: IncidentTasksListNextOptionalParams
+  ): Promise<IncidentTasksListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, nextLink, options },
+      { resourceGroupName, workspaceName, incidentId, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -270,11 +249,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/tasks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnectorList
+      bodyMapper: Mappers.IncidentTaskList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -285,18 +264,19 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
+    Parameters.incidentId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/tasks/{incidentTaskId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnector
+      bodyMapper: Mappers.IncidentTask
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -308,34 +288,36 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dataConnectorId
+    Parameters.incidentId,
+    Parameters.incidentTaskId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/tasks/{incidentTaskId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnector
+      bodyMapper: Mappers.IncidentTask
     },
     201: {
-      bodyMapper: Mappers.DataConnector
+      bodyMapper: Mappers.IncidentTask
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.dataConnector,
+  requestBody: Parameters.incidentTask,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dataConnectorId
+    Parameters.incidentId,
+    Parameters.incidentTaskId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -343,7 +325,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/tasks/{incidentTaskId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -358,51 +340,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dataConnectorId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const connectOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}/connect",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.connectBody,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.dataConnectorId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const disconnectOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}/disconnect",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.dataConnectorId
+    Parameters.incidentId,
+    Parameters.incidentTaskId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -412,7 +351,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnectorList
+      bodyMapper: Mappers.IncidentTaskList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -423,7 +362,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.incidentId
   ],
   headerParameters: [Parameters.accept],
   serializer
