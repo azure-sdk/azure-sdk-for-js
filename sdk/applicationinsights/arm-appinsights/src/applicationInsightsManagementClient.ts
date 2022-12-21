@@ -10,6 +10,7 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  ComponentsImpl,
   AnnotationsImpl,
   APIKeysImpl,
   ExportConfigurationsImpl,
@@ -23,14 +24,20 @@ import {
   WebTestLocationsImpl,
   WebTestsImpl,
   AnalyticsItemsImpl,
+  OperationsImpl,
   WorkbookTemplatesImpl,
   MyWorkbooksImpl,
   WorkbooksImpl,
-  ComponentsImpl,
+  LiveTokenImpl,
   ComponentLinkedStorageAccountsOperationsImpl,
-  LiveTokenImpl
+  PrivateLinkScopesImpl,
+  PrivateLinkScopeOperationStatusImpl,
+  PrivateLinkResourcesImpl,
+  PrivateEndpointConnectionsImpl,
+  PrivateLinkScopedResourcesImpl
 } from "./operations";
 import {
+  Components,
   Annotations,
   APIKeys,
   ExportConfigurations,
@@ -44,12 +51,17 @@ import {
   WebTestLocations,
   WebTests,
   AnalyticsItems,
+  Operations,
   WorkbookTemplates,
   MyWorkbooks,
   Workbooks,
-  Components,
+  LiveToken,
   ComponentLinkedStorageAccountsOperations,
-  LiveToken
+  PrivateLinkScopes,
+  PrivateLinkScopeOperationStatus,
+  PrivateLinkResources,
+  PrivateEndpointConnections,
+  PrivateLinkScopedResources
 } from "./operationsInterfaces";
 import { ApplicationInsightsManagementClientOptionalParams } from "./models";
 
@@ -137,6 +149,7 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
+    this.components = new ComponentsImpl(this);
     this.annotations = new AnnotationsImpl(this);
     this.aPIKeys = new APIKeysImpl(this);
     this.exportConfigurations = new ExportConfigurationsImpl(this);
@@ -156,16 +169,24 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
     this.webTestLocations = new WebTestLocationsImpl(this);
     this.webTests = new WebTestsImpl(this);
     this.analyticsItems = new AnalyticsItemsImpl(this);
+    this.operations = new OperationsImpl(this);
     this.workbookTemplates = new WorkbookTemplatesImpl(this);
     this.myWorkbooks = new MyWorkbooksImpl(this);
     this.workbooks = new WorkbooksImpl(this);
-    this.components = new ComponentsImpl(this);
+    this.liveToken = new LiveTokenImpl(this);
     this.componentLinkedStorageAccountsOperations = new ComponentLinkedStorageAccountsOperationsImpl(
       this
     );
-    this.liveToken = new LiveTokenImpl(this);
+    this.privateLinkScopes = new PrivateLinkScopesImpl(this);
+    this.privateLinkScopeOperationStatus = new PrivateLinkScopeOperationStatusImpl(
+      this
+    );
+    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.privateLinkScopedResources = new PrivateLinkScopedResourcesImpl(this);
   }
 
+  components: Components;
   annotations: Annotations;
   aPIKeys: APIKeys;
   exportConfigurations: ExportConfigurations;
@@ -179,10 +200,15 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
   webTestLocations: WebTestLocations;
   webTests: WebTests;
   analyticsItems: AnalyticsItems;
+  operations: Operations;
   workbookTemplates: WorkbookTemplates;
   myWorkbooks: MyWorkbooks;
   workbooks: Workbooks;
-  components: Components;
-  componentLinkedStorageAccountsOperations: ComponentLinkedStorageAccountsOperations;
   liveToken: LiveToken;
+  componentLinkedStorageAccountsOperations: ComponentLinkedStorageAccountsOperations;
+  privateLinkScopes: PrivateLinkScopes;
+  privateLinkScopeOperationStatus: PrivateLinkScopeOperationStatus;
+  privateLinkResources: PrivateLinkResources;
+  privateEndpointConnections: PrivateEndpointConnections;
+  privateLinkScopedResources: PrivateLinkScopedResources;
 }

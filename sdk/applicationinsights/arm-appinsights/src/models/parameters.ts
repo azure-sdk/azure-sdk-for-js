@@ -12,6 +12,9 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  ApplicationInsightsComponent as ApplicationInsightsComponentMapper,
+  TagsResource as TagsResourceMapper,
+  ComponentPurgeBody as ComponentPurgeBodyMapper,
   Annotation as AnnotationMapper,
   APIKeyRequest as APIKeyRequestMapper,
   ApplicationInsightsComponentExportRequest as ApplicationInsightsComponentExportRequestMapper,
@@ -20,17 +23,18 @@ import {
   WorkItemCreateConfiguration as WorkItemCreateConfigurationMapper,
   ApplicationInsightsComponentFavorite as ApplicationInsightsComponentFavoriteMapper,
   WebTest as WebTestMapper,
-  TagsResource as TagsResourceMapper,
   ApplicationInsightsComponentAnalyticsItem as ApplicationInsightsComponentAnalyticsItemMapper,
   WorkbookTemplate as WorkbookTemplateMapper,
   WorkbookTemplateUpdateParameters as WorkbookTemplateUpdateParametersMapper,
   MyWorkbook as MyWorkbookMapper,
   Workbook as WorkbookMapper,
   WorkbookUpdateParameters as WorkbookUpdateParametersMapper,
-  ApplicationInsightsComponent as ApplicationInsightsComponentMapper,
-  ComponentPurgeBody as ComponentPurgeBodyMapper,
   ComponentLinkedStorageAccounts as ComponentLinkedStorageAccountsMapper,
-  ComponentLinkedStorageAccountsPatch as ComponentLinkedStorageAccountsPatchMapper
+  ComponentLinkedStorageAccountsPatch as ComponentLinkedStorageAccountsPatchMapper,
+  AzureMonitorPrivateLinkScope as AzureMonitorPrivateLinkScopeMapper,
+  TagsResourcePrivateLinkScope as TagsResourcePrivateLinkScopeMapper,
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
+  ScopedResource as ScopedResourceMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -57,25 +61,10 @@ export const $host: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1
-    },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2015-05-01",
+    defaultValue: "2020-02-02",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -98,11 +87,88 @@ export const subscriptionId: OperationURLParameter = {
   }
 };
 
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const resourceName: OperationURLParameter = {
   parameterPath: "resourceName",
   mapper: {
     serializedName: "resourceName",
     required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const insightProperties: OperationParameter = {
+  parameterPath: "insightProperties",
+  mapper: ApplicationInsightsComponentMapper
+};
+
+export const componentTags: OperationParameter = {
+  parameterPath: "componentTags",
+  mapper: TagsResourceMapper
+};
+
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: ComponentPurgeBodyMapper
+};
+
+export const purgeId: OperationURLParameter = {
+  parameterPath: "purgeId",
+  mapper: {
+    serializedName: "purgeId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2015-05-01",
+    isConstant: true,
+    serializedName: "api-version",
     type: {
       name: "String"
     }
@@ -125,18 +191,6 @@ export const end: OperationQueryParameter = {
   mapper: {
     serializedName: "end",
     required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
     type: {
       name: "String"
     }
@@ -291,6 +345,18 @@ export const favoriteProperties: OperationParameter = {
   mapper: ApplicationInsightsComponentFavoriteMapper
 };
 
+export const apiVersion2: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-06-15",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const webTestName: OperationURLParameter = {
   parameterPath: "webTestName",
   mapper: {
@@ -323,18 +389,6 @@ export const componentName: OperationURLParameter = {
   }
 };
 
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
 export const scopePath: OperationURLParameter = {
   parameterPath: "scopePath",
   mapper: {
@@ -356,7 +410,7 @@ export const scope: OperationQueryParameter = {
   }
 };
 
-export const typeParam: OperationQueryParameter = {
+export const type: OperationQueryParameter = {
   parameterPath: ["options", "type"],
   mapper: {
     defaultValue: "none",
@@ -412,7 +466,19 @@ export const overrideItem: OperationQueryParameter = {
   }
 };
 
-export const apiVersion1: OperationQueryParameter = {
+export const apiVersion3: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2021-03-08",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion4: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2020-11-20",
@@ -455,24 +521,12 @@ export const sourceId: OperationQueryParameter = {
   }
 };
 
-export const apiVersion2: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-03-08",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const workbookProperties: OperationParameter = {
   parameterPath: "workbookProperties",
   mapper: MyWorkbookMapper
 };
 
-export const apiVersion3: OperationQueryParameter = {
+export const apiVersion5: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-04-01",
@@ -505,10 +559,22 @@ export const revisionId: OperationURLParameter = {
   }
 };
 
-export const apiVersion4: OperationQueryParameter = {
+export const resourceUri: OperationURLParameter = {
+  parameterPath: "resourceUri",
+  mapper: {
+    serializedName: "resourceUri",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
+export const apiVersion6: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-02-02",
+    defaultValue: "2021-10-14",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -517,33 +583,7 @@ export const apiVersion4: OperationQueryParameter = {
   }
 };
 
-export const insightProperties: OperationParameter = {
-  parameterPath: "insightProperties",
-  mapper: ApplicationInsightsComponentMapper
-};
-
-export const componentTags: OperationParameter = {
-  parameterPath: "componentTags",
-  mapper: TagsResourceMapper
-};
-
-export const body: OperationParameter = {
-  parameterPath: "body",
-  mapper: ComponentPurgeBodyMapper
-};
-
-export const purgeId: OperationURLParameter = {
-  parameterPath: "purgeId",
-  mapper: {
-    serializedName: "purgeId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion5: OperationQueryParameter = {
+export const apiVersion7: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2020-03-01-preview",
@@ -576,26 +616,89 @@ export const linkedStorageAccountsProperties1: OperationParameter = {
   mapper: ComponentLinkedStorageAccountsPatchMapper
 };
 
-export const resourceUri: OperationURLParameter = {
-  parameterPath: "resourceUri",
-  mapper: {
-    serializedName: "resourceUri",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const apiVersion6: OperationQueryParameter = {
+export const apiVersion8: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10-14",
+    defaultValue: "2021-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
       name: "String"
     }
   }
+};
+
+export const scopeName: OperationURLParameter = {
+  parameterPath: "scopeName",
+  mapper: {
+    serializedName: "scopeName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const azureMonitorPrivateLinkScopePayload: OperationParameter = {
+  parameterPath: "azureMonitorPrivateLinkScopePayload",
+  mapper: AzureMonitorPrivateLinkScopeMapper
+};
+
+export const privateLinkScopeTags: OperationParameter = {
+  parameterPath: "privateLinkScopeTags",
+  mapper: TagsResourcePrivateLinkScopeMapper
+};
+
+export const asyncOperationId: OperationURLParameter = {
+  parameterPath: "asyncOperationId",
+  mapper: {
+    serializedName: "asyncOperationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const groupName: OperationURLParameter = {
+  parameterPath: "groupName",
+  mapper: {
+    serializedName: "groupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    serializedName: "privateEndpointConnectionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PrivateEndpointConnectionMapper
+};
+
+export const name1: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    serializedName: "name",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters1: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ScopedResourceMapper
 };
