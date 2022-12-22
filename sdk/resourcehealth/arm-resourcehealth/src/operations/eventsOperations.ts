@@ -8,36 +8,34 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { AvailabilityStatuses } from "../operationsInterfaces";
+import { EventsOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MicrosoftResourceHealth } from "../microsoftResourceHealth";
 import {
-  AvailabilityStatus,
-  AvailabilityStatusesListBySubscriptionIdNextOptionalParams,
-  AvailabilityStatusesListBySubscriptionIdOptionalParams,
-  AvailabilityStatusesListBySubscriptionIdResponse,
-  AvailabilityStatusesListByResourceGroupNextOptionalParams,
-  AvailabilityStatusesListByResourceGroupOptionalParams,
-  AvailabilityStatusesListByResourceGroupResponse,
-  AvailabilityStatusesListNextOptionalParams,
-  AvailabilityStatusesListOptionalParams,
-  AvailabilityStatusesListResponse,
-  AvailabilityStatusesGetByResourceOptionalParams,
-  AvailabilityStatusesGetByResourceResponse,
-  AvailabilityStatusesListBySubscriptionIdNextResponse,
-  AvailabilityStatusesListByResourceGroupNextResponse,
-  AvailabilityStatusesListNextResponse
+  Event,
+  EventsListBySubscriptionIdNextOptionalParams,
+  EventsListBySubscriptionIdOptionalParams,
+  EventsListBySubscriptionIdResponse,
+  EventsListByTenantIdNextOptionalParams,
+  EventsListByTenantIdOptionalParams,
+  EventsListByTenantIdResponse,
+  EventsListBySingleResourceNextOptionalParams,
+  EventsListBySingleResourceOptionalParams,
+  EventsListBySingleResourceResponse,
+  EventsListBySubscriptionIdNextResponse,
+  EventsListByTenantIdNextResponse,
+  EventsListBySingleResourceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing AvailabilityStatuses operations. */
-export class AvailabilityStatusesImpl implements AvailabilityStatuses {
+/** Class containing EventsOperations operations. */
+export class EventsOperationsImpl implements EventsOperations {
   private readonly client: MicrosoftResourceHealth;
 
   /**
-   * Initialize a new instance of the class AvailabilityStatuses class.
+   * Initialize a new instance of the class EventsOperations class.
    * @param client Reference to the service client
    */
   constructor(client: MicrosoftResourceHealth) {
@@ -45,12 +43,12 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   }
 
   /**
-   * Lists the current availability status for all the resources in the subscription.
+   * Lists service health events in the subscription.
    * @param options The options parameters.
    */
   public listBySubscriptionId(
-    options?: AvailabilityStatusesListBySubscriptionIdOptionalParams
-  ): PagedAsyncIterableIterator<AvailabilityStatus> {
+    options?: EventsListBySubscriptionIdOptionalParams
+  ): PagedAsyncIterableIterator<Event> {
     const iter = this.listBySubscriptionIdPagingAll(options);
     return {
       next() {
@@ -69,10 +67,10 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   }
 
   private async *listBySubscriptionIdPagingPage(
-    options?: AvailabilityStatusesListBySubscriptionIdOptionalParams,
+    options?: EventsListBySubscriptionIdOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<AvailabilityStatus[]> {
-    let result: AvailabilityStatusesListBySubscriptionIdResponse;
+  ): AsyncIterableIterator<Event[]> {
+    let result: EventsListBySubscriptionIdResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscriptionId(options);
@@ -91,23 +89,21 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   }
 
   private async *listBySubscriptionIdPagingAll(
-    options?: AvailabilityStatusesListBySubscriptionIdOptionalParams
-  ): AsyncIterableIterator<AvailabilityStatus> {
+    options?: EventsListBySubscriptionIdOptionalParams
+  ): AsyncIterableIterator<Event> {
     for await (const page of this.listBySubscriptionIdPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists the current availability status for all the resources in the resource group.
-   * @param resourceGroupName The name of the resource group.
+   * Lists current service health events in the tenant.
    * @param options The options parameters.
    */
-  public listByResourceGroup(
-    resourceGroupName: string,
-    options?: AvailabilityStatusesListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<AvailabilityStatus> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+  public listByTenantId(
+    options?: EventsListByTenantIdOptionalParams
+  ): PagedAsyncIterableIterator<Event> {
+    const iter = this.listByTenantIdPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -119,8 +115,68 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
+        return this.listByTenantIdPagingPage(options, settings);
+      }
+    };
+  }
+
+  private async *listByTenantIdPagingPage(
+    options?: EventsListByTenantIdOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<Event[]> {
+    let result: EventsListByTenantIdResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByTenantId(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByTenantIdNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByTenantIdPagingAll(
+    options?: EventsListByTenantIdOptionalParams
+  ): AsyncIterableIterator<Event> {
+    for await (const page of this.listByTenantIdPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists current service health events for given resource.
+   * @param resourceUri The fully qualified ID of the resource, including the resource name and resource
+   *                    type. Currently the API support not nested and one nesting level resource types :
+   *                    /subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/{resource-provider-name}/{resource-type}/{resource-name}
+   *                    and
+   *                    /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resource-provider-name}/{parentResourceType}/{parentResourceName}/{resourceType}/{resourceName}
+   * @param options The options parameters.
+   */
+  public listBySingleResource(
+    resourceUri: string,
+    options?: EventsListBySingleResourceOptionalParams
+  ): PagedAsyncIterableIterator<Event> {
+    const iter = this.listBySingleResourcePagingAll(resourceUri, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySingleResourcePagingPage(
+          resourceUri,
           options,
           settings
         );
@@ -128,23 +184,23 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
     };
   }
 
-  private async *listByResourceGroupPagingPage(
-    resourceGroupName: string,
-    options?: AvailabilityStatusesListByResourceGroupOptionalParams,
+  private async *listBySingleResourcePagingPage(
+    resourceUri: string,
+    options?: EventsListBySingleResourceOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<AvailabilityStatus[]> {
-    let result: AvailabilityStatusesListByResourceGroupResponse;
+  ): AsyncIterableIterator<Event[]> {
+    let result: EventsListBySingleResourceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
+      result = await this._listBySingleResource(resourceUri, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
+      result = await this._listBySingleResourceNext(
+        resourceUri,
         continuationToken,
         options
       );
@@ -155,12 +211,12 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
     }
   }
 
-  private async *listByResourceGroupPagingAll(
-    resourceGroupName: string,
-    options?: AvailabilityStatusesListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<AvailabilityStatus> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
+  private async *listBySingleResourcePagingAll(
+    resourceUri: string,
+    options?: EventsListBySingleResourceOptionalParams
+  ): AsyncIterableIterator<Event> {
+    for await (const page of this.listBySingleResourcePagingPage(
+      resourceUri,
       options
     )) {
       yield* page;
@@ -168,74 +224,12 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   }
 
   /**
-   * Lists all historical availability transitions and impacting events for a single resource.
-   * @param resourceUri The fully qualified ID of the resource, including the resource name and resource
-   *                    type. Currently the API support not nested and one nesting level resource types :
-   *                    /subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/{resource-provider-name}/{resource-type}/{resource-name}
-   *                    and
-   *                    /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resource-provider-name}/{parentResourceType}/{parentResourceName}/{resourceType}/{resourceName}
-   * @param options The options parameters.
-   */
-  public list(
-    resourceUri: string,
-    options?: AvailabilityStatusesListOptionalParams
-  ): PagedAsyncIterableIterator<AvailabilityStatus> {
-    const iter = this.listPagingAll(resourceUri, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(resourceUri, options, settings);
-      }
-    };
-  }
-
-  private async *listPagingPage(
-    resourceUri: string,
-    options?: AvailabilityStatusesListOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<AvailabilityStatus[]> {
-    let result: AvailabilityStatusesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(resourceUri, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(resourceUri, continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    resourceUri: string,
-    options?: AvailabilityStatusesListOptionalParams
-  ): AsyncIterableIterator<AvailabilityStatus> {
-    for await (const page of this.listPagingPage(resourceUri, options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Lists the current availability status for all the resources in the subscription.
+   * Lists service health events in the subscription.
    * @param options The options parameters.
    */
   private _listBySubscriptionId(
-    options?: AvailabilityStatusesListBySubscriptionIdOptionalParams
-  ): Promise<AvailabilityStatusesListBySubscriptionIdResponse> {
+    options?: EventsListBySubscriptionIdOptionalParams
+  ): Promise<EventsListBySubscriptionIdResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionIdOperationSpec
@@ -243,22 +237,20 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   }
 
   /**
-   * Lists the current availability status for all the resources in the resource group.
-   * @param resourceGroupName The name of the resource group.
+   * Lists current service health events in the tenant.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: AvailabilityStatusesListByResourceGroupOptionalParams
-  ): Promise<AvailabilityStatusesListByResourceGroupResponse> {
+  private _listByTenantId(
+    options?: EventsListByTenantIdOptionalParams
+  ): Promise<EventsListByTenantIdResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      { options },
+      listByTenantIdOperationSpec
     );
   }
 
   /**
-   * Gets current availability status for a single resource
+   * Lists current service health events for given resource.
    * @param resourceUri The fully qualified ID of the resource, including the resource name and resource
    *                    type. Currently the API support not nested and one nesting level resource types :
    *                    /subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/{resource-provider-name}/{resource-type}/{resource-name}
@@ -266,32 +258,13 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
    *                    /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resource-provider-name}/{parentResourceType}/{parentResourceName}/{resourceType}/{resourceName}
    * @param options The options parameters.
    */
-  getByResource(
+  private _listBySingleResource(
     resourceUri: string,
-    options?: AvailabilityStatusesGetByResourceOptionalParams
-  ): Promise<AvailabilityStatusesGetByResourceResponse> {
+    options?: EventsListBySingleResourceOptionalParams
+  ): Promise<EventsListBySingleResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      getByResourceOperationSpec
-    );
-  }
-
-  /**
-   * Lists all historical availability transitions and impacting events for a single resource.
-   * @param resourceUri The fully qualified ID of the resource, including the resource name and resource
-   *                    type. Currently the API support not nested and one nesting level resource types :
-   *                    /subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/{resource-provider-name}/{resource-type}/{resource-name}
-   *                    and
-   *                    /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resource-provider-name}/{parentResourceType}/{parentResourceName}/{resourceType}/{resourceName}
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceUri: string,
-    options?: AvailabilityStatusesListOptionalParams
-  ): Promise<AvailabilityStatusesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceUri, options },
-      listOperationSpec
+      listBySingleResourceOperationSpec
     );
   }
 
@@ -302,8 +275,8 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
    */
   private _listBySubscriptionIdNext(
     nextLink: string,
-    options?: AvailabilityStatusesListBySubscriptionIdNextOptionalParams
-  ): Promise<AvailabilityStatusesListBySubscriptionIdNextResponse> {
+    options?: EventsListBySubscriptionIdNextOptionalParams
+  ): Promise<EventsListBySubscriptionIdNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionIdNextOperationSpec
@@ -311,40 +284,38 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   }
 
   /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * ListByTenantIdNext
+   * @param nextLink The nextLink from the previous successful call to the ListByTenantId method.
    * @param options The options parameters.
    */
-  private _listByResourceGroupNext(
-    resourceGroupName: string,
+  private _listByTenantIdNext(
     nextLink: string,
-    options?: AvailabilityStatusesListByResourceGroupNextOptionalParams
-  ): Promise<AvailabilityStatusesListByResourceGroupNextResponse> {
+    options?: EventsListByTenantIdNextOptionalParams
+  ): Promise<EventsListByTenantIdNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      { nextLink, options },
+      listByTenantIdNextOperationSpec
     );
   }
 
   /**
-   * ListNext
+   * ListBySingleResourceNext
    * @param resourceUri The fully qualified ID of the resource, including the resource name and resource
    *                    type. Currently the API support not nested and one nesting level resource types :
    *                    /subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/{resource-provider-name}/{resource-type}/{resource-name}
    *                    and
    *                    /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resource-provider-name}/{parentResourceType}/{parentResourceName}/{resourceType}/{resourceName}
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param nextLink The nextLink from the previous successful call to the ListBySingleResource method.
    * @param options The options parameters.
    */
-  private _listNext(
+  private _listBySingleResourceNext(
     resourceUri: string,
     nextLink: string,
-    options?: AvailabilityStatusesListNextOptionalParams
-  ): Promise<AvailabilityStatusesListNextResponse> {
+    options?: EventsListBySingleResourceNextOptionalParams
+  ): Promise<EventsListBySingleResourceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, nextLink, options },
-      listNextOperationSpec
+      listBySingleResourceNextOperationSpec
     );
   }
 }
@@ -353,11 +324,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionIdOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/availabilityStatuses",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilityStatusListResult
+      bodyMapper: Mappers.Events
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -366,19 +337,18 @@ const listBySubscriptionIdOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.expand
+    Parameters.queryStartTime
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceHealth/availabilityStatuses",
+const listByTenantIdOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.ResourceHealth/events",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilityStatusListResult
+      bodyMapper: Mappers.Events
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -387,54 +357,24 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.expand
+    Parameters.queryStartTime
   ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
+  urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer
 };
-const getByResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.ResourceHealth/availabilityStatuses/current",
+const listBySingleResourceOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/providers/Microsoft.ResourceHealth/events",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilityStatus
+      bodyMapper: Mappers.Events
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expand
-  ],
-  urlParameters: [Parameters.$host, Parameters.resourceUri],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.ResourceHealth/availabilityStatuses",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AvailabilityStatusListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expand
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
   serializer
@@ -444,7 +384,7 @@ const listBySubscriptionIdNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilityStatusListResult
+      bodyMapper: Mappers.Events
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -458,32 +398,27 @@ const listBySubscriptionIdNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+const listByTenantIdNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilityStatusListResult
+      bodyMapper: Mappers.Events
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
+const listBySingleResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilityStatusListResult
+      bodyMapper: Mappers.Events
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
