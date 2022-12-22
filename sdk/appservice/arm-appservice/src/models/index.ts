@@ -973,8 +973,12 @@ export interface SiteConfig {
   keyVaultReferenceIdentity?: string;
   /** IP security restrictions for main. */
   ipSecurityRestrictions?: IpSecurityRestriction[];
+  /** Default action for main access restriction if no rules are matched. */
+  ipSecurityRestrictionsDefaultAction?: DefaultAction;
   /** IP security restrictions for scm. */
   scmIpSecurityRestrictions?: IpSecurityRestriction[];
+  /** Default action for scm access restriction if no rules are matched. */
+  scmIpSecurityRestrictionsDefaultAction?: DefaultAction;
   /** IP security restrictions for scm to use main. */
   scmIpSecurityRestrictionsUseMain?: boolean;
   /** Http20Enabled: configures a web site to allow clients to connect over http2.0 */
@@ -4241,6 +4245,70 @@ export interface WebJobCollection {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** The workflow filter. */
+export interface WorkflowArtifacts {
+  /** Application settings of the workflow. */
+  appSettings?: Record<string, unknown>;
+  /** Files of the app. */
+  files?: { [propertyName: string]: Record<string, unknown> };
+  /** Files of the app to delete. */
+  filesToDelete?: string[];
+}
+
+/** Collection of Kudu workflow information elements. */
+export interface WorkflowEnvelopeCollection {
+  /** Collection of resources. */
+  value: WorkflowEnvelope[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Workflow properties definition. */
+export interface WorkflowEnvelope {
+  /**
+   * The resource id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Gets the resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Gets the resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The resource kind. */
+  kind?: string;
+  /** The resource location. */
+  location?: string;
+  /** Additional workflow properties. */
+  properties?: WorkflowEnvelopeProperties;
+}
+
+/** Additional workflow properties. */
+export interface WorkflowEnvelopeProperties {
+  /** Gets or sets the files. */
+  files?: { [propertyName: string]: Record<string, unknown> };
+  /** Gets or sets the state of the workflow. */
+  flowState?: WorkflowState;
+  /** Gets or sets workflow health. */
+  health?: WorkflowHealth;
+}
+
+/** Represents the workflow health. */
+export interface WorkflowHealth {
+  /** Gets or sets the workflow health state. */
+  state: WorkflowHealthState;
+  /** Gets or sets the workflow error. */
+  error?: ErrorEntity;
 }
 
 /** The access key regenerate action content. */
@@ -7556,8 +7624,12 @@ export interface SiteConfigResource extends ProxyOnlyResource {
   keyVaultReferenceIdentity?: string;
   /** IP security restrictions for main. */
   ipSecurityRestrictions?: IpSecurityRestriction[];
+  /** Default action for main access restriction if no rules are matched. */
+  ipSecurityRestrictionsDefaultAction?: DefaultAction;
   /** IP security restrictions for scm. */
   scmIpSecurityRestrictions?: IpSecurityRestriction[];
+  /** Default action for scm access restriction if no rules are matched. */
+  scmIpSecurityRestrictionsDefaultAction?: DefaultAction;
   /** IP security restrictions for scm to use main. */
   scmIpSecurityRestrictionsUseMain?: boolean;
   /** Http20Enabled: configures a web site to allow clients to connect over http2.0 */
@@ -9189,6 +9261,24 @@ export enum KnownIpFilterTag {
  */
 export type IpFilterTag = string;
 
+/** Known values of {@link DefaultAction} that the service accepts. */
+export enum KnownDefaultAction {
+  /** Allow */
+  Allow = "Allow",
+  /** Deny */
+  Deny = "Deny"
+}
+
+/**
+ * Defines values for DefaultAction. \
+ * {@link KnownDefaultAction} can be used interchangeably with DefaultAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allow** \
+ * **Deny**
+ */
+export type DefaultAction = string;
+
 /** Known values of {@link SupportedTlsVersions} that the service accepts. */
 export enum KnownSupportedTlsVersions {
   /** One0 */
@@ -9363,8 +9453,8 @@ export enum KnownRevisionProvisioningState {
  */
 export type RevisionProvisioningState = string;
 
-/** Known values of {@link Enum14} that the service accepts. */
-export enum KnownEnum14 {
+/** Known values of {@link ProviderOsTypeSelected} that the service accepts. */
+export enum KnownProviderOsTypeSelected {
   /** Windows */
   Windows = "Windows",
   /** Linux */
@@ -9378,8 +9468,8 @@ export enum KnownEnum14 {
 }
 
 /**
- * Defines values for Enum14. \
- * {@link KnownEnum14} can be used interchangeably with Enum14,
+ * Defines values for ProviderOsTypeSelected. \
+ * {@link KnownProviderOsTypeSelected} can be used interchangeably with ProviderOsTypeSelected,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Windows** \
@@ -9388,10 +9478,10 @@ export enum KnownEnum14 {
  * **LinuxFunctions** \
  * **All**
  */
-export type Enum14 = string;
+export type ProviderOsTypeSelected = string;
 
-/** Known values of {@link Enum15} that the service accepts. */
-export enum KnownEnum15 {
+/** Known values of {@link ProviderStackOsType} that the service accepts. */
+export enum KnownProviderStackOsType {
   /** Windows */
   Windows = "Windows",
   /** Linux */
@@ -9401,105 +9491,15 @@ export enum KnownEnum15 {
 }
 
 /**
- * Defines values for Enum15. \
- * {@link KnownEnum15} can be used interchangeably with Enum15,
+ * Defines values for ProviderStackOsType. \
+ * {@link KnownProviderStackOsType} can be used interchangeably with ProviderStackOsType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Windows** \
  * **Linux** \
  * **All**
  */
-export type Enum15 = string;
-
-/** Known values of {@link Enum16} that the service accepts. */
-export enum KnownEnum16 {
-  /** Windows */
-  Windows = "Windows",
-  /** Linux */
-  Linux = "Linux",
-  /** All */
-  All = "All"
-}
-
-/**
- * Defines values for Enum16. \
- * {@link KnownEnum16} can be used interchangeably with Enum16,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Windows** \
- * **Linux** \
- * **All**
- */
-export type Enum16 = string;
-
-/** Known values of {@link Enum17} that the service accepts. */
-export enum KnownEnum17 {
-  /** Windows */
-  Windows = "Windows",
-  /** Linux */
-  Linux = "Linux",
-  /** All */
-  All = "All"
-}
-
-/**
- * Defines values for Enum17. \
- * {@link KnownEnum17} can be used interchangeably with Enum17,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Windows** \
- * **Linux** \
- * **All**
- */
-export type Enum17 = string;
-
-/** Known values of {@link Enum18} that the service accepts. */
-export enum KnownEnum18 {
-  /** Windows */
-  Windows = "Windows",
-  /** Linux */
-  Linux = "Linux",
-  /** All */
-  All = "All"
-}
-
-/**
- * Defines values for Enum18. \
- * {@link KnownEnum18} can be used interchangeably with Enum18,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Windows** \
- * **Linux** \
- * **All**
- */
-export type Enum18 = string;
-
-/** Known values of {@link Enum19} that the service accepts. */
-export enum KnownEnum19 {
-  /** Windows */
-  Windows = "Windows",
-  /** Linux */
-  Linux = "Linux",
-  /** WindowsFunctions */
-  WindowsFunctions = "WindowsFunctions",
-  /** LinuxFunctions */
-  LinuxFunctions = "LinuxFunctions",
-  /** All */
-  All = "All"
-}
-
-/**
- * Defines values for Enum19. \
- * {@link KnownEnum19} can be used interchangeably with Enum19,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Windows** \
- * **Linux** \
- * **WindowsFunctions** \
- * **LinuxFunctions** \
- * **All**
- */
-export type Enum19 = string;
+export type ProviderStackOsType = string;
 
 /** Known values of {@link ResourceScopeType} that the service accepts. */
 export enum KnownResourceScopeType {
@@ -10028,36 +10028,6 @@ export enum KnownWorkflowTriggerProvisioningState {
  * **Completed**
  */
 export type WorkflowTriggerProvisioningState = string;
-
-/** Known values of {@link WorkflowState} that the service accepts. */
-export enum KnownWorkflowState {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Completed */
-  Completed = "Completed",
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Deleted */
-  Deleted = "Deleted",
-  /** Suspended */
-  Suspended = "Suspended"
-}
-
-/**
- * Defines values for WorkflowState. \
- * {@link KnownWorkflowState} can be used interchangeably with WorkflowState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **Completed** \
- * **Enabled** \
- * **Disabled** \
- * **Deleted** \
- * **Suspended**
- */
-export type WorkflowState = string;
 
 /** Known values of {@link RecurrenceFrequency} that the service accepts. */
 export enum KnownRecurrenceFrequency {
@@ -10604,6 +10574,20 @@ export type PublicCertificateLocation =
 export type SiteExtensionType = "Gallery" | "WebRoot";
 /** Defines values for TriggeredWebJobStatus. */
 export type TriggeredWebJobStatus = "Success" | "Failed" | "Error";
+/** Defines values for WorkflowState. */
+export type WorkflowState =
+  | "NotSpecified"
+  | "Completed"
+  | "Enabled"
+  | "Disabled"
+  | "Deleted"
+  | "Suspended";
+/** Defines values for WorkflowHealthState. */
+export type WorkflowHealthState =
+  | "NotSpecified"
+  | "Healthy"
+  | "Unhealthy"
+  | "Unknown";
 /** Defines values for DaysOfWeek. */
 export type DaysOfWeek =
   | "Sunday"
@@ -11487,10 +11471,7 @@ export type AppServiceEnvironmentsListAppServicePlansNextResponse = AppServicePl
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListWebAppsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Comma separated list of app properties to include. */
-  propertiesToInclude?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWebAppsNext operation. */
 export type AppServiceEnvironmentsListWebAppsNextResponse = WebAppCollection;
@@ -11504,10 +11485,7 @@ export type AppServiceEnvironmentsSuspendNextResponse = WebAppCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListUsagesNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listUsagesNext operation. */
 export type AppServiceEnvironmentsListUsagesNextResponse = CsmUsageQuotaCollection;
@@ -11747,13 +11725,7 @@ export interface AppServicePlansRebootWorkerOptionalParams
 
 /** Optional parameters. */
 export interface AppServicePlansListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /**
-   * Specify <code>true</code> to return all App Service plan properties. The default is <code>false</code>, which returns a subset of the properties.
-   *  Retrieval of all properties may increase the API latency.
-   */
-  detailed?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AppServicePlansListNextResponse = AppServicePlanCollection;
@@ -11781,24 +11753,14 @@ export type AppServicePlansListHybridConnectionsNextResponse = HybridConnectionC
 
 /** Optional parameters. */
 export interface AppServicePlansListWebAppsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Supported filter: $filter=state eq running. Returns only web apps that are currently running */
-  filter?: string;
-  /** Skip to a web app in the list of webapps associated with app service plan. If specified, the resulting list will contain web apps starting from (including) the skipToken. Otherwise, the resulting list contains web apps from the start of the list */
-  skipToken?: string;
-  /** List page size. If specified, results are paged. */
-  top?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWebAppsNext operation. */
 export type AppServicePlansListWebAppsNextResponse = WebAppCollection;
 
 /** Optional parameters. */
 export interface AppServicePlansListUsagesNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2'). */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listUsagesNext operation. */
 export type AppServicePlansListUsagesNextResponse = CsmUsageQuotaCollection;
@@ -11847,10 +11809,7 @@ export type CertificatesUpdateResponse = Certificate;
 
 /** Optional parameters. */
 export interface CertificatesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Return only information specified in the filter (using OData syntax). For example: $filter=KeyVaultId eq 'KeyVaultId' */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CertificatesListNextResponse = CertificateCollection;
@@ -11992,6 +11951,27 @@ export interface DeletedWebAppsListByLocationNextOptionalParams
 
 /** Contains response data for the listByLocationNext operation. */
 export type DeletedWebAppsListByLocationNextResponse = DeletedWebAppCollection;
+
+/** Optional parameters. */
+export interface DiagnosticsListProviderDetectorResponsesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listProviderDetectorResponses operation. */
+export type DiagnosticsListProviderDetectorResponsesResponse = DetectorResponseCollection;
+
+/** Optional parameters. */
+export interface DiagnosticsGetProviderDetectorResponseOptionalParams
+  extends coreClient.OperationOptions {
+  /** Start Time */
+  startTime?: Date;
+  /** End Time */
+  endTime?: Date;
+  /** Time Grain */
+  timeGrain?: string;
+}
+
+/** Contains response data for the getProviderDetectorResponse operation. */
+export type DiagnosticsGetProviderDetectorResponseResponse = DetectorResponse;
 
 /** Optional parameters. */
 export interface DiagnosticsListHostingEnvironmentDetectorResponsesOptionalParams
@@ -12197,6 +12177,13 @@ export interface DiagnosticsExecuteSiteDetectorSlotOptionalParams
 export type DiagnosticsExecuteSiteDetectorSlotResponse = DiagnosticDetectorResponse;
 
 /** Optional parameters. */
+export interface DiagnosticsListProviderDetectorResponsesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listProviderDetectorResponsesNext operation. */
+export type DiagnosticsListProviderDetectorResponsesNextResponse = DetectorResponseCollection;
+
+/** Optional parameters. */
 export interface DiagnosticsListHostingEnvironmentDetectorResponsesNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -12343,7 +12330,7 @@ export type KubeEnvironmentsListByResourceGroupNextResponse = KubeEnvironmentCol
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksOptionalParams
   extends coreClient.OperationOptions {
-  osTypeSelected?: Enum14;
+  osTypeSelected?: ProviderOsTypeSelected;
 }
 
 /** Contains response data for the getAvailableStacks operation. */
@@ -12353,7 +12340,7 @@ export type ProviderGetAvailableStacksResponse = ApplicationStackCollection;
 export interface ProviderGetFunctionAppStacksOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum15;
+  stackOsType?: ProviderStackOsType;
 }
 
 /** Contains response data for the getFunctionAppStacks operation. */
@@ -12363,7 +12350,7 @@ export type ProviderGetFunctionAppStacksResponse = FunctionAppStackCollection;
 export interface ProviderGetFunctionAppStacksForLocationOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum16;
+  stackOsType?: ProviderStackOsType;
 }
 
 /** Contains response data for the getFunctionAppStacksForLocation operation. */
@@ -12373,7 +12360,7 @@ export type ProviderGetFunctionAppStacksForLocationResponse = FunctionAppStackCo
 export interface ProviderGetWebAppStacksForLocationOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum17;
+  stackOsType?: ProviderStackOsType;
 }
 
 /** Contains response data for the getWebAppStacksForLocation operation. */
@@ -12390,7 +12377,7 @@ export type ProviderListOperationsResponse = CsmOperationCollection;
 export interface ProviderGetWebAppStacksOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum18;
+  stackOsType?: ProviderStackOsType;
 }
 
 /** Contains response data for the getWebAppStacks operation. */
@@ -12399,7 +12386,7 @@ export type ProviderGetWebAppStacksResponse = WebAppStackCollection;
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksOnPremOptionalParams
   extends coreClient.OperationOptions {
-  osTypeSelected?: Enum19;
+  osTypeSelected?: ProviderOsTypeSelected;
 }
 
 /** Contains response data for the getAvailableStacksOnPrem operation. */
@@ -12407,39 +12394,28 @@ export type ProviderGetAvailableStacksOnPremResponse = ApplicationStackCollectio
 
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksNextOptionalParams
-  extends coreClient.OperationOptions {
-  osTypeSelected?: Enum14;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAvailableStacksNext operation. */
 export type ProviderGetAvailableStacksNextResponse = ApplicationStackCollection;
 
 /** Optional parameters. */
 export interface ProviderGetFunctionAppStacksNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Stack OS Type */
-  stackOsType?: Enum15;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getFunctionAppStacksNext operation. */
 export type ProviderGetFunctionAppStacksNextResponse = FunctionAppStackCollection;
 
 /** Optional parameters. */
 export interface ProviderGetFunctionAppStacksForLocationNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Stack OS Type */
-  stackOsType?: Enum16;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getFunctionAppStacksForLocationNext operation. */
 export type ProviderGetFunctionAppStacksForLocationNextResponse = FunctionAppStackCollection;
 
 /** Optional parameters. */
 export interface ProviderGetWebAppStacksForLocationNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Stack OS Type */
-  stackOsType?: Enum17;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getWebAppStacksForLocationNext operation. */
 export type ProviderGetWebAppStacksForLocationNextResponse = WebAppStackCollection;
@@ -12453,19 +12429,14 @@ export type ProviderListOperationsNextResponse = CsmOperationCollection;
 
 /** Optional parameters. */
 export interface ProviderGetWebAppStacksNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Stack OS Type */
-  stackOsType?: Enum18;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getWebAppStacksNext operation. */
 export type ProviderGetWebAppStacksNextResponse = WebAppStackCollection;
 
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksOnPremNextOptionalParams
-  extends coreClient.OperationOptions {
-  osTypeSelected?: Enum19;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAvailableStacksOnPremNext operation. */
 export type ProviderGetAvailableStacksOnPremNextResponse = ApplicationStackCollection;
@@ -12588,60 +12559,35 @@ export interface RecommendationsDisableRecommendationForSiteOptionalParams
 
 /** Optional parameters. */
 export interface RecommendationsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filter is specified by using OData syntax. Example: $filter=channel eq 'Api' or channel eq 'Notification' and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[PT1H|PT1M|P1D] */
-  filter?: string;
-  /** Specify <code>true</code> to return only the most critical recommendations. The default is <code>false</code>, which returns all recommendations. */
-  featured?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RecommendationsListNextResponse = RecommendationCollection;
 
 /** Optional parameters. */
 export interface RecommendationsListHistoryForHostingEnvironmentNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filter is specified by using OData syntax. Example: $filter=channel eq 'Api' or channel eq 'Notification' and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[PT1H|PT1M|P1D] */
-  filter?: string;
-  /** Specify <code>false</code> to return all recommendations. The default is <code>true</code>, which returns only expired recommendations. */
-  expiredOnly?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listHistoryForHostingEnvironmentNext operation. */
 export type RecommendationsListHistoryForHostingEnvironmentNextResponse = RecommendationCollection;
 
 /** Optional parameters. */
 export interface RecommendationsListRecommendedRulesForHostingEnvironmentNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Return only channels specified in the filter. Filter is specified by using OData syntax. Example: $filter=channel eq 'Api' or channel eq 'Notification' */
-  filter?: string;
-  /** Specify <code>true</code> to return only the most critical recommendations. The default is <code>false</code>, which returns all recommendations. */
-  featured?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRecommendedRulesForHostingEnvironmentNext operation. */
 export type RecommendationsListRecommendedRulesForHostingEnvironmentNextResponse = RecommendationCollection;
 
 /** Optional parameters. */
 export interface RecommendationsListHistoryForWebAppNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filter is specified by using OData syntax. Example: $filter=channel eq 'Api' or channel eq 'Notification' and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[PT1H|PT1M|P1D] */
-  filter?: string;
-  /** Specify <code>false</code> to return all recommendations. The default is <code>true</code>, which returns only expired recommendations. */
-  expiredOnly?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listHistoryForWebAppNext operation. */
 export type RecommendationsListHistoryForWebAppNextResponse = RecommendationCollection;
 
 /** Optional parameters. */
 export interface RecommendationsListRecommendedRulesForWebAppNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Return only channels specified in the filter. Filter is specified by using OData syntax. Example: $filter=channel eq 'Api' or channel eq 'Notification' */
-  filter?: string;
-  /** Specify <code>true</code> to return only the most critical recommendations. The default is <code>false</code>, which returns all recommendations. */
-  featured?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRecommendedRulesForWebAppNext operation. */
 export type RecommendationsListRecommendedRulesForWebAppNextResponse = RecommendationCollection;
@@ -12855,38 +12801,21 @@ export type ListSourceControlsNextResponse = SourceControlCollection;
 
 /** Optional parameters. */
 export interface ListBillingMetersNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Azure Location of billable resource */
-  billingLocation?: string;
-  /** App Service OS type meters used for */
-  osType?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBillingMetersNext operation. */
 export type ListBillingMetersNextResponse = BillingMeterCollection;
 
 /** Optional parameters. */
 export interface ListCustomHostNameSitesNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specific hostname */
-  hostname?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCustomHostNameSitesNext operation. */
 export type ListCustomHostNameSitesNextResponse = CustomHostnameSitesCollection;
 
 /** Optional parameters. */
 export interface ListGeoRegionsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Name of SKU used to filter the regions. */
-  sku?: SkuName;
-  /** Specify <code>true</code> if you want to filter to only regions that support Linux workers. */
-  linuxWorkersEnabled?: boolean;
-  /** Specify <code>true</code> if you want to filter to only regions that support Xenon workers. */
-  xenonWorkersEnabled?: boolean;
-  /** Specify <code>true</code> if you want to filter to only regions that support Linux Consumption Workers. */
-  linuxDynamicWorkersEnabled?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGeoRegionsNext operation. */
 export type ListGeoRegionsNextResponse = GeoRegionCollection;
@@ -16420,6 +16349,62 @@ export interface WebAppsGetWebJobOptionalParams
 export type WebAppsGetWebJobResponse = WebJob;
 
 /** Optional parameters. */
+export interface WebAppsDeployWorkflowArtifactsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Application settings and files of the workflow. */
+  workflowArtifacts?: WorkflowArtifacts;
+}
+
+/** Optional parameters. */
+export interface WebAppsDeployWorkflowArtifactsSlotOptionalParams
+  extends coreClient.OperationOptions {
+  /** Application settings and files of the workflow. */
+  workflowArtifacts?: WorkflowArtifacts;
+}
+
+/** Optional parameters. */
+export interface WebAppsListInstanceWorkflowsSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listInstanceWorkflowsSlot operation. */
+export type WebAppsListInstanceWorkflowsSlotResponse = WorkflowEnvelopeCollection;
+
+/** Optional parameters. */
+export interface WebAppsGetInstanceWorkflowSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getInstanceWorkflowSlot operation. */
+export type WebAppsGetInstanceWorkflowSlotResponse = WorkflowEnvelope;
+
+/** Optional parameters. */
+export interface WebAppsListInstanceWorkflowsConfigurationConnectionsSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listInstanceWorkflowsConfigurationConnectionsSlot operation. */
+export type WebAppsListInstanceWorkflowsConfigurationConnectionsSlotResponse = WorkflowEnvelope;
+
+/** Optional parameters. */
+export interface WebAppsListWorkflowsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listWorkflows operation. */
+export type WebAppsListWorkflowsResponse = WorkflowEnvelopeCollection;
+
+/** Optional parameters. */
+export interface WebAppsGetWorkflowOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getWorkflow operation. */
+export type WebAppsGetWorkflowResponse = WorkflowEnvelope;
+
+/** Optional parameters. */
+export interface WebAppsListWorkflowsConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listWorkflowsConfiguration operation. */
+export type WebAppsListWorkflowsConfigurationResponse = WorkflowEnvelope;
+
+/** Optional parameters. */
 export interface WebAppsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -16428,10 +16413,7 @@ export type WebAppsListNextResponse = WebAppCollection;
 
 /** Optional parameters. */
 export interface WebAppsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify <strong>true</strong> to include deployment slots in results. The default is false, which only gives you the production slot of all apps. */
-  includeSlots?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type WebAppsListByResourceGroupNextResponse = WebAppCollection;
@@ -16557,10 +16539,7 @@ export type WebAppsListSiteBackupsNextResponse = BackupItemCollection;
 
 /** Optional parameters. */
 export interface WebAppsListPerfMonCountersNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPerfMonCountersNext operation. */
 export type WebAppsListPerfMonCountersNextResponse = PerfMonCounterCollection;
@@ -16735,10 +16714,7 @@ export type WebAppsListSiteBackupsSlotNextResponse = BackupItemCollection;
 
 /** Optional parameters. */
 export interface WebAppsListPerfMonCountersSlotNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPerfMonCountersSlotNext operation. */
 export type WebAppsListPerfMonCountersSlotNextResponse = PerfMonCounterCollection;
@@ -16822,10 +16798,7 @@ export type WebAppsListTriggeredWebJobHistorySlotNextResponse = TriggeredJobHist
 
 /** Optional parameters. */
 export interface WebAppsListUsagesSlotNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Return only information specified in the filter (using OData syntax). For example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listUsagesSlotNext operation. */
 export type WebAppsListUsagesSlotNextResponse = CsmUsageQuotaCollection;
@@ -16874,10 +16847,7 @@ export type WebAppsListTriggeredWebJobHistoryNextResponse = TriggeredJobHistoryC
 
 /** Optional parameters. */
 export interface WebAppsListUsagesNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Return only information specified in the filter (using OData syntax). For example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listUsagesNext operation. */
 export type WebAppsListUsagesNextResponse = CsmUsageQuotaCollection;
@@ -16888,6 +16858,20 @@ export interface WebAppsListWebJobsNextOptionalParams
 
 /** Contains response data for the listWebJobsNext operation. */
 export type WebAppsListWebJobsNextResponse = WebJobCollection;
+
+/** Optional parameters. */
+export interface WebAppsListInstanceWorkflowsSlotNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listInstanceWorkflowsSlotNext operation. */
+export type WebAppsListInstanceWorkflowsSlotNextResponse = WorkflowEnvelopeCollection;
+
+/** Optional parameters. */
+export interface WebAppsListWorkflowsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listWorkflowsNext operation. */
+export type WebAppsListWorkflowsNextResponse = WorkflowEnvelopeCollection;
 
 /** Optional parameters. */
 export interface WorkflowsRegenerateAccessKeyOptionalParams
@@ -16922,12 +16906,7 @@ export interface WorkflowRunsCancelOptionalParams
 
 /** Optional parameters. */
 export interface WorkflowRunsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. Options for filters include: Status, StartTime, and ClientTrackingId. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WorkflowRunsListNextResponse = WorkflowRunListResult;
@@ -16960,12 +16939,7 @@ export type WorkflowRunActionsListExpressionTracesResponse = ExpressionTraces;
 
 /** Optional parameters. */
 export interface WorkflowRunActionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. Options for filters include: Status. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WorkflowRunActionsListNextResponse = WorkflowRunActionListResult;
@@ -17098,12 +17072,7 @@ export type WorkflowTriggersGetSchemaJsonResponse = JsonSchema;
 
 /** Optional parameters. */
 export interface WorkflowTriggersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WorkflowTriggersListNextResponse = WorkflowTriggerListResult;
@@ -17138,12 +17107,7 @@ export interface WorkflowTriggerHistoriesResubmitOptionalParams
 
 /** Optional parameters. */
 export interface WorkflowTriggerHistoriesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. Options for filters include: Status, StartTime, and ClientTrackingId. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WorkflowTriggerHistoriesListNextResponse = WorkflowTriggerHistoryListResult;
@@ -17167,10 +17131,7 @@ export type WorkflowVersionsGetResponse = WorkflowVersion;
 
 /** Optional parameters. */
 export interface WorkflowVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WorkflowVersionsListNextResponse = WorkflowVersionListResult;

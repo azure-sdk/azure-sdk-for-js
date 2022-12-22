@@ -1,15 +1,121 @@
 # Release History
+    
+## 14.0.0 (2022-12-22)
+    
+**Features**
 
-## 13.0.4 (Unreleased)
+  - Added operation Diagnostics.getProviderDetectorResponse
+  - Added operation Diagnostics.listProviderDetectorResponses
+  - Added operation WebApps.deployWorkflowArtifacts
+  - Added operation WebApps.deployWorkflowArtifactsSlot
+  - Added operation WebApps.getInstanceWorkflowSlot
+  - Added operation WebApps.getWorkflow
+  - Added operation WebApps.listInstanceWorkflowsConfigurationConnectionsSlot
+  - Added operation WebApps.listInstanceWorkflowsSlot
+  - Added operation WebApps.listWorkflows
+  - Added operation WebApps.listWorkflowsConfiguration
+  - Added Interface DiagnosticsGetProviderDetectorResponseOptionalParams
+  - Added Interface DiagnosticsListProviderDetectorResponsesNextOptionalParams
+  - Added Interface DiagnosticsListProviderDetectorResponsesOptionalParams
+  - Added Interface WebAppsDeployWorkflowArtifactsOptionalParams
+  - Added Interface WebAppsDeployWorkflowArtifactsSlotOptionalParams
+  - Added Interface WebAppsGetInstanceWorkflowSlotOptionalParams
+  - Added Interface WebAppsGetWorkflowOptionalParams
+  - Added Interface WebAppsListInstanceWorkflowsConfigurationConnectionsSlotOptionalParams
+  - Added Interface WebAppsListInstanceWorkflowsSlotNextOptionalParams
+  - Added Interface WebAppsListInstanceWorkflowsSlotOptionalParams
+  - Added Interface WebAppsListWorkflowsConfigurationOptionalParams
+  - Added Interface WebAppsListWorkflowsNextOptionalParams
+  - Added Interface WebAppsListWorkflowsOptionalParams
+  - Added Interface WorkflowArtifacts
+  - Added Interface WorkflowEnvelope
+  - Added Interface WorkflowEnvelopeCollection
+  - Added Interface WorkflowEnvelopeProperties
+  - Added Interface WorkflowHealth
+  - Added Type Alias DefaultAction
+  - Added Type Alias DiagnosticsGetProviderDetectorResponseResponse
+  - Added Type Alias DiagnosticsListProviderDetectorResponsesNextResponse
+  - Added Type Alias DiagnosticsListProviderDetectorResponsesResponse
+  - Added Type Alias ProviderOsTypeSelected
+  - Added Type Alias ProviderStackOsType
+  - Added Type Alias WebAppsGetInstanceWorkflowSlotResponse
+  - Added Type Alias WebAppsGetWorkflowResponse
+  - Added Type Alias WebAppsListInstanceWorkflowsConfigurationConnectionsSlotResponse
+  - Added Type Alias WebAppsListInstanceWorkflowsSlotNextResponse
+  - Added Type Alias WebAppsListInstanceWorkflowsSlotResponse
+  - Added Type Alias WebAppsListWorkflowsConfigurationResponse
+  - Added Type Alias WebAppsListWorkflowsNextResponse
+  - Added Type Alias WebAppsListWorkflowsResponse
+  - Added Type Alias WorkflowHealthState
+  - Interface SiteConfig has a new optional parameter ipSecurityRestrictionsDefaultAction
+  - Interface SiteConfig has a new optional parameter scmIpSecurityRestrictionsDefaultAction
+  - Interface SiteConfigResource has a new optional parameter ipSecurityRestrictionsDefaultAction
+  - Interface SiteConfigResource has a new optional parameter scmIpSecurityRestrictionsDefaultAction
+  - Added Enum KnownDefaultAction
+  - Added Enum KnownProviderOsTypeSelected
+  - Added Enum KnownProviderStackOsType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AppServiceEnvironmentsListUsagesNextOptionalParams no longer has parameter filter
+  - Interface AppServiceEnvironmentsListWebAppsNextOptionalParams no longer has parameter propertiesToInclude
+  - Interface AppServicePlansListNextOptionalParams no longer has parameter detailed
+  - Interface AppServicePlansListUsagesNextOptionalParams no longer has parameter filter
+  - Interface AppServicePlansListWebAppsNextOptionalParams no longer has parameter filter
+  - Interface AppServicePlansListWebAppsNextOptionalParams no longer has parameter skipToken
+  - Interface AppServicePlansListWebAppsNextOptionalParams no longer has parameter top
+  - Interface CertificatesListNextOptionalParams no longer has parameter filter
+  - Interface ListBillingMetersNextOptionalParams no longer has parameter billingLocation
+  - Interface ListBillingMetersNextOptionalParams no longer has parameter osType
+  - Interface ListCustomHostNameSitesNextOptionalParams no longer has parameter hostname
+  - Interface ListGeoRegionsNextOptionalParams no longer has parameter linuxDynamicWorkersEnabled
+  - Interface ListGeoRegionsNextOptionalParams no longer has parameter linuxWorkersEnabled
+  - Interface ListGeoRegionsNextOptionalParams no longer has parameter sku
+  - Interface ListGeoRegionsNextOptionalParams no longer has parameter xenonWorkersEnabled
+  - Interface ProviderGetAvailableStacksNextOptionalParams no longer has parameter osTypeSelected
+  - Interface ProviderGetAvailableStacksOnPremNextOptionalParams no longer has parameter osTypeSelected
+  - Interface ProviderGetFunctionAppStacksForLocationNextOptionalParams no longer has parameter stackOsType
+  - Interface ProviderGetFunctionAppStacksNextOptionalParams no longer has parameter stackOsType
+  - Interface ProviderGetWebAppStacksForLocationNextOptionalParams no longer has parameter stackOsType
+  - Interface ProviderGetWebAppStacksNextOptionalParams no longer has parameter stackOsType
+  - Interface RecommendationsListHistoryForHostingEnvironmentNextOptionalParams no longer has parameter expiredOnly
+  - Interface RecommendationsListHistoryForHostingEnvironmentNextOptionalParams no longer has parameter filter
+  - Interface RecommendationsListHistoryForWebAppNextOptionalParams no longer has parameter expiredOnly
+  - Interface RecommendationsListHistoryForWebAppNextOptionalParams no longer has parameter filter
+  - Interface RecommendationsListNextOptionalParams no longer has parameter featured
+  - Interface RecommendationsListNextOptionalParams no longer has parameter filter
+  - Interface RecommendationsListRecommendedRulesForHostingEnvironmentNextOptionalParams no longer has parameter featured
+  - Interface RecommendationsListRecommendedRulesForHostingEnvironmentNextOptionalParams no longer has parameter filter
+  - Interface RecommendationsListRecommendedRulesForWebAppNextOptionalParams no longer has parameter featured
+  - Interface RecommendationsListRecommendedRulesForWebAppNextOptionalParams no longer has parameter filter
+  - Interface WebAppsListByResourceGroupNextOptionalParams no longer has parameter includeSlots
+  - Interface WebAppsListPerfMonCountersNextOptionalParams no longer has parameter filter
+  - Interface WebAppsListPerfMonCountersSlotNextOptionalParams no longer has parameter filter
+  - Interface WebAppsListUsagesNextOptionalParams no longer has parameter filter
+  - Interface WebAppsListUsagesSlotNextOptionalParams no longer has parameter filter
+  - Interface WorkflowRunActionsListNextOptionalParams no longer has parameter filter
+  - Interface WorkflowRunActionsListNextOptionalParams no longer has parameter top
+  - Interface WorkflowRunsListNextOptionalParams no longer has parameter filter
+  - Interface WorkflowRunsListNextOptionalParams no longer has parameter top
+  - Interface WorkflowTriggerHistoriesListNextOptionalParams no longer has parameter filter
+  - Interface WorkflowTriggerHistoriesListNextOptionalParams no longer has parameter top
+  - Interface WorkflowTriggersListNextOptionalParams no longer has parameter filter
+  - Interface WorkflowTriggersListNextOptionalParams no longer has parameter top
+  - Interface WorkflowVersionsListNextOptionalParams no longer has parameter top
+  - Type of parameter osTypeSelected of interface ProviderGetAvailableStacksOnPremOptionalParams is changed from Enum19 to ProviderOsTypeSelected
+  - Type of parameter osTypeSelected of interface ProviderGetAvailableStacksOptionalParams is changed from Enum14 to ProviderOsTypeSelected
+  - Type of parameter stackOsType of interface ProviderGetFunctionAppStacksForLocationOptionalParams is changed from Enum16 to ProviderStackOsType
+  - Type of parameter stackOsType of interface ProviderGetFunctionAppStacksOptionalParams is changed from Enum15 to ProviderStackOsType
+  - Type of parameter stackOsType of interface ProviderGetWebAppStacksForLocationOptionalParams is changed from Enum17 to ProviderStackOsType
+  - Type of parameter stackOsType of interface ProviderGetWebAppStacksOptionalParams is changed from Enum18 to ProviderStackOsType
+  - Removed Enum KnownEnum14
+  - Removed Enum KnownEnum15
+  - Removed Enum KnownEnum16
+  - Removed Enum KnownEnum17
+  - Removed Enum KnownEnum18
+  - Removed Enum KnownEnum19
+  - Removed Enum KnownWorkflowState
+    
 ## 13.0.3 (2022-11-16)
 
   - Bugs Fixed

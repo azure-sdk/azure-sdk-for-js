@@ -9,6 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   DetectorResponse,
+  DiagnosticsListProviderDetectorResponsesOptionalParams,
   DiagnosticsListHostingEnvironmentDetectorResponsesOptionalParams,
   DiagnosticsListSiteDetectorResponsesOptionalParams,
   DiagnosticCategory,
@@ -21,6 +22,8 @@ import {
   DiagnosticsListSiteDiagnosticCategoriesSlotOptionalParams,
   DiagnosticsListSiteAnalysesSlotOptionalParams,
   DiagnosticsListSiteDetectorsSlotOptionalParams,
+  DiagnosticsGetProviderDetectorResponseOptionalParams,
+  DiagnosticsGetProviderDetectorResponseResponse,
   DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams,
   DiagnosticsGetHostingEnvironmentDetectorResponseResponse,
   DiagnosticsGetSiteDetectorResponseOptionalParams,
@@ -52,6 +55,17 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Diagnostics. */
 export interface Diagnostics {
+  /**
+   * Description for List Provider Detector Responses
+   * @param location The name of a supported Azure region.
+   * @param resourceType Resource type for which detectors are being requested.
+   * @param options The options parameters.
+   */
+  listProviderDetectorResponses(
+    location: string,
+    resourceType: string,
+    options?: DiagnosticsListProviderDetectorResponsesOptionalParams
+  ): PagedAsyncIterableIterator<DetectorResponse>;
   /**
    * Description for List Hosting Environment Detector Responses
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -167,6 +181,19 @@ export interface Diagnostics {
     slot: string,
     options?: DiagnosticsListSiteDetectorsSlotOptionalParams
   ): PagedAsyncIterableIterator<DetectorDefinitionResource>;
+  /**
+   * Description for Get Provider Detector Response
+   * @param location The name of a supported Azure region.
+   * @param detectorName Detector Resource Name
+   * @param resourceType Resource type for which detectors are being requested.
+   * @param options The options parameters.
+   */
+  getProviderDetectorResponse(
+    location: string,
+    detectorName: string,
+    resourceType: string,
+    options?: DiagnosticsGetProviderDetectorResponseOptionalParams
+  ): Promise<DiagnosticsGetProviderDetectorResponseResponse>;
   /**
    * Description for Get Hosting Environment Detector Response
    * @param resourceGroupName Name of the resource group to which the resource belongs.

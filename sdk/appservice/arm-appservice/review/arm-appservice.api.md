@@ -880,7 +880,6 @@ export type AppServiceEnvironmentsListResponse = AppServiceEnvironmentCollection
 
 // @public
 export interface AppServiceEnvironmentsListUsagesNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -896,7 +895,6 @@ export type AppServiceEnvironmentsListUsagesResponse = CsmUsageQuotaCollection;
 
 // @public
 export interface AppServiceEnvironmentsListWebAppsNextOptionalParams extends coreClient.OperationOptions {
-    propertiesToInclude?: string;
 }
 
 // @public
@@ -1294,7 +1292,6 @@ export type AppServicePlansListHybridConnectionsResponse = HybridConnectionColle
 
 // @public
 export interface AppServicePlansListNextOptionalParams extends coreClient.OperationOptions {
-    detailed?: boolean;
 }
 
 // @public
@@ -1317,7 +1314,6 @@ export type AppServicePlansListRoutesForVnetResponse = VnetRoute[];
 
 // @public
 export interface AppServicePlansListUsagesNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1354,9 +1350,6 @@ export type AppServicePlansListWebAppsByHybridConnectionResponse = ResourceColle
 
 // @public
 export interface AppServicePlansListWebAppsNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skipToken?: string;
-    top?: string;
 }
 
 // @public
@@ -1859,7 +1852,6 @@ export type CertificatesListByResourceGroupResponse = CertificateCollection;
 
 // @public
 export interface CertificatesListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -2502,6 +2494,9 @@ export type DayOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursda
 export type DaysOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
 
 // @public
+export type DefaultAction = string;
+
+// @public
 export interface DefaultAuthorizationPolicy {
     allowedApplications?: string[];
     allowedPrincipals?: AllowedPrincipals;
@@ -2762,6 +2757,7 @@ export interface Diagnostics {
     executeSiteDetector(resourceGroupName: string, siteName: string, detectorName: string, diagnosticCategory: string, options?: DiagnosticsExecuteSiteDetectorOptionalParams): Promise<DiagnosticsExecuteSiteDetectorResponse>;
     executeSiteDetectorSlot(resourceGroupName: string, siteName: string, detectorName: string, diagnosticCategory: string, slot: string, options?: DiagnosticsExecuteSiteDetectorSlotOptionalParams): Promise<DiagnosticsExecuteSiteDetectorSlotResponse>;
     getHostingEnvironmentDetectorResponse(resourceGroupName: string, name: string, detectorName: string, options?: DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams): Promise<DiagnosticsGetHostingEnvironmentDetectorResponseResponse>;
+    getProviderDetectorResponse(location: string, detectorName: string, resourceType: string, options?: DiagnosticsGetProviderDetectorResponseOptionalParams): Promise<DiagnosticsGetProviderDetectorResponseResponse>;
     getSiteAnalysis(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, options?: DiagnosticsGetSiteAnalysisOptionalParams): Promise<DiagnosticsGetSiteAnalysisResponse>;
     getSiteAnalysisSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, slot: string, options?: DiagnosticsGetSiteAnalysisSlotOptionalParams): Promise<DiagnosticsGetSiteAnalysisSlotResponse>;
     getSiteDetector(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, options?: DiagnosticsGetSiteDetectorOptionalParams): Promise<DiagnosticsGetSiteDetectorResponse>;
@@ -2771,6 +2767,7 @@ export interface Diagnostics {
     getSiteDiagnosticCategory(resourceGroupName: string, siteName: string, diagnosticCategory: string, options?: DiagnosticsGetSiteDiagnosticCategoryOptionalParams): Promise<DiagnosticsGetSiteDiagnosticCategoryResponse>;
     getSiteDiagnosticCategorySlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, options?: DiagnosticsGetSiteDiagnosticCategorySlotOptionalParams): Promise<DiagnosticsGetSiteDiagnosticCategorySlotResponse>;
     listHostingEnvironmentDetectorResponses(resourceGroupName: string, name: string, options?: DiagnosticsListHostingEnvironmentDetectorResponsesOptionalParams): PagedAsyncIterableIterator<DetectorResponse>;
+    listProviderDetectorResponses(location: string, resourceType: string, options?: DiagnosticsListProviderDetectorResponsesOptionalParams): PagedAsyncIterableIterator<DetectorResponse>;
     listSiteAnalyses(resourceGroupName: string, siteName: string, diagnosticCategory: string, options?: DiagnosticsListSiteAnalysesOptionalParams): PagedAsyncIterableIterator<AnalysisDefinition>;
     listSiteAnalysesSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, options?: DiagnosticsListSiteAnalysesSlotOptionalParams): PagedAsyncIterableIterator<AnalysisDefinition>;
     listSiteDetectorResponses(resourceGroupName: string, siteName: string, options?: DiagnosticsListSiteDetectorResponsesOptionalParams): PagedAsyncIterableIterator<DetectorResponse>;
@@ -2830,6 +2827,16 @@ export interface DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams 
 
 // @public
 export type DiagnosticsGetHostingEnvironmentDetectorResponseResponse = DetectorResponse;
+
+// @public
+export interface DiagnosticsGetProviderDetectorResponseOptionalParams extends coreClient.OperationOptions {
+    endTime?: Date;
+    startTime?: Date;
+    timeGrain?: string;
+}
+
+// @public
+export type DiagnosticsGetProviderDetectorResponseResponse = DetectorResponse;
 
 // @public
 export interface DiagnosticsGetSiteAnalysisOptionalParams extends coreClient.OperationOptions {
@@ -2906,6 +2913,20 @@ export interface DiagnosticsListHostingEnvironmentDetectorResponsesOptionalParam
 
 // @public
 export type DiagnosticsListHostingEnvironmentDetectorResponsesResponse = DetectorResponseCollection;
+
+// @public
+export interface DiagnosticsListProviderDetectorResponsesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DiagnosticsListProviderDetectorResponsesNextResponse = DetectorResponseCollection;
+
+// @public
+export interface DiagnosticsListProviderDetectorResponsesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DiagnosticsListProviderDetectorResponsesResponse = DetectorResponseCollection;
 
 // @public
 export interface DiagnosticsListSiteAnalysesNextOptionalParams extends coreClient.OperationOptions {
@@ -3332,24 +3353,6 @@ export interface EndpointDetail {
 
 // @public
 export type EnterpriseGradeCdnStatus = string;
-
-// @public
-export type Enum14 = string;
-
-// @public
-export type Enum15 = string;
-
-// @public
-export type Enum16 = string;
-
-// @public
-export type Enum17 = string;
-
-// @public
-export type Enum18 = string;
-
-// @public
-export type Enum19 = string;
 
 // @public
 export interface EnvironmentVar {
@@ -4029,6 +4032,12 @@ export enum KnownDatabaseType {
 }
 
 // @public
+export enum KnownDefaultAction {
+    Allow = "Allow",
+    Deny = "Deny"
+}
+
+// @public
 export enum KnownDeploymentBuildStatus {
     BuildAborted = "BuildAborted",
     BuildFailed = "BuildFailed",
@@ -4051,52 +4060,6 @@ export enum KnownEnterpriseGradeCdnStatus {
     Disabling = "Disabling",
     Enabled = "Enabled",
     Enabling = "Enabling"
-}
-
-// @public
-export enum KnownEnum14 {
-    All = "All",
-    Linux = "Linux",
-    LinuxFunctions = "LinuxFunctions",
-    Windows = "Windows",
-    WindowsFunctions = "WindowsFunctions"
-}
-
-// @public
-export enum KnownEnum15 {
-    All = "All",
-    Linux = "Linux",
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum16 {
-    All = "All",
-    Linux = "Linux",
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum17 {
-    All = "All",
-    Linux = "Linux",
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum18 {
-    All = "All",
-    Linux = "Linux",
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum19 {
-    All = "All",
-    Linux = "Linux",
-    LinuxFunctions = "LinuxFunctions",
-    Windows = "Windows",
-    WindowsFunctions = "WindowsFunctions"
 }
 
 // @public
@@ -4163,6 +4126,22 @@ export enum KnownParameterType {
     SecureObject = "SecureObject",
     SecureString = "SecureString",
     String = "String"
+}
+
+// @public
+export enum KnownProviderOsTypeSelected {
+    All = "All",
+    Linux = "Linux",
+    LinuxFunctions = "LinuxFunctions",
+    Windows = "Windows",
+    WindowsFunctions = "WindowsFunctions"
+}
+
+// @public
+export enum KnownProviderStackOsType {
+    All = "All",
+    Linux = "Linux",
+    Windows = "Windows"
 }
 
 // @public
@@ -4324,16 +4303,6 @@ export enum KnownWorkflowSkuName {
     Premium = "Premium",
     Shared = "Shared",
     Standard = "Standard"
-}
-
-// @public
-export enum KnownWorkflowState {
-    Completed = "Completed",
-    Deleted = "Deleted",
-    Disabled = "Disabled",
-    Enabled = "Enabled",
-    NotSpecified = "NotSpecified",
-    Suspended = "Suspended"
 }
 
 // @public
@@ -4512,8 +4481,6 @@ export interface LinuxJavaContainerSettings {
 
 // @public
 export interface ListBillingMetersNextOptionalParams extends coreClient.OperationOptions {
-    billingLocation?: string;
-    osType?: string;
 }
 
 // @public
@@ -4530,7 +4497,6 @@ export type ListBillingMetersResponse = BillingMeterCollection;
 
 // @public
 export interface ListCustomHostNameSitesNextOptionalParams extends coreClient.OperationOptions {
-    hostname?: string;
 }
 
 // @public
@@ -4546,10 +4512,6 @@ export type ListCustomHostNameSitesResponse = CustomHostnameSitesCollection;
 
 // @public
 export interface ListGeoRegionsNextOptionalParams extends coreClient.OperationOptions {
-    linuxDynamicWorkersEnabled?: boolean;
-    linuxWorkersEnabled?: boolean;
-    sku?: SkuName;
-    xenonWorkersEnabled?: boolean;
 }
 
 // @public
@@ -5165,8 +5127,6 @@ export interface Provider {
 
 // @public
 export interface ProviderGetAvailableStacksNextOptionalParams extends coreClient.OperationOptions {
-    // (undocumented)
-    osTypeSelected?: Enum14;
 }
 
 // @public
@@ -5174,8 +5134,6 @@ export type ProviderGetAvailableStacksNextResponse = ApplicationStackCollection;
 
 // @public
 export interface ProviderGetAvailableStacksOnPremNextOptionalParams extends coreClient.OperationOptions {
-    // (undocumented)
-    osTypeSelected?: Enum19;
 }
 
 // @public
@@ -5184,7 +5142,7 @@ export type ProviderGetAvailableStacksOnPremNextResponse = ApplicationStackColle
 // @public
 export interface ProviderGetAvailableStacksOnPremOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum19;
+    osTypeSelected?: ProviderOsTypeSelected;
 }
 
 // @public
@@ -5193,7 +5151,7 @@ export type ProviderGetAvailableStacksOnPremResponse = ApplicationStackCollectio
 // @public
 export interface ProviderGetAvailableStacksOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum14;
+    osTypeSelected?: ProviderOsTypeSelected;
 }
 
 // @public
@@ -5201,7 +5159,6 @@ export type ProviderGetAvailableStacksResponse = ApplicationStackCollection;
 
 // @public
 export interface ProviderGetFunctionAppStacksForLocationNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum16;
 }
 
 // @public
@@ -5209,7 +5166,7 @@ export type ProviderGetFunctionAppStacksForLocationNextResponse = FunctionAppSta
 
 // @public
 export interface ProviderGetFunctionAppStacksForLocationOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum16;
+    stackOsType?: ProviderStackOsType;
 }
 
 // @public
@@ -5217,7 +5174,6 @@ export type ProviderGetFunctionAppStacksForLocationResponse = FunctionAppStackCo
 
 // @public
 export interface ProviderGetFunctionAppStacksNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum15;
 }
 
 // @public
@@ -5225,7 +5181,7 @@ export type ProviderGetFunctionAppStacksNextResponse = FunctionAppStackCollectio
 
 // @public
 export interface ProviderGetFunctionAppStacksOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum15;
+    stackOsType?: ProviderStackOsType;
 }
 
 // @public
@@ -5233,7 +5189,6 @@ export type ProviderGetFunctionAppStacksResponse = FunctionAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksForLocationNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum17;
 }
 
 // @public
@@ -5241,7 +5196,7 @@ export type ProviderGetWebAppStacksForLocationNextResponse = WebAppStackCollecti
 
 // @public
 export interface ProviderGetWebAppStacksForLocationOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum17;
+    stackOsType?: ProviderStackOsType;
 }
 
 // @public
@@ -5249,7 +5204,6 @@ export type ProviderGetWebAppStacksForLocationResponse = WebAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum18;
 }
 
 // @public
@@ -5257,7 +5211,7 @@ export type ProviderGetWebAppStacksNextResponse = WebAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum18;
+    stackOsType?: ProviderStackOsType;
 }
 
 // @public
@@ -5276,6 +5230,12 @@ export interface ProviderListOperationsOptionalParams extends coreClient.Operati
 
 // @public
 export type ProviderListOperationsResponse = CsmOperationCollection;
+
+// @public
+export type ProviderOsTypeSelected = string;
+
+// @public
+export type ProviderStackOsType = string;
 
 // @public
 export type ProvisioningState = "Succeeded" | "Failed" | "Canceled" | "InProgress" | "Deleting";
@@ -5461,8 +5421,6 @@ export type RecommendationsGetRuleDetailsByWebAppResponse = RecommendationRule;
 
 // @public
 export interface RecommendationsListHistoryForHostingEnvironmentNextOptionalParams extends coreClient.OperationOptions {
-    expiredOnly?: boolean;
-    filter?: string;
 }
 
 // @public
@@ -5479,8 +5437,6 @@ export type RecommendationsListHistoryForHostingEnvironmentResponse = Recommenda
 
 // @public
 export interface RecommendationsListHistoryForWebAppNextOptionalParams extends coreClient.OperationOptions {
-    expiredOnly?: boolean;
-    filter?: string;
 }
 
 // @public
@@ -5497,8 +5453,6 @@ export type RecommendationsListHistoryForWebAppResponse = RecommendationCollecti
 
 // @public
 export interface RecommendationsListNextOptionalParams extends coreClient.OperationOptions {
-    featured?: boolean;
-    filter?: string;
 }
 
 // @public
@@ -5512,8 +5466,6 @@ export interface RecommendationsListOptionalParams extends coreClient.OperationO
 
 // @public
 export interface RecommendationsListRecommendedRulesForHostingEnvironmentNextOptionalParams extends coreClient.OperationOptions {
-    featured?: boolean;
-    filter?: string;
 }
 
 // @public
@@ -5530,8 +5482,6 @@ export type RecommendationsListRecommendedRulesForHostingEnvironmentResponse = R
 
 // @public
 export interface RecommendationsListRecommendedRulesForWebAppNextOptionalParams extends coreClient.OperationOptions {
-    featured?: boolean;
-    filter?: string;
 }
 
 // @public
@@ -6148,6 +6098,7 @@ export interface SiteConfig {
     http20Enabled?: boolean;
     httpLoggingEnabled?: boolean;
     ipSecurityRestrictions?: IpSecurityRestriction[];
+    ipSecurityRestrictionsDefaultAction?: DefaultAction;
     javaContainer?: string;
     javaContainerVersion?: string;
     javaVersion?: string;
@@ -6177,6 +6128,7 @@ export interface SiteConfig {
     requestTracingEnabled?: boolean;
     requestTracingExpirationTime?: Date;
     scmIpSecurityRestrictions?: IpSecurityRestriction[];
+    scmIpSecurityRestrictionsDefaultAction?: DefaultAction;
     scmIpSecurityRestrictionsUseMain?: boolean;
     scmMinTlsVersion?: SupportedTlsVersions;
     scmType?: ScmType;
@@ -6229,6 +6181,7 @@ export interface SiteConfigResource extends ProxyOnlyResource {
     http20Enabled?: boolean;
     httpLoggingEnabled?: boolean;
     ipSecurityRestrictions?: IpSecurityRestriction[];
+    ipSecurityRestrictionsDefaultAction?: DefaultAction;
     javaContainer?: string;
     javaContainerVersion?: string;
     javaVersion?: string;
@@ -6258,6 +6211,7 @@ export interface SiteConfigResource extends ProxyOnlyResource {
     requestTracingEnabled?: boolean;
     requestTracingExpirationTime?: Date;
     scmIpSecurityRestrictions?: IpSecurityRestriction[];
+    scmIpSecurityRestrictionsDefaultAction?: DefaultAction;
     scmIpSecurityRestrictionsUseMain?: boolean;
     scmMinTlsVersion?: SupportedTlsVersions;
     scmType?: ScmType;
@@ -8047,6 +8001,8 @@ export interface WebApps {
     deleteTriggeredWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options?: WebAppsDeleteTriggeredWebJobSlotOptionalParams): Promise<void>;
     deleteVnetConnection(resourceGroupName: string, name: string, vnetName: string, options?: WebAppsDeleteVnetConnectionOptionalParams): Promise<void>;
     deleteVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, slot: string, options?: WebAppsDeleteVnetConnectionSlotOptionalParams): Promise<void>;
+    deployWorkflowArtifacts(resourceGroupName: string, name: string, options?: WebAppsDeployWorkflowArtifactsOptionalParams): Promise<void>;
+    deployWorkflowArtifactsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsDeployWorkflowArtifactsSlotOptionalParams): Promise<void>;
     discoverBackup(resourceGroupName: string, name: string, request: RestoreRequest, options?: WebAppsDiscoverBackupOptionalParams): Promise<WebAppsDiscoverBackupResponse>;
     discoverBackupSlot(resourceGroupName: string, name: string, slot: string, request: RestoreRequest, options?: WebAppsDiscoverBackupSlotOptionalParams): Promise<WebAppsDiscoverBackupSlotResponse>;
     generateNewSitePublishingPassword(resourceGroupName: string, name: string, options?: WebAppsGenerateNewSitePublishingPasswordOptionalParams): Promise<void>;
@@ -8100,6 +8056,7 @@ export interface WebApps {
     getInstanceProcessModule(resourceGroupName: string, name: string, processId: string, baseAddress: string, instanceId: string, options?: WebAppsGetInstanceProcessModuleOptionalParams): Promise<WebAppsGetInstanceProcessModuleResponse>;
     getInstanceProcessModuleSlot(resourceGroupName: string, name: string, processId: string, baseAddress: string, slot: string, instanceId: string, options?: WebAppsGetInstanceProcessModuleSlotOptionalParams): Promise<WebAppsGetInstanceProcessModuleSlotResponse>;
     getInstanceProcessSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options?: WebAppsGetInstanceProcessSlotOptionalParams): Promise<WebAppsGetInstanceProcessSlotResponse>;
+    getInstanceWorkflowSlot(resourceGroupName: string, name: string, slot: string, workflowName: string, options?: WebAppsGetInstanceWorkflowSlotOptionalParams): Promise<WebAppsGetInstanceWorkflowSlotResponse>;
     getMigrateMySqlStatus(resourceGroupName: string, name: string, options?: WebAppsGetMigrateMySqlStatusOptionalParams): Promise<WebAppsGetMigrateMySqlStatusResponse>;
     getMigrateMySqlStatusSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetMigrateMySqlStatusSlotOptionalParams): Promise<WebAppsGetMigrateMySqlStatusSlotResponse>;
     getMSDeployLog(resourceGroupName: string, name: string, options?: WebAppsGetMSDeployLogOptionalParams): Promise<WebAppsGetMSDeployLogResponse>;
@@ -8158,6 +8115,7 @@ export interface WebApps {
     getWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options?: WebAppsGetWebJobSlotOptionalParams): Promise<WebAppsGetWebJobSlotResponse>;
     getWebSiteContainerLogs(resourceGroupName: string, name: string, options?: WebAppsGetWebSiteContainerLogsOptionalParams): Promise<WebAppsGetWebSiteContainerLogsResponse>;
     getWebSiteContainerLogsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetWebSiteContainerLogsSlotOptionalParams): Promise<WebAppsGetWebSiteContainerLogsSlotResponse>;
+    getWorkflow(resourceGroupName: string, name: string, workflowName: string, options?: WebAppsGetWorkflowOptionalParams): Promise<WebAppsGetWorkflowResponse>;
     isCloneable(resourceGroupName: string, name: string, options?: WebAppsIsCloneableOptionalParams): Promise<WebAppsIsCloneableResponse>;
     isCloneableSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsIsCloneableSlotOptionalParams): Promise<WebAppsIsCloneableSlotResponse>;
     list(options?: WebAppsListOptionalParams): PagedAsyncIterableIterator<Site>;
@@ -8208,6 +8166,8 @@ export interface WebApps {
     listInstanceProcessModulesSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options?: WebAppsListInstanceProcessModulesSlotOptionalParams): PagedAsyncIterableIterator<ProcessModuleInfo>;
     listInstanceProcessThreads(resourceGroupName: string, name: string, processId: string, instanceId: string, options?: WebAppsListInstanceProcessThreadsOptionalParams): PagedAsyncIterableIterator<ProcessThreadInfo>;
     listInstanceProcessThreadsSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options?: WebAppsListInstanceProcessThreadsSlotOptionalParams): PagedAsyncIterableIterator<ProcessThreadInfo>;
+    listInstanceWorkflowsConfigurationConnectionsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListInstanceWorkflowsConfigurationConnectionsSlotOptionalParams): Promise<WebAppsListInstanceWorkflowsConfigurationConnectionsSlotResponse>;
+    listInstanceWorkflowsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListInstanceWorkflowsSlotOptionalParams): PagedAsyncIterableIterator<WorkflowEnvelope>;
     listMetadata(resourceGroupName: string, name: string, options?: WebAppsListMetadataOptionalParams): Promise<WebAppsListMetadataResponse>;
     listMetadataSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListMetadataSlotOptionalParams): Promise<WebAppsListMetadataSlotResponse>;
     listNetworkFeatures(resourceGroupName: string, name: string, view: string, options?: WebAppsListNetworkFeaturesOptionalParams): Promise<WebAppsListNetworkFeaturesResponse>;
@@ -8262,6 +8222,8 @@ export interface WebApps {
     listVnetConnectionsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListVnetConnectionsSlotOptionalParams): Promise<WebAppsListVnetConnectionsSlotResponse>;
     listWebJobs(resourceGroupName: string, name: string, options?: WebAppsListWebJobsOptionalParams): PagedAsyncIterableIterator<WebJob>;
     listWebJobsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListWebJobsSlotOptionalParams): PagedAsyncIterableIterator<WebJob>;
+    listWorkflows(resourceGroupName: string, name: string, options?: WebAppsListWorkflowsOptionalParams): PagedAsyncIterableIterator<WorkflowEnvelope>;
+    listWorkflowsConfiguration(resourceGroupName: string, name: string, options?: WebAppsListWorkflowsConfigurationOptionalParams): Promise<WebAppsListWorkflowsConfigurationResponse>;
     putPrivateAccessVnet(resourceGroupName: string, name: string, access: PrivateAccess, options?: WebAppsPutPrivateAccessVnetOptionalParams): Promise<WebAppsPutPrivateAccessVnetResponse>;
     putPrivateAccessVnetSlot(resourceGroupName: string, name: string, slot: string, access: PrivateAccess, options?: WebAppsPutPrivateAccessVnetSlotOptionalParams): Promise<WebAppsPutPrivateAccessVnetSlotResponse>;
     recoverSiteConfigurationSnapshot(resourceGroupName: string, name: string, snapshotId: string, options?: WebAppsRecoverSiteConfigurationSnapshotOptionalParams): Promise<void>;
@@ -8867,6 +8829,16 @@ export interface WebAppsDeleteVnetConnectionSlotOptionalParams extends coreClien
 }
 
 // @public
+export interface WebAppsDeployWorkflowArtifactsOptionalParams extends coreClient.OperationOptions {
+    workflowArtifacts?: WorkflowArtifacts;
+}
+
+// @public
+export interface WebAppsDeployWorkflowArtifactsSlotOptionalParams extends coreClient.OperationOptions {
+    workflowArtifacts?: WorkflowArtifacts;
+}
+
+// @public
 export interface WebAppsDiscoverBackupOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -9267,6 +9239,13 @@ export interface WebAppsGetInstanceProcessSlotOptionalParams extends coreClient.
 
 // @public
 export type WebAppsGetInstanceProcessSlotResponse = ProcessInfo;
+
+// @public
+export interface WebAppsGetInstanceWorkflowSlotOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsGetInstanceWorkflowSlotResponse = WorkflowEnvelope;
 
 // @public
 export interface WebAppsGetMigrateMySqlStatusOptionalParams extends coreClient.OperationOptions {
@@ -9768,6 +9747,13 @@ export type WebAppsGetWebSiteContainerLogsSlotResponse = {
 };
 
 // @public
+export interface WebAppsGetWorkflowOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsGetWorkflowResponse = WorkflowEnvelope;
+
+// @public
 export interface WebAppsInstallSiteExtensionOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -9899,7 +9885,6 @@ export type WebAppsListBasicPublishingCredentialsPoliciesSlotResponse = Publishi
 
 // @public
 export interface WebAppsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    includeSlots?: boolean;
 }
 
 // @public
@@ -10306,6 +10291,27 @@ export interface WebAppsListInstanceProcessThreadsSlotOptionalParams extends cor
 export type WebAppsListInstanceProcessThreadsSlotResponse = ProcessThreadInfoCollection;
 
 // @public
+export interface WebAppsListInstanceWorkflowsConfigurationConnectionsSlotOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsListInstanceWorkflowsConfigurationConnectionsSlotResponse = WorkflowEnvelope;
+
+// @public
+export interface WebAppsListInstanceWorkflowsSlotNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsListInstanceWorkflowsSlotNextResponse = WorkflowEnvelopeCollection;
+
+// @public
+export interface WebAppsListInstanceWorkflowsSlotOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsListInstanceWorkflowsSlotResponse = WorkflowEnvelopeCollection;
+
+// @public
 export interface WebAppsListMetadataOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -10346,7 +10352,6 @@ export interface WebAppsListOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export interface WebAppsListPerfMonCountersNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -10362,7 +10367,6 @@ export type WebAppsListPerfMonCountersResponse = PerfMonCounterCollection;
 
 // @public
 export interface WebAppsListPerfMonCountersSlotNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -10840,7 +10844,6 @@ export type WebAppsListTriggeredWebJobsSlotResponse = TriggeredWebJobCollection;
 
 // @public
 export interface WebAppsListUsagesNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -10856,7 +10859,6 @@ export type WebAppsListUsagesResponse = CsmUsageQuotaCollection;
 
 // @public
 export interface WebAppsListUsagesSlotNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -10911,6 +10913,27 @@ export interface WebAppsListWebJobsSlotOptionalParams extends coreClient.Operati
 
 // @public
 export type WebAppsListWebJobsSlotResponse = WebJobCollection;
+
+// @public
+export interface WebAppsListWorkflowsConfigurationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsListWorkflowsConfigurationResponse = WorkflowEnvelope;
+
+// @public
+export interface WebAppsListWorkflowsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsListWorkflowsNextResponse = WorkflowEnvelopeCollection;
+
+// @public
+export interface WebAppsListWorkflowsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsListWorkflowsResponse = WorkflowEnvelopeCollection;
 
 // @public
 export interface WebAppsMigrateMySqlOptionalParams extends coreClient.OperationOptions {
@@ -11681,9 +11704,52 @@ export interface Workflow extends WorkflowResource {
 }
 
 // @public
+export interface WorkflowArtifacts {
+    appSettings?: Record<string, unknown>;
+    files?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+    filesToDelete?: string[];
+}
+
+// @public
+export interface WorkflowEnvelope {
+    readonly id?: string;
+    kind?: string;
+    location?: string;
+    readonly name?: string;
+    properties?: WorkflowEnvelopeProperties;
+    readonly type?: string;
+}
+
+// @public
+export interface WorkflowEnvelopeCollection {
+    readonly nextLink?: string;
+    value: WorkflowEnvelope[];
+}
+
+// @public
+export interface WorkflowEnvelopeProperties {
+    files?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+    flowState?: WorkflowState;
+    health?: WorkflowHealth;
+}
+
+// @public
 export interface WorkflowFilter {
     state?: WorkflowState;
 }
+
+// @public
+export interface WorkflowHealth {
+    error?: ErrorEntity;
+    state: WorkflowHealthState;
+}
+
+// @public
+export type WorkflowHealthState = "NotSpecified" | "Healthy" | "Unhealthy" | "Unknown";
 
 // @public
 export interface WorkflowListResult {
@@ -11924,8 +11990,6 @@ export type WorkflowRunActionsListExpressionTracesResponse = ExpressionTraces;
 
 // @public
 export interface WorkflowRunActionsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -11971,8 +12035,6 @@ export type WorkflowRunsGetResponse = WorkflowRun;
 
 // @public
 export interface WorkflowRunsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -12025,7 +12087,7 @@ export interface WorkflowsRegenerateAccessKeyOptionalParams extends coreClient.O
 }
 
 // @public
-export type WorkflowState = string;
+export type WorkflowState = "NotSpecified" | "Completed" | "Enabled" | "Disabled" | "Deleted" | "Suspended";
 
 // @public
 export type WorkflowStatus = string;
@@ -12081,8 +12143,6 @@ export type WorkflowTriggerHistoriesGetResponse = WorkflowTriggerHistory;
 
 // @public
 export interface WorkflowTriggerHistoriesListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -12193,8 +12253,6 @@ export type WorkflowTriggersListCallbackUrlResponse = WorkflowTriggerCallbackUrl
 
 // @public
 export interface WorkflowTriggersListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -12254,7 +12312,6 @@ export type WorkflowVersionsGetResponse = WorkflowVersion;
 
 // @public
 export interface WorkflowVersionsListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
