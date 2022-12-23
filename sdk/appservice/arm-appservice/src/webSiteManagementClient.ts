@@ -145,6 +145,9 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
   apiVersion: string;
+  startTime?: Date;
+  endTime?: Date;
+  timeGrain?: string;
 
   /**
    * Initializes a new instance of the WebSiteManagementClient class.
@@ -174,7 +177,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/13.0.4`;
+    const packageDetails = `azsdk-js-arm-appservice/14.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -227,7 +230,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-03-01";
+    this.apiVersion = options.apiVersion || "2022-09-01";
     this.appServiceCertificateOrders = new AppServiceCertificateOrdersImpl(
       this
     );
@@ -1355,7 +1358,6 @@ const listSourceControlsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -1371,11 +1373,6 @@ const listBillingMetersNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.billingLocation,
-    Parameters.osType
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1395,7 +1392,6 @@ const listCustomHostNameSitesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.hostname],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1415,13 +1411,6 @@ const listGeoRegionsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.sku,
-    Parameters.linuxWorkersEnabled,
-    Parameters.xenonWorkersEnabled,
-    Parameters.linuxDynamicWorkersEnabled
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1441,7 +1430,6 @@ const listSiteIdentifiersAssignedToHostNameNextOperationSpec: coreClient.Operati
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1462,7 +1450,6 @@ const listPremierAddOnOffersNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

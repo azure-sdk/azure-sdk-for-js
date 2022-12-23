@@ -92,6 +92,7 @@ import {
   SnapshotRestoreRequest as SnapshotRestoreRequestMapper,
   SiteSourceControl as SiteSourceControlMapper,
   VnetInfoResource as VnetInfoResourceMapper,
+  WorkflowArtifacts as WorkflowArtifactsMapper,
   RegenerateActionParameter as RegenerateActionParameterMapper,
   Workflow as WorkflowMapper
 } from "../models/mappers";
@@ -136,7 +137,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-03-01",
+    defaultValue: "2022-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -681,6 +682,71 @@ export const deletedSiteId: OperationURLParameter = {
   }
 };
 
+export const resourceType: OperationQueryParameter = {
+  parameterPath: "resourceType",
+  mapper: {
+    serializedName: "resource-type",
+    required: true,
+    xmlName: "resource-type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const detectorName1: OperationURLParameter = {
+  parameterPath: "detectorName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9\\_\\-\\|\\s\\.\\[\\]\\'\\(\\)]*$"),
+      MaxLength: 63,
+      MinLength: 3
+    },
+    serializedName: "detectorName",
+    required: true,
+    xmlName: "detectorName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const startTime1: OperationQueryParameter = {
+  parameterPath: "startTime",
+  mapper: {
+    serializedName: "startTime",
+    xmlName: "startTime",
+    type: {
+      name: "DateTime"
+    }
+  }
+};
+
+export const endTime1: OperationQueryParameter = {
+  parameterPath: "endTime",
+  mapper: {
+    serializedName: "endTime",
+    xmlName: "endTime",
+    type: {
+      name: "DateTime"
+    }
+  }
+};
+
+export const timeGrain1: OperationQueryParameter = {
+  parameterPath: "timeGrain",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("PT[1-9][0-9]+[SMH]")
+    },
+    serializedName: "timeGrain",
+    xmlName: "timeGrain",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const siteName: OperationURLParameter = {
   parameterPath: "siteName",
   mapper: {
@@ -767,50 +833,6 @@ export const stackOsType: OperationQueryParameter = {
   mapper: {
     serializedName: "stackOsType",
     xmlName: "stackOsType",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const stackOsType1: OperationQueryParameter = {
-  parameterPath: ["options", "stackOsType"],
-  mapper: {
-    serializedName: "stackOsType",
-    xmlName: "stackOsType",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const stackOsType2: OperationQueryParameter = {
-  parameterPath: ["options", "stackOsType"],
-  mapper: {
-    serializedName: "stackOsType",
-    xmlName: "stackOsType",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const stackOsType3: OperationQueryParameter = {
-  parameterPath: ["options", "stackOsType"],
-  mapper: {
-    serializedName: "stackOsType",
-    xmlName: "stackOsType",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const osTypeSelected1: OperationQueryParameter = {
-  parameterPath: ["options", "osTypeSelected"],
-  mapper: {
-    serializedName: "osTypeSelected",
-    xmlName: "osTypeSelected",
     type: {
       name: "String"
     }
@@ -1713,9 +1735,9 @@ export const connectionEnvelope4: OperationParameter = {
   mapper: VnetInfoResourceMapper
 };
 
-export const keyType1: OperationParameter = {
-  parameterPath: "keyType",
-  mapper: RegenerateActionParameterMapper
+export const workflowArtifacts: OperationParameter = {
+  parameterPath: ["options", "workflowArtifacts"],
+  mapper: WorkflowArtifactsMapper
 };
 
 export const workflowName: OperationURLParameter = {
@@ -1728,6 +1750,11 @@ export const workflowName: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const keyType1: OperationParameter = {
+  parameterPath: "keyType",
+  mapper: RegenerateActionParameterMapper
 };
 
 export const validate: OperationParameter = {

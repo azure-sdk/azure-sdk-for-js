@@ -15,6 +15,9 @@ import * as Parameters from "../models/parameters";
 import { WebSiteManagementClient } from "../webSiteManagementClient";
 import {
   DetectorResponse,
+  DiagnosticsListProviderDetectorResponsesNextOptionalParams,
+  DiagnosticsListProviderDetectorResponsesOptionalParams,
+  DiagnosticsListProviderDetectorResponsesResponse,
   DiagnosticsListHostingEnvironmentDetectorResponsesNextOptionalParams,
   DiagnosticsListHostingEnvironmentDetectorResponsesOptionalParams,
   DiagnosticsListHostingEnvironmentDetectorResponsesResponse,
@@ -45,6 +48,8 @@ import {
   DiagnosticsListSiteDetectorsSlotNextOptionalParams,
   DiagnosticsListSiteDetectorsSlotOptionalParams,
   DiagnosticsListSiteDetectorsSlotResponse,
+  DiagnosticsGetProviderDetectorResponseOptionalParams,
+  DiagnosticsGetProviderDetectorResponseResponse,
   DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams,
   DiagnosticsGetHostingEnvironmentDetectorResponseResponse,
   DiagnosticsGetSiteDetectorResponseOptionalParams,
@@ -71,6 +76,7 @@ import {
   DiagnosticsGetSiteDetectorSlotResponse,
   DiagnosticsExecuteSiteDetectorSlotOptionalParams,
   DiagnosticsExecuteSiteDetectorSlotResponse,
+  DiagnosticsListProviderDetectorResponsesNextResponse,
   DiagnosticsListHostingEnvironmentDetectorResponsesNextResponse,
   DiagnosticsListSiteDetectorResponsesNextResponse,
   DiagnosticsListSiteDiagnosticCategoriesNextResponse,
@@ -93,6 +99,89 @@ export class DiagnosticsImpl implements Diagnostics {
    */
   constructor(client: WebSiteManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * List Detector responses applicable for the provider.
+   * @param location The name of a supported Azure region.
+   * @param resourceType Resource type for which detectors are being requested.
+   * @param options The options parameters.
+   */
+  public listProviderDetectorResponses(
+    location: string,
+    resourceType: string,
+    options?: DiagnosticsListProviderDetectorResponsesOptionalParams
+  ): PagedAsyncIterableIterator<DetectorResponse> {
+    const iter = this.listProviderDetectorResponsesPagingAll(
+      location,
+      resourceType,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listProviderDetectorResponsesPagingPage(
+          location,
+          resourceType,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listProviderDetectorResponsesPagingPage(
+    location: string,
+    resourceType: string,
+    options?: DiagnosticsListProviderDetectorResponsesOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<DetectorResponse[]> {
+    let result: DiagnosticsListProviderDetectorResponsesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listProviderDetectorResponses(
+        location,
+        resourceType,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listProviderDetectorResponsesNext(
+        location,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listProviderDetectorResponsesPagingAll(
+    location: string,
+    resourceType: string,
+    options?: DiagnosticsListProviderDetectorResponsesOptionalParams
+  ): AsyncIterableIterator<DetectorResponse> {
+    for await (const page of this.listProviderDetectorResponsesPagingPage(
+      location,
+      resourceType,
+      options
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -924,6 +1013,42 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
+   * List Detector responses applicable for the provider.
+   * @param location The name of a supported Azure region.
+   * @param resourceType Resource type for which detectors are being requested.
+   * @param options The options parameters.
+   */
+  private _listProviderDetectorResponses(
+    location: string,
+    resourceType: string,
+    options?: DiagnosticsListProviderDetectorResponsesOptionalParams
+  ): Promise<DiagnosticsListProviderDetectorResponsesResponse> {
+    return this.client.sendOperationRequest(
+      { location, resourceType, options },
+      listProviderDetectorResponsesOperationSpec
+    );
+  }
+
+  /**
+   * Get Detector response for the provider.
+   * @param location The name of a supported Azure region.
+   * @param detectorName Detector Resource Name
+   * @param resourceType Resource type for which detectors are being requested.
+   * @param options The options parameters.
+   */
+  getProviderDetectorResponse(
+    location: string,
+    detectorName: string,
+    resourceType: string,
+    options?: DiagnosticsGetProviderDetectorResponseOptionalParams
+  ): Promise<DiagnosticsGetProviderDetectorResponseResponse> {
+    return this.client.sendOperationRequest(
+      { location, detectorName, resourceType, options },
+      getProviderDetectorResponseOperationSpec
+    );
+  }
+
+  /**
    * Description for List Hosting Environment Detector Responses
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site Name
@@ -1420,6 +1545,24 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
+   * ListProviderDetectorResponsesNext
+   * @param location The name of a supported Azure region.
+   * @param nextLink The nextLink from the previous successful call to the ListProviderDetectorResponses
+   *                 method.
+   * @param options The options parameters.
+   */
+  private _listProviderDetectorResponsesNext(
+    location: string,
+    nextLink: string,
+    options?: DiagnosticsListProviderDetectorResponsesNextOptionalParams
+  ): Promise<DiagnosticsListProviderDetectorResponsesNextResponse> {
+    return this.client.sendOperationRequest(
+      { location, nextLink, options },
+      listProviderDetectorResponsesNextOperationSpec
+    );
+  }
+
+  /**
    * ListHostingEnvironmentDetectorResponsesNext
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site Name
@@ -1628,6 +1771,55 @@ export class DiagnosticsImpl implements Diagnostics {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listProviderDetectorResponsesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/detectors",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DetectorResponseCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.resourceType],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getProviderDetectorResponseOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/detectors/{detectorName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DetectorResponse
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.resourceType,
+    Parameters.startTime1,
+    Parameters.endTime1,
+    Parameters.timeGrain1
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+    Parameters.detectorName1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listHostingEnvironmentDetectorResponsesOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/detectors",
@@ -2182,6 +2374,26 @@ const executeSiteDetectorSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const listProviderDetectorResponsesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DetectorResponseCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.location
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listHostingEnvironmentDetectorResponsesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -2193,7 +2405,6 @@ const listHostingEnvironmentDetectorResponsesNextOperationSpec: coreClient.Opera
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2215,7 +2426,6 @@ const listSiteDetectorResponsesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2237,7 +2447,6 @@ const listSiteDiagnosticCategoriesNextOperationSpec: coreClient.OperationSpec = 
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2259,7 +2468,6 @@ const listSiteAnalysesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2282,7 +2490,6 @@ const listSiteDetectorsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2305,7 +2512,6 @@ const listSiteDetectorResponsesSlotNextOperationSpec: coreClient.OperationSpec =
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2328,7 +2534,6 @@ const listSiteDiagnosticCategoriesSlotNextOperationSpec: coreClient.OperationSpe
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2351,7 +2556,6 @@ const listSiteAnalysesSlotNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2375,7 +2579,6 @@ const listSiteDetectorsSlotNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
