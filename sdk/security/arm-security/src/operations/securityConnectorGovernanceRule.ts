@@ -36,7 +36,7 @@ export class SecurityConnectorGovernanceRuleImpl
   }
 
   /**
-   * Get a list of all relevant governanceRules over a security connector level scope
+   * Get a list of all relevant governance rules over a security connector level scope
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param securityConnectorName The security connector name.
@@ -121,7 +121,7 @@ export class SecurityConnectorGovernanceRuleImpl
   }
 
   /**
-   * Get a list of all relevant governanceRules over a security connector level scope
+   * Get a list of all relevant governance rules over a security connector level scope
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param securityConnectorName The security connector name.
@@ -178,7 +178,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.securityConnectorName
+    Parameters.securityConnectorName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -194,13 +194,12 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion18],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.securityConnectorName
+    Parameters.securityConnectorName1
   ],
   headerParameters: [Parameters.accept],
   serializer
