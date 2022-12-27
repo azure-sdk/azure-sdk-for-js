@@ -199,24 +199,27 @@ export interface AzureIaaSVMJobV2 extends Job {
 export interface AzureIaaSVMProtectedItem extends ProtectedItem {
     extendedInfo?: AzureIaaSVMProtectedItemExtendedInfo;
     extendedProperties?: ExtendedProperties;
-    friendlyName?: string;
+    readonly friendlyName?: string;
     healthDetails?: AzureIaaSVMHealthDetails[];
-    healthStatus?: HealthStatus;
+    readonly healthStatus?: HealthStatus;
     kpisHealths?: {
         [propertyName: string]: KPIResourceHealthDetails;
     };
     lastBackupStatus?: string;
-    lastBackupTime?: Date;
-    protectedItemDataId?: string;
+    readonly lastBackupTime?: Date;
+    readonly protectedItemDataId?: string;
     protectedItemType: "AzureIaaSVMProtectedItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines";
     protectionState?: ProtectionState;
     protectionStatus?: string;
-    virtualMachineId?: string;
+    readonly virtualMachineId?: string;
 }
 
 // @public
 export interface AzureIaaSVMProtectedItemExtendedInfo {
+    newestRecoveryPointInArchive?: Date;
     oldestRecoveryPoint?: Date;
+    oldestRecoveryPointInArchive?: Date;
+    oldestRecoveryPointInVault?: Date;
     policyInconsistent?: boolean;
     recoveryPointCount?: number;
 }
@@ -230,9 +233,13 @@ export interface AzureIaaSVMProtectionPolicy extends ProtectionPolicy {
     // (undocumented)
     instantRPDetails?: InstantRPAdditionalDetails;
     instantRpRetentionRangeInDays?: number;
+    // (undocumented)
     policyType?: IaasvmPolicyType;
     retentionPolicy?: RetentionPolicyUnion;
     schedulePolicy?: SchedulePolicyUnion;
+    tieringPolicy?: {
+        [propertyName: string]: TieringPolicy;
+    };
     timeZone?: string;
 }
 
@@ -372,19 +379,19 @@ export interface AzureVmWorkloadProtectableItem extends WorkloadProtectableItem 
     parentName?: string;
     parentUniqueName?: string;
     prebackupvalidation?: PreBackupValidation;
-    protectableItemType: "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
+    protectableItemType: "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "SAPHanaHSR" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
     serverName?: string;
     subinquireditemcount?: number;
     subprotectableitemcount?: number;
 }
 
 // @public (undocumented)
-export type AzureVmWorkloadProtectableItemUnion = AzureVmWorkloadProtectableItem | AzureVmWorkloadSAPAseSystemProtectableItem | AzureVmWorkloadSAPHanaDatabaseProtectableItem | AzureVmWorkloadSAPHanaSystemProtectableItem | AzureVmWorkloadSQLAvailabilityGroupProtectableItem | AzureVmWorkloadSQLDatabaseProtectableItem | AzureVmWorkloadSQLInstanceProtectableItem;
+export type AzureVmWorkloadProtectableItemUnion = AzureVmWorkloadProtectableItem | AzureVmWorkloadSAPAseSystemProtectableItem | AzureVmWorkloadSAPHanaDatabaseProtectableItem | AzureVmWorkloadSAPHanaSystemProtectableItem | AzureVmWorkloadSAPHanaDBInstance | AzureVmWorkloadSAPHanaHSR | AzureVmWorkloadSQLAvailabilityGroupProtectableItem | AzureVmWorkloadSQLDatabaseProtectableItem | AzureVmWorkloadSQLInstanceProtectableItem;
 
 // @public
 export interface AzureVmWorkloadProtectedItem extends ProtectedItem {
     extendedInfo?: AzureVmWorkloadProtectedItemExtendedInfo;
-    friendlyName?: string;
+    readonly friendlyName?: string;
     kpisHealths?: {
         [propertyName: string]: KPIResourceHealthDetails;
     };
@@ -395,22 +402,25 @@ export interface AzureVmWorkloadProtectedItem extends ProtectedItem {
     parentType?: string;
     protectedItemDataSourceId?: string;
     protectedItemHealthStatus?: ProtectedItemHealthStatus;
-    protectedItemType: "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSQLDatabase";
+    protectedItemType: "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSAPHanaDBInstance" | "AzureVmWorkloadSQLDatabase";
     protectionState?: ProtectionState;
-    protectionStatus?: string;
+    readonly protectionStatus?: string;
     serverName?: string;
 }
 
 // @public
 export interface AzureVmWorkloadProtectedItemExtendedInfo {
+    newestRecoveryPointInArchive?: Date;
     oldestRecoveryPoint?: Date;
+    oldestRecoveryPointInArchive?: Date;
+    oldestRecoveryPointInVault?: Date;
     policyState?: string;
     recoveryModel?: string;
     recoveryPointCount?: number;
 }
 
 // @public (undocumented)
-export type AzureVmWorkloadProtectedItemUnion = AzureVmWorkloadProtectedItem | AzureVmWorkloadSAPAseDatabaseProtectedItem | AzureVmWorkloadSAPHanaDatabaseProtectedItem | AzureVmWorkloadSQLDatabaseProtectedItem;
+export type AzureVmWorkloadProtectedItemUnion = AzureVmWorkloadProtectedItem | AzureVmWorkloadSAPAseDatabaseProtectedItem | AzureVmWorkloadSAPHanaDatabaseProtectedItem | AzureVmWorkloadSAPHanaDBInstanceProtectedItem | AzureVmWorkloadSQLDatabaseProtectedItem;
 
 // @public
 export interface AzureVmWorkloadProtectionPolicy extends ProtectionPolicy {
@@ -454,6 +464,21 @@ export interface AzureVmWorkloadSAPHanaDatabaseProtectedItem extends AzureVmWork
 // @public
 export interface AzureVmWorkloadSAPHanaDatabaseWorkloadItem extends AzureVmWorkloadItem {
     workloadItemType: "SAPHanaDatabase";
+}
+
+// @public
+export interface AzureVmWorkloadSAPHanaDBInstance extends AzureVmWorkloadProtectableItem {
+    protectableItemType: "SAPHanaDBInstance";
+}
+
+// @public
+export interface AzureVmWorkloadSAPHanaDBInstanceProtectedItem extends AzureVmWorkloadProtectedItem {
+    protectedItemType: "AzureVmWorkloadSAPHanaDBInstance";
+}
+
+// @public
+export interface AzureVmWorkloadSAPHanaHSR extends AzureVmWorkloadProtectableItem {
+    protectableItemType: "SAPHanaHSR";
 }
 
 // @public
@@ -1385,6 +1410,26 @@ export type DayOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursda
 // @public
 export type DedupState = string;
 
+// @public
+export interface DeletedProtectionContainers {
+    list(resourceGroupName: string, vaultName: string, options?: DeletedProtectionContainersListOptionalParams): PagedAsyncIterableIterator<ProtectionContainerResource>;
+}
+
+// @public
+export interface DeletedProtectionContainersListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeletedProtectionContainersListNextResponse = ProtectionContainerResourceList;
+
+// @public
+export interface DeletedProtectionContainersListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type DeletedProtectionContainersListResponse = ProtectionContainerResourceList;
+
 // @public (undocumented)
 export interface DiskExclusionProperties {
     diskLunList?: number[];
@@ -1953,6 +1998,7 @@ export enum KnownBackupItemType {
     Invalid = "Invalid",
     SAPAseDatabase = "SAPAseDatabase",
     SAPHanaDatabase = "SAPHanaDatabase",
+    SAPHanaDBInstance = "SAPHanaDBInstance",
     Sharepoint = "Sharepoint",
     SQLDataBase = "SQLDataBase",
     Sqldb = "SQLDB",
@@ -1981,23 +2027,23 @@ export enum KnownBackupType {
     Full = "Full",
     Incremental = "Incremental",
     Invalid = "Invalid",
-    Log = "Log"
+    Log = "Log",
+    SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull",
+    SnapshotFull = "SnapshotFull"
 }
 
 // @public
 export enum KnownContainerType {
     AzureBackupServerContainer = "AzureBackupServerContainer",
     AzureSqlContainer = "AzureSqlContainer",
-    AzureWorkloadContainer = "AzureWorkloadContainer",
     Cluster = "Cluster",
     DPMContainer = "DPMContainer",
     GenericContainer = "GenericContainer",
+    HanaHSRContainer = "HanaHSRContainer",
     IaasVMContainer = "IaasVMContainer",
     IaasVMServiceContainer = "IaasVMServiceContainer",
     Invalid = "Invalid",
     MABContainer = "MABContainer",
-    MicrosoftClassicComputeVirtualMachines = "Microsoft.ClassicCompute/virtualMachines",
-    MicrosoftComputeVirtualMachines = "Microsoft.Compute/virtualMachines",
     SqlagWorkLoadContainer = "SQLAGWorkLoadContainer",
     StorageContainer = "StorageContainer",
     Unknown = "Unknown",
@@ -2040,6 +2086,7 @@ export enum KnownDataSourceType {
     Invalid = "Invalid",
     SAPAseDatabase = "SAPAseDatabase",
     SAPHanaDatabase = "SAPHanaDatabase",
+    SAPHanaDBInstance = "SAPHanaDBInstance",
     Sharepoint = "Sharepoint",
     SQLDataBase = "SQLDataBase",
     Sqldb = "SQLDB",
@@ -2214,7 +2261,9 @@ export enum KnownPolicyType {
     Full = "Full",
     Incremental = "Incremental",
     Invalid = "Invalid",
-    Log = "Log"
+    Log = "Log",
+    SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull",
+    SnapshotFull = "SnapshotFull"
 }
 
 // @public
@@ -2321,7 +2370,9 @@ export enum KnownRestorePointQueryType {
     FullAndDifferential = "FullAndDifferential",
     Incremental = "Incremental",
     Invalid = "Invalid",
-    Log = "Log"
+    Log = "Log",
+    SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull",
+    SnapshotFull = "SnapshotFull"
 }
 
 // @public
@@ -2330,7 +2381,9 @@ export enum KnownRestorePointType {
     Full = "Full",
     Incremental = "Incremental",
     Invalid = "Invalid",
-    Log = "Log"
+    Log = "Log",
+    SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull",
+    SnapshotFull = "SnapshotFull"
 }
 
 // @public
@@ -2404,6 +2457,14 @@ export enum KnownSupportStatus {
 }
 
 // @public
+export enum KnownTieringMode {
+    DoNotTier = "DoNotTier",
+    Invalid = "Invalid",
+    TierAfter = "TierAfter",
+    TierRecommended = "TierRecommended"
+}
+
+// @public
 export enum KnownType {
     BackupProtectedItemCountSummary = "BackupProtectedItemCountSummary",
     BackupProtectionContainerCountSummary = "BackupProtectionContainerCountSummary",
@@ -2433,6 +2494,7 @@ export enum KnownWorkloadItemType {
     SAPAseDatabase = "SAPAseDatabase",
     SAPAseSystem = "SAPAseSystem",
     SAPHanaDatabase = "SAPHanaDatabase",
+    SAPHanaDBInstance = "SAPHanaDBInstance",
     SAPHanaSystem = "SAPHanaSystem",
     SQLDataBase = "SQLDataBase",
     SQLInstance = "SQLInstance"
@@ -2449,6 +2511,7 @@ export enum KnownWorkloadType {
     Invalid = "Invalid",
     SAPAseDatabase = "SAPAseDatabase",
     SAPHanaDatabase = "SAPHanaDatabase",
+    SAPHanaDBInstance = "SAPHanaDBInstance",
     Sharepoint = "Sharepoint",
     SQLDataBase = "SQLDataBase",
     Sqldb = "SQLDB",
@@ -2921,12 +2984,15 @@ export interface ProtectableContainersListOptionalParams extends coreClient.Oper
 // @public
 export type ProtectableContainersListResponse = ProtectableContainerResourceList;
 
+// @public
+export type ProtectableContainerType = "Invalid" | "Unknown" | "IaasVMContainer" | "IaasVMServiceContainer" | "DPMContainer" | "AzureBackupServerContainer" | "MABContainer" | "Cluster" | "AzureSqlContainer" | "Windows" | "VCenter" | "VMAppContainer" | "SQLAGWorkLoadContainer" | "StorageContainer" | "GenericContainer" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureWorkloadContainer";
+
 // @public (undocumented)
 export type ProtectableContainerUnion = ProtectableContainer | AzureStorageProtectableContainer | AzureVMAppContainerProtectableContainer;
 
 // @public
 export interface ProtectedItem {
-    backupManagementType?: BackupManagementType;
+    readonly backupManagementType?: BackupManagementType;
     backupSetName?: string;
     containerName?: string;
     createMode?: CreateMode;
@@ -2939,10 +3005,11 @@ export interface ProtectedItem {
     lastRecoveryPoint?: Date;
     policyId?: string;
     policyName?: string;
-    protectedItemType: "AzureFileShareProtectedItem" | "AzureIaaSVMProtectedItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "Microsoft.Sql/servers/databases" | "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSQLDatabase" | "DPMProtectedItem" | "GenericProtectedItem" | "MabFileFolderProtectedItem";
+    protectedItemType: "AzureFileShareProtectedItem" | "AzureIaaSVMProtectedItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "Microsoft.Sql/servers/databases" | "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSAPHanaDBInstance" | "AzureVmWorkloadSQLDatabase" | "DPMProtectedItem" | "GenericProtectedItem" | "MabFileFolderProtectedItem";
     resourceGuardOperationRequests?: string[];
+    softDeleteRetentionPeriod?: number;
     sourceResourceId?: string;
-    workloadType?: DataSourceType;
+    readonly workloadType?: DataSourceType;
 }
 
 // @public
@@ -3420,6 +3487,8 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
     // (undocumented)
     bMSPrepareDataMoveOperationResult: BMSPrepareDataMoveOperationResult;
     // (undocumented)
+    deletedProtectionContainers: DeletedProtectionContainers;
+    // (undocumented)
     exportJobsOperationResults: ExportJobsOperationResults;
     // (undocumented)
     featureSupport: FeatureSupport;
@@ -3763,6 +3832,9 @@ export interface SubProtectionPolicy {
     policyType?: PolicyType;
     retentionPolicy?: RetentionPolicyUnion;
     schedulePolicy?: SchedulePolicyUnion;
+    tieringPolicy?: {
+        [propertyName: string]: TieringPolicy;
+    };
 }
 
 // @public
@@ -3780,6 +3852,16 @@ export interface TargetRestoreInfo {
     databaseName?: string;
     overwriteOption?: OverwriteOptions;
     targetDirectoryForFileRestore?: string;
+}
+
+// @public
+export type TieringMode = string;
+
+// @public
+export interface TieringPolicy {
+    duration?: number;
+    durationType?: RetentionDurationType;
+    tieringMode?: TieringMode;
 }
 
 // @public
@@ -3979,7 +4061,7 @@ export type WorkloadItemUnion = WorkloadItem | AzureVmWorkloadItemUnion;
 export interface WorkloadProtectableItem {
     backupManagementType?: string;
     friendlyName?: string;
-    protectableItemType: "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
+    protectableItemType: "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "SAPHanaHSR" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
     protectionState?: ProtectionStatus;
     workloadType?: string;
 }
