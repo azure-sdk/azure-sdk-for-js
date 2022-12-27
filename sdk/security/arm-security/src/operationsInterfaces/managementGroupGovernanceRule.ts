@@ -7,16 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { GovernanceRule, GovernanceRuleListOptionalParams } from "../models";
+import {
+  GovernanceRule,
+  ManagementGroupGovernanceRuleListOptionalParams
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a GovernanceRuleOperations. */
-export interface GovernanceRuleOperations {
+/** Interface representing a ManagementGroupGovernanceRule. */
+export interface ManagementGroupGovernanceRule {
   /**
-   * Get a list of the governance rules on the subscription level scope
+   * Get a list of all relevant governance rules over a management group level scope
    * @param options The options parameters.
    */
   list(
-    options?: GovernanceRuleListOptionalParams
+    options?: ManagementGroupGovernanceRuleListOptionalParams
   ): PagedAsyncIterableIterator<GovernanceRule>;
 }
