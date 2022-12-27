@@ -295,6 +295,12 @@ export const LanguageExtension: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      languageExtensionImageName: {
+        serializedName: "languageExtensionImageName",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -814,6 +820,75 @@ export const SkuLocationInfoItem: coreClient.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      zoneDetails: {
+        serializedName: "zoneDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceSkuZoneDetails"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ResourceSkuZoneDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceSkuZoneDetails",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      capabilities: {
+        serializedName: "capabilities",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceSkuCapabilities"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ResourceSkuCapabilities: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceSkuCapabilities",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -3052,6 +3127,75 @@ export const EventGridDataConnection: coreClient.CompositeMapper = {
   }
 };
 
+export const CosmosDbDataConnection: coreClient.CompositeMapper = {
+  serializedName: "CosmosDb",
+  type: {
+    name: "Composite",
+    className: "CosmosDbDataConnection",
+    uberParent: "DataConnection",
+    polymorphicDiscriminator: DataConnection.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataConnection.type.modelProperties,
+      tableName: {
+        serializedName: "properties.tableName",
+        type: {
+          name: "String"
+        }
+      },
+      mappingRuleName: {
+        serializedName: "properties.mappingRuleName",
+        type: {
+          name: "String"
+        }
+      },
+      managedIdentityResourceId: {
+        serializedName: "properties.managedIdentityResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      managedIdentityObjectId: {
+        serializedName: "properties.managedIdentityObjectId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      cosmosDbAccountResourceId: {
+        serializedName: "properties.cosmosDbAccountResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      cosmosDbDatabase: {
+        serializedName: "properties.cosmosDbDatabase",
+        type: {
+          name: "String"
+        }
+      },
+      cosmosDbContainer: {
+        serializedName: "properties.cosmosDbContainer",
+        type: {
+          name: "String"
+        }
+      },
+      retrievalStartDate: {
+        serializedName: "properties.retrievalStartDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ClustersUpdateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3134,5 +3278,6 @@ export let discriminators = {
   "Database.ReadOnlyFollowing": ReadOnlyFollowingDatabase,
   "DataConnection.EventHub": EventHubDataConnection,
   "DataConnection.IotHub": IotHubDataConnection,
-  "DataConnection.EventGrid": EventGridDataConnection
+  "DataConnection.EventGrid": EventGridDataConnection,
+  "DataConnection.CosmosDb": CosmosDbDataConnection
 };
