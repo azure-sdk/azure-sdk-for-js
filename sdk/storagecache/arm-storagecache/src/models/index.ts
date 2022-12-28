@@ -690,6 +690,10 @@ export interface Nfs3Target {
   target?: string;
   /** Identifies the StorageCache usage model to be used for this storage target. */
   usageModel?: string;
+  /** Amount of time (in seconds) the cache waits before it checks the back-end storage for file updates. */
+  verificationTimer?: number;
+  /** Amount of time (in seconds) the cache waits after the last file change before it copies the changed file to back-end storage. */
+  writeBackTimer?: number;
 }
 
 /** Properties pertaining to the ClfsTarget */
@@ -710,6 +714,10 @@ export interface BlobNfsTarget {
   target?: string;
   /** Identifies the StorageCache usage model to be used for this storage target. */
   usageModel?: string;
+  /** Amount of time (in seconds) the cache waits before it checks the back-end storage for file updates. */
+  verificationTimer?: number;
+  /** Amount of time (in seconds) the cache waits after the last file change before it copies the changed file to back-end storage. */
+  writeBackTimer?: number;
 }
 
 /** Resource used by a Cache. */
@@ -773,6 +781,14 @@ export interface StorageTarget extends StorageTargetResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly allocationPercentage?: number;
+}
+
+/** Defines headers for Caches_update operation. */
+export interface CachesUpdateHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
 }
 
 /** Defines headers for Caches_startPrimingJob operation. */
@@ -1281,6 +1297,10 @@ export interface CachesUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Object containing the user-selectable properties of the Cache. If read-only properties are included, they must match the existing values of those properties. */
   cache?: Cache;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
 /** Contains response data for the update operation. */
@@ -1459,6 +1479,15 @@ export interface StorageTargetsCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type StorageTargetsCreateOrUpdateResponse = StorageTarget;
+
+/** Optional parameters. */
+export interface StorageTargetsRestoreDefaultsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface StorageTargetsListByCacheNextOptionalParams

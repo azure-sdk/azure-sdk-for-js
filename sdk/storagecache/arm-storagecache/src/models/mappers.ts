@@ -1812,6 +1812,18 @@ export const Nfs3Target: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      verificationTimer: {
+        serializedName: "verificationTimer",
+        type: {
+          name: "Number"
+        }
+      },
+      writeBackTimer: {
+        serializedName: "writeBackTimer",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -1863,6 +1875,18 @@ export const BlobNfsTarget: coreClient.CompositeMapper = {
         serializedName: "usageModel",
         type: {
           name: "String"
+        }
+      },
+      verificationTimer: {
+        serializedName: "verificationTimer",
+        type: {
+          name: "Number"
+        }
+      },
+      writeBackTimer: {
+        serializedName: "writeBackTimer",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -2009,6 +2033,27 @@ export const StorageTarget: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const CachesUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CachesUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
         }
       }
     }
