@@ -2786,6 +2786,36 @@ export const ManagedHsmsUpdateHeaders: coreClient.CompositeMapper = {
   }
 };
 
+export const ManagedHsmsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedHsmsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedHsmsPurgeDeletedHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedHsmsPurgeDeletedHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const MhsmPrivateEndpointConnectionsPutHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

@@ -23,7 +23,8 @@ import {
   ManagedHsmsGetResponse,
   ManagedHsmsGetDeletedOptionalParams,
   ManagedHsmsGetDeletedResponse,
-  ManagedHsmsPurgeDeletedOptionalParams
+  ManagedHsmsPurgeDeletedOptionalParams,
+  ManagedHsmsPurgeDeletedResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -169,7 +170,12 @@ export interface ManagedHsms {
     name: string,
     location: string,
     options?: ManagedHsmsPurgeDeletedOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedHsmsPurgeDeletedResponse>,
+      ManagedHsmsPurgeDeletedResponse
+    >
+  >;
   /**
    * Permanently deletes the specified managed HSM.
    * @param name The name of the soft-deleted managed HSM.
@@ -180,5 +186,5 @@ export interface ManagedHsms {
     name: string,
     location: string,
     options?: ManagedHsmsPurgeDeletedOptionalParams
-  ): Promise<void>;
+  ): Promise<ManagedHsmsPurgeDeletedResponse>;
 }
