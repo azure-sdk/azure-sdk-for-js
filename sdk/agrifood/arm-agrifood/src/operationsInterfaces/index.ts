@@ -13,3 +13,5 @@ export * from "./locations";
 export * from "./operations";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
+export * from "./solutions";
+export * from "./solutionsDiscoverability";
