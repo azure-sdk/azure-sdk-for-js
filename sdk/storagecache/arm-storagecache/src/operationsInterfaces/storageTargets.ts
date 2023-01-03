@@ -16,7 +16,8 @@ import {
   StorageTargetsGetOptionalParams,
   StorageTargetsGetResponse,
   StorageTargetsCreateOrUpdateOptionalParams,
-  StorageTargetsCreateOrUpdateResponse
+  StorageTargetsCreateOrUpdateResponse,
+  StorageTargetsRestoreDefaultsOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -147,4 +148,32 @@ export interface StorageTargets {
     storageTargetName: string,
     options?: StorageTargetsCreateOrUpdateOptionalParams
   ): Promise<StorageTargetsCreateOrUpdateResponse>;
+  /**
+   * Tells a storage target to restore its settings to their default values.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   *                  the [-0-9a-zA-Z_] char class.
+   * @param storageTargetName Name of Storage Target.
+   * @param options The options parameters.
+   */
+  beginRestoreDefaults(
+    resourceGroupName: string,
+    cacheName: string,
+    storageTargetName: string,
+    options?: StorageTargetsRestoreDefaultsOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Tells a storage target to restore its settings to their default values.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   *                  the [-0-9a-zA-Z_] char class.
+   * @param storageTargetName Name of Storage Target.
+   * @param options The options parameters.
+   */
+  beginRestoreDefaultsAndWait(
+    resourceGroupName: string,
+    cacheName: string,
+    storageTargetName: string,
+    options?: StorageTargetsRestoreDefaultsOptionalParams
+  ): Promise<void>;
 }

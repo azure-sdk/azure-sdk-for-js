@@ -1,15 +1,28 @@
 # Release History
+    
+## 6.0.0 (2023-01-03)
+    
+**Features**
 
-## 5.2.1 (Unreleased)
+  - Added operation Caches.beginUpdate
+  - Added operation Caches.beginUpdateAndWait
+  - Added operation StorageTargets.beginRestoreDefaults
+  - Added operation StorageTargets.beginRestoreDefaultsAndWait
+  - Added Interface CachesUpdateHeaders
+  - Added Interface StorageTargetsRestoreDefaultsOptionalParams
+  - Interface BlobNfsTarget has a new optional parameter verificationTimer
+  - Interface BlobNfsTarget has a new optional parameter writeBackTimer
+  - Interface CachesUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface CachesUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface Nfs3Target has a new optional parameter verificationTimer
+  - Interface Nfs3Target has a new optional parameter writeBackTimer
+  - Added function getContinuationToken
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation Caches.update
+    
+    
 ## 5.2.0 (2022-07-15)
     
 **Features**
