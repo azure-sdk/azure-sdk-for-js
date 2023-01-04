@@ -1,15 +1,15 @@
 # Release History
+    
+## 9.1.0 (2023-01-04)
+    
+**Features**
 
-## 9.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface DeploymentExtensionSpec
+  - Interface ContainerGroupProperties has a new optional parameter extensions
+  - Interface EncryptionProperties has a new optional parameter identity
+  - Added function getContinuationToken
+    
+    
 ## 9.0.0 (2022-08-30)
     
 **Features**

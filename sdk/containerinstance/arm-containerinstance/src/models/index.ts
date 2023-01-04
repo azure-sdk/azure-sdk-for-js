@@ -85,6 +85,8 @@ export interface ContainerGroupProperties {
   encryptionProperties?: EncryptionProperties;
   /** The init containers for a container group. */
   initContainers?: InitContainerDefinition[];
+  /** extensions used by virtual kubelet */
+  extensions?: DeploymentExtensionSpec[];
 }
 
 /** Identity for the container group. */
@@ -478,6 +480,8 @@ export interface EncryptionProperties {
   keyName: string;
   /** The encryption key version. */
   keyVersion: string;
+  /** The keyvault managed identity. */
+  identity?: string;
 }
 
 /** The init container definition. */
@@ -521,6 +525,20 @@ export interface InitContainerPropertiesDefinitionInstanceView {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly events?: Event[];
+}
+
+/** Extension sidecars to be added to the deployment. */
+export interface DeploymentExtensionSpec {
+  /** Name of the extension. */
+  name: string;
+  /** Type of extension to be added. */
+  extensionType?: string;
+  /** Version of the extension being used. */
+  version?: string;
+  /** Settings for the extension. */
+  settings?: Record<string, unknown>;
+  /** Protected settings for the extension. */
+  protectedSettings?: Record<string, unknown>;
 }
 
 /** An error response from the Container Instance service. */
