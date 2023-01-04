@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SecurityConnectorGovernanceRules } from "../operationsInterfaces";
+import { ManagementGroupGovernanceRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -14,21 +14,22 @@ import { SecurityCenter } from "../securityCenter";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  SecurityConnectorGovernanceRulesGetOptionalParams,
-  SecurityConnectorGovernanceRulesGetResponse,
+  ManagementGroupGovernanceRulesGetOptionalParams,
+  ManagementGroupGovernanceRulesGetResponse,
   GovernanceRule,
-  SecurityConnectorGovernanceRulesCreateOrUpdateOptionalParams,
-  SecurityConnectorGovernanceRulesCreateOrUpdateResponse,
-  SecurityConnectorGovernanceRulesDeleteOptionalParams
+  ManagementGroupGovernanceRulesCreateOrUpdateOptionalParams,
+  ManagementGroupGovernanceRulesCreateOrUpdateResponse,
+  ManagementGroupGovernanceRulesDeleteOptionalParams,
+  ManagementGroupGovernanceRulesDeleteResponse
 } from "../models";
 
-/** Class containing SecurityConnectorGovernanceRules operations. */
-export class SecurityConnectorGovernanceRulesImpl
-  implements SecurityConnectorGovernanceRules {
+/** Class containing ManagementGroupGovernanceRules operations. */
+export class ManagementGroupGovernanceRulesImpl
+  implements ManagementGroupGovernanceRules {
   private readonly client: SecurityCenter;
 
   /**
-   * Initialize a new instance of the class SecurityConnectorGovernanceRules class.
+   * Initialize a new instance of the class ManagementGroupGovernanceRules class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityCenter) {
@@ -37,70 +38,54 @@ export class SecurityConnectorGovernanceRulesImpl
 
   /**
    * Get a specific governance rule for the requested scope by ruleId
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param securityConnectorName The security connector name.
    * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param options The options parameters.
    */
   get(
-    resourceGroupName: string,
-    securityConnectorName: string,
     ruleId: string,
-    options?: SecurityConnectorGovernanceRulesGetOptionalParams
-  ): Promise<SecurityConnectorGovernanceRulesGetResponse> {
+    options?: ManagementGroupGovernanceRulesGetOptionalParams
+  ): Promise<ManagementGroupGovernanceRulesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, securityConnectorName, ruleId, options },
+      { ruleId, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates or updates a governance rule on the given security connector
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param securityConnectorName The security connector name.
+   * Creates or updates governance rule on the given management group
    * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param governanceRule Governance rule over a given scope
    * @param options The options parameters.
    */
   createOrUpdate(
-    resourceGroupName: string,
-    securityConnectorName: string,
     ruleId: string,
     governanceRule: GovernanceRule,
-    options?: SecurityConnectorGovernanceRulesCreateOrUpdateOptionalParams
-  ): Promise<SecurityConnectorGovernanceRulesCreateOrUpdateResponse> {
+    options?: ManagementGroupGovernanceRulesCreateOrUpdateOptionalParams
+  ): Promise<ManagementGroupGovernanceRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        securityConnectorName,
-        ruleId,
-        governanceRule,
-        options
-      },
+      { ruleId, governanceRule, options },
       createOrUpdateOperationSpec
     );
   }
 
   /**
    * Delete a Governance rule over a given scope
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param securityConnectorName The security connector name.
    * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param options The options parameters.
    */
   async beginDelete(
-    resourceGroupName: string,
-    securityConnectorName: string,
     ruleId: string,
-    options?: SecurityConnectorGovernanceRulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ManagementGroupGovernanceRulesDeleteOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagementGroupGovernanceRulesDeleteResponse>,
+      ManagementGroupGovernanceRulesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<ManagementGroupGovernanceRulesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -138,7 +123,7 @@ export class SecurityConnectorGovernanceRulesImpl
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, securityConnectorName, ruleId, options },
+      { ruleId, options },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -152,24 +137,14 @@ export class SecurityConnectorGovernanceRulesImpl
 
   /**
    * Delete a Governance rule over a given scope
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param securityConnectorName The security connector name.
    * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
-    resourceGroupName: string,
-    securityConnectorName: string,
     ruleId: string,
-    options?: SecurityConnectorGovernanceRulesDeleteOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      securityConnectorName,
-      ruleId,
-      options
-    );
+    options?: ManagementGroupGovernanceRulesDeleteOptionalParams
+  ): Promise<ManagementGroupGovernanceRulesDeleteResponse> {
+    const poller = await this.beginDelete(ruleId, options);
     return poller.pollUntilDone();
   }
 }
@@ -178,7 +153,7 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/providers/Microsoft.Security/governanceRules/{ruleId}",
+    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Security/governanceRules/{ruleId}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -191,17 +166,15 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion18],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.ruleId,
-    Parameters.securityConnectorName1
+    Parameters.managementGroupId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/providers/Microsoft.Security/governanceRules/{ruleId}",
+    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Security/governanceRules/{ruleId}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -218,10 +191,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion18],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.ruleId,
-    Parameters.securityConnectorName1
+    Parameters.managementGroupId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -229,16 +200,28 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/providers/Microsoft.Security/governanceRules/{ruleId}",
+    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Security/governanceRules/{ruleId}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {
+      headersMapper: Mappers.ManagementGroupGovernanceRulesDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.ManagementGroupGovernanceRulesDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.ManagementGroupGovernanceRulesDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.ManagementGroupGovernanceRulesDeleteHeaders
+    },
+    default: {}
+  },
   queryParameters: [Parameters.apiVersion18],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.ruleId,
-    Parameters.securityConnectorName1
+    Parameters.managementGroupId
   ],
   serializer
 };
