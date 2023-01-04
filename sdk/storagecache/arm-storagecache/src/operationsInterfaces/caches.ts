@@ -125,7 +125,21 @@ export interface Caches {
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: CachesUpdateOptionalParams
+  ): Promise<
+    PollerLike<PollOperationState<CachesUpdateResponse>, CachesUpdateResponse>
+  >;
+  /**
+   * Update a Cache instance.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   *                  the [-0-9a-zA-Z_] char class.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
     resourceGroupName: string,
     cacheName: string,
     options?: CachesUpdateOptionalParams
