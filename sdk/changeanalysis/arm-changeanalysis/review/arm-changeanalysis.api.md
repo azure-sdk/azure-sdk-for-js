@@ -63,7 +63,6 @@ export interface Changes {
 
 // @public
 export interface ChangesListChangesByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
 }
 
 // @public
@@ -79,7 +78,6 @@ export type ChangesListChangesByResourceGroupResponse = ChangeList;
 
 // @public
 export interface ChangesListChangesBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
 }
 
 // @public
@@ -143,7 +141,6 @@ export interface Operations {
 
 // @public
 export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
 }
 
 // @public
@@ -189,7 +186,6 @@ export interface ResourceChanges {
 
 // @public
 export interface ResourceChangesListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
 }
 
 // @public

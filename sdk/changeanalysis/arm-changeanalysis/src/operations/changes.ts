@@ -104,8 +104,6 @@ export class ChangesImpl implements Changes {
     while (continuationToken) {
       result = await this._listChangesByResourceGroupNext(
         resourceGroupName,
-        startTime,
-        endTime,
         continuationToken,
         options
       );
@@ -191,8 +189,6 @@ export class ChangesImpl implements Changes {
     }
     while (continuationToken) {
       result = await this._listChangesBySubscriptionNext(
-        startTime,
-        endTime,
         continuationToken,
         options
       );
@@ -258,41 +254,33 @@ export class ChangesImpl implements Changes {
   /**
    * ListChangesByResourceGroupNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param startTime Specifies the start time of the changes request.
-   * @param endTime Specifies the end time of the changes request.
    * @param nextLink The nextLink from the previous successful call to the ListChangesByResourceGroup
    *                 method.
    * @param options The options parameters.
    */
   private _listChangesByResourceGroupNext(
     resourceGroupName: string,
-    startTime: Date,
-    endTime: Date,
     nextLink: string,
     options?: ChangesListChangesByResourceGroupNextOptionalParams
   ): Promise<ChangesListChangesByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, startTime, endTime, nextLink, options },
+      { resourceGroupName, nextLink, options },
       listChangesByResourceGroupNextOperationSpec
     );
   }
 
   /**
    * ListChangesBySubscriptionNext
-   * @param startTime Specifies the start time of the changes request.
-   * @param endTime Specifies the end time of the changes request.
    * @param nextLink The nextLink from the previous successful call to the ListChangesBySubscription
    *                 method.
    * @param options The options parameters.
    */
   private _listChangesBySubscriptionNext(
-    startTime: Date,
-    endTime: Date,
     nextLink: string,
     options?: ChangesListChangesBySubscriptionNextOptionalParams
   ): Promise<ChangesListChangesBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
-      { startTime, endTime, nextLink, options },
+      { nextLink, options },
       listChangesBySubscriptionNextOperationSpec
     );
   }
@@ -359,12 +347,6 @@ const listChangesByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken,
-    Parameters.startTime,
-    Parameters.endTime
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -385,12 +367,6 @@ const listChangesBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken,
-    Parameters.startTime,
-    Parameters.endTime
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

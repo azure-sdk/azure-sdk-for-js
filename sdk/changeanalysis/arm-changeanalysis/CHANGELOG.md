@@ -1,15 +1,15 @@
 # Release History
+    
+## 3.0.0 (2023-01-04)
+    
+**Breaking Changes**
 
-## 2.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ChangesListChangesByResourceGroupNextOptionalParams no longer has parameter skipToken
+  - Interface ChangesListChangesBySubscriptionNextOptionalParams no longer has parameter skipToken
+  - Interface OperationsListNextOptionalParams no longer has parameter skipToken
+  - Interface ResourceChangesListNextOptionalParams no longer has parameter skipToken
+    
+    
 ## 2.1.0 (2022-11-17)
     
 **Features**

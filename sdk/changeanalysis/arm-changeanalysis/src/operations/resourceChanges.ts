@@ -88,13 +88,7 @@ export class ResourceChangesImpl implements ResourceChanges {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceId,
-        startTime,
-        endTime,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(resourceId, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -141,20 +135,16 @@ export class ResourceChangesImpl implements ResourceChanges {
   /**
    * ListNext
    * @param resourceId The identifier of the resource.
-   * @param startTime Specifies the start time of the changes request.
-   * @param endTime Specifies the end time of the changes request.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceId: string,
-    startTime: Date,
-    endTime: Date,
     nextLink: string,
     options?: ResourceChangesListNextOptionalParams
   ): Promise<ResourceChangesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceId, startTime, endTime, nextLink, options },
+      { resourceId, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -194,12 +184,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken,
-    Parameters.startTime,
-    Parameters.endTime
-  ],
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.resourceId],
   headerParameters: [Parameters.accept],
   serializer

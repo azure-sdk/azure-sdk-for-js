@@ -215,10 +215,7 @@ export type OperationsListResponse = ResourceProviderOperationList;
 
 /** Optional parameters. */
 export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = ResourceProviderOperationList;
@@ -235,10 +232,7 @@ export type ResourceChangesListResponse = ChangeList;
 
 /** Optional parameters. */
 export interface ResourceChangesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ResourceChangesListNextResponse = ChangeList;
@@ -265,20 +259,14 @@ export type ChangesListChangesBySubscriptionResponse = ChangeList;
 
 /** Optional parameters. */
 export interface ChangesListChangesByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listChangesByResourceGroupNext operation. */
 export type ChangesListChangesByResourceGroupNextResponse = ChangeList;
 
 /** Optional parameters. */
 export interface ChangesListChangesBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listChangesBySubscriptionNext operation. */
 export type ChangesListChangesBySubscriptionNextResponse = ChangeList;
