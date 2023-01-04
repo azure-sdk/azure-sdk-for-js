@@ -29,6 +29,7 @@ import {
   VaultsListDeletedResponse,
   Resource,
   VaultsListNextOptionalParams,
+  ResourceManagerApiVersions,
   VaultsListOptionalParams,
   VaultsListResponse,
   VaultCreateOrUpdateParameters,
@@ -40,13 +41,13 @@ import {
   VaultsDeleteOptionalParams,
   VaultsGetOptionalParams,
   VaultsGetResponse,
+  VaultsGetDeletedOptionalParams,
+  VaultsGetDeletedResponse,
+  VaultsPurgeDeletedOptionalParams,
   VaultAccessPolicyParameters,
   AccessPolicyUpdateKind,
   VaultsUpdateAccessPolicyOptionalParams,
   VaultsUpdateAccessPolicyResponse,
-  VaultsGetDeletedOptionalParams,
-  VaultsGetDeletedResponse,
-  VaultsPurgeDeletedOptionalParams,
   VaultCheckNameAvailabilityParameters,
   VaultsCheckNameAvailabilityOptionalParams,
   VaultsCheckNameAvailabilityResponse,
@@ -249,12 +250,14 @@ export class VaultsImpl implements Vaults {
 
   /**
    * The List operation gets information about the vaults associated with the subscription.
+   * @param apiVersion Azure Resource Manager Api Version.
    * @param options The options parameters.
    */
   public list(
+    apiVersion: ResourceManagerApiVersions,
     options?: VaultsListOptionalParams
   ): PagedAsyncIterableIterator<Resource> {
-    const iter = this.listPagingAll(options);
+    const iter = this.listPagingAll(apiVersion, options);
     return {
       next() {
         return iter.next();
@@ -266,19 +269,20 @@ export class VaultsImpl implements Vaults {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(options, settings);
+        return this.listPagingPage(apiVersion, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
+    apiVersion: ResourceManagerApiVersions,
     options?: VaultsListOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<Resource[]> {
     let result: VaultsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(options);
+      result = await this._list(apiVersion, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -294,9 +298,10 @@ export class VaultsImpl implements Vaults {
   }
 
   private async *listPagingAll(
+    apiVersion: ResourceManagerApiVersions,
     options?: VaultsListOptionalParams
   ): AsyncIterableIterator<Resource> {
-    for await (const page of this.listPagingPage(options)) {
+    for await (const page of this.listPagingPage(apiVersion, options)) {
       yield* page;
     }
   }
@@ -447,27 +452,6 @@ export class VaultsImpl implements Vaults {
   }
 
   /**
-   * Update access policies in a key vault in the specified subscription.
-   * @param resourceGroupName The name of the Resource Group to which the vault belongs.
-   * @param vaultName Name of the vault
-   * @param operationKind Name of the operation
-   * @param parameters Access policy to merge into the vault
-   * @param options The options parameters.
-   */
-  updateAccessPolicy(
-    resourceGroupName: string,
-    vaultName: string,
-    operationKind: AccessPolicyUpdateKind,
-    parameters: VaultAccessPolicyParameters,
-    options?: VaultsUpdateAccessPolicyOptionalParams
-  ): Promise<VaultsUpdateAccessPolicyResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, operationKind, parameters, options },
-      updateAccessPolicyOperationSpec
-    );
-  }
-
-  /**
    * The List operation gets information about the vaults associated with the subscription and within the
    * specified resource group.
    * @param resourceGroupName The name of the Resource Group to which the vault belongs.
@@ -605,13 +589,39 @@ export class VaultsImpl implements Vaults {
   }
 
   /**
+   * Update access policies in a key vault in the specified subscription.
+   * @param resourceGroupName The name of the Resource Group to which the vault belongs.
+   * @param vaultName Name of the vault
+   * @param operationKind Name of the operation
+   * @param parameters Access policy to merge into the vault
+   * @param options The options parameters.
+   */
+  updateAccessPolicy(
+    resourceGroupName: string,
+    vaultName: string,
+    operationKind: AccessPolicyUpdateKind,
+    parameters: VaultAccessPolicyParameters,
+    options?: VaultsUpdateAccessPolicyOptionalParams
+  ): Promise<VaultsUpdateAccessPolicyResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vaultName, operationKind, parameters, options },
+      updateAccessPolicyOperationSpec
+    );
+  }
+
+  /**
    * The List operation gets information about the vaults associated with the subscription.
+   * @param apiVersion Azure Resource Manager Api Version.
    * @param options The options parameters.
    */
   private _list(
+    apiVersion: ResourceManagerApiVersions,
     options?: VaultsListOptionalParams
   ): Promise<VaultsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
+    return this.client.sendOperationRequest(
+      { apiVersion, options },
+      listOperationSpec
+    );
   }
 
   /**
@@ -797,34 +807,6 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateAccessPolicyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/accessPolicies/{operationKind}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VaultAccessPolicyParameters
-    },
-    201: {
-      bodyMapper: Mappers.VaultAccessPolicyParameters
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.operationKind
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults",
@@ -924,6 +906,34 @@ const purgeDeletedOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const updateAccessPolicyOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/accessPolicies/{operationKind}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VaultAccessPolicyParameters
+    },
+    201: {
+      bodyMapper: Mappers.VaultAccessPolicyParameters
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+    Parameters.operationKind
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resources",
   httpMethod: "GET",
@@ -970,7 +980,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -991,7 +1000,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1011,7 +1019,6 @@ const listDeletedNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1031,7 +1038,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -1,16 +1,6 @@
 # Release History
-
-## 2.1.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.1.0-beta.2 (2022-11-28)
+    
+## 3.0.0-beta.1 (2023-01-04)
     
 **Features**
 
@@ -20,6 +10,8 @@
   - Added Interface KeyRotationPolicyAttributes
   - Added Interface LifetimeAction
   - Added Interface ManagedHsm
+  - Added Interface ManagedHsmsDeleteHeaders
+  - Added Interface ManagedHsmsPurgeDeletedHeaders
   - Added Interface ManagedHsmsUpdateHeaders
   - Added Interface MhsmPrivateEndpointConnection
   - Added Interface MhsmPrivateLinkResource
@@ -30,6 +22,8 @@
   - Added Interface SecretAttributes
   - Added Interface Trigger
   - Added Type Alias KeyRotationPolicyActionType
+  - Added Type Alias ManagedHsmsPurgeDeletedResponse
+  - Added Type Alias ResourceManagerApiVersions
   - Interface KeyProperties has a new optional parameter releasePolicy
   - Interface KeyProperties has a new optional parameter rotationPolicy
   - Interface MhsmPrivateEndpointConnectionItem has a new optional parameter etag
@@ -39,6 +33,17 @@
   - Enum KnownKeyPermissions has a new value Release
   - Enum KnownKeyPermissions has a new value Rotate
   - Enum KnownKeyPermissions has a new value Setrotationpolicy
+  - Added function getContinuationToken
+
+**Breaking Changes**
+
+  - Operation Vaults.list has a new signature
+  - Interface ManagedHsmsListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface ManagedHsmsListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface SecretsListNextOptionalParams no longer has parameter top
+  - Interface VaultsListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface VaultsListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface VaultsListNextOptionalParams no longer has parameter top
     
     
 ## 2.0.0 (2022-01-17)

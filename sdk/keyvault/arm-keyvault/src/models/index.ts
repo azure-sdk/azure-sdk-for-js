@@ -398,38 +398,6 @@ export interface VaultPatchProperties {
   publicNetworkAccess?: string;
 }
 
-/** Parameters for updating the access policy in a vault */
-export interface VaultAccessPolicyParameters {
-  /**
-   * The resource id of the access policy.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The resource name of the access policy.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The resource name of the access policy.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The resource type of the access policy.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly location?: string;
-  /** Properties of the access policy */
-  properties: VaultAccessPolicyProperties;
-}
-
-/** Properties of the vault access policy */
-export interface VaultAccessPolicyProperties {
-  /** An array of 0 to 16 identities that have access to the key vault. All identities in the array must use the same tenant ID as the key vault's tenant ID. */
-  accessPolicies: AccessPolicyEntry[];
-}
-
 /** List of vaults */
 export interface VaultListResult {
   /** The list of vaults. */
@@ -499,6 +467,38 @@ export interface DeletedVaultProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly purgeProtectionEnabled?: boolean;
+}
+
+/** Parameters for updating the access policy in a vault */
+export interface VaultAccessPolicyParameters {
+  /**
+   * The resource id of the access policy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The resource name of the access policy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The resource name of the access policy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The resource type of the access policy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
+  /** Properties of the access policy */
+  properties: VaultAccessPolicyProperties;
+}
+
+/** Properties of the vault access policy */
+export interface VaultAccessPolicyProperties {
+  /** An array of 0 to 16 identities that have access to the key vault. All identities in the array must use the same tenant ID as the key vault's tenant ID. */
+  accessPolicies: AccessPolicyEntry[];
 }
 
 /** List of vault resources. */
@@ -734,6 +734,12 @@ export interface MhsmPrivateEndpointConnectionsListResult {
   nextLink?: string;
 }
 
+/** A list of private link resources */
+export interface MhsmPrivateLinkResourceListResult {
+  /** Array of private link resources */
+  value?: MhsmPrivateLinkResource[];
+}
+
 /** List of deleted managed HSM Pools */
 export interface DeletedManagedHsmListResult {
   /** The list of deleted managed HSM Pools. */
@@ -794,12 +800,6 @@ export interface DeletedManagedHsmProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tags?: { [propertyName: string]: string };
-}
-
-/** A list of private link resources */
-export interface MhsmPrivateLinkResourceListResult {
-  /** Array of private link resources */
-  value?: MhsmPrivateLinkResource[];
 }
 
 /** Result of the request to list Storage operations. It contains a list of operations and a URL link to get the next set of results. */
@@ -1080,6 +1080,18 @@ export interface PrivateEndpointConnectionsDeleteHeaders {
 
 /** Defines headers for ManagedHsms_update operation. */
 export interface ManagedHsmsUpdateHeaders {
+  /** The URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for ManagedHsms_delete operation. */
+export interface ManagedHsmsDeleteHeaders {
+  /** The URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for ManagedHsms_purgeDeleted operation. */
+export interface ManagedHsmsPurgeDeletedHeaders {
   /** The URI to poll for completion status. */
   location?: string;
 }
@@ -1680,6 +1692,8 @@ export type SkuName = "standard" | "premium";
 export type CreateMode = "recover" | "default";
 /** Defines values for AccessPolicyUpdateKind. */
 export type AccessPolicyUpdateKind = "add" | "replace" | "remove";
+/** Defines values for ResourceManagerApiVersions. */
+export type ResourceManagerApiVersions = "2015-11-01" | "2022-02-01-preview";
 /** Defines values for Reason. */
 export type Reason = "AccountNameInvalid" | "AlreadyExists";
 /** Defines values for ManagedHsmSkuName. */
@@ -1762,13 +1776,6 @@ export interface VaultsGetOptionalParams extends coreClient.OperationOptions {}
 export type VaultsGetResponse = Vault;
 
 /** Optional parameters. */
-export interface VaultsUpdateAccessPolicyOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the updateAccessPolicy operation. */
-export type VaultsUpdateAccessPolicyResponse = VaultAccessPolicyParameters;
-
-/** Optional parameters. */
 export interface VaultsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {
   /** Maximum number of results to return. */
@@ -1812,6 +1819,13 @@ export interface VaultsPurgeDeletedOptionalParams
 }
 
 /** Optional parameters. */
+export interface VaultsUpdateAccessPolicyOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateAccessPolicy operation. */
+export type VaultsUpdateAccessPolicyResponse = VaultAccessPolicyParameters;
+
+/** Optional parameters. */
 export interface VaultsListOptionalParams extends coreClient.OperationOptions {
   /** Maximum number of results to return. */
   top?: number;
@@ -1829,20 +1843,14 @@ export type VaultsCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
 
 /** Optional parameters. */
 export interface VaultsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum number of results to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type VaultsListByResourceGroupNextResponse = VaultListResult;
 
 /** Optional parameters. */
 export interface VaultsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum number of results to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type VaultsListBySubscriptionNextResponse = VaultListResult;
@@ -1856,10 +1864,7 @@ export type VaultsListDeletedNextResponse = DeletedVaultListResult;
 
 /** Optional parameters. */
 export interface VaultsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum number of results to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type VaultsListNextResponse = ResourceListResult;
@@ -1995,22 +2000,19 @@ export interface ManagedHsmsPurgeDeletedOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the purgeDeleted operation. */
+export type ManagedHsmsPurgeDeletedResponse = ManagedHsmsPurgeDeletedHeaders;
+
 /** Optional parameters. */
 export interface ManagedHsmsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum number of results to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ManagedHsmsListByResourceGroupNextResponse = ManagedHsmListResult;
 
 /** Optional parameters. */
 export interface ManagedHsmsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum number of results to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type ManagedHsmsListBySubscriptionNextResponse = ManagedHsmListResult;
@@ -2115,10 +2117,7 @@ export type SecretsListResponse = SecretListResult;
 
 /** Optional parameters. */
 export interface SecretsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum number of results to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SecretsListNextResponse = SecretListResult;

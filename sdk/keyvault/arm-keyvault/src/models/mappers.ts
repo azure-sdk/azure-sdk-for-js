@@ -1070,72 +1070,6 @@ export const VaultPatchProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const VaultAccessPolicyParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VaultAccessPolicyParameters",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      location: {
-        serializedName: "location",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "VaultAccessPolicyProperties"
-        }
-      }
-    }
-  }
-};
-
-export const VaultAccessPolicyProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VaultAccessPolicyProperties",
-    modelProperties: {
-      accessPolicies: {
-        serializedName: "accessPolicies",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AccessPolicyEntry"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const VaultListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1273,6 +1207,72 @@ export const DeletedVaultProperties: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const VaultAccessPolicyParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VaultAccessPolicyParameters",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "VaultAccessPolicyProperties"
+        }
+      }
+    }
+  }
+};
+
+export const VaultAccessPolicyProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VaultAccessPolicyProperties",
+    modelProperties: {
+      accessPolicies: {
+        serializedName: "accessPolicies",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AccessPolicyEntry"
+            }
+          }
         }
       }
     }
@@ -1859,6 +1859,27 @@ export const MhsmPrivateEndpointConnectionsListResult: coreClient.CompositeMappe
   }
 };
 
+export const MhsmPrivateLinkResourceListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MhsmPrivateLinkResourceListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MhsmPrivateLinkResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const DeletedManagedHsmListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1969,27 +1990,6 @@ export const DeletedManagedHsmProperties: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
-};
-
-export const MhsmPrivateLinkResourceListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MhsmPrivateLinkResourceListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MhsmPrivateLinkResource"
-            }
-          }
         }
       }
     }
@@ -2775,6 +2775,36 @@ export const ManagedHsmsUpdateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ManagedHsmsUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedHsmsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedHsmsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedHsmsPurgeDeletedHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedHsmsPurgeDeletedHeaders",
     modelProperties: {
       location: {
         serializedName: "location",

@@ -118,7 +118,7 @@ export const keyName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-11-01-preview",
+    defaultValue: "2022-02-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -174,23 +174,6 @@ export const vaultName1: OperationURLParameter = {
   }
 };
 
-export const parameters3: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: VaultAccessPolicyParametersMapper
-};
-
-export const operationKind: OperationURLParameter = {
-  parameterPath: "operationKind",
-  mapper: {
-    serializedName: "operationKind",
-    required: true,
-    type: {
-      name: "Enum",
-      allowedValues: ["add", "replace", "remove"]
-    }
-  }
-};
-
 export const top: OperationQueryParameter = {
   parameterPath: ["options", "top"],
   mapper: {
@@ -212,6 +195,23 @@ export const location: OperationURLParameter = {
   }
 };
 
+export const parameters3: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: VaultAccessPolicyParametersMapper
+};
+
+export const operationKind: OperationURLParameter = {
+  parameterPath: "operationKind",
+  mapper: {
+    serializedName: "operationKind",
+    required: true,
+    type: {
+      name: "Enum",
+      allowedValues: ["add", "replace", "remove"]
+    }
+  }
+};
+
 export const filter: OperationQueryParameter = {
   parameterPath: "filter",
   mapper: {
@@ -227,11 +227,11 @@ export const filter: OperationQueryParameter = {
 export const apiVersion1: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2015-11-01",
-    isConstant: true,
     serializedName: "api-version",
+    required: true,
     type: {
-      name: "String"
+      name: "Enum",
+      allowedValues: ["2015-11-01", "2022-02-01-preview"]
     }
   }
 };

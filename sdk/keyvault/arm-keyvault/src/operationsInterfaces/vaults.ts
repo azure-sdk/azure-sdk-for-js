@@ -15,6 +15,7 @@ import {
   DeletedVault,
   VaultsListDeletedOptionalParams,
   Resource,
+  ResourceManagerApiVersions,
   VaultsListOptionalParams,
   VaultCreateOrUpdateParameters,
   VaultsCreateOrUpdateOptionalParams,
@@ -25,13 +26,13 @@ import {
   VaultsDeleteOptionalParams,
   VaultsGetOptionalParams,
   VaultsGetResponse,
+  VaultsGetDeletedOptionalParams,
+  VaultsGetDeletedResponse,
+  VaultsPurgeDeletedOptionalParams,
   VaultAccessPolicyParameters,
   AccessPolicyUpdateKind,
   VaultsUpdateAccessPolicyOptionalParams,
   VaultsUpdateAccessPolicyResponse,
-  VaultsGetDeletedOptionalParams,
-  VaultsGetDeletedResponse,
-  VaultsPurgeDeletedOptionalParams,
   VaultCheckNameAvailabilityParameters,
   VaultsCheckNameAvailabilityOptionalParams,
   VaultsCheckNameAvailabilityResponse
@@ -66,9 +67,11 @@ export interface Vaults {
   ): PagedAsyncIterableIterator<DeletedVault>;
   /**
    * The List operation gets information about the vaults associated with the subscription.
+   * @param apiVersion Azure Resource Manager Api Version.
    * @param options The options parameters.
    */
   list(
+    apiVersion: ResourceManagerApiVersions,
     options?: VaultsListOptionalParams
   ): PagedAsyncIterableIterator<Resource>;
   /**
@@ -138,21 +141,6 @@ export interface Vaults {
     options?: VaultsGetOptionalParams
   ): Promise<VaultsGetResponse>;
   /**
-   * Update access policies in a key vault in the specified subscription.
-   * @param resourceGroupName The name of the Resource Group to which the vault belongs.
-   * @param vaultName Name of the vault
-   * @param operationKind Name of the operation
-   * @param parameters Access policy to merge into the vault
-   * @param options The options parameters.
-   */
-  updateAccessPolicy(
-    resourceGroupName: string,
-    vaultName: string,
-    operationKind: AccessPolicyUpdateKind,
-    parameters: VaultAccessPolicyParameters,
-    options?: VaultsUpdateAccessPolicyOptionalParams
-  ): Promise<VaultsUpdateAccessPolicyResponse>;
-  /**
    * Gets the deleted Azure key vault.
    * @param vaultName The name of the vault.
    * @param location The location of the deleted vault.
@@ -185,6 +173,21 @@ export interface Vaults {
     location: string,
     options?: VaultsPurgeDeletedOptionalParams
   ): Promise<void>;
+  /**
+   * Update access policies in a key vault in the specified subscription.
+   * @param resourceGroupName The name of the Resource Group to which the vault belongs.
+   * @param vaultName Name of the vault
+   * @param operationKind Name of the operation
+   * @param parameters Access policy to merge into the vault
+   * @param options The options parameters.
+   */
+  updateAccessPolicy(
+    resourceGroupName: string,
+    vaultName: string,
+    operationKind: AccessPolicyUpdateKind,
+    parameters: VaultAccessPolicyParameters,
+    options?: VaultsUpdateAccessPolicyOptionalParams
+  ): Promise<VaultsUpdateAccessPolicyResponse>;
   /**
    * Checks that the vault name is valid and is not already in use.
    * @param vaultName The name of the vault.
