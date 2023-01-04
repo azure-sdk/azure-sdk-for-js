@@ -31,12 +31,18 @@ import {
   EntityRelationsImpl,
   EntityQueriesImpl,
   EntityQueryTemplatesImpl,
+  ExportConnectionsImpl,
+  ExportJobsImpl,
   FileImportsImpl,
   IncidentCommentsImpl,
   IncidentRelationsImpl,
+  IncidentTasksImpl,
   MetadataImpl,
   OfficeConsentsImpl,
   SentinelOnboardingStatesImpl,
+  GetRecommendationsImpl,
+  GetImpl,
+  UpdateImpl,
   SecurityMLAnalyticsSettingsImpl,
   ProductSettingsImpl,
   SourceControlOperationsImpl,
@@ -67,12 +73,18 @@ import {
   EntityRelations,
   EntityQueries,
   EntityQueryTemplates,
+  ExportConnections,
+  ExportJobs,
   FileImports,
   IncidentComments,
   IncidentRelations,
+  IncidentTasks,
   Metadata,
   OfficeConsents,
   SentinelOnboardingStates,
+  GetRecommendations,
+  Get,
+  Update,
   SecurityMLAnalyticsSettings,
   ProductSettings,
   SourceControlOperations,
@@ -126,16 +138,13 @@ export class SecurityInsights extends coreClient.ServiceClient {
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
@@ -161,7 +170,9 @@ export class SecurityInsights extends coreClient.ServiceClient {
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
               coreClient.authorizeRequestOnClaimChallenge
@@ -174,7 +185,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-01-preview";
+    this.apiVersion = options.apiVersion || "2023-03-01-preview";
     this.alertRules = new AlertRulesImpl(this);
     this.actions = new ActionsImpl(this);
     this.alertRuleTemplates = new AlertRuleTemplatesImpl(this);
@@ -191,12 +202,18 @@ export class SecurityInsights extends coreClient.ServiceClient {
     this.entityRelations = new EntityRelationsImpl(this);
     this.entityQueries = new EntityQueriesImpl(this);
     this.entityQueryTemplates = new EntityQueryTemplatesImpl(this);
+    this.exportConnections = new ExportConnectionsImpl(this);
+    this.exportJobs = new ExportJobsImpl(this);
     this.fileImports = new FileImportsImpl(this);
     this.incidentComments = new IncidentCommentsImpl(this);
     this.incidentRelations = new IncidentRelationsImpl(this);
+    this.incidentTasks = new IncidentTasksImpl(this);
     this.metadata = new MetadataImpl(this);
     this.officeConsents = new OfficeConsentsImpl(this);
     this.sentinelOnboardingStates = new SentinelOnboardingStatesImpl(this);
+    this.getRecommendations = new GetRecommendationsImpl(this);
+    this.get = new GetImpl(this);
+    this.update = new UpdateImpl(this);
     this.securityMLAnalyticsSettings = new SecurityMLAnalyticsSettingsImpl(
       this
     );
@@ -266,12 +283,18 @@ export class SecurityInsights extends coreClient.ServiceClient {
   entityRelations: EntityRelations;
   entityQueries: EntityQueries;
   entityQueryTemplates: EntityQueryTemplates;
+  exportConnections: ExportConnections;
+  exportJobs: ExportJobs;
   fileImports: FileImports;
   incidentComments: IncidentComments;
   incidentRelations: IncidentRelations;
+  incidentTasks: IncidentTasks;
   metadata: Metadata;
   officeConsents: OfficeConsents;
   sentinelOnboardingStates: SentinelOnboardingStates;
+  getRecommendations: GetRecommendations;
+  get: Get;
+  update: Update;
   securityMLAnalyticsSettings: SecurityMLAnalyticsSettings;
   productSettings: ProductSettings;
   sourceControlOperations: SourceControlOperations;

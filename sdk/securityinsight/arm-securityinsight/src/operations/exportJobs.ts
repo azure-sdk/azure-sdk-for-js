@@ -8,34 +8,30 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Metadata } from "../operationsInterfaces";
+import { ExportJobs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
-  MetadataModel,
-  MetadataListNextOptionalParams,
-  MetadataListOptionalParams,
-  MetadataListResponse,
-  MetadataGetOptionalParams,
-  MetadataGetResponse,
-  MetadataDeleteOptionalParams,
-  MetadataCreateOptionalParams,
-  MetadataCreateResponse,
-  MetadataPatch,
-  MetadataUpdateOptionalParams,
-  MetadataUpdateResponse,
-  MetadataListNextResponse
+  ExportJob,
+  ExportJobsListNextOptionalParams,
+  ExportJobsListOptionalParams,
+  ExportJobsListResponse,
+  ExportJobsGetOptionalParams,
+  ExportJobsGetResponse,
+  ExportJobsCreateOptionalParams,
+  ExportJobsCreateResponse,
+  ExportJobsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Metadata operations. */
-export class MetadataImpl implements Metadata {
+/** Class containing ExportJobs operations. */
+export class ExportJobsImpl implements ExportJobs {
   private readonly client: SecurityInsights;
 
   /**
-   * Initialize a new instance of the class Metadata class.
+   * Initialize a new instance of the class ExportJobs class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityInsights) {
@@ -43,17 +39,24 @@ export class MetadataImpl implements Metadata {
   }
 
   /**
-   * List of all metadata
+   * Gets all export jobs, without export jobs items.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
+   * @param exportConnectionId Export connection Id
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: MetadataListOptionalParams
-  ): PagedAsyncIterableIterator<MetadataModel> {
-    const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
+    exportConnectionId: string,
+    options?: ExportJobsListOptionalParams
+  ): PagedAsyncIterableIterator<ExportJob> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      workspaceName,
+      exportConnectionId,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -68,6 +71,7 @@ export class MetadataImpl implements Metadata {
         return this.listPagingPage(
           resourceGroupName,
           workspaceName,
+          exportConnectionId,
           options,
           settings
         );
@@ -78,13 +82,19 @@ export class MetadataImpl implements Metadata {
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: MetadataListOptionalParams,
+    exportConnectionId: string,
+    options?: ExportJobsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<MetadataModel[]> {
-    let result: MetadataListResponse;
+  ): AsyncIterableIterator<ExportJob[]> {
+    let result: ExportJobsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, workspaceName, options);
+      result = await this._list(
+        resourceGroupName,
+        workspaceName,
+        exportConnectionId,
+        options
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -94,6 +104,7 @@ export class MetadataImpl implements Metadata {
       result = await this._listNext(
         resourceGroupName,
         workspaceName,
+        exportConnectionId,
         continuationToken,
         options
       );
@@ -107,11 +118,13 @@ export class MetadataImpl implements Metadata {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: MetadataListOptionalParams
-  ): AsyncIterableIterator<MetadataModel> {
+    exportConnectionId: string,
+    options?: ExportJobsListOptionalParams
+  ): AsyncIterableIterator<ExportJob> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
+      exportConnectionId,
       options
     )) {
       yield* page;
@@ -119,105 +132,78 @@ export class MetadataImpl implements Metadata {
   }
 
   /**
-   * List of all metadata
+   * Gets all export jobs, without export jobs items.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
+   * @param exportConnectionId Export connection Id
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: MetadataListOptionalParams
-  ): Promise<MetadataListResponse> {
+    exportConnectionId: string,
+    options?: ExportJobsListOptionalParams
+  ): Promise<ExportJobsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, options },
+      { resourceGroupName, workspaceName, exportConnectionId, options },
       listOperationSpec
     );
   }
 
   /**
-   * Get a Metadata.
+   * Gets an export job by its identifier.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param metadataName The Metadata name.
+   * @param exportConnectionId Export connection Id
+   * @param exportJobId Export job Id
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
-    metadataName: string,
-    options?: MetadataGetOptionalParams
-  ): Promise<MetadataGetResponse> {
+    exportConnectionId: string,
+    exportJobId: string,
+    options?: ExportJobsGetOptionalParams
+  ): Promise<ExportJobsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, metadataName, options },
+      {
+        resourceGroupName,
+        workspaceName,
+        exportConnectionId,
+        exportJobId,
+        options
+      },
       getOperationSpec
     );
   }
 
   /**
-   * Delete a Metadata.
+   * Creates an export job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param metadataName The Metadata name.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    workspaceName: string,
-    metadataName: string,
-    options?: MetadataDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, metadataName, options },
-      deleteOperationSpec
-    );
-  }
-
-  /**
-   * Create a Metadata.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param metadataName The Metadata name.
-   * @param metadata Metadata resource.
+   * @param exportConnectionId Export connection Id
+   * @param exportJobId Export job Id
+   * @param exportJob The ExportJob
    * @param options The options parameters.
    */
   create(
     resourceGroupName: string,
     workspaceName: string,
-    metadataName: string,
-    metadata: MetadataModel,
-    options?: MetadataCreateOptionalParams
-  ): Promise<MetadataCreateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, metadataName, metadata, options },
-      createOperationSpec
-    );
-  }
-
-  /**
-   * Update an existing Metadata.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param metadataName The Metadata name.
-   * @param metadataPatch Partial metadata request.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    workspaceName: string,
-    metadataName: string,
-    metadataPatch: MetadataPatch,
-    options?: MetadataUpdateOptionalParams
-  ): Promise<MetadataUpdateResponse> {
+    exportConnectionId: string,
+    exportJobId: string,
+    exportJob: ExportJob,
+    options?: ExportJobsCreateOptionalParams
+  ): Promise<ExportJobsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         workspaceName,
-        metadataName,
-        metadataPatch,
+        exportConnectionId,
+        exportJobId,
+        exportJob,
         options
       },
-      updateOperationSpec
+      createOperationSpec
     );
   }
 
@@ -225,17 +211,25 @@ export class MetadataImpl implements Metadata {
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
+   * @param exportConnectionId Export connection Id
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     workspaceName: string,
+    exportConnectionId: string,
     nextLink: string,
-    options?: MetadataListNextOptionalParams
-  ): Promise<MetadataListNextResponse> {
+    options?: ExportJobsListNextOptionalParams
+  ): Promise<ExportJobsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, nextLink, options },
+      {
+        resourceGroupName,
+        workspaceName,
+        exportConnectionId,
+        nextLink,
+        options
+      },
       listNextOperationSpec
     );
   }
@@ -245,39 +239,34 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/metadata",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/exportConnections/{exportConnectionId}/exportJobs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataList
+      bodyMapper: Mappers.ExportJobList
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.orderby,
-    Parameters.top,
-    Parameters.skip
-  ],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
+    Parameters.exportConnectionId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/metadata/{metadataName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/exportConnections/{exportConnectionId}/exportJobs/{exportJobId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataModel
+      bodyMapper: Mappers.ExportJob
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -289,81 +278,36 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.metadataName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/metadata/{metadataName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.metadataName
+    Parameters.exportConnectionId,
+    Parameters.exportJobId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/metadata/{metadataName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/exportConnections/{exportConnectionId}/exportJobs/{exportJobId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataModel
+      bodyMapper: Mappers.ExportJob
     },
     201: {
-      bodyMapper: Mappers.MetadataModel
+      bodyMapper: Mappers.ExportJob
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.metadata,
+  requestBody: Parameters.exportJob,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.metadataName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/metadata/{metadataName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MetadataModel
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.metadataPatch,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.metadataName
+    Parameters.exportConnectionId,
+    Parameters.exportJobId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -374,7 +318,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataList
+      bodyMapper: Mappers.ExportJobList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -385,7 +329,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.exportConnectionId
   ],
   headerParameters: [Parameters.accept],
   serializer
