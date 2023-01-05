@@ -29,6 +29,7 @@ import {
   ContainerAppsCreateOrUpdateResponse,
   ContainerAppsDeleteOptionalParams,
   ContainerAppsUpdateOptionalParams,
+  ContainerAppsUpdateResponse,
   ContainerAppsListCustomHostNameAnalysisOptionalParams,
   ContainerAppsListCustomHostNameAnalysisResponse,
   ContainerAppsListSecretsOptionalParams,
@@ -406,11 +407,16 @@ export class ContainerAppsImpl implements ContainerApps {
     containerAppName: string,
     containerAppEnvelope: ContainerApp,
     options?: ContainerAppsUpdateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<ContainerAppsUpdateResponse>,
+      ContainerAppsUpdateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<ContainerAppsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -471,7 +477,7 @@ export class ContainerAppsImpl implements ContainerApps {
     containerAppName: string,
     containerAppEnvelope: ContainerApp,
     options?: ContainerAppsUpdateOptionalParams
-  ): Promise<void> {
+  ): Promise<ContainerAppsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       containerAppName,
@@ -690,10 +696,18 @@ const updateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}",
   httpMethod: "PATCH",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.ContainerApp
+    },
+    201: {
+      bodyMapper: Mappers.ContainerApp
+    },
+    202: {
+      bodyMapper: Mappers.ContainerApp
+    },
+    204: {
+      bodyMapper: Mappers.ContainerApp
+    },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
@@ -790,7 +804,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -810,7 +823,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
