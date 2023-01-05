@@ -20,6 +20,8 @@ import {
   DevicesImpl,
   AlertsImpl,
   BandwidthSchedulesImpl,
+  DeviceCapacityCheckImpl,
+  DeviceCapacityInfoOperationsImpl,
   DiagnosticSettingsImpl,
   JobsImpl,
   NodesImpl,
@@ -42,6 +44,8 @@ import {
   Devices,
   Alerts,
   BandwidthSchedules,
+  DeviceCapacityCheck,
+  DeviceCapacityInfoOperations,
   DiagnosticSettings,
   Jobs,
   Nodes,
@@ -92,7 +96,7 @@ export class DataBoxEdgeManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-databoxedge/2.1.1`;
+    const packageDetails = `azsdk-js-arm-databoxedge/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -145,12 +149,16 @@ export class DataBoxEdgeManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-06-01";
+    this.apiVersion = options.apiVersion || "2022-03-01";
     this.operations = new OperationsImpl(this);
     this.availableSkus = new AvailableSkusImpl(this);
     this.devices = new DevicesImpl(this);
     this.alerts = new AlertsImpl(this);
     this.bandwidthSchedules = new BandwidthSchedulesImpl(this);
+    this.deviceCapacityCheck = new DeviceCapacityCheckImpl(this);
+    this.deviceCapacityInfoOperations = new DeviceCapacityInfoOperationsImpl(
+      this
+    );
     this.diagnosticSettings = new DiagnosticSettingsImpl(this);
     this.jobs = new JobsImpl(this);
     this.nodes = new NodesImpl(this);
@@ -202,6 +210,8 @@ export class DataBoxEdgeManagementClient extends coreClient.ServiceClient {
   devices: Devices;
   alerts: Alerts;
   bandwidthSchedules: BandwidthSchedules;
+  deviceCapacityCheck: DeviceCapacityCheck;
+  deviceCapacityInfoOperations: DeviceCapacityInfoOperations;
   diagnosticSettings: DiagnosticSettings;
   jobs: Jobs;
   nodes: Nodes;
