@@ -8,68 +8,60 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  Extension,
-  ExtensionsListByFarmBeatsOptionalParams,
-  ExtensionsCreateOrUpdateOptionalParams,
-  ExtensionsCreateOrUpdateResponse,
-  ExtensionsGetOptionalParams,
-  ExtensionsGetResponse,
-  ExtensionsDeleteOptionalParams
+  Solution,
+  SolutionsListOptionalParams,
+  SolutionsCreateOrUpdateOptionalParams,
+  SolutionsCreateOrUpdateResponse,
+  SolutionsGetOptionalParams,
+  SolutionsGetResponse,
+  SolutionsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Extensions. */
-export interface Extensions {
+/** Interface representing a Solutions. */
+export interface Solutions {
   /**
-   * Get installed extensions details.
+   * Get installed Solutions details.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param farmBeatsResourceName FarmBeats resource name.
    * @param options The options parameters.
    */
-  listByFarmBeats(
+  list(
     resourceGroupName: string,
     farmBeatsResourceName: string,
-    options?: ExtensionsListByFarmBeatsOptionalParams
-  ): PagedAsyncIterableIterator<Extension>;
+    options?: SolutionsListOptionalParams
+  ): PagedAsyncIterableIterator<Solution>;
   /**
-   * Install or Update extension. AdditionalApiProperties are merged patch and if the extension is
-   * updated to a new version then the obsolete entries will be auto deleted from
-   * AdditionalApiProperties.
+   * Install Or Update Solution.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param farmBeatsResourceName FarmBeats resource name.
-   * @param extensionId Id of extension resource.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     farmBeatsResourceName: string,
-    extensionId: string,
-    options?: ExtensionsCreateOrUpdateOptionalParams
-  ): Promise<ExtensionsCreateOrUpdateResponse>;
+    options?: SolutionsCreateOrUpdateOptionalParams
+  ): Promise<SolutionsCreateOrUpdateResponse>;
   /**
-   * Get installed extension details by extension id.
+   * Get installed Solution details by Solution id.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param farmBeatsResourceName FarmBeats resource name.
-   * @param extensionId Id of extension resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     farmBeatsResourceName: string,
-    extensionId: string,
-    options?: ExtensionsGetOptionalParams
-  ): Promise<ExtensionsGetResponse>;
+    options?: SolutionsGetOptionalParams
+  ): Promise<SolutionsGetResponse>;
   /**
-   * Uninstall extension.
+   * Uninstall Solution.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param farmBeatsResourceName FarmBeats resource name.
-   * @param extensionId Id of extension resource.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     farmBeatsResourceName: string,
-    extensionId: string,
-    options?: ExtensionsDeleteOptionalParams
+    options?: SolutionsDeleteOptionalParams
   ): Promise<void>;
 }

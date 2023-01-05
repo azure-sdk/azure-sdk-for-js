@@ -21,7 +21,9 @@ import {
   LocationsImpl,
   OperationsImpl,
   PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl
+  PrivateLinkResourcesImpl,
+  SolutionsImpl,
+  SolutionsDiscoverabilityImpl
 } from "./operations";
 import {
   Extensions,
@@ -30,7 +32,9 @@ import {
   Locations,
   Operations,
   PrivateEndpointConnections,
-  PrivateLinkResources
+  PrivateLinkResources,
+  Solutions,
+  SolutionsDiscoverability
 } from "./operationsInterfaces";
 import { AgriFoodMgmtClientOptionalParams } from "./models";
 
@@ -38,16 +42,19 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
   apiVersion: string;
+  solutionId: string;
 
   /**
    * Initializes a new instance of the AgriFoodMgmtClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
+   * @param solutionId Solution Id of the solution.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
+    solutionId: string,
     options?: AgriFoodMgmtClientOptionalParams
   ) {
     if (credentials === undefined) {
@@ -55,6 +62,9 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
     }
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
+    }
+    if (solutionId === undefined) {
+      throw new Error("'solutionId' cannot be null");
     }
 
     // Initializing default values for options
@@ -116,6 +126,7 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
+    this.solutionId = solutionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
@@ -127,6 +138,8 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
     this.operations = new OperationsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.solutions = new SolutionsImpl(this);
+    this.solutionsDiscoverability = new SolutionsDiscoverabilityImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -165,4 +178,6 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
   operations: Operations;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
+  solutions: Solutions;
+  solutionsDiscoverability: SolutionsDiscoverability;
 }
