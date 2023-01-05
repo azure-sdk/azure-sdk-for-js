@@ -17,7 +17,7 @@ import {
   AutomationRule as AutomationRuleMapper,
   ManualTriggerRequestBody as ManualTriggerRequestBodyMapper,
   Incident as IncidentMapper,
-  TeamProperties as TeamPropertiesMapper,
+  TeamInformation as TeamInformationMapper,
   Bookmark as BookmarkMapper,
   Relation as RelationMapper,
   BookmarkExpandParameters as BookmarkExpandParametersMapper,
@@ -25,8 +25,11 @@ import {
   EntityGetInsightsParameters as EntityGetInsightsParametersMapper,
   EntityTimelineParameters as EntityTimelineParametersMapper,
   CustomEntityQuery as CustomEntityQueryMapper,
+  ExportConnection as ExportConnectionMapper,
+  ExportJob as ExportJobMapper,
   FileImport as FileImportMapper,
   IncidentComment as IncidentCommentMapper,
+  IncidentTask as IncidentTaskMapper,
   MetadataModel as MetadataModelMapper,
   MetadataPatch as MetadataPatchMapper,
   SentinelOnboardingState as SentinelOnboardingStateMapper,
@@ -70,7 +73,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-01-preview",
+    defaultValue: "2023-03-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -112,6 +115,7 @@ export const workspaceName: OperationURLParameter = {
   parameterPath: "workspaceName",
   mapper: {
     constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"),
       MaxLength: 90,
       MinLength: 1
     },
@@ -280,7 +284,7 @@ export const incident: OperationParameter = {
 
 export const teamProperties: OperationParameter = {
   parameterPath: "teamProperties",
-  mapper: TeamPropertiesMapper
+  mapper: TeamInformationMapper
 };
 
 export const bookmarkId: OperationURLParameter = {
@@ -428,6 +432,38 @@ export const entityQueryTemplateId: OperationURLParameter = {
   }
 };
 
+export const exportConnectionId: OperationURLParameter = {
+  parameterPath: "exportConnectionId",
+  mapper: {
+    serializedName: "exportConnectionId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const exportConnection: OperationParameter = {
+  parameterPath: "exportConnection",
+  mapper: ExportConnectionMapper
+};
+
+export const exportJobId: OperationURLParameter = {
+  parameterPath: "exportJobId",
+  mapper: {
+    serializedName: "exportJobId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const exportJob: OperationParameter = {
+  parameterPath: "exportJob",
+  mapper: ExportJobMapper
+};
+
 export const fileImportId: OperationURLParameter = {
   parameterPath: "fileImportId",
   mapper: {
@@ -458,6 +494,22 @@ export const incidentCommentId: OperationURLParameter = {
 export const incidentComment: OperationParameter = {
   parameterPath: "incidentComment",
   mapper: IncidentCommentMapper
+};
+
+export const incidentTaskId: OperationURLParameter = {
+  parameterPath: "incidentTaskId",
+  mapper: {
+    serializedName: "incidentTaskId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const incidentTask: OperationParameter = {
+  parameterPath: "incidentTask",
+  mapper: IncidentTaskMapper
 };
 
 export const skip: OperationQueryParameter = {
@@ -516,6 +568,34 @@ export const sentinelOnboardingStateName: OperationURLParameter = {
 export const sentinelOnboardingStateParameter: OperationParameter = {
   parameterPath: ["options", "sentinelOnboardingStateParameter"],
   mapper: SentinelOnboardingStateMapper
+};
+
+export const recommendationId: OperationURLParameter = {
+  parameterPath: "recommendationId",
+  mapper: {
+    serializedName: "recommendationId",
+    required: true,
+    type: {
+      name: "Uuid"
+    }
+  }
+};
+
+export const recommendationPatch: OperationParameter = {
+  parameterPath: "recommendationPatch",
+  mapper: {
+    serializedName: "recommendationPatch",
+    required: true,
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "Composite",
+          className: "RecommendationPatch"
+        }
+      }
+    }
+  }
 };
 
 export const settingsResourceName: OperationURLParameter = {
