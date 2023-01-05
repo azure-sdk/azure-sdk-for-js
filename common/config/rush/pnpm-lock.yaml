@@ -14,6 +14,7 @@ specifiers:
   '@rush-temp/api-management-custom-widgets-scaffolder': file:./projects/api-management-custom-widgets-scaffolder.tgz
   '@rush-temp/api-management-custom-widgets-tools': file:./projects/api-management-custom-widgets-tools.tgz
   '@rush-temp/app-configuration': file:./projects/app-configuration.tgz
+  '@rush-temp/arm-Qumulo.Storage': file:./projects/arm-Qumulo.Storage.tgz
   '@rush-temp/arm-advisor': file:./projects/arm-advisor.tgz
   '@rush-temp/arm-agrifood': file:./projects/arm-agrifood.tgz
   '@rush-temp/arm-analysisservices': file:./projects/arm-analysisservices.tgz
@@ -338,6 +339,7 @@ dependencies:
   '@rush-temp/api-management-custom-widgets-scaffolder': file:projects/api-management-custom-widgets-scaffolder.tgz
   '@rush-temp/api-management-custom-widgets-tools': file:projects/api-management-custom-widgets-tools.tgz
   '@rush-temp/app-configuration': file:projects/app-configuration.tgz
+  '@rush-temp/arm-Qumulo.Storage': file:projects/arm-Qumulo.Storage.tgz
   '@rush-temp/arm-advisor': file:projects/arm-advisor.tgz
   '@rush-temp/arm-agrifood': file:projects/arm-agrifood.tgz
   '@rush-temp/arm-analysisservices': file:projects/arm-analysisservices.tgz
@@ -2843,8 +2845,8 @@ packages:
     hasBin: true
     dev: false
 
-  /autorest/3.6.2:
-    resolution: {integrity: sha512-JRMmAsSG4wplYUkjVOWELidF+P/OG9BjF542aQcbt4Qj85bJ+7EzRCTV09vbf8f4ScOB+I68+9IcskjNTU9UkQ==}
+  /autorest/3.6.3:
+    resolution: {integrity: sha512-j/Axwk9bniifTNtBLYVxfQZGQIGPKljFaCQCBWOiybVar2j3tkHP1btiC4a/t9pAJXY6IaFgWctoPM3G/Puhyg==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     requiresBuild: true
@@ -3673,7 +3675,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230103
+      typescript: 5.0.0-dev.20230104
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8270,8 +8272,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230103:
-    resolution: {integrity: sha512-vHf8Y8+op6MsFIDgvNmZhAIAUGVmzFzYCUBysMS6hlxlhSWIh1h5AXAW7WKs4GYr325jwTF/L72NKUYZHSD6Mw==}
+  /typescript/5.0.0-dev.20230104:
+    resolution: {integrity: sha512-1W+qcvZu8Spq1fi/ajNcSobXt2ZBPDqyt6qwoNGaMgX1X82ZYmlh50oJfJVf44DNVwXNAsRfyKJ3UkXVf4OYsw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -8874,7 +8876,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       csv-parse: 5.3.3
@@ -9163,7 +9165,7 @@ packages:
       '@microsoft/api-extractor': 7.33.7
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -9387,6 +9389,33 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/arm-Qumulo.Storage.tgz:
+    resolution: {integrity: sha512-ax8dWaXqrAyNWrt5wyZmAVh4sbMYjjeDjJEmc2y8wI5i8zP02SZHvPnzrA8TcPaLpp0a31ED+E+LWlhkVjksmA==, tarball: file:projects/arm-Qumulo.Storage.tgz}
+    name: '@rush-temp/arm-Qumulo.Storage'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.33.7
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.36
+      chai: 4.3.7
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_7e8d81808a761355f6c3da2f25cfe887
+      tslib: 2.4.1
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/arm-advisor.tgz:
@@ -9696,7 +9725,7 @@ packages:
       '@microsoft/api-extractor': 7.33.7
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -10387,7 +10416,7 @@ packages:
       '@microsoft/api-extractor': 7.33.7
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -10622,7 +10651,7 @@ packages:
       '@microsoft/api-extractor': 7.33.7
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -12816,7 +12845,7 @@ packages:
       '@microsoft/api-extractor': 7.33.7
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -13970,7 +13999,7 @@ packages:
       '@microsoft/api-extractor': 7.33.7
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -15298,7 +15327,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -15992,7 +16021,7 @@ packages:
       '@types/node': 14.18.36
       '@types/prettier': 2.7.2
       '@types/semver': 7.3.13
-      autorest: 3.6.2
+      autorest: 3.6.3
       builtin-modules: 3.3.0
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
@@ -16038,7 +16067,7 @@ packages:
       '@microsoft/api-extractor': 7.33.7
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -16854,7 +16883,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/node': 12.20.55
       '@types/uuid': 8.3.4
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -16960,7 +16989,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -17004,7 +17033,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -17048,7 +17077,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -17139,7 +17168,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -19213,7 +19242,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-client.tgz:
-    resolution: {integrity: sha512-Oc9P1qEG7j1/x5vxElDNAR1HvB4MjTHj49e6G4eZZHSDjCS9EDFNtYg+gauXUYmJe0ESYPLAy4dfz2tdifps2A==, tarball: file:projects/web-pubsub-client.tgz}
+    resolution: {integrity: sha512-+Apad1BfmHLxmvPilgDRLuuW5MS/769gUHJZoNLd6g+CicZnt/no0bsPcSOuXXler5WqeM0kFu7grG0q2MOCzg==, tarball: file:projects/web-pubsub-client.tgz}
     name: '@rush-temp/web-pubsub-client'
     version: 0.0.0
     dependencies:
