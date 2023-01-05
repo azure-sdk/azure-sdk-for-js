@@ -18,8 +18,8 @@ export type ApiVersionParameter = string;
 
 // @public
 export interface AuthorizedGroundstation {
-    expirationDate?: Date;
-    groundStation?: string;
+    expirationDate: Date;
+    groundStation: string;
 }
 
 // @public
@@ -181,7 +181,7 @@ export interface Contact extends ProxyResource {
     readonly rxStartTime?: Date;
     readonly startAzimuthDegrees?: number;
     readonly startElevationDegrees?: number;
-    readonly status?: Status;
+    readonly status?: ContactsStatus;
     readonly txEndTime?: Date;
     readonly txStartTime?: Date;
 }
@@ -227,6 +227,7 @@ export interface ContactProfile extends TrackedResource {
     minimumViableContactDuration?: string;
     networkConfiguration?: ContactProfilesPropertiesNetworkConfiguration;
     provisioningState?: ContactProfilesPropertiesProvisioningState;
+    thirdPartyConfigurations?: ContactProfileThirdPartyConfiguration[];
 }
 
 // @public
@@ -292,6 +293,7 @@ export interface ContactProfilesCreateOrUpdateOptionalParams extends coreClient.
     tags?: {
         [propertyName: string]: string;
     };
+    thirdPartyConfigurations?: ContactProfileThirdPartyConfiguration[];
     updateIntervalInMs?: number;
 }
 
@@ -318,7 +320,6 @@ export type ContactProfilesGetResponse = ContactProfile;
 
 // @public
 export interface ContactProfilesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    skiptoken?: string;
 }
 
 // @public
@@ -334,7 +335,6 @@ export type ContactProfilesListBySubscriptionResponse = ContactProfileListResult
 
 // @public
 export interface ContactProfilesListNextOptionalParams extends coreClient.OperationOptions {
-    skiptoken?: string;
 }
 
 // @public
@@ -357,6 +357,7 @@ export interface ContactProfilesProperties {
     minimumViableContactDuration?: string;
     networkConfiguration: ContactProfilesPropertiesNetworkConfiguration;
     provisioningState?: ContactProfilesPropertiesProvisioningState;
+    thirdPartyConfigurations?: ContactProfileThirdPartyConfiguration[];
 }
 
 // @public
@@ -380,6 +381,12 @@ export interface ContactProfilesUpdateTagsOptionalParams extends coreClient.Oper
 
 // @public
 export type ContactProfilesUpdateTagsResponse = ContactProfile;
+
+// @public (undocumented)
+export interface ContactProfileThirdPartyConfiguration {
+    missionConfiguration: string;
+    providerName: string;
+}
 
 // @public
 export interface Contacts {
@@ -425,7 +432,6 @@ export type ContactsGetResponse = Contact;
 
 // @public
 export interface ContactsListNextOptionalParams extends coreClient.OperationOptions {
-    skiptoken?: string;
 }
 
 // @public
@@ -453,6 +459,9 @@ export interface ContactsPropertiesContactProfile extends ResourceReference {
 export type ContactsPropertiesProvisioningState = string;
 
 // @public
+export type ContactsStatus = string;
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -467,6 +476,9 @@ export interface EndPoint {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
 }
@@ -475,7 +487,8 @@ export enum KnownActionType {
 export enum KnownApiVersionParameter {
     TwoThousandTwenty0901Preview = "2020-09-01-preview",
     TwoThousandTwentyOne0404Preview = "2021-04-04-preview",
-    TwoThousandTwentyTwo0301 = "2022-03-01"
+    TwoThousandTwentyTwo0301 = "2022-03-01",
+    TwoThousandTwentyTwo1101 = "2022-11-01"
 }
 
 // @public
@@ -508,6 +521,15 @@ export enum KnownContactsPropertiesProvisioningState {
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownContactsStatus {
+    Cancelled = "cancelled",
+    Failed = "failed",
+    ProviderCancelled = "providerCancelled",
+    Scheduled = "scheduled",
+    Succeeded = "succeeded"
 }
 
 // @public
@@ -572,6 +594,14 @@ export enum KnownSpacecraftsPropertiesProvisioningState {
 }
 
 // @public
+export enum KnownStatus {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Running = "Running",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export interface Operation {
     readonly actionType?: ActionType;
     display?: OperationDisplay;
@@ -603,7 +633,7 @@ export interface OperationResult {
     readonly percentComplete?: number;
     properties?: Record<string, unknown>;
     readonly startTime?: Date;
-    status?: Status;
+    readonly status?: Status;
 }
 
 // @public
@@ -797,7 +827,6 @@ export type SpacecraftsListAvailableContactsResponse = AvailableContactsListResu
 
 // @public
 export interface SpacecraftsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    skiptoken?: string;
 }
 
 // @public
@@ -813,7 +842,6 @@ export type SpacecraftsListBySubscriptionResponse = SpacecraftListResult;
 
 // @public
 export interface SpacecraftsListNextOptionalParams extends coreClient.OperationOptions {
-    skiptoken?: string;
 }
 
 // @public
@@ -845,7 +873,7 @@ export interface SpacecraftsUpdateTagsOptionalParams extends coreClient.Operatio
 export type SpacecraftsUpdateTagsResponse = Spacecraft;
 
 // @public
-export type Status = "scheduled" | "cancelled" | "succeeded" | "failed" | "providerCancelled" | "Succeeded" | "Canceled" | "Failed" | "Running";
+export type Status = string;
 
 // @public
 export interface SystemData {

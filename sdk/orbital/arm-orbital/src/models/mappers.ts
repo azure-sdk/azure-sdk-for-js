@@ -265,12 +265,14 @@ export const AuthorizedGroundstation: coreClient.CompositeMapper = {
     modelProperties: {
       groundStation: {
         serializedName: "groundStation",
+        required: true,
         type: {
           name: "String"
         }
       },
       expirationDate: {
         serializedName: "expirationDate",
+        required: true,
         type: {
           name: "Date"
         }
@@ -712,6 +714,18 @@ export const ContactProfilesProperties: coreClient.CompositeMapper = {
           className: "ContactProfilesPropertiesNetworkConfiguration"
         }
       },
+      thirdPartyConfigurations: {
+        serializedName: "thirdPartyConfigurations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ContactProfileThirdPartyConfiguration"
+            }
+          }
+        }
+      },
       links: {
         serializedName: "links",
         required: true,
@@ -736,6 +750,29 @@ export const ContactProfilesPropertiesNetworkConfiguration: coreClient.Composite
     modelProperties: {
       subnetId: {
         serializedName: "subnetId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContactProfileThirdPartyConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContactProfileThirdPartyConfiguration",
+    modelProperties: {
+      providerName: {
+        serializedName: "providerName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      missionConfiguration: {
+        serializedName: "missionConfiguration",
         required: true,
         type: {
           name: "String"
@@ -1092,19 +1129,9 @@ export const OperationResult: coreClient.CompositeMapper = {
       },
       status: {
         serializedName: "status",
+        readOnly: true,
         type: {
-          name: "Enum",
-          allowedValues: [
-            "scheduled",
-            "cancelled",
-            "succeeded",
-            "failed",
-            "providerCancelled",
-            "Succeeded",
-            "Canceled",
-            "Failed",
-            "Running"
-          ]
+          name: "String"
         }
       },
       startTime: {
@@ -1420,6 +1447,18 @@ export const ContactProfile: coreClient.CompositeMapper = {
           className: "ContactProfilesPropertiesNetworkConfiguration"
         }
       },
+      thirdPartyConfigurations: {
+        serializedName: "properties.thirdPartyConfigurations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ContactProfileThirdPartyConfiguration"
+            }
+          }
+        }
+      },
       links: {
         serializedName: "properties.links",
         type: {
@@ -1459,18 +1498,7 @@ export const Contact: coreClient.CompositeMapper = {
         serializedName: "properties.status",
         readOnly: true,
         type: {
-          name: "Enum",
-          allowedValues: [
-            "scheduled",
-            "cancelled",
-            "succeeded",
-            "failed",
-            "providerCancelled",
-            "Succeeded",
-            "Canceled",
-            "Failed",
-            "Running"
-          ]
+          name: "String"
         }
       },
       reservationStartTime: {
