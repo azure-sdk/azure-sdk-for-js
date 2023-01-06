@@ -1,15 +1,38 @@
 # Release History
-
-## 10.10.1 (2023-01-04)
-
+    
+## 11.0.0 (2023-01-06)
+    
 **Features**
 
--  Exposes `getContinuationToken` helper function to extract continuation token
+  - Added operation group CredentialOperations
+  - Added Interface CredentialListResponse
+  - Added Interface CredentialOperationsCreateOrUpdateOptionalParams
+  - Added Interface CredentialOperationsDeleteOptionalParams
+  - Added Interface CredentialOperationsGetOptionalParams
+  - Added Interface CredentialOperationsListByFactoryNextOptionalParams
+  - Added Interface CredentialOperationsListByFactoryOptionalParams
+  - Added Interface ManagedIdentityCredentialResource
+  - Added Interface SparkConfigurationParametrizationReference
+  - Added Type Alias ConfigurationType
+  - Added Type Alias CredentialOperationsCreateOrUpdateResponse
+  - Added Type Alias CredentialOperationsGetResponse
+  - Added Type Alias CredentialOperationsListByFactoryNextResponse
+  - Added Type Alias CredentialOperationsListByFactoryResponse
+  - Added Type Alias SparkConfigurationReferenceType
+  - Interface SynapseSparkJobDefinitionActivity has a new optional parameter configurationType
+  - Interface SynapseSparkJobDefinitionActivity has a new optional parameter scanFolder
+  - Interface SynapseSparkJobDefinitionActivity has a new optional parameter sparkConfig
+  - Interface SynapseSparkJobDefinitionActivity has a new optional parameter targetSparkConfiguration
+  - Added Enum KnownConfigurationType
+  - Added Enum KnownSparkConfigurationReferenceType
 
-**Bugs Fixed**
+**Breaking Changes**
 
-- A series of small bug fixs relevant to authentication and apiVersion policy
-
+  - Parameter exportSettings of interface SnowflakeSource is now required
+  - Type of parameter type of interface Credential_2 is changed from "ServicePrincipal" | "ManagedIdentity" to "ManagedIdentity" | "ServicePrincipal"
+  - Type of parameter numExecutors of interface SynapseSparkJobDefinitionActivity is changed from number to any
+    
+    
 ## 10.10.0 (2022-11-04)
     
 **Features**
