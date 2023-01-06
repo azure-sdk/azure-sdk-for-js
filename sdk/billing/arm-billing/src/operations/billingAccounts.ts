@@ -355,7 +355,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BillingAccountListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
@@ -371,7 +371,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BillingAccount
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
@@ -396,7 +396,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BillingAccount
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   requestBody: Parameters.parameters,
@@ -415,7 +415,7 @@ const listInvoiceSectionsByCreateSubscriptionPermissionOperationSpec: coreClient
       bodyMapper: Mappers.InvoiceSectionListWithCreateSubPermissionResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -431,10 +431,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BillingAccountListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -447,10 +446,9 @@ const listInvoiceSectionsByCreateSubscriptionPermissionNextOperationSpec: coreCl
       bodyMapper: Mappers.InvoiceSectionListWithCreateSubPermissionResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,

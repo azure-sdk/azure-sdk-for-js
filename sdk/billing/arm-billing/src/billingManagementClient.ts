@@ -8,57 +8,59 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  AgreementsImpl,
+  AvailableBalancesImpl,
   BillingAccountsImpl,
   AddressImpl,
-  AvailableBalancesImpl,
-  InstructionsImpl,
-  BillingProfilesImpl,
-  CustomersImpl,
-  InvoiceSectionsImpl,
   BillingPermissionsImpl,
-  BillingSubscriptionsImpl,
-  ProductsImpl,
-  InvoicesImpl,
-  TransactionsImpl,
-  PoliciesImpl,
+  BillingProfilesImpl,
   BillingPropertyOperationsImpl,
-  OperationsImpl,
-  BillingRoleDefinitionsImpl,
   BillingRoleAssignmentsImpl,
-  AgreementsImpl,
+  BillingRoleDefinitionsImpl,
+  BillingSubscriptionsImpl,
+  CustomersImpl,
+  InstructionsImpl,
+  InvoicesImpl,
+  InvoiceSectionsImpl,
+  OperationsImpl,
+  PoliciesImpl,
+  ProductsImpl,
   ReservationsImpl,
-  EnrollmentAccountsImpl,
-  BillingPeriodsImpl
+  TransactionsImpl
 } from "./operations";
 import {
+  Agreements,
+  AvailableBalances,
   BillingAccounts,
   Address,
-  AvailableBalances,
-  Instructions,
-  BillingProfiles,
-  Customers,
-  InvoiceSections,
   BillingPermissions,
-  BillingSubscriptions,
-  Products,
-  Invoices,
-  Transactions,
-  Policies,
+  BillingProfiles,
   BillingPropertyOperations,
-  Operations,
-  BillingRoleDefinitions,
   BillingRoleAssignments,
-  Agreements,
+  BillingRoleDefinitions,
+  BillingSubscriptions,
+  Customers,
+  Instructions,
+  Invoices,
+  InvoiceSections,
+  Operations,
+  Policies,
+  Products,
   Reservations,
-  EnrollmentAccounts,
-  BillingPeriods
+  Transactions
 } from "./operationsInterfaces";
 import { BillingManagementClientOptionalParams } from "./models";
 
 export class BillingManagementClient extends coreClient.ServiceClient {
   $host: string;
+  apiVersion: string;
   subscriptionId: string;
 
   /**
@@ -88,7 +90,7 @@ export class BillingManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-billing/4.1.1`;
+    const packageDetails = `azsdk-js-arm-billing/5.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -141,48 +143,74 @@ export class BillingManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
+    this.apiVersion = options.apiVersion || "2023-04-01";
+    this.agreements = new AgreementsImpl(this);
+    this.availableBalances = new AvailableBalancesImpl(this);
     this.billingAccounts = new BillingAccountsImpl(this);
     this.address = new AddressImpl(this);
-    this.availableBalances = new AvailableBalancesImpl(this);
-    this.instructions = new InstructionsImpl(this);
-    this.billingProfiles = new BillingProfilesImpl(this);
-    this.customers = new CustomersImpl(this);
-    this.invoiceSections = new InvoiceSectionsImpl(this);
     this.billingPermissions = new BillingPermissionsImpl(this);
-    this.billingSubscriptions = new BillingSubscriptionsImpl(this);
-    this.products = new ProductsImpl(this);
-    this.invoices = new InvoicesImpl(this);
-    this.transactions = new TransactionsImpl(this);
-    this.policies = new PoliciesImpl(this);
+    this.billingProfiles = new BillingProfilesImpl(this);
     this.billingPropertyOperations = new BillingPropertyOperationsImpl(this);
-    this.operations = new OperationsImpl(this);
-    this.billingRoleDefinitions = new BillingRoleDefinitionsImpl(this);
     this.billingRoleAssignments = new BillingRoleAssignmentsImpl(this);
-    this.agreements = new AgreementsImpl(this);
+    this.billingRoleDefinitions = new BillingRoleDefinitionsImpl(this);
+    this.billingSubscriptions = new BillingSubscriptionsImpl(this);
+    this.customers = new CustomersImpl(this);
+    this.instructions = new InstructionsImpl(this);
+    this.invoices = new InvoicesImpl(this);
+    this.invoiceSections = new InvoiceSectionsImpl(this);
+    this.operations = new OperationsImpl(this);
+    this.policies = new PoliciesImpl(this);
+    this.products = new ProductsImpl(this);
     this.reservations = new ReservationsImpl(this);
-    this.enrollmentAccounts = new EnrollmentAccountsImpl(this);
-    this.billingPeriods = new BillingPeriodsImpl(this);
+    this.transactions = new TransactionsImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
+  }
+
+  agreements: Agreements;
+  availableBalances: AvailableBalances;
   billingAccounts: BillingAccounts;
   address: Address;
-  availableBalances: AvailableBalances;
-  instructions: Instructions;
-  billingProfiles: BillingProfiles;
-  customers: Customers;
-  invoiceSections: InvoiceSections;
   billingPermissions: BillingPermissions;
-  billingSubscriptions: BillingSubscriptions;
-  products: Products;
-  invoices: Invoices;
-  transactions: Transactions;
-  policies: Policies;
+  billingProfiles: BillingProfiles;
   billingPropertyOperations: BillingPropertyOperations;
-  operations: Operations;
-  billingRoleDefinitions: BillingRoleDefinitions;
   billingRoleAssignments: BillingRoleAssignments;
-  agreements: Agreements;
+  billingRoleDefinitions: BillingRoleDefinitions;
+  billingSubscriptions: BillingSubscriptions;
+  customers: Customers;
+  instructions: Instructions;
+  invoices: Invoices;
+  invoiceSections: InvoiceSections;
+  operations: Operations;
+  policies: Policies;
+  products: Products;
   reservations: Reservations;
-  enrollmentAccounts: EnrollmentAccounts;
-  billingPeriods: BillingPeriods;
+  transactions: Transactions;
 }

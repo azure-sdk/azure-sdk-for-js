@@ -299,7 +299,7 @@ const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.InvoiceSectionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -320,7 +320,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.InvoiceSection
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -351,10 +351,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.InvoiceSection
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -374,10 +374,9 @@ const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.InvoiceSectionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
