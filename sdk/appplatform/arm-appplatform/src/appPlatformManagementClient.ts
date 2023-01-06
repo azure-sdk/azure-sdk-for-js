@@ -26,18 +26,12 @@ import {
   MonitoringSettingsImpl,
   AppsImpl,
   BindingsImpl,
-  StoragesImpl,
   CertificatesImpl,
   CustomDomainsImpl,
   DeploymentsImpl,
   OperationsImpl,
   RuntimeVersionsImpl,
-  SkusImpl,
-  GatewaysImpl,
-  GatewayRouteConfigsImpl,
-  GatewayCustomDomainsImpl,
-  ApiPortalsImpl,
-  ApiPortalCustomDomainsImpl
+  SkusImpl
 } from "./operations";
 import {
   Services,
@@ -51,18 +45,12 @@ import {
   MonitoringSettings,
   Apps,
   Bindings,
-  Storages,
   Certificates,
   CustomDomains,
   Deployments,
   Operations,
   RuntimeVersions,
-  Skus,
-  Gateways,
-  GatewayRouteConfigs,
-  GatewayCustomDomains,
-  ApiPortals,
-  ApiPortalCustomDomains
+  Skus
 } from "./operationsInterfaces";
 import { AppPlatformManagementClientOptionalParams } from "./models";
 
@@ -99,7 +87,7 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appplatform/2.1.0-beta.5`;
+    const packageDetails = `azsdk-js-arm-appplatform/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -152,7 +140,7 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-01-preview";
+    this.apiVersion = options.apiVersion || "2023-01-06";
     this.services = new ServicesImpl(this);
     this.configServers = new ConfigServersImpl(this);
     this.configurationServices = new ConfigurationServicesImpl(this);
@@ -164,18 +152,12 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     this.monitoringSettings = new MonitoringSettingsImpl(this);
     this.apps = new AppsImpl(this);
     this.bindings = new BindingsImpl(this);
-    this.storages = new StoragesImpl(this);
     this.certificates = new CertificatesImpl(this);
     this.customDomains = new CustomDomainsImpl(this);
     this.deployments = new DeploymentsImpl(this);
     this.operations = new OperationsImpl(this);
     this.runtimeVersions = new RuntimeVersionsImpl(this);
     this.skus = new SkusImpl(this);
-    this.gateways = new GatewaysImpl(this);
-    this.gatewayRouteConfigs = new GatewayRouteConfigsImpl(this);
-    this.gatewayCustomDomains = new GatewayCustomDomainsImpl(this);
-    this.apiPortals = new ApiPortalsImpl(this);
-    this.apiPortalCustomDomains = new ApiPortalCustomDomainsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -218,16 +200,10 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
   monitoringSettings: MonitoringSettings;
   apps: Apps;
   bindings: Bindings;
-  storages: Storages;
   certificates: Certificates;
   customDomains: CustomDomains;
   deployments: Deployments;
   operations: Operations;
   runtimeVersions: RuntimeVersions;
   skus: Skus;
-  gateways: Gateways;
-  gatewayRouteConfigs: GatewayRouteConfigs;
-  gatewayCustomDomains: GatewayCustomDomains;
-  apiPortals: ApiPortals;
-  apiPortalCustomDomains: ApiPortalCustomDomains;
 }
