@@ -17,13 +17,16 @@ export type AuthenticationType = string;
 export interface AzureDataExplorerConnectionProperties extends TimeSeriesDatabaseConnectionProperties {
     adxDatabaseName: string;
     adxEndpointUri: string;
+    adxRelationshipLifecycleEventsTableName?: string;
     adxResourceId: string;
     adxTableName?: string;
+    adxTwinLifecycleEventsTableName?: string;
     connectionType: "AzureDataExplorer";
     eventHubConsumerGroup?: string;
     eventHubEndpointUri: string;
     eventHubEntityPath: string;
     eventHubNamespaceResourceId: string;
+    recordPropertyAndItemRemovals?: RecordPropertyAndItemRemovals;
 }
 
 // @public (undocumented)
@@ -68,6 +71,9 @@ export interface CheckNameResult {
     nameAvailable?: boolean;
     reason?: Reason;
 }
+
+// @public
+export type CleanupConnectionArtifacts = string;
 
 // @public
 export interface ConnectionProperties {
@@ -386,6 +392,12 @@ export enum KnownAuthenticationType {
 }
 
 // @public
+export enum KnownCleanupConnectionArtifacts {
+    False = "false",
+    True = "true"
+}
+
+// @public
 export enum KnownConnectionPropertiesProvisioningState {
     Approved = "Approved",
     Disconnected = "Disconnected",
@@ -476,6 +488,12 @@ export enum KnownPublicNetworkAccess {
 export enum KnownReason {
     AlreadyExists = "AlreadyExists",
     Invalid = "Invalid"
+}
+
+// @public
+export enum KnownRecordPropertyAndItemRemovals {
+    False = "false",
+    True = "true"
 }
 
 // @public
@@ -635,6 +653,9 @@ export type PublicNetworkAccess = string;
 export type Reason = string;
 
 // @public
+export type RecordPropertyAndItemRemovals = string;
+
+// @public
 export interface ServiceBus extends DigitalTwinsEndpointResourceProperties {
     endpointType: "ServiceBus";
     endpointUri?: string;
@@ -695,6 +716,7 @@ export type TimeSeriesDatabaseConnectionsCreateOrUpdateResponse = TimeSeriesData
 
 // @public
 export interface TimeSeriesDatabaseConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+    cleanupConnectionArtifacts?: CleanupConnectionArtifacts;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
