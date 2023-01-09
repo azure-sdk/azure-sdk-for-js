@@ -30,6 +30,9 @@ export interface Action {
 export type ActionsRequired = string;
 
 // @public
+export type ActivationStatus = string;
+
+// @public
 export interface Attributes {
     readonly created?: Date;
     enabled?: boolean;
@@ -40,6 +43,18 @@ export interface Attributes {
 
 // @public
 export type CertificatePermissions = string;
+
+// @public
+export interface CheckMhsmNameAvailabilityParameters {
+    name: string;
+}
+
+// @public
+export interface CheckMhsmNameAvailabilityResult {
+    readonly message?: string;
+    readonly nameAvailable?: boolean;
+    readonly reason?: Reason;
+}
 
 // @public
 export interface CheckNameAvailabilityResult {
@@ -323,6 +338,14 @@ export enum KnownActionsRequired {
 }
 
 // @public
+export enum KnownActivationStatus {
+    Active = "Active",
+    Failed = "Failed",
+    NotActivated = "NotActivated",
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownCertificatePermissions {
     All = "all",
     Backup = "backup",
@@ -551,6 +574,7 @@ export interface ManagedHsmProperties {
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
     readonly scheduledPurgeDate?: Date;
+    readonly securityDomainProperties?: ManagedHSMSecurityDomainProperties;
     softDeleteRetentionInDays?: number;
     readonly statusMessage?: string;
     tenantId?: string;
@@ -575,15 +599,28 @@ export interface ManagedHsms {
     beginCreateOrUpdateAndWait(resourceGroupName: string, name: string, parameters: ManagedHsm, options?: ManagedHsmsCreateOrUpdateOptionalParams): Promise<ManagedHsmsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, name: string, options?: ManagedHsmsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, name: string, options?: ManagedHsmsDeleteOptionalParams): Promise<void>;
-    beginPurgeDeleted(name: string, location: string, options?: ManagedHsmsPurgeDeletedOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginPurgeDeletedAndWait(name: string, location: string, options?: ManagedHsmsPurgeDeletedOptionalParams): Promise<void>;
+    beginPurgeDeleted(name: string, location: string, options?: ManagedHsmsPurgeDeletedOptionalParams): Promise<PollerLike<PollOperationState<ManagedHsmsPurgeDeletedResponse>, ManagedHsmsPurgeDeletedResponse>>;
+    beginPurgeDeletedAndWait(name: string, location: string, options?: ManagedHsmsPurgeDeletedOptionalParams): Promise<ManagedHsmsPurgeDeletedResponse>;
     beginUpdate(resourceGroupName: string, name: string, parameters: ManagedHsm, options?: ManagedHsmsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ManagedHsmsUpdateResponse>, ManagedHsmsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, name: string, parameters: ManagedHsm, options?: ManagedHsmsUpdateOptionalParams): Promise<ManagedHsmsUpdateResponse>;
+    checkMhsmNameAvailability(mhsmName: CheckMhsmNameAvailabilityParameters, options?: ManagedHsmsCheckMhsmNameAvailabilityOptionalParams): Promise<ManagedHsmsCheckMhsmNameAvailabilityResponse>;
     get(resourceGroupName: string, name: string, options?: ManagedHsmsGetOptionalParams): Promise<ManagedHsmsGetResponse>;
     getDeleted(name: string, location: string, options?: ManagedHsmsGetDeletedOptionalParams): Promise<ManagedHsmsGetDeletedResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ManagedHsmsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ManagedHsm>;
     listBySubscription(options?: ManagedHsmsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ManagedHsm>;
     listDeleted(options?: ManagedHsmsListDeletedOptionalParams): PagedAsyncIterableIterator<DeletedManagedHsm>;
+}
+
+// @public
+export interface ManagedHsmsCheckMhsmNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedHsmsCheckMhsmNameAvailabilityResponse = CheckMhsmNameAvailabilityResult;
+
+// @public
+export interface ManagedHsmsCreateOrUpdateHeaders {
+    location?: string;
 }
 
 // @public
@@ -596,9 +633,20 @@ export interface ManagedHsmsCreateOrUpdateOptionalParams extends coreClient.Oper
 export type ManagedHsmsCreateOrUpdateResponse = ManagedHsm;
 
 // @public
+export interface ManagedHsmsDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface ManagedHsmsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface ManagedHSMSecurityDomainProperties {
+    readonly activationStatus?: ActivationStatus;
+    readonly activationStatusMessage?: string;
 }
 
 // @public
@@ -629,7 +677,6 @@ export type ManagedHsmSkuName = "Standard_B1" | "Custom_B32";
 
 // @public
 export interface ManagedHsmsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -645,7 +692,6 @@ export type ManagedHsmsListByResourceGroupResponse = ManagedHsmListResult;
 
 // @public
 export interface ManagedHsmsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -674,10 +720,18 @@ export interface ManagedHsmsListDeletedOptionalParams extends coreClient.Operati
 export type ManagedHsmsListDeletedResponse = DeletedManagedHsmListResult;
 
 // @public
+export interface ManagedHsmsPurgeDeletedHeaders {
+    location?: string;
+}
+
+// @public
 export interface ManagedHsmsPurgeDeletedOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type ManagedHsmsPurgeDeletedResponse = ManagedHsmsPurgeDeletedHeaders;
 
 // @public
 export interface ManagedHsmsUpdateHeaders {
@@ -755,7 +809,6 @@ export interface MhsmPrivateEndpointConnections {
 // @public
 export interface MhsmPrivateEndpointConnectionsDeleteHeaders {
     location?: string;
-    retryAfter?: number;
 }
 
 // @public
@@ -1057,6 +1110,9 @@ export interface ResourceListResult {
     value?: Resource[];
 }
 
+// @public
+export type ResourceManagerApiVersions = "2015-11-01" | "2022-02-01-preview";
+
 // @public (undocumented)
 export interface RotationPolicy {
     attributes?: KeyRotationPolicyAttributes;
@@ -1137,7 +1193,6 @@ export type SecretsGetResponse = Secret;
 
 // @public
 export interface SecretsListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1302,7 +1357,7 @@ export interface Vaults {
     delete(resourceGroupName: string, vaultName: string, options?: VaultsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, vaultName: string, options?: VaultsGetOptionalParams): Promise<VaultsGetResponse>;
     getDeleted(vaultName: string, location: string, options?: VaultsGetDeletedOptionalParams): Promise<VaultsGetDeletedResponse>;
-    list(options?: VaultsListOptionalParams): PagedAsyncIterableIterator<Resource>;
+    list(apiVersion: ResourceManagerApiVersions, options?: VaultsListOptionalParams): PagedAsyncIterableIterator<Resource>;
     listByResourceGroup(resourceGroupName: string, options?: VaultsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Vault>;
     listBySubscription(options?: VaultsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Vault>;
     listDeleted(options?: VaultsListDeletedOptionalParams): PagedAsyncIterableIterator<DeletedVault>;
@@ -1346,7 +1401,6 @@ export type VaultsGetResponse = Vault;
 
 // @public
 export interface VaultsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1362,7 +1416,6 @@ export type VaultsListByResourceGroupResponse = VaultListResult;
 
 // @public
 export interface VaultsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1392,7 +1445,6 @@ export type VaultsListDeletedResponse = DeletedVaultListResult;
 
 // @public
 export interface VaultsListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public

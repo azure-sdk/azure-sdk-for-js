@@ -15,6 +15,7 @@ import {
   DeletedVault,
   VaultsListDeletedOptionalParams,
   Resource,
+  ResourceManagerApiVersions,
   VaultsListOptionalParams,
   VaultCreateOrUpdateParameters,
   VaultsCreateOrUpdateOptionalParams,
@@ -66,9 +67,11 @@ export interface Vaults {
   ): PagedAsyncIterableIterator<DeletedVault>;
   /**
    * The List operation gets information about the vaults associated with the subscription.
+   * @param apiVersion Azure Resource Manager Api Version.
    * @param options The options parameters.
    */
   list(
+    apiVersion: ResourceManagerApiVersions,
     options?: VaultsListOptionalParams
   ): PagedAsyncIterableIterator<Resource>;
   /**
