@@ -8764,6 +8764,12 @@ export const ConnectivityParameters: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      analysisModes: {
+        serializedName: "analysisModes",
+        type: {
+          name: "String"
+        }
+      },
       protocolConfiguration: {
         serializedName: "protocolConfiguration",
         type: {
@@ -8801,6 +8807,12 @@ export const ConnectivitySource: coreClient.CompositeMapper = {
         serializedName: "port",
         type: {
           name: "Number"
+        }
+      },
+      vmssIndex: {
+        serializedName: "vmssIndex",
+        type: {
+          name: "String"
         }
       }
     }
