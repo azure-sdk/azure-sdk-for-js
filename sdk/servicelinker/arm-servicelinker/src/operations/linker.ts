@@ -49,7 +49,8 @@ export class LinkerImpl implements Linker {
   }
 
   /**
-   * Returns list of Linkers which connects to the resource.
+   * Returns list of Linkers which connects to the resource. which supports to config both application
+   * and target service during the resource provision.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param options The options parameters.
@@ -108,7 +109,8 @@ export class LinkerImpl implements Linker {
   }
 
   /**
-   * Returns list of Linkers which connects to the resource.
+   * Returns list of Linkers which connects to the resource. which supports to config both application
+   * and target service during the resource provision.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param options The options parameters.
@@ -142,7 +144,7 @@ export class LinkerImpl implements Linker {
   }
 
   /**
-   * Create or update linker resource.
+   * Create or update Linker resource.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -214,7 +216,7 @@ export class LinkerImpl implements Linker {
   }
 
   /**
-   * Create or update linker resource.
+   * Create or update Linker resource.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -237,7 +239,7 @@ export class LinkerImpl implements Linker {
   }
 
   /**
-   * Delete a link.
+   * Delete a Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -302,7 +304,7 @@ export class LinkerImpl implements Linker {
   }
 
   /**
-   * Delete a link.
+   * Delete a Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -318,7 +320,7 @@ export class LinkerImpl implements Linker {
   }
 
   /**
-   * Operation to update an existing link.
+   * Operation to update an existing Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -387,7 +389,7 @@ export class LinkerImpl implements Linker {
   }
 
   /**
-   * Operation to update an existing link.
+   * Operation to update an existing Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -410,7 +412,7 @@ export class LinkerImpl implements Linker {
   }
 
   /**
-   * Validate a link.
+   * Validate a Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -473,14 +475,14 @@ export class LinkerImpl implements Linker {
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Validate a link.
+   * Validate a Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -496,7 +498,7 @@ export class LinkerImpl implements Linker {
   }
 
   /**
-   * list source configurations for a linker.
+   * list source configurations for a Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -539,7 +541,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkerList
+      bodyMapper: Mappers.ResourceList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -590,7 +592,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -642,7 +644,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -689,7 +691,7 @@ const listConfigurationsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceConfigurationResult
+      bodyMapper: Mappers.ConfigurationResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -709,7 +711,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkerList
+      bodyMapper: Mappers.ResourceList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -717,8 +719,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceUri,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceUri
   ],
   headerParameters: [Parameters.accept],
   serializer
