@@ -1933,6 +1933,11 @@
       "packageName": "@azure/arm-servicenetworking",
       "projectFolder": "sdk/servicenetworking/arm-servicenetworking",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/sdkreleaseplannertest-rest",
+      "projectFolder": "sdk/sdkreleaseplannertest/sdkreleaseplannertest-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
