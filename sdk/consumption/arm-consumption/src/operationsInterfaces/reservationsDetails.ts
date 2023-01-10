@@ -18,7 +18,9 @@ import {
 /** Interface representing a ReservationsDetails. */
 export interface ReservationsDetails {
   /**
-   * Lists the reservations details for provided date range.
+   * Lists the reservations details for provided date range. Note: ARM has a payload size limit of 12MB,
+   * so currently callers get 502 when the response size exceeds the ARM limit. In such cases, API call
+   * should be made with smaller date ranges.
    * @param reservationOrderId Order Id of the reservation
    * @param filter Filter reservation details by date range. The properties/UsageDate for start date and
    *               end date. The filter supports 'le' and  'ge'
@@ -30,7 +32,9 @@ export interface ReservationsDetails {
     options?: ReservationsDetailsListByReservationOrderOptionalParams
   ): PagedAsyncIterableIterator<ReservationDetail>;
   /**
-   * Lists the reservations details for provided date range.
+   * Lists the reservations details for provided date range. Note: ARM has a payload size limit of 12MB,
+   * so currently callers get 502 when the response size exceeds the ARM limit. In such cases, API call
+   * should be made with smaller date ranges.
    * @param reservationOrderId Order Id of the reservation
    * @param reservationId Id of the reservation
    * @param filter Filter reservation details by date range. The properties/UsageDate for start date and
@@ -44,16 +48,18 @@ export interface ReservationsDetails {
     options?: ReservationsDetailsListByReservationOrderAndReservationOptionalParams
   ): PagedAsyncIterableIterator<ReservationDetail>;
   /**
-   * Lists the reservations details for the defined scope and provided date range.
-   * @param scope The scope associated with reservations details operations. This includes
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
-   *              and
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
-   *              for BillingProfile scope (modern).
+   * Lists the reservations details for the defined scope and provided date range. Note: ARM has a
+   * payload size limit of 12MB, so currently callers get 502 when the response size exceeds the ARM
+   * limit. In such cases, API call should be made with smaller date ranges.
+   * @param resourceScope The scope associated with reservations details operations. This includes
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
+   *                      and
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   *                      for BillingProfile scope (modern).
    * @param options The options parameters.
    */
   list(
-    scope: string,
+    resourceScope: string,
     options?: ReservationsDetailsListOptionalParams
   ): PagedAsyncIterableIterator<ReservationDetail>;
 }
