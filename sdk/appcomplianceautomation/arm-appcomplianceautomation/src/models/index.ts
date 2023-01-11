@@ -1022,18 +1022,7 @@ export type ReportsListResponse = ReportResourceList;
 
 /** Optional parameters. */
 export interface ReportsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Skip over when retrieving results. */
-  skipToken?: string;
-  /** Number of elements to return when retrieving results. */
-  top?: number;
-  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. ?$select=reportName,id. */
-  select?: string;
-  /** The offerGuid which mapping to the reports. */
-  offerGuid?: string;
-  /** The tenant id of the report creator. */
-  reportCreatorTenantId?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ReportsListNextResponse = ReportResourceList;
@@ -1097,18 +1086,7 @@ export type SnapshotsListResponse = SnapshotResourceList;
 
 /** Optional parameters. */
 export interface SnapshotsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Skip over when retrieving results. */
-  skipToken?: string;
-  /** Number of elements to return when retrieving results. */
-  top?: number;
-  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. ?$select=reportName,id. */
-  select?: string;
-  /** The offerGuid which mapping to the reports. */
-  offerGuid?: string;
-  /** The tenant id of the report creator. */
-  reportCreatorTenantId?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SnapshotsListNextResponse = SnapshotResourceList;

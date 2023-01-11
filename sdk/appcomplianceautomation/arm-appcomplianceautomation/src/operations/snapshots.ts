@@ -162,14 +162,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken,
-    Parameters.top,
-    Parameters.select,
-    Parameters.offerGuid,
-    Parameters.reportCreatorTenantId
-  ],
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.reportName],
   headerParameters: [Parameters.accept],
   serializer
