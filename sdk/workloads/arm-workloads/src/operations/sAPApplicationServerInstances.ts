@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SAPApplicationServerInstances } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   SAPApplicationServerInstance,
   SAPApplicationServerInstancesListNextOptionalParams,
   SAPApplicationServerInstancesListOptionalParams,
+  SAPApplicationServerInstancesListResponse,
   SAPApplicationServerInstancesGetOptionalParams,
   SAPApplicationServerInstancesGetResponse,
   SAPApplicationServerInstancesCreateOptionalParams,
@@ -26,7 +28,6 @@ import {
   SAPApplicationServerInstancesUpdateResponse,
   SAPApplicationServerInstancesDeleteOptionalParams,
   SAPApplicationServerInstancesDeleteResponse,
-  SAPApplicationServerInstancesListResponse,
   SAPApplicationServerInstancesListNextResponse
 } from "../models";
 
@@ -45,9 +46,10 @@ export class SAPApplicationServerInstancesImpl
   }
 
   /**
-   * Lists the SAP Application server Instances in an SVI.
+   * Lists the SAP Application Server Instance resources for a given Virtual Instance for SAP solutions
+   * resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   public list(
@@ -67,11 +69,15 @@ export class SAPApplicationServerInstancesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           sapVirtualInstanceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -80,15 +86,22 @@ export class SAPApplicationServerInstancesImpl
   private async *listPagingPage(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPApplicationServerInstancesListOptionalParams
+    options?: SAPApplicationServerInstancesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SAPApplicationServerInstance[]> {
-    let result = await this._list(
-      resourceGroupName,
-      sapVirtualInstanceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SAPApplicationServerInstancesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        sapVirtualInstanceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -97,7 +110,9 @@ export class SAPApplicationServerInstancesImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -116,10 +131,11 @@ export class SAPApplicationServerInstancesImpl
   }
 
   /**
-   * Gets the SAP Application Server Instance.
+   * Gets the SAP Application Server Instance corresponding to the Virtual Instance for SAP solutions
+   * resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param applicationInstanceName The name of SAP Application Server instance.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param applicationInstanceName The name of SAP Application Server instance resource.
    * @param options The options parameters.
    */
   get(
@@ -140,11 +156,11 @@ export class SAPApplicationServerInstancesImpl
   }
 
   /**
-   * Puts the SAP Application Server Instance. <br><br>This will be used by service only. PUT by end user
-   * will return a Bad Request error.
+   * Puts the SAP Application Server Instance resource. <br><br>This will be used by service only. PUT by
+   * end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param applicationInstanceName The name of SAP Application Server instance.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param applicationInstanceName The name of SAP Application Server instance resource.
    * @param options The options parameters.
    */
   async beginCreate(
@@ -216,11 +232,11 @@ export class SAPApplicationServerInstancesImpl
   }
 
   /**
-   * Puts the SAP Application Server Instance. <br><br>This will be used by service only. PUT by end user
-   * will return a Bad Request error.
+   * Puts the SAP Application Server Instance resource. <br><br>This will be used by service only. PUT by
+   * end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param applicationInstanceName The name of SAP Application Server instance.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param applicationInstanceName The name of SAP Application Server instance resource.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
@@ -239,10 +255,10 @@ export class SAPApplicationServerInstancesImpl
   }
 
   /**
-   * Puts the SAP Application Server Instance.
+   * Puts the SAP Application Server Instance resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param applicationInstanceName The name of SAP Application Server instance.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param applicationInstanceName The name of SAP Application Server instance resource.
    * @param options The options parameters.
    */
   async beginUpdate(
@@ -314,10 +330,10 @@ export class SAPApplicationServerInstancesImpl
   }
 
   /**
-   * Puts the SAP Application Server Instance.
+   * Puts the SAP Application Server Instance resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param applicationInstanceName The name of SAP Application Server instance.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param applicationInstanceName The name of SAP Application Server instance resource.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
@@ -336,11 +352,11 @@ export class SAPApplicationServerInstancesImpl
   }
 
   /**
-   * Deletes the SAP Application Server Instance. <br><br>This operation will be used by service only.
-   * Delete by end user will return a Bad Request error.
+   * Deletes the SAP Application Server Instance resource. <br><br>This operation will be used by service
+   * only. Delete by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param applicationInstanceName The name of SAP Application Server instance.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param applicationInstanceName The name of SAP Application Server instance resource.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -413,11 +429,11 @@ export class SAPApplicationServerInstancesImpl
   }
 
   /**
-   * Deletes the SAP Application Server Instance. <br><br>This operation will be used by service only.
-   * Delete by end user will return a Bad Request error.
+   * Deletes the SAP Application Server Instance resource. <br><br>This operation will be used by service
+   * only. Delete by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param applicationInstanceName The name of SAP Application Server instance.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param applicationInstanceName The name of SAP Application Server instance resource.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -436,9 +452,10 @@ export class SAPApplicationServerInstancesImpl
   }
 
   /**
-   * Lists the SAP Application server Instances in an SVI.
+   * Lists the SAP Application Server Instance resources for a given Virtual Instance for SAP solutions
+   * resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   private _list(
@@ -455,7 +472,7 @@ export class SAPApplicationServerInstancesImpl
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -630,7 +647,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
