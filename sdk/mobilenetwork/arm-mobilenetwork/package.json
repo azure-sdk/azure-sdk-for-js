@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for MobileNetworkManagementClient.",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "engines": {
     "node": ">=14.0.0"
   },
@@ -47,8 +47,7 @@
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "@types/node": "^14.0.0",
-    "@azure/dev-tool": "^1.0.0",
-    "dotenv": "^8.2.0"
+    "@azure/dev-tool": "^1.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mobilenetwork/arm-mobilenetwork",
   "repository": {
@@ -111,13 +110,5 @@
       }
     ]
   },
-  "autoPublish": true,
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-mobilenetwork?view=azure-node-preview"
-  }
+  "autoPublish": true
 }
