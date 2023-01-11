@@ -139,7 +139,6 @@ export type ConfigurationStoresGetResponse = ConfigurationStore;
 
 // @public
 export interface ConfigurationStoresListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
 }
 
 // @public
@@ -169,7 +168,6 @@ export type ConfigurationStoresListDeletedResponse = DeletedConfigurationStoreLi
 
 // @public
 export interface ConfigurationStoresListKeysNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
 }
 
 // @public
@@ -185,7 +183,6 @@ export type ConfigurationStoresListKeysResponse = ApiKeyListResult;
 
 // @public
 export interface ConfigurationStoresListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
 }
 
 // @public
@@ -348,7 +345,6 @@ export type KeyValuesGetResponse = KeyValue;
 
 // @public
 export interface KeyValuesListByConfigurationStoreNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
 }
 
 // @public
@@ -496,7 +492,6 @@ export type OperationsCheckNameAvailabilityResponse = NameAvailabilityStatus;
 
 // @public
 export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
 }
 
 // @public
