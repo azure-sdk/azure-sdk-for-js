@@ -49,7 +49,6 @@ export type ApplicationGetResponse = Application;
 
 // @public
 export interface ApplicationListNextOptionalParams extends coreClient.OperationOptions {
-    maxresults?: number;
 }
 
 // @public
@@ -109,7 +108,6 @@ export type ApplicationPackageGetResponse = ApplicationPackage;
 
 // @public
 export interface ApplicationPackageListNextOptionalParams extends coreClient.OperationOptions {
-    maxresults?: number;
 }
 
 // @public
@@ -573,9 +571,6 @@ export type CertificateGetResponse = CertificateGetHeaders & Certificate;
 
 // @public
 export interface CertificateListByBatchAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    maxresults?: number;
-    select?: string;
 }
 
 // @public
@@ -924,8 +919,6 @@ export type LocationGetQuotasResponse = BatchLocationQuota;
 
 // @public
 export interface LocationListSupportedCloudServiceSkusNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    maxresults?: number;
 }
 
 // @public
@@ -942,8 +935,6 @@ export type LocationListSupportedCloudServiceSkusResponse = SupportedSkusResult;
 
 // @public
 export interface LocationListSupportedVirtualMachineSkusNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    maxresults?: number;
 }
 
 // @public
@@ -1178,9 +1169,6 @@ export type PoolIdentityType = "UserAssigned" | "None";
 
 // @public
 export interface PoolListByBatchAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    maxresults?: number;
-    select?: string;
 }
 
 // @public
@@ -1273,7 +1261,6 @@ export type PrivateEndpointConnectionGetResponse = PrivateEndpointConnection;
 
 // @public
 export interface PrivateEndpointConnectionListByBatchAccountNextOptionalParams extends coreClient.OperationOptions {
-    maxresults?: number;
 }
 
 // @public
@@ -1332,7 +1319,6 @@ export type PrivateLinkResourceGetResponse = PrivateLinkResource;
 
 // @public
 export interface PrivateLinkResourceListByBatchAccountNextOptionalParams extends coreClient.OperationOptions {
-    maxresults?: number;
 }
 
 // @public
