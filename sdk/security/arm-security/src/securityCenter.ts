@@ -63,8 +63,11 @@ import {
   GovernanceRulesImpl,
   SecurityConnectorGovernanceRuleImpl,
   SecurityConnectorGovernanceRulesImpl,
-  SubscriptionGovernanceRulesExecuteStatusImpl,
-  SecurityConnectorGovernanceRulesExecuteStatusImpl,
+  ManagementGroupGovernanceRuleImpl,
+  ManagementGroupGovernanceRulesImpl,
+  SubscriptionGovernanceRulesOperationResultImpl,
+  SecurityConnectorGovernanceRulesOperationResultImpl,
+  ManagementGroupGovernanceRulesOperationResultImpl,
   GovernanceAssignmentsImpl,
   ApplicationsImpl,
   ApplicationOperationsImpl,
@@ -128,8 +131,11 @@ import {
   GovernanceRules,
   SecurityConnectorGovernanceRule,
   SecurityConnectorGovernanceRules,
-  SubscriptionGovernanceRulesExecuteStatus,
-  SecurityConnectorGovernanceRulesExecuteStatus,
+  ManagementGroupGovernanceRule,
+  ManagementGroupGovernanceRules,
+  SubscriptionGovernanceRulesOperationResult,
+  SecurityConnectorGovernanceRulesOperationResult,
+  ManagementGroupGovernanceRulesOperationResult,
   GovernanceAssignments,
   Applications,
   ApplicationOperations,
@@ -144,16 +150,19 @@ import { SecurityCenterOptionalParams } from "./models";
 export class SecurityCenter extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
+  managementGroupId: string;
 
   /**
    * Initializes a new instance of the SecurityCenter class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId Azure subscription ID
+   * @param managementGroupId Azure Management Group ID
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
+    managementGroupId: string,
     options?: SecurityCenterOptionalParams
   ) {
     if (credentials === undefined) {
@@ -161,6 +170,9 @@ export class SecurityCenter extends coreClient.ServiceClient {
     }
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
+    }
+    if (managementGroupId === undefined) {
+      throw new Error("'managementGroupId' cannot be null");
     }
 
     // Initializing default values for options
@@ -222,6 +234,7 @@ export class SecurityCenter extends coreClient.ServiceClient {
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
+    this.managementGroupId = managementGroupId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
@@ -316,10 +329,19 @@ export class SecurityCenter extends coreClient.ServiceClient {
     this.securityConnectorGovernanceRules = new SecurityConnectorGovernanceRulesImpl(
       this
     );
-    this.subscriptionGovernanceRulesExecuteStatus = new SubscriptionGovernanceRulesExecuteStatusImpl(
+    this.managementGroupGovernanceRule = new ManagementGroupGovernanceRuleImpl(
       this
     );
-    this.securityConnectorGovernanceRulesExecuteStatus = new SecurityConnectorGovernanceRulesExecuteStatusImpl(
+    this.managementGroupGovernanceRules = new ManagementGroupGovernanceRulesImpl(
+      this
+    );
+    this.subscriptionGovernanceRulesOperationResult = new SubscriptionGovernanceRulesOperationResultImpl(
+      this
+    );
+    this.securityConnectorGovernanceRulesOperationResult = new SecurityConnectorGovernanceRulesOperationResultImpl(
+      this
+    );
+    this.managementGroupGovernanceRulesOperationResult = new ManagementGroupGovernanceRulesOperationResultImpl(
       this
     );
     this.governanceAssignments = new GovernanceAssignmentsImpl(this);
@@ -389,8 +411,11 @@ export class SecurityCenter extends coreClient.ServiceClient {
   governanceRules: GovernanceRules;
   securityConnectorGovernanceRule: SecurityConnectorGovernanceRule;
   securityConnectorGovernanceRules: SecurityConnectorGovernanceRules;
-  subscriptionGovernanceRulesExecuteStatus: SubscriptionGovernanceRulesExecuteStatus;
-  securityConnectorGovernanceRulesExecuteStatus: SecurityConnectorGovernanceRulesExecuteStatus;
+  managementGroupGovernanceRule: ManagementGroupGovernanceRule;
+  managementGroupGovernanceRules: ManagementGroupGovernanceRules;
+  subscriptionGovernanceRulesOperationResult: SubscriptionGovernanceRulesOperationResult;
+  securityConnectorGovernanceRulesOperationResult: SecurityConnectorGovernanceRulesOperationResult;
+  managementGroupGovernanceRulesOperationResult: ManagementGroupGovernanceRulesOperationResult;
   governanceAssignments: GovernanceAssignments;
   applications: Applications;
   applicationOperations: ApplicationOperations;
