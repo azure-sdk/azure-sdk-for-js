@@ -29,6 +29,7 @@ import {
   VaultsListDeletedResponse,
   Resource,
   VaultsListNextOptionalParams,
+  ResourceManagerApiVersions,
   VaultsListOptionalParams,
   VaultsListResponse,
   VaultCreateOrUpdateParameters,
@@ -249,12 +250,14 @@ export class VaultsImpl implements Vaults {
 
   /**
    * The List operation gets information about the vaults associated with the subscription.
+   * @param apiVersion Azure Resource Manager Api Version.
    * @param options The options parameters.
    */
   public list(
+    apiVersion: ResourceManagerApiVersions,
     options?: VaultsListOptionalParams
   ): PagedAsyncIterableIterator<Resource> {
-    const iter = this.listPagingAll(options);
+    const iter = this.listPagingAll(apiVersion, options);
     return {
       next() {
         return iter.next();
@@ -266,19 +269,20 @@ export class VaultsImpl implements Vaults {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(options, settings);
+        return this.listPagingPage(apiVersion, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
+    apiVersion: ResourceManagerApiVersions,
     options?: VaultsListOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<Resource[]> {
     let result: VaultsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(options);
+      result = await this._list(apiVersion, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -294,9 +298,10 @@ export class VaultsImpl implements Vaults {
   }
 
   private async *listPagingAll(
+    apiVersion: ResourceManagerApiVersions,
     options?: VaultsListOptionalParams
   ): AsyncIterableIterator<Resource> {
-    for await (const page of this.listPagingPage(options)) {
+    for await (const page of this.listPagingPage(apiVersion, options)) {
       yield* page;
     }
   }
@@ -606,12 +611,17 @@ export class VaultsImpl implements Vaults {
 
   /**
    * The List operation gets information about the vaults associated with the subscription.
+   * @param apiVersion Azure Resource Manager Api Version.
    * @param options The options parameters.
    */
   private _list(
+    apiVersion: ResourceManagerApiVersions,
     options?: VaultsListOptionalParams
   ): Promise<VaultsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
+    return this.client.sendOperationRequest(
+      { apiVersion, options },
+      listOperationSpec
+    );
   }
 
   /**
@@ -970,7 +980,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -991,7 +1000,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1011,7 +1019,6 @@ const listDeletedNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1031,7 +1038,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

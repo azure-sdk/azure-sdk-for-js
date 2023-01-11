@@ -204,7 +204,7 @@ export interface VaultProperties {
   enableSoftDelete?: boolean;
   /** softDelete data retention days. It accepts >=7 and <=90. */
   softDeleteRetentionInDays?: number;
-  /** Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be  ignored (warning: this is a preview feature). When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value of false. Note that management actions are always authorized with RBAC. */
+  /** Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value of false. Note that management actions are always authorized with RBAC. */
   enableRbacAuthorization?: boolean;
   /** The vault's create mode to indicate whether the vault need to be recovered or not. */
   createMode?: CreateMode;
@@ -384,7 +384,7 @@ export interface VaultPatchProperties {
   enabledForTemplateDeployment?: boolean;
   /** Property to specify whether the 'soft delete' functionality is enabled for this key vault. Once set to true, it cannot be reverted to false. */
   enableSoftDelete?: boolean;
-  /** Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be  ignored (warning: this is a preview feature). When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the value of this property will not change. */
+  /** Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the value of this property will not change. */
   enableRbacAuthorization?: boolean;
   /** softDelete data retention days. It accepts >=7 and <=90. */
   softDeleteRetentionInDays?: number;
@@ -593,6 +593,11 @@ export interface ManagedHsmProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly scheduledPurgeDate?: Date;
+  /**
+   * Managed HSM security domain properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly securityDomainProperties?: ManagedHSMSecurityDomainProperties;
 }
 
 /** A set of rules governing the network accessibility of a managed hsm pool. */
@@ -650,6 +655,20 @@ export interface MhsmPrivateLinkServiceConnectionState {
   description?: string;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
   actionsRequired?: ActionsRequired;
+}
+
+/** The security domain properties of the managed hsm. */
+export interface ManagedHSMSecurityDomainProperties {
+  /**
+   * Activation Status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly activationStatus?: ActivationStatus;
+  /**
+   * Activation Status Message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly activationStatusMessage?: string;
 }
 
 /** Managed HSM resource */
@@ -800,6 +819,31 @@ export interface DeletedManagedHsmProperties {
 export interface MhsmPrivateLinkResourceListResult {
   /** Array of private link resources */
   value?: MhsmPrivateLinkResource[];
+}
+
+/** The parameters used to check the availability of the managed hsm name. */
+export interface CheckMhsmNameAvailabilityParameters {
+  /** The managed hsm name. */
+  name: string;
+}
+
+/** The CheckMhsmNameAvailability operation response. */
+export interface CheckMhsmNameAvailabilityResult {
+  /**
+   * A boolean value that indicates whether the name is available for you to use. If true, the name is available. If false, the name has already been taken or is invalid and cannot be used.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nameAvailable?: boolean;
+  /**
+   * The reason that a managed hsm name could not be used. The reason element is only returned if NameAvailable is false.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reason?: Reason;
+  /**
+   * An error message explaining the Reason value in more detail.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
 }
 
 /** Result of the request to list Storage operations. It contains a list of operations and a URL link to get the next set of results. */
@@ -1078,8 +1122,26 @@ export interface PrivateEndpointConnectionsDeleteHeaders {
   location?: string;
 }
 
+/** Defines headers for ManagedHsms_createOrUpdate operation. */
+export interface ManagedHsmsCreateOrUpdateHeaders {
+  /** The URI to poll for completion status. */
+  location?: string;
+}
+
 /** Defines headers for ManagedHsms_update operation. */
 export interface ManagedHsmsUpdateHeaders {
+  /** The URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for ManagedHsms_delete operation. */
+export interface ManagedHsmsDeleteHeaders {
+  /** The URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for ManagedHsms_purgeDeleted operation. */
+export interface ManagedHsmsPurgeDeletedHeaders {
   /** The URI to poll for completion status. */
   location?: string;
 }
@@ -1094,8 +1156,6 @@ export interface MhsmPrivateEndpointConnectionsPutHeaders {
 
 /** Defines headers for MhsmPrivateEndpointConnections_delete operation. */
 export interface MhsmPrivateEndpointConnectionsDeleteHeaders {
-  /** The recommended number of seconds to wait before calling the URI specified in the location header. */
-  retryAfter?: number;
   /** The URI to poll for completion status. */
   location?: string;
 }
@@ -1658,6 +1718,30 @@ export enum KnownPublicNetworkAccess {
  */
 export type PublicNetworkAccess = string;
 
+/** Known values of {@link ActivationStatus} that the service accepts. */
+export enum KnownActivationStatus {
+  /** The managed HSM Pool is active. */
+  Active = "Active",
+  /** The managed HSM Pool is not yet activated. */
+  NotActivated = "NotActivated",
+  /** An unknown error occurred while activating managed hsm. */
+  Unknown = "Unknown",
+  /** Failed to activate managed hsm. */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for ActivationStatus. \
+ * {@link KnownActivationStatus} can be used interchangeably with ActivationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active**: The managed HSM Pool is active. \
+ * **NotActivated**: The managed HSM Pool is not yet activated. \
+ * **Unknown**: An unknown error occurred while activating managed hsm. \
+ * **Failed**: Failed to activate managed hsm.
+ */
+export type ActivationStatus = string;
+
 /** Known values of {@link ManagedHsmSkuFamily} that the service accepts. */
 export enum KnownManagedHsmSkuFamily {
   /** B */
@@ -1680,6 +1764,8 @@ export type SkuName = "standard" | "premium";
 export type CreateMode = "recover" | "default";
 /** Defines values for AccessPolicyUpdateKind. */
 export type AccessPolicyUpdateKind = "add" | "replace" | "remove";
+/** Defines values for ResourceManagerApiVersions. */
+export type ResourceManagerApiVersions = "2015-11-01" | "2022-02-01-preview";
 /** Defines values for Reason. */
 export type Reason = "AccountNameInvalid" | "AlreadyExists";
 /** Defines values for ManagedHsmSkuName. */
@@ -1829,20 +1915,14 @@ export type VaultsCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
 
 /** Optional parameters. */
 export interface VaultsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum number of results to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type VaultsListByResourceGroupNextResponse = VaultListResult;
 
 /** Optional parameters. */
 export interface VaultsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum number of results to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type VaultsListBySubscriptionNextResponse = VaultListResult;
@@ -1856,10 +1936,7 @@ export type VaultsListDeletedNextResponse = DeletedVaultListResult;
 
 /** Optional parameters. */
 export interface VaultsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum number of results to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type VaultsListNextResponse = ResourceListResult;
@@ -1995,22 +2072,26 @@ export interface ManagedHsmsPurgeDeletedOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the purgeDeleted operation. */
+export type ManagedHsmsPurgeDeletedResponse = ManagedHsmsPurgeDeletedHeaders;
+
+/** Optional parameters. */
+export interface ManagedHsmsCheckMhsmNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkMhsmNameAvailability operation. */
+export type ManagedHsmsCheckMhsmNameAvailabilityResponse = CheckMhsmNameAvailabilityResult;
+
 /** Optional parameters. */
 export interface ManagedHsmsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum number of results to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ManagedHsmsListByResourceGroupNextResponse = ManagedHsmListResult;
 
 /** Optional parameters. */
 export interface ManagedHsmsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum number of results to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type ManagedHsmsListBySubscriptionNextResponse = ManagedHsmListResult;
@@ -2115,10 +2196,7 @@ export type SecretsListResponse = SecretListResult;
 
 /** Optional parameters. */
 export interface SecretsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum number of results to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SecretsListNextResponse = SecretListResult;
