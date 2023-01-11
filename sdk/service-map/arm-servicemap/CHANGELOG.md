@@ -1,6 +1,6 @@
 # Release History
     
-## 3.0.0-beta.2 (2022-12-21)
+## 3.0.0-beta.2 (2023-01-11)
 
 The package of @azure/arm-servicemap is using our next generation design principles since version 3.0.0-beta.2, which contains breaking changes.
 
