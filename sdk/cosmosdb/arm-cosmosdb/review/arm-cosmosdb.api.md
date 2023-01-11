@@ -1059,6 +1059,15 @@ export interface CosmosDBManagementClientOptionalParams extends coreClient.Servi
 }
 
 // @public
+export interface CosmosMongoDataTransferDataSourceSink extends DataTransferDataSourceSink {
+    // (undocumented)
+    collectionName: string;
+    component: "CosmosDBMongo";
+    // (undocumented)
+    databaseName: string;
+}
+
+// @public
 export interface CosmosSqlDataTransferDataSourceSink extends DataTransferDataSourceSink {
     component: "CosmosDBSql";
     // (undocumented)
@@ -1476,11 +1485,11 @@ export type DataTransferComponent = string;
 
 // @public
 export interface DataTransferDataSourceSink {
-    component: "CosmosDBCassandra" | "CosmosDBSql" | "AzureBlobStorage";
+    component: "CosmosDBCassandra" | "CosmosDBMongo" | "CosmosDBSql" | "AzureBlobStorage";
 }
 
 // @public (undocumented)
-export type DataTransferDataSourceSinkUnion = DataTransferDataSourceSink | CosmosCassandraDataTransferDataSourceSink | CosmosSqlDataTransferDataSourceSink | AzureBlobDataTransferDataSourceSink;
+export type DataTransferDataSourceSinkUnion = DataTransferDataSourceSink | CosmosCassandraDataTransferDataSourceSink | CosmosMongoDataTransferDataSourceSink | CosmosSqlDataTransferDataSourceSink | AzureBlobDataTransferDataSourceSink;
 
 // @public
 export interface DataTransferJobFeedResults {
@@ -2113,6 +2122,7 @@ export enum KnownDatabaseAccountKind {
 export enum KnownDataTransferComponent {
     AzureBlobStorage = "AzureBlobStorage",
     CosmosDBCassandra = "CosmosDBCassandra",
+    CosmosDBMongo = "CosmosDBMongo",
     CosmosDBSql = "CosmosDBSql"
 }
 

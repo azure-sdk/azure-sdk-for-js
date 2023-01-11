@@ -15,6 +15,7 @@ export type BackupPolicyUnion =
 export type DataTransferDataSourceSinkUnion =
   | DataTransferDataSourceSink
   | CosmosCassandraDataTransferDataSourceSink
+  | CosmosMongoDataTransferDataSourceSink
   | CosmosSqlDataTransferDataSourceSink
   | AzureBlobDataTransferDataSourceSink;
 export type ServiceResourcePropertiesUnion =
@@ -1454,7 +1455,11 @@ export interface DataTransferJobProperties {
 /** Base class for all DataTransfer source/sink */
 export interface DataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  component: "CosmosDBCassandra" | "CosmosDBSql" | "AzureBlobStorage";
+  component:
+    | "CosmosDBCassandra"
+    | "CosmosDBMongo"
+    | "CosmosDBSql"
+    | "AzureBlobStorage";
 }
 
 /** The List operation response, that contains the Data Transfer jobs and their properties. */
@@ -3471,6 +3476,15 @@ export interface CosmosCassandraDataTransferDataSourceSink
 }
 
 /** A CosmosDB Cassandra API data source/sink */
+export interface CosmosMongoDataTransferDataSourceSink
+  extends DataTransferDataSourceSink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  component: "CosmosDBMongo";
+  databaseName: string;
+  collectionName: string;
+}
+
+/** A CosmosDB Cassandra API data source/sink */
 export interface CosmosSqlDataTransferDataSourceSink
   extends DataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -4112,6 +4126,8 @@ export type BackupStorageRedundancy = string;
 export enum KnownDataTransferComponent {
   /** CosmosDBCassandra */
   CosmosDBCassandra = "CosmosDBCassandra",
+  /** CosmosDBMongo */
+  CosmosDBMongo = "CosmosDBMongo",
   /** CosmosDBSql */
   CosmosDBSql = "CosmosDBSql",
   /** AzureBlobStorage */
@@ -4124,6 +4140,7 @@ export enum KnownDataTransferComponent {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **CosmosDBCassandra** \
+ * **CosmosDBMongo** \
  * **CosmosDBSql** \
  * **AzureBlobStorage**
  */
