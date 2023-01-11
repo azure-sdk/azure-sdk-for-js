@@ -1262,11 +1262,11 @@ export type PlatformType = string;
 
 /** Known values of {@link BillingSku} that the service accepts. */
 export enum KnownBillingSku {
-  /** 100 Mbps, 20 active SIMs plan */
+  /** 100 Mbps, 20 active SIMs plan, 2 RANs */
   G0 = "G0",
-  /** 1 Gbps, 100 active SIMs plan */
+  /** 1 Gbps, 100 active SIMs plan, 5 RANs */
   G1 = "G1",
-  /** 2 Gbps, 200 active SIMs plan */
+  /** 2 Gbps, 200 active SIMs plan, 10 RANs */
   G2 = "G2",
   /** 3 Gbps, 300 active SIMs plan */
   G3 = "G3",
@@ -1283,9 +1283,9 @@ export enum KnownBillingSku {
  * {@link KnownBillingSku} can be used interchangeably with BillingSku,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **G0**: 100 Mbps, 20 active SIMs plan \
- * **G1**: 1 Gbps, 100 active SIMs plan \
- * **G2**: 2 Gbps, 200 active SIMs plan \
+ * **G0**: 100 Mbps, 20 active SIMs plan, 2 RANs \
+ * **G1**: 1 Gbps, 100 active SIMs plan, 5 RANs \
+ * **G2**: 2 Gbps, 200 active SIMs plan, 10 RANs \
  * **G3**: 3 Gbps, 300 active SIMs plan \
  * **G4**: 4 Gbps, 400 active SIMs plan \
  * **G5**: 5 Gbps, 500 active SIMs plan \
@@ -1793,6 +1793,42 @@ export interface PacketCoreControlPlanesListByResourceGroupOptionalParams
 export type PacketCoreControlPlanesListByResourceGroupResponse = PacketCoreControlPlaneListResult;
 
 /** Optional parameters. */
+export interface PacketCoreControlPlanesRollbackOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the rollback operation. */
+export type PacketCoreControlPlanesRollbackResponse = AsyncOperationStatus;
+
+/** Optional parameters. */
+export interface PacketCoreControlPlanesReinstallOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the reinstall operation. */
+export type PacketCoreControlPlanesReinstallResponse = AsyncOperationStatus;
+
+/** Optional parameters. */
+export interface PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the collectDiagnosticsPackage operation. */
+export type PacketCoreControlPlanesCollectDiagnosticsPackageResponse = AsyncOperationStatus;
+
+/** Optional parameters. */
 export interface PacketCoreControlPlanesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1805,42 +1841,6 @@ export interface PacketCoreControlPlanesListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type PacketCoreControlPlanesListByResourceGroupNextResponse = PacketCoreControlPlaneListResult;
-
-/** Optional parameters. */
-export interface PacketCoreControlPlaneRollbackOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the rollback operation. */
-export type PacketCoreControlPlaneRollbackResponse = AsyncOperationStatus;
-
-/** Optional parameters. */
-export interface PacketCoreControlPlaneReinstallOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the reinstall operation. */
-export type PacketCoreControlPlaneReinstallResponse = AsyncOperationStatus;
-
-/** Optional parameters. */
-export interface PacketCoreControlPlaneCollectDiagnosticsPackageOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the collectDiagnosticsPackage operation. */
-export type PacketCoreControlPlaneCollectDiagnosticsPackageResponse = AsyncOperationStatus;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlaneVersionsGetOptionalParams
@@ -1995,14 +1995,7 @@ export interface SimsListByGroupOptionalParams
 export type SimsListByGroupResponse = SimListResult;
 
 /** Optional parameters. */
-export interface SimsListByGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByGroupNext operation. */
-export type SimsListByGroupNextResponse = SimListResult;
-
-/** Optional parameters. */
-export interface SimBulkUploadOptionalParams
+export interface SimsBulkUploadOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -2011,10 +2004,10 @@ export interface SimBulkUploadOptionalParams
 }
 
 /** Contains response data for the bulkUpload operation. */
-export type SimBulkUploadResponse = AsyncOperationStatus;
+export type SimsBulkUploadResponse = AsyncOperationStatus;
 
 /** Optional parameters. */
-export interface SimBulkDeleteOptionalParams
+export interface SimsBulkDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -2023,10 +2016,10 @@ export interface SimBulkDeleteOptionalParams
 }
 
 /** Contains response data for the bulkDelete operation. */
-export type SimBulkDeleteResponse = AsyncOperationStatus;
+export type SimsBulkDeleteResponse = AsyncOperationStatus;
 
 /** Optional parameters. */
-export interface SimBulkUploadEncryptedOptionalParams
+export interface SimsBulkUploadEncryptedOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -2035,7 +2028,14 @@ export interface SimBulkUploadEncryptedOptionalParams
 }
 
 /** Contains response data for the bulkUploadEncrypted operation. */
-export type SimBulkUploadEncryptedResponse = AsyncOperationStatus;
+export type SimsBulkUploadEncryptedResponse = AsyncOperationStatus;
+
+/** Optional parameters. */
+export interface SimsListByGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByGroupNext operation. */
+export type SimsListByGroupNextResponse = SimListResult;
 
 /** Optional parameters. */
 export interface SimGroupsDeleteOptionalParams
