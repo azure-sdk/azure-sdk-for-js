@@ -1,15 +1,195 @@
 # Release History
+    
+## 1.0.0-beta.6 (2023-01-11)
+    
+**Features**
 
-## 1.0.0-beta.6 (Unreleased)
+  - Added Type Alias EntityKindEnum
+  - Added Type Alias Source
+  - Added Type Alias ThreatIntelligenceResourceInnerKind
+  - Added Type Alias ThreatIntelligenceSortingOrder
+  - Interface ActionResponse has a new optional parameter etag
+  - Added Enum KnownEntityKindEnum
+  - Added Enum KnownSource
+  - Added Enum KnownThreatIntelligenceResourceInnerKind
+  - Added Enum KnownThreatIntelligenceSortingOrder
+  - Added function getContinuationToken
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group BookmarkOperations
+  - Removed operation group BookmarkRelations
+  - Removed operation group DataConnectorsCheckRequirementsOperations
+  - Removed operation group DomainWhois
+  - Removed operation group Entities
+  - Removed operation group EntitiesGetTimeline
+  - Removed operation group EntitiesRelations
+  - Removed operation group EntityQueries
+  - Removed operation group EntityQueryTemplates
+  - Removed operation group EntityRelations
+  - Removed operation group FileImports
+  - Removed operation group IPGeodata
+  - Removed operation group OfficeConsents
+  - Removed operation group ProductSettings
+  - Removed operation group SourceControlOperations
+  - Removed operation group SourceControls
+  - Removed operation DataConnectors.connect
+  - Removed operation DataConnectors.disconnect
+  - Removed operation Incidents.createTeam
+  - Removed operation Incidents.runPlaybook
+  - Interface Bookmark no longer has parameter entityMappings
+  - Interface Bookmark no longer has parameter tactics
+  - Interface Bookmark no longer has parameter techniques
+  - Interface FusionAlertRule no longer has parameter scenarioExclusionPatterns
+  - Interface FusionAlertRule no longer has parameter sourceSettings
+  - Interface FusionAlertRuleTemplate no longer has parameter sourceSettings
+  - Interface Incident no longer has parameter providerIncidentId
+  - Interface Incident no longer has parameter providerName
+  - Interface Incident no longer has parameter teamInformation
+  - Interface IncidentAdditionalData no longer has parameter providerIncidentUrl
+  - Interface IncidentAdditionalData no longer has parameter techniques
+  - Interface IncidentCommentsListNextOptionalParams no longer has parameter filter
+  - Interface IncidentCommentsListNextOptionalParams no longer has parameter orderby
+  - Interface IncidentCommentsListNextOptionalParams no longer has parameter skipToken
+  - Interface IncidentCommentsListNextOptionalParams no longer has parameter top
+  - Interface IncidentRelationsListNextOptionalParams no longer has parameter filter
+  - Interface IncidentRelationsListNextOptionalParams no longer has parameter orderby
+  - Interface IncidentRelationsListNextOptionalParams no longer has parameter skipToken
+  - Interface IncidentRelationsListNextOptionalParams no longer has parameter top
+  - Interface IncidentsListNextOptionalParams no longer has parameter filter
+  - Interface IncidentsListNextOptionalParams no longer has parameter orderby
+  - Interface IncidentsListNextOptionalParams no longer has parameter skipToken
+  - Interface IncidentsListNextOptionalParams no longer has parameter top
+  - Interface IoTDeviceEntity no longer has parameter deviceSubType
+  - Interface IoTDeviceEntity no longer has parameter importance
+  - Interface IoTDeviceEntity no longer has parameter isAuthorized
+  - Interface IoTDeviceEntity no longer has parameter isProgramming
+  - Interface IoTDeviceEntity no longer has parameter isScanner
+  - Interface IoTDeviceEntity no longer has parameter nicEntityIds
+  - Interface IoTDeviceEntity no longer has parameter owners
+  - Interface IoTDeviceEntity no longer has parameter purdueLayer
+  - Interface IoTDeviceEntity no longer has parameter sensor
+  - Interface IoTDeviceEntity no longer has parameter site
+  - Interface IoTDeviceEntity no longer has parameter zone
+  - Interface IoTDeviceEntityProperties no longer has parameter deviceSubType
+  - Interface IoTDeviceEntityProperties no longer has parameter importance
+  - Interface IoTDeviceEntityProperties no longer has parameter isAuthorized
+  - Interface IoTDeviceEntityProperties no longer has parameter isProgramming
+  - Interface IoTDeviceEntityProperties no longer has parameter isScanner
+  - Interface IoTDeviceEntityProperties no longer has parameter nicEntityIds
+  - Interface IoTDeviceEntityProperties no longer has parameter owners
+  - Interface IoTDeviceEntityProperties no longer has parameter purdueLayer
+  - Interface IoTDeviceEntityProperties no longer has parameter sensor
+  - Interface IoTDeviceEntityProperties no longer has parameter site
+  - Interface IoTDeviceEntityProperties no longer has parameter zone
+  - Interface MetadataListNextOptionalParams no longer has parameter filter
+  - Interface MetadataListNextOptionalParams no longer has parameter orderby
+  - Interface MetadataListNextOptionalParams no longer has parameter skip
+  - Interface MetadataListNextOptionalParams no longer has parameter top
+  - Interface SecurityInsightsOptionalParams no longer has parameter apiVersion
+  - Interface ThreatIntelligenceIndicatorsListNextOptionalParams no longer has parameter filter
+  - Interface ThreatIntelligenceIndicatorsListNextOptionalParams no longer has parameter orderby
+  - Interface ThreatIntelligenceIndicatorsListNextOptionalParams no longer has parameter skipToken
+  - Interface ThreatIntelligenceIndicatorsListNextOptionalParams no longer has parameter top
+  - Interface Watchlist no longer has parameter sourceType
+  - Interface WatchlistItemsListNextOptionalParams no longer has parameter skipToken
+  - Interface WatchlistsListNextOptionalParams no longer has parameter skipToken
+  - Parameter logicAppResourceId of interface PlaybookActionProperties is now required
+  - Type of parameter conditionType of interface AutomationRuleCondition is changed from "Boolean" | "PropertyArrayChanged" | "PropertyArray" | "PropertyChanged" | "Property" to "PropertyArrayChanged" | "PropertyChanged" | "Property"
+  - Type of parameter kind of interface Entity is changed from EntityKind to EntityKindEnum
+  - Type of parameter entityKind of interface IncidentEntitiesResultsMetadata is changed from EntityKind to EntityKindEnum
+  - Type of parameter kind of interface MetadataDependencies is changed from Kind to string
+  - Type of parameter kind of interface MetadataModel is changed from Kind to string
+  - Type of parameter kind of interface MetadataPatch is changed from Kind to string
+  - Type of parameter kind of interface ThreatIntelligenceInformation is changed from ThreatIntelligenceResourceKindEnum to ThreatIntelligenceResourceInnerKind
+  - Type of parameter sortOrder of interface ThreatIntelligenceSortingCriteria is changed from ThreatIntelligenceSortingCriteriaEnum to ThreatIntelligenceSortingOrder
+  - Type of parameter source of interface Watchlist is changed from string to Source
+  - Type of parameter entityMapping of interface WatchlistItem is changed from {
+        [propertyName: string]: any;
+    } to Record<string, unknown>
+  - Type of parameter itemsKeyValue of interface WatchlistItem is changed from {
+        [propertyName: string]: any;
+    } to Record<string, unknown>
+  - Class SecurityInsights no longer has parameter apiVersion
+  - Class SecurityInsights no longer has parameter bookmarkOperations
+  - Class SecurityInsights no longer has parameter bookmarkRelations
+  - Class SecurityInsights no longer has parameter dataConnectorsCheckRequirementsOperations
+  - Class SecurityInsights no longer has parameter domainWhois
+  - Class SecurityInsights no longer has parameter entities
+  - Class SecurityInsights no longer has parameter entitiesGetTimeline
+  - Class SecurityInsights no longer has parameter entitiesRelations
+  - Class SecurityInsights no longer has parameter entityQueries
+  - Class SecurityInsights no longer has parameter entityQueryTemplates
+  - Class SecurityInsights no longer has parameter entityRelations
+  - Class SecurityInsights no longer has parameter fileImports
+  - Class SecurityInsights no longer has parameter iPGeodata
+  - Class SecurityInsights no longer has parameter officeConsents
+  - Class SecurityInsights no longer has parameter productSettings
+  - Class SecurityInsights no longer has parameter sourceControlOperations
+  - Class SecurityInsights no longer has parameter sourceControls
+  - Removed Enum KnownAutomationRuleBooleanConditionSupportedOperator
+  - Removed Enum KnownAutomationRulePropertyArrayConditionSupportedArrayConditionType
+  - Removed Enum KnownAutomationRulePropertyArrayConditionSupportedArrayType
+  - Removed Enum KnownConnectAuthKind
+  - Removed Enum KnownConnectivityType
+  - Removed Enum KnownContentType
+  - Removed Enum KnownCustomEntityQueryKind
+  - Removed Enum KnownDataConnectorAuthorizationState
+  - Removed Enum KnownDataConnectorLicenseState
+  - Removed Enum KnownDeleteStatus
+  - Removed Enum KnownDeploymentFetchStatus
+  - Removed Enum KnownDeploymentResult
+  - Removed Enum KnownDeploymentState
+  - Removed Enum KnownDeviceImportance
+  - Removed Enum KnownEntityItemQueryKind
+  - Removed Enum KnownEntityKind
+  - Removed Enum KnownEntityProviders
+  - Removed Enum KnownEntityQueryKind
+  - Removed Enum KnownEntityQueryTemplateKind
+  - Removed Enum KnownEntityTimelineKind
+  - Removed Enum KnownEntityType
+  - Removed Enum KnownEnum13
+  - Removed Enum KnownFileFormat
+  - Removed Enum KnownFileImportContentType
+  - Removed Enum KnownFileImportState
+  - Removed Enum KnownGetInsightsError
+  - Removed Enum KnownIngestionMode
+  - Removed Enum KnownKind
+  - Removed Enum KnownOutputType
+  - Removed Enum KnownPermissionProviderScope
+  - Removed Enum KnownPollingFrequency
+  - Removed Enum KnownProviderName
+  - Removed Enum KnownRepoType
+  - Removed Enum KnownSettingKind
+  - Removed Enum KnownSettingType
+  - Removed Enum KnownSourceType
+  - Removed Enum KnownThreatIntelligenceResourceKindEnum
+  - Removed Enum KnownThreatIntelligenceSortingCriteriaEnum
+  - Removed Enum KnownUebaDataSources
+  - Removed Enum KnownVersion
+  - Enum KnownAlertRuleKind no longer has value MLBehaviorAnalytics
+  - Enum KnownAlertRuleKind no longer has value NRT
+  - Enum KnownAlertRuleKind no longer has value ThreatIntelligence
+  - Enum KnownAutomationRulePropertyConditionSupportedProperty no longer has value IncidentCustomDetailsKey
+  - Enum KnownAutomationRulePropertyConditionSupportedProperty no longer has value IncidentCustomDetailsValue
+  - Enum KnownConditionType no longer has value Boolean
+  - Enum KnownConditionType no longer has value PropertyArray
+  - Enum KnownDataConnectorKind no longer has value AmazonWebServicesS3
+  - Enum KnownDataConnectorKind no longer has value APIPolling
+  - Enum KnownDataConnectorKind no longer has value Dynamics365
+  - Enum KnownDataConnectorKind no longer has value GenericUI
+  - Enum KnownDataConnectorKind no longer has value IOT
+  - Enum KnownDataConnectorKind no longer has value MicrosoftThreatIntelligence
+  - Enum KnownDataConnectorKind no longer has value MicrosoftThreatProtection
+  - Enum KnownDataConnectorKind no longer has value Office365Project
+  - Enum KnownDataConnectorKind no longer has value OfficeATP
+  - Enum KnownDataConnectorKind no longer has value OfficeIRM
+  - Enum KnownDataConnectorKind no longer has value OfficePowerBI
+  - Enum KnownDataConnectorKind no longer has value ThreatIntelligenceTaxii
+  - Enum KnownMicrosoftSecurityProductName no longer has value MicrosoftDefenderAdvancedThreatProtection
+  - Enum KnownMicrosoftSecurityProductName no longer has value Office365AdvancedThreatProtection
+    
+    
 ## 1.0.0-beta.5 (2022-09-27)
     
 **Features**
