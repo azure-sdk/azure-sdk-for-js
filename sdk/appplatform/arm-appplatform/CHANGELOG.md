@@ -1,32 +1,6 @@
 # Release History
-
-## 2.1.0-beta.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.1.0-beta.4 (2022-11-16)
-
-  - Bugs Fixed
-
-## 2.1.0-beta.3 (2022-10-08)
-
-**Bugs Fixed**
-
-  -  revert credential scopes
-
-## 2.1.0-beta.2 (2022-09-30)
-
-**Bugs Fixed**
-
-  -  fix better user experience of credential scopes in government cloud
-
-## 2.1.0-beta.1 (2022-09-09)
+    
+## 3.0.0 (2023-01-11)
     
 **Features**
 
@@ -134,7 +108,6 @@
   - Added Interface IngressSettingsClientAuth
   - Added Interface JarUploadedUserSourceInfo
   - Added Interface KeyVaultCertificateProperties
-  - Added Interface MarketplaceResource
   - Added Interface MonitoringSettingResource
   - Added Interface NetCoreZipUploadedUserSourceInfo
   - Added Interface Probe
@@ -214,7 +187,6 @@
   - Interface AppResourceProperties has a new optional parameter vnetAddons
   - Interface BuildProperties has a new optional parameter resourceRequests
   - Interface CertificateProperties has a new optional parameter provisioningState
-  - Interface ClusterResourceProperties has a new optional parameter marketplaceResource
   - Interface ClusterResourceProperties has a new optional parameter powerState
   - Interface ClusterResourceProperties has a new optional parameter vnetAddons
   - Interface CustomDomainProperties has a new optional parameter provisioningState
@@ -226,12 +198,6 @@
   - Interface ManagedIdentityProperties has a new optional parameter userAssignedIdentities
   - Interface NetworkProfile has a new optional parameter ingressConfig
   - Interface NetworkProfile has a new optional parameter outboundType
-  - Class AppPlatformManagementClient has a new parameter apiPortalCustomDomains
-  - Class AppPlatformManagementClient has a new parameter apiPortals
-  - Class AppPlatformManagementClient has a new parameter gatewayCustomDomains
-  - Class AppPlatformManagementClient has a new parameter gatewayRouteConfigs
-  - Class AppPlatformManagementClient has a new parameter gateways
-  - Class AppPlatformManagementClient has a new parameter storages
   - Added Enum KnownApiPortalProvisioningState
   - Added Enum KnownBackendProtocol
   - Added Enum KnownCertificateResourceProvisioningState
@@ -244,6 +210,13 @@
   - Added Enum KnownSessionAffinity
   - Added Enum KnownStorageType
   - Added Enum KnownType
+  - Added function getContinuationToken
+
+**Breaking Changes**
+
+  - Interface DeploymentsListForClusterNextOptionalParams no longer has parameter version
+  - Interface DeploymentsListNextOptionalParams no longer has parameter version
+  - Type of parameter type of interface UserSourceInfo is changed from "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip" | "BuildResult" to "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip" | "BuildResult" | "Container"
     
     
 ## 2.0.0 (2022-05-19)
