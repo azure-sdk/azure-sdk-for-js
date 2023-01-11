@@ -37,6 +37,10 @@ import {
   ManagedHsmsGetDeletedOptionalParams,
   ManagedHsmsGetDeletedResponse,
   ManagedHsmsPurgeDeletedOptionalParams,
+  ManagedHsmsPurgeDeletedResponse,
+  CheckMhsmNameAvailabilityParameters,
+  ManagedHsmsCheckMhsmNameAvailabilityOptionalParams,
+  ManagedHsmsCheckMhsmNameAvailabilityResponse,
   ManagedHsmsListByResourceGroupNextResponse,
   ManagedHsmsListBySubscriptionNextResponse,
   ManagedHsmsListDeletedNextResponse
@@ -581,11 +585,16 @@ export class ManagedHsmsImpl implements ManagedHsms {
     name: string,
     location: string,
     options?: ManagedHsmsPurgeDeletedOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedHsmsPurgeDeletedResponse>,
+      ManagedHsmsPurgeDeletedResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<ManagedHsmsPurgeDeletedResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -644,9 +653,24 @@ export class ManagedHsmsImpl implements ManagedHsms {
     name: string,
     location: string,
     options?: ManagedHsmsPurgeDeletedOptionalParams
-  ): Promise<void> {
+  ): Promise<ManagedHsmsPurgeDeletedResponse> {
     const poller = await this.beginPurgeDeleted(name, location, options);
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Checks that the managed hsm name is valid and is not already in use.
+   * @param mhsmName The name of the managed hsm.
+   * @param options The options parameters.
+   */
+  checkMhsmNameAvailability(
+    mhsmName: CheckMhsmNameAvailabilityParameters,
+    options?: ManagedHsmsCheckMhsmNameAvailabilityOptionalParams
+  ): Promise<ManagedHsmsCheckMhsmNameAvailabilityResponse> {
+    return this.client.sendOperationRequest(
+      { mhsmName, options },
+      checkMhsmNameAvailabilityOperationSpec
+    );
   }
 
   /**
@@ -796,7 +820,6 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ManagedHsm
     },
-    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.ManagedHsmError
@@ -894,10 +917,18 @@ const purgeDeletedOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedManagedHSMs/{name}/purge",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.ManagedHsmsPurgeDeletedHeaders
+    },
+    201: {
+      headersMapper: Mappers.ManagedHsmsPurgeDeletedHeaders
+    },
+    202: {
+      headersMapper: Mappers.ManagedHsmsPurgeDeletedHeaders
+    },
+    204: {
+      headersMapper: Mappers.ManagedHsmsPurgeDeletedHeaders
+    },
     default: {
       bodyMapper: Mappers.ManagedHsmError
     }
@@ -912,6 +943,25 @@ const purgeDeletedOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const checkMhsmNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/checkMhsmNameAvailability",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckMhsmNameAvailabilityResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.mhsmName,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -923,7 +973,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedHsmError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -944,7 +993,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedHsmError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -964,7 +1012,6 @@ const listDeletedNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedHsmError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
