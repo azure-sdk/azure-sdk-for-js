@@ -56,6 +56,7 @@ export type AddressValidationStatus = string;
 export interface Agreement extends Resource {
     readonly acceptanceMode?: AcceptanceMode;
     readonly agreementLink?: string;
+    readonly billingProfileInfo?: BillingProfileInfo;
     readonly category?: Category;
     readonly effectiveDate?: Date;
     readonly expirationDate?: Date;
@@ -85,7 +86,6 @@ export type AgreementsGetResponse = Agreement;
 
 // @public
 export interface AgreementsListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -188,7 +188,6 @@ export type BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionResp
 
 // @public
 export interface BillingAccountsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -308,9 +307,6 @@ export type BillingPeriodsGetResponse = BillingPeriod;
 
 // @public
 export interface BillingPeriodsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skiptoken?: string;
-    top?: number;
 }
 
 // @public
@@ -441,8 +437,16 @@ export interface BillingProfileCreationRequest {
 }
 
 // @public
+export interface BillingProfileInfo {
+    billingProfileDisplayName?: string;
+    billingProfileId?: string;
+    indirectRelationshipOrganizationName?: string;
+}
+
+// @public
 export interface BillingProfileListResult {
     readonly nextLink?: string;
+    readonly totalCount?: number;
     readonly value?: BillingProfile[];
 }
 
@@ -479,7 +483,6 @@ export type BillingProfilesGetResponse = BillingProfile;
 
 // @public
 export interface BillingProfilesListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -931,8 +934,6 @@ export type CustomersGetResponse = Customer;
 
 // @public
 export interface CustomersListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    search?: string;
 }
 
 // @public
@@ -949,8 +950,6 @@ export type CustomersListByBillingAccountResponse = CustomerListResult;
 
 // @public
 export interface CustomersListByBillingProfileNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    search?: string;
 }
 
 // @public
@@ -1733,6 +1732,18 @@ export interface Operations {
 }
 
 // @public
+export interface OperationsErrorDetails {
+    readonly code?: string;
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface OperationsErrorResponse {
+    error?: OperationsErrorDetails;
+}
+
+// @public
 export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -1855,7 +1866,6 @@ export type ProductsGetResponse = Product;
 
 // @public
 export interface ProductsListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1871,7 +1881,6 @@ export type ProductsListByBillingAccountResponse = ProductsListResult;
 
 // @public
 export interface ProductsListByBillingProfileNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1901,7 +1910,6 @@ export type ProductsListByCustomerResponse = ProductsListResult;
 
 // @public
 export interface ProductsListByInvoiceSectionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -2018,10 +2026,6 @@ export interface ReservationSkuProperty {
 
 // @public
 export interface ReservationsListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    refreshSummary?: string;
-    selectedState?: string;
 }
 
 // @public
@@ -2040,10 +2044,6 @@ export type ReservationsListByBillingAccountResponse = ReservationsListResult;
 
 // @public
 export interface ReservationsListByBillingProfileNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    refreshSummary?: string;
-    selectedState?: string;
 }
 
 // @public

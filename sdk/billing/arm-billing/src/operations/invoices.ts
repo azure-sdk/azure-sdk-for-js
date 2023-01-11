@@ -127,8 +127,6 @@ export class InvoicesImpl implements Invoices {
     while (continuationToken) {
       result = await this._listByBillingAccountNext(
         billingAccountName,
-        periodStartDate,
-        periodEndDate,
         continuationToken,
         options
       );
@@ -231,8 +229,6 @@ export class InvoicesImpl implements Invoices {
       result = await this._listByBillingProfileNext(
         billingAccountName,
         billingProfileName,
-        periodStartDate,
-        periodEndDate,
         continuationToken,
         options
       );
@@ -319,8 +315,6 @@ export class InvoicesImpl implements Invoices {
     }
     while (continuationToken) {
       result = await this._listByBillingSubscriptionNext(
-        periodStartDate,
-        periodEndDate,
         continuationToken,
         options
       );
@@ -832,22 +826,16 @@ export class InvoicesImpl implements Invoices {
   /**
    * ListByBillingAccountNext
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param periodStartDate The start date to fetch the invoices. The date should be specified in
-   *                        MM-DD-YYYY format.
-   * @param periodEndDate The end date to fetch the invoices. The date should be specified in MM-DD-YYYY
-   *                      format.
    * @param nextLink The nextLink from the previous successful call to the ListByBillingAccount method.
    * @param options The options parameters.
    */
   private _listByBillingAccountNext(
     billingAccountName: string,
-    periodStartDate: string,
-    periodEndDate: string,
     nextLink: string,
     options?: InvoicesListByBillingAccountNextOptionalParams
   ): Promise<InvoicesListByBillingAccountNextResponse> {
     return this.client.sendOperationRequest(
-      { billingAccountName, periodStartDate, periodEndDate, nextLink, options },
+      { billingAccountName, nextLink, options },
       listByBillingAccountNextOperationSpec
     );
   }
@@ -856,50 +844,33 @@ export class InvoicesImpl implements Invoices {
    * ListByBillingProfileNext
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param periodStartDate The start date to fetch the invoices. The date should be specified in
-   *                        MM-DD-YYYY format.
-   * @param periodEndDate The end date to fetch the invoices. The date should be specified in MM-DD-YYYY
-   *                      format.
    * @param nextLink The nextLink from the previous successful call to the ListByBillingProfile method.
    * @param options The options parameters.
    */
   private _listByBillingProfileNext(
     billingAccountName: string,
     billingProfileName: string,
-    periodStartDate: string,
-    periodEndDate: string,
     nextLink: string,
     options?: InvoicesListByBillingProfileNextOptionalParams
   ): Promise<InvoicesListByBillingProfileNextResponse> {
     return this.client.sendOperationRequest(
-      {
-        billingAccountName,
-        billingProfileName,
-        periodStartDate,
-        periodEndDate,
-        nextLink,
-        options
-      },
+      { billingAccountName, billingProfileName, nextLink, options },
       listByBillingProfileNextOperationSpec
     );
   }
 
   /**
    * ListByBillingSubscriptionNext
-   * @param periodStartDate Invoice period start date.
-   * @param periodEndDate Invoice period end date.
    * @param nextLink The nextLink from the previous successful call to the ListByBillingSubscription
    *                 method.
    * @param options The options parameters.
    */
   private _listByBillingSubscriptionNext(
-    periodStartDate: string,
-    periodEndDate: string,
     nextLink: string,
     options?: InvoicesListByBillingSubscriptionNextOptionalParams
   ): Promise<InvoicesListByBillingSubscriptionNextResponse> {
     return this.client.sendOperationRequest(
-      { periodStartDate, periodEndDate, nextLink, options },
+      { nextLink, options },
       listByBillingSubscriptionNextOperationSpec
     );
   }
@@ -1160,11 +1131,6 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.periodStartDate,
-    Parameters.periodEndDate
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
@@ -1184,11 +1150,6 @@ const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.periodStartDate,
-    Parameters.periodEndDate
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
@@ -1209,11 +1170,6 @@ const listByBillingSubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.periodStartDate,
-    Parameters.periodEndDate
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
