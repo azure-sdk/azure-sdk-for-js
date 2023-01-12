@@ -12644,7 +12644,7 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-JqAHhcYJwMaGSP5SvF2dZyO6RFZaYueuYmtilPzpg6vje557tOyo94Ud179y+XPTayevkly2risLB+bRd6JM3w==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-JDZVaV0iO02HyTSiiyi0nfvk4oVJXBBVGA4nfQoPJWHSpfJH1/iGLw2KMylK9+vDUhuiBd/wMTfXp+0qXZqjzw==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
@@ -12657,18 +12657,18 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_7e8d81808a761355f6c3da2f25cfe887
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -16129,7 +16129,7 @@ packages:
     dev: false
 
   file:projects/digital-twins-core.tgz:
-    resolution: {integrity: sha512-Kx88rkD/kud2yFLn3hEDNVPiEmu/C3WEPClkK1Hr/RXWU32WOYlMJdE6SNt4EA4i8VgzwWFRHXxo6UMRdTjUrA==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-zpmdHAAYYxRxrTiSoRX+PAHpl6CVW7fgY2nbRTlj7GgQEtlDFlm7JrQ+0ASkEK2gPYHhT5YxoVof7MgLt9I8HA==, tarball: file:projects/digital-twins-core.tgz}
     name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
@@ -16173,7 +16173,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
