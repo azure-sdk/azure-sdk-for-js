@@ -1,15 +1,66 @@
 # Release History
+    
+## 1.0.0-beta.5 (2023-01-12)
+    
+**Features**
 
-## 1.0.0-beta.5 (Unreleased)
+  - Added operation group Solutions
+  - Added operation group SolutionsDiscoverability
+  - Added operation Extensions.createOrUpdate
+  - Added Interface ApiProperties
+  - Added Interface ExtensionInstallationRequest
+  - Added Interface ExtensionsCreateOrUpdateOptionalParams
+  - Added Interface FarmBeatsSolution
+  - Added Interface FarmBeatsSolutionListResponse
+  - Added Interface FarmBeatsSolutionProperties
+  - Added Interface Insight
+  - Added Interface InsightAttachment
+  - Added Interface MarketplaceOfferDetails
+  - Added Interface Measure
+  - Added Interface ResourceParameter
+  - Added Interface Solution
+  - Added Interface SolutionEvaluatedOutput
+  - Added Interface SolutionInstallationRequest
+  - Added Interface SolutionListResponse
+  - Added Interface SolutionProperties
+  - Added Interface SolutionsCreateOrUpdateOptionalParams
+  - Added Interface SolutionsDeleteOptionalParams
+  - Added Interface SolutionsDiscoverabilityGetOptionalParams
+  - Added Interface SolutionsDiscoverabilityListNextOptionalParams
+  - Added Interface SolutionsDiscoverabilityListOptionalParams
+  - Added Interface SolutionsGetOptionalParams
+  - Added Interface SolutionsListNextOptionalParams
+  - Added Interface SolutionsListOptionalParams
+  - Added Type Alias ExtensionsCreateOrUpdateResponse
+  - Added Type Alias SolutionsCreateOrUpdateResponse
+  - Added Type Alias SolutionsDiscoverabilityGetResponse
+  - Added Type Alias SolutionsDiscoverabilityListNextResponse
+  - Added Type Alias SolutionsDiscoverabilityListResponse
+  - Added Type Alias SolutionsGetResponse
+  - Added Type Alias SolutionsListNextResponse
+  - Added Type Alias SolutionsListResponse
+  - Interface Extension has a new optional parameter additionalApiProperties
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation Extensions.create
+  - Removed operation Extensions.update
+  - Interface ExtensionsListByFarmBeatsNextOptionalParams no longer has parameter extensionCategories
+  - Interface ExtensionsListByFarmBeatsNextOptionalParams no longer has parameter extensionIds
+  - Interface ExtensionsListByFarmBeatsNextOptionalParams no longer has parameter maxPageSize
+  - Interface ExtensionsListByFarmBeatsNextOptionalParams no longer has parameter skipToken
+  - Interface FarmBeatsExtensionsListNextOptionalParams no longer has parameter extensionCategories
+  - Interface FarmBeatsExtensionsListNextOptionalParams no longer has parameter farmBeatsExtensionIds
+  - Interface FarmBeatsExtensionsListNextOptionalParams no longer has parameter farmBeatsExtensionNames
+  - Interface FarmBeatsExtensionsListNextOptionalParams no longer has parameter maxPageSize
+  - Interface FarmBeatsExtensionsListNextOptionalParams no longer has parameter publisherIds
+  - Interface FarmBeatsModelsListByResourceGroupNextOptionalParams no longer has parameter maxPageSize
+  - Interface FarmBeatsModelsListByResourceGroupNextOptionalParams no longer has parameter skipToken
+  - Interface FarmBeatsModelsListBySubscriptionNextOptionalParams no longer has parameter maxPageSize
+  - Interface FarmBeatsModelsListBySubscriptionNextOptionalParams no longer has parameter skipToken
+    
+    
 ## 1.0.0-beta.4 (2022-11-14)
     
 **Features**

@@ -21,7 +21,9 @@ import {
   LocationsImpl,
   OperationsImpl,
   PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl
+  PrivateLinkResourcesImpl,
+  SolutionsImpl,
+  SolutionsDiscoverabilityImpl
 } from "./operations";
 import {
   Extensions,
@@ -30,7 +32,9 @@ import {
   Locations,
   Operations,
   PrivateEndpointConnections,
-  PrivateLinkResources
+  PrivateLinkResources,
+  Solutions,
+  SolutionsDiscoverability
 } from "./operationsInterfaces";
 import { AgriFoodMgmtClientOptionalParams } from "./models";
 
@@ -42,7 +46,7 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the AgriFoodMgmtClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -127,6 +131,8 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
     this.operations = new OperationsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.solutions = new SolutionsImpl(this);
+    this.solutionsDiscoverability = new SolutionsDiscoverabilityImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -165,4 +171,6 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
   operations: Operations;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
+  solutions: Solutions;
+  solutionsDiscoverability: SolutionsDiscoverability;
 }
