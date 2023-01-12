@@ -43,7 +43,7 @@ export class PipelineRunsImpl implements PipelineRuns {
 
   /**
    * Lists all the pipeline runs for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -119,7 +119,7 @@ export class PipelineRunsImpl implements PipelineRuns {
 
   /**
    * Lists all the pipeline runs for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -136,7 +136,7 @@ export class PipelineRunsImpl implements PipelineRuns {
 
   /**
    * Gets the detailed information for a given pipeline run.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param pipelineRunName The name of the pipeline run.
    * @param options The options parameters.
@@ -155,7 +155,7 @@ export class PipelineRunsImpl implements PipelineRuns {
 
   /**
    * Creates a pipeline run for a container registry with the specified parameters
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param pipelineRunName The name of the pipeline run.
    * @param pipelineRunCreateParameters The parameters for creating a pipeline run.
@@ -225,7 +225,8 @@ export class PipelineRunsImpl implements PipelineRuns {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -233,7 +234,7 @@ export class PipelineRunsImpl implements PipelineRuns {
 
   /**
    * Creates a pipeline run for a container registry with the specified parameters
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param pipelineRunName The name of the pipeline run.
    * @param pipelineRunCreateParameters The parameters for creating a pipeline run.
@@ -258,7 +259,7 @@ export class PipelineRunsImpl implements PipelineRuns {
 
   /**
    * Deletes a pipeline run from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param pipelineRunName The name of the pipeline run.
    * @param options The options parameters.
@@ -315,7 +316,8 @@ export class PipelineRunsImpl implements PipelineRuns {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -323,7 +325,7 @@ export class PipelineRunsImpl implements PipelineRuns {
 
   /**
    * Deletes a pipeline run from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param pipelineRunName The name of the pipeline run.
    * @param options The options parameters.
@@ -345,7 +347,7 @@ export class PipelineRunsImpl implements PipelineRuns {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -479,7 +481,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ImportPipelines } from "../operationsInterfaces";
+import { CacheRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -16,25 +16,28 @@ import { ContainerRegistryManagementClient } from "../containerRegistryManagemen
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  ImportPipeline,
-  ImportPipelinesListNextOptionalParams,
-  ImportPipelinesListOptionalParams,
-  ImportPipelinesListResponse,
-  ImportPipelinesGetOptionalParams,
-  ImportPipelinesGetResponse,
-  ImportPipelinesCreateOptionalParams,
-  ImportPipelinesCreateResponse,
-  ImportPipelinesDeleteOptionalParams,
-  ImportPipelinesListNextResponse
+  CacheRule,
+  CacheRulesListNextOptionalParams,
+  CacheRulesListOptionalParams,
+  CacheRulesListResponse,
+  CacheRulesGetOptionalParams,
+  CacheRulesGetResponse,
+  CacheRulesCreateOptionalParams,
+  CacheRulesCreateResponse,
+  CacheRulesDeleteOptionalParams,
+  CacheRuleUpdateParameters,
+  CacheRulesUpdateOptionalParams,
+  CacheRulesUpdateResponse,
+  CacheRulesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ImportPipelines operations. */
-export class ImportPipelinesImpl implements ImportPipelines {
+/** Class containing CacheRules operations. */
+export class CacheRulesImpl implements CacheRules {
   private readonly client: ContainerRegistryManagementClient;
 
   /**
-   * Initialize a new instance of the class ImportPipelines class.
+   * Initialize a new instance of the class CacheRules class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerRegistryManagementClient) {
@@ -42,7 +45,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
   }
 
   /**
-   * Lists all import pipelines for the specified container registry.
+   * Lists all cache rule resources for the specified container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
@@ -50,8 +53,8 @@ export class ImportPipelinesImpl implements ImportPipelines {
   public list(
     resourceGroupName: string,
     registryName: string,
-    options?: ImportPipelinesListOptionalParams
-  ): PagedAsyncIterableIterator<ImportPipeline> {
+    options?: CacheRulesListOptionalParams
+  ): PagedAsyncIterableIterator<CacheRule> {
     const iter = this.listPagingAll(resourceGroupName, registryName, options);
     return {
       next() {
@@ -77,10 +80,10 @@ export class ImportPipelinesImpl implements ImportPipelines {
   private async *listPagingPage(
     resourceGroupName: string,
     registryName: string,
-    options?: ImportPipelinesListOptionalParams,
+    options?: CacheRulesListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<ImportPipeline[]> {
-    let result: ImportPipelinesListResponse;
+  ): AsyncIterableIterator<CacheRule[]> {
+    let result: CacheRulesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, registryName, options);
@@ -106,8 +109,8 @@ export class ImportPipelinesImpl implements ImportPipelines {
   private async *listPagingAll(
     resourceGroupName: string,
     registryName: string,
-    options?: ImportPipelinesListOptionalParams
-  ): AsyncIterableIterator<ImportPipeline> {
+    options?: CacheRulesListOptionalParams
+  ): AsyncIterableIterator<CacheRule> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       registryName,
@@ -118,7 +121,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
   }
 
   /**
-   * Lists all import pipelines for the specified container registry.
+   * Lists all cache rule resources for the specified container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
@@ -126,8 +129,8 @@ export class ImportPipelinesImpl implements ImportPipelines {
   private _list(
     resourceGroupName: string,
     registryName: string,
-    options?: ImportPipelinesListOptionalParams
-  ): Promise<ImportPipelinesListResponse> {
+    options?: CacheRulesListOptionalParams
+  ): Promise<CacheRulesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, options },
       listOperationSpec
@@ -135,48 +138,48 @@ export class ImportPipelinesImpl implements ImportPipelines {
   }
 
   /**
-   * Gets the properties of the import pipeline.
+   * Gets the properties of the specified cache rule resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param importPipelineName The name of the import pipeline.
+   * @param cacheRuleName The name of the cache rule.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     registryName: string,
-    importPipelineName: string,
-    options?: ImportPipelinesGetOptionalParams
-  ): Promise<ImportPipelinesGetResponse> {
+    cacheRuleName: string,
+    options?: CacheRulesGetOptionalParams
+  ): Promise<CacheRulesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, importPipelineName, options },
+      { resourceGroupName, registryName, cacheRuleName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates an import pipeline for a container registry with the specified parameters.
+   * Creates a cache rule for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param importPipelineName The name of the import pipeline.
-   * @param importPipelineCreateParameters The parameters for creating an import pipeline.
+   * @param cacheRuleName The name of the cache rule.
+   * @param cacheRuleCreateParameters The parameters for creating a cache rule.
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
     registryName: string,
-    importPipelineName: string,
-    importPipelineCreateParameters: ImportPipeline,
-    options?: ImportPipelinesCreateOptionalParams
+    cacheRuleName: string,
+    cacheRuleCreateParameters: CacheRule,
+    options?: CacheRulesCreateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<ImportPipelinesCreateResponse>,
-      ImportPipelinesCreateResponse
+      PollOperationState<CacheRulesCreateResponse>,
+      CacheRulesCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ImportPipelinesCreateResponse> => {
+    ): Promise<CacheRulesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -217,8 +220,8 @@ export class ImportPipelinesImpl implements ImportPipelines {
       {
         resourceGroupName,
         registryName,
-        importPipelineName,
-        importPipelineCreateParameters,
+        cacheRuleName,
+        cacheRuleCreateParameters,
         options
       },
       createOperationSpec
@@ -233,42 +236,42 @@ export class ImportPipelinesImpl implements ImportPipelines {
   }
 
   /**
-   * Creates an import pipeline for a container registry with the specified parameters.
+   * Creates a cache rule for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param importPipelineName The name of the import pipeline.
-   * @param importPipelineCreateParameters The parameters for creating an import pipeline.
+   * @param cacheRuleName The name of the cache rule.
+   * @param cacheRuleCreateParameters The parameters for creating a cache rule.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
     registryName: string,
-    importPipelineName: string,
-    importPipelineCreateParameters: ImportPipeline,
-    options?: ImportPipelinesCreateOptionalParams
-  ): Promise<ImportPipelinesCreateResponse> {
+    cacheRuleName: string,
+    cacheRuleCreateParameters: CacheRule,
+    options?: CacheRulesCreateOptionalParams
+  ): Promise<CacheRulesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       registryName,
-      importPipelineName,
-      importPipelineCreateParameters,
+      cacheRuleName,
+      cacheRuleCreateParameters,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes an import pipeline from a container registry.
+   * Deletes a cache rule resource from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param importPipelineName The name of the import pipeline.
+   * @param cacheRuleName The name of the cache rule.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     registryName: string,
-    importPipelineName: string,
-    options?: ImportPipelinesDeleteOptionalParams
+    cacheRuleName: string,
+    options?: CacheRulesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -311,7 +314,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, registryName, importPipelineName, options },
+      { resourceGroupName, registryName, cacheRuleName, options },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -324,22 +327,126 @@ export class ImportPipelinesImpl implements ImportPipelines {
   }
 
   /**
-   * Deletes an import pipeline from a container registry.
+   * Deletes a cache rule resource from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param importPipelineName The name of the import pipeline.
+   * @param cacheRuleName The name of the cache rule.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     registryName: string,
-    importPipelineName: string,
-    options?: ImportPipelinesDeleteOptionalParams
+    cacheRuleName: string,
+    options?: CacheRulesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       registryName,
-      importPipelineName,
+      cacheRuleName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Updates a cache rule for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param cacheRuleName The name of the cache rule.
+   * @param cacheRuleUpdateParameters The parameters for updating a cache rule.
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    registryName: string,
+    cacheRuleName: string,
+    cacheRuleUpdateParameters: CacheRuleUpdateParameters,
+    options?: CacheRulesUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CacheRulesUpdateResponse>,
+      CacheRulesUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<CacheRulesUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        registryName,
+        cacheRuleName,
+        cacheRuleUpdateParameters,
+        options
+      },
+      updateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates a cache rule for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param cacheRuleName The name of the cache rule.
+   * @param cacheRuleUpdateParameters The parameters for updating a cache rule.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    registryName: string,
+    cacheRuleName: string,
+    cacheRuleUpdateParameters: CacheRuleUpdateParameters,
+    options?: CacheRulesUpdateOptionalParams
+  ): Promise<CacheRulesUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      registryName,
+      cacheRuleName,
+      cacheRuleUpdateParameters,
       options
     );
     return poller.pollUntilDone();
@@ -356,8 +463,8 @@ export class ImportPipelinesImpl implements ImportPipelines {
     resourceGroupName: string,
     registryName: string,
     nextLink: string,
-    options?: ImportPipelinesListNextOptionalParams
-  ): Promise<ImportPipelinesListNextResponse> {
+    options?: CacheRulesListNextOptionalParams
+  ): Promise<CacheRulesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, nextLink, options },
       listNextOperationSpec
@@ -369,11 +476,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ImportPipelineListResult
+      bodyMapper: Mappers.CacheRulesListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -391,11 +498,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ImportPipeline
+      bodyMapper: Mappers.CacheRule
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -407,40 +514,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.importPipelineName
+    Parameters.cacheRuleName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ImportPipeline
+      bodyMapper: Mappers.CacheRule
     },
     201: {
-      bodyMapper: Mappers.ImportPipeline
+      bodyMapper: Mappers.CacheRule
     },
     202: {
-      bodyMapper: Mappers.ImportPipeline
+      bodyMapper: Mappers.CacheRule
     },
     204: {
-      bodyMapper: Mappers.ImportPipeline
+      bodyMapper: Mappers.CacheRule
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.importPipelineCreateParameters,
+  requestBody: Parameters.cacheRuleCreateParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.importPipelineName
+    Parameters.cacheRuleName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -448,7 +555,7 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -465,9 +572,43 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.importPipelineName
+    Parameters.cacheRuleName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CacheRule
+    },
+    201: {
+      bodyMapper: Mappers.CacheRule
+    },
+    202: {
+      bodyMapper: Mappers.CacheRule
+    },
+    204: {
+      bodyMapper: Mappers.CacheRule
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.cacheRuleUpdateParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.cacheRuleName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -475,7 +616,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ImportPipelineListResult
+      bodyMapper: Mappers.CacheRulesListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

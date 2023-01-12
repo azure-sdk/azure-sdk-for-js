@@ -9,23 +9,23 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  ScopeMap,
-  ScopeMapsListOptionalParams,
-  ScopeMapsGetOptionalParams,
-  ScopeMapsGetResponse,
-  ScopeMapsCreateOptionalParams,
-  ScopeMapsCreateResponse,
-  ScopeMapsDeleteOptionalParams,
-  ScopeMapUpdateParameters,
-  ScopeMapsUpdateOptionalParams,
-  ScopeMapsUpdateResponse
+  CacheRule,
+  CacheRulesListOptionalParams,
+  CacheRulesGetOptionalParams,
+  CacheRulesGetResponse,
+  CacheRulesCreateOptionalParams,
+  CacheRulesCreateResponse,
+  CacheRulesDeleteOptionalParams,
+  CacheRuleUpdateParameters,
+  CacheRulesUpdateOptionalParams,
+  CacheRulesUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a ScopeMaps. */
-export interface ScopeMaps {
+/** Interface representing a CacheRules. */
+export interface CacheRules {
   /**
-   * Lists all the scope maps for the specified container registry.
+   * Lists all cache rule resources for the specified container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
@@ -33,115 +33,115 @@ export interface ScopeMaps {
   list(
     resourceGroupName: string,
     registryName: string,
-    options?: ScopeMapsListOptionalParams
-  ): PagedAsyncIterableIterator<ScopeMap>;
+    options?: CacheRulesListOptionalParams
+  ): PagedAsyncIterableIterator<CacheRule>;
   /**
-   * Gets the properties of the specified scope map.
+   * Gets the properties of the specified cache rule resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param scopeMapName The name of the scope map.
+   * @param cacheRuleName The name of the cache rule.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     registryName: string,
-    scopeMapName: string,
-    options?: ScopeMapsGetOptionalParams
-  ): Promise<ScopeMapsGetResponse>;
+    cacheRuleName: string,
+    options?: CacheRulesGetOptionalParams
+  ): Promise<CacheRulesGetResponse>;
   /**
-   * Creates a scope map for a container registry with the specified parameters.
+   * Creates a cache rule for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param scopeMapName The name of the scope map.
-   * @param scopeMapCreateParameters The parameters for creating a scope map.
+   * @param cacheRuleName The name of the cache rule.
+   * @param cacheRuleCreateParameters The parameters for creating a cache rule.
    * @param options The options parameters.
    */
   beginCreate(
     resourceGroupName: string,
     registryName: string,
-    scopeMapName: string,
-    scopeMapCreateParameters: ScopeMap,
-    options?: ScopeMapsCreateOptionalParams
+    cacheRuleName: string,
+    cacheRuleCreateParameters: CacheRule,
+    options?: CacheRulesCreateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<ScopeMapsCreateResponse>,
-      ScopeMapsCreateResponse
+      PollOperationState<CacheRulesCreateResponse>,
+      CacheRulesCreateResponse
     >
   >;
   /**
-   * Creates a scope map for a container registry with the specified parameters.
+   * Creates a cache rule for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param scopeMapName The name of the scope map.
-   * @param scopeMapCreateParameters The parameters for creating a scope map.
+   * @param cacheRuleName The name of the cache rule.
+   * @param cacheRuleCreateParameters The parameters for creating a cache rule.
    * @param options The options parameters.
    */
   beginCreateAndWait(
     resourceGroupName: string,
     registryName: string,
-    scopeMapName: string,
-    scopeMapCreateParameters: ScopeMap,
-    options?: ScopeMapsCreateOptionalParams
-  ): Promise<ScopeMapsCreateResponse>;
+    cacheRuleName: string,
+    cacheRuleCreateParameters: CacheRule,
+    options?: CacheRulesCreateOptionalParams
+  ): Promise<CacheRulesCreateResponse>;
   /**
-   * Deletes a scope map from a container registry.
+   * Deletes a cache rule resource from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param scopeMapName The name of the scope map.
+   * @param cacheRuleName The name of the cache rule.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     registryName: string,
-    scopeMapName: string,
-    options?: ScopeMapsDeleteOptionalParams
+    cacheRuleName: string,
+    options?: CacheRulesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Deletes a scope map from a container registry.
+   * Deletes a cache rule resource from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param scopeMapName The name of the scope map.
+   * @param cacheRuleName The name of the cache rule.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     registryName: string,
-    scopeMapName: string,
-    options?: ScopeMapsDeleteOptionalParams
+    cacheRuleName: string,
+    options?: CacheRulesDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Updates a scope map with the specified parameters.
+   * Updates a cache rule for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param scopeMapName The name of the scope map.
-   * @param scopeMapUpdateParameters The parameters for updating a scope map.
+   * @param cacheRuleName The name of the cache rule.
+   * @param cacheRuleUpdateParameters The parameters for updating a cache rule.
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
     registryName: string,
-    scopeMapName: string,
-    scopeMapUpdateParameters: ScopeMapUpdateParameters,
-    options?: ScopeMapsUpdateOptionalParams
+    cacheRuleName: string,
+    cacheRuleUpdateParameters: CacheRuleUpdateParameters,
+    options?: CacheRulesUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<ScopeMapsUpdateResponse>,
-      ScopeMapsUpdateResponse
+      PollOperationState<CacheRulesUpdateResponse>,
+      CacheRulesUpdateResponse
     >
   >;
   /**
-   * Updates a scope map with the specified parameters.
+   * Updates a cache rule for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param scopeMapName The name of the scope map.
-   * @param scopeMapUpdateParameters The parameters for updating a scope map.
+   * @param cacheRuleName The name of the cache rule.
+   * @param cacheRuleUpdateParameters The parameters for updating a cache rule.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
     registryName: string,
-    scopeMapName: string,
-    scopeMapUpdateParameters: ScopeMapUpdateParameters,
-    options?: ScopeMapsUpdateOptionalParams
-  ): Promise<ScopeMapsUpdateResponse>;
+    cacheRuleName: string,
+    cacheRuleUpdateParameters: CacheRuleUpdateParameters,
+    options?: CacheRulesUpdateOptionalParams
+  ): Promise<CacheRulesUpdateResponse>;
 }

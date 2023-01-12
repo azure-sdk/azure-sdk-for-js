@@ -23,7 +23,7 @@ import {
 export interface PrivateEndpointConnections {
   /**
    * List all private endpoint connections in a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -34,7 +34,7 @@ export interface PrivateEndpointConnections {
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Get the specified private endpoint connection associated with the container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.
@@ -47,7 +47,7 @@ export interface PrivateEndpointConnections {
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Update the state of specified private endpoint connection associated with the container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param privateEndpointConnection The parameters for creating a private endpoint connection.
@@ -67,7 +67,7 @@ export interface PrivateEndpointConnections {
   >;
   /**
    * Update the state of specified private endpoint connection associated with the container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param privateEndpointConnection The parameters for creating a private endpoint connection.
@@ -82,7 +82,7 @@ export interface PrivateEndpointConnections {
   ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
   /**
    * Deletes the specified private endpoint connection associated with the container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.
@@ -95,7 +95,7 @@ export interface PrivateEndpointConnections {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes the specified private endpoint connection associated with the container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.

@@ -23,7 +23,7 @@ import {
 export interface ExportPipelines {
   /**
    * Lists all export pipelines for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -34,7 +34,7 @@ export interface ExportPipelines {
   ): PagedAsyncIterableIterator<ExportPipeline>;
   /**
    * Gets the properties of the export pipeline.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param exportPipelineName The name of the export pipeline.
    * @param options The options parameters.
@@ -47,7 +47,7 @@ export interface ExportPipelines {
   ): Promise<ExportPipelinesGetResponse>;
   /**
    * Creates an export pipeline for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param exportPipelineName The name of the export pipeline.
    * @param exportPipelineCreateParameters The parameters for creating an export pipeline.
@@ -67,7 +67,7 @@ export interface ExportPipelines {
   >;
   /**
    * Creates an export pipeline for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param exportPipelineName The name of the export pipeline.
    * @param exportPipelineCreateParameters The parameters for creating an export pipeline.
@@ -82,7 +82,7 @@ export interface ExportPipelines {
   ): Promise<ExportPipelinesCreateResponse>;
   /**
    * Deletes an export pipeline from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param exportPipelineName The name of the export pipeline.
    * @param options The options parameters.
@@ -95,7 +95,7 @@ export interface ExportPipelines {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes an export pipeline from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param exportPipelineName The name of the export pipeline.
    * @param options The options parameters.
