@@ -1262,11 +1262,11 @@ export type PlatformType = string;
 
 /** Known values of {@link BillingSku} that the service accepts. */
 export enum KnownBillingSku {
-  /** 100 Mbps, 20 active SIMs plan */
+  /** 100 Mbps, 20 active SIMs plan, 2 RANs */
   G0 = "G0",
-  /** 1 Gbps, 100 active SIMs plan */
+  /** 1 Gbps, 100 active SIMs plan, 5 RANs */
   G1 = "G1",
-  /** 2 Gbps, 200 active SIMs plan */
+  /** 2 Gbps, 200 active SIMs plan, 10 RANs */
   G2 = "G2",
   /** 3 Gbps, 300 active SIMs plan */
   G3 = "G3",
@@ -1283,9 +1283,9 @@ export enum KnownBillingSku {
  * {@link KnownBillingSku} can be used interchangeably with BillingSku,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **G0**: 100 Mbps, 20 active SIMs plan \
- * **G1**: 1 Gbps, 100 active SIMs plan \
- * **G2**: 2 Gbps, 200 active SIMs plan \
+ * **G0**: 100 Mbps, 20 active SIMs plan, 2 RANs \
+ * **G1**: 1 Gbps, 100 active SIMs plan, 5 RANs \
+ * **G2**: 2 Gbps, 200 active SIMs plan, 10 RANs \
  * **G3**: 3 Gbps, 300 active SIMs plan \
  * **G4**: 4 Gbps, 400 active SIMs plan \
  * **G5**: 5 Gbps, 500 active SIMs plan \
