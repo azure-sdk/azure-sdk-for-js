@@ -453,7 +453,7 @@ export interface PacketCoreDataPlaneListResult {
 
 /** QoS policy */
 export interface QosPolicy {
-  /** QoS Flow 5G QoS Indicator value. The 5QI identifies a specific QoS forwarding treatment to be provided to a flow. This must not be a standardized 5QI value corresponding to a GBR (guaranteed bit rate) QoS Flow. The illegal GBR 5QI values are: 1, 2, 3, 4, 65, 66, 67, 71, 72, 73, 74, 75, 76, 82, 83, 84, and 85. See 3GPP TS23.501 section 5.7.2.1 for a full description of the 5QI parameter, and table 5.7.4-1 for the definition of which are the GBR 5QI values. */
+  /** 5G QoS Flow Indicator value. The 5QI identifies a specific QoS forwarding treatment to be provided to a flow. See 3GPP TS23.501 section 5.7.2.1 for a full description of the 5QI parameter, and table 5.7.4-1 for the definition the 5QI values. */
   fiveQi?: number;
   /** QoS Flow allocation and retention priority (ARP) level. Flows with higher priority preempt flows with lower priority, if the settings of `preemptionCapability` and `preemptionVulnerability` allow it. 1 is the highest level of priority. If this field is not specified then `5qi` is used to derive the ARP value. See 3GPP TS23.501 section 5.7.2.2 for a full description of the ARP parameters. */
   allocationAndRetentionPriorityLevel?: number;
@@ -763,7 +763,7 @@ export interface DataNetworkConfiguration {
   dataNetwork: DataNetworkResourceId;
   /** Aggregate maximum bit rate across all non-GBR QoS flows of a given PDU session. See 3GPP TS23.501 section 5.7.2.6 for a full description of the Session-AMBR. */
   sessionAmbr: Ambr;
-  /** Default QoS Flow 5G QoS Indicator value. The 5QI identifies a specific QoS forwarding treatment to be provided to a flow. This must not be a standardized 5QI value corresponding to a GBR (guaranteed bit rate) QoS Flow. The illegal GBR 5QI values are: 1, 2, 3, 4, 65, 66, 67, 71, 72, 73, 74, 75, 76, 82, 83, 84, and 85. See 3GPP TS23.501 section 5.7.2.1 for a full description of the 5QI parameter, and table 5.7.4-1 for the definition of which are the GBR 5QI values. */
+  /** Default 5G QoS Flow Indicator value. The 5QI identifies a specific QoS forwarding treatment to be provided to a flow. See 3GPP TS23.501 section 5.7.2.1 for a full description of the 5QI parameter, and table 5.7.4-1 for the definition the 5QI values. */
   fiveQi?: number;
   /** Default QoS Flow allocation and retention priority (ARP) level. Flows with higher priority preempt flows with lower priority, if the settings of `preemptionCapability` and `preemptionVulnerability` allow it. 1 is the highest level of priority. If this field is not specified then `5qi` is used to derive the ARP value. See 3GPP TS23.501 section 5.7.2.2 for a full description of the ARP parameters. */
   allocationAndRetentionPriorityLevel?: number;
@@ -1262,11 +1262,11 @@ export type PlatformType = string;
 
 /** Known values of {@link BillingSku} that the service accepts. */
 export enum KnownBillingSku {
-  /** 100 Mbps, 20 active SIMs plan */
+  /** 100 Mbps, 20 active SIMs plan, 2 RANs */
   G0 = "G0",
-  /** 1 Gbps, 100 active SIMs plan */
+  /** 1 Gbps, 100 active SIMs plan, 5 RANs */
   G1 = "G1",
-  /** 2 Gbps, 200 active SIMs plan */
+  /** 2 Gbps, 200 active SIMs plan, 10 RANs */
   G2 = "G2",
   /** 3 Gbps, 300 active SIMs plan */
   G3 = "G3",
@@ -1283,9 +1283,9 @@ export enum KnownBillingSku {
  * {@link KnownBillingSku} can be used interchangeably with BillingSku,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **G0**: 100 Mbps, 20 active SIMs plan \
- * **G1**: 1 Gbps, 100 active SIMs plan \
- * **G2**: 2 Gbps, 200 active SIMs plan \
+ * **G0**: 100 Mbps, 20 active SIMs plan, 2 RANs \
+ * **G1**: 1 Gbps, 100 active SIMs plan, 5 RANs \
+ * **G2**: 2 Gbps, 200 active SIMs plan, 10 RANs \
  * **G3**: 3 Gbps, 300 active SIMs plan \
  * **G4**: 4 Gbps, 400 active SIMs plan \
  * **G5**: 5 Gbps, 500 active SIMs plan \
