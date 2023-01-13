@@ -510,13 +510,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.listViewType,
-    Parameters.jobType,
-    Parameters.tag
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

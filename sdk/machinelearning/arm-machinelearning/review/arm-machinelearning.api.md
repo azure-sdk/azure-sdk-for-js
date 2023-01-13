@@ -451,9 +451,6 @@ export type BatchDeploymentsGetResponse = BatchDeployment;
 
 // @public
 export interface BatchDeploymentsListNextOptionalParams extends coreClient.OperationOptions {
-    orderBy?: string;
-    skip?: string;
-    top?: number;
 }
 
 // @public
@@ -567,8 +564,6 @@ export type BatchEndpointsListKeysResponse = EndpointAuthKeys;
 
 // @public
 export interface BatchEndpointsListNextOptionalParams extends coreClient.OperationOptions {
-    count?: number;
-    skip?: string;
 }
 
 // @public
@@ -733,7 +728,6 @@ export type CodeContainersGetResponse = CodeContainer;
 
 // @public
 export interface CodeContainersListNextOptionalParams extends coreClient.OperationOptions {
-    skip?: string;
 }
 
 // @public
@@ -791,9 +785,6 @@ export type CodeVersionsGetResponse = CodeVersion;
 
 // @public
 export interface CodeVersionsListNextOptionalParams extends coreClient.OperationOptions {
-    orderBy?: string;
-    skip?: string;
-    top?: number;
 }
 
 // @public
@@ -884,8 +875,6 @@ export type ComponentContainersGetResponse = ComponentContainer;
 
 // @public
 export interface ComponentContainersListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ListViewType;
-    skip?: string;
 }
 
 // @public
@@ -944,10 +933,6 @@ export type ComponentVersionsGetResponse = ComponentVersion;
 
 // @public
 export interface ComponentVersionsListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ListViewType;
-    orderBy?: string;
-    skip?: string;
-    top?: number;
 }
 
 // @public
@@ -1136,7 +1121,6 @@ export type ComputeListKeysResponse = ComputeSecretsUnion;
 
 // @public
 export interface ComputeListNextOptionalParams extends coreClient.OperationOptions {
-    skip?: string;
 }
 
 // @public
@@ -1407,8 +1391,6 @@ export type DataContainersGetResponse = DataContainer;
 
 // @public
 export interface DataContainersListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ListViewType;
-    skip?: string;
 }
 
 // @public
@@ -1518,13 +1500,6 @@ export type DatastoresGetResponse = Datastore;
 
 // @public
 export interface DatastoresListNextOptionalParams extends coreClient.OperationOptions {
-    count?: number;
-    isDefault?: boolean;
-    names?: string[];
-    orderBy?: string;
-    orderByAsc?: boolean;
-    searchText?: string;
-    skip?: string;
 }
 
 // @public
@@ -1605,11 +1580,6 @@ export type DataVersionsGetResponse = DataVersionBase;
 
 // @public
 export interface DataVersionsListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ListViewType;
-    orderBy?: string;
-    skip?: string;
-    tags?: string;
-    top?: number;
 }
 
 // @public
@@ -1865,8 +1835,6 @@ export type EnvironmentContainersGetResponse = EnvironmentContainer;
 
 // @public
 export interface EnvironmentContainersListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ListViewType;
-    skip?: string;
 }
 
 // @public
@@ -1934,10 +1902,6 @@ export type EnvironmentVersionsGetResponse = EnvironmentVersion;
 
 // @public
 export interface EnvironmentVersionsListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ListViewType;
-    orderBy?: string;
-    skip?: string;
-    top?: number;
 }
 
 // @public
@@ -2480,10 +2444,6 @@ export type JobsGetResponse = JobBase;
 
 // @public
 export interface JobsListNextOptionalParams extends coreClient.OperationOptions {
-    jobType?: string;
-    listViewType?: ListViewType;
-    skip?: string;
-    tag?: string;
 }
 
 // @public
@@ -3613,9 +3573,6 @@ export type ModelContainersGetResponse = ModelContainer;
 
 // @public
 export interface ModelContainersListNextOptionalParams extends coreClient.OperationOptions {
-    count?: number;
-    listViewType?: ListViewType;
-    skip?: string;
 }
 
 // @public
@@ -3683,16 +3640,6 @@ export type ModelVersionsGetResponse = ModelVersion;
 
 // @public
 export interface ModelVersionsListNextOptionalParams extends coreClient.OperationOptions {
-    description?: string;
-    feed?: string;
-    listViewType?: ListViewType;
-    offset?: number;
-    orderBy?: string;
-    properties?: string;
-    skip?: string;
-    tags?: string;
-    top?: number;
-    version?: string;
 }
 
 // @public
@@ -3903,9 +3850,6 @@ export type OnlineDeploymentsGetResponse = OnlineDeployment;
 
 // @public
 export interface OnlineDeploymentsListNextOptionalParams extends coreClient.OperationOptions {
-    orderBy?: string;
-    skip?: string;
-    top?: number;
 }
 
 // @public
@@ -3923,8 +3867,6 @@ export type OnlineDeploymentsListResponse = OnlineDeploymentTrackedResourceArmPa
 
 // @public
 export interface OnlineDeploymentsListSkusNextOptionalParams extends coreClient.OperationOptions {
-    count?: number;
-    skip?: string;
 }
 
 // @public
@@ -4046,13 +3988,6 @@ export type OnlineEndpointsListKeysResponse = EndpointAuthKeys;
 
 // @public
 export interface OnlineEndpointsListNextOptionalParams extends coreClient.OperationOptions {
-    computeType?: EndpointComputeType;
-    count?: number;
-    name?: string;
-    orderBy?: OrderString;
-    properties?: string;
-    skip?: string;
-    tags?: string;
 }
 
 // @public
@@ -4680,8 +4615,6 @@ export type SchedulesGetResponse = Schedule;
 
 // @public
 export interface SchedulesListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ScheduleListViewType;
-    skip?: string;
 }
 
 // @public
@@ -5387,8 +5320,6 @@ export interface WorkspaceConnectionSharedAccessSignature {
 
 // @public
 export interface WorkspaceConnectionsListNextOptionalParams extends coreClient.OperationOptions {
-    category?: string;
-    target?: string;
 }
 
 // @public
@@ -5500,7 +5431,6 @@ export type WorkspacesGetResponse = Workspace;
 
 // @public
 export interface WorkspacesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    skip?: string;
 }
 
 // @public
@@ -5516,7 +5446,6 @@ export type WorkspacesListByResourceGroupResponse = WorkspaceListResult;
 
 // @public
 export interface WorkspacesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    skip?: string;
 }
 
 // @public
