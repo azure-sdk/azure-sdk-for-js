@@ -21,7 +21,7 @@ import {
 /** Interface representing a IncidentComments. */
 export interface IncidentComments {
   /**
-   * Gets all incident comments.
+   * Gets all comments for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -34,7 +34,7 @@ export interface IncidentComments {
     options?: IncidentCommentsListOptionalParams
   ): PagedAsyncIterableIterator<IncidentComment>;
   /**
-   * Gets an incident comment.
+   * Gets a comment for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -49,7 +49,7 @@ export interface IncidentComments {
     options?: IncidentCommentsGetOptionalParams
   ): Promise<IncidentCommentsGetResponse>;
   /**
-   * Creates or updates the incident comment.
+   * Creates or updates a comment for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -66,7 +66,7 @@ export interface IncidentComments {
     options?: IncidentCommentsCreateOrUpdateOptionalParams
   ): Promise<IncidentCommentsCreateOrUpdateResponse>;
   /**
-   * Delete the incident comment.
+   * Deletes a comment for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
