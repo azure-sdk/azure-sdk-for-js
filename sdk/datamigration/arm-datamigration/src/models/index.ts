@@ -10,6 +10,7 @@ import * as coreClient from "@azure/core-client";
 
 export type DatabaseMigrationPropertiesUnion =
   | DatabaseMigrationProperties
+  | DatabaseMigrationPropertiesSqlDb
   | DatabaseMigrationPropertiesSqlMi
   | DatabaseMigrationPropertiesSqlVm;
 export type ProjectTaskPropertiesUnion =
@@ -150,6 +151,191 @@ export interface SystemData {
   lastModifiedBy?: string;
   lastModifiedByType?: CreatedByType;
   lastModifiedAt?: Date;
+}
+
+/** Detailed status of current Sql Db migration. */
+export interface SqlDbMigrationStatusDetails {
+  /**
+   * Current State of Migration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationState?: string;
+  /**
+   * Sql Data Copy errors, if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sqlDataCopyErrors?: string[];
+  /**
+   * Details on progress of ADF copy activities.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly listOfCopyProgressDetails?: CopyProgressDetails[];
+}
+
+/** Details on progress of ADF copy activity */
+export interface CopyProgressDetails {
+  /**
+   * Table Name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tableName?: string;
+  /**
+   * Status of the Copy activity (InProgress, Succeeded, Failed, Canceled).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * Type of parallel copy (Dynamic range, Physical partition, none).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly parallelCopyType?: string;
+  /**
+   * The degree of parallelization.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly usedParallelCopies?: number;
+  /**
+   * Bytes read
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataRead?: number;
+  /**
+   * Bytes written
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataWritten?: number;
+  /**
+   * Rows read
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rowsRead?: number;
+  /**
+   * Rows Copied
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rowsCopied?: number;
+  /**
+   * Copy Start
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly copyStart?: Date;
+  /**
+   * Copy throughput in KBps
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly copyThroughput?: number;
+  /**
+   * Copy Duration in seconds
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly copyDuration?: number;
+}
+
+/** Source SQL Connection */
+export interface SqlConnectionInformation {
+  /** Data source. */
+  dataSource?: string;
+  /** Authentication type. */
+  authentication?: string;
+  /** User name to connect to source SQL. */
+  userName?: string;
+  /**
+   * Password to connect to source SQL.
+   * This value contains a credential. Consider obscuring before showing to users
+   */
+  password?: string;
+  /** Whether to encrypt connection or not. */
+  encryptConnection?: boolean;
+  /** Whether to trust server certificate or not. */
+  trustServerCertificate?: boolean;
+}
+
+/** Offline configuration */
+export interface SqlDbOfflineConfiguration {
+  /**
+   * Offline migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly offline?: boolean;
+}
+
+/** Database Migration Resource properties. */
+export interface DatabaseMigrationProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "SqlDb" | "SqlMi" | "SqlVm";
+  /** Resource Id of the target resource (SQL VM or SQL Managed Instance). */
+  scope?: string;
+  /**
+   * Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * Migration status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationStatus?: string;
+  /**
+   * Database migration start time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Database migration end time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /** Source SQL Server connection details. */
+  sourceSqlConnection?: SqlConnectionInformation;
+  /** Name of the source database. */
+  sourceDatabaseName?: string;
+  /**
+   * Name of the source sql server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceServerName?: string;
+  /** Resource Id of the Migration Service. */
+  migrationService?: string;
+  /** ID tracking current migration operation. */
+  migrationOperationId?: string;
+  /**
+   * Error details in case of migration failure.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationFailureError?: ErrorInfo;
+  /** Database collation to be used for the target database. */
+  targetDatabaseCollation?: string;
+  /** Error message for migration provisioning failure, if any. */
+  provisioningError?: string;
+}
+
+/** Error details */
+export interface ErrorInfo {
+  /**
+   * Error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+export interface ProxyResource {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly id?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly name?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly type?: string;
+}
+
+/** Migration Operation Input */
+export interface MigrationOperationInput {
+  /** ID tracking migration operation. */
+  migrationOperationId?: string;
 }
 
 /** Detailed status of current migration. */
@@ -338,6 +524,11 @@ export interface SourceLocation {
   fileShare?: SqlFileShare;
   /** Source Azure Blob. */
   azureBlob?: AzureBlob;
+  /**
+   * Backup storage Type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fileStorageType?: string;
 }
 
 /** File share */
@@ -346,7 +537,10 @@ export interface SqlFileShare {
   path?: string;
   /** Username to access the file share location for backups. */
   username?: string;
-  /** Password for username to access file share location. */
+  /**
+   * Password for username to access file share location.
+   * This value contains a credential. Consider obscuring before showing to users
+   */
   password?: string;
 }
 
@@ -374,92 +568,6 @@ export interface OfflineConfiguration {
   offline?: boolean;
   /** Last backup name for offline migration. This is optional for migrations from file share. If it is not provided, then the service will determine the last backup file name based on latest backup files present in file share. */
   lastBackupName?: string;
-}
-
-/** Database Migration Resource properties. */
-export interface DatabaseMigrationProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "SqlMi" | "SqlVm";
-  /** Scope of the database. */
-  scope?: string;
-  /**
-   * Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /**
-   * Migration status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly migrationStatus?: string;
-  /**
-   * Database migration start time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Database migration end time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /** Source SQL Server connection details. */
-  sourceSqlConnection?: SqlConnectionInformation;
-  /** Name of the source database. */
-  sourceDatabaseName?: string;
-  /** Resource Id of the Migration Service. */
-  migrationService?: string;
-  /** ID tracking current migration operation. */
-  migrationOperationId?: string;
-  /**
-   * Error details in case of migration failure.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly migrationFailureError?: ErrorInfo;
-}
-
-/** Source SQL Connection */
-export interface SqlConnectionInformation {
-  /** Data source. */
-  dataSource?: string;
-  /** Authentication type. */
-  authentication?: string;
-  /** User name to connect to source SQL. */
-  userName?: string;
-  /** Password to connect to source SQL. */
-  password?: string;
-  /** Whether to encrypt connection or not. */
-  encryptConnection?: boolean;
-  /** Whether to trust server certificate or not. */
-  trustServerCertificate?: boolean;
-}
-
-/** Error details */
-export interface ErrorInfo {
-  /**
-   * Error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * Error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-}
-
-export interface ProxyResource {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly id?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly name?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly type?: string;
-}
-
-/** Migration Operation Input */
-export interface MigrationOperationInput {
-  /** ID tracking migration operation. */
-  migrationOperationId?: string;
 }
 
 /** Result of the request to list SQL operations. */
@@ -810,6 +918,8 @@ export interface ServiceSku {
 export interface DataMigrationServiceStatusResponse {
   /** The DMS instance agent version */
   agentVersion?: string;
+  /** Agent Configuration */
+  agentConfiguration?: Record<string, unknown>;
   /** The machine-readable status, such as 'Initializing', 'Offline', 'Online', 'Deploying', 'Deleting', 'Stopped', 'Stopping', 'Starting', 'FailedToStart', 'FailedToStop' or 'Failed' */
   status?: string;
   /** The services virtual machine size, such as 'Standard_D2_v2' */
@@ -1003,6 +1113,18 @@ export interface ProjectList {
   nextLink?: string;
 }
 
+/** Azure Active Directory Application */
+export interface AzureActiveDirectoryApp {
+  /** Application ID of the Azure Active Directory Application */
+  applicationId?: string;
+  /** Key used to authenticate to the Azure Active Directory Application */
+  appKey?: string;
+  /** Tenant id of the customer */
+  tenantId?: string;
+  /** Ignore checking azure permissions on the AAD app */
+  ignoreAzurePermissions?: boolean;
+}
+
 /** Defines the connection properties of a server */
 export interface ConnectionInfo {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1141,16 +1263,6 @@ export interface MigrateMISyncCompleteCommandOutput {
   errors?: ReportableException[];
 }
 
-/** Azure Active Directory Application */
-export interface AzureActiveDirectoryApp {
-  /** Application ID of the Azure Active Directory Application */
-  applicationId: string;
-  /** Key used to authenticate to the Azure Active Directory Application */
-  appKey: string;
-  /** Tenant id of the customer */
-  tenantId: string;
-}
-
 /** Information of backup set */
 export interface BackupSetInfo {
   /** Id for the set of backup files */
@@ -1221,6 +1333,8 @@ export interface ConnectToSourceSqlServerTaskInput {
   collectTdeCertificateInfo?: boolean;
   /** Flag for whether to validate SSIS catalog is reachable on the source server. */
   validateSsisCatalogOnly?: boolean;
+  /** encrypted key for secure fields */
+  encryptedKeyForSecureFields?: string;
 }
 
 /** Output for the task that validates connection to SQL Server and also validates source server requirements */
@@ -1348,6 +1462,8 @@ export interface ConnectToTargetAzureDbForMySqlTaskOutput {
 export interface ConnectToTargetSqlDbTaskInput {
   /** Connection information for target SQL DB */
   targetConnectionInfo: SqlConnectionInfo;
+  /** Boolean flag indicating whether to query object counts for each database on the target server */
+  queryObjectCounts?: boolean;
 }
 
 /** Output for the task that validates connection to SQL DB and target server requirements */
@@ -1617,6 +1733,8 @@ export interface GetUserTablesSqlTaskInput {
   connectionInfo: SqlConnectionInfo;
   /** List of database names to collect tables for */
   selectedDatabases: string[];
+  /** encrypted key for secure fields */
+  encryptedKeyForSecureFields?: string;
 }
 
 /** Output of the task that collects user tables for the given list of databases */
@@ -1754,16 +1872,26 @@ export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput {
   sourceConnectionInfo: PostgreSqlConnectionInfo;
   /** encrypted key for secure fields */
   encryptedKeyForSecureFields?: string;
+  /**
+   * Migration start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
 }
 
 /** Database specific information for PostgreSQL to Azure Database for PostgreSQL migration task inputs */
 export interface MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput {
   /** Name of the database */
   name?: string;
+  /**
+   * Result identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
   /** Name of target database. Note: Target database will be truncated before starting migration. */
   targetDatabaseName?: string;
   /** Migration settings which tune the migration behavior */
-  migrationSetting?: { [propertyName: string]: string };
+  migrationSetting?: { [propertyName: string]: any };
   /** Source settings to tune source endpoint migration behavior */
   sourceSetting?: { [propertyName: string]: string };
   /** Target settings to tune target endpoint migration behavior */
@@ -2174,7 +2302,7 @@ export interface MigrateSqlServerSqlMISyncTaskOutput {
 /** Blob container storage information. */
 export interface BlobShare {
   /** SAS URI of Azure Storage Account Container. */
-  sasUri: string;
+  sasUri?: string;
 }
 
 /** Output for task that migrates SQL Server databases to Azure SQL Database Managed Instance. */
@@ -2320,7 +2448,7 @@ export interface MongoDbShardKeySetting {
   /** The fields within the shard key */
   fields: MongoDbShardKeyField[];
   /** Whether the shard key is unique */
-  isUnique: boolean;
+  isUnique?: boolean;
 }
 
 /** Describes how an individual MongoDB database should be migrated */
@@ -2724,6 +2852,8 @@ export interface MigrateMySqlAzureDbForMySqlOfflineTaskInput {
   startedOn?: Date;
   /** Optional parameters for fine tuning the data transfer rate during migration */
   optionalAgentSettings?: { [propertyName: string]: string };
+  /** encrypted key for secure fields */
+  encryptedKeyForSecureFields?: string;
 }
 
 /** Database specific information for offline MySQL to Azure Database for MySQL migration task inputs */
@@ -3186,6 +3316,27 @@ export interface StartMigrationScenarioServerRoleResult {
   readonly exceptionsAndWarnings?: ReportableException[];
 }
 
+/** Database Migration Resource properties for SQL database. */
+export interface DatabaseMigrationPropertiesSqlDb
+  extends DatabaseMigrationProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "SqlDb";
+  /**
+   * Detailed migration status. Not included by default.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationStatusDetails?: SqlDbMigrationStatusDetails;
+  /** Target SQL DB connection details. */
+  targetSqlConnection?: SqlConnectionInformation;
+  /**
+   * Offline configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly offlineConfiguration?: SqlDbOfflineConfiguration;
+  /** List of tables to copy. */
+  tableList?: string[];
+}
+
 /** Database Migration Resource properties for SQL Managed Instance. */
 export interface DatabaseMigrationPropertiesSqlMi
   extends DatabaseMigrationProperties {
@@ -3196,10 +3347,6 @@ export interface DatabaseMigrationPropertiesSqlMi
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly migrationStatusDetails?: MigrationStatusDetails;
-  /** Database collation to be used for the target database. */
-  targetDatabaseCollation?: string;
-  /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
   /** Backup configuration info. */
   backupConfiguration?: BackupConfiguration;
   /** Offline configuration. */
@@ -3216,14 +3363,21 @@ export interface DatabaseMigrationPropertiesSqlVm
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly migrationStatusDetails?: MigrationStatusDetails;
-  /** Database collation to be used for the target database. */
-  targetDatabaseCollation?: string;
-  /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
   /** Backup configuration info. */
   backupConfiguration?: BackupConfiguration;
   /** Offline configuration. */
   offlineConfiguration?: OfflineConfiguration;
+}
+
+/** Database Migration Resource for SQL Database. */
+export interface DatabaseMigrationSqlDb extends ProxyResource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Database Migration Resource properties for SQL database. */
+  properties?: DatabaseMigrationPropertiesSqlDb;
 }
 
 /** Database Migration Resource for SQL Managed Instance. */
@@ -3301,11 +3455,11 @@ export interface DataMigrationService extends TrackedResource {
 /** A project resource */
 export interface Project extends TrackedResource {
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  eTag?: string;
+  etag?: string;
   /** Source platform for the project */
   sourcePlatform?: ProjectSourcePlatform;
   /** Field that defines the Azure active directory application info, used to connect to the target Azure resource */
-  azureAuthenticationInfo?: string;
+  azureAuthenticationInfo?: AzureActiveDirectoryApp;
   /** Target platform for the project */
   targetPlatform?: ProjectTargetPlatform;
   /**
@@ -3342,6 +3496,8 @@ export interface MigrateSchemaSqlServerSqlDbTaskProperties
   createdOn?: string;
   /** Task id */
   taskId?: string;
+  /** whether the task can be cloned or not */
+  isCloneable?: boolean;
 }
 
 /** Properties for the task that checks for OCI drivers. */
@@ -3408,6 +3564,8 @@ export interface ConnectToSourceSqlServerTaskProperties
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly output?: ConnectToSourceSqlServerTaskOutputUnion[];
+  /** Task id */
+  taskId?: string;
 }
 
 /** Properties for the task that validates connection to SQL Server and source server requirements for online migration */
@@ -3478,6 +3636,8 @@ export interface ConnectToTargetSqlDbTaskProperties
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly output?: ConnectToTargetSqlDbTaskOutput[];
+  /** DateTime in UTC when the task was created */
+  createdOn?: string;
 }
 
 /** Properties for the task that validates connection to SQL DB and target server requirements for online migration */
@@ -3533,6 +3693,8 @@ export interface GetUserTablesSqlTaskProperties extends ProjectTaskProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly output?: GetUserTablesSqlTaskOutput[];
+  /** Task id */
+  taskId?: string;
 }
 
 /** Properties for the task that collects user tables for the given list of databases */
@@ -3657,6 +3819,12 @@ export interface MigrateSqlServerSqlMITaskProperties
   readonly output?: MigrateSqlServerSqlMITaskOutputUnion[];
   /** task id */
   taskId?: string;
+  /** DateTime in UTC when the task was created */
+  createdOn?: string;
+  /** parent task id */
+  parentTaskId?: string;
+  /** whether the task can be cloned or not */
+  isCloneable?: boolean;
 }
 
 /** Properties for task that migrates SQL Server databases to Azure SQL Database Managed Instance sync scenario */
@@ -3671,6 +3839,8 @@ export interface MigrateSqlServerSqlMISyncTaskProperties
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly output?: MigrateSqlServerSqlMISyncTaskOutputUnion[];
+  /** DateTime in UTC when the task was created */
+  createdOn?: string;
 }
 
 /** Properties for the task that migrates on-prem SQL Server databases to Azure SQL Database */
@@ -3689,6 +3859,8 @@ export interface MigrateSqlServerSqlDbTaskProperties
   taskId?: string;
   /** whether the task can be cloned or not */
   isCloneable?: boolean;
+  /** DateTime in UTC when the task was created */
+  createdOn?: string;
 }
 
 /** Properties for the task that migrates on-prem SQL Server databases to Azure SQL Database for online migrations */
@@ -3731,6 +3903,10 @@ export interface MigrateMySqlAzureDbForMySqlOfflineTaskProperties
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly output?: MigrateMySqlAzureDbForMySqlOfflineTaskOutputUnion[];
+  /** whether the task can be cloned or not */
+  isCloneable?: boolean;
+  /** Task id */
+  taskId?: string;
 }
 
 /** Properties for the task that migrates PostgreSQL databases to Azure Database for PostgreSQL for online migrations */
@@ -3749,6 +3925,8 @@ export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties
   taskId?: string;
   /** DateTime in UTC when the task was created */
   createdOn?: string;
+  /** whether the task can be cloned or not */
+  isCloneable?: boolean;
 }
 
 /** Properties for the task that migrates Oracle to Azure Database for PostgreSQL for online migrations */
@@ -3873,6 +4051,8 @@ export interface MigrateSyncCompleteCommandProperties
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly output?: MigrateSyncCompleteCommandOutput;
+  /** Command id */
+  commandId?: string;
 }
 
 /** Properties for the command that completes online migration for an Azure SQL Database Managed Instance. */
@@ -3951,11 +4131,19 @@ export interface MongoDbConnectionInfo extends ConnectionInfo {
   encryptConnection?: boolean;
   /** server brand version */
   serverBrandVersion?: string;
+  /** server version */
+  serverVersion?: string;
+  /** name of the server */
+  serverName?: string;
+  /** Whether to trust the server certificate */
+  trustServerCertificate?: boolean;
   enforceSSL?: boolean;
   /** port for server */
   port?: number;
   /** Additional connection settings */
   additionalSettings?: string;
+  /** Authentication type to use for connection */
+  authentication?: AuthenticationType;
 }
 
 /** Information for connecting to SQL database server */
@@ -3966,8 +4154,12 @@ export interface SqlConnectionInfo extends ConnectionInfo {
   dataSource: string;
   /** name of the server */
   serverName?: string;
-  /** port for server */
-  port?: string;
+  /** Port for Server */
+  port?: number;
+  /** server version */
+  serverVersion?: string;
+  /** server brand version */
+  serverBrandVersion?: string;
   /** Represents the ID of an HTTP resource represented by an Azure resource provider. */
   resourceId?: string;
   /** Authentication type to use for connection */
@@ -3994,6 +4186,10 @@ export interface MySqlConnectionInfo extends ConnectionInfo {
   port: number;
   /** Whether to encrypt the connection */
   encryptConnection?: boolean;
+  /** Authentication type to use for connection */
+  authentication?: AuthenticationType;
+  /** Additional connection settings */
+  additionalSettings?: string;
 }
 
 /** Information for connecting to Oracle server */
@@ -4002,6 +4198,14 @@ export interface OracleConnectionInfo extends ConnectionInfo {
   type: "OracleConnectionInfo";
   /** EZConnect or TNSName connection string. */
   dataSource: string;
+  /** name of the server */
+  serverName?: string;
+  /** server version */
+  serverVersion?: string;
+  /** port for server */
+  port?: number;
+  /** Authentication type to use for connection */
+  authentication?: AuthenticationType;
 }
 
 /** Information for connecting to PostgreSQL server */
@@ -4022,6 +4226,12 @@ export interface PostgreSqlConnectionInfo extends ConnectionInfo {
   encryptConnection?: boolean;
   /** Whether to trust the server certificate */
   trustServerCertificate?: boolean;
+  /** Additional connection settings */
+  additionalSettings?: string;
+  /** server brand version */
+  serverBrandVersion?: string;
+  /** Authentication type to use for connection */
+  authentication?: AuthenticationType;
 }
 
 /** Properties required to create a connection to Azure SQL database Managed instance */
@@ -4234,6 +4444,8 @@ export interface MigrateSqlServerSqlMITaskInput extends SqlMigrationTaskInput {
   backupMode?: BackupMode;
   /** Azure Active Directory domain name in the format of 'contoso.com' for federated Azure AD or 'contoso.onmicrosoft.com' for managed domain, required if and only if Windows logins are selected */
   aadDomainName?: string;
+  /** encrypted key for secure fields */
+  encryptedKeyForSecureFields?: string;
 }
 
 /** Input for task that migrates SSIS packages from SQL Server to Azure SQL Database Managed Instance. */
@@ -5255,7 +5467,10 @@ export interface DatabaseSummaryResult extends DataItemMigrationSummaryResult {
 
 /** Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance online scenario. */
 export interface MigrateSqlServerSqlMISyncTaskInput
-  extends SqlServerSqlMISyncTaskInput {}
+  extends SqlServerSqlMISyncTaskInput {
+  /** Number of database migrations to start in parallel */
+  numberOfParallelDatabaseMigrations?: number;
+}
 
 /** Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance online scenario. */
 export interface ValidateMigrationInputSqlServerSqlMISyncTaskInput
@@ -6231,7 +6446,9 @@ export enum KnownResourceType {
   /** SqlMi */
   SqlMi = "SqlMi",
   /** SqlVm */
-  SqlVm = "SqlVm"
+  SqlVm = "SqlVm",
+  /** SqlDb */
+  SqlDb = "SqlDb"
 }
 
 /**
@@ -6240,7 +6457,8 @@ export enum KnownResourceType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **SqlMi** \
- * **SqlVm**
+ * **SqlVm** \
+ * **SqlDb**
  */
 export type ResourceType = string;
 
@@ -7784,14 +8002,59 @@ export type ServerLevelPermissionsGroup =
   | "Default"
   | "MigrationFromSqlServerToAzureDB"
   | "MigrationFromSqlServerToAzureMI"
-  | "MigrationFromMySQLToAzureDBForMySQL";
+  | "MigrationFromMySQLToAzureDBForMySQL"
+  | "MigrationFromSqlServerToAzureVM";
+
+/** Optional parameters. */
+export interface DatabaseMigrationsSqlDbGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional migration operation ID. If this is provided, then details of migration operation for that ID are retrieved. If not provided (default), then details related to most recent or current operation are retrieved. */
+  migrationOperationId?: string;
+  /** Complete migration details be included in the response. */
+  expand?: string;
+}
+
+/** Contains response data for the get operation. */
+export type DatabaseMigrationsSqlDbGetResponse = DatabaseMigrationSqlDb;
+
+/** Optional parameters. */
+export interface DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DatabaseMigrationsSqlDbCreateOrUpdateResponse = DatabaseMigrationSqlDb;
+
+/** Optional parameters. */
+export interface DatabaseMigrationsSqlDbDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional force delete boolean. If this is provided as true, migration will be deleted even if active. */
+  force?: boolean;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DatabaseMigrationsSqlDbCancelOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface DatabaseMigrationsSqlMiGetOptionalParams
   extends coreClient.OperationOptions {
   /** Optional migration operation ID. If this is provided, then details of migration operation for that ID are retrieved. If not provided (default), then details related to most recent or current operation are retrieved. */
   migrationOperationId?: string;
-  /** The child resources to include in the response. */
+  /** Complete migration details be included in the response. */
   expand?: string;
 }
 
@@ -7833,7 +8096,7 @@ export interface DatabaseMigrationsSqlVmGetOptionalParams
   extends coreClient.OperationOptions {
   /** Optional migration operation ID. If this is provided, then details of migration operation for that ID are retrieved. If not provided (default), then details related to most recent or current operation are retrieved. */
   migrationOperationId?: string;
-  /** The child resources to include in the response. */
+  /** Complete migration details be included in the response. */
   expand?: string;
 }
 
@@ -8185,10 +8448,7 @@ export type TasksCommandResponse = CommandPropertiesUnion;
 
 /** Optional parameters. */
 export interface TasksListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filter tasks by task type */
-  taskType?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type TasksListNextResponse = TaskList;
@@ -8243,10 +8503,7 @@ export type ServiceTasksCancelResponse = ProjectTask;
 
 /** Optional parameters. */
 export interface ServiceTasksListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filter tasks by task type */
-  taskType?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ServiceTasksListNextResponse = TaskList;
