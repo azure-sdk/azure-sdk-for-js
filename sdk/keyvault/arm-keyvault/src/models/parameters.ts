@@ -19,6 +19,7 @@ import {
   VaultCheckNameAvailabilityParameters as VaultCheckNameAvailabilityParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   ManagedHsm as ManagedHsmMapper,
+  CheckMhsmNameAvailabilityParameters as CheckMhsmNameAvailabilityParametersMapper,
   MhsmPrivateEndpointConnection as MhsmPrivateEndpointConnectionMapper,
   SecretCreateOrUpdateParameters as SecretCreateOrUpdateParametersMapper,
   SecretPatchParameters as SecretPatchParametersMapper
@@ -118,7 +119,7 @@ export const keyName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-11-01-preview",
+    defaultValue: "2022-07-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -271,6 +272,11 @@ export const name: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const mhsmName: OperationParameter = {
+  parameterPath: "mhsmName",
+  mapper: CheckMhsmNameAvailabilityParametersMapper
 };
 
 export const properties1: OperationParameter = {
