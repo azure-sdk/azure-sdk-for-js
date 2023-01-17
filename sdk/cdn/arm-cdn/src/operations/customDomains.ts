@@ -30,9 +30,7 @@ import {
   CustomDomainsDisableCustomHttpsResponse,
   CustomDomainsEnableCustomHttpsOptionalParams,
   CustomDomainsEnableCustomHttpsResponse,
-  CustomDomainsListByEndpointNextResponse,
-  Profile,
-  CdnManagedHttpsParameters
+  CustomDomainsListByEndpointNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -556,15 +554,6 @@ export class CustomDomainsImpl implements CustomDomains {
       };
     };
 
-    // #region Added default values to add backwards compatibility
-    let newOptions: CustomDomainsEnableCustomHttpsOptionalParams = options ? options : {};
-    if (!newOptions.customDomainHttpsParameters) {
-      const profile = await this.client.profiles.get(resourceGroupName, profileName);
-      newOptions.customDomainHttpsParameters = getDefaultCustomDomainHttpsParameters(profile);
-    }
-    options = newOptions;
-    // #endregion
-
     const lro = new LroImpl(
       sendOperation,
       {
@@ -650,7 +639,7 @@ const listByEndpointOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
@@ -673,7 +662,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.customDomainName,
     Parameters.endpointName
   ],
@@ -707,7 +696,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.customDomainName,
     Parameters.endpointName
   ],
@@ -733,7 +722,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.customDomainName,
     Parameters.endpointName
   ],
@@ -766,7 +755,7 @@ const disableCustomHttpsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.customDomainName,
     Parameters.endpointName
   ],
@@ -800,7 +789,7 @@ const enableCustomHttpsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.customDomainName,
     Parameters.endpointName
   ],
@@ -819,58 +808,14 @@ const listByEndpointNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.nextLink,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-
-// #region Added default values to add backwards compatibility
-class SkuNames {
-  public static get standard_microsoft() { return "Standard_Microsoft"; }
-  public static get standard_verizon() { return "Standard_Verizon"; }
-  public static get standard_akamai() { return "Standard_Akamai"; }
-}
-
-function getDefaultCustomDomainHttpsParameters(profile: Profile): CdnManagedHttpsParameters | undefined {
-  switch (profile.sku.name) {
-    case SkuNames.standard_microsoft:
-      return {
-        certificateSource: "Cdn",
-        certificateSourceParameters: {
-          certificateType: "Dedicated",
-          typeName: "CdnCertificateSourceParameters"
-        },
-        protocolType: "ServerNameIndication"
-      }
-    case SkuNames.standard_akamai:
-      return {
-        certificateSource: "Cdn",
-        certificateSourceParameters: {
-          certificateType: "Shared",
-          typeName: "CdnCertificateSourceParameters"
-        },
-        protocolType: "ServerNameIndication"
-      }
-    case SkuNames.standard_verizon:
-      return {
-        certificateSource: "Cdn",
-        certificateSourceParameters: {
-          certificateType: "Shared",
-          typeName: "CdnCertificateSourceParameters"
-        },
-        protocolType: "IPBased"
-      }
-    default:
-      return undefined;
-  }
-}
-
-// #endregion

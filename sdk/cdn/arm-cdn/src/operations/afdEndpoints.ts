@@ -140,7 +140,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
   }
 
   /**
-   * Checks the quota and actual usage of the given AzureFrontDoor endpoint under the given CDN profile.
+   * Checks the quota and actual usage of endpoints under the given Azure Front Door profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group.
@@ -678,7 +678,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
   }
 
   /**
-   * Checks the quota and actual usage of the given AzureFrontDoor endpoint under the given CDN profile.
+   * Checks the quota and actual usage of endpoints under the given Azure Front Door profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group.
@@ -698,8 +698,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
   }
 
   /**
-   * Validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.This api
-   * isn't work for apex domain.
+   * Validates the custom domain mapping to ensure it maps to the correct Azure Front Door endpoint in
+   * DNS.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group.
@@ -788,7 +788,7 @@ const listByProfileOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -810,7 +810,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
@@ -843,7 +843,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -877,7 +877,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -902,7 +902,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
@@ -927,7 +927,7 @@ const purgeContentOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -951,7 +951,7 @@ const listResourceUsageOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
@@ -975,7 +975,7 @@ const validateCustomDomainOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -993,12 +993,11 @@ const listByProfileNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AfdErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
@@ -1015,12 +1014,11 @@ const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AfdErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.nextLink,
     Parameters.endpointName
   ],
