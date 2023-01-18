@@ -268,13 +268,6 @@ export const LedgerProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      ledgerInternalNamespace: {
-        serializedName: "ledgerInternalNamespace",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
       ledgerType: {
         serializedName: "ledgerType",
         type: {

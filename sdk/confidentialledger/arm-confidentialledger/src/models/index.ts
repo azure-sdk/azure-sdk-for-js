@@ -128,11 +128,6 @@ export interface LedgerProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly identityServiceUri?: string;
-  /**
-   * Internal namespace for the Ledger
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ledgerInternalNamespace?: string;
   /** Type of Confidential Ledger */
   ledgerType?: LedgerType;
   /**
@@ -429,20 +424,14 @@ export type LedgerListBySubscriptionResponse = ConfidentialLedgerList;
 
 /** Optional parameters. */
 export interface LedgerListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the list operation. eg. $filter=ledgerType eq 'Public' */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type LedgerListByResourceGroupNextResponse = ConfidentialLedgerList;
 
 /** Optional parameters. */
 export interface LedgerListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the list operation. eg. $filter=ledgerType eq 'Public' */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type LedgerListBySubscriptionNextResponse = ConfidentialLedgerList;

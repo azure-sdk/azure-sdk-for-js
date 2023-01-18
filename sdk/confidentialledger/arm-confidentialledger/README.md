@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure ConfidentialLedger client.
 
-Microsoft Azure Confidential Compute Ledger Control Plane REST API version 2020-12-01-preview.
+Microsoft Azure Confidential Compute Ledger Control Plane REST API version 2023-18-01.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/confidentialledger/arm-confidentialledger) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-confidentialledger) |
