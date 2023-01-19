@@ -1026,6 +1026,12 @@ export const MediaServiceUpdate: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      minimumTlsVersion: {
+        serializedName: "properties.minimumTlsVersion",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -6097,6 +6103,12 @@ export const MediaService: coreClient.CompositeMapper = {
               className: "PrivateEndpointConnection"
             }
           }
+        }
+      },
+      minimumTlsVersion: {
+        serializedName: "properties.minimumTlsVersion",
+        type: {
+          name: "String"
         }
       }
     }

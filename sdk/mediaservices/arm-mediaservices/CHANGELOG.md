@@ -1,15 +1,15 @@
 # Release History
+    
+## 13.2.0 (2023-01-19)
+    
+**Features**
 
-## 13.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias MinimumTlsVersion
+  - Interface MediaService has a new optional parameter minimumTlsVersion
+  - Interface MediaServiceUpdate has a new optional parameter minimumTlsVersion
+  - Added Enum KnownMinimumTlsVersion
+    
+    
 ## 13.1.0 (2023-01-16)
     
 **Features**

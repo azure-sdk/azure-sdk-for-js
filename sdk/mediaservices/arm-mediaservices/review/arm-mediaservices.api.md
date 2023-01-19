@@ -1704,6 +1704,14 @@ export enum KnownMetricUnit {
 }
 
 // @public
+export enum KnownMinimumTlsVersion {
+    Tls10 = "Tls10",
+    Tls11 = "Tls11",
+    Tls12 = "Tls12",
+    Tls13 = "Tls13"
+}
+
+// @public
 export enum KnownOnErrorType {
     ContinueJob = "ContinueJob",
     StopProcessingJob = "StopProcessingJob"
@@ -2198,6 +2206,7 @@ export interface MediaService extends TrackedResource {
     identity?: MediaServiceIdentity;
     keyDelivery?: KeyDelivery;
     readonly mediaServiceId?: string;
+    minimumTlsVersion?: MinimumTlsVersion;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -2366,6 +2375,7 @@ export interface MediaServiceUpdate {
     identity?: MediaServiceIdentity;
     keyDelivery?: KeyDelivery;
     readonly mediaServiceId?: string;
+    minimumTlsVersion?: MinimumTlsVersion;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -2405,6 +2415,9 @@ export interface MetricSpecification {
 
 // @public
 export type MetricUnit = string;
+
+// @public
+export type MinimumTlsVersion = string;
 
 // @public
 export interface Mp4Format extends MultiBitrateFormat {
