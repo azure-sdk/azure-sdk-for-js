@@ -46,7 +46,7 @@ export class PortalRevisionImpl implements PortalRevision {
 
   /**
    * Lists developer portal's revisions.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -130,7 +130,7 @@ export class PortalRevisionImpl implements PortalRevision {
 
   /**
    * Lists developer portal's revisions.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -147,7 +147,7 @@ export class PortalRevisionImpl implements PortalRevision {
 
   /**
    * Gets the developer portal revision specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
    *                         service instance.
@@ -167,7 +167,7 @@ export class PortalRevisionImpl implements PortalRevision {
 
   /**
    * Gets the developer portal's revision specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
    *                         service instance.
@@ -188,7 +188,7 @@ export class PortalRevisionImpl implements PortalRevision {
   /**
    * Creates a new developer portal's revision by running the portal's publishing. The `isCurrent`
    * property indicates if the revision is publicly accessible.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
    *                         service instance.
@@ -263,7 +263,7 @@ export class PortalRevisionImpl implements PortalRevision {
   /**
    * Creates a new developer portal's revision by running the portal's publishing. The `isCurrent`
    * property indicates if the revision is publicly accessible.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
    *                         service instance.
@@ -289,7 +289,7 @@ export class PortalRevisionImpl implements PortalRevision {
 
   /**
    * Updates the description of specified portal revision or makes it current.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
    *                         service instance.
@@ -373,7 +373,7 @@ export class PortalRevisionImpl implements PortalRevision {
 
   /**
    * Updates the description of specified portal revision or makes it current.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
    *                         service instance.
@@ -403,7 +403,7 @@ export class PortalRevisionImpl implements PortalRevision {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
@@ -522,7 +522,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters46,
+  requestBody: Parameters.parameters57,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -560,7 +560,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters46,
+  requestBody: Parameters.parameters57,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -588,12 +588,6 @@ const listByServiceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
