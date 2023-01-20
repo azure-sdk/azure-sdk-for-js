@@ -1,15 +1,14 @@
 # Release History
+    
+## 2.0.0 (2023-01-20)
+    
+**Breaking Changes**
 
-## 1.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface LedgerListByResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface LedgerListBySubscriptionNextOptionalParams no longer has parameter filter
+  - Interface LedgerProperties no longer has parameter ledgerInternalNamespace
+    
+    
 ## 1.1.0 (2022-07-05)
     
 **Features**

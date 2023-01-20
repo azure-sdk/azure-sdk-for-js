@@ -104,6 +104,9 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownCheckNameAvailabilityReason {
     AlreadyExists = "AlreadyExists",
     Invalid = "Invalid"
@@ -179,7 +182,6 @@ export type LedgerGetResponse = ConfidentialLedger;
 
 // @public
 export interface LedgerListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -195,7 +197,6 @@ export type LedgerListByResourceGroupResponse = ConfidentialLedgerList;
 
 // @public
 export interface LedgerListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -214,7 +215,6 @@ export interface LedgerProperties {
     aadBasedSecurityPrincipals?: AADBasedSecurityPrincipal[];
     certBasedSecurityPrincipals?: CertBasedSecurityPrincipal[];
     readonly identityServiceUri?: string;
-    readonly ledgerInternalNamespace?: string;
     readonly ledgerName?: string;
     ledgerType?: LedgerType;
     readonly ledgerUri?: string;
