@@ -8,37 +8,37 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { DataCollectionEndpoints } from "../operationsInterfaces";
+import { AzureMonitorWorkspaces } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MonitorClient } from "../monitorClient";
 import {
-  DataCollectionEndpointResource,
-  DataCollectionEndpointsListByResourceGroupNextOptionalParams,
-  DataCollectionEndpointsListByResourceGroupOptionalParams,
-  DataCollectionEndpointsListByResourceGroupResponse,
-  DataCollectionEndpointsListBySubscriptionNextOptionalParams,
-  DataCollectionEndpointsListBySubscriptionOptionalParams,
-  DataCollectionEndpointsListBySubscriptionResponse,
-  DataCollectionEndpointsGetOptionalParams,
-  DataCollectionEndpointsGetResponse,
-  DataCollectionEndpointsCreateOptionalParams,
-  DataCollectionEndpointsCreateResponse,
-  DataCollectionEndpointsUpdateOptionalParams,
-  DataCollectionEndpointsUpdateResponse,
-  DataCollectionEndpointsDeleteOptionalParams,
-  DataCollectionEndpointsListByResourceGroupNextResponse,
-  DataCollectionEndpointsListBySubscriptionNextResponse
+  MonitoringAccountResource,
+  AzureMonitorWorkspacesListByResourceGroupNextOptionalParams,
+  AzureMonitorWorkspacesListByResourceGroupOptionalParams,
+  AzureMonitorWorkspacesListByResourceGroupResponse,
+  AzureMonitorWorkspacesListBySubscriptionNextOptionalParams,
+  AzureMonitorWorkspacesListBySubscriptionOptionalParams,
+  AzureMonitorWorkspacesListBySubscriptionResponse,
+  AzureMonitorWorkspacesGetOptionalParams,
+  AzureMonitorWorkspacesGetResponse,
+  AzureMonitorWorkspacesCreateOptionalParams,
+  AzureMonitorWorkspacesCreateResponse,
+  AzureMonitorWorkspacesUpdateOptionalParams,
+  AzureMonitorWorkspacesUpdateResponse,
+  AzureMonitorWorkspacesDeleteOptionalParams,
+  AzureMonitorWorkspacesListByResourceGroupNextResponse,
+  AzureMonitorWorkspacesListBySubscriptionNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DataCollectionEndpoints operations. */
-export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
+/** Class containing AzureMonitorWorkspaces operations. */
+export class AzureMonitorWorkspacesImpl implements AzureMonitorWorkspaces {
   private readonly client: MonitorClient;
 
   /**
-   * Initialize a new instance of the class DataCollectionEndpoints class.
+   * Initialize a new instance of the class AzureMonitorWorkspaces class.
    * @param client Reference to the service client
    */
   constructor(client: MonitorClient) {
@@ -46,14 +46,14 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
   }
 
   /**
-   * Lists all data collection endpoints in the specified resource group.
+   * Lists all workspaces in the specified resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: DataCollectionEndpointsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<DataCollectionEndpointResource> {
+    options?: AzureMonitorWorkspacesListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<MonitoringAccountResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -77,10 +77,10 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: DataCollectionEndpointsListByResourceGroupOptionalParams,
+    options?: AzureMonitorWorkspacesListByResourceGroupOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<DataCollectionEndpointResource[]> {
-    let result: DataCollectionEndpointsListByResourceGroupResponse;
+  ): AsyncIterableIterator<MonitoringAccountResource[]> {
+    let result: AzureMonitorWorkspacesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -104,8 +104,8 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: DataCollectionEndpointsListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<DataCollectionEndpointResource> {
+    options?: AzureMonitorWorkspacesListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<MonitoringAccountResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options
@@ -115,12 +115,12 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
   }
 
   /**
-   * Lists all data collection endpoints in the specified subscription
+   * Lists all workspaces in the specified subscription
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: DataCollectionEndpointsListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<DataCollectionEndpointResource> {
+    options?: AzureMonitorWorkspacesListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<MonitoringAccountResource> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -139,10 +139,10 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: DataCollectionEndpointsListBySubscriptionOptionalParams,
+    options?: AzureMonitorWorkspacesListBySubscriptionOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<DataCollectionEndpointResource[]> {
-    let result: DataCollectionEndpointsListBySubscriptionResponse;
+  ): AsyncIterableIterator<MonitoringAccountResource[]> {
+    let result: AzureMonitorWorkspacesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -161,22 +161,22 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: DataCollectionEndpointsListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<DataCollectionEndpointResource> {
+    options?: AzureMonitorWorkspacesListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<MonitoringAccountResource> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists all data collection endpoints in the specified resource group.
+   * Lists all workspaces in the specified resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: DataCollectionEndpointsListByResourceGroupOptionalParams
-  ): Promise<DataCollectionEndpointsListByResourceGroupResponse> {
+    options?: AzureMonitorWorkspacesListByResourceGroupOptionalParams
+  ): Promise<AzureMonitorWorkspacesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
@@ -184,12 +184,12 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
   }
 
   /**
-   * Lists all data collection endpoints in the specified subscription
+   * Lists all workspaces in the specified subscription
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: DataCollectionEndpointsListBySubscriptionOptionalParams
-  ): Promise<DataCollectionEndpointsListBySubscriptionResponse> {
+    options?: AzureMonitorWorkspacesListBySubscriptionOptionalParams
+  ): Promise<AzureMonitorWorkspacesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec
@@ -197,73 +197,76 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
   }
 
   /**
-   * Returns the specified data collection endpoint.
+   * Returns the specific Azure Monitor workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param dataCollectionEndpointName The name of the data collection endpoint. The name is case
-   *                                   insensitive.
+   * @param monitoringAccountName The name of the Azure Monitor workspace.  The name is case insensitive
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    dataCollectionEndpointName: string,
-    options?: DataCollectionEndpointsGetOptionalParams
-  ): Promise<DataCollectionEndpointsGetResponse> {
+    monitoringAccountName: string,
+    options?: AzureMonitorWorkspacesGetOptionalParams
+  ): Promise<AzureMonitorWorkspacesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, dataCollectionEndpointName, options },
+      { resourceGroupName, monitoringAccountName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates or updates a data collection endpoint.
+   * Create or update a workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param dataCollectionEndpointName The name of the data collection endpoint. The name is case
-   *                                   insensitive.
+   * @param monitoringAccountName The name of the Azure Monitor workspace.  The name is case insensitive
+   * @param monitoringAccountProperties Properties that need to be specified to create a new workspace
    * @param options The options parameters.
    */
   create(
     resourceGroupName: string,
-    dataCollectionEndpointName: string,
-    options?: DataCollectionEndpointsCreateOptionalParams
-  ): Promise<DataCollectionEndpointsCreateResponse> {
+    monitoringAccountName: string,
+    monitoringAccountProperties: MonitoringAccountResource,
+    options?: AzureMonitorWorkspacesCreateOptionalParams
+  ): Promise<AzureMonitorWorkspacesCreateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, dataCollectionEndpointName, options },
+      {
+        resourceGroupName,
+        monitoringAccountName,
+        monitoringAccountProperties,
+        options
+      },
       createOperationSpec
     );
   }
 
   /**
-   * Updates part of a data collection endpoint.
+   * Updates part of a workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param dataCollectionEndpointName The name of the data collection endpoint. The name is case
-   *                                   insensitive.
+   * @param monitoringAccountName The name of the Azure Monitor workspace.  The name is case insensitive
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
-    dataCollectionEndpointName: string,
-    options?: DataCollectionEndpointsUpdateOptionalParams
-  ): Promise<DataCollectionEndpointsUpdateResponse> {
+    monitoringAccountName: string,
+    options?: AzureMonitorWorkspacesUpdateOptionalParams
+  ): Promise<AzureMonitorWorkspacesUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, dataCollectionEndpointName, options },
+      { resourceGroupName, monitoringAccountName, options },
       updateOperationSpec
     );
   }
 
   /**
-   * Deletes a data collection endpoint.
+   * Delete a workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param dataCollectionEndpointName The name of the data collection endpoint. The name is case
-   *                                   insensitive.
+   * @param monitoringAccountName The name of the Azure Monitor workspace.  The name is case insensitive
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
-    dataCollectionEndpointName: string,
-    options?: DataCollectionEndpointsDeleteOptionalParams
+    monitoringAccountName: string,
+    options?: AzureMonitorWorkspacesDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, dataCollectionEndpointName, options },
+      { resourceGroupName, monitoringAccountName, options },
       deleteOperationSpec
     );
   }
@@ -277,8 +280,8 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: DataCollectionEndpointsListByResourceGroupNextOptionalParams
-  ): Promise<DataCollectionEndpointsListByResourceGroupNextResponse> {
+    options?: AzureMonitorWorkspacesListByResourceGroupNextOptionalParams
+  ): Promise<AzureMonitorWorkspacesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
@@ -292,8 +295,8 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: DataCollectionEndpointsListBySubscriptionNextOptionalParams
-  ): Promise<DataCollectionEndpointsListBySubscriptionNextResponse> {
+    options?: AzureMonitorWorkspacesListBySubscriptionNextOptionalParams
+  ): Promise<AzureMonitorWorkspacesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec
@@ -305,17 +308,17 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Monitor/accounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataCollectionEndpointResourceListResult
+      bodyMapper: Mappers.MonitoringAccountResourceListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -325,66 +328,65 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/dataCollectionEndpoints",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Monitor/accounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataCollectionEndpointResourceListResult
+      bodyMapper: Mappers.MonitoringAccountResourceListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Monitor/accounts/{monitoringAccountName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataCollectionEndpointResource
+      bodyMapper: Mappers.MonitoringAccountResource
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.dataCollectionEndpointName
+    Parameters.monitoringAccountName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Monitor/accounts/{monitoringAccountName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataCollectionEndpointResource
+      bodyMapper: Mappers.MonitoringAccountResource
     },
     201: {
-      bodyMapper: Mappers.DataCollectionEndpointResource
+      bodyMapper: Mappers.MonitoringAccountResource
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2
     }
   },
-  requestBody: Parameters.body,
-  queryParameters: [Parameters.apiVersion13],
+  requestBody: Parameters.monitoringAccountProperties,
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.dataCollectionEndpointName
+    Parameters.monitoringAccountName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -392,23 +394,23 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Monitor/accounts/{monitoringAccountName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DataCollectionEndpointResource
+      bodyMapper: Mappers.MonitoringAccountResource
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2
     }
   },
-  requestBody: Parameters.body1,
-  queryParameters: [Parameters.apiVersion13],
+  requestBody: Parameters.monitoringAccountProperties1,
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.dataCollectionEndpointName
+    Parameters.monitoringAccountName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -416,21 +418,21 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Monitor/accounts/{monitoringAccountName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.dataCollectionEndpointName
+    Parameters.monitoringAccountName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -440,10 +442,10 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataCollectionEndpointResourceListResult
+      bodyMapper: Mappers.MonitoringAccountResourceListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2
     }
   },
   urlParameters: [
@@ -460,10 +462,10 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataCollectionEndpointResourceListResult
+      bodyMapper: Mappers.MonitoringAccountResourceListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2
     }
   },
   urlParameters: [
