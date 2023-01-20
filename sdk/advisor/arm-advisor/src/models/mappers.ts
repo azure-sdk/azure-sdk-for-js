@@ -466,6 +466,244 @@ export const SuppressionContractListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const PredictionRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PredictionRequest",
+    modelProperties: {
+      predictionType: {
+        serializedName: "properties.predictionType",
+        type: {
+          name: "String"
+        }
+      },
+      extendedProperties: {
+        serializedName: "properties.extendedProperties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const PredictionResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PredictionResponse",
+    modelProperties: {
+      extendedProperties: {
+        serializedName: "properties.extendedProperties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      predictionType: {
+        serializedName: "properties.predictionType",
+        type: {
+          name: "String"
+        }
+      },
+      category: {
+        serializedName: "properties.category",
+        type: {
+          name: "String"
+        }
+      },
+      impact: {
+        serializedName: "properties.impact",
+        type: {
+          name: "String"
+        }
+      },
+      impactedField: {
+        serializedName: "properties.impactedField",
+        type: {
+          name: "String"
+        }
+      },
+      lastUpdated: {
+        serializedName: "properties.lastUpdated",
+        type: {
+          name: "DateTime"
+        }
+      },
+      shortDescription: {
+        serializedName: "properties.shortDescription",
+        type: {
+          name: "Composite",
+          className: "ShortDescription"
+        }
+      }
+    }
+  }
+};
+
+export const PathsW6Fm20SubscriptionsSubscriptionidProvidersMicrosoftAdvisorAdvisorscoreGetResponses200ContentApplicationJsonSchema: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "PathsW6Fm20SubscriptionsSubscriptionidProvidersMicrosoftAdvisorAdvisorscoreGetResponses200ContentApplicationJsonSchema",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AdvisorScoreEntity"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AdvisorScoreEntity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdvisorScoreEntity",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "AdvisorScoreEntityProperties"
+        }
+      }
+    }
+  }
+};
+
+export const AdvisorScoreEntityProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdvisorScoreEntityProperties",
+    modelProperties: {
+      lastRefreshedScore: {
+        serializedName: "lastRefreshedScore",
+        type: {
+          name: "Composite",
+          className: "ScoreEntity"
+        }
+      },
+      timeSeries: {
+        serializedName: "timeSeries",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TimeSeriesEntityItem"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ScoreEntity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ScoreEntity",
+    modelProperties: {
+      date: {
+        serializedName: "date",
+        type: {
+          name: "String"
+        }
+      },
+      score: {
+        serializedName: "score",
+        type: {
+          name: "Number"
+        }
+      },
+      consumptionUnits: {
+        serializedName: "consumptionUnits",
+        type: {
+          name: "Number"
+        }
+      },
+      impactedResourceCount: {
+        serializedName: "impactedResourceCount",
+        type: {
+          name: "Number"
+        }
+      },
+      potentialScoreIncrease: {
+        serializedName: "potentialScoreIncrease",
+        type: {
+          name: "Number"
+        }
+      },
+      categoryCount: {
+        serializedName: "categoryCount",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const TimeSeriesEntityItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TimeSeriesEntityItem",
+    modelProperties: {
+      aggregationLevel: {
+        serializedName: "aggregationLevel",
+        type: {
+          name: "String"
+        }
+      },
+      scoreHistory: {
+        serializedName: "scoreHistory",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ScoreEntity"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ConfigData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -480,6 +718,12 @@ export const ConfigData: coreClient.CompositeMapper = {
       },
       lowCpuThreshold: {
         serializedName: "properties.lowCpuThreshold",
+        type: {
+          name: "String"
+        }
+      },
+      duration: {
+        serializedName: "properties.duration",
         type: {
           name: "String"
         }

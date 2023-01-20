@@ -14,11 +14,14 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AdvisorManagementClientOptionalParams);
     // (undocumented)
+    advisorScores: AdvisorScores;
+    // (undocumented)
     apiVersion: string;
     // (undocumented)
     configurations: Configurations;
     // (undocumented)
     operations: Operations;
+    predict(predictionRequest: PredictionRequest, options?: PredictOptionalParams): Promise<PredictResponse>;
     // (undocumented)
     recommendationMetadata: RecommendationMetadata;
     // (undocumented)
@@ -35,6 +38,40 @@ export interface AdvisorManagementClientOptionalParams extends coreClient.Servic
     apiVersion?: string;
     endpoint?: string;
 }
+
+// @public
+export interface AdvisorScoreEntity {
+    id?: string;
+    name?: string;
+    properties?: AdvisorScoreEntityProperties;
+    type?: string;
+}
+
+// @public
+export interface AdvisorScoreEntityProperties {
+    lastRefreshedScore?: ScoreEntity;
+    timeSeries?: TimeSeriesEntityItem[];
+}
+
+// @public
+export interface AdvisorScores {
+    get(name: string, options?: AdvisorScoresGetOptionalParams): Promise<AdvisorScoresGetResponse>;
+    list(options?: AdvisorScoresListOptionalParams): Promise<AdvisorScoresListResponse>;
+}
+
+// @public
+export interface AdvisorScoresGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AdvisorScoresGetResponse = AdvisorScoreEntity;
+
+// @public
+export interface AdvisorScoresListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AdvisorScoresListResponse = PathsW6Fm20SubscriptionsSubscriptionidProvidersMicrosoftAdvisorAdvisorscoreGetResponses200ContentApplicationJsonSchema;
 
 // @public (undocumented)
 export interface ArmErrorResponse {
@@ -53,6 +90,7 @@ export type Category = string;
 // @public
 export interface ConfigData extends Resource {
     digests?: DigestConfig[];
+    duration?: Duration;
     exclude?: boolean;
     lowCpuThreshold?: CpuThreshold;
 }
@@ -126,6 +164,9 @@ export interface DigestConfig {
 export type DigestConfigState = string;
 
 // @public
+export type Duration = string;
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
@@ -160,10 +201,25 @@ export enum KnownDigestConfigState {
 }
 
 // @public
+export enum KnownDuration {
+    Fourteen = "14",
+    Ninety = "90",
+    Seven = "7",
+    Sixty = "60",
+    Thirty = "30",
+    TwentyOne = "21"
+}
+
+// @public
 export enum KnownImpact {
     High = "High",
     Low = "Low",
     Medium = "Medium"
+}
+
+// @public
+export enum KnownPredictionType {
+    PredictiveRightsizing = "PredictiveRightsizing"
 }
 
 // @public
@@ -176,6 +232,13 @@ export enum KnownRisk {
 // @public
 export enum KnownScenario {
     Alerts = "Alerts"
+}
+
+// @public
+export enum KnownTimeSeriesEntityItemAggregationLevel {
+    Day = "day",
+    Month = "month",
+    Week = "week"
 }
 
 // @public
@@ -240,6 +303,39 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 // @public
 export type OperationsListResponse = OperationEntityListResult;
 
+// @public (undocumented)
+export interface PathsW6Fm20SubscriptionsSubscriptionidProvidersMicrosoftAdvisorAdvisorscoreGetResponses200ContentApplicationJsonSchema {
+    nextLink?: string;
+    value?: AdvisorScoreEntity[];
+}
+
+// @public
+export interface PredictionRequest {
+    extendedProperties?: Record<string, unknown>;
+    predictionType?: PredictionType;
+}
+
+// @public
+export interface PredictionResponse {
+    category?: Category;
+    extendedProperties?: Record<string, unknown>;
+    impact?: Impact;
+    impactedField?: string;
+    lastUpdated?: Date;
+    predictionType?: PredictionType;
+    shortDescription?: ShortDescription;
+}
+
+// @public
+export type PredictionType = string;
+
+// @public
+export interface PredictOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PredictResponse = PredictionResponse;
+
 // @public
 export interface RecommendationMetadata {
     get(name: string, options?: RecommendationMetadataGetOptionalParams): Promise<RecommendationMetadataGetResponse>;
@@ -301,9 +397,6 @@ export type RecommendationsGetResponse = ResourceRecommendationBase;
 
 // @public
 export interface RecommendationsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -383,6 +476,16 @@ export type Risk = string;
 export type Scenario = string;
 
 // @public
+export interface ScoreEntity {
+    readonly categoryCount?: number;
+    consumptionUnits?: number;
+    date?: string;
+    impactedResourceCount?: number;
+    potentialScoreIncrease?: number;
+    score?: number;
+}
+
+// @public
 export interface ShortDescription {
     problem?: string;
     solution?: string;
@@ -429,8 +532,6 @@ export type SuppressionsGetResponse = SuppressionContract;
 
 // @public
 export interface SuppressionsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -444,6 +545,15 @@ export interface SuppressionsListOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type SuppressionsListResponse = SuppressionContractListResult;
+
+// @public
+export interface TimeSeriesEntityItem {
+    aggregationLevel?: TimeSeriesEntityItemAggregationLevel;
+    scoreHistory?: ScoreEntity[];
+}
+
+// @public
+export type TimeSeriesEntityItemAggregationLevel = string;
 
 // (No @packageDocumentation comment for this package)
 

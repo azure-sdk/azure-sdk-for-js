@@ -108,9 +108,9 @@ export interface ResourceRecommendationBaseListResult {
 
 /** A summary of the recommendation. */
 export interface ShortDescription {
-  /** The issue or opportunity identified by the recommendation. */
+  /** The issue or opportunity identified by the recommendation and proposed solution. */
   problem?: string;
-  /** The remediation action suggested by the recommendation. */
+  /** The issue or opportunity identified by the recommendation and proposed solution. */
   solution?: string;
 }
 
@@ -164,12 +164,94 @@ export interface SuppressionContractListResult {
   value?: SuppressionContract[];
 }
 
+/** Parameters for predict recommendation. */
+export interface PredictionRequest {
+  /** Type of the prediction. */
+  predictionType?: PredictionType;
+  /** Extended properties are arguments specific for each prediction type. */
+  extendedProperties?: Record<string, unknown>;
+}
+
+/** Response used by predictions. */
+export interface PredictionResponse {
+  /** Extended properties */
+  extendedProperties?: Record<string, unknown>;
+  /** Type of the prediction. */
+  predictionType?: PredictionType;
+  /** The category of the recommendation. */
+  category?: Category;
+  /** The business impact of the recommendation. */
+  impact?: Impact;
+  /** The resource type identified by Advisor. */
+  impactedField?: string;
+  /** The most recent time that Advisor checked the validity of the recommendation. */
+  lastUpdated?: Date;
+  /** A summary of the recommendation. */
+  shortDescription?: ShortDescription;
+}
+
+export interface PathsW6Fm20SubscriptionsSubscriptionidProvidersMicrosoftAdvisorAdvisorscoreGetResponses200ContentApplicationJsonSchema {
+  /** The link used to get the next page of operations. */
+  nextLink?: string;
+  /** The list of operations. */
+  value?: AdvisorScoreEntity[];
+}
+
+/** The details of Advisor score for a single category. */
+export interface AdvisorScoreEntity {
+  /** The ID of the resource. */
+  id?: string;
+  /** The category. */
+  name?: string;
+  /** The type of resource. */
+  type?: string;
+  /** The Advisor score data. */
+  properties?: AdvisorScoreEntityProperties;
+}
+
+/** The Advisor score data. */
+export interface AdvisorScoreEntityProperties {
+  /** The details of latest available score. */
+  lastRefreshedScore?: ScoreEntity;
+  /** The historic Advisor score data. */
+  timeSeries?: TimeSeriesEntityItem[];
+}
+
+/** The details of Advisor Score */
+export interface ScoreEntity {
+  /** The date score was calculated. */
+  date?: string;
+  /** The percentage score. */
+  score?: number;
+  /** The consumption units for the score. */
+  consumptionUnits?: number;
+  /** The number of impacted resources. */
+  impactedResourceCount?: number;
+  /** The potential percentage increase in overall score at subscription level once all recommendations in this scope are implemented. */
+  potentialScoreIncrease?: number;
+  /**
+   * The count of impacted categories.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly categoryCount?: number;
+}
+
+/** The data from different aggregation levels. */
+export interface TimeSeriesEntityItem {
+  /** The aggregation level of the score. */
+  aggregationLevel?: TimeSeriesEntityItemAggregationLevel;
+  /** The past score data */
+  scoreHistory?: ScoreEntity[];
+}
+
 /** The Advisor configuration data structure. */
 export interface ConfigData extends Resource {
   /** Exclude the resource from Advisor evaluations. Valid values: False (default) or True. */
   exclude?: boolean;
   /** Minimum percentage threshold for Advisor low CPU utilization evaluation. Valid only for subscriptions. Valid values: 5 (default), 10, 15 or 20. */
   lowCpuThreshold?: CpuThreshold;
+  /** Minimum duration for Advisor low CPU utilization evaluation. Valid only for subscriptions. Valid values: 7 (default), 14, 21, 30, 60 or 90. */
+  duration?: Duration;
   /** Advisor digest configuration. Valid only for subscriptions */
   digests?: DigestConfig[];
 }
@@ -278,6 +360,36 @@ export enum KnownCpuThreshold {
  */
 export type CpuThreshold = string;
 
+/** Known values of {@link Duration} that the service accepts. */
+export enum KnownDuration {
+  /** Seven */
+  Seven = "7",
+  /** Fourteen */
+  Fourteen = "14",
+  /** TwentyOne */
+  TwentyOne = "21",
+  /** Thirty */
+  Thirty = "30",
+  /** Sixty */
+  Sixty = "60",
+  /** Ninety */
+  Ninety = "90"
+}
+
+/**
+ * Defines values for Duration. \
+ * {@link KnownDuration} can be used interchangeably with Duration,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **7** \
+ * **14** \
+ * **21** \
+ * **30** \
+ * **60** \
+ * **90**
+ */
+export type Duration = string;
+
 /** Known values of {@link Category} that the service accepts. */
 export enum KnownCategory {
   /** HighAvailability */
@@ -380,6 +492,42 @@ export enum KnownRisk {
  */
 export type Risk = string;
 
+/** Known values of {@link PredictionType} that the service accepts. */
+export enum KnownPredictionType {
+  /** PredictiveRightsizing */
+  PredictiveRightsizing = "PredictiveRightsizing"
+}
+
+/**
+ * Defines values for PredictionType. \
+ * {@link KnownPredictionType} can be used interchangeably with PredictionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PredictiveRightsizing**
+ */
+export type PredictionType = string;
+
+/** Known values of {@link TimeSeriesEntityItemAggregationLevel} that the service accepts. */
+export enum KnownTimeSeriesEntityItemAggregationLevel {
+  /** Week */
+  Week = "week",
+  /** Day */
+  Day = "day",
+  /** Month */
+  Month = "month"
+}
+
+/**
+ * Defines values for TimeSeriesEntityItemAggregationLevel. \
+ * {@link KnownTimeSeriesEntityItemAggregationLevel} can be used interchangeably with TimeSeriesEntityItemAggregationLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **week** \
+ * **day** \
+ * **month**
+ */
+export type TimeSeriesEntityItemAggregationLevel = string;
+
 /** Optional parameters. */
 export interface RecommendationMetadataGetOptionalParams
   extends coreClient.OperationOptions {}
@@ -470,14 +618,7 @@ export type RecommendationsGetResponse = ResourceRecommendationBase;
 
 /** Optional parameters. */
 export interface RecommendationsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply to the recommendations.<br>Filter can be applied to properties ['ResourceId', 'ResourceGroup', 'RecommendationTypeGuid', '[Category](#category)'] with operators ['eq', 'and', 'or'].<br>Example:<br>- $filter=Category eq 'Cost' and ResourceGroup eq 'MyResourceGroup' */
-  filter?: string;
-  /** The number of recommendations per page if a paged version of this API is being used. */
-  top?: number;
-  /** The page-continuation token to use with a paged version of this API. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RecommendationsListNextResponse = ResourceRecommendationBaseListResult;
@@ -528,15 +669,30 @@ export type SuppressionsListResponse = SuppressionContractListResult;
 
 /** Optional parameters. */
 export interface SuppressionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of suppressions per page if a paged version of this API is being used. */
-  top?: number;
-  /** The page-continuation token to use with a paged version of this API. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SuppressionsListNextResponse = SuppressionContractListResult;
+
+/** Optional parameters. */
+export interface PredictOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the predict operation. */
+export type PredictResponse = PredictionResponse;
+
+/** Optional parameters. */
+export interface AdvisorScoresListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type AdvisorScoresListResponse = PathsW6Fm20SubscriptionsSubscriptionidProvidersMicrosoftAdvisorAdvisorscoreGetResponses200ContentApplicationJsonSchema;
+
+/** Optional parameters. */
+export interface AdvisorScoresGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AdvisorScoresGetResponse = AdvisorScoreEntity;
 
 /** Optional parameters. */
 export interface AdvisorManagementClientOptionalParams
