@@ -514,6 +514,8 @@ export interface MediaServiceUpdate {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** The minimum TLS version allowed for this account's requests. This is an optional property. If unspecified, a secure default value will be used. */
+  minimumTlsVersion?: MinimumTlsVersion;
 }
 
 /** The input to the sync storage keys request. */
@@ -2446,6 +2448,8 @@ export interface MediaService extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** The minimum TLS version allowed for this account's requests. This is an optional property. If unspecified, a secure default value will be used. */
+  minimumTlsVersion?: MinimumTlsVersion;
 }
 
 /** The live event. */
@@ -3111,6 +3115,30 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  * **Failed**
  */
 export type PrivateEndpointConnectionProvisioningState = string;
+
+/** Known values of {@link MinimumTlsVersion} that the service accepts. */
+export enum KnownMinimumTlsVersion {
+  /** Minimum TLS version is TLS 1.0. */
+  Tls10 = "Tls10",
+  /** Minimum TLS version is TLS 1.1. */
+  Tls11 = "Tls11",
+  /** Minimum TLS version is TLS 1.2. */
+  Tls12 = "Tls12",
+  /** Minimum TLS version is TLS 1.3. */
+  Tls13 = "Tls13"
+}
+
+/**
+ * Defines values for MinimumTlsVersion. \
+ * {@link KnownMinimumTlsVersion} can be used interchangeably with MinimumTlsVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Tls10**: Minimum TLS version is TLS 1.0. \
+ * **Tls11**: Minimum TLS version is TLS 1.1. \
+ * **Tls12**: Minimum TLS version is TLS 1.2. \
+ * **Tls13**: Minimum TLS version is TLS 1.3.
+ */
+export type MinimumTlsVersion = string;
 
 /** Known values of {@link AssetStorageEncryptionFormat} that the service accepts. */
 export enum KnownAssetStorageEncryptionFormat {
