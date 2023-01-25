@@ -27,8 +27,10 @@ import {
   DatabaseAccountsCreateOrUpdateOptionalParams,
   DatabaseAccountsCreateOrUpdateResponse,
   DatabaseAccountsDeleteOptionalParams,
+  DatabaseAccountsDeleteResponse,
   FailoverPolicies,
   DatabaseAccountsFailoverPriorityChangeOptionalParams,
+  DatabaseAccountsFailoverPriorityChangeResponse,
   DatabaseAccountsListKeysOptionalParams,
   DatabaseAccountsListKeysResponse,
   DatabaseAccountsListConnectionStringsOptionalParams,
@@ -187,7 +189,12 @@ export interface DatabaseAccounts {
     resourceGroupName: string,
     accountName: string,
     options?: DatabaseAccountsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<DatabaseAccountsDeleteResponse>,
+      DatabaseAccountsDeleteResponse
+    >
+  >;
   /**
    * Deletes an existing Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -198,7 +205,7 @@ export interface DatabaseAccounts {
     resourceGroupName: string,
     accountName: string,
     options?: DatabaseAccountsDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<DatabaseAccountsDeleteResponse>;
   /**
    * Changes the failover priority for the Azure Cosmos DB database account. A failover priority of 0
    * indicates a write region. The maximum value for a failover priority = (total number of regions - 1).
@@ -214,7 +221,12 @@ export interface DatabaseAccounts {
     accountName: string,
     failoverParameters: FailoverPolicies,
     options?: DatabaseAccountsFailoverPriorityChangeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<DatabaseAccountsFailoverPriorityChangeResponse>,
+      DatabaseAccountsFailoverPriorityChangeResponse
+    >
+  >;
   /**
    * Changes the failover priority for the Azure Cosmos DB database account. A failover priority of 0
    * indicates a write region. The maximum value for a failover priority = (total number of regions - 1).
@@ -230,7 +242,7 @@ export interface DatabaseAccounts {
     accountName: string,
     failoverParameters: FailoverPolicies,
     options?: DatabaseAccountsFailoverPriorityChangeOptionalParams
-  ): Promise<void>;
+  ): Promise<DatabaseAccountsFailoverPriorityChangeResponse>;
   /**
    * Lists the access keys for the specified Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

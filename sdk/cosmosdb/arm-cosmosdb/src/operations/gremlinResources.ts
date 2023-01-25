@@ -27,6 +27,7 @@ import {
   GremlinResourcesCreateUpdateGremlinDatabaseOptionalParams,
   GremlinResourcesCreateUpdateGremlinDatabaseResponse,
   GremlinResourcesDeleteGremlinDatabaseOptionalParams,
+  GremlinResourcesDeleteGremlinDatabaseResponse,
   GremlinResourcesGetGremlinDatabaseThroughputOptionalParams,
   GremlinResourcesGetGremlinDatabaseThroughputResponse,
   ThroughputSettingsUpdateParameters,
@@ -42,6 +43,7 @@ import {
   GremlinResourcesCreateUpdateGremlinGraphOptionalParams,
   GremlinResourcesCreateUpdateGremlinGraphResponse,
   GremlinResourcesDeleteGremlinGraphOptionalParams,
+  GremlinResourcesDeleteGremlinGraphResponse,
   GremlinResourcesGetGremlinGraphThroughputOptionalParams,
   GremlinResourcesGetGremlinGraphThroughputResponse,
   GremlinResourcesUpdateGremlinGraphThroughputOptionalParams,
@@ -362,11 +364,16 @@ export class GremlinResourcesImpl implements GremlinResources {
     accountName: string,
     databaseName: string,
     options?: GremlinResourcesDeleteGremlinDatabaseOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<GremlinResourcesDeleteGremlinDatabaseResponse>,
+      GremlinResourcesDeleteGremlinDatabaseResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<GremlinResourcesDeleteGremlinDatabaseResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -427,7 +434,7 @@ export class GremlinResourcesImpl implements GremlinResources {
     accountName: string,
     databaseName: string,
     options?: GremlinResourcesDeleteGremlinDatabaseOptionalParams
-  ): Promise<void> {
+  ): Promise<GremlinResourcesDeleteGremlinDatabaseResponse> {
     const poller = await this.beginDeleteGremlinDatabase(
       resourceGroupName,
       accountName,
@@ -915,11 +922,16 @@ export class GremlinResourcesImpl implements GremlinResources {
     databaseName: string,
     graphName: string,
     options?: GremlinResourcesDeleteGremlinGraphOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<GremlinResourcesDeleteGremlinGraphResponse>,
+      GremlinResourcesDeleteGremlinGraphResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<GremlinResourcesDeleteGremlinGraphResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -982,7 +994,7 @@ export class GremlinResourcesImpl implements GremlinResources {
     databaseName: string,
     graphName: string,
     options?: GremlinResourcesDeleteGremlinGraphOptionalParams
-  ): Promise<void> {
+  ): Promise<GremlinResourcesDeleteGremlinGraphResponse> {
     const poller = await this.beginDeleteGremlinGraph(
       resourceGroupName,
       accountName,
@@ -1513,7 +1525,20 @@ const deleteGremlinDatabaseOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {
+      headersMapper: Mappers.GremlinResourcesDeleteGremlinDatabaseHeaders
+    },
+    201: {
+      headersMapper: Mappers.GremlinResourcesDeleteGremlinDatabaseHeaders
+    },
+    202: {
+      headersMapper: Mappers.GremlinResourcesDeleteGremlinDatabaseHeaders
+    },
+    204: {
+      headersMapper: Mappers.GremlinResourcesDeleteGremlinDatabaseHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1674,8 +1699,8 @@ const getGremlinGraphOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.graphName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.graphName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1705,8 +1730,8 @@ const createUpdateGremlinGraphOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.graphName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.graphName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1716,15 +1741,28 @@ const deleteGremlinGraphOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {
+      headersMapper: Mappers.GremlinResourcesDeleteGremlinGraphHeaders
+    },
+    201: {
+      headersMapper: Mappers.GremlinResourcesDeleteGremlinGraphHeaders
+    },
+    202: {
+      headersMapper: Mappers.GremlinResourcesDeleteGremlinGraphHeaders
+    },
+    204: {
+      headersMapper: Mappers.GremlinResourcesDeleteGremlinGraphHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.graphName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.graphName
   ],
   serializer
 };
@@ -1743,8 +1781,8 @@ const getGremlinGraphThroughputOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.graphName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.graphName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1774,8 +1812,8 @@ const updateGremlinGraphThroughputOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.graphName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.graphName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1808,8 +1846,8 @@ const migrateGremlinGraphToAutoscaleOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.graphName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.graphName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1841,8 +1879,8 @@ const migrateGremlinGraphToManualThroughputOperationSpec: coreClient.OperationSp
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.graphName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.graphName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1875,8 +1913,8 @@ const retrieveContinuousBackupInformationOperationSpec: coreClient.OperationSpec
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.graphName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.graphName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
