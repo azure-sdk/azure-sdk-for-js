@@ -6,14 +6,14 @@ The Azure Kusto management API provides a RESTful set of web services that inter
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/kusto/arm-kusto) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-kusto) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-kusto) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-kusto?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
 
 ### Currently supported environments
 
-- [LTS versions of Node.js](https://nodejs.org/en/download/)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - Latest versions of Safari, Chrome, Edge and Firefox.
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
