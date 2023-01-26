@@ -99,7 +99,7 @@ export const ErrorDetails: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Number"
         }
       },
       httpStatusCode: {
@@ -382,6 +382,12 @@ export const IotDpsPropertiesDescription: coreClient.CompositeMapper = {
         serializedName: "enableDataResidency",
         type: {
           name: "Boolean"
+        }
+      },
+      portalOperationsHostName: {
+        serializedName: "portalOperationsHostName",
+        type: {
+          name: "String"
         }
       }
     }
@@ -678,6 +684,18 @@ export const Resource: coreClient.CompositeMapper = {
       location: {
         serializedName: "location",
         required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourcegroup: {
+        serializedName: "resourcegroup",
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionid: {
+        serializedName: "subscriptionid",
         type: {
           name: "String"
         }
