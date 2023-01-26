@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { BatchEndpoints } from "../operationsInterfaces";
+import { LabelingJobs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -16,30 +16,30 @@ import { AzureMachineLearningServices } from "../azureMachineLearningServices";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  BatchEndpoint,
-  BatchEndpointsListNextOptionalParams,
-  BatchEndpointsListOptionalParams,
-  BatchEndpointsListResponse,
-  BatchEndpointsDeleteOptionalParams,
-  BatchEndpointsGetOptionalParams,
-  BatchEndpointsGetResponse,
-  PartialMinimalTrackedResourceWithIdentity,
-  BatchEndpointsUpdateOptionalParams,
-  BatchEndpointsUpdateResponse,
-  BatchEndpointsCreateOrUpdateOptionalParams,
-  BatchEndpointsCreateOrUpdateResponse,
-  BatchEndpointsListKeysOptionalParams,
-  BatchEndpointsListKeysResponse,
-  BatchEndpointsListNextResponse
+  LabelingJob,
+  LabelingJobsListNextOptionalParams,
+  LabelingJobsListOptionalParams,
+  LabelingJobsListResponse,
+  LabelingJobsDeleteOptionalParams,
+  LabelingJobsGetOptionalParams,
+  LabelingJobsGetResponse,
+  LabelingJobsCreateOrUpdateOptionalParams,
+  LabelingJobsCreateOrUpdateResponse,
+  ExportSummaryUnion,
+  LabelingJobsExportLabelsOptionalParams,
+  LabelingJobsExportLabelsResponse,
+  LabelingJobsPauseOptionalParams,
+  LabelingJobsResumeOptionalParams,
+  LabelingJobsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing BatchEndpoints operations. */
-export class BatchEndpointsImpl implements BatchEndpoints {
+/** Class containing LabelingJobs operations. */
+export class LabelingJobsImpl implements LabelingJobs {
   private readonly client: AzureMachineLearningServices;
 
   /**
-   * Initialize a new instance of the class BatchEndpoints class.
+   * Initialize a new instance of the class LabelingJobs class.
    * @param client Reference to the service client
    */
   constructor(client: AzureMachineLearningServices) {
@@ -47,7 +47,7 @@ export class BatchEndpointsImpl implements BatchEndpoints {
   }
 
   /**
-   * Lists Batch inference endpoint in the workspace.
+   * Lists labeling jobs in the workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The options parameters.
@@ -55,8 +55,8 @@ export class BatchEndpointsImpl implements BatchEndpoints {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: BatchEndpointsListOptionalParams
-  ): PagedAsyncIterableIterator<BatchEndpoint> {
+    options?: LabelingJobsListOptionalParams
+  ): PagedAsyncIterableIterator<LabelingJob> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
       next() {
@@ -82,10 +82,10 @@ export class BatchEndpointsImpl implements BatchEndpoints {
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: BatchEndpointsListOptionalParams,
+    options?: LabelingJobsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<BatchEndpoint[]> {
-    let result: BatchEndpointsListResponse;
+  ): AsyncIterableIterator<LabelingJob[]> {
+    let result: LabelingJobsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, workspaceName, options);
@@ -111,8 +111,8 @@ export class BatchEndpointsImpl implements BatchEndpoints {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: BatchEndpointsListOptionalParams
-  ): AsyncIterableIterator<BatchEndpoint> {
+    options?: LabelingJobsListOptionalParams
+  ): AsyncIterableIterator<LabelingJob> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
@@ -123,7 +123,7 @@ export class BatchEndpointsImpl implements BatchEndpoints {
   }
 
   /**
-   * Lists Batch inference endpoint in the workspace.
+   * Lists labeling jobs in the workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The options parameters.
@@ -131,8 +131,8 @@ export class BatchEndpointsImpl implements BatchEndpoints {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: BatchEndpointsListOptionalParams
-  ): Promise<BatchEndpointsListResponse> {
+    options?: LabelingJobsListOptionalParams
+  ): Promise<LabelingJobsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
       listOperationSpec
@@ -140,17 +140,269 @@ export class BatchEndpointsImpl implements BatchEndpoints {
   }
 
   /**
-   * Delete Batch Inference Endpoint (asynchronous).
+   * Delete a labeling job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Inference Endpoint name.
+   * @param id The name and identifier for the LabelingJob.
    * @param options The options parameters.
    */
-  async beginDelete(
+  delete(
     resourceGroupName: string,
     workspaceName: string,
-    endpointName: string,
-    options?: BatchEndpointsDeleteOptionalParams
+    id: string,
+    options?: LabelingJobsDeleteOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, id, options },
+      deleteOperationSpec
+    );
+  }
+
+  /**
+   * Gets a labeling job by name/id.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param id The name and identifier for the LabelingJob.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    id: string,
+    options?: LabelingJobsGetOptionalParams
+  ): Promise<LabelingJobsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, id, options },
+      getOperationSpec
+    );
+  }
+
+  /**
+   * Creates or updates a labeling job (asynchronous).
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param id The name and identifier for the LabelingJob.
+   * @param body LabelingJob definition object.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    id: string,
+    body: LabelingJob,
+    options?: LabelingJobsCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<LabelingJobsCreateOrUpdateResponse>,
+      LabelingJobsCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<LabelingJobsCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, workspaceName, id, body, options },
+      createOrUpdateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Creates or updates a labeling job (asynchronous).
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param id The name and identifier for the LabelingJob.
+   * @param body LabelingJob definition object.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    id: string,
+    body: LabelingJob,
+    options?: LabelingJobsCreateOrUpdateOptionalParams
+  ): Promise<LabelingJobsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      workspaceName,
+      id,
+      body,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Export labels from a labeling job (asynchronous).
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param id The name and identifier for the LabelingJob.
+   * @param body The export summary.
+   * @param options The options parameters.
+   */
+  async beginExportLabels(
+    resourceGroupName: string,
+    workspaceName: string,
+    id: string,
+    body: ExportSummaryUnion,
+    options?: LabelingJobsExportLabelsOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<LabelingJobsExportLabelsResponse>,
+      LabelingJobsExportLabelsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<LabelingJobsExportLabelsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, workspaceName, id, body, options },
+      exportLabelsOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Export labels from a labeling job (asynchronous).
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param id The name and identifier for the LabelingJob.
+   * @param body The export summary.
+   * @param options The options parameters.
+   */
+  async beginExportLabelsAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    id: string,
+    body: ExportSummaryUnion,
+    options?: LabelingJobsExportLabelsOptionalParams
+  ): Promise<LabelingJobsExportLabelsResponse> {
+    const poller = await this.beginExportLabels(
+      resourceGroupName,
+      workspaceName,
+      id,
+      body,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Pause a labeling job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param id The name and identifier for the LabelingJob.
+   * @param options The options parameters.
+   */
+  pause(
+    resourceGroupName: string,
+    workspaceName: string,
+    id: string,
+    options?: LabelingJobsPauseOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, id, options },
+      pauseOperationSpec
+    );
+  }
+
+  /**
+   * Resume a labeling job (asynchronous).
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param id The name and identifier for the LabelingJob.
+   * @param options The options parameters.
+   */
+  async beginResume(
+    resourceGroupName: string,
+    workspaceName: string,
+    id: string,
+    options?: LabelingJobsResumeOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -193,269 +445,38 @@ export class BatchEndpointsImpl implements BatchEndpoints {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, workspaceName, endpointName, options },
-      deleteOperationSpec
+      { resourceGroupName, workspaceName, id, options },
+      resumeOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete Batch Inference Endpoint (asynchronous).
+   * Resume a labeling job (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Inference Endpoint name.
+   * @param id The name and identifier for the LabelingJob.
    * @param options The options parameters.
    */
-  async beginDeleteAndWait(
+  async beginResumeAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    endpointName: string,
-    options?: BatchEndpointsDeleteOptionalParams
+    id: string,
+    options?: LabelingJobsResumeOptionalParams
   ): Promise<void> {
-    const poller = await this.beginDelete(
+    const poller = await this.beginResume(
       resourceGroupName,
       workspaceName,
-      endpointName,
+      id,
       options
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Gets a batch inference endpoint by name.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Name for the Batch Endpoint.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    options?: BatchEndpointsGetOptionalParams
-  ): Promise<BatchEndpointsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, endpointName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * Update a batch inference endpoint (asynchronous).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Name for the Batch inference endpoint.
-   * @param body Mutable batch inference endpoint definition object.
-   * @param options The options parameters.
-   */
-  async beginUpdate(
-    resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    body: PartialMinimalTrackedResourceWithIdentity,
-    options?: BatchEndpointsUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<BatchEndpointsUpdateResponse>,
-      BatchEndpointsUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<BatchEndpointsUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, endpointName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Update a batch inference endpoint (asynchronous).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Name for the Batch inference endpoint.
-   * @param body Mutable batch inference endpoint definition object.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    body: PartialMinimalTrackedResourceWithIdentity,
-    options?: BatchEndpointsUpdateOptionalParams
-  ): Promise<BatchEndpointsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      workspaceName,
-      endpointName,
-      body,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Creates a batch inference endpoint (asynchronous).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Name for the Batch inference endpoint.
-   * @param body Batch inference endpoint definition object.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdate(
-    resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    body: BatchEndpoint,
-    options?: BatchEndpointsCreateOrUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<BatchEndpointsCreateOrUpdateResponse>,
-      BatchEndpointsCreateOrUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<BatchEndpointsCreateOrUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, endpointName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Creates a batch inference endpoint (asynchronous).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Name for the Batch inference endpoint.
-   * @param body Batch inference endpoint definition object.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    body: BatchEndpoint,
-    options?: BatchEndpointsCreateOrUpdateOptionalParams
-  ): Promise<BatchEndpointsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      workspaceName,
-      endpointName,
-      body,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Lists batch Inference Endpoint keys.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Inference Endpoint name.
-   * @param options The options parameters.
-   */
-  listKeys(
-    resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    options?: BatchEndpointsListKeysOptionalParams
-  ): Promise<BatchEndpointsListKeysResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, endpointName, options },
-      listKeysOperationSpec
-    );
   }
 
   /**
@@ -469,8 +490,8 @@ export class BatchEndpointsImpl implements BatchEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: BatchEndpointsListNextOptionalParams
-  ): Promise<BatchEndpointsListNextResponse> {
+    options?: LabelingJobsListNextOptionalParams
+  ): Promise<LabelingJobsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
       listNextOperationSpec
@@ -482,17 +503,17 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/labelingJobs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchEndpointTrackedResourceArmPaginatedResult
+      bodyMapper: Mappers.LabelingJobResourceArmPaginatedResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.count],
+  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -504,8 +525,146 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/labelingJobs/{id}",
   httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.id
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/labelingJobs/{id}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LabelingJob
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.includeJobInstructions,
+    Parameters.includeLabelCategories
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.id
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/labelingJobs/{id}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LabelingJob
+    },
+    201: {
+      bodyMapper: Mappers.LabelingJob
+    },
+    202: {
+      bodyMapper: Mappers.LabelingJob
+    },
+    204: {
+      bodyMapper: Mappers.LabelingJob
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body16,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.id1
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const exportLabelsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/labelingJobs/{id}/exportLabels",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ExportSummary
+    },
+    201: {
+      bodyMapper: Mappers.ExportSummary
+    },
+    202: {
+      bodyMapper: Mappers.ExportSummary
+    },
+    204: {
+      bodyMapper: Mappers.ExportSummary
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body17,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.id
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const pauseOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/labelingJobs/{id}/pause",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.id
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const resumeOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/labelingJobs/{id}/resume",
+  httpMethod: "POST",
   responses: {
     200: {},
     201: {},
@@ -521,121 +680,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.endpointName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BatchEndpoint
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.endpointName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BatchEndpoint
-    },
-    201: {
-      bodyMapper: Mappers.BatchEndpoint
-    },
-    202: {
-      bodyMapper: Mappers.BatchEndpoint
-    },
-    204: {
-      bodyMapper: Mappers.BatchEndpoint
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body8,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.endpointName1
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BatchEndpoint
-    },
-    201: {
-      bodyMapper: Mappers.BatchEndpoint
-    },
-    202: {
-      bodyMapper: Mappers.BatchEndpoint
-    },
-    204: {
-      bodyMapper: Mappers.BatchEndpoint
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body9,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.endpointName1
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/listkeys",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.EndpointAuthKeys
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.endpointName
+    Parameters.id
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -645,7 +690,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchEndpointTrackedResourceArmPaginatedResult
+      bodyMapper: Mappers.LabelingJobResourceArmPaginatedResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
