@@ -140,6 +140,11 @@ export interface LedgerProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Running state of Ledger Resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly runningState?: LedgerRunningState;
   /** Array of all AAD based Security Principals. */
   aadBasedSecurityPrincipals?: AADBasedSecurityPrincipal[];
   /** Array of all cert based Security Principals. */
@@ -302,6 +307,33 @@ export enum KnownProvisioningState {
  */
 export type ProvisioningState = string;
 
+/** Known values of {@link LedgerRunningState} that the service accepts. */
+export enum KnownLedgerRunningState {
+  /** Active */
+  Active = "Active",
+  /** Paused */
+  Paused = "Paused",
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Pausing */
+  Pausing = "Pausing",
+  /** Resuming */
+  Resuming = "Resuming"
+}
+
+/**
+ * Defines values for LedgerRunningState. \
+ * {@link KnownLedgerRunningState} can be used interchangeably with LedgerRunningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active** \
+ * **Paused** \
+ * **Unknown** \
+ * **Pausing** \
+ * **Resuming**
+ */
+export type LedgerRunningState = string;
+
 /** Known values of {@link LedgerRoleName} that the service accepts. */
 export enum KnownLedgerRoleName {
   /** Reader */
@@ -429,20 +461,14 @@ export type LedgerListBySubscriptionResponse = ConfidentialLedgerList;
 
 /** Optional parameters. */
 export interface LedgerListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the list operation. eg. $filter=ledgerType eq 'Public' */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type LedgerListByResourceGroupNextResponse = ConfidentialLedgerList;
 
 /** Optional parameters. */
 export interface LedgerListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the list operation. eg. $filter=ledgerType eq 'Public' */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type LedgerListBySubscriptionNextResponse = ConfidentialLedgerList;

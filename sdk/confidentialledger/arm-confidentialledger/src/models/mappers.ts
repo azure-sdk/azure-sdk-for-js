@@ -288,6 +288,13 @@ export const LedgerProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      runningState: {
+        serializedName: "runningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       aadBasedSecurityPrincipals: {
         serializedName: "aadBasedSecurityPrincipals",
         type: {
