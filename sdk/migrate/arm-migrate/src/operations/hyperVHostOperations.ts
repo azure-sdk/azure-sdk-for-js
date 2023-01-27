@@ -8,32 +8,30 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Machines } from "../operationsInterfaces";
+import { HyperVHostOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMigrateV2 } from "../azureMigrateV2";
 import {
-  VMwareMachine,
-  MachinesGetAllMachinesInSiteNextOptionalParams,
-  MachinesGetAllMachinesInSiteOptionalParams,
-  MachinesGetAllMachinesInSiteResponse,
-  MachinesGetMachineOptionalParams,
-  MachinesGetMachineResponse,
-  MachinesStopMachineOptionalParams,
-  MachinesStopMachineResponse,
-  MachinesStartMachineOptionalParams,
-  MachinesStartMachineResponse,
-  MachinesGetAllMachinesInSiteNextResponse
+  HyperVHost,
+  HyperVHostGetAllHostsInSiteNextOptionalParams,
+  HyperVHostGetAllHostsInSiteOptionalParams,
+  HyperVHostGetAllHostsInSiteResponse,
+  HyperVHostGetHostOptionalParams,
+  HyperVHostGetHostResponse,
+  HyperVHostPutHostOptionalParams,
+  HyperVHostPutHostResponse,
+  HyperVHostGetAllHostsInSiteNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Machines operations. */
-export class MachinesImpl implements Machines {
+/** Class containing HyperVHostOperations operations. */
+export class HyperVHostOperationsImpl implements HyperVHostOperations {
   private readonly client: AzureMigrateV2;
 
   /**
-   * Initialize a new instance of the class Machines class.
+   * Initialize a new instance of the class HyperVHostOperations class.
    * @param client Reference to the service client
    */
   constructor(client: AzureMigrateV2) {
@@ -41,19 +39,19 @@ export class MachinesImpl implements Machines {
   }
 
   /**
-   * Method to get machine.
+   * Method to get all hosts in a site.
    * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param siteName Site name.
    * @param options The options parameters.
    */
-  public listAllMachinesInSite(
+  public listAllHostsInSite(
     subscriptionId: string,
     resourceGroupName: string,
     siteName: string,
-    options?: MachinesGetAllMachinesInSiteOptionalParams
-  ): PagedAsyncIterableIterator<VMwareMachine> {
-    const iter = this.getAllMachinesInSitePagingAll(
+    options?: HyperVHostGetAllHostsInSiteOptionalParams
+  ): PagedAsyncIterableIterator<HyperVHost> {
+    const iter = this.getAllHostsInSitePagingAll(
       subscriptionId,
       resourceGroupName,
       siteName,
@@ -70,7 +68,7 @@ export class MachinesImpl implements Machines {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.getAllMachinesInSitePagingPage(
+        return this.getAllHostsInSitePagingPage(
           subscriptionId,
           resourceGroupName,
           siteName,
@@ -81,17 +79,17 @@ export class MachinesImpl implements Machines {
     };
   }
 
-  private async *getAllMachinesInSitePagingPage(
+  private async *getAllHostsInSitePagingPage(
     subscriptionId: string,
     resourceGroupName: string,
     siteName: string,
-    options?: MachinesGetAllMachinesInSiteOptionalParams,
+    options?: HyperVHostGetAllHostsInSiteOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<VMwareMachine[]> {
-    let result: MachinesGetAllMachinesInSiteResponse;
+  ): AsyncIterableIterator<HyperVHost[]> {
+    let result: HyperVHostGetAllHostsInSiteResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._getAllMachinesInSite(
+      result = await this._getAllHostsInSite(
         subscriptionId,
         resourceGroupName,
         siteName,
@@ -103,7 +101,7 @@ export class MachinesImpl implements Machines {
       yield page;
     }
     while (continuationToken) {
-      result = await this._getAllMachinesInSiteNext(
+      result = await this._getAllHostsInSiteNext(
         subscriptionId,
         resourceGroupName,
         siteName,
@@ -117,13 +115,13 @@ export class MachinesImpl implements Machines {
     }
   }
 
-  private async *getAllMachinesInSitePagingAll(
+  private async *getAllHostsInSitePagingAll(
     subscriptionId: string,
     resourceGroupName: string,
     siteName: string,
-    options?: MachinesGetAllMachinesInSiteOptionalParams
-  ): AsyncIterableIterator<VMwareMachine> {
-    for await (const page of this.getAllMachinesInSitePagingPage(
+    options?: HyperVHostGetAllHostsInSiteOptionalParams
+  ): AsyncIterableIterator<HyperVHost> {
+    for await (const page of this.getAllHostsInSitePagingPage(
       subscriptionId,
       resourceGroupName,
       siteName,
@@ -134,118 +132,99 @@ export class MachinesImpl implements Machines {
   }
 
   /**
-   * Method to get machine.
+   * Method to get a Hyper-V host.
    * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param siteName Site name.
-   * @param machineName Machine ARM name.
+   * @param hostName Host ARM name.
    * @param options The options parameters.
    */
-  getMachine(
+  getHost(
     subscriptionId: string,
     resourceGroupName: string,
     siteName: string,
-    machineName: string,
-    options?: MachinesGetMachineOptionalParams
-  ): Promise<MachinesGetMachineResponse> {
+    hostName: string,
+    options?: HyperVHostGetHostOptionalParams
+  ): Promise<HyperVHostGetHostResponse> {
     return this.client.sendOperationRequest(
-      { subscriptionId, resourceGroupName, siteName, machineName, options },
-      getMachineOperationSpec
+      { subscriptionId, resourceGroupName, siteName, hostName, options },
+      getHostOperationSpec
     );
   }
 
   /**
-   * Method to get machine.
+   * Method to create or update a host in site.
+   * @param subscriptionId The ID of the target subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param siteName Site name.
+   * @param hostName Host ARM name.
+   * @param body Put host body.
+   * @param options The options parameters.
+   */
+  putHost(
+    subscriptionId: string,
+    resourceGroupName: string,
+    siteName: string,
+    hostName: string,
+    body: HyperVHost,
+    options?: HyperVHostPutHostOptionalParams
+  ): Promise<HyperVHostPutHostResponse> {
+    return this.client.sendOperationRequest(
+      { subscriptionId, resourceGroupName, siteName, hostName, body, options },
+      putHostOperationSpec
+    );
+  }
+
+  /**
+   * Method to get all hosts in a site.
    * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param siteName Site name.
    * @param options The options parameters.
    */
-  private _getAllMachinesInSite(
+  private _getAllHostsInSite(
     subscriptionId: string,
     resourceGroupName: string,
     siteName: string,
-    options?: MachinesGetAllMachinesInSiteOptionalParams
-  ): Promise<MachinesGetAllMachinesInSiteResponse> {
+    options?: HyperVHostGetAllHostsInSiteOptionalParams
+  ): Promise<HyperVHostGetAllHostsInSiteResponse> {
     return this.client.sendOperationRequest(
       { subscriptionId, resourceGroupName, siteName, options },
-      getAllMachinesInSiteOperationSpec
+      getAllHostsInSiteOperationSpec
     );
   }
 
   /**
-   * Method to stop a machine.
+   * GetAllHostsInSiteNext
    * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param siteName Site name.
-   * @param machineName Machine ARM name.
+   * @param nextLink The nextLink from the previous successful call to the GetAllHostsInSite method.
    * @param options The options parameters.
    */
-  stopMachine(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    machineName: string,
-    options?: MachinesStopMachineOptionalParams
-  ): Promise<MachinesStopMachineResponse> {
-    return this.client.sendOperationRequest(
-      { subscriptionId, resourceGroupName, siteName, machineName, options },
-      stopMachineOperationSpec
-    );
-  }
-
-  /**
-   * Method to start a machine.
-   * @param subscriptionId The ID of the target subscription.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param siteName Site name.
-   * @param machineName Machine ARM name.
-   * @param options The options parameters.
-   */
-  startMachine(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    machineName: string,
-    options?: MachinesStartMachineOptionalParams
-  ): Promise<MachinesStartMachineResponse> {
-    return this.client.sendOperationRequest(
-      { subscriptionId, resourceGroupName, siteName, machineName, options },
-      startMachineOperationSpec
-    );
-  }
-
-  /**
-   * GetAllMachinesInSiteNext
-   * @param subscriptionId The ID of the target subscription.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param siteName Site name.
-   * @param nextLink The nextLink from the previous successful call to the GetAllMachinesInSite method.
-   * @param options The options parameters.
-   */
-  private _getAllMachinesInSiteNext(
+  private _getAllHostsInSiteNext(
     subscriptionId: string,
     resourceGroupName: string,
     siteName: string,
     nextLink: string,
-    options?: MachinesGetAllMachinesInSiteNextOptionalParams
-  ): Promise<MachinesGetAllMachinesInSiteNextResponse> {
+    options?: HyperVHostGetAllHostsInSiteNextOptionalParams
+  ): Promise<HyperVHostGetAllHostsInSiteNextResponse> {
     return this.client.sendOperationRequest(
       { subscriptionId, resourceGroupName, siteName, nextLink, options },
-      getAllMachinesInSiteNextOperationSpec
+      getAllHostsInSiteNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getMachineOperationSpec: coreClient.OperationSpec = {
+const getHostOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzure/VMwareSites/{siteName}/machines/{machineName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzure/HyperVSites/{siteName}/hosts/{hostName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VMwareMachine
+      bodyMapper: Mappers.HyperVHost
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -254,27 +233,43 @@ const getMachineOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.siteName,
-    Parameters.machineName
+    Parameters.hostName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const getAllMachinesInSiteOperationSpec: coreClient.OperationSpec = {
+const putHostOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzure/VMwareSites/{siteName}/machines",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzure/HyperVSites/{siteName}/hosts/{hostName}",
+  httpMethod: "PUT",
+  responses: {
+    202: {
+      headersMapper: Mappers.HyperVHostPutHostHeaders
+    }
+  },
+  requestBody: Parameters.body1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.siteName,
+    Parameters.hostName
+  ],
+  headerParameters: [Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getAllHostsInSiteOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzure/HyperVSites/{siteName}/hosts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VMwareMachineCollection
+      bodyMapper: Mappers.HyperVHostCollection
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.continuationToken,
-    Parameters.totalRecordCount
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -284,50 +279,12 @@ const getAllMachinesInSiteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const stopMachineOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzure/VMwareSites/{siteName}/machines/{machineName}/stop",
-  httpMethod: "POST",
-  responses: {
-    202: {
-      headersMapper: Mappers.MachinesStopMachineHeaders
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.siteName,
-    Parameters.machineName
-  ],
-  serializer
-};
-const startMachineOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzure/VMwareSites/{siteName}/machines/{machineName}/start",
-  httpMethod: "POST",
-  responses: {
-    202: {
-      headersMapper: Mappers.MachinesStartMachineHeaders
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.siteName,
-    Parameters.machineName
-  ],
-  serializer
-};
-const getAllMachinesInSiteNextOperationSpec: coreClient.OperationSpec = {
+const getAllHostsInSiteNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VMwareMachineCollection
+      bodyMapper: Mappers.HyperVHostCollection
     }
   },
   urlParameters: [

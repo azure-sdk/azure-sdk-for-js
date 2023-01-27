@@ -2,11 +2,11 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for AzureMigrateV2 client.
 
-Assess your workloads for Azure.
+Discover your workloads for Azure.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/migrate/arm-migrate) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-migrate) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-migrate) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-migrate?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

@@ -13,7 +13,7 @@ import { Operation, OperationsListOptionalParams } from "../models";
 /** Interface representing a Operations. */
 export interface Operations {
   /**
-   * Get a list of REST API supported by Microsoft.Migrate provider.
+   * Get list of operations supported in the API.
    * @param options The options parameters.
    */
   list(

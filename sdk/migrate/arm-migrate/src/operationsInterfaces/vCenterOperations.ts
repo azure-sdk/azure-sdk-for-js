@@ -8,75 +8,76 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  VMwareMachine,
-  MachinesGetAllMachinesInSiteOptionalParams,
-  MachinesGetMachineOptionalParams,
-  MachinesGetMachineResponse,
-  MachinesStopMachineOptionalParams,
-  MachinesStopMachineResponse,
-  MachinesStartMachineOptionalParams,
-  MachinesStartMachineResponse
+  VCenter,
+  VCenterGetAllVCentersInSiteOptionalParams,
+  VCenterGetVCenterOptionalParams,
+  VCenterGetVCenterResponse,
+  VCenterPutVCenterOptionalParams,
+  VCenterPutVCenterResponse,
+  VCenterDeleteVCenterOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Machines. */
-export interface Machines {
+/** Interface representing a VCenterOperations. */
+export interface VCenterOperations {
   /**
-   * Method to get machine.
+   * Method to get all vCenters in a site.
    * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param siteName Site name.
    * @param options The options parameters.
    */
-  listAllMachinesInSite(
+  listAllVCentersInSite(
     subscriptionId: string,
     resourceGroupName: string,
     siteName: string,
-    options?: MachinesGetAllMachinesInSiteOptionalParams
-  ): PagedAsyncIterableIterator<VMwareMachine>;
+    options?: VCenterGetAllVCentersInSiteOptionalParams
+  ): PagedAsyncIterableIterator<VCenter>;
   /**
-   * Method to get machine.
+   * Method to get a vCenter.
    * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param siteName Site name.
-   * @param machineName Machine ARM name.
+   * @param vcenterName VCenter ARM name.
    * @param options The options parameters.
    */
-  getMachine(
+  getVCenter(
     subscriptionId: string,
     resourceGroupName: string,
     siteName: string,
-    machineName: string,
-    options?: MachinesGetMachineOptionalParams
-  ): Promise<MachinesGetMachineResponse>;
+    vcenterName: string,
+    options?: VCenterGetVCenterOptionalParams
+  ): Promise<VCenterGetVCenterResponse>;
   /**
-   * Method to stop a machine.
+   * Method to create or update a vCenter in site.
    * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param siteName Site name.
-   * @param machineName Machine ARM name.
+   * @param vcenterName VCenter ARM name.
+   * @param body Put vCenter body.
    * @param options The options parameters.
    */
-  stopMachine(
+  putVCenter(
     subscriptionId: string,
     resourceGroupName: string,
     siteName: string,
-    machineName: string,
-    options?: MachinesStopMachineOptionalParams
-  ): Promise<MachinesStopMachineResponse>;
+    vcenterName: string,
+    body: VCenter,
+    options?: VCenterPutVCenterOptionalParams
+  ): Promise<VCenterPutVCenterResponse>;
   /**
-   * Method to start a machine.
+   * Method to delete vCenter in site.
    * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param siteName Site name.
-   * @param machineName Machine ARM name.
+   * @param vcenterName VCenter ARM name.
    * @param options The options parameters.
    */
-  startMachine(
+  deleteVCenter(
     subscriptionId: string,
     resourceGroupName: string,
     siteName: string,
-    machineName: string,
-    options?: MachinesStartMachineOptionalParams
-  ): Promise<MachinesStartMachineResponse>;
+    vcenterName: string,
+    options?: VCenterDeleteVCenterOptionalParams
+  ): Promise<void>;
 }

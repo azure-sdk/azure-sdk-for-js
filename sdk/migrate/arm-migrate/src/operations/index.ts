@@ -6,15 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./projects";
+export * from "./hyperVClusterOperations";
+export * from "./hyperVHostOperations";
+export * from "./hyperVJobs";
+export * from "./hyperVMachines";
+export * from "./hyperVOperationsStatus";
+export * from "./hyperVRunAsAccounts";
+export * from "./hyperVSites";
+export * from "./jobs";
 export * from "./machines";
-export * from "./groups";
-export * from "./assessments";
-export * from "./assessedMachines";
-export * from "./hyperVCollectors";
-export * from "./serverCollectors";
-export * from "./vMwareCollectors";
-export * from "./importCollectors";
-export * from "./privateEndpointConnectionOperations";
-export * from "./privateLinkResourceOperations";
+export * from "./runAsAccounts";
+export * from "./sites";
+export * from "./vCenterOperations";
+export * from "./vMwareOperationsStatus";
 export * from "./operations";
