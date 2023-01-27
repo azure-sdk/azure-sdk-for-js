@@ -111,6 +111,18 @@ export const body1: OperationParameter = {
   mapper: AcceptOwnershipRequestMapper
 };
 
+export const apiVersion2: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2023-01-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const body2: OperationParameter = {
   parameterPath: "body",
   mapper: PutAliasRequestMapper
@@ -136,6 +148,17 @@ export const billingAccountId: OperationURLParameter = {
   parameterPath: "billingAccountId",
   mapper: {
     serializedName: "billingAccountId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    serializedName: "operationId",
     required: true,
     type: {
       name: "String"

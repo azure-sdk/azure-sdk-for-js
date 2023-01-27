@@ -9,6 +9,8 @@
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "./lroImpl";
 import {
   SubscriptionsImpl,
   TenantsImpl,
@@ -27,7 +29,12 @@ import {
   SubscriptionPolicy,
   BillingAccount
 } from "./operationsInterfaces";
-import { SubscriptionClientOptionalParams } from "./models";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
+import {
+  SubscriptionClientOptionalParams,
+  GetOperationResultsOptionalParams
+} from "./models";
 
 export class SubscriptionClient extends coreClient.ServiceClient {
   $host: string;
@@ -54,7 +61,7 @@ export class SubscriptionClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-subscriptions/5.1.1`;
+    const packageDetails = `azsdk-js-arm-subscriptions/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -114,6 +121,81 @@ export class SubscriptionClient extends coreClient.ServiceClient {
     this.billingAccount = new BillingAccountImpl(this);
   }
 
+  /**
+   * Get the status the given operationId
+   * @param operationId operationId is the id returned by async operations.
+   * @param options The options parameters.
+   */
+  async beginGetOperationResults(
+    operationId: string,
+    options?: GetOperationResultsOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { operationId, options },
+      getOperationResultsOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Get the status the given operationId
+   * @param operationId operationId is the id returned by async operations.
+   * @param options The options parameters.
+   */
+  async beginGetOperationResultsAndWait(
+    operationId: string,
+    options?: GetOperationResultsOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginGetOperationResults(operationId, options);
+    return poller.pollUntilDone();
+  }
+
   subscriptions: Subscriptions;
   tenants: Tenants;
   subscriptionOperations: SubscriptionOperations;
@@ -122,3 +204,23 @@ export class SubscriptionClient extends coreClient.ServiceClient {
   subscriptionPolicy: SubscriptionPolicy;
   billingAccount: BillingAccount;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const getOperationResultsOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Subscription/operationresults/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponseBody
+    }
+  },
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [Parameters.$host, Parameters.operationId],
+  headerParameters: [Parameters.accept],
+  serializer
+};

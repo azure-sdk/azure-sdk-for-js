@@ -25,7 +25,11 @@ import {
   SubscriptionAcceptOwnershipOptionalParams,
   SubscriptionAcceptOwnershipResponse,
   SubscriptionAcceptOwnershipStatusOptionalParams,
-  SubscriptionAcceptOwnershipStatusResponse
+  SubscriptionAcceptOwnershipStatusResponse,
+  SubscriptionCancel2023OptionalParams,
+  SubscriptionCancel2023Response,
+  SubscriptionEnable2023OptionalParams,
+  SubscriptionEnable2023Response
 } from "../models";
 
 /** Class containing SubscriptionOperations operations. */
@@ -188,6 +192,166 @@ export class SubscriptionOperationsImpl implements SubscriptionOperations {
       acceptOwnershipStatusOperationSpec
     );
   }
+
+  /**
+   * The operation to cancel a subscription
+   * @param subscriptionId Subscription Id.
+   * @param options The options parameters.
+   */
+  async beginCancel2023(
+    subscriptionId: string,
+    options?: SubscriptionCancel2023OptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SubscriptionCancel2023Response>,
+      SubscriptionCancel2023Response
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<SubscriptionCancel2023Response> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { subscriptionId, options },
+      cancel2023OperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * The operation to cancel a subscription
+   * @param subscriptionId Subscription Id.
+   * @param options The options parameters.
+   */
+  async beginCancel2023AndWait(
+    subscriptionId: string,
+    options?: SubscriptionCancel2023OptionalParams
+  ): Promise<SubscriptionCancel2023Response> {
+    const poller = await this.beginCancel2023(subscriptionId, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * The operation to enable a subscription
+   * @param subscriptionId Subscription Id.
+   * @param options The options parameters.
+   */
+  async beginEnable2023(
+    subscriptionId: string,
+    options?: SubscriptionEnable2023OptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SubscriptionEnable2023Response>,
+      SubscriptionEnable2023Response
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<SubscriptionEnable2023Response> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { subscriptionId, options },
+      enable2023OperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * The operation to enable a subscription
+   * @param subscriptionId Subscription Id.
+   * @param options The options parameters.
+   */
+  async beginEnable2023AndWait(
+    subscriptionId: string,
+    options?: SubscriptionEnable2023OptionalParams
+  ): Promise<SubscriptionEnable2023Response> {
+    const poller = await this.beginEnable2023(subscriptionId, options);
+    return poller.pollUntilDone();
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -286,6 +450,58 @@ const acceptOwnershipStatusOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion1],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const cancel2023OperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Subscription/cancel",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.SubscriptionCancel2023Headers
+    },
+    201: {
+      headersMapper: Mappers.SubscriptionCancel2023Headers
+    },
+    202: {
+      headersMapper: Mappers.SubscriptionCancel2023Headers
+    },
+    204: {
+      headersMapper: Mappers.SubscriptionCancel2023Headers
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseBody
+    }
+  },
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const enable2023OperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Subscription/enable",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.SubscriptionEnable2023Headers
+    },
+    201: {
+      headersMapper: Mappers.SubscriptionEnable2023Headers
+    },
+    202: {
+      headersMapper: Mappers.SubscriptionEnable2023Headers
+    },
+    204: {
+      headersMapper: Mappers.SubscriptionEnable2023Headers
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseBody
+    }
+  },
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer

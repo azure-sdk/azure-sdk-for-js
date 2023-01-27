@@ -1159,3 +1159,60 @@ export const SubscriptionAcceptOwnershipHeaders: coreClient.CompositeMapper = {
     }
   }
 };
+
+export const SubscriptionCancel2023Headers: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubscriptionCancel2023Headers",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SubscriptionEnable2023Headers: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubscriptionEnable2023Headers",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SubscriptionClientGetOperationResultsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubscriptionClientGetOperationResultsHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};

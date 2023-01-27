@@ -19,7 +19,11 @@ import {
   SubscriptionAcceptOwnershipOptionalParams,
   SubscriptionAcceptOwnershipResponse,
   SubscriptionAcceptOwnershipStatusOptionalParams,
-  SubscriptionAcceptOwnershipStatusResponse
+  SubscriptionAcceptOwnershipStatusResponse,
+  SubscriptionCancel2023OptionalParams,
+  SubscriptionCancel2023Response,
+  SubscriptionEnable2023OptionalParams,
+  SubscriptionEnable2023Response
 } from "../models";
 
 /** Interface representing a SubscriptionOperations. */
@@ -89,4 +93,50 @@ export interface SubscriptionOperations {
     subscriptionId: string,
     options?: SubscriptionAcceptOwnershipStatusOptionalParams
   ): Promise<SubscriptionAcceptOwnershipStatusResponse>;
+  /**
+   * The operation to cancel a subscription
+   * @param subscriptionId Subscription Id.
+   * @param options The options parameters.
+   */
+  beginCancel2023(
+    subscriptionId: string,
+    options?: SubscriptionCancel2023OptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SubscriptionCancel2023Response>,
+      SubscriptionCancel2023Response
+    >
+  >;
+  /**
+   * The operation to cancel a subscription
+   * @param subscriptionId Subscription Id.
+   * @param options The options parameters.
+   */
+  beginCancel2023AndWait(
+    subscriptionId: string,
+    options?: SubscriptionCancel2023OptionalParams
+  ): Promise<SubscriptionCancel2023Response>;
+  /**
+   * The operation to enable a subscription
+   * @param subscriptionId Subscription Id.
+   * @param options The options parameters.
+   */
+  beginEnable2023(
+    subscriptionId: string,
+    options?: SubscriptionEnable2023OptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SubscriptionEnable2023Response>,
+      SubscriptionEnable2023Response
+    >
+  >;
+  /**
+   * The operation to enable a subscription
+   * @param subscriptionId Subscription Id.
+   * @param options The options parameters.
+   */
+  beginEnable2023AndWait(
+    subscriptionId: string,
+    options?: SubscriptionEnable2023OptionalParams
+  ): Promise<SubscriptionEnable2023Response>;
 }

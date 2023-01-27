@@ -546,6 +546,28 @@ export interface SubscriptionAcceptOwnershipHeaders {
   retryAfter?: number;
 }
 
+/** Defines headers for Subscription_cancel2023 operation. */
+export interface SubscriptionCancel2023Headers {
+  /** GET this URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+  /** The amount of delay to use while the status of the operation is checked. The value is expressed in seconds. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Subscription_enable2023 operation. */
+export interface SubscriptionEnable2023Headers {
+  /** GET this URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+  /** The amount of delay to use while the status of the operation is checked. The value is expressed in seconds. */
+  retryAfter?: number;
+}
+
+/** Defines headers for SubscriptionClient_getOperationResults operation. */
+export interface SubscriptionClientGetOperationResultsHeaders {
+  /** Get the status the given operationId */
+  location?: string;
+}
+
 /** Known values of {@link Workload} that the service accepts. */
 export enum KnownWorkload {
   /** Production */
@@ -743,6 +765,30 @@ export interface SubscriptionAcceptOwnershipStatusOptionalParams
 export type SubscriptionAcceptOwnershipStatusResponse = AcceptOwnershipStatusResponse;
 
 /** Optional parameters. */
+export interface SubscriptionCancel2023OptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the cancel2023 operation. */
+export type SubscriptionCancel2023Response = SubscriptionCancel2023Headers;
+
+/** Optional parameters. */
+export interface SubscriptionEnable2023OptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the enable2023 operation. */
+export type SubscriptionEnable2023Response = SubscriptionEnable2023Headers;
+
+/** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -817,6 +863,15 @@ export interface BillingAccountGetPolicyOptionalParams
 
 /** Contains response data for the getPolicy operation. */
 export type BillingAccountGetPolicyResponse = BillingAccountPoliciesResponse;
+
+/** Optional parameters. */
+export interface GetOperationResultsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface SubscriptionClientOptionalParams
