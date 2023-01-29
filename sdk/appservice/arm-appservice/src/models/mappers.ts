@@ -15578,6 +15578,13 @@ export const Site: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      managedEnvironment: {
+        serializedName: "properties.managedEnvironment",
+        xmlName: "properties.managedEnvironment",
+        type: {
+          name: "String"
+        }
       }
     }
   }
