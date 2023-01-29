@@ -6,7 +6,7 @@ This API describe Azure Reservation
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/reservations/arm-reservations) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-reservations) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-reservations) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-reservations?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
