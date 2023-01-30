@@ -71,6 +71,7 @@ specifiers:
   '@rush-temp/arm-datafactory': file:./projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:./projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-datamigration': file:./projects/arm-datamigration.tgz
+  '@rush-temp/arm-dataprotectionplatform': file:./projects/arm-dataprotectionplatform.tgz
   '@rush-temp/arm-deploymentmanager': file:./projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:./projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:./projects/arm-devcenter.tgz
@@ -396,6 +397,7 @@ dependencies:
   '@rush-temp/arm-datafactory': file:projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-datamigration': file:projects/arm-datamigration.tgz
+  '@rush-temp/arm-dataprotectionplatform': file:projects/arm-dataprotectionplatform.tgz
   '@rush-temp/arm-deploymentmanager': file:projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:projects/arm-devcenter.tgz
@@ -3807,7 +3809,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230128
+      typescript: 5.0.0-dev.20230130
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8653,8 +8655,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230128:
-    resolution: {integrity: sha512-oos2fAiWy4+bCwSKXn56TsFz0vasZJ0uQR5FxXDUmi9y4+TDxUUZXpIVv3E6RKFz4ee0ndvMOwTjpnb2WE2gpw==}
+  /typescript/5.0.0-dev.20230130:
+    resolution: {integrity: sha512-4zmbh58Vt3HDAD0AvHr1ccmAkKKODriYMNajcSzUylVgXCXrNGTJOReMp54GBs67KfQFaLOpVZlLrlD2FKn9Kg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11393,6 +11395,33 @@ packages:
   file:projects/arm-datamigration.tgz:
     resolution: {integrity: sha512-lWReC4BiNqPxjHuO/j5ROzGTc2nwOQojlTzOLuwsxrKTcSdQn2+FFK8b4VjEsLS5f+XGT2YpxQHZAkpDZORdLA==, tarball: file:projects/arm-datamigration.tgz}
     name: '@rush-temp/arm-datamigration'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.36
+      chai: 4.3.7
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
+      tslib: 2.5.0
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-dataprotectionplatform.tgz:
+    resolution: {integrity: sha512-J97n5UBN3q1ZqnxnR5/1h+JGDu6lQ+1Ty15k8sKiZ7n2sD+k0AplikU5LeSaN3PtpidzLnmiqveP6Eg+YMaFKw==, tarball: file:projects/arm-dataprotectionplatform.tgz}
+    name: '@rush-temp/arm-dataprotectionplatform'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
