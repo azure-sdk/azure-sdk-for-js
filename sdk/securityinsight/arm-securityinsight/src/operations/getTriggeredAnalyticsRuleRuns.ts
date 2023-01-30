@@ -8,28 +8,27 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { AlertRuleTemplates } from "../operationsInterfaces";
+import { GetTriggeredAnalyticsRuleRuns } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
-  AlertRuleTemplateUnion,
-  AlertRuleTemplatesListNextOptionalParams,
-  AlertRuleTemplatesListOptionalParams,
-  AlertRuleTemplatesListResponse,
-  AlertRuleTemplatesGetOptionalParams,
-  AlertRuleTemplatesGetResponse,
-  AlertRuleTemplatesListNextResponse
+  TriggeredAnalyticsRuleRun,
+  GetTriggeredAnalyticsRuleRunsListNextOptionalParams,
+  GetTriggeredAnalyticsRuleRunsListOptionalParams,
+  GetTriggeredAnalyticsRuleRunsListResponse,
+  GetTriggeredAnalyticsRuleRunsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing AlertRuleTemplates operations. */
-export class AlertRuleTemplatesImpl implements AlertRuleTemplates {
+/** Class containing GetTriggeredAnalyticsRuleRuns operations. */
+export class GetTriggeredAnalyticsRuleRunsImpl
+  implements GetTriggeredAnalyticsRuleRuns {
   private readonly client: SecurityInsights;
 
   /**
-   * Initialize a new instance of the class AlertRuleTemplates class.
+   * Initialize a new instance of the class GetTriggeredAnalyticsRuleRuns class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityInsights) {
@@ -37,7 +36,7 @@ export class AlertRuleTemplatesImpl implements AlertRuleTemplates {
   }
 
   /**
-   * Gets all alert rule templates.
+   * Gets the triggered analytics rule runs.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -45,8 +44,8 @@ export class AlertRuleTemplatesImpl implements AlertRuleTemplates {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: AlertRuleTemplatesListOptionalParams
-  ): PagedAsyncIterableIterator<AlertRuleTemplateUnion> {
+    options?: GetTriggeredAnalyticsRuleRunsListOptionalParams
+  ): PagedAsyncIterableIterator<TriggeredAnalyticsRuleRun> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
       next() {
@@ -72,10 +71,10 @@ export class AlertRuleTemplatesImpl implements AlertRuleTemplates {
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: AlertRuleTemplatesListOptionalParams,
+    options?: GetTriggeredAnalyticsRuleRunsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<AlertRuleTemplateUnion[]> {
-    let result: AlertRuleTemplatesListResponse;
+  ): AsyncIterableIterator<TriggeredAnalyticsRuleRun[]> {
+    let result: GetTriggeredAnalyticsRuleRunsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, workspaceName, options);
@@ -101,8 +100,8 @@ export class AlertRuleTemplatesImpl implements AlertRuleTemplates {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: AlertRuleTemplatesListOptionalParams
-  ): AsyncIterableIterator<AlertRuleTemplateUnion> {
+    options?: GetTriggeredAnalyticsRuleRunsListOptionalParams
+  ): AsyncIterableIterator<TriggeredAnalyticsRuleRun> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
@@ -113,7 +112,7 @@ export class AlertRuleTemplatesImpl implements AlertRuleTemplates {
   }
 
   /**
-   * Gets all alert rule templates.
+   * Gets the triggered analytics rule runs.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -121,30 +120,11 @@ export class AlertRuleTemplatesImpl implements AlertRuleTemplates {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: AlertRuleTemplatesListOptionalParams
-  ): Promise<AlertRuleTemplatesListResponse> {
+    options?: GetTriggeredAnalyticsRuleRunsListOptionalParams
+  ): Promise<GetTriggeredAnalyticsRuleRunsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
       listOperationSpec
-    );
-  }
-
-  /**
-   * Gets the alert rule template.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param alertRuleTemplateId Alert rule template ID
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    workspaceName: string,
-    alertRuleTemplateId: string,
-    options?: AlertRuleTemplatesGetOptionalParams
-  ): Promise<AlertRuleTemplatesGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, alertRuleTemplateId, options },
-      getOperationSpec
     );
   }
 
@@ -159,8 +139,8 @@ export class AlertRuleTemplatesImpl implements AlertRuleTemplates {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: AlertRuleTemplatesListNextOptionalParams
-  ): Promise<AlertRuleTemplatesListNextResponse> {
+    options?: GetTriggeredAnalyticsRuleRunsListNextOptionalParams
+  ): Promise<GetTriggeredAnalyticsRuleRunsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
       listNextOperationSpec
@@ -172,11 +152,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRuleTemplates",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/triggeredAnalyticsRuleRuns",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertRuleTemplatesList
+      bodyMapper: Mappers.TriggeredAnalyticsRuleRuns
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -192,35 +172,12 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRuleTemplates/{alertRuleTemplateId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AlertRuleTemplate
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.alertRuleTemplateId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertRuleTemplatesList
+      bodyMapper: Mappers.TriggeredAnalyticsRuleRuns
     },
     default: {
       bodyMapper: Mappers.CloudError
