@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { IncidentComments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -39,7 +40,7 @@ export class IncidentCommentsImpl implements IncidentComments {
   }
 
   /**
-   * Gets all incident comments.
+   * Gets all comments for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -64,12 +65,16 @@ export class IncidentCommentsImpl implements IncidentComments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           workspaceName,
           incidentId,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,16 +84,23 @@ export class IncidentCommentsImpl implements IncidentComments {
     resourceGroupName: string,
     workspaceName: string,
     incidentId: string,
-    options?: IncidentCommentsListOptionalParams
+    options?: IncidentCommentsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<IncidentComment[]> {
-    let result = await this._list(
-      resourceGroupName,
-      workspaceName,
-      incidentId,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: IncidentCommentsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        workspaceName,
+        incidentId,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -98,7 +110,9 @@ export class IncidentCommentsImpl implements IncidentComments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -119,7 +133,7 @@ export class IncidentCommentsImpl implements IncidentComments {
   }
 
   /**
-   * Gets all incident comments.
+   * Gets all comments for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -138,7 +152,7 @@ export class IncidentCommentsImpl implements IncidentComments {
   }
 
   /**
-   * Gets an incident comment.
+   * Gets a comment for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -165,7 +179,7 @@ export class IncidentCommentsImpl implements IncidentComments {
   }
 
   /**
-   * Creates or updates the incident comment.
+   * Creates or updates a comment for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -195,7 +209,7 @@ export class IncidentCommentsImpl implements IncidentComments {
   }
 
   /**
-   * Delete the incident comment.
+   * Deletes a comment for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -361,13 +375,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.orderby,
-    Parameters.top,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DataConnectors } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -22,9 +23,6 @@ import {
   DataConnectorsCreateOrUpdateOptionalParams,
   DataConnectorsCreateOrUpdateResponse,
   DataConnectorsDeleteOptionalParams,
-  DataConnectorConnectBody,
-  DataConnectorsConnectOptionalParams,
-  DataConnectorsDisconnectOptionalParams,
   DataConnectorsListNextResponse
 } from "../models";
 
@@ -60,8 +58,16 @@ export class DataConnectorsImpl implements DataConnectors {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, workspaceName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          workspaceName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -69,11 +75,18 @@ export class DataConnectorsImpl implements DataConnectors {
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataConnectorsListOptionalParams
+    options?: DataConnectorsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DataConnectorUnion[]> {
-    let result = await this._list(resourceGroupName, workspaceName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DataConnectorsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, workspaceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -82,7 +95,9 @@ export class DataConnectorsImpl implements DataConnectors {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -179,52 +194,6 @@ export class DataConnectorsImpl implements DataConnectors {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, dataConnectorId, options },
       deleteOperationSpec
-    );
-  }
-
-  /**
-   * Connects a data connector.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
-   * @param connectBody The data connector
-   * @param options The options parameters.
-   */
-  connect(
-    resourceGroupName: string,
-    workspaceName: string,
-    dataConnectorId: string,
-    connectBody: DataConnectorConnectBody,
-    options?: DataConnectorsConnectOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        dataConnectorId,
-        connectBody,
-        options
-      },
-      connectOperationSpec
-    );
-  }
-
-  /**
-   * Disconnect a data connector.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
-   * @param options The options parameters.
-   */
-  disconnect(
-    resourceGroupName: string,
-    workspaceName: string,
-    dataConnectorId: string,
-    options?: DataConnectorsDisconnectOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, dataConnectorId, options },
-      disconnectOperationSpec
     );
   }
 
@@ -345,50 +314,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const connectOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}/connect",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.connectBody,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.dataConnectorId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const disconnectOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}/disconnect",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.dataConnectorId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -400,7 +325,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

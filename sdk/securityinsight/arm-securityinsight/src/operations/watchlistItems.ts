@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { WatchlistItems } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -39,10 +40,10 @@ export class WatchlistItemsImpl implements WatchlistItems {
   }
 
   /**
-   * Gets all watchlist Items.
+   * Get all watchlist Items.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
+   * @param watchlistAlias The watchlist alias
    * @param options The options parameters.
    */
   public list(
@@ -64,12 +65,16 @@ export class WatchlistItemsImpl implements WatchlistItems {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           workspaceName,
           watchlistAlias,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,16 +84,23 @@ export class WatchlistItemsImpl implements WatchlistItems {
     resourceGroupName: string,
     workspaceName: string,
     watchlistAlias: string,
-    options?: WatchlistItemsListOptionalParams
+    options?: WatchlistItemsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<WatchlistItem[]> {
-    let result = await this._list(
-      resourceGroupName,
-      workspaceName,
-      watchlistAlias,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WatchlistItemsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        workspaceName,
+        watchlistAlias,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -98,7 +110,9 @@ export class WatchlistItemsImpl implements WatchlistItems {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -119,10 +133,10 @@ export class WatchlistItemsImpl implements WatchlistItems {
   }
 
   /**
-   * Gets all watchlist Items.
+   * Get all watchlist Items.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
+   * @param watchlistAlias The watchlist alias
    * @param options The options parameters.
    */
   private _list(
@@ -138,11 +152,11 @@ export class WatchlistItemsImpl implements WatchlistItems {
   }
 
   /**
-   * Gets a watchlist, without its watchlist items.
+   * Get a watchlist item.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
-   * @param watchlistItemId Watchlist Item Id (GUID)
+   * @param watchlistAlias The watchlist alias
+   * @param watchlistItemId The watchlist item id (GUID)
    * @param options The options parameters.
    */
   get(
@@ -168,8 +182,8 @@ export class WatchlistItemsImpl implements WatchlistItems {
    * Delete a watchlist item.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
-   * @param watchlistItemId Watchlist Item Id (GUID)
+   * @param watchlistAlias The watchlist alias
+   * @param watchlistItemId The watchlist item id (GUID)
    * @param options The options parameters.
    */
   delete(
@@ -192,11 +206,11 @@ export class WatchlistItemsImpl implements WatchlistItems {
   }
 
   /**
-   * Creates or updates a watchlist item.
+   * Create or update a watchlist item.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
-   * @param watchlistItemId Watchlist Item Id (GUID)
+   * @param watchlistAlias The watchlist alias
+   * @param watchlistItemId The watchlist item id (GUID)
    * @param watchlistItem The watchlist item
    * @param options The options parameters.
    */
@@ -225,7 +239,7 @@ export class WatchlistItemsImpl implements WatchlistItems {
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
+   * @param watchlistAlias The watchlist alias
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -355,7 +369,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
