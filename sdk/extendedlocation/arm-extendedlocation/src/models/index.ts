@@ -197,6 +197,20 @@ export interface PatchableCustomLocations {
   namespace?: string;
   /** Provisioning State for the Custom Location. */
   provisioningState?: string;
+  /** Project id for the GCP single account */
+  projectId?: string;
+  /** Project number for GCP single account */
+  projectNumber?: string;
+  /** List of folder id's that needs to be excluded */
+  excludedFolderIds?: string[];
+  /** List of project numbers that needs to be excluded */
+  excludedProjectNumbers?: string[];
+  /** Organization id for the GCP organization */
+  organizationId?: string;
+  /** Account id for the AWS account */
+  accountId?: string;
+  /** List of AWS accounts which needs to be excluded */
+  excludedAccounts?: string[];
 }
 
 /** List of EnabledResourceTypes definition. */
@@ -326,6 +340,20 @@ export interface CustomLocation extends TrackedResource {
   namespace?: string;
   /** Provisioning State for the Custom Location. */
   provisioningState?: string;
+  /** Project id for the GCP single account */
+  projectId?: string;
+  /** Project number for GCP single account */
+  projectNumber?: string;
+  /** List of folder id's that needs to be excluded */
+  excludedFolderIds?: string[];
+  /** List of project numbers that needs to be excluded */
+  excludedProjectNumbers?: string[];
+  /** Organization id for the GCP organization */
+  organizationId?: string;
+  /** Account id for the AWS account */
+  accountId?: string;
+  /** List of AWS accounts which needs to be excluded */
+  excludedAccounts?: string[];
 }
 
 /** Resource Sync Rules definition. */
@@ -384,7 +412,11 @@ export type ResourceIdentityType = string;
 /** Known values of {@link HostType} that the service accepts. */
 export enum KnownHostType {
   /** Kubernetes */
-  Kubernetes = "Kubernetes"
+  Kubernetes = "Kubernetes",
+  /** AWS */
+  AWS = "AWS",
+  /** GCP */
+  GCP = "GCP"
 }
 
 /**
@@ -392,7 +424,9 @@ export enum KnownHostType {
  * {@link KnownHostType} can be used interchangeably with HostType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Kubernetes**
+ * **Kubernetes** \
+ * **AWS** \
+ * **GCP**
  */
 export type HostType = string;
 
@@ -490,6 +524,20 @@ export interface CustomLocationsUpdateOptionalParams
   namespace?: string;
   /** Provisioning State for the Custom Location. */
   provisioningState?: string;
+  /** Project id for the GCP single account */
+  projectId?: string;
+  /** Project number for GCP single account */
+  projectNumber?: string;
+  /** List of folder id's that needs to be excluded */
+  excludedFolderIds?: string[];
+  /** List of project numbers that needs to be excluded */
+  excludedProjectNumbers?: string[];
+  /** Organization id for the GCP organization */
+  organizationId?: string;
+  /** Account id for the AWS account */
+  accountId?: string;
+  /** List of AWS accounts which needs to be excluded */
+  excludedAccounts?: string[];
 }
 
 /** Contains response data for the update operation. */

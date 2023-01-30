@@ -50,7 +50,7 @@ export class CustomLocationsManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-extendedlocation/1.0.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-extendedlocation/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -103,7 +103,7 @@ export class CustomLocationsManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-08-31-preview";
+    this.apiVersion = options.apiVersion || "2023-04-01-preview";
     this.customLocations = new CustomLocationsImpl(this);
     this.resourceSyncRules = new ResourceSyncRulesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);

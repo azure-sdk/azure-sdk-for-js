@@ -838,7 +838,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
       hostResourceId: ["options", "hostResourceId"],
       hostType: ["options", "hostType"],
       namespace: ["options", "namespace"],
-      provisioningState: ["options", "provisioningState"]
+      provisioningState: ["options", "provisioningState"],
+      projectId: ["options", "projectId"],
+      projectNumber: ["options", "projectNumber"],
+      excludedFolderIds: ["options", "excludedFolderIds"],
+      excludedProjectNumbers: ["options", "excludedProjectNumbers"],
+      organizationId: ["options", "organizationId"],
+      accountId: ["options", "accountId"],
+      excludedAccounts: ["options", "excludedAccounts"]
     },
     mapper: { ...Mappers.PatchableCustomLocations, required: true }
   },

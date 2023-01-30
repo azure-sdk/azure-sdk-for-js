@@ -46,7 +46,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-08-31-preview",
+    defaultValue: "2023-04-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -161,6 +161,41 @@ export const namespace: OperationParameter = {
 
 export const provisioningState: OperationParameter = {
   parameterPath: ["options", "provisioningState"],
+  mapper: PatchableCustomLocationsMapper
+};
+
+export const projectId: OperationParameter = {
+  parameterPath: ["options", "projectId"],
+  mapper: PatchableCustomLocationsMapper
+};
+
+export const projectNumber: OperationParameter = {
+  parameterPath: ["options", "projectNumber"],
+  mapper: PatchableCustomLocationsMapper
+};
+
+export const excludedFolderIds: OperationParameter = {
+  parameterPath: ["options", "excludedFolderIds"],
+  mapper: PatchableCustomLocationsMapper
+};
+
+export const excludedProjectNumbers: OperationParameter = {
+  parameterPath: ["options", "excludedProjectNumbers"],
+  mapper: PatchableCustomLocationsMapper
+};
+
+export const organizationId: OperationParameter = {
+  parameterPath: ["options", "organizationId"],
+  mapper: PatchableCustomLocationsMapper
+};
+
+export const accountId: OperationParameter = {
+  parameterPath: ["options", "accountId"],
+  mapper: PatchableCustomLocationsMapper
+};
+
+export const excludedAccounts: OperationParameter = {
+  parameterPath: ["options", "excludedAccounts"],
   mapper: PatchableCustomLocationsMapper
 };
 

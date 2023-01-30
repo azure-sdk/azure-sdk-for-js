@@ -410,6 +410,67 @@ export const PatchableCustomLocations: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      projectId: {
+        serializedName: "properties.gcpCloudProfile.singleProject.projectId",
+        type: {
+          name: "String"
+        }
+      },
+      projectNumber: {
+        serializedName:
+          "properties.gcpCloudProfile.singleProject.projectNumber",
+        type: {
+          name: "String"
+        }
+      },
+      excludedFolderIds: {
+        serializedName:
+          "properties.gcpCloudProfile.organizationProject.excludedFolderIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      excludedProjectNumbers: {
+        serializedName:
+          "properties.gcpCloudProfile.organizationProject.excludedProjectNumbers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      organizationId: {
+        serializedName:
+          "properties.gcpCloudProfile.organizationProject.organizationId",
+        type: {
+          name: "String"
+        }
+      },
+      accountId: {
+        serializedName: "properties.awsCloudProfile.accountId",
+        type: {
+          name: "String"
+        }
+      },
+      excludedAccounts: {
+        serializedName: "properties.awsCloudProfile.excludedAccounts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -741,6 +802,67 @@ export const CustomLocation: coreClient.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "String"
+        }
+      },
+      projectId: {
+        serializedName: "properties.gcpCloudProfile.singleProject.projectId",
+        type: {
+          name: "String"
+        }
+      },
+      projectNumber: {
+        serializedName:
+          "properties.gcpCloudProfile.singleProject.projectNumber",
+        type: {
+          name: "String"
+        }
+      },
+      excludedFolderIds: {
+        serializedName:
+          "properties.gcpCloudProfile.organizationProject.excludedFolderIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      excludedProjectNumbers: {
+        serializedName:
+          "properties.gcpCloudProfile.organizationProject.excludedProjectNumbers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      organizationId: {
+        serializedName:
+          "properties.gcpCloudProfile.organizationProject.organizationId",
+        type: {
+          name: "String"
+        }
+      },
+      accountId: {
+        serializedName: "properties.awsCloudProfile.accountId",
+        type: {
+          name: "String"
+        }
+      },
+      excludedAccounts: {
+        serializedName: "properties.awsCloudProfile.excludedAccounts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
