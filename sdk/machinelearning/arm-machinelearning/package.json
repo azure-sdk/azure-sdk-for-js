@@ -2,8 +2,8 @@
   "name": "@azure/arm-machinelearning",
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
-  "description": "A generated SDK for AzureMachineLearningWorkspaces.",
-  "version": "2.1.2",
+  "description": "A generated SDK for AzureMachineLearningServices.",
+  "version": "1.0.0-beta.1",
   "engines": {
     "node": ">=14.0.0"
   },
@@ -105,18 +105,10 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/azureMachineLearningWorkspaces.ts",
+        "path": "src/azureMachineLearningServices.ts",
         "prefix": "packageDetails"
       }
     ]
   },
-  "autoPublish": true,
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-machinelearning?view=azure-node-preview"
-  }
+  "autoPublish": true
 }
