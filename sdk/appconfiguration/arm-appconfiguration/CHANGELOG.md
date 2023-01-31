@@ -1,15 +1,16 @@
 # Release History
+    
+## 4.0.0 (2023-01-31)
+    
+**Breaking Changes**
 
-## 3.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ConfigurationStoresListByResourceGroupNextOptionalParams no longer has parameter skipToken
+  - Interface ConfigurationStoresListKeysNextOptionalParams no longer has parameter skipToken
+  - Interface ConfigurationStoresListNextOptionalParams no longer has parameter skipToken
+  - Interface KeyValuesListByConfigurationStoreNextOptionalParams no longer has parameter skipToken
+  - Interface OperationsListNextOptionalParams no longer has parameter skipToken
+    
+    
 ## 3.1.0 (2022-11-15)
     
 **Features**
