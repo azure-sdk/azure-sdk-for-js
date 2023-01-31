@@ -1,15 +1,25 @@
 # Release History
+    
+## 9.0.0 (2023-01-31)
+    
+**Breaking Changes**
 
-## 8.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ApplicationListNextOptionalParams no longer has parameter maxresults
+  - Interface ApplicationPackageListNextOptionalParams no longer has parameter maxresults
+  - Interface CertificateListByBatchAccountNextOptionalParams no longer has parameter filter
+  - Interface CertificateListByBatchAccountNextOptionalParams no longer has parameter maxresults
+  - Interface CertificateListByBatchAccountNextOptionalParams no longer has parameter select
+  - Interface LocationListSupportedCloudServiceSkusNextOptionalParams no longer has parameter filter
+  - Interface LocationListSupportedCloudServiceSkusNextOptionalParams no longer has parameter maxresults
+  - Interface LocationListSupportedVirtualMachineSkusNextOptionalParams no longer has parameter filter
+  - Interface LocationListSupportedVirtualMachineSkusNextOptionalParams no longer has parameter maxresults
+  - Interface PoolListByBatchAccountNextOptionalParams no longer has parameter filter
+  - Interface PoolListByBatchAccountNextOptionalParams no longer has parameter maxresults
+  - Interface PoolListByBatchAccountNextOptionalParams no longer has parameter select
+  - Interface PrivateEndpointConnectionListByBatchAccountNextOptionalParams no longer has parameter maxresults
+  - Interface PrivateLinkResourceListByBatchAccountNextOptionalParams no longer has parameter maxresults
+    
+    
 ## 8.0.0 (2022-11-10)
     
 **Features**

@@ -1763,10 +1763,7 @@ export type ApplicationPackageListResponse = ListApplicationPackagesResult;
 
 /** Optional parameters. */
 export interface ApplicationPackageListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ApplicationPackageListNextResponse = ListApplicationPackagesResult;
@@ -1811,10 +1808,7 @@ export type ApplicationListResponse = ListApplicationsResult;
 
 /** Optional parameters. */
 export interface ApplicationListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ApplicationListNextResponse = ListApplicationsResult;
@@ -1859,24 +1853,14 @@ export type LocationCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
 
 /** Optional parameters. */
 export interface LocationListSupportedVirtualMachineSkusNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-  /** OData filter expression. Valid properties for filtering are "familyName". */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSupportedVirtualMachineSkusNext operation. */
 export type LocationListSupportedVirtualMachineSkusNextResponse = SupportedSkusResult;
 
 /** Optional parameters. */
 export interface LocationListSupportedCloudServiceSkusNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-  /** OData filter expression. Valid properties for filtering are "familyName". */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSupportedCloudServiceSkusNext operation. */
 export type LocationListSupportedCloudServiceSkusNextResponse = SupportedSkusResult;
@@ -1957,14 +1941,7 @@ export type CertificateCancelDeletionResponse = CertificateCancelDeletionHeaders
 
 /** Optional parameters. */
 export interface CertificateListByBatchAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-  /** OData filter expression. Valid properties for filtering are "properties/provisioningState", "properties/provisioningStateTransitionTime", "name". */
-  filter?: string;
-  /** Comma separated list of properties that should be returned. e.g. "properties/provisioningState". Only top level properties under properties/ are valid for selection. */
-  select?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBatchAccountNext operation. */
 export type CertificateListByBatchAccountNextResponse = ListCertificatesResult;
@@ -1988,10 +1965,7 @@ export type PrivateLinkResourceGetResponse = PrivateLinkResource;
 
 /** Optional parameters. */
 export interface PrivateLinkResourceListByBatchAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBatchAccountNext operation. */
 export type PrivateLinkResourceListByBatchAccountNextResponse = ListPrivateLinkResourcesResult;
@@ -2041,10 +2015,7 @@ export type PrivateEndpointConnectionDeleteResponse = PrivateEndpointConnectionD
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionListByBatchAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBatchAccountNext operation. */
 export type PrivateEndpointConnectionListByBatchAccountNextResponse = ListPrivateEndpointConnectionsResult;
@@ -2127,28 +2098,7 @@ export type PoolStopResizeResponse = PoolStopResizeHeaders & Pool;
 
 /** Optional parameters. */
 export interface PoolListByBatchAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-  /**
-   * OData filter expression. Valid properties for filtering are:
-   *
-   *  name
-   *  properties/allocationState
-   *  properties/allocationStateTransitionTime
-   *  properties/creationTime
-   *  properties/provisioningState
-   *  properties/provisioningStateTransitionTime
-   *  properties/lastModified
-   *  properties/vmSize
-   *  properties/interNodeCommunication
-   *  properties/scaleSettings/autoScale
-   *  properties/scaleSettings/fixedScale
-   */
-  filter?: string;
-  /** Comma separated list of properties that should be returned. e.g. "properties/provisioningState". Only top level properties under properties/ are valid for selection. */
-  select?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBatchAccountNext operation. */
 export type PoolListByBatchAccountNextResponse = ListPoolsResult;
