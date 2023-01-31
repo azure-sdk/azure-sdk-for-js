@@ -28,7 +28,14 @@ import {
   Operations,
   Suppressions
 } from "./operationsInterfaces";
-import { AdvisorManagementClientOptionalParams } from "./models";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
+import {
+  AdvisorManagementClientOptionalParams,
+  PredictionRequest,
+  PredictOptionalParams,
+  PredictResponse
+} from "./models";
 
 export class AdvisorManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -62,7 +69,7 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-advisor/3.1.1`;
+    const packageDetails = `azsdk-js-arm-advisor/4.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -115,7 +122,7 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-01-01";
+    this.apiVersion = options.apiVersion || "2022-09-01";
     this.recommendationMetadata = new RecommendationMetadataImpl(this);
     this.configurations = new ConfigurationsImpl(this);
     this.recommendations = new RecommendationsImpl(this);
@@ -152,9 +159,45 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  /**
+   * Predicts a recommendation.
+   * @param predictionRequest Parameters for predict recommendation.
+   * @param options The options parameters.
+   */
+  predict(
+    predictionRequest: PredictionRequest,
+    options?: PredictOptionalParams
+  ): Promise<PredictResponse> {
+    return this.sendOperationRequest(
+      { predictionRequest, options },
+      predictOperationSpec
+    );
+  }
+
   recommendationMetadata: RecommendationMetadata;
   configurations: Configurations;
   recommendations: Recommendations;
   operations: Operations;
   suppressions: Suppressions;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const predictOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/predict",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PredictionResponse
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse
+    }
+  },
+  requestBody: Parameters.predictionRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
