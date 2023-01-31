@@ -3248,8 +3248,8 @@ export const DdosProtectionPlan: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      virtualNetworks: {
-        serializedName: "properties.virtualNetworks",
+      publicIPAddresses: {
+        serializedName: "properties.publicIPAddresses",
         readOnly: true,
         type: {
           name: "Sequence",
@@ -3261,8 +3261,8 @@ export const DdosProtectionPlan: coreClient.CompositeMapper = {
           }
         }
       },
-      publicIpAddresses: {
-        serializedName: "properties.publicIpAddresses",
+      virtualNetworks: {
+        serializedName: "properties.virtualNetworks",
         readOnly: true,
         type: {
           name: "Sequence",
@@ -25548,6 +25548,13 @@ export const ExpressRouteCircuit: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      authorizationStatus: {
+        serializedName: "properties.authorizationStatus",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -27030,6 +27037,19 @@ export const VirtualNetwork: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "SubResource"
+            }
+          }
+        }
+      },
+      flowLogs: {
+        serializedName: "properties.flowLogs",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FlowLog"
             }
           }
         }
