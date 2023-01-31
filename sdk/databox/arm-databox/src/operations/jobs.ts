@@ -915,7 +915,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApiError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -935,7 +934,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApiError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
