@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { StatisticsOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -54,11 +54,15 @@ export class StatisticsOperationsImpl implements StatisticsOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByAutomationAccountPagingPage(
           resourceGroupName,
           automationAccountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -67,9 +71,11 @@ export class StatisticsOperationsImpl implements StatisticsOperations {
   private async *listByAutomationAccountPagingPage(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: StatisticsListByAutomationAccountOptionalParams
+    options?: StatisticsListByAutomationAccountOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Statistics[]> {
-    let result = await this._listByAutomationAccount(
+    let result: StatisticsListByAutomationAccountResponse;
+    result = await this._listByAutomationAccount(
       resourceGroupName,
       automationAccountName,
       options
@@ -123,7 +129,7 @@ const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1],
+  queryParameters: [Parameters.filter, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

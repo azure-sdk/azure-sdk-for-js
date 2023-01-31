@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { HybridRunbookWorkerGroupOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,6 +17,7 @@ import {
   HybridRunbookWorkerGroup,
   HybridRunbookWorkerGroupListByAutomationAccountNextOptionalParams,
   HybridRunbookWorkerGroupListByAutomationAccountOptionalParams,
+  HybridRunbookWorkerGroupListByAutomationAccountResponse,
   HybridRunbookWorkerGroupDeleteOptionalParams,
   HybridRunbookWorkerGroupGetOptionalParams,
   HybridRunbookWorkerGroupGetResponse,
@@ -24,7 +26,6 @@ import {
   HybridRunbookWorkerGroupCreateResponse,
   HybridRunbookWorkerGroupUpdateOptionalParams,
   HybridRunbookWorkerGroupUpdateResponse,
-  HybridRunbookWorkerGroupListByAutomationAccountResponse,
   HybridRunbookWorkerGroupListByAutomationAccountNextResponse
 } from "../models";
 
@@ -65,11 +66,15 @@ export class HybridRunbookWorkerGroupOperationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByAutomationAccountPagingPage(
           resourceGroupName,
           automationAccountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -78,15 +83,22 @@ export class HybridRunbookWorkerGroupOperationsImpl
   private async *listByAutomationAccountPagingPage(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: HybridRunbookWorkerGroupListByAutomationAccountOptionalParams
+    options?: HybridRunbookWorkerGroupListByAutomationAccountOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<HybridRunbookWorkerGroup[]> {
-    let result = await this._listByAutomationAccount(
-      resourceGroupName,
-      automationAccountName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: HybridRunbookWorkerGroupListByAutomationAccountResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByAutomationAccount(
+        resourceGroupName,
+        automationAccountName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByAutomationAccountNext(
         resourceGroupName,
@@ -95,7 +107,9 @@ export class HybridRunbookWorkerGroupOperationsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -266,7 +280,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -289,7 +303,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -308,12 +322,15 @@ const createOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.HybridRunbookWorkerGroup
     },
+    201: {
+      bodyMapper: Mappers.HybridRunbookWorkerGroup
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.hybridRunbookWorkerGroupCreationParameters,
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -338,7 +355,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.hybridRunbookWorkerGroupUpdationParameters,
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -362,7 +379,7 @@ const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion6],
+  queryParameters: [Parameters.filter, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -383,7 +400,6 @@ const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
