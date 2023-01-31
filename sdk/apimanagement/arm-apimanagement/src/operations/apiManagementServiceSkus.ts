@@ -36,7 +36,7 @@ export class ApiManagementServiceSkusImpl implements ApiManagementServiceSkus {
 
   /**
    * Gets all available SKU for a given API Management service
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -120,7 +120,7 @@ export class ApiManagementServiceSkusImpl implements ApiManagementServiceSkus {
 
   /**
    * Gets all available SKU for a given API Management service
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -137,7 +137,7 @@ export class ApiManagementServiceSkusImpl implements ApiManagementServiceSkus {
 
   /**
    * ListAvailableServiceSkusNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListAvailableServiceSkus
    *                 method.
@@ -191,7 +191,6 @@ const listAvailableServiceSkusNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

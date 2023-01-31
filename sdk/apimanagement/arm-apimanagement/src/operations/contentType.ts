@@ -42,7 +42,7 @@ export class ContentTypeImpl implements ContentType {
   /**
    * Lists the developer portal's content types. Content types describe content items' properties,
    * validation rules, and constraints.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -127,7 +127,7 @@ export class ContentTypeImpl implements ContentType {
   /**
    * Lists the developer portal's content types. Content types describe content items' properties,
    * validation rules, and constraints.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -145,7 +145,7 @@ export class ContentTypeImpl implements ContentType {
   /**
    * Gets the details of the developer portal's content type. Content types describe content items'
    * properties, validation rules, and constraints.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
    * @param options The options parameters.
@@ -166,7 +166,7 @@ export class ContentTypeImpl implements ContentType {
    * Creates or updates the developer portal's content type. Content types describe content items'
    * properties, validation rules, and constraints. Custom content types' identifiers need to start with
    * the `c-` prefix. Built-in content types can't be modified.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
    * @param options The options parameters.
@@ -187,7 +187,7 @@ export class ContentTypeImpl implements ContentType {
    * Removes the specified developer portal's content type. Content types describe content items'
    * properties, validation rules, and constraints. Built-in content types (with identifiers starting
    * with the `c-` prefix) can't be removed.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -209,7 +209,7 @@ export class ContentTypeImpl implements ContentType {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
@@ -292,6 +292,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
+  requestBody: Parameters.parameters33,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -300,7 +301,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.contentTypeId
   ],
-  headerParameters: [Parameters.accept, Parameters.ifMatch],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch
+  ],
+  mediaType: "json",
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
@@ -336,7 +342,6 @@ const listByServiceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
