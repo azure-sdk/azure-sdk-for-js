@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { MetricAlerts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -14,9 +15,11 @@ import * as Parameters from "../models/parameters";
 import { MonitorClient } from "../monitorClient";
 import {
   MetricAlertResource,
+  MetricAlertsListBySubscriptionNextOptionalParams,
   MetricAlertsListBySubscriptionOptionalParams,
-  MetricAlertsListByResourceGroupOptionalParams,
   MetricAlertsListBySubscriptionResponse,
+  MetricAlertsListByResourceGroupNextOptionalParams,
+  MetricAlertsListByResourceGroupOptionalParams,
   MetricAlertsListByResourceGroupResponse,
   MetricAlertsGetOptionalParams,
   MetricAlertsGetResponse,
@@ -25,7 +28,9 @@ import {
   MetricAlertResourcePatch,
   MetricAlertsUpdateOptionalParams,
   MetricAlertsUpdateResponse,
-  MetricAlertsDeleteOptionalParams
+  MetricAlertsDeleteOptionalParams,
+  MetricAlertsListBySubscriptionNextResponse,
+  MetricAlertsListByResourceGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,17 +61,35 @@ export class MetricAlertsImpl implements MetricAlerts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: MetricAlertsListBySubscriptionOptionalParams
+    options?: MetricAlertsListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<MetricAlertResource[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
+    let result: MetricAlertsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBySubscriptionNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listBySubscriptionPagingAll(
@@ -94,18 +117,44 @@ export class MetricAlertsImpl implements MetricAlerts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: MetricAlertsListByResourceGroupOptionalParams
+    options?: MetricAlertsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<MetricAlertResource[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
+    let result: MetricAlertsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByResourceGroupNext(
+        resourceGroupName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listByResourceGroupPagingAll(
@@ -217,6 +266,38 @@ export class MetricAlertsImpl implements MetricAlerts {
     return this.client.sendOperationRequest(
       { resourceGroupName, ruleName, options },
       deleteOperationSpec
+    );
+  }
+
+  /**
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
+   * @param options The options parameters.
+   */
+  private _listBySubscriptionNext(
+    nextLink: string,
+    options?: MetricAlertsListBySubscriptionNextOptionalParams
+  ): Promise<MetricAlertsListBySubscriptionNextResponse> {
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listBySubscriptionNextOperationSpec
+    );
+  }
+
+  /**
+   * ListByResourceGroupNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroupNext(
+    resourceGroupName: string,
+    nextLink: string,
+    options?: MetricAlertsListByResourceGroupNextOptionalParams
+  ): Promise<MetricAlertsListByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, nextLink, options },
+      listByResourceGroupNextOperationSpec
     );
   }
 }
@@ -348,6 +429,45 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.ruleName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MetricAlertResourceCollection
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MetricAlertResourceCollection
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
