@@ -1,15 +1,28 @@
 # Release History
+    
+## 4.0.0 (2023-01-31)
+    
+**Features**
 
-## 3.1.1 (Unreleased)
+  - Added Interface PredictionRequest
+  - Added Interface PredictionResponse
+  - Added Interface PredictOptionalParams
+  - Added Type Alias Duration
+  - Added Type Alias PredictionType
+  - Added Type Alias PredictResponse
+  - Interface ConfigData has a new optional parameter duration
+  - Added Enum KnownDuration
+  - Added Enum KnownPredictionType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface RecommendationsListNextOptionalParams no longer has parameter filter
+  - Interface RecommendationsListNextOptionalParams no longer has parameter skipToken
+  - Interface RecommendationsListNextOptionalParams no longer has parameter top
+  - Interface SuppressionsListNextOptionalParams no longer has parameter skipToken
+  - Interface SuppressionsListNextOptionalParams no longer has parameter top
+    
+    
 ## 3.1.0 (2022-11-14)
     
 **Features**
