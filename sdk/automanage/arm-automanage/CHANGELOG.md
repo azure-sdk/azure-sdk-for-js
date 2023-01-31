@@ -1,15 +1,32 @@
 # Release History
+    
+## 2.0.0 (2023-01-31)
+    
+**Features**
 
-## 1.0.3 (Unreleased)
+  - Added Interface AssignmentReportProperties
+  - Added Interface ServicePrincipalProperties
+  - Interface BestPractice has a new optional parameter properties
+  - Interface Report has a new optional parameter properties
+  - Interface ServicePrincipal has a new optional parameter properties
+  - Added function getContinuationToken
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface BestPractice no longer has parameter configuration
+  - Interface Report no longer has parameter configurationProfile
+  - Interface Report no longer has parameter duration
+  - Interface Report no longer has parameter endTime
+  - Interface Report no longer has parameter error
+  - Interface Report no longer has parameter lastModifiedTime
+  - Interface Report no longer has parameter reportFormatVersion
+  - Interface Report no longer has parameter resources
+  - Interface Report no longer has parameter startTime
+  - Interface Report no longer has parameter status
+  - Interface Report no longer has parameter typePropertiesType
+  - Interface ServicePrincipal no longer has parameter authorizationSet
+  - Interface ServicePrincipal no longer has parameter servicePrincipalId
+    
 ## 1.0.2 (2022-10-08)
 
 **Bugs Fixed**

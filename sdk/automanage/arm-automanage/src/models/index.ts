@@ -25,13 +25,13 @@ export interface BestPractice {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
+  /** Properties of the best practice. */
+  properties?: ConfigurationProfileProperties;
   /**
    * Azure Resource Manager metadata containing createdBy and modifiedBy information.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-  /** configuration dictionary of the configuration profile. */
-  configuration?: Record<string, unknown>;
 }
 
 /** Automanage configuration profile properties. */
@@ -228,6 +228,54 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
+/** Data related to the report detail. */
+export interface AssignmentReportProperties {
+  /** Start time of the configuration profile assignment processing. */
+  startTime?: string;
+  /** End time of the configuration profile assignment processing. */
+  endTime?: string;
+  /**
+   * Last modified time of the configuration profile assignment processing.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedTime?: string;
+  /**
+   * Duration of the configuration profile assignment processing.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly duration?: string;
+  /**
+   * Type of the configuration profile assignment processing (Initial/Consistency).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The status of the configuration profile assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * The configurationProfile linked to the assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationProfile?: string;
+  /**
+   * List of resources processed by the configuration profile assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resources?: ReportResource[];
+  /**
+   * Error message, if any, returned by the configuration profile assignment processing.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ErrorDetail;
+  /**
+   * Version of the report format
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reportFormatVersion?: string;
+}
+
 /** Details about the resource processed by the configuration profile assignment */
 export interface ReportResource {
   /**
@@ -267,6 +315,20 @@ export interface ReportList {
 export interface ServicePrincipalListResult {
   /** The list of servicePrincipals. */
   value?: ServicePrincipal[];
+}
+
+/** The Service Principal properties for the subscription. */
+export interface ServicePrincipalProperties {
+  /**
+   * The Service Principal Id for the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly servicePrincipalId?: string;
+  /**
+   * Returns the contributor RBAC Role exist or not for the Service Principal Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly authorizationSet?: boolean;
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
@@ -315,74 +377,24 @@ export interface ConfigurationProfileAssignment extends ProxyResource {
 
 /** Definition of the report. */
 export interface Report extends ProxyResource {
+  /** The properties for the report. */
+  properties?: AssignmentReportProperties;
   /**
    * Azure Resource Manager metadata containing createdBy and modifiedBy information.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-  /** Start time of the configuration profile assignment processing. */
-  startTime?: string;
-  /** End time of the configuration profile assignment processing. */
-  endTime?: string;
-  /**
-   * Last modified time of the configuration profile assignment processing.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastModifiedTime?: string;
-  /**
-   * Duration of the configuration profile assignment processing.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly duration?: string;
-  /**
-   * Type of the configuration profile assignment processing (Initial/Consistency).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly typePropertiesType?: string;
-  /**
-   * The status of the configuration profile assignment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-  /**
-   * The configurationProfile linked to the assignment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly configurationProfile?: string;
-  /**
-   * List of resources processed by the configuration profile assignment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resources?: ReportResource[];
-  /**
-   * Error message, if any, returned by the configuration profile assignment processing.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly error?: ErrorDetail;
-  /**
-   * Version of the report format
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reportFormatVersion?: string;
 }
 
 /** The Service Principal Id for the subscription. */
 export interface ServicePrincipal extends ProxyResource {
+  /** The Service Principal properties for the subscription */
+  properties?: ServicePrincipalProperties;
   /**
    * Azure Resource Manager metadata containing createdBy and modifiedBy information.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-  /**
-   * The Service Principal Id for the subscription.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly servicePrincipalId?: string;
-  /**
-   * Returns the contributor RBAC Role exist or not for the Service Principal Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly authorizationSet?: boolean;
 }
 
 /** Known values of {@link CreatedByType} that the service accepts. */
