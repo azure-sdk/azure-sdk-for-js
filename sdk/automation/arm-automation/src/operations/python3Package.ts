@@ -8,35 +8,35 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { CredentialOperations } from "../operationsInterfaces";
+import { Python3Package } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AutomationClient } from "../automationClient";
 import {
-  Credential,
-  CredentialListByAutomationAccountNextOptionalParams,
-  CredentialListByAutomationAccountOptionalParams,
-  CredentialListByAutomationAccountResponse,
-  CredentialDeleteOptionalParams,
-  CredentialGetOptionalParams,
-  CredentialGetResponse,
-  CredentialCreateOrUpdateParameters,
-  CredentialCreateOrUpdateOptionalParams,
-  CredentialCreateOrUpdateResponse,
-  CredentialUpdateParameters,
-  CredentialUpdateOptionalParams,
-  CredentialUpdateResponse,
-  CredentialListByAutomationAccountNextResponse
+  Module,
+  Python3PackageListByAutomationAccountNextOptionalParams,
+  Python3PackageListByAutomationAccountOptionalParams,
+  Python3PackageListByAutomationAccountResponse,
+  Python3PackageDeleteOptionalParams,
+  Python3PackageGetOptionalParams,
+  Python3PackageGetResponse,
+  PythonPackageCreateParameters,
+  Python3PackageCreateOrUpdateOptionalParams,
+  Python3PackageCreateOrUpdateResponse,
+  PythonPackageUpdateParameters,
+  Python3PackageUpdateOptionalParams,
+  Python3PackageUpdateResponse,
+  Python3PackageListByAutomationAccountNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing CredentialOperations operations. */
-export class CredentialOperationsImpl implements CredentialOperations {
+/** Class containing Python3Package operations. */
+export class Python3PackageImpl implements Python3Package {
   private readonly client: AutomationClient;
 
   /**
-   * Initialize a new instance of the class CredentialOperations class.
+   * Initialize a new instance of the class Python3Package class.
    * @param client Reference to the service client
    */
   constructor(client: AutomationClient) {
@@ -44,7 +44,7 @@ export class CredentialOperationsImpl implements CredentialOperations {
   }
 
   /**
-   * Retrieve a list of credentials.
+   * Retrieve a list of python 3 packages.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
@@ -52,8 +52,8 @@ export class CredentialOperationsImpl implements CredentialOperations {
   public listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: CredentialListByAutomationAccountOptionalParams
-  ): PagedAsyncIterableIterator<Credential> {
+    options?: Python3PackageListByAutomationAccountOptionalParams
+  ): PagedAsyncIterableIterator<Module> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
       automationAccountName,
@@ -83,10 +83,10 @@ export class CredentialOperationsImpl implements CredentialOperations {
   private async *listByAutomationAccountPagingPage(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: CredentialListByAutomationAccountOptionalParams,
+    options?: Python3PackageListByAutomationAccountOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Credential[]> {
-    let result: CredentialListByAutomationAccountResponse;
+  ): AsyncIterableIterator<Module[]> {
+    let result: Python3PackageListByAutomationAccountResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByAutomationAccount(
@@ -116,8 +116,8 @@ export class CredentialOperationsImpl implements CredentialOperations {
   private async *listByAutomationAccountPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: CredentialListByAutomationAccountOptionalParams
-  ): AsyncIterableIterator<Credential> {
+    options?: Python3PackageListByAutomationAccountOptionalParams
+  ): AsyncIterableIterator<Module> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
       automationAccountName,
@@ -128,63 +128,63 @@ export class CredentialOperationsImpl implements CredentialOperations {
   }
 
   /**
-   * Delete the credential.
+   * Delete the python 3 package by name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param credentialName The name of credential.
+   * @param packageName The python package name.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     automationAccountName: string,
-    credentialName: string,
-    options?: CredentialDeleteOptionalParams
+    packageName: string,
+    options?: Python3PackageDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, credentialName, options },
+      { resourceGroupName, automationAccountName, packageName, options },
       deleteOperationSpec
     );
   }
 
   /**
-   * Retrieve the credential identified by credential name.
+   * Retrieve the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param credentialName The name of credential.
+   * @param packageName The python package name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     automationAccountName: string,
-    credentialName: string,
-    options?: CredentialGetOptionalParams
-  ): Promise<CredentialGetResponse> {
+    packageName: string,
+    options?: Python3PackageGetOptionalParams
+  ): Promise<Python3PackageGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, credentialName, options },
+      { resourceGroupName, automationAccountName, packageName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create a credential.
+   * Create or Update the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param credentialName The parameters supplied to the create or update credential operation.
-   * @param parameters The parameters supplied to the create or update credential operation.
+   * @param packageName The name of python package.
+   * @param parameters The create or update parameters for python package.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     automationAccountName: string,
-    credentialName: string,
-    parameters: CredentialCreateOrUpdateParameters,
-    options?: CredentialCreateOrUpdateOptionalParams
-  ): Promise<CredentialCreateOrUpdateResponse> {
+    packageName: string,
+    parameters: PythonPackageCreateParameters,
+    options?: Python3PackageCreateOrUpdateOptionalParams
+  ): Promise<Python3PackageCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
-        credentialName,
+        packageName,
         parameters,
         options
       },
@@ -193,25 +193,25 @@ export class CredentialOperationsImpl implements CredentialOperations {
   }
 
   /**
-   * Update a credential.
+   * Update the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param credentialName The parameters supplied to the Update credential operation.
-   * @param parameters The parameters supplied to the Update credential operation.
+   * @param packageName The name of python package.
+   * @param parameters The update parameters for python package.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     automationAccountName: string,
-    credentialName: string,
-    parameters: CredentialUpdateParameters,
-    options?: CredentialUpdateOptionalParams
-  ): Promise<CredentialUpdateResponse> {
+    packageName: string,
+    parameters: PythonPackageUpdateParameters,
+    options?: Python3PackageUpdateOptionalParams
+  ): Promise<Python3PackageUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
-        credentialName,
+        packageName,
         parameters,
         options
       },
@@ -220,7 +220,7 @@ export class CredentialOperationsImpl implements CredentialOperations {
   }
 
   /**
-   * Retrieve a list of credentials.
+   * Retrieve a list of python 3 packages.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
@@ -228,8 +228,8 @@ export class CredentialOperationsImpl implements CredentialOperations {
   private _listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: CredentialListByAutomationAccountOptionalParams
-  ): Promise<CredentialListByAutomationAccountResponse> {
+    options?: Python3PackageListByAutomationAccountOptionalParams
+  ): Promise<Python3PackageListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
       listByAutomationAccountOperationSpec
@@ -248,8 +248,8 @@ export class CredentialOperationsImpl implements CredentialOperations {
     resourceGroupName: string,
     automationAccountName: string,
     nextLink: string,
-    options?: CredentialListByAutomationAccountNextOptionalParams
-  ): Promise<CredentialListByAutomationAccountNextResponse> {
+    options?: Python3PackageListByAutomationAccountNextOptionalParams
+  ): Promise<Python3PackageListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nextLink, options },
       listByAutomationAccountNextOperationSpec
@@ -261,10 +261,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials/{credentialName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -275,18 +276,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.credentialName
+    Parameters.packageName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials/{credentialName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Credential
+      bodyMapper: Mappers.Module
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -298,34 +299,34 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.credentialName
+    Parameters.packageName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials/{credentialName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Credential
+      bodyMapper: Mappers.Module
     },
     201: {
-      bodyMapper: Mappers.Credential
+      bodyMapper: Mappers.Module
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters15,
+  requestBody: Parameters.parameters27,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.credentialName
+    Parameters.packageName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -333,24 +334,24 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials/{credentialName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Credential
+      bodyMapper: Mappers.Module
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters16,
+  requestBody: Parameters.parameters28,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.credentialName
+    Parameters.packageName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -358,11 +359,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CredentialListResult
+      bodyMapper: Mappers.ModuleListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion4],
@@ -380,7 +384,10 @@ const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CredentialListResult
+      bodyMapper: Mappers.ModuleListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
