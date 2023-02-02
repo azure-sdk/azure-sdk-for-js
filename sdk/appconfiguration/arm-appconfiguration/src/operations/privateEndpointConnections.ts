@@ -169,7 +169,8 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * Update the state of the specified private endpoint connection associated with the configuration
-   * store.
+   * store. This operation cannot be used to create a private endpoint connection. Private endpoint
+   * connections must be created with the Network resource provider.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param privateEndpointConnectionName Private endpoint connection name
@@ -248,7 +249,8 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * Update the state of the specified private endpoint connection associated with the configuration
-   * store.
+   * store. This operation cannot be used to create a private endpoint connection. Private endpoint
+   * connections must be created with the Network resource provider.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param privateEndpointConnectionName Private endpoint connection name
@@ -501,7 +503,6 @@ const listByConfigurationStoreNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
