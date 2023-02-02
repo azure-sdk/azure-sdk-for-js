@@ -3248,8 +3248,8 @@ export const DdosProtectionPlan: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      virtualNetworks: {
-        serializedName: "properties.virtualNetworks",
+      publicIPAddresses: {
+        serializedName: "properties.publicIPAddresses",
         readOnly: true,
         type: {
           name: "Sequence",
@@ -3261,8 +3261,8 @@ export const DdosProtectionPlan: coreClient.CompositeMapper = {
           }
         }
       },
-      publicIpAddresses: {
-        serializedName: "properties.publicIpAddresses",
+      virtualNetworks: {
+        serializedName: "properties.virtualNetworks",
         readOnly: true,
         type: {
           name: "Sequence",
@@ -8764,6 +8764,12 @@ export const ConnectivityParameters: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      analysisModes: {
+        serializedName: "analysisModes",
+        type: {
+          name: "String"
+        }
+      },
       protocolConfiguration: {
         serializedName: "protocolConfiguration",
         type: {
@@ -8801,6 +8807,18 @@ export const ConnectivitySource: coreClient.CompositeMapper = {
         serializedName: "port",
         type: {
           name: "Number"
+        }
+      },
+      address: {
+        serializedName: "address",
+        type: {
+          name: "String"
+        }
+      },
+      vmssIndex: {
+        serializedName: "vmssIndex",
+        type: {
+          name: "String"
         }
       }
     }
@@ -8971,6 +8989,39 @@ export const ConnectivityInformation: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number"
+        }
+      },
+      nextHopAnalysis: {
+        serializedName: "nextHopAnalysis",
+        type: {
+          name: "Composite",
+          className: "NextHopResult"
+        }
+      },
+      sourceSecurityRuleAnalysis: {
+        serializedName: "sourceSecurityRuleAnalysis",
+        type: {
+          name: "Composite",
+          className: "NetworkConfigurationDiagnosticResponse"
+        }
+      },
+      destinationSecurityRuleAnalysis: {
+        serializedName: "destinationSecurityRuleAnalysis",
+        type: {
+          name: "Composite",
+          className: "NetworkConfigurationDiagnosticResponse"
+        }
+      },
+      sourcePortStatus: {
+        serializedName: "sourcePortStatus",
+        type: {
+          name: "String"
+        }
+      },
+      destinationPortStatus: {
+        serializedName: "destinationPortStatus",
+        type: {
+          name: "String"
         }
       }
     }
@@ -9198,6 +9249,230 @@ export const ConnectivityIssue: coreClient.CompositeMapper = {
               value: { type: { name: "String" } }
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const NetworkConfigurationDiagnosticResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkConfigurationDiagnosticResponse",
+    modelProperties: {
+      results: {
+        serializedName: "results",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkConfigurationDiagnosticResult"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const NetworkConfigurationDiagnosticResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkConfigurationDiagnosticResult",
+    modelProperties: {
+      profile: {
+        serializedName: "profile",
+        type: {
+          name: "Composite",
+          className: "NetworkConfigurationDiagnosticProfile"
+        }
+      },
+      networkSecurityGroupResult: {
+        serializedName: "networkSecurityGroupResult",
+        type: {
+          name: "Composite",
+          className: "NetworkSecurityGroupResult"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkConfigurationDiagnosticProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkConfigurationDiagnosticProfile",
+    modelProperties: {
+      direction: {
+        serializedName: "direction",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      protocol: {
+        serializedName: "protocol",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        serializedName: "source",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      destination: {
+        serializedName: "destination",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      destinationPort: {
+        serializedName: "destinationPort",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkSecurityGroupResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkSecurityGroupResult",
+    modelProperties: {
+      securityRuleAccessResult: {
+        serializedName: "securityRuleAccessResult",
+        type: {
+          name: "String"
+        }
+      },
+      evaluatedNetworkSecurityGroups: {
+        serializedName: "evaluatedNetworkSecurityGroups",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EvaluatedNetworkSecurityGroup"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const EvaluatedNetworkSecurityGroup: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EvaluatedNetworkSecurityGroup",
+    modelProperties: {
+      networkSecurityGroupId: {
+        serializedName: "networkSecurityGroupId",
+        type: {
+          name: "String"
+        }
+      },
+      appliedTo: {
+        serializedName: "appliedTo",
+        type: {
+          name: "String"
+        }
+      },
+      matchedRule: {
+        serializedName: "matchedRule",
+        type: {
+          name: "Composite",
+          className: "MatchedRule"
+        }
+      },
+      rulesEvaluationResult: {
+        serializedName: "rulesEvaluationResult",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkSecurityRulesEvaluationResult"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MatchedRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MatchedRule",
+    modelProperties: {
+      ruleName: {
+        serializedName: "ruleName",
+        type: {
+          name: "String"
+        }
+      },
+      action: {
+        serializedName: "action",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkSecurityRulesEvaluationResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkSecurityRulesEvaluationResult",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      protocolMatched: {
+        serializedName: "protocolMatched",
+        type: {
+          name: "Boolean"
+        }
+      },
+      sourceMatched: {
+        serializedName: "sourceMatched",
+        type: {
+          name: "Boolean"
+        }
+      },
+      sourcePortMatched: {
+        serializedName: "sourcePortMatched",
+        type: {
+          name: "Boolean"
+        }
+      },
+      destinationMatched: {
+        serializedName: "destinationMatched",
+        type: {
+          name: "Boolean"
+        }
+      },
+      destinationPortMatched: {
+        serializedName: "destinationPortMatched",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -9569,230 +9844,6 @@ export const NetworkConfigurationDiagnosticParameters: coreClient.CompositeMappe
               className: "NetworkConfigurationDiagnosticProfile"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const NetworkConfigurationDiagnosticProfile: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "NetworkConfigurationDiagnosticProfile",
-    modelProperties: {
-      direction: {
-        serializedName: "direction",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      protocol: {
-        serializedName: "protocol",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      source: {
-        serializedName: "source",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      destination: {
-        serializedName: "destination",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      destinationPort: {
-        serializedName: "destinationPort",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const NetworkConfigurationDiagnosticResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "NetworkConfigurationDiagnosticResponse",
-    modelProperties: {
-      results: {
-        serializedName: "results",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "NetworkConfigurationDiagnosticResult"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const NetworkConfigurationDiagnosticResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "NetworkConfigurationDiagnosticResult",
-    modelProperties: {
-      profile: {
-        serializedName: "profile",
-        type: {
-          name: "Composite",
-          className: "NetworkConfigurationDiagnosticProfile"
-        }
-      },
-      networkSecurityGroupResult: {
-        serializedName: "networkSecurityGroupResult",
-        type: {
-          name: "Composite",
-          className: "NetworkSecurityGroupResult"
-        }
-      }
-    }
-  }
-};
-
-export const NetworkSecurityGroupResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "NetworkSecurityGroupResult",
-    modelProperties: {
-      securityRuleAccessResult: {
-        serializedName: "securityRuleAccessResult",
-        type: {
-          name: "String"
-        }
-      },
-      evaluatedNetworkSecurityGroups: {
-        serializedName: "evaluatedNetworkSecurityGroups",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "EvaluatedNetworkSecurityGroup"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const EvaluatedNetworkSecurityGroup: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EvaluatedNetworkSecurityGroup",
-    modelProperties: {
-      networkSecurityGroupId: {
-        serializedName: "networkSecurityGroupId",
-        type: {
-          name: "String"
-        }
-      },
-      appliedTo: {
-        serializedName: "appliedTo",
-        type: {
-          name: "String"
-        }
-      },
-      matchedRule: {
-        serializedName: "matchedRule",
-        type: {
-          name: "Composite",
-          className: "MatchedRule"
-        }
-      },
-      rulesEvaluationResult: {
-        serializedName: "rulesEvaluationResult",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "NetworkSecurityRulesEvaluationResult"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const MatchedRule: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MatchedRule",
-    modelProperties: {
-      ruleName: {
-        serializedName: "ruleName",
-        type: {
-          name: "String"
-        }
-      },
-      action: {
-        serializedName: "action",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const NetworkSecurityRulesEvaluationResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "NetworkSecurityRulesEvaluationResult",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      protocolMatched: {
-        serializedName: "protocolMatched",
-        type: {
-          name: "Boolean"
-        }
-      },
-      sourceMatched: {
-        serializedName: "sourceMatched",
-        type: {
-          name: "Boolean"
-        }
-      },
-      sourcePortMatched: {
-        serializedName: "sourcePortMatched",
-        type: {
-          name: "Boolean"
-        }
-      },
-      destinationMatched: {
-        serializedName: "destinationMatched",
-        type: {
-          name: "Boolean"
-        }
-      },
-      destinationPortMatched: {
-        serializedName: "destinationPortMatched",
-        type: {
-          name: "Boolean"
         }
       }
     }
@@ -25548,6 +25599,13 @@ export const ExpressRouteCircuit: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      authorizationStatus: {
+        serializedName: "properties.authorizationStatus",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -27030,6 +27088,19 @@ export const VirtualNetwork: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "SubResource"
+            }
+          }
+        }
+      },
+      flowLogs: {
+        serializedName: "properties.flowLogs",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FlowLog"
             }
           }
         }

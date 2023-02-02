@@ -179,8 +179,6 @@ export type AdminRuleCollectionsGetResponse = AdminRuleCollection;
 
 // @public
 export interface AdminRuleCollectionsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -241,8 +239,6 @@ export type AdminRulesGetResponse = BaseAdminRuleUnion;
 
 // @public
 export interface AdminRulesListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -256,6 +252,9 @@ export interface AdminRulesListOptionalParams extends coreClient.OperationOption
 
 // @public
 export type AdminRulesListResponse = AdminRuleListResult;
+
+// @public
+export type AnalysisModes = string;
 
 // @public
 export interface ApplicationGateway extends Resource {
@@ -2620,8 +2619,6 @@ export type ConnectivityConfigurationsGetResponse = ConnectivityConfiguration;
 
 // @public
 export interface ConnectivityConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -2668,11 +2665,16 @@ export interface ConnectivityHop {
 export interface ConnectivityInformation {
     readonly avgLatencyInMs?: number;
     readonly connectionStatus?: ConnectionStatus;
+    destinationPortStatus?: DestinationPortStatus;
+    destinationSecurityRuleAnalysis?: NetworkConfigurationDiagnosticResponse;
     readonly hops?: ConnectivityHop[];
     readonly maxLatencyInMs?: number;
     readonly minLatencyInMs?: number;
+    nextHopAnalysis?: NextHopResult;
     readonly probesFailed?: number;
     readonly probesSent?: number;
+    sourcePortStatus?: SourcePortStatus;
+    sourceSecurityRuleAnalysis?: NetworkConfigurationDiagnosticResponse;
 }
 
 // @public
@@ -2687,6 +2689,7 @@ export interface ConnectivityIssue {
 
 // @public
 export interface ConnectivityParameters {
+    analysisModes?: AnalysisModes;
     destination: ConnectivityDestination;
     preferredIPVersion?: IPVersion;
     protocol?: Protocol;
@@ -2696,8 +2699,10 @@ export interface ConnectivityParameters {
 
 // @public
 export interface ConnectivitySource {
+    address?: string;
     port?: number;
     resourceId: string;
+    vmssIndex?: string;
 }
 
 // @public
@@ -2917,7 +2922,7 @@ export interface DdosProtectionPlan {
     location?: string;
     readonly name?: string;
     readonly provisioningState?: ProvisioningState;
-    readonly publicIpAddresses?: SubResource[];
+    readonly publicIPAddresses?: SubResource[];
     readonly resourceGuid?: string;
     tags?: {
         [propertyName: string]: string;
@@ -3091,6 +3096,9 @@ export type DeploymentStatus = string;
 
 // @public
 export type DestinationPortBehavior = string;
+
+// @public
+export type DestinationPortStatus = string;
 
 // @public
 export interface DeviceProperties {
@@ -3445,6 +3453,7 @@ export interface ExpressRouteCircuit extends Resource {
     allowClassicOperations?: boolean;
     authorizationKey?: string;
     authorizations?: ExpressRouteCircuitAuthorization[];
+    readonly authorizationStatus?: string;
     bandwidthInGbps?: number;
     circuitProvisioningState?: string;
     readonly etag?: string;
@@ -5883,6 +5892,14 @@ export enum KnownAdminRuleKind {
 }
 
 // @public
+export enum KnownAnalysisModes {
+    Default = "Default",
+    NCD = "NCD",
+    NextHop = "NextHop",
+    PortScan = "PortScan"
+}
+
+// @public
 export enum KnownApplicationGatewayBackendHealthServerHealth {
     Down = "Down",
     Draining = "Draining",
@@ -6282,6 +6299,15 @@ export enum KnownDeploymentStatus {
 export enum KnownDestinationPortBehavior {
     ListenIfAvailable = "ListenIfAvailable",
     None = "None"
+}
+
+// @public
+export enum KnownDestinationPortStatus {
+    NoConnection = "NoConnection",
+    Reachable = "Reachable",
+    Timeout = "Timeout",
+    Unknown = "Unknown",
+    Unstable = "Unstable"
 }
 
 // @public
@@ -7062,6 +7088,15 @@ export enum KnownServiceProviderProvisioningState {
 export enum KnownSeverity {
     Error = "Error",
     Warning = "Warning"
+}
+
+// @public
+export enum KnownSourcePortStatus {
+    NoConnection = "NoConnection",
+    Reachable = "Reachable",
+    Timeout = "Timeout",
+    Unknown = "Unknown",
+    Unstable = "Unstable"
 }
 
 // @public
@@ -8035,8 +8070,6 @@ export type ManagementGroupNetworkManagerConnectionsGetResponse = NetworkManager
 
 // @public
 export interface ManagementGroupNetworkManagerConnectionsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -8336,8 +8369,6 @@ export type NetworkGroupsGetResponse = NetworkGroup;
 
 // @public
 export interface NetworkGroupsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -8656,7 +8687,6 @@ export type NetworkInterfacesListResponse = NetworkInterfaceListResult;
 
 // @public
 export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -9215,8 +9245,6 @@ export type NetworkManagersGetResponse = NetworkManager;
 
 // @public
 export interface NetworkManagersListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -9233,8 +9261,6 @@ export type NetworkManagersListBySubscriptionResponse = NetworkManagerListResult
 
 // @public
 export interface NetworkManagersListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -11758,8 +11784,6 @@ export type ScopeConnectionsGetResponse = ScopeConnection;
 
 // @public
 export interface ScopeConnectionsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -11828,8 +11852,6 @@ export type SecurityAdminConfigurationsGetResponse = SecurityAdminConfiguration;
 
 // @public
 export interface SecurityAdminConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -12252,8 +12274,6 @@ export interface ServiceTagInformation {
 
 // @public
 export interface ServiceTagInformationListNextOptionalParams extends coreClient.OperationOptions {
-    noAddressPrefixes?: boolean;
-    tagName?: string;
 }
 
 // @public
@@ -12373,6 +12393,9 @@ export interface Sku {
 export type SlotType = "Production" | "Staging";
 
 // @public
+export type SourcePortStatus = string;
+
+// @public
 export interface StaticMember extends ChildResource {
     readonly provisioningState?: ProvisioningState;
     readonly region?: string;
@@ -12414,8 +12437,6 @@ export type StaticMembersGetResponse = StaticMember;
 
 // @public
 export interface StaticMembersListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -12577,8 +12598,6 @@ export type SubscriptionNetworkManagerConnectionsGetResponse = NetworkManagerCon
 
 // @public
 export interface SubscriptionNetworkManagerConnectionsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -13277,6 +13296,7 @@ export interface VirtualNetwork extends Resource {
     encryption?: VirtualNetworkEncryption;
     readonly etag?: string;
     extendedLocation?: ExtendedLocation;
+    readonly flowLogs?: FlowLog[];
     flowTimeoutInMinutes?: number;
     ipAllocations?: SubResource[];
     readonly provisioningState?: ProvisioningState;
@@ -14081,8 +14101,6 @@ export type VirtualNetworksListAllResponse = VirtualNetworkListResult;
 
 // @public
 export interface VirtualNetworksListDdosProtectionStatusNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -14836,6 +14854,7 @@ export type VpnGatewaysListResponse = ListVpnGatewaysResult;
 
 // @public
 export interface VpnGatewaysResetOptionalParams extends coreClient.OperationOptions {
+    ipConfigurationId?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
