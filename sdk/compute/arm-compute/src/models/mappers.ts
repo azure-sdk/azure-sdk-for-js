@@ -3461,6 +3461,30 @@ export const VirtualMachineScaleSetVMInstanceView: coreClient.CompositeMapper = 
         type: {
           name: "String"
         }
+      },
+      computerName: {
+        serializedName: "computerName",
+        type: {
+          name: "String"
+        }
+      },
+      osName: {
+        serializedName: "osName",
+        type: {
+          name: "String"
+        }
+      },
+      osVersion: {
+        serializedName: "osVersion",
+        type: {
+          name: "String"
+        }
+      },
+      hyperVGeneration: {
+        serializedName: "hyperVGeneration",
+        type: {
+          name: "String"
+        }
       }
     }
   }
