@@ -1,16 +1,6 @@
 # Release History
-
-## 16.0.0-beta.6 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 16.0.0-beta.5 (2023-01-03)
+    
+## 15.3.0-beta.1 (2023-02-02)
     
 **Features**
 
@@ -68,8 +58,10 @@
   - Added Interface AzureBlobDataTransferDataSourceSink
   - Added Interface BackupResource
   - Added Interface BackupResourceProperties
+  - Added Interface BackupSchedule
   - Added Interface CassandraClustersGetBackupOptionalParams
   - Added Interface CassandraClustersListBackupsOptionalParams
+  - Added Interface CassandraError
   - Added Interface CassandraResourcesCreateUpdateCassandraViewOptionalParams
   - Added Interface CassandraResourcesDeleteCassandraViewOptionalParams
   - Added Interface CassandraResourcesGetCassandraViewOptionalParams
@@ -93,6 +85,7 @@
   - Added Interface ClientEncryptionPolicy
   - Added Interface ContinuousModeProperties
   - Added Interface CosmosCassandraDataTransferDataSourceSink
+  - Added Interface CosmosMongoDataTransferDataSourceSink
   - Added Interface CosmosSqlDataTransferDataSourceSink
   - Added Interface CreateJobRequest
   - Added Interface DataTransferDataSourceSink
@@ -176,6 +169,7 @@
   - Added Type Alias CassandraResourcesMigrateCassandraViewToAutoscaleResponse
   - Added Type Alias CassandraResourcesMigrateCassandraViewToManualThroughputResponse
   - Added Type Alias CassandraResourcesUpdateCassandraViewThroughputResponse
+  - Added Type Alias ClusterType
   - Added Type Alias ContinuousTier
   - Added Type Alias DataTransferComponent
   - Added Type Alias DataTransferDataSourceSinkUnion
@@ -212,6 +206,12 @@
   - Added Type Alias TableResourcesRetrieveContinuousBackupInformationResponse
   - Added Type Alias ThroughputPolicyType
   - Interface ARMResourceProperties has a new optional parameter identity
+  - Interface CassandraClusterPublicStatus has a new optional parameter errors
+  - Interface CassandraClustersDeallocateOptionalParams has a new optional parameter xMsForceDeallocate
+  - Interface ClusterResourceProperties has a new optional parameter backupSchedules
+  - Interface ClusterResourceProperties has a new optional parameter clusterType
+  - Interface ClusterResourceProperties has a new optional parameter extensions
+  - Interface ClusterResourceProperties has a new optional parameter provisionError
   - Interface ContinuousModeBackupPolicy has a new optional parameter continuousModeProperties
   - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter diagnosticLogSettings
   - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enableMaterializedViews
@@ -220,6 +220,8 @@
   - Interface DatabaseAccountUpdateParameters has a new optional parameter diagnosticLogSettings
   - Interface DatabaseAccountUpdateParameters has a new optional parameter enableMaterializedViews
   - Interface DataCenterResourceProperties has a new optional parameter authenticationMethodLdapProperties
+  - Interface DataCenterResourceProperties has a new optional parameter deallocated
+  - Interface DataCenterResourceProperties has a new optional parameter provisionError
   - Interface LocationProperties has a new optional parameter status
   - Interface MongoDBCollectionResource has a new optional parameter createMode
   - Interface MongoDBCollectionResource has a new optional parameter restoreParameters
@@ -235,6 +237,7 @@
   - Interface SqlContainerResource has a new optional parameter restoreParameters
   - Interface SqlDatabaseResource has a new optional parameter createMode
   - Interface SqlDatabaseResource has a new optional parameter restoreParameters
+  - Added Enum KnownClusterType
   - Added Enum KnownContinuousTier
   - Added Enum KnownDataTransferComponent
   - Added Enum KnownThroughputPolicyType

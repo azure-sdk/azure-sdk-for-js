@@ -626,6 +626,16 @@ export const backupId: OperationURLParameter = {
   }
 };
 
+export const xMsForceDeallocate: OperationParameter = {
+  parameterPath: ["options", "xMsForceDeallocate"],
+  mapper: {
+    serializedName: "x-ms-force-deallocate",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
 export const dataCenterName: OperationURLParameter = {
   parameterPath: "dataCenterName",
   mapper: {

@@ -129,6 +129,13 @@ export interface BackupResourceProperties {
     timestamp?: Date;
 }
 
+// @public (undocumented)
+export interface BackupSchedule {
+    cronExpression?: string;
+    retentionInHours?: number;
+    scheduleName?: string;
+}
+
 // @public
 export type BackupStorageRedundancy = string;
 
@@ -146,6 +153,7 @@ export interface Capacity {
 export interface CassandraClusterPublicStatus {
     connectionErrors?: ConnectionError[];
     dataCenters?: CassandraClusterPublicStatusDataCentersItem[];
+    errors?: CassandraError[];
     // (undocumented)
     eTag?: string;
     // (undocumented)
@@ -195,6 +203,7 @@ export type CassandraClustersCreateUpdateResponse = ClusterResource;
 export interface CassandraClustersDeallocateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+    xMsForceDeallocate?: boolean;
 }
 
 // @public
@@ -318,6 +327,13 @@ export interface CassandraDataCentersUpdateOptionalParams extends coreClient.Ope
 
 // @public
 export type CassandraDataCentersUpdateResponse = DataCenterResource;
+
+// @public (undocumented)
+export interface CassandraError {
+    additionalErrorInfo?: string;
+    code?: string;
+    message?: string;
+}
 
 // @public
 export interface CassandraKeyspaceCreateUpdateParameters extends ARMResourceProperties {
@@ -729,23 +745,30 @@ export interface ClusterResource extends ManagedCassandraARMResourceProperties {
 // @public
 export interface ClusterResourceProperties {
     authenticationMethod?: AuthenticationMethod;
+    backupSchedules?: BackupSchedule[];
     cassandraAuditLoggingEnabled?: boolean;
     cassandraVersion?: string;
     clientCertificates?: Certificate[];
     clusterNameOverride?: string;
+    clusterType?: ClusterType;
     deallocated?: boolean;
     delegatedManagementSubnetId?: string;
+    extensions?: string[];
     externalGossipCertificates?: Certificate[];
     externalSeedNodes?: SeedNode[];
     readonly gossipCertificates?: Certificate[];
     hoursBetweenBackups?: number;
     initialCassandraAdminPassword?: string;
     prometheusEndpoint?: SeedNode;
+    provisionError?: CassandraError;
     provisioningState?: ManagedCassandraProvisioningState;
     repairEnabled?: boolean;
     restoreFromBackupId?: string;
     readonly seedNodes?: SeedNode[];
 }
+
+// @public
+export type ClusterType = string;
 
 // @public
 export interface Collection {
@@ -1056,6 +1079,15 @@ export interface CosmosDBManagementClientOptionalParams extends coreClient.Servi
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
+}
+
+// @public
+export interface CosmosMongoDataTransferDataSourceSink extends DataTransferDataSourceSink {
+    // (undocumented)
+    collectionName: string;
+    component: "CosmosDBMongo";
+    // (undocumented)
+    databaseName: string;
 }
 
 // @public
@@ -1461,11 +1493,13 @@ export interface DataCenterResourceProperties {
     backupStorageCustomerKeyUri?: string;
     base64EncodedCassandraYamlFragment?: string;
     dataCenterLocation?: string;
+    deallocated?: boolean;
     delegatedSubnetId?: string;
     diskCapacity?: number;
     diskSku?: string;
     managedDiskCustomerKeyUri?: string;
     nodeCount?: number;
+    provisionError?: CassandraError;
     provisioningState?: ManagedCassandraProvisioningState;
     readonly seedNodes?: SeedNode[];
     sku?: string;
@@ -1476,11 +1510,11 @@ export type DataTransferComponent = string;
 
 // @public
 export interface DataTransferDataSourceSink {
-    component: "CosmosDBCassandra" | "CosmosDBSql" | "AzureBlobStorage";
+    component: "CosmosDBCassandra" | "CosmosDBMongo" | "CosmosDBSql" | "AzureBlobStorage";
 }
 
 // @public (undocumented)
-export type DataTransferDataSourceSinkUnion = DataTransferDataSourceSink | CosmosCassandraDataTransferDataSourceSink | CosmosSqlDataTransferDataSourceSink | AzureBlobDataTransferDataSourceSink;
+export type DataTransferDataSourceSinkUnion = DataTransferDataSourceSink | CosmosCassandraDataTransferDataSourceSink | CosmosMongoDataTransferDataSourceSink | CosmosSqlDataTransferDataSourceSink | AzureBlobDataTransferDataSourceSink;
 
 // @public
 export interface DataTransferJobFeedResults {
@@ -2056,6 +2090,12 @@ export enum KnownBackupStorageRedundancy {
 }
 
 // @public
+export enum KnownClusterType {
+    NonProduction = "NonProduction",
+    Production = "Production"
+}
+
+// @public
 export enum KnownCompositePathSortOrder {
     Ascending = "ascending",
     Descending = "descending"
@@ -2113,6 +2153,7 @@ export enum KnownDatabaseAccountKind {
 export enum KnownDataTransferComponent {
     AzureBlobStorage = "AzureBlobStorage",
     CosmosDBCassandra = "CosmosDBCassandra",
+    CosmosDBMongo = "CosmosDBMongo",
     CosmosDBSql = "CosmosDBSql"
 }
 

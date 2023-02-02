@@ -15,6 +15,7 @@ export type BackupPolicyUnion =
 export type DataTransferDataSourceSinkUnion =
   | DataTransferDataSourceSink
   | CosmosCassandraDataTransferDataSourceSink
+  | CosmosMongoDataTransferDataSourceSink
   | CosmosSqlDataTransferDataSourceSink
   | AzureBlobDataTransferDataSourceSink;
 export type ServiceResourcePropertiesUnion =
@@ -1454,7 +1455,11 @@ export interface DataTransferJobProperties {
 /** Base class for all DataTransfer source/sink */
 export interface DataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  component: "CosmosDBCassandra" | "CosmosDBSql" | "AzureBlobStorage";
+  component:
+    | "CosmosDBCassandra"
+    | "CosmosDBMongo"
+    | "CosmosDBSql"
+    | "AzureBlobStorage";
 }
 
 /** The List operation response, that contains the Data Transfer jobs and their properties. */
@@ -1513,12 +1518,20 @@ export interface ClusterResourceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly seedNodes?: SeedNode[];
-  /** Number of hours to wait between taking a backup of the cluster. */
+  /** (Deprecated) Number of hours to wait between taking a backup of the cluster. */
   hoursBetweenBackups?: number;
   /** Whether the cluster and associated data centers has been deallocated. */
   deallocated?: boolean;
   /** Whether Cassandra audit logging is enabled */
   cassandraAuditLoggingEnabled?: boolean;
+  /** Type of the cluster. If set to Production, some operations might not be permitted on cluster. */
+  clusterType?: ClusterType;
+  /** Error related to resource provisioning. */
+  provisionError?: CassandraError;
+  /** Extensions to be added or updated on cluster. */
+  extensions?: string[];
+  /** List of backup schedules that define when you want to back up your data. */
+  backupSchedules?: BackupSchedule[];
 }
 
 export interface SeedNode {
@@ -1529,6 +1542,24 @@ export interface SeedNode {
 export interface Certificate {
   /** PEM formatted public key. */
   pem?: string;
+}
+
+export interface CassandraError {
+  /** The code of error that occurred. */
+  code?: string;
+  /** The message of the error. */
+  message?: string;
+  /** Additional information about the error. */
+  additionalErrorInfo?: string;
+}
+
+export interface BackupSchedule {
+  /** The unique identifier of backup schedule. */
+  scheduleName?: string;
+  /** The cron expression that defines when you want to back up your data. */
+  cronExpression?: string;
+  /** The retention period (hours) of the backups. If you want to retain data forever, set retention to 0. */
+  retentionInHours?: number;
 }
 
 /** The core properties of ARM resources. */
@@ -1646,6 +1677,10 @@ export interface DataCenterResourceProperties {
   availabilityZone?: boolean;
   /** Ldap authentication method properties. This feature is in preview. */
   authenticationMethodLdapProperties?: AuthenticationMethodLdapProperties;
+  /** Whether the data center has been deallocated. */
+  deallocated?: boolean;
+  /** Error related to resource provisioning. */
+  provisionError?: CassandraError;
 }
 
 /** Ldap authentication method properties. This feature is in preview. */
@@ -1671,6 +1706,8 @@ export interface CassandraClusterPublicStatus {
   reaperStatus?: ManagedCassandraReaperStatus;
   /** List relevant information about any connection errors to the Datacenters. */
   connectionErrors?: ConnectionError[];
+  /** List relevant information about any errors about cluster, data center and connection error. */
+  errors?: CassandraError[];
   /** List of the status of each datacenter in this cluster. */
   dataCenters?: CassandraClusterPublicStatusDataCentersItem[];
 }
@@ -3471,6 +3508,15 @@ export interface CosmosCassandraDataTransferDataSourceSink
 }
 
 /** A CosmosDB Cassandra API data source/sink */
+export interface CosmosMongoDataTransferDataSourceSink
+  extends DataTransferDataSourceSink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  component: "CosmosDBMongo";
+  databaseName: string;
+  collectionName: string;
+}
+
+/** A CosmosDB Cassandra API data source/sink */
 export interface CosmosSqlDataTransferDataSourceSink
   extends DataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -4112,6 +4158,8 @@ export type BackupStorageRedundancy = string;
 export enum KnownDataTransferComponent {
   /** CosmosDBCassandra */
   CosmosDBCassandra = "CosmosDBCassandra",
+  /** CosmosDBMongo */
+  CosmosDBMongo = "CosmosDBMongo",
   /** CosmosDBSql */
   CosmosDBSql = "CosmosDBSql",
   /** AzureBlobStorage */
@@ -4124,6 +4172,7 @@ export enum KnownDataTransferComponent {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **CosmosDBCassandra** \
+ * **CosmosDBMongo** \
  * **CosmosDBSql** \
  * **AzureBlobStorage**
  */
@@ -4179,6 +4228,24 @@ export enum KnownAuthenticationMethod {
  * **Ldap**
  */
 export type AuthenticationMethod = string;
+
+/** Known values of {@link ClusterType} that the service accepts. */
+export enum KnownClusterType {
+  /** Production */
+  Production = "Production",
+  /** NonProduction */
+  NonProduction = "NonProduction"
+}
+
+/**
+ * Defines values for ClusterType. \
+ * {@link KnownClusterType} can be used interchangeably with ClusterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Production** \
+ * **NonProduction**
+ */
+export type ClusterType = string;
 
 /** Known values of {@link ManagedCassandraResourceIdentityType} that the service accepts. */
 export enum KnownManagedCassandraResourceIdentityType {
@@ -6145,6 +6212,8 @@ export type CassandraClustersGetBackupResponse = BackupResource;
 /** Optional parameters. */
 export interface CassandraClustersDeallocateOptionalParams
   extends coreClient.OperationOptions {
+  /** Force to deallocate a cluster of Cluster Type Production. Force to deallocate a cluster of Cluster Type Production might cause data loss */
+  xMsForceDeallocate?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */

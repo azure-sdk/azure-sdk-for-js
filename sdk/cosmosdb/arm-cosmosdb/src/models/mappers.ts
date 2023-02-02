@@ -3805,6 +3805,42 @@ export const ClusterResourceProperties: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      clusterType: {
+        serializedName: "clusterType",
+        type: {
+          name: "String"
+        }
+      },
+      provisionError: {
+        serializedName: "provisionError",
+        type: {
+          name: "Composite",
+          className: "CassandraError"
+        }
+      },
+      extensions: {
+        serializedName: "extensions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      backupSchedules: {
+        serializedName: "backupSchedules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BackupSchedule"
+            }
+          }
+        }
       }
     }
   }
@@ -3834,6 +3870,60 @@ export const Certificate: coreClient.CompositeMapper = {
         serializedName: "pem",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CassandraError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CassandraError",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      additionalErrorInfo: {
+        serializedName: "additionalErrorInfo",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BackupSchedule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BackupSchedule",
+    modelProperties: {
+      scheduleName: {
+        serializedName: "scheduleName",
+        type: {
+          name: "String"
+        }
+      },
+      cronExpression: {
+        serializedName: "cronExpression",
+        type: {
+          name: "String"
+        }
+      },
+      retentionInHours: {
+        serializedName: "retentionInHours",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -4125,6 +4215,19 @@ export const DataCenterResourceProperties: coreClient.CompositeMapper = {
           name: "Composite",
           className: "AuthenticationMethodLdapProperties"
         }
+      },
+      deallocated: {
+        serializedName: "deallocated",
+        type: {
+          name: "Boolean"
+        }
+      },
+      provisionError: {
+        serializedName: "provisionError",
+        type: {
+          name: "Composite",
+          className: "CassandraError"
+        }
       }
     }
   }
@@ -4213,6 +4316,18 @@ export const CassandraClusterPublicStatus: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ConnectionError"
+            }
+          }
+        }
+      },
+      errors: {
+        serializedName: "Errors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CassandraError"
             }
           }
         }
@@ -8699,6 +8814,34 @@ export const CosmosCassandraDataTransferDataSourceSink: coreClient.CompositeMapp
   }
 };
 
+export const CosmosMongoDataTransferDataSourceSink: coreClient.CompositeMapper = {
+  serializedName: "CosmosDBMongo",
+  type: {
+    name: "Composite",
+    className: "CosmosMongoDataTransferDataSourceSink",
+    uberParent: "DataTransferDataSourceSink",
+    polymorphicDiscriminator:
+      DataTransferDataSourceSink.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataTransferDataSourceSink.type.modelProperties,
+      databaseName: {
+        serializedName: "databaseName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      collectionName: {
+        serializedName: "collectionName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CosmosSqlDataTransferDataSourceSink: coreClient.CompositeMapper = {
   serializedName: "CosmosDBSql",
   type: {
@@ -8992,6 +9135,7 @@ export let discriminators = {
   "BackupPolicy.Periodic": PeriodicModeBackupPolicy,
   "BackupPolicy.Continuous": ContinuousModeBackupPolicy,
   "DataTransferDataSourceSink.CosmosDBCassandra": CosmosCassandraDataTransferDataSourceSink,
+  "DataTransferDataSourceSink.CosmosDBMongo": CosmosMongoDataTransferDataSourceSink,
   "DataTransferDataSourceSink.CosmosDBSql": CosmosSqlDataTransferDataSourceSink,
   "DataTransferDataSourceSink.AzureBlobStorage": AzureBlobDataTransferDataSourceSink,
   "ServiceResourceProperties.DataTransfer": DataTransferServiceResourceProperties,
