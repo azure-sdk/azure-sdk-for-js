@@ -1,15 +1,43 @@
 # Release History
+    
+## 31.0.0 (2023-02-02)
+    
+**Features**
 
-## 30.1.1 (Unreleased)
+  - Enum KnownApplicationGatewaySkuName has a new value StandardBasic
+  - Enum KnownApplicationGatewayTier has a new value StandardBasic
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AdminRuleCollectionsListNextOptionalParams no longer has parameter skipToken
+  - Interface AdminRuleCollectionsListNextOptionalParams no longer has parameter top
+  - Interface AdminRulesListNextOptionalParams no longer has parameter skipToken
+  - Interface AdminRulesListNextOptionalParams no longer has parameter top
+  - Interface ConnectivityConfigurationsListNextOptionalParams no longer has parameter skipToken
+  - Interface ConnectivityConfigurationsListNextOptionalParams no longer has parameter top
+  - Interface ManagementGroupNetworkManagerConnectionsListNextOptionalParams no longer has parameter skipToken
+  - Interface ManagementGroupNetworkManagerConnectionsListNextOptionalParams no longer has parameter top
+  - Interface NetworkGroupsListNextOptionalParams no longer has parameter skipToken
+  - Interface NetworkGroupsListNextOptionalParams no longer has parameter top
+  - Interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextOptionalParams no longer has parameter expand
+  - Interface NetworkManagersListBySubscriptionNextOptionalParams no longer has parameter skipToken
+  - Interface NetworkManagersListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface NetworkManagersListNextOptionalParams no longer has parameter skipToken
+  - Interface NetworkManagersListNextOptionalParams no longer has parameter top
+  - Interface ScopeConnectionsListNextOptionalParams no longer has parameter skipToken
+  - Interface ScopeConnectionsListNextOptionalParams no longer has parameter top
+  - Interface SecurityAdminConfigurationsListNextOptionalParams no longer has parameter skipToken
+  - Interface SecurityAdminConfigurationsListNextOptionalParams no longer has parameter top
+  - Interface ServiceTagInformationListNextOptionalParams no longer has parameter noAddressPrefixes
+  - Interface ServiceTagInformationListNextOptionalParams no longer has parameter tagName
+  - Interface StaticMembersListNextOptionalParams no longer has parameter skipToken
+  - Interface StaticMembersListNextOptionalParams no longer has parameter top
+  - Interface SubscriptionNetworkManagerConnectionsListNextOptionalParams no longer has parameter skipToken
+  - Interface SubscriptionNetworkManagerConnectionsListNextOptionalParams no longer has parameter top
+  - Interface VirtualNetworksListDdosProtectionStatusNextOptionalParams no longer has parameter skipToken
+  - Interface VirtualNetworksListDdosProtectionStatusNextOptionalParams no longer has parameter top
+    
+    
 ## 30.1.0 (2022-12-13)
     
 **Features**
