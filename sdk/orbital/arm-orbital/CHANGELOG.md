@@ -1,14 +1,22 @@
 # Release History
     
-## 1.2.0 (2023-01-30)
+## 2.0.0 (2023-02-02)
     
 **Features**
+
+  - Added Type Alias ContactsStatus
+  - Added Enum KnownContactsStatus
+  - Added Enum KnownStatus
+  - Added function getContinuationToken
+
+**Breaking Changes**
 
   - Interface ContactProfilesListBySubscriptionNextOptionalParams no longer has parameter skiptoken
   - Interface ContactProfilesListNextOptionalParams no longer has parameter skiptoken
   - Interface ContactsListNextOptionalParams no longer has parameter skiptoken
   - Interface SpacecraftsListBySubscriptionNextOptionalParams no longer has parameter skiptoken
   - Interface SpacecraftsListNextOptionalParams no longer has parameter skiptoken
+  - Type of parameter status of interface Contact is changed from Status to ContactsStatus
     
     
 ## 1.1.0 (2022-07-11)

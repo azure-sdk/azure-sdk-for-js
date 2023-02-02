@@ -181,7 +181,7 @@ export interface Contact extends ProxyResource {
     readonly rxStartTime?: Date;
     readonly startAzimuthDegrees?: number;
     readonly startElevationDegrees?: number;
-    readonly status?: Status;
+    readonly status?: ContactsStatus;
     readonly txEndTime?: Date;
     readonly txStartTime?: Date;
 }
@@ -450,6 +450,9 @@ export interface ContactsPropertiesContactProfile extends ResourceReference {
 export type ContactsPropertiesProvisioningState = string;
 
 // @public
+export type ContactsStatus = string;
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -508,6 +511,15 @@ export enum KnownContactsPropertiesProvisioningState {
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownContactsStatus {
+    Cancelled = "cancelled",
+    Failed = "failed",
+    ProviderCancelled = "providerCancelled",
+    Scheduled = "scheduled",
+    Succeeded = "succeeded"
 }
 
 // @public
@@ -572,6 +584,14 @@ export enum KnownSpacecraftsPropertiesProvisioningState {
 }
 
 // @public
+export enum KnownStatus {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Running = "Running",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export interface Operation {
     readonly actionType?: ActionType;
     display?: OperationDisplay;
@@ -603,7 +623,7 @@ export interface OperationResult {
     readonly percentComplete?: number;
     properties?: Record<string, unknown>;
     readonly startTime?: Date;
-    status?: Status;
+    readonly status?: Status;
 }
 
 // @public
@@ -843,7 +863,7 @@ export interface SpacecraftsUpdateTagsOptionalParams extends coreClient.Operatio
 export type SpacecraftsUpdateTagsResponse = Spacecraft;
 
 // @public
-export type Status = "scheduled" | "cancelled" | "succeeded" | "failed" | "providerCancelled" | "Succeeded" | "Canceled" | "Failed" | "Running";
+export type Status = string;
 
 // @public
 export interface SystemData {

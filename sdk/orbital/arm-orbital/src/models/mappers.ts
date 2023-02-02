@@ -1092,19 +1092,9 @@ export const OperationResult: coreClient.CompositeMapper = {
       },
       status: {
         serializedName: "status",
+        readOnly: true,
         type: {
-          name: "Enum",
-          allowedValues: [
-            "scheduled",
-            "cancelled",
-            "succeeded",
-            "failed",
-            "providerCancelled",
-            "Succeeded",
-            "Canceled",
-            "Failed",
-            "Running"
-          ]
+          name: "String"
         }
       },
       startTime: {
@@ -1459,18 +1449,7 @@ export const Contact: coreClient.CompositeMapper = {
         serializedName: "properties.status",
         readOnly: true,
         type: {
-          name: "Enum",
-          allowedValues: [
-            "scheduled",
-            "cancelled",
-            "succeeded",
-            "failed",
-            "providerCancelled",
-            "Succeeded",
-            "Canceled",
-            "Failed",
-            "Running"
-          ]
+          name: "String"
         }
       },
       reservationStartTime: {

@@ -49,7 +49,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Returns list of contact profiles by Subscription
+   * Returns list of contact profiles by Subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
@@ -103,7 +103,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Returns list of contact profiles by Resource Group
+   * Returns list of contact profiles by Resource Group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -165,9 +165,9 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Gets the specified contact Profile in a specified resource group
+   * Gets the specified contact Profile in a specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param options The options parameters.
    */
   get(
@@ -182,9 +182,9 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Creates or updates a contact profile
+   * Creates or updates a contact profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param location The geo-location where the resource lives
    * @param options The options parameters.
    */
@@ -253,9 +253,9 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Creates or updates a contact profile
+   * Creates or updates a contact profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param location The geo-location where the resource lives
    * @param options The options parameters.
    */
@@ -277,7 +277,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   /**
    * Deletes a specified contact profile resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -341,7 +341,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   /**
    * Deletes a specified contact profile resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -360,7 +360,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   /**
    * Updates the specified contact profile tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param parameters Parameters supplied to update contact profile tags.
    * @param options The options parameters.
    */
@@ -431,7 +431,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   /**
    * Updates the specified contact profile tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param parameters Parameters supplied to update contact profile tags.
    * @param options The options parameters.
    */
@@ -451,7 +451,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Returns list of contact profiles by Subscription
+   * Returns list of contact profiles by Subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
@@ -464,7 +464,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Returns list of contact profiles by Resource Group
+   * Returns list of contact profiles by Resource Group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
