@@ -20,6 +20,9 @@ export type Action = string;
 export type ActiveRevisionsMode = string;
 
 // @public
+export type Affinity = string;
+
+// @public
 export interface AllowedAudiencesValidation {
     allowedAudiences?: string[];
 }
@@ -606,8 +609,10 @@ export interface ContainerApp extends TrackedResource {
     readonly eventStreamEndpoint?: string;
     extendedLocation?: ExtendedLocation;
     identity?: ManagedServiceIdentity;
+    readonly latestReadyRevisionName?: string;
     readonly latestRevisionFqdn?: string;
     readonly latestRevisionName?: string;
+    managedBy?: string;
     managedEnvironmentId?: string;
     readonly outboundIpAddresses?: string[];
     readonly provisioningState?: ContainerAppProvisioningState;
@@ -670,8 +675,8 @@ export interface ContainerApps {
     beginCreateOrUpdateAndWait(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams): Promise<ContainerAppsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginUpdateAndWait(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ContainerAppsUpdateResponse>, ContainerAppsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<ContainerAppsUpdateResponse>;
     get(resourceGroupName: string, containerAppName: string, options?: ContainerAppsGetOptionalParams): Promise<ContainerAppsGetResponse>;
     getAuthToken(resourceGroupName: string, containerAppName: string, options?: ContainerAppsGetAuthTokenOptionalParams): Promise<ContainerAppsGetAuthTokenResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ContainerAppsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ContainerApp>;
@@ -715,6 +720,8 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     containerAppsSourceControls: ContainerAppsSourceControls;
     // (undocumented)
     daprComponents: DaprComponents;
+    // (undocumented)
+    managedCertificates: ManagedCertificates;
     // (undocumented)
     managedEnvironmentDiagnostics: ManagedEnvironmentDiagnostics;
     // (undocumented)
@@ -839,7 +846,6 @@ export type ContainerAppsDiagnosticsListDetectorsResponse = DiagnosticsCollectio
 
 // @public
 export interface ContainerAppsDiagnosticsListRevisionsNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -962,7 +968,6 @@ export type ContainerAppsRevisionsGetRevisionResponse = Revision;
 
 // @public
 export interface ContainerAppsRevisionsListRevisionsNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1033,6 +1038,9 @@ export interface ContainerAppsUpdateOptionalParams extends coreClient.OperationO
 }
 
 // @public
+export type ContainerAppsUpdateResponse = ContainerApp;
+
+// @public
 export interface ContainerResources {
     cpu?: number;
     readonly ephemeralStorage?: string;
@@ -1049,18 +1057,28 @@ export interface CookieExpiration {
 export type CookieExpirationConvention = "FixedTime" | "IdentityProviderDerived";
 
 // @public
+export interface CorsPolicy {
+    allowCredentials?: boolean;
+    allowedHeaders?: string[];
+    allowedMethods?: string[];
+    allowedOrigins: string[];
+    exposeHeaders?: string[];
+    maxAge?: number;
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
 export interface CustomDomain {
     bindingType?: BindingType;
-    certificateId: string;
+    certificateId?: string;
     name: string;
 }
 
 // @public
 export interface CustomDomainConfiguration {
-    certificatePassword?: Uint8Array;
+    certificatePassword?: string;
     certificateValue?: Uint8Array;
     readonly customDomainVerificationId?: string;
     dnsSuffix?: string;
@@ -1195,6 +1213,11 @@ export interface DaprComponentsListSecretsOptionalParams extends coreClient.Oper
 export type DaprComponentsListSecretsResponse = DaprSecretsCollection;
 
 // @public
+export interface DaprConfiguration {
+    readonly version?: string;
+}
+
+// @public
 export interface DaprMetadata {
     name?: string;
     secretRef?: string;
@@ -1209,7 +1232,7 @@ export interface DaprSecret {
 
 // @public
 export interface DaprSecretsCollection {
-    value: Secret[];
+    value: DaprSecret[];
 }
 
 // @public
@@ -1468,14 +1491,25 @@ export interface IdentityProviders {
 // @public
 export interface Ingress {
     allowInsecure?: boolean;
+    clientCertificateMode?: IngressClientCertificateMode;
+    corsPolicy?: CorsPolicy;
     customDomains?: CustomDomain[];
     exposedPort?: number;
     external?: boolean;
     readonly fqdn?: string;
     ipSecurityRestrictions?: IpSecurityRestrictionRule[];
+    stickySessions?: IngressStickySessions;
     targetPort?: number;
     traffic?: TrafficWeight[];
     transport?: IngressTransportMethod;
+}
+
+// @public
+export type IngressClientCertificateMode = string;
+
+// @public
+export interface IngressStickySessions {
+    affinity?: Affinity;
 }
 
 // @public
@@ -1500,6 +1534,11 @@ export interface JwtClaimChecks {
 }
 
 // @public
+export interface KedaConfiguration {
+    readonly version?: string;
+}
+
+// @public
 export enum KnownAccessMode {
     ReadOnly = "ReadOnly",
     ReadWrite = "ReadWrite"
@@ -1515,6 +1554,12 @@ export enum KnownAction {
 export enum KnownActiveRevisionsMode {
     Multiple = "Multiple",
     Single = "Single"
+}
+
+// @public
+export enum KnownAffinity {
+    None = "none",
+    Sticky = "sticky"
 }
 
 // @public
@@ -1606,6 +1651,13 @@ export enum KnownExtendedLocationTypes {
 }
 
 // @public
+export enum KnownIngressClientCertificateMode {
+    Accept = "accept",
+    Ignore = "ignore",
+    Require = "require"
+}
+
+// @public
 export enum KnownIngressTransportMethod {
     Auto = "auto",
     Http = "http",
@@ -1619,6 +1671,13 @@ export enum KnownLogLevel {
     Error = "error",
     Info = "info",
     Warn = "warn"
+}
+
+// @public
+export enum KnownManagedCertificateDomainControlValidation {
+    Cname = "CNAME",
+    Http = "HTTP",
+    TXT = "TXT"
 }
 
 // @public
@@ -1713,15 +1772,101 @@ export interface LoginScopes {
 export type LogLevel = string;
 
 // @public
+export interface ManagedCertificate extends TrackedResource {
+    properties?: ManagedCertificateProperties;
+}
+
+// @public
+export interface ManagedCertificateCollection {
+    readonly nextLink?: string;
+    value: ManagedCertificate[];
+}
+
+// @public
+export type ManagedCertificateDomainControlValidation = string;
+
+// @public
+export interface ManagedCertificatePatch {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface ManagedCertificateProperties {
+    domainControlValidation?: ManagedCertificateDomainControlValidation;
+    readonly error?: string;
+    readonly provisioningState?: CertificateProvisioningState;
+    subjectName?: string;
+    readonly validationToken?: string;
+}
+
+// @public
+export interface ManagedCertificates {
+    beginCreateOrUpdate(resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ManagedCertificatesCreateOrUpdateResponse>, ManagedCertificatesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesCreateOrUpdateOptionalParams): Promise<ManagedCertificatesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesGetOptionalParams): Promise<ManagedCertificatesGetResponse>;
+    list(resourceGroupName: string, environmentName: string, options?: ManagedCertificatesListOptionalParams): PagedAsyncIterableIterator<ManagedCertificate>;
+    update(resourceGroupName: string, environmentName: string, managedCertificateName: string, managedCertificateEnvelope: ManagedCertificatePatch, options?: ManagedCertificatesUpdateOptionalParams): Promise<ManagedCertificatesUpdateResponse>;
+}
+
+// @public
+export interface ManagedCertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    managedCertificateEnvelope?: ManagedCertificate;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ManagedCertificatesCreateOrUpdateResponse = ManagedCertificate;
+
+// @public
+export interface ManagedCertificatesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ManagedCertificatesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedCertificatesGetResponse = ManagedCertificate;
+
+// @public
+export interface ManagedCertificatesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedCertificatesListNextResponse = ManagedCertificateCollection;
+
+// @public
+export interface ManagedCertificatesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedCertificatesListResponse = ManagedCertificateCollection;
+
+// @public
+export interface ManagedCertificatesUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedCertificatesUpdateResponse = ManagedCertificate;
+
+// @public
 export interface ManagedEnvironment extends TrackedResource {
     appLogsConfiguration?: AppLogsConfiguration;
     customDomainConfiguration?: CustomDomainConfiguration;
     daprAIConnectionString?: string;
     daprAIInstrumentationKey?: string;
+    daprConfiguration?: DaprConfiguration;
     readonly defaultDomain?: string;
     readonly deploymentErrors?: string;
     readonly eventStreamEndpoint?: string;
+    kedaConfiguration?: KedaConfiguration;
+    kind?: string;
     readonly provisioningState?: EnvironmentProvisioningState;
+    quotas?: ManagedEnvironmentQuota;
     sku?: EnvironmentSkuProperties;
     readonly staticIp?: string;
     vnetConfiguration?: VnetConfiguration;
@@ -1759,13 +1904,18 @@ export interface ManagedEnvironmentOutboundSettings {
 export type ManagedEnvironmentOutBoundType = string;
 
 // @public
+export interface ManagedEnvironmentQuota {
+    cores?: QuotaStatus;
+}
+
+// @public
 export interface ManagedEnvironments {
     beginCreateOrUpdate(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ManagedEnvironmentsCreateOrUpdateResponse>, ManagedEnvironmentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsCreateOrUpdateOptionalParams): Promise<ManagedEnvironmentsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginUpdateAndWait(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ManagedEnvironmentsUpdateResponse>, ManagedEnvironmentsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<ManagedEnvironmentsUpdateResponse>;
     get(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsGetOptionalParams): Promise<ManagedEnvironmentsGetResponse>;
     getAuthToken(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsGetAuthTokenOptionalParams): Promise<ManagedEnvironmentsGetAuthTokenResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ManagedEnvironmentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ManagedEnvironment>;
@@ -1917,6 +2067,9 @@ export interface ManagedEnvironmentsUpdateOptionalParams extends coreClient.Oper
 }
 
 // @public
+export type ManagedEnvironmentsUpdateResponse = ManagedEnvironment;
+
+// @public
 export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -2019,6 +2172,12 @@ export interface QueueScaleRule {
     auth?: ScaleRuleAuth[];
     queueLength?: number;
     queueName?: string;
+}
+
+// @public
+export interface QuotaStatus {
+    readonly total?: number;
+    readonly used?: number;
 }
 
 // @public
