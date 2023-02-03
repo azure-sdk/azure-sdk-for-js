@@ -280,7 +280,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -303,7 +303,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -322,12 +322,15 @@ const createOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.HybridRunbookWorkerGroup
     },
+    201: {
+      bodyMapper: Mappers.HybridRunbookWorkerGroup
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.hybridRunbookWorkerGroupCreationParameters,
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -352,7 +355,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.hybridRunbookWorkerGroupUpdationParameters,
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -376,7 +379,7 @@ const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion6],
+  queryParameters: [Parameters.filter, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
