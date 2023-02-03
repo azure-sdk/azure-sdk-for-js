@@ -1,21 +1,7 @@
 # Release History
-
-## 2.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.0.0-beta.2 (2022-11-15)
     
-  - Bugs Fixed
-
-## 2.0.0-beta.1 (2022-10-12)
-
+## 2.0.0 (2023-02-03)
+    
 **Features**
 
   - Added operation group AvailableWorkloadProfiles
@@ -79,6 +65,7 @@
   - Added Interface ContainerAppsDiagnosticsListRevisionsNextOptionalParams
   - Added Interface ContainerAppsDiagnosticsListRevisionsOptionalParams
   - Added Interface ContainerAppsGetAuthTokenOptionalParams
+  - Added Interface CorsPolicy
   - Added Interface CustomDomainConfiguration
   - Added Interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo
   - Added Interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsItem
@@ -151,7 +138,9 @@
   - Added Type Alias ContainerAppsDiagnosticsListRevisionsNextResponse
   - Added Type Alias ContainerAppsDiagnosticsListRevisionsResponse
   - Added Type Alias ContainerAppsGetAuthTokenResponse
+  - Added Type Alias ContainerAppsUpdateResponse
   - Added Type Alias ExtendedLocationTypes
+  - Added Type Alias IngressClientCertificateMode
   - Added Type Alias LogLevel
   - Added Type Alias ManagedEnvironmentDiagnosticsGetDetectorResponse
   - Added Type Alias ManagedEnvironmentDiagnosticsListDetectorsResponse
@@ -160,12 +149,14 @@
   - Added Type Alias ManagedEnvironmentsGetAuthTokenResponse
   - Added Type Alias ManagedEnvironmentsListWorkloadProfileStatesNextResponse
   - Added Type Alias ManagedEnvironmentsListWorkloadProfileStatesResponse
+  - Added Type Alias ManagedEnvironmentsUpdateResponse
   - Added Type Alias SkuName
   - Interface CertificateProperties has a new optional parameter subjectAlternativeNames
   - Interface Configuration has a new optional parameter maxInactiveRevisions
   - Interface ContainerApp has a new optional parameter environmentId
   - Interface ContainerApp has a new optional parameter eventStreamEndpoint
   - Interface ContainerApp has a new optional parameter extendedLocation
+  - Interface ContainerApp has a new optional parameter latestReadyRevisionName
   - Interface ContainerApp has a new optional parameter workloadProfileType
   - Interface CustomHostnameAnalysisResult has a new optional parameter conflictWithEnvironmentCustomDomain
   - Interface Dapr has a new optional parameter enableApiLogging
@@ -173,10 +164,13 @@
   - Interface Dapr has a new optional parameter httpReadBufferSize
   - Interface Dapr has a new optional parameter logLevel
   - Interface DaprComponent has a new optional parameter secretStoreComponent
+  - Interface Ingress has a new optional parameter clientCertificateMode
+  - Interface Ingress has a new optional parameter corsPolicy
   - Interface Ingress has a new optional parameter exposedPort
   - Interface Ingress has a new optional parameter ipSecurityRestrictions
   - Interface ManagedEnvironment has a new optional parameter customDomainConfiguration
   - Interface ManagedEnvironment has a new optional parameter eventStreamEndpoint
+  - Interface ManagedEnvironment has a new optional parameter kind
   - Interface ManagedEnvironment has a new optional parameter sku
   - Interface ManagedEnvironment has a new optional parameter workloadProfiles
   - Interface ReplicaContainer has a new optional parameter execEndpoint
@@ -185,35 +179,24 @@
   - Interface ScaleRule has a new optional parameter tcp
   - Interface Template has a new optional parameter initContainers
   - Interface VnetConfiguration has a new optional parameter outboundSettings
-  - Class ContainerAppsAPIClient has a new parameter availableWorkloadProfiles
-  - Class ContainerAppsAPIClient has a new parameter billingMeters
-  - Class ContainerAppsAPIClient has a new parameter connectedEnvironments
-  - Class ContainerAppsAPIClient has a new parameter connectedEnvironmentsCertificates
-  - Class ContainerAppsAPIClient has a new parameter connectedEnvironmentsDaprComponents
-  - Class ContainerAppsAPIClient has a new parameter connectedEnvironmentsStorages
-  - Class ContainerAppsAPIClient has a new parameter containerAppsDiagnostics
-  - Class ContainerAppsAPIClient has a new parameter managedEnvironmentDiagnostics
-  - Class ContainerAppsAPIClient has a new parameter managedEnvironmentsDiagnostics
   - Added Enum KnownAction
   - Added Enum KnownApplicability
   - Added Enum KnownCategory
   - Added Enum KnownConnectedEnvironmentProvisioningState
   - Added Enum KnownExtendedLocationTypes
+  - Added Enum KnownIngressClientCertificateMode
   - Added Enum KnownLogLevel
   - Added Enum KnownManagedEnvironmentOutBoundType
   - Added Enum KnownSkuName
   - Enum KnownContainerAppProvisioningState has a new value Deleting
   - Enum KnownIngressTransportMethod has a new value Tcp
+  - Added function getContinuationToken
 
 **Breaking Changes**
 
-  - Interface Container no longer has parameter args
-  - Interface Container no longer has parameter command
-  - Interface Container no longer has parameter env
-  - Interface Container no longer has parameter image
-  - Interface Container no longer has parameter name
-  - Interface Container no longer has parameter resources
-  - Interface Container no longer has parameter volumeMounts
+  - Interface ContainerAppsRevisionsListRevisionsNextOptionalParams no longer has parameter filter
+  - Type of parameter customDomainVerificationFailureInfo of interface CustomHostnameAnalysisResult is changed from DefaultErrorResponse to CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo
+  - Type of parameter value of interface DaprSecretsCollection is changed from Secret[] to DaprSecret[]
     
 ## 1.1.2 (2022-10-08)
 
