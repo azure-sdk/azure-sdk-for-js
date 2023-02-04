@@ -1,21 +1,7 @@
 # Release History
-
-## 2.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.0.0-beta.2 (2022-11-15)
     
-  - Bugs Fixed
-
-## 2.0.0-beta.1 (2022-10-12)
-
+## 2.0.0-beta.3 (2023-02-04)
+    
 **Features**
 
   - Added operation group AvailableWorkloadProfiles
@@ -25,6 +11,9 @@
   - Added operation group ConnectedEnvironmentsDaprComponents
   - Added operation group ConnectedEnvironmentsStorages
   - Added operation group ContainerAppsDiagnostics
+  - Added operation group JobOperations
+  - Added operation group Jobs
+  - Added operation group ManagedCertificates
   - Added operation group ManagedEnvironmentDiagnostics
   - Added operation group ManagedEnvironmentsDiagnostics
   - Added operation ContainerApps.getAuthToken
@@ -79,9 +68,11 @@
   - Added Interface ContainerAppsDiagnosticsListRevisionsNextOptionalParams
   - Added Interface ContainerAppsDiagnosticsListRevisionsOptionalParams
   - Added Interface ContainerAppsGetAuthTokenOptionalParams
+  - Added Interface CorsPolicy
   - Added Interface CustomDomainConfiguration
   - Added Interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo
   - Added Interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsItem
+  - Added Interface DaprConfiguration
   - Added Interface DaprSecret
   - Added Interface DiagnosticDataProviderMetadata
   - Added Interface DiagnosticDataProviderMetadataPropertyBagItem
@@ -101,8 +92,44 @@
   - Added Interface ErrorDetail
   - Added Interface ErrorResponse
   - Added Interface ExtendedLocation
+  - Added Interface IngressStickySessions
   - Added Interface InitContainer
   - Added Interface IpSecurityRestrictionRule
+  - Added Interface Job
+  - Added Interface JobConfiguration
+  - Added Interface JobConfigurationManualTriggerConfig
+  - Added Interface JobConfigurationScheduleTriggerConfig
+  - Added Interface JobCreateOrUpdateOptionalParams
+  - Added Interface JobDeleteHeaders
+  - Added Interface JobDeleteOptionalParams
+  - Added Interface JobGetOptionalParams
+  - Added Interface JobPatchProperties
+  - Added Interface JobPatchPropertiesProperties
+  - Added Interface JobRunHeaders
+  - Added Interface JobRunOptionalParams
+  - Added Interface JobsCollection
+  - Added Interface JobSecretsCollection
+  - Added Interface JobsListByResourceGroupNextOptionalParams
+  - Added Interface JobsListByResourceGroupOptionalParams
+  - Added Interface JobsListBySubscriptionNextOptionalParams
+  - Added Interface JobsListBySubscriptionOptionalParams
+  - Added Interface JobsListSecretsOptionalParams
+  - Added Interface JobTemplate
+  - Added Interface JobTerminateHeaders
+  - Added Interface JobTerminateOptionalParams
+  - Added Interface JobUpdateHeaders
+  - Added Interface JobUpdateOptionalParams
+  - Added Interface KedaConfiguration
+  - Added Interface ManagedCertificate
+  - Added Interface ManagedCertificateCollection
+  - Added Interface ManagedCertificatePatch
+  - Added Interface ManagedCertificateProperties
+  - Added Interface ManagedCertificatesCreateOrUpdateOptionalParams
+  - Added Interface ManagedCertificatesDeleteOptionalParams
+  - Added Interface ManagedCertificatesGetOptionalParams
+  - Added Interface ManagedCertificatesListNextOptionalParams
+  - Added Interface ManagedCertificatesListOptionalParams
+  - Added Interface ManagedCertificatesUpdateOptionalParams
   - Added Interface ManagedEnvironmentDiagnosticsGetDetectorOptionalParams
   - Added Interface ManagedEnvironmentDiagnosticsListDetectorsOptionalParams
   - Added Interface ManagedEnvironmentOutboundSettings
@@ -116,6 +143,7 @@
   - Added Interface WorkloadProfileStatesCollection
   - Added Interface WorkloadProfileStatesProperties
   - Added Type Alias Action
+  - Added Type Alias Affinity
   - Added Type Alias Applicability
   - Added Type Alias AvailableWorkloadProfilesGetNextResponse
   - Added Type Alias AvailableWorkloadProfilesGetResponse
@@ -151,8 +179,25 @@
   - Added Type Alias ContainerAppsDiagnosticsListRevisionsNextResponse
   - Added Type Alias ContainerAppsDiagnosticsListRevisionsResponse
   - Added Type Alias ContainerAppsGetAuthTokenResponse
+  - Added Type Alias ContainerAppsUpdateResponse
   - Added Type Alias ExtendedLocationTypes
+  - Added Type Alias IngressClientCertificateMode
+  - Added Type Alias JobCreateOrUpdateResponse
+  - Added Type Alias JobGetResponse
+  - Added Type Alias JobProvisioningState
+  - Added Type Alias JobsListByResourceGroupNextResponse
+  - Added Type Alias JobsListByResourceGroupResponse
+  - Added Type Alias JobsListBySubscriptionNextResponse
+  - Added Type Alias JobsListBySubscriptionResponse
+  - Added Type Alias JobsListSecretsResponse
+  - Added Type Alias JobUpdateResponse
   - Added Type Alias LogLevel
+  - Added Type Alias ManagedCertificateDomainControlValidation
+  - Added Type Alias ManagedCertificatesCreateOrUpdateResponse
+  - Added Type Alias ManagedCertificatesGetResponse
+  - Added Type Alias ManagedCertificatesListNextResponse
+  - Added Type Alias ManagedCertificatesListResponse
+  - Added Type Alias ManagedCertificatesUpdateResponse
   - Added Type Alias ManagedEnvironmentDiagnosticsGetDetectorResponse
   - Added Type Alias ManagedEnvironmentDiagnosticsListDetectorsResponse
   - Added Type Alias ManagedEnvironmentOutBoundType
@@ -160,12 +205,16 @@
   - Added Type Alias ManagedEnvironmentsGetAuthTokenResponse
   - Added Type Alias ManagedEnvironmentsListWorkloadProfileStatesNextResponse
   - Added Type Alias ManagedEnvironmentsListWorkloadProfileStatesResponse
+  - Added Type Alias ManagedEnvironmentsUpdateResponse
   - Added Type Alias SkuName
+  - Added Type Alias TriggerType
   - Interface CertificateProperties has a new optional parameter subjectAlternativeNames
   - Interface Configuration has a new optional parameter maxInactiveRevisions
   - Interface ContainerApp has a new optional parameter environmentId
   - Interface ContainerApp has a new optional parameter eventStreamEndpoint
   - Interface ContainerApp has a new optional parameter extendedLocation
+  - Interface ContainerApp has a new optional parameter latestReadyRevisionName
+  - Interface ContainerApp has a new optional parameter managedBy
   - Interface ContainerApp has a new optional parameter workloadProfileType
   - Interface CustomHostnameAnalysisResult has a new optional parameter conflictWithEnvironmentCustomDomain
   - Interface Dapr has a new optional parameter enableApiLogging
@@ -173,10 +222,16 @@
   - Interface Dapr has a new optional parameter httpReadBufferSize
   - Interface Dapr has a new optional parameter logLevel
   - Interface DaprComponent has a new optional parameter secretStoreComponent
+  - Interface Ingress has a new optional parameter clientCertificateMode
+  - Interface Ingress has a new optional parameter corsPolicy
   - Interface Ingress has a new optional parameter exposedPort
   - Interface Ingress has a new optional parameter ipSecurityRestrictions
+  - Interface Ingress has a new optional parameter stickySessions
   - Interface ManagedEnvironment has a new optional parameter customDomainConfiguration
+  - Interface ManagedEnvironment has a new optional parameter daprConfiguration
   - Interface ManagedEnvironment has a new optional parameter eventStreamEndpoint
+  - Interface ManagedEnvironment has a new optional parameter kedaConfiguration
+  - Interface ManagedEnvironment has a new optional parameter kind
   - Interface ManagedEnvironment has a new optional parameter sku
   - Interface ManagedEnvironment has a new optional parameter workloadProfiles
   - Interface ReplicaContainer has a new optional parameter execEndpoint
@@ -185,35 +240,28 @@
   - Interface ScaleRule has a new optional parameter tcp
   - Interface Template has a new optional parameter initContainers
   - Interface VnetConfiguration has a new optional parameter outboundSettings
-  - Class ContainerAppsAPIClient has a new parameter availableWorkloadProfiles
-  - Class ContainerAppsAPIClient has a new parameter billingMeters
-  - Class ContainerAppsAPIClient has a new parameter connectedEnvironments
-  - Class ContainerAppsAPIClient has a new parameter connectedEnvironmentsCertificates
-  - Class ContainerAppsAPIClient has a new parameter connectedEnvironmentsDaprComponents
-  - Class ContainerAppsAPIClient has a new parameter connectedEnvironmentsStorages
-  - Class ContainerAppsAPIClient has a new parameter containerAppsDiagnostics
-  - Class ContainerAppsAPIClient has a new parameter managedEnvironmentDiagnostics
-  - Class ContainerAppsAPIClient has a new parameter managedEnvironmentsDiagnostics
   - Added Enum KnownAction
+  - Added Enum KnownAffinity
   - Added Enum KnownApplicability
   - Added Enum KnownCategory
   - Added Enum KnownConnectedEnvironmentProvisioningState
   - Added Enum KnownExtendedLocationTypes
+  - Added Enum KnownIngressClientCertificateMode
+  - Added Enum KnownJobProvisioningState
   - Added Enum KnownLogLevel
+  - Added Enum KnownManagedCertificateDomainControlValidation
   - Added Enum KnownManagedEnvironmentOutBoundType
   - Added Enum KnownSkuName
+  - Added Enum KnownTriggerType
   - Enum KnownContainerAppProvisioningState has a new value Deleting
   - Enum KnownIngressTransportMethod has a new value Tcp
+  - Added function getContinuationToken
 
 **Breaking Changes**
 
-  - Interface Container no longer has parameter args
-  - Interface Container no longer has parameter command
-  - Interface Container no longer has parameter env
-  - Interface Container no longer has parameter image
-  - Interface Container no longer has parameter name
-  - Interface Container no longer has parameter resources
-  - Interface Container no longer has parameter volumeMounts
+  - Interface ContainerAppsRevisionsListRevisionsNextOptionalParams no longer has parameter filter
+  - Type of parameter customDomainVerificationFailureInfo of interface CustomHostnameAnalysisResult is changed from DefaultErrorResponse to CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo
+  - Type of parameter value of interface DaprSecretsCollection is changed from Secret[] to DaprSecret[]
     
 ## 1.1.2 (2022-10-08)
 
