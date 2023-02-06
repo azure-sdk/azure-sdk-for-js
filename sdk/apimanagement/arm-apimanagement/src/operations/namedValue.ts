@@ -53,7 +53,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Lists a collection of named values defined within a service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -137,7 +137,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Lists a collection of named values defined within a service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -154,7 +154,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Gets the entity state (Etag) version of the named value specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param options The options parameters.
@@ -173,7 +173,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Gets the details of the named value specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param options The options parameters.
@@ -192,7 +192,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Creates or updates named value.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param parameters Create parameters.
@@ -265,7 +265,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Creates or updates named value.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param parameters Create parameters.
@@ -290,7 +290,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Updates the specific named value.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -373,7 +373,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Updates the specific named value.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -402,7 +402,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Deletes specific named value from the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -424,7 +424,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Gets the secret of the named value specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param options The options parameters.
@@ -443,7 +443,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Refresh the secret of the named value specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param options The options parameters.
@@ -514,7 +514,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Refresh the secret of the named value specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param options The options parameters.
@@ -536,7 +536,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
@@ -656,7 +656,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters42,
+  requestBody: Parameters.parameters52,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -698,7 +698,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters43,
+  requestBody: Parameters.parameters53,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -808,13 +808,6 @@ const listByServiceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.isKeyVaultRefreshFailed
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
