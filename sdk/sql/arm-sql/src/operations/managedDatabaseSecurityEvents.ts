@@ -192,7 +192,7 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.skip,
-    Parameters.apiVersion2,
+    Parameters.apiVersion3,
     Parameters.skiptoken,
     Parameters.filter1,
     Parameters.top
