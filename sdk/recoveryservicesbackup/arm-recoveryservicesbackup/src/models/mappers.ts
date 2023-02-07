@@ -2378,6 +2378,12 @@ export const RecoveryPointProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      isSoftDeleted: {
+        serializedName: "isSoftDeleted",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -3352,6 +3358,12 @@ export const BmsrpQueryObject: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      includeSoftDeletedRP: {
+        serializedName: "includeSoftDeletedRP",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -3939,6 +3951,27 @@ export const RecoveryPointDiskConfiguration: coreClient.CompositeMapper = {
               className: "DiskInformation"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const ExtendedLocation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExtendedLocation",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
         }
       }
     }
@@ -6900,6 +6933,13 @@ export const IaasVMRestoreRequest: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "IdentityBasedRestoreDetails"
+        }
+      },
+      extendedLocation: {
+        serializedName: "extendedLocation",
+        type: {
+          name: "Composite",
+          className: "ExtendedLocation"
         }
       }
     }

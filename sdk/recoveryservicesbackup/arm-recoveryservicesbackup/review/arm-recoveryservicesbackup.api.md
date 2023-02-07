@@ -1280,6 +1280,7 @@ export interface BMSRefreshContainersQueryObject {
 export interface BmsrpQueryObject {
     endDate?: Date;
     extendedInfo?: boolean;
+    includeSoftDeletedRP?: boolean;
     moveReadyRPOnly?: boolean;
     restorePointQueryType?: RestorePointQueryType;
     startDate?: Date;
@@ -1595,6 +1596,12 @@ export interface ExportJobsOperationResultsGetOptionalParams extends coreClient.
 export type ExportJobsOperationResultsGetResponse = OperationResultInfoBaseResource;
 
 // @public
+export interface ExtendedLocation {
+    name?: string;
+    type?: string;
+}
+
+// @public
 export interface ExtendedProperties {
     diskExclusionProperties?: DiskExclusionProperties;
     linuxVmApplicationName?: string;
@@ -1770,6 +1777,7 @@ export interface IaasVMRestoreRequest extends RestoreRequest {
     createNewCloudService?: boolean;
     diskEncryptionSetId?: string;
     encryptionDetails?: EncryptionDetails;
+    extendedLocation?: ExtendedLocation;
     identityBasedRestoreDetails?: IdentityBasedRestoreDetails;
     identityInfo?: IdentityInfo;
     objectType: "IaasVMRestoreRequest" | "IaasVMRestoreWithRehydrationRequest";
@@ -3363,6 +3371,7 @@ export interface RecoveryPointMoveReadinessInfo {
 // @public
 export interface RecoveryPointProperties {
     expiryTime?: string;
+    isSoftDeleted?: boolean;
     ruleName?: string;
 }
 

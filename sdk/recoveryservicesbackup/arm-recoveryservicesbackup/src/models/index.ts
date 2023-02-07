@@ -1103,6 +1103,8 @@ export interface RecoveryPointProperties {
   expiryTime?: string;
   /** Rule name tagged on Recovery Point that governs life cycle */
   ruleName?: string;
+  /** Bool to indicate whether RP is in soft delete state or not */
+  isSoftDeleted?: boolean;
 }
 
 /** Restore file specs like file path, type and target folder path info. */
@@ -1466,6 +1468,8 @@ export interface BmsrpQueryObject {
   extendedInfo?: boolean;
   /** Whether the RP can be moved to another tier */
   moveReadyRPOnly?: boolean;
+  /** Flag to indicate whether Soft Deleted RPs should be included/excluded from result. */
+  includeSoftDeletedRP?: boolean;
 }
 
 /** Disk information */
@@ -1671,6 +1675,14 @@ export interface RecoveryPointDiskConfiguration {
   includedDiskList?: DiskInformation[];
   /** Information of disks excluded from backup */
   excludedDiskList?: DiskInformation[];
+}
+
+/** The extended location of Recovery point where VM was present. */
+export interface ExtendedLocation {
+  /** Name of the extended location. */
+  name?: string;
+  /** Type of the extended location. Possible values include: 'EdgeZone' */
+  type?: string;
 }
 
 /** Filters to list the jobs. */
@@ -2744,6 +2756,11 @@ export interface IaasVMRestoreRequest extends RestoreRequest {
   identityInfo?: IdentityInfo;
   /** IaaS VM workload specific restore details for restores using managed identity. */
   identityBasedRestoreDetails?: IdentityBasedRestoreDetails;
+  /**
+   * Target extended location where the VM should be restored,
+   * should be null if restore is to be done in public cloud
+   */
+  extendedLocation?: ExtendedLocation;
 }
 
 /** Azure VM (Mercury) workload-specific backup policy. */

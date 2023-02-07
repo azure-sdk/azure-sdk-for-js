@@ -1,15 +1,15 @@
 # Release History
+    
+## 10.1.0 (2023-02-07)
+    
+**Features**
 
-## 10.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ExtendedLocation
+  - Interface BmsrpQueryObject has a new optional parameter includeSoftDeletedRP
+  - Interface IaasVMRestoreRequest has a new optional parameter extendedLocation
+  - Interface RecoveryPointProperties has a new optional parameter isSoftDeleted
+    
+    
 ## 10.0.0 (2023-01-18)
     
 **Features**
