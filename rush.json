@@ -1907,6 +1907,11 @@
       "packageName": "@azure/arm-servicenetworking",
       "projectFolder": "sdk/servicenetworking/arm-servicenetworking",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-liftrqumulo",
+      "projectFolder": "sdk/liftrqumulo/arm-liftrqumulo",
+      "versionPolicyName": "management"
     }
   ]
 }
