@@ -52,10 +52,10 @@ export class UsageDetailsImpl implements UsageDetails {
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for billingAccount scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope, and
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for
-   *              partners.
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific
+   *              for partners.
    * @param options The options parameters.
    */
   public list(
@@ -129,10 +129,10 @@ export class UsageDetailsImpl implements UsageDetails {
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for billingAccount scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope, and
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for
-   *              partners.
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific
+   *              for partners.
    * @param options The options parameters.
    */
   private _list(
@@ -162,10 +162,10 @@ export class UsageDetailsImpl implements UsageDetails {
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for billingAccount scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope, and
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for
-   *              partners.
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific
+   *              for partners.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -190,6 +190,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.UsageDetailsListResult
     },
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -213,6 +214,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.UsageDetailsListResult
     },
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
