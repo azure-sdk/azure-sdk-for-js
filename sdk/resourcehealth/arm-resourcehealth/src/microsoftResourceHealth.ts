@@ -16,16 +16,22 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   AvailabilityStatusesImpl,
-  ChildAvailabilityStatusesImpl,
-  ChildResourcesImpl,
   OperationsImpl,
+  MetadataImpl,
+  ImpactedResourcesImpl,
+  SecurityAdvisoryImpactedResourcesImpl,
+  EventsOperationsImpl,
+  EventOperationsImpl,
   EmergingIssuesImpl
 } from "./operations";
 import {
   AvailabilityStatuses,
-  ChildAvailabilityStatuses,
-  ChildResources,
   Operations,
+  Metadata,
+  ImpactedResources,
+  SecurityAdvisoryImpactedResources,
+  EventsOperations,
+  EventOperations,
   EmergingIssues
 } from "./operationsInterfaces";
 import { MicrosoftResourceHealthOptionalParams } from "./models";
@@ -38,8 +44,7 @@ export class MicrosoftResourceHealth extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the MicrosoftResourceHealth class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Subscription credentials which uniquely identify Microsoft Azure subscription.
-   *                       The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -63,7 +68,7 @@ export class MicrosoftResourceHealth extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-resourcehealth/3.2.1`;
+    const packageDetails = `azsdk-js-arm-resourcehealth/4.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -116,11 +121,16 @@ export class MicrosoftResourceHealth extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2017-07-01";
+    this.apiVersion = options.apiVersion || "2022-10-01-preview";
     this.availabilityStatuses = new AvailabilityStatusesImpl(this);
-    this.childAvailabilityStatuses = new ChildAvailabilityStatusesImpl(this);
-    this.childResources = new ChildResourcesImpl(this);
     this.operations = new OperationsImpl(this);
+    this.metadata = new MetadataImpl(this);
+    this.impactedResources = new ImpactedResourcesImpl(this);
+    this.securityAdvisoryImpactedResources = new SecurityAdvisoryImpactedResourcesImpl(
+      this
+    );
+    this.eventsOperations = new EventsOperationsImpl(this);
+    this.eventOperations = new EventOperationsImpl(this);
     this.emergingIssues = new EmergingIssuesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -154,8 +164,11 @@ export class MicrosoftResourceHealth extends coreClient.ServiceClient {
   }
 
   availabilityStatuses: AvailabilityStatuses;
-  childAvailabilityStatuses: ChildAvailabilityStatuses;
-  childResources: ChildResources;
   operations: Operations;
+  metadata: Metadata;
+  impactedResources: ImpactedResources;
+  securityAdvisoryImpactedResources: SecurityAdvisoryImpactedResources;
+  eventsOperations: EventsOperations;
+  eventOperations: EventOperations;
   emergingIssues: EmergingIssues;
 }
