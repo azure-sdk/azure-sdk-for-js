@@ -174,12 +174,8 @@ export interface LinkerPatch {
   scope?: string;
 }
 
-/** The validation operation result for a linker. */
-export interface ValidateOperationResult {
-  /** Validated linker id. */
-  resourceId?: string;
-  /** Validation operation status. */
-  status?: string;
+/** The validation result for a linker. */
+export interface ValidateResult {
   /** The linker name. */
   linkerName?: string;
   /** A boolean value indicating whether the connection is available or not */
@@ -441,26 +437,29 @@ export interface LinkerResource extends ProxyResource {
   scope?: string;
 }
 
-/** Known values of {@link TargetServiceType} that the service accepts. */
-export enum KnownTargetServiceType {
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
   /** AzureResource */
   AzureResource = "AzureResource",
   /** ConfluentBootstrapServer */
   ConfluentBootstrapServer = "ConfluentBootstrapServer",
   /** ConfluentSchemaRegistry */
-  ConfluentSchemaRegistry = "ConfluentSchemaRegistry"
+  ConfluentSchemaRegistry = "ConfluentSchemaRegistry",
+  /** KeyVault */
+  KeyVault = "KeyVault"
 }
 
 /**
- * Defines values for TargetServiceType. \
- * {@link KnownTargetServiceType} can be used interchangeably with TargetServiceType,
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **AzureResource** \
  * **ConfluentBootstrapServer** \
- * **ConfluentSchemaRegistry**
+ * **ConfluentSchemaRegistry** \
+ * **KeyVault**
  */
-export type TargetServiceType = string;
+export type Type = string;
 
 /** Known values of {@link AuthType} that the service accepts. */
 export enum KnownAuthType {
@@ -577,8 +576,8 @@ export type CreatedByType = string;
 export enum KnownValidationResultStatus {
   /** Success */
   Success = "success",
-  /** Failure */
-  Failure = "failure",
+  /** Failed */
+  Failed = "failed",
   /** Warning */
   Warning = "warning"
 }
@@ -589,7 +588,7 @@ export enum KnownValidationResultStatus {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **success** \
- * **failure** \
+ * **failed** \
  * **warning**
  */
 export type ValidationResultStatus = string;
@@ -629,21 +628,6 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
-
-/** Known values of {@link AzureResourceType} that the service accepts. */
-export enum KnownAzureResourceType {
-  /** KeyVault */
-  KeyVault = "KeyVault"
-}
-
-/**
- * Defines values for AzureResourceType. \
- * {@link KnownAzureResourceType} can be used interchangeably with AzureResourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **KeyVault**
- */
-export type AzureResourceType = string;
 
 /** Known values of {@link SecretType} that the service accepts. */
 export enum KnownSecretType {
@@ -721,7 +705,7 @@ export interface LinkerValidateOptionalParams
 }
 
 /** Contains response data for the validate operation. */
-export type LinkerValidateResponse = ValidateOperationResult;
+export type LinkerValidateResponse = ValidateResult;
 
 /** Optional parameters. */
 export interface LinkerListConfigurationsOptionalParams
