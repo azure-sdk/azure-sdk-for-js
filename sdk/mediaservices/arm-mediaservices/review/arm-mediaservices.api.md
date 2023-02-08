@@ -1666,6 +1666,13 @@ export enum KnownLiveEventEncodingType {
 }
 
 // @public
+export enum KnownLiveEventHealthStatus {
+    Excellent = "Excellent",
+    Good = "Good",
+    Poor = "Poor"
+}
+
+// @public
 export enum KnownLiveEventInputProtocol {
     FragmentedMP4 = "FragmentedMP4",
     Rtmp = "RTMP"
@@ -1680,6 +1687,61 @@ export enum KnownLiveEventResourceState {
     Starting = "Starting",
     Stopped = "Stopped",
     Stopping = "Stopping"
+}
+
+// @public
+export enum KnownLiveEventState {
+    Running = "Running",
+    Stopped = "Stopped"
+}
+
+// @public
+export enum KnownLiveEventStreamEventLevel {
+    Critical = "Critical",
+    Error = "Error",
+    Information = "Information",
+    Warning = "Warning"
+}
+
+// @public
+export enum KnownLiveEventStreamEventMaxTimeMediaType {
+    Audio = "Audio",
+    Video = "Video"
+}
+
+// @public
+export enum KnownLiveEventStreamEventMediaType {
+    Audio = "audio",
+    Video = "video"
+}
+
+// @public
+export enum KnownLiveEventStreamEventMinTimeMediaType {
+    Audio = "Audio",
+    Video = "Video"
+}
+
+// @public
+export enum KnownLiveEventStreamEventType {
+    StreamEventBeginIngest = "StreamEvent/BeginIngest",
+    StreamEventChunkDropped = "StreamEvent/ChunkDropped",
+    StreamEventDiscontinuity = "StreamEvent/Discontinuity",
+    StreamEventEndIngest = "StreamEvent/EndIngest",
+    StreamEventFirstChunkReceived = "StreamEvent/FirstChunkReceived",
+    StreamEventInvalidConnection = "StreamEvent/InvalidConnection",
+    StreamEventUnalignedKeyFrames = "StreamEvent/UnalignedKeyFrames",
+    StreamEventUnalignedPresentation = "StreamEvent/UnalignedPresentation"
+}
+
+// @public
+export enum KnownLiveEventTrackEventType {
+    TrackEventIngestHeartbeat = "TrackEvent/IngestHeartbeat"
+}
+
+// @public
+export enum KnownLiveEventTrackType {
+    Audio = "audio",
+    Video = "video"
 }
 
 // @public
@@ -1920,12 +1982,48 @@ export interface LiveEventEndpoint {
 }
 
 // @public
+export interface LiveEventGetStatusResult {
+    value?: LiveEventStatus[];
+}
+
+// @public
+export interface LiveEventGetStreamEventsResult {
+    value?: LiveEventStreamEvent[];
+}
+
+// @public
+export interface LiveEventGetTrackIngestHeartbeatsResult {
+    value?: LiveEventTrackEvent[];
+}
+
+// @public
+export type LiveEventHealthStatus = string;
+
+// @public
+export interface LiveEventIngestInterruption {
+    begin?: Date;
+    duration?: string;
+    end?: Date;
+    reason?: string;
+}
+
+// @public
+export interface LiveEventIngestion {
+    begin?: Date;
+    end?: Date;
+    endReason?: string;
+    ingestInterruptions?: LiveEventIngestInterruption[];
+    streamName?: string;
+}
+
+// @public
 export interface LiveEventInput {
     accessControl?: LiveEventInputAccessControl;
     accessToken?: string;
     endpoints?: LiveEventEndpoint[];
     keyFrameIntervalDuration?: string;
     streamingProtocol: LiveEventInputProtocol;
+    timedMetadataEndpoints?: LiveEventTimedMetadataEndpoint[];
 }
 
 // @public
@@ -1981,6 +2079,9 @@ export interface LiveEvents {
     beginCreateAndWait(resourceGroupName: string, accountName: string, liveEventName: string, parameters: LiveEvent, options?: LiveEventsCreateOptionalParams): Promise<LiveEventsCreateResponse>;
     beginDelete(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsDeleteOptionalParams): Promise<void>;
+    beginListGetStatusAndWait(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsListGetStatusOptionalParams): PagedAsyncIterableIterator<LiveEventStatus>;
+    beginListGetStreamEventsAndWait(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsListGetStreamEventsOptionalParams): PagedAsyncIterableIterator<LiveEventStreamEvent>;
+    beginListGetTrackIngestHeartbeatsAndWait(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsListGetTrackIngestHeartbeatsOptionalParams): PagedAsyncIterableIterator<LiveEventTrackEvent>;
     beginReset(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsResetOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginResetAndWait(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsResetOptionalParams): Promise<void>;
     beginStart(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
@@ -2031,6 +2132,51 @@ export interface LiveEventsGetOptionalParams extends coreClient.OperationOptions
 export type LiveEventsGetResponse = LiveEvent;
 
 // @public
+export interface LiveEventsListGetStatusHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface LiveEventsListGetStatusOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type LiveEventsListGetStatusResponse = LiveEventGetStatusResult;
+
+// @public
+export interface LiveEventsListGetStreamEventsHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface LiveEventsListGetStreamEventsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type LiveEventsListGetStreamEventsResponse = LiveEventGetStreamEventsResult;
+
+// @public
+export interface LiveEventsListGetTrackIngestHeartbeatsHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface LiveEventsListGetTrackIngestHeartbeatsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type LiveEventsListGetTrackIngestHeartbeatsResponse = LiveEventGetTrackIngestHeartbeatsResult;
+
+// @public
 export interface LiveEventsListNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -2070,6 +2216,75 @@ export interface LiveEventsStopOptionalParams extends coreClient.OperationOption
 }
 
 // @public
+export type LiveEventState = string;
+
+// @public
+export interface LiveEventStatus {
+    healthDescriptions?: string[];
+    healthStatus?: LiveEventHealthStatus;
+    ingestion?: LiveEventIngestion;
+    lastUpdatedTime?: Date;
+    state?: LiveEventState;
+    trackStatus?: LiveEventTrackStatus[];
+}
+
+// @public
+export interface LiveEventStreamEvent {
+    data?: LiveEventStreamEventData;
+    eventLevel?: LiveEventStreamEventLevel;
+    eventTime?: Date;
+    eventType?: LiveEventStreamEventType;
+}
+
+// @public
+export interface LiveEventStreamEventData {
+    bitrate?: number;
+    currentFragmentTimestamp?: string;
+    discontinuityGap?: number;
+    duration?: string;
+    fragmentDropReason?: string;
+    fragmentOneDuration?: string;
+    fragmentOneTimestamp?: string;
+    fragmentTwoDuration?: string;
+    fragmentTwoTimestamp?: string;
+    maxTime?: string;
+    maxTimeMediaType?: LiveEventStreamEventMaxTimeMediaType;
+    mediaTimestamp?: string;
+    mediaType?: LiveEventStreamEventMediaType;
+    minTime?: string;
+    minTimeMediaType?: LiveEventStreamEventMinTimeMediaType;
+    previousFragmentDuration?: string;
+    previousFragmentTimestamp?: string;
+    remoteIp?: string;
+    remotePort?: string;
+    resolution?: string;
+    resultCode?: string;
+    resultMessage?: string;
+    streamId?: string;
+    streamName?: string;
+    timescale?: string;
+    timescaleOfMaxTime?: string;
+    timescaleOfMinTime?: string;
+    trackId?: number;
+    trackName?: string;
+}
+
+// @public
+export type LiveEventStreamEventLevel = string;
+
+// @public
+export type LiveEventStreamEventMaxTimeMediaType = string;
+
+// @public
+export type LiveEventStreamEventMediaType = string;
+
+// @public
+export type LiveEventStreamEventMinTimeMediaType = string;
+
+// @public
+export type LiveEventStreamEventType = string;
+
+// @public
 export interface LiveEventsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2077,6 +2292,54 @@ export interface LiveEventsUpdateOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type LiveEventsUpdateResponse = LiveEvent;
+
+// @public
+export interface LiveEventTimedMetadataEndpoint {
+    url?: string;
+}
+
+// @public
+export interface LiveEventTrackEvent {
+    data?: LiveEventTrackEventData;
+    eventTime?: Date;
+    eventType?: LiveEventTrackEventType;
+}
+
+// @public
+export interface LiveEventTrackEventData {
+    bitrate?: number;
+    discontinuityCount?: number;
+    healthy?: boolean;
+    incomingBitrate?: number;
+    ingestDriftValue?: string;
+    lastFragmentArrivalTime?: Date;
+    lastTimestamp?: string;
+    nonincreasingCount?: number;
+    overlapCount?: number;
+    state?: string;
+    timescale?: string;
+    trackName?: string;
+    trackType?: LiveEventTrackType;
+    transcriptionLanguage?: string;
+    transcriptionState?: string;
+    unexpectedBitrate?: boolean;
+}
+
+// @public
+export type LiveEventTrackEventType = string;
+
+// @public
+export interface LiveEventTrackStatus {
+    expectedBitrate?: number;
+    incomingBitrate?: number;
+    ingestDrift?: string;
+    requestReceived?: number;
+    requestSucceeded?: number;
+    trackId?: string;
+}
+
+// @public
+export type LiveEventTrackType = string;
 
 // @public
 export interface LiveEventTranscription {

@@ -383,6 +383,18 @@ export const parameters15: OperationParameter = {
   mapper: StreamingLocatorMapper
 };
 
+export const apiVersion3: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-11-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const liveEventName: OperationURLParameter = {
   parameterPath: "liveEventName",
   mapper: {
