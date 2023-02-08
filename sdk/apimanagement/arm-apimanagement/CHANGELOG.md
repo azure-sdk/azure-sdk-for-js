@@ -1,15 +1,13 @@
 # Release History
+    
+## 10.0.0 (2023-02-07)
+    
+**Breaking Changes**
 
-## 9.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation ContentItem.createOrUpdate has a new signature
+  - Operation ContentType.createOrUpdate has a new signature
+    
+    
 ## 9.0.0 (2023-02-01)
     
 **Features**
