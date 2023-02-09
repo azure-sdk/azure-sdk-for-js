@@ -202,7 +202,6 @@ export class ContentItemImpl implements ContentItem {
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
    * @param contentItemId Content item identifier.
-   * @param parameters Create or update parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -210,18 +209,10 @@ export class ContentItemImpl implements ContentItem {
     serviceName: string,
     contentTypeId: string,
     contentItemId: string,
-    parameters: ContentItemContract,
     options?: ContentItemCreateOrUpdateOptionalParams
   ): Promise<ContentItemCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        contentTypeId,
-        contentItemId,
-        parameters,
-        options
-      },
+      { resourceGroupName, serviceName, contentTypeId, contentItemId, options },
       createOrUpdateOperationSpec
     );
   }
@@ -370,7 +361,6 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters25,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -380,12 +370,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.contentTypeId,
     Parameters.contentItemId
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
-  mediaType: "json",
+  headerParameters: [Parameters.accept, Parameters.ifMatch],
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
