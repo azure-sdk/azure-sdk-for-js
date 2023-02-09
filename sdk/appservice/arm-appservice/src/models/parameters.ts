@@ -92,6 +92,7 @@ import {
   SnapshotRestoreRequest as SnapshotRestoreRequestMapper,
   SiteSourceControl as SiteSourceControlMapper,
   VnetInfoResource as VnetInfoResourceMapper,
+  WorkflowArtifacts as WorkflowArtifactsMapper,
   RegenerateActionParameter as RegenerateActionParameterMapper,
   Workflow as WorkflowMapper
 } from "../models/mappers";
@@ -136,7 +137,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-03-01",
+    defaultValue: "2022-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -767,50 +768,6 @@ export const stackOsType: OperationQueryParameter = {
   mapper: {
     serializedName: "stackOsType",
     xmlName: "stackOsType",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const stackOsType1: OperationQueryParameter = {
-  parameterPath: ["options", "stackOsType"],
-  mapper: {
-    serializedName: "stackOsType",
-    xmlName: "stackOsType",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const stackOsType2: OperationQueryParameter = {
-  parameterPath: ["options", "stackOsType"],
-  mapper: {
-    serializedName: "stackOsType",
-    xmlName: "stackOsType",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const stackOsType3: OperationQueryParameter = {
-  parameterPath: ["options", "stackOsType"],
-  mapper: {
-    serializedName: "stackOsType",
-    xmlName: "stackOsType",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const osTypeSelected1: OperationQueryParameter = {
-  parameterPath: ["options", "osTypeSelected"],
-  mapper: {
-    serializedName: "osTypeSelected",
-    xmlName: "osTypeSelected",
     type: {
       name: "String"
     }
@@ -1713,12 +1670,49 @@ export const connectionEnvelope4: OperationParameter = {
   mapper: VnetInfoResourceMapper
 };
 
+export const workflowArtifacts: OperationParameter = {
+  parameterPath: ["options", "workflowArtifacts"],
+  mapper: WorkflowArtifactsMapper
+};
+
+export const workflowName: OperationURLParameter = {
+  parameterPath: "workflowName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
+      MaxLength: 63,
+      MinLength: 3
+    },
+    serializedName: "workflowName",
+    required: true,
+    xmlName: "workflowName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const configurationName: OperationURLParameter = {
+  parameterPath: "configurationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^connections$")
+    },
+    serializedName: "configurationName",
+    required: true,
+    xmlName: "configurationName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const keyType1: OperationParameter = {
   parameterPath: "keyType",
   mapper: RegenerateActionParameterMapper
 };
 
-export const workflowName: OperationURLParameter = {
+export const workflowName1: OperationURLParameter = {
   parameterPath: "workflowName",
   mapper: {
     serializedName: "workflowName",

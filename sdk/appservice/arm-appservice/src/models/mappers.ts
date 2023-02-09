@@ -2755,6 +2755,20 @@ export const SiteConfig: coreClient.CompositeMapper = {
           }
         }
       },
+      metadata: {
+        serializedName: "metadata",
+        xmlName: "metadata",
+        xmlElementName: "NameValuePair",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NameValuePair"
+            }
+          }
+        }
+      },
       connectionStrings: {
         serializedName: "connectionStrings",
         xmlName: "connectionStrings",
@@ -3032,6 +3046,13 @@ export const SiteConfig: coreClient.CompositeMapper = {
           }
         }
       },
+      ipSecurityRestrictionsDefaultAction: {
+        serializedName: "ipSecurityRestrictionsDefaultAction",
+        xmlName: "ipSecurityRestrictionsDefaultAction",
+        type: {
+          name: "String"
+        }
+      },
       scmIpSecurityRestrictions: {
         serializedName: "scmIpSecurityRestrictions",
         xmlName: "scmIpSecurityRestrictions",
@@ -3044,6 +3065,13 @@ export const SiteConfig: coreClient.CompositeMapper = {
               className: "IpSecurityRestriction"
             }
           }
+        }
+      },
+      scmIpSecurityRestrictionsDefaultAction: {
+        serializedName: "scmIpSecurityRestrictionsDefaultAction",
+        xmlName: "scmIpSecurityRestrictionsDefaultAction",
+        type: {
+          name: "String"
         }
       },
       scmIpSecurityRestrictionsUseMain: {
@@ -12769,6 +12797,206 @@ export const WebJobCollection: coreClient.CompositeMapper = {
   }
 };
 
+export const WorkflowArtifacts: coreClient.CompositeMapper = {
+  serializedName: "WorkflowArtifacts",
+  type: {
+    name: "Composite",
+    className: "WorkflowArtifacts",
+    modelProperties: {
+      appSettings: {
+        serializedName: "appSettings",
+        xmlName: "appSettings",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      files: {
+        serializedName: "files",
+        xmlName: "files",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Dictionary", value: { type: { name: "any" } } }
+          }
+        }
+      },
+      filesToDelete: {
+        serializedName: "filesToDelete",
+        xmlName: "filesToDelete",
+        xmlElementName: "WorkflowArtifactsFilesToDeleteItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const WorkflowEnvelopeCollection: coreClient.CompositeMapper = {
+  serializedName: "WorkflowEnvelopeCollection",
+  type: {
+    name: "Composite",
+    className: "WorkflowEnvelopeCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        xmlName: "value",
+        xmlElementName: "WorkflowEnvelope",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "WorkflowEnvelope"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        xmlName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WorkflowEnvelope: coreClient.CompositeMapper = {
+  serializedName: "WorkflowEnvelope",
+  type: {
+    name: "Composite",
+    className: "WorkflowEnvelope",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        xmlName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        xmlName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        xmlName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      kind: {
+        serializedName: "kind",
+        xmlName: "kind",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
+        xmlName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        xmlName: "properties",
+        type: {
+          name: "Composite",
+          className: "WorkflowEnvelopeProperties"
+        }
+      }
+    }
+  }
+};
+
+export const WorkflowEnvelopeProperties: coreClient.CompositeMapper = {
+  serializedName: "WorkflowEnvelopeProperties",
+  type: {
+    name: "Composite",
+    className: "WorkflowEnvelopeProperties",
+    modelProperties: {
+      files: {
+        serializedName: "files",
+        xmlName: "files",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Dictionary", value: { type: { name: "any" } } }
+          }
+        }
+      },
+      flowState: {
+        serializedName: "flowState",
+        xmlName: "flowState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "NotSpecified",
+            "Completed",
+            "Enabled",
+            "Disabled",
+            "Deleted",
+            "Suspended"
+          ]
+        }
+      },
+      health: {
+        serializedName: "health",
+        xmlName: "health",
+        type: {
+          name: "Composite",
+          className: "WorkflowHealth"
+        }
+      }
+    }
+  }
+};
+
+export const WorkflowHealth: coreClient.CompositeMapper = {
+  serializedName: "WorkflowHealth",
+  type: {
+    name: "Composite",
+    className: "WorkflowHealth",
+    modelProperties: {
+      state: {
+        serializedName: "state",
+        required: true,
+        xmlName: "state",
+        type: {
+          name: "Enum",
+          allowedValues: ["NotSpecified", "Healthy", "Unhealthy", "Unknown"]
+        }
+      },
+      error: {
+        serializedName: "error",
+        xmlName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorEntity"
+        }
+      }
+    }
+  }
+};
+
 export const RegenerateActionParameter: coreClient.CompositeMapper = {
   serializedName: "RegenerateActionParameter",
   type: {
@@ -14430,7 +14658,15 @@ export const WorkflowFilter: coreClient.CompositeMapper = {
         serializedName: "state",
         xmlName: "state",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "NotSpecified",
+            "Completed",
+            "Enabled",
+            "Disabled",
+            "Deleted",
+            "Suspended"
+          ]
         }
       }
     }
@@ -14512,7 +14748,15 @@ export const WorkflowTriggerFilter: coreClient.CompositeMapper = {
         serializedName: "state",
         xmlName: "state",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "NotSpecified",
+            "Completed",
+            "Enabled",
+            "Disabled",
+            "Deleted",
+            "Suspended"
+          ]
         }
       }
     }
@@ -15575,6 +15819,13 @@ export const Site: coreClient.CompositeMapper = {
       virtualNetworkSubnetId: {
         serializedName: "properties.virtualNetworkSubnetId",
         xmlName: "properties.virtualNetworkSubnetId",
+        type: {
+          name: "String"
+        }
+      },
+      managedEnvironmentId: {
+        serializedName: "properties.managedEnvironmentId",
+        xmlName: "properties.managedEnvironmentId",
         type: {
           name: "String"
         }
@@ -21595,6 +21846,20 @@ export const SiteConfigResource: coreClient.CompositeMapper = {
           }
         }
       },
+      metadata: {
+        serializedName: "properties.metadata",
+        xmlName: "properties.metadata",
+        xmlElementName: "NameValuePair",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NameValuePair"
+            }
+          }
+        }
+      },
       connectionStrings: {
         serializedName: "properties.connectionStrings",
         xmlName: "properties.connectionStrings",
@@ -21872,6 +22137,13 @@ export const SiteConfigResource: coreClient.CompositeMapper = {
           }
         }
       },
+      ipSecurityRestrictionsDefaultAction: {
+        serializedName: "properties.ipSecurityRestrictionsDefaultAction",
+        xmlName: "properties.ipSecurityRestrictionsDefaultAction",
+        type: {
+          name: "String"
+        }
+      },
       scmIpSecurityRestrictions: {
         serializedName: "properties.scmIpSecurityRestrictions",
         xmlName: "properties.scmIpSecurityRestrictions",
@@ -21884,6 +22156,13 @@ export const SiteConfigResource: coreClient.CompositeMapper = {
               className: "IpSecurityRestriction"
             }
           }
+        }
+      },
+      scmIpSecurityRestrictionsDefaultAction: {
+        serializedName: "properties.scmIpSecurityRestrictionsDefaultAction",
+        xmlName: "properties.scmIpSecurityRestrictionsDefaultAction",
+        type: {
+          name: "String"
         }
       },
       scmIpSecurityRestrictionsUseMain: {
@@ -25036,7 +25315,15 @@ export const WorkflowTrigger: coreClient.CompositeMapper = {
         readOnly: true,
         xmlName: "properties.state",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "NotSpecified",
+            "Completed",
+            "Enabled",
+            "Disabled",
+            "Deleted",
+            "Suspended"
+          ]
         }
       },
       status: {
@@ -25561,7 +25848,15 @@ export const Workflow: coreClient.CompositeMapper = {
         serializedName: "properties.state",
         xmlName: "properties.state",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "NotSpecified",
+            "Completed",
+            "Enabled",
+            "Disabled",
+            "Deleted",
+            "Suspended"
+          ]
         }
       },
       version: {
@@ -25682,7 +25977,15 @@ export const WorkflowVersion: coreClient.CompositeMapper = {
         serializedName: "properties.state",
         xmlName: "properties.state",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "NotSpecified",
+            "Completed",
+            "Enabled",
+            "Disabled",
+            "Deleted",
+            "Suspended"
+          ]
         }
       },
       version: {
@@ -25772,6 +26075,23 @@ export const WorkflowRunActionRepetitionProperties: coreClient.CompositeMapper =
               className: "RepetitionIndex"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const AppServiceEnvironmentsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  serializedName: "AppServiceEnvironments_createOrUpdateHeaders",
+  type: {
+    name: "Composite",
+    className: "AppServiceEnvironmentsCreateOrUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        xmlName: "location",
+        type: {
+          name: "String"
         }
       }
     }
