@@ -72,7 +72,6 @@ export interface ContentItem {
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
    * @param contentItemId Content item identifier.
-   * @param parameters Create or update parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -80,7 +79,6 @@ export interface ContentItem {
     serviceName: string,
     contentTypeId: string,
     contentItemId: string,
-    parameters: ContentItemContract,
     options?: ContentItemCreateOrUpdateOptionalParams
   ): Promise<ContentItemCreateOrUpdateResponse>;
   /**

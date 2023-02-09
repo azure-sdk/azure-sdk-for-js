@@ -2675,7 +2675,7 @@ export type ContentFormat = string;
 
 // @public
 export interface ContentItem {
-    createOrUpdate(resourceGroupName: string, serviceName: string, contentTypeId: string, contentItemId: string, parameters: ContentItemContract, options?: ContentItemCreateOrUpdateOptionalParams): Promise<ContentItemCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, serviceName: string, contentTypeId: string, contentItemId: string, options?: ContentItemCreateOrUpdateOptionalParams): Promise<ContentItemCreateOrUpdateResponse>;
     delete(resourceGroupName: string, serviceName: string, contentTypeId: string, contentItemId: string, ifMatch: string, options?: ContentItemDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serviceName: string, contentTypeId: string, contentItemId: string, options?: ContentItemGetOptionalParams): Promise<ContentItemGetResponse>;
     getEntityTag(resourceGroupName: string, serviceName: string, contentTypeId: string, contentItemId: string, options?: ContentItemGetEntityTagOptionalParams): Promise<ContentItemGetEntityTagResponse>;
@@ -2752,7 +2752,7 @@ export type ContentItemListByServiceResponse = ContentItemCollection;
 
 // @public
 export interface ContentType {
-    createOrUpdate(resourceGroupName: string, serviceName: string, contentTypeId: string, parameters: ContentTypeContract, options?: ContentTypeCreateOrUpdateOptionalParams): Promise<ContentTypeCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, serviceName: string, contentTypeId: string, options?: ContentTypeCreateOrUpdateOptionalParams): Promise<ContentTypeCreateOrUpdateResponse>;
     delete(resourceGroupName: string, serviceName: string, contentTypeId: string, ifMatch: string, options?: ContentTypeDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serviceName: string, contentTypeId: string, options?: ContentTypeGetOptionalParams): Promise<ContentTypeGetResponse>;
     listByService(resourceGroupName: string, serviceName: string, options?: ContentTypeListByServiceOptionalParams): PagedAsyncIterableIterator<ContentTypeContract>;
