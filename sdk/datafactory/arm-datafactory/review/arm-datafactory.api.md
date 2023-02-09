@@ -455,8 +455,10 @@ export interface AzureBlobFSWriteSettings extends StoreWriteSettings {
 export interface AzureBlobStorageLinkedService extends LinkedService {
     accountKey?: AzureKeyVaultSecretReference;
     accountKind?: string;
+    authenticationType?: AzureStorageAuthenticationType;
     azureCloudType?: any;
     connectionString?: any;
+    containerUri?: any;
     credential?: CredentialReference;
     encryptedCredential?: string;
     sasToken?: AzureKeyVaultSecretReference;
@@ -1027,6 +1029,9 @@ export interface AzureSqlTableDataset extends Dataset {
 }
 
 // @public
+export type AzureStorageAuthenticationType = string;
+
+// @public
 export interface AzureStorageLinkedService extends LinkedService {
     accountKey?: AzureKeyVaultSecretReference;
     connectionString?: any;
@@ -1290,6 +1295,9 @@ export interface ConcurSource extends TabularSource {
 }
 
 // @public
+export type ConfigurationType = string;
+
+// @public
 export interface ConnectionStateProperties {
     readonly actionsRequired?: string;
     readonly description?: string;
@@ -1334,6 +1342,13 @@ export interface CopyActivityLogSettings {
 
 // @public
 export type CopyBehaviorType = string;
+
+// @public
+export interface CopyComputeScaleProperties {
+    [property: string]: any;
+    dataIntegrationUnit?: number;
+    timeToLive?: number;
+}
 
 // @public
 export interface CopySink {
@@ -1499,9 +1514,57 @@ interface Credential_2 {
     [property: string]: any;
     annotations?: any[];
     description?: string;
-    type: "ServicePrincipal" | "ManagedIdentity";
+    type: "ManagedIdentity" | "ServicePrincipal";
 }
 export { Credential_2 as Credential }
+
+// @public
+export interface CredentialListResponse {
+    nextLink?: string;
+    value: ManagedIdentityCredentialResource[];
+}
+
+// @public
+export interface CredentialOperations {
+    createOrUpdate(resourceGroupName: string, factoryName: string, credentialName: string, credential: ManagedIdentityCredentialResource, options?: CredentialOperationsCreateOrUpdateOptionalParams): Promise<CredentialOperationsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, factoryName: string, credentialName: string, options?: CredentialOperationsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, factoryName: string, credentialName: string, options?: CredentialOperationsGetOptionalParams): Promise<CredentialOperationsGetResponse>;
+    listByFactory(resourceGroupName: string, factoryName: string, options?: CredentialOperationsListByFactoryOptionalParams): PagedAsyncIterableIterator<ManagedIdentityCredentialResource>;
+}
+
+// @public
+export interface CredentialOperationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+}
+
+// @public
+export type CredentialOperationsCreateOrUpdateResponse = ManagedIdentityCredentialResource;
+
+// @public
+export interface CredentialOperationsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface CredentialOperationsGetOptionalParams extends coreClient.OperationOptions {
+    ifNoneMatch?: string;
+}
+
+// @public
+export type CredentialOperationsGetResponse = ManagedIdentityCredentialResource;
+
+// @public
+export interface CredentialOperationsListByFactoryNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CredentialOperationsListByFactoryNextResponse = CredentialListResponse;
+
+// @public
+export interface CredentialOperationsListByFactoryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CredentialOperationsListByFactoryResponse = CredentialListResponse;
 
 // @public
 export interface CredentialReference {
@@ -1519,7 +1582,7 @@ export interface CredentialResource extends SubResource {
 }
 
 // @public (undocumented)
-export type CredentialUnion = Credential_2 | ServicePrincipalCredential | ManagedIdentityCredential;
+export type CredentialUnion = Credential_2 | ManagedIdentityCredential | ServicePrincipalCredential;
 
 // @public
 export interface CustomActivity extends ExecutionActivity {
@@ -1611,6 +1674,8 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
     activityRuns: ActivityRuns;
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    credentialOperations: CredentialOperations;
     // (undocumented)
     dataFlowDebugSession: DataFlowDebugSession;
     // (undocumented)
@@ -3556,11 +3621,13 @@ export type IntegrationRuntimeAutoUpdate = string;
 // @public
 export interface IntegrationRuntimeComputeProperties {
     [property: string]: any;
+    copyComputeScaleProperties?: CopyComputeScaleProperties;
     dataFlowProperties?: IntegrationRuntimeDataFlowProperties;
     location?: string;
     maxParallelExecutionsPerNode?: number;
     nodeSize?: string;
     numberOfNodes?: number;
+    pipelineExternalComputeScaleProperties?: PipelineExternalComputeScaleProperties;
     vNetProperties?: IntegrationRuntimeVNetProperties;
 }
 
@@ -4067,6 +4134,15 @@ export enum KnownAzureSearchIndexWriteBehaviorType {
 }
 
 // @public
+export enum KnownAzureStorageAuthenticationType {
+    AccountKey = "AccountKey",
+    Anonymous = "Anonymous",
+    Msi = "Msi",
+    SasUri = "SasUri",
+    ServicePrincipal = "ServicePrincipal"
+}
+
+// @public
 export enum KnownBigDataPoolReferenceType {
     BigDataPoolReference = "BigDataPoolReference"
 }
@@ -4103,6 +4179,13 @@ export enum KnownCompressionCodec {
     Tar = "tar",
     TarGZip = "tarGZip",
     ZipDeflate = "zipDeflate"
+}
+
+// @public
+export enum KnownConfigurationType {
+    Artifact = "Artifact",
+    Customized = "Customized",
+    Default = "Default"
 }
 
 // @public
@@ -4654,6 +4737,11 @@ export enum KnownSparkAuthenticationType {
 }
 
 // @public
+export enum KnownSparkConfigurationReferenceType {
+    SparkConfigurationReference = "SparkConfigurationReference"
+}
+
+// @public
 export enum KnownSparkJobReferenceType {
     SparkJobDefinitionReference = "SparkJobDefinitionReference"
 }
@@ -4994,6 +5082,11 @@ export interface MagentoSource extends TabularSource {
 export interface ManagedIdentityCredential extends Credential_2 {
     resourceId?: string;
     type: "ManagedIdentity";
+}
+
+// @public
+export interface ManagedIdentityCredentialResource extends SubResource {
+    properties: ManagedIdentityCredential;
 }
 
 // @public
@@ -5857,6 +5950,12 @@ export interface PhoenixSource extends TabularSource {
 // @public
 export interface PipelineElapsedTimeMetricPolicy {
     duration?: any;
+}
+
+// @public
+export interface PipelineExternalComputeScaleProperties {
+    [property: string]: any;
+    timeToLive?: number;
 }
 
 // @public
@@ -7140,13 +7239,22 @@ export interface SnowflakeSink extends CopySink {
 
 // @public
 export interface SnowflakeSource extends CopySource {
-    exportSettings?: SnowflakeExportCopyCommand;
+    exportSettings: SnowflakeExportCopyCommand;
     query?: any;
     type: "SnowflakeSource";
 }
 
 // @public
 export type SparkAuthenticationType = string;
+
+// @public
+export interface SparkConfigurationParametrizationReference {
+    referenceName: any;
+    type: SparkConfigurationReferenceType;
+}
+
+// @public
+export type SparkConfigurationReferenceType = string;
 
 // @public
 export type SparkJobReferenceType = string;
@@ -7634,7 +7742,7 @@ export interface SynapseNotebookActivity extends ExecutionActivity {
     driverSize?: any;
     executorSize?: any;
     notebook: SynapseNotebookReference;
-    numExecutors?: number;
+    numExecutors?: any;
     parameters?: {
         [propertyName: string]: NotebookParameter;
     };
@@ -7653,15 +7761,21 @@ export interface SynapseSparkJobDefinitionActivity extends ExecutionActivity {
     arguments?: any[];
     className?: any;
     conf?: any;
+    configurationType?: ConfigurationType;
     driverSize?: any;
     executorSize?: any;
     file?: any;
     files?: any[];
     filesV2?: any[];
-    numExecutors?: number;
+    numExecutors?: any;
     pythonCodeReference?: any[];
+    scanFolder?: any;
+    sparkConfig?: {
+        [propertyName: string]: any;
+    };
     sparkJob: SynapseSparkJobReference;
     targetBigDataPool?: BigDataPoolParametrizationReference;
+    targetSparkConfiguration?: SparkConfigurationParametrizationReference;
     type: "SparkJob";
 }
 
