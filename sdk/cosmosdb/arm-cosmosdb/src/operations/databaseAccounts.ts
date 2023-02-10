@@ -38,8 +38,10 @@ import {
   DatabaseAccountsCreateOrUpdateOptionalParams,
   DatabaseAccountsCreateOrUpdateResponse,
   DatabaseAccountsDeleteOptionalParams,
+  DatabaseAccountsDeleteResponse,
   FailoverPolicies,
   DatabaseAccountsFailoverPriorityChangeOptionalParams,
+  DatabaseAccountsFailoverPriorityChangeResponse,
   DatabaseAccountsListKeysOptionalParams,
   DatabaseAccountsListKeysResponse,
   DatabaseAccountsListConnectionStringsOptionalParams,
@@ -580,11 +582,16 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
     resourceGroupName: string,
     accountName: string,
     options?: DatabaseAccountsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<DatabaseAccountsDeleteResponse>,
+      DatabaseAccountsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<DatabaseAccountsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -643,7 +650,7 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
     resourceGroupName: string,
     accountName: string,
     options?: DatabaseAccountsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<DatabaseAccountsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       accountName,
@@ -667,11 +674,16 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
     accountName: string,
     failoverParameters: FailoverPolicies,
     options?: DatabaseAccountsFailoverPriorityChangeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<DatabaseAccountsFailoverPriorityChangeResponse>,
+      DatabaseAccountsFailoverPriorityChangeResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<DatabaseAccountsFailoverPriorityChangeResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -735,7 +747,7 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
     accountName: string,
     failoverParameters: FailoverPolicies,
     options?: DatabaseAccountsFailoverPriorityChangeOptionalParams
-  ): Promise<void> {
+  ): Promise<DatabaseAccountsFailoverPriorityChangeResponse> {
     const poller = await this.beginFailoverPriorityChange(
       resourceGroupName,
       accountName,
@@ -1256,7 +1268,20 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {
+      headersMapper: Mappers.DatabaseAccountsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.DatabaseAccountsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.DatabaseAccountsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.DatabaseAccountsDeleteHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1270,7 +1295,20 @@ const failoverPriorityChangeOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/failoverPriorityChange",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {
+      headersMapper: Mappers.DatabaseAccountsFailoverPriorityChangeHeaders
+    },
+    201: {
+      headersMapper: Mappers.DatabaseAccountsFailoverPriorityChangeHeaders
+    },
+    202: {
+      headersMapper: Mappers.DatabaseAccountsFailoverPriorityChangeHeaders
+    },
+    204: {
+      headersMapper: Mappers.DatabaseAccountsFailoverPriorityChangeHeaders
+    }
+  },
   requestBody: Parameters.failoverParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [

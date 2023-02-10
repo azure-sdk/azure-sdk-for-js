@@ -24,6 +24,7 @@ import {
   TableResourcesCreateUpdateTableOptionalParams,
   TableResourcesCreateUpdateTableResponse,
   TableResourcesDeleteTableOptionalParams,
+  TableResourcesDeleteTableResponse,
   TableResourcesGetTableThroughputOptionalParams,
   TableResourcesGetTableThroughputResponse,
   ThroughputSettingsUpdateParameters,
@@ -264,11 +265,16 @@ export class TableResourcesImpl implements TableResources {
     accountName: string,
     tableName: string,
     options?: TableResourcesDeleteTableOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<TableResourcesDeleteTableResponse>,
+      TableResourcesDeleteTableResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<TableResourcesDeleteTableResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -329,7 +335,7 @@ export class TableResourcesImpl implements TableResources {
     accountName: string,
     tableName: string,
     options?: TableResourcesDeleteTableOptionalParams
-  ): Promise<void> {
+  ): Promise<TableResourcesDeleteTableResponse> {
     const poller = await this.beginDeleteTable(
       resourceGroupName,
       accountName,
@@ -825,7 +831,20 @@ const deleteTableOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {
+      headersMapper: Mappers.TableResourcesDeleteTableHeaders
+    },
+    201: {
+      headersMapper: Mappers.TableResourcesDeleteTableHeaders
+    },
+    202: {
+      headersMapper: Mappers.TableResourcesDeleteTableHeaders
+    },
+    204: {
+      headersMapper: Mappers.TableResourcesDeleteTableHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

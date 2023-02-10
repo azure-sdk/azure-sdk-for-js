@@ -17,6 +17,7 @@ import {
   TableResourcesCreateUpdateTableOptionalParams,
   TableResourcesCreateUpdateTableResponse,
   TableResourcesDeleteTableOptionalParams,
+  TableResourcesDeleteTableResponse,
   TableResourcesGetTableThroughputOptionalParams,
   TableResourcesGetTableThroughputResponse,
   ThroughputSettingsUpdateParameters,
@@ -105,7 +106,12 @@ export interface TableResources {
     accountName: string,
     tableName: string,
     options?: TableResourcesDeleteTableOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<TableResourcesDeleteTableResponse>,
+      TableResourcesDeleteTableResponse
+    >
+  >;
   /**
    * Deletes an existing Azure Cosmos DB Table.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -118,7 +124,7 @@ export interface TableResources {
     accountName: string,
     tableName: string,
     options?: TableResourcesDeleteTableOptionalParams
-  ): Promise<void>;
+  ): Promise<TableResourcesDeleteTableResponse>;
   /**
    * Gets the RUs per second of the Table under an existing Azure Cosmos DB database account with the
    * provided name.
