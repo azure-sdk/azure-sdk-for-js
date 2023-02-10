@@ -35,7 +35,7 @@ export class ResourceSkusImpl implements ResourceSkus {
   }
 
   /**
-   * The skus action returns the list of SKUs that DMS supports.
+   * The skus action returns the list of SKUs that DMS (classic) supports.
    * @param options The options parameters.
    */
   public listSkus(
@@ -89,7 +89,7 @@ export class ResourceSkusImpl implements ResourceSkus {
   }
 
   /**
-   * The skus action returns the list of SKUs that DMS supports.
+   * The skus action returns the list of SKUs that DMS (classic) supports.
    * @param options The options parameters.
    */
   private _listSkus(
@@ -144,7 +144,6 @@ const listSkusNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApiError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

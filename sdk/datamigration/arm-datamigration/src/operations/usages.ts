@@ -35,8 +35,8 @@ export class UsagesImpl implements Usages {
   }
 
   /**
-   * This method returns region-specific quotas and resource usage information for the Database Migration
-   * Service.
+   * This method returns region-specific quotas and resource usage information for the Azure Database
+   * Migration Service (classic).
    * @param location The Azure region of the operation
    * @param options The options parameters.
    */
@@ -94,8 +94,8 @@ export class UsagesImpl implements Usages {
   }
 
   /**
-   * This method returns region-specific quotas and resource usage information for the Database Migration
-   * Service.
+   * This method returns region-specific quotas and resource usage information for the Azure Database
+   * Migration Service (classic).
    * @param location The Azure region of the operation
    * @param options The options parameters.
    */
@@ -161,7 +161,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApiError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
