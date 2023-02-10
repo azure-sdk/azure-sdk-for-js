@@ -1,15 +1,18 @@
 # Release History
+    
+## 6.0.0 (2023-02-10)
+    
+**Features**
 
-## 5.1.1 (Unreleased)
+  - Interface IotDpsPropertiesDescription has a new optional parameter portalOperationsHostName
+  - Interface Resource has a new optional parameter resourcegroup
+  - Interface Resource has a new optional parameter subscriptionid
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter code of interface ErrorDetails is changed from string to number
+    
+    
 ## 5.1.0 (2023-01-05)
     
 **Features**
