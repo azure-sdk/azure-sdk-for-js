@@ -13,5 +13,6 @@ export * from "./privateLinkResources";
 export * from "./managedHsms";
 export * from "./mhsmPrivateEndpointConnections";
 export * from "./mhsmPrivateLinkResources";
+export * from "./managedHsmKeys";
 export * from "./operations";
 export * from "./secrets";
