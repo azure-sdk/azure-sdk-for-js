@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { BatchEndpoints } from "../operationsInterfaces";
+import { Registries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -16,30 +16,32 @@ import { AzureMachineLearningServices } from "../azureMachineLearningServices";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  BatchEndpoint,
-  BatchEndpointsListNextOptionalParams,
-  BatchEndpointsListOptionalParams,
-  BatchEndpointsListResponse,
-  BatchEndpointsDeleteOptionalParams,
-  BatchEndpointsGetOptionalParams,
-  BatchEndpointsGetResponse,
-  PartialMinimalTrackedResourceWithIdentity,
-  BatchEndpointsUpdateOptionalParams,
-  BatchEndpointsUpdateResponse,
-  BatchEndpointsCreateOrUpdateOptionalParams,
-  BatchEndpointsCreateOrUpdateResponse,
-  BatchEndpointsListKeysOptionalParams,
-  BatchEndpointsListKeysResponse,
-  BatchEndpointsListNextResponse
+  Registry,
+  RegistriesListBySubscriptionNextOptionalParams,
+  RegistriesListBySubscriptionOptionalParams,
+  RegistriesListBySubscriptionResponse,
+  RegistriesListNextOptionalParams,
+  RegistriesListOptionalParams,
+  RegistriesListResponse,
+  RegistriesDeleteOptionalParams,
+  RegistriesGetOptionalParams,
+  RegistriesGetResponse,
+  PartialRegistryPartialTrackedResource,
+  RegistriesUpdateOptionalParams,
+  RegistriesUpdateResponse,
+  RegistriesCreateOrUpdateOptionalParams,
+  RegistriesCreateOrUpdateResponse,
+  RegistriesListBySubscriptionNextResponse,
+  RegistriesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing BatchEndpoints operations. */
-export class BatchEndpointsImpl implements BatchEndpoints {
+/** Class containing Registries operations. */
+export class RegistriesImpl implements Registries {
   private readonly client: AzureMachineLearningServices;
 
   /**
-   * Initialize a new instance of the class BatchEndpoints class.
+   * Initialize a new instance of the class Registries class.
    * @param client Reference to the service client
    */
   constructor(client: AzureMachineLearningServices) {
@@ -47,17 +49,13 @@ export class BatchEndpointsImpl implements BatchEndpoints {
   }
 
   /**
-   * Lists Batch inference endpoint in the workspace.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * List registries by subscription
    * @param options The options parameters.
    */
-  public list(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: BatchEndpointsListOptionalParams
-  ): PagedAsyncIterableIterator<BatchEndpoint> {
-    const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
+  public listBySubscription(
+    options?: RegistriesListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<Registry> {
+    const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -69,26 +67,76 @@ export class BatchEndpointsImpl implements BatchEndpoints {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          workspaceName,
-          options,
-          settings
-        );
+        return this.listBySubscriptionPagingPage(options, settings);
+      }
+    };
+  }
+
+  private async *listBySubscriptionPagingPage(
+    options?: RegistriesListBySubscriptionOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<Registry[]> {
+    let result: RegistriesListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBySubscriptionNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listBySubscriptionPagingAll(
+    options?: RegistriesListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<Registry> {
+    for await (const page of this.listBySubscriptionPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List registries
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  public list(
+    resourceGroupName: string,
+    options?: RegistriesListOptionalParams
+  ): PagedAsyncIterableIterator<Registry> {
+    const iter = this.listPagingAll(resourceGroupName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    workspaceName: string,
-    options?: BatchEndpointsListOptionalParams,
+    options?: RegistriesListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<BatchEndpoint[]> {
-    let result: BatchEndpointsListResponse;
+  ): AsyncIterableIterator<Registry[]> {
+    let result: RegistriesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, workspaceName, options);
+      result = await this._list(resourceGroupName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -97,7 +145,6 @@ export class BatchEndpointsImpl implements BatchEndpoints {
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
-        workspaceName,
         continuationToken,
         options
       );
@@ -110,47 +157,51 @@ export class BatchEndpointsImpl implements BatchEndpoints {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    workspaceName: string,
-    options?: BatchEndpointsListOptionalParams
-  ): AsyncIterableIterator<BatchEndpoint> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      workspaceName,
-      options
-    )) {
+    options?: RegistriesListOptionalParams
+  ): AsyncIterableIterator<Registry> {
+    for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists Batch inference endpoint in the workspace.
+   * List registries by subscription
+   * @param options The options parameters.
+   */
+  private _listBySubscription(
+    options?: RegistriesListBySubscriptionOptionalParams
+  ): Promise<RegistriesListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec
+    );
+  }
+
+  /**
+   * List registries
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
-    workspaceName: string,
-    options?: BatchEndpointsListOptionalParams
-  ): Promise<BatchEndpointsListResponse> {
+    options?: RegistriesListOptionalParams
+  ): Promise<RegistriesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, options },
+      { resourceGroupName, options },
       listOperationSpec
     );
   }
 
   /**
-   * Delete Batch Inference Endpoint (asynchronous).
+   * Delete registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Inference Endpoint name.
+   * @param registryName Name of registry. This is case-insensitive
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    options?: BatchEndpointsDeleteOptionalParams
+    registryName: string,
+    options?: RegistriesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -193,82 +244,76 @@ export class BatchEndpointsImpl implements BatchEndpoints {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, workspaceName, endpointName, options },
+      { resourceGroupName, registryName, options },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete Batch Inference Endpoint (asynchronous).
+   * Delete registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Inference Endpoint name.
+   * @param registryName Name of registry. This is case-insensitive
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    options?: BatchEndpointsDeleteOptionalParams
+    registryName: string,
+    options?: RegistriesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      workspaceName,
-      endpointName,
+      registryName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets a batch inference endpoint by name.
+   * Get registry
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Name for the Batch Endpoint.
+   * @param registryName Name of registry. This is case-insensitive
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    options?: BatchEndpointsGetOptionalParams
-  ): Promise<BatchEndpointsGetResponse> {
+    registryName: string,
+    options?: RegistriesGetOptionalParams
+  ): Promise<RegistriesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, endpointName, options },
+      { resourceGroupName, registryName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Update a batch inference endpoint (asynchronous).
+   * Update tags
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Name for the Batch inference endpoint.
-   * @param body Mutable batch inference endpoint definition object.
+   * @param registryName Name of registry. This is case-insensitive
+   * @param body Details required to create the registry.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    body: PartialMinimalTrackedResourceWithIdentity,
-    options?: BatchEndpointsUpdateOptionalParams
+    registryName: string,
+    body: PartialRegistryPartialTrackedResource,
+    options?: RegistriesUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<BatchEndpointsUpdateResponse>,
-      BatchEndpointsUpdateResponse
+      PollOperationState<RegistriesUpdateResponse>,
+      RegistriesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<BatchEndpointsUpdateResponse> => {
+    ): Promise<RegistriesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -306,36 +351,34 @@ export class BatchEndpointsImpl implements BatchEndpoints {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, workspaceName, endpointName, body, options },
+      { resourceGroupName, registryName, body, options },
       updateOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Update a batch inference endpoint (asynchronous).
+   * Update tags
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Name for the Batch inference endpoint.
-   * @param body Mutable batch inference endpoint definition object.
+   * @param registryName Name of registry. This is case-insensitive
+   * @param body Details required to create the registry.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    body: PartialMinimalTrackedResourceWithIdentity,
-    options?: BatchEndpointsUpdateOptionalParams
-  ): Promise<BatchEndpointsUpdateResponse> {
+    registryName: string,
+    body: PartialRegistryPartialTrackedResource,
+    options?: RegistriesUpdateOptionalParams
+  ): Promise<RegistriesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      workspaceName,
-      endpointName,
+      registryName,
       body,
       options
     );
@@ -343,29 +386,27 @@ export class BatchEndpointsImpl implements BatchEndpoints {
   }
 
   /**
-   * Creates a batch inference endpoint (asynchronous).
+   * Create or update registry
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Name for the Batch inference endpoint.
-   * @param body Batch inference endpoint definition object.
+   * @param registryName Name of registry. This is case-insensitive
+   * @param body Details required to create the registry.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    body: BatchEndpoint,
-    options?: BatchEndpointsCreateOrUpdateOptionalParams
+    registryName: string,
+    body: Registry,
+    options?: RegistriesCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<BatchEndpointsCreateOrUpdateResponse>,
-      BatchEndpointsCreateOrUpdateResponse
+      PollOperationState<RegistriesCreateOrUpdateResponse>,
+      RegistriesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<BatchEndpointsCreateOrUpdateResponse> => {
+    ): Promise<RegistriesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -403,36 +444,34 @@ export class BatchEndpointsImpl implements BatchEndpoints {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, workspaceName, endpointName, body, options },
+      { resourceGroupName, registryName, body, options },
       createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates a batch inference endpoint (asynchronous).
+   * Create or update registry
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Name for the Batch inference endpoint.
-   * @param body Batch inference endpoint definition object.
+   * @param registryName Name of registry. This is case-insensitive
+   * @param body Details required to create the registry.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    body: BatchEndpoint,
-    options?: BatchEndpointsCreateOrUpdateOptionalParams
-  ): Promise<BatchEndpointsCreateOrUpdateResponse> {
+    registryName: string,
+    body: Registry,
+    options?: RegistriesCreateOrUpdateOptionalParams
+  ): Promise<RegistriesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      workspaceName,
-      endpointName,
+      registryName,
       body,
       options
     );
@@ -440,39 +479,33 @@ export class BatchEndpointsImpl implements BatchEndpoints {
   }
 
   /**
-   * Lists batch Inference Endpoint keys.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Inference Endpoint name.
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
    */
-  listKeys(
-    resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    options?: BatchEndpointsListKeysOptionalParams
-  ): Promise<BatchEndpointsListKeysResponse> {
+  private _listBySubscriptionNext(
+    nextLink: string,
+    options?: RegistriesListBySubscriptionNextOptionalParams
+  ): Promise<RegistriesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, endpointName, options },
-      listKeysOperationSpec
+      { nextLink, options },
+      listBySubscriptionNextOperationSpec
     );
   }
 
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
-    workspaceName: string,
     nextLink: string,
-    options?: BatchEndpointsListNextOptionalParams
-  ): Promise<BatchEndpointsListNextResponse> {
+    options?: RegistriesListNextOptionalParams
+  ): Promise<RegistriesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, nextLink, options },
+      { resourceGroupName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -480,31 +513,47 @@ export class BatchEndpointsImpl implements BatchEndpoints {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/registries",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchEndpointTrackedResourceArmPaginatedResult
+      bodyMapper: Mappers.RegistryTrackedResourceArmPaginatedResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.count],
+  queryParameters: [Parameters.apiVersion, Parameters.skip],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RegistryTrackedResourceArmPaginatedResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -520,19 +569,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.endpointName
+    Parameters.registryName1
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchEndpoint
+      bodyMapper: Mappers.Registry
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -543,41 +591,39 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.endpointName
+    Parameters.registryName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchEndpoint
+      bodyMapper: Mappers.Registry
     },
     201: {
-      bodyMapper: Mappers.BatchEndpoint
+      bodyMapper: Mappers.Registry
     },
     202: {
-      bodyMapper: Mappers.BatchEndpoint
+      bodyMapper: Mappers.Registry
     },
     204: {
-      bodyMapper: Mappers.BatchEndpoint
+      bodyMapper: Mappers.Registry
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body8,
+  requestBody: Parameters.body24,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.endpointName1
+    Parameters.registryName1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -585,57 +631,52 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchEndpoint
+      bodyMapper: Mappers.Registry
     },
     201: {
-      bodyMapper: Mappers.BatchEndpoint
+      bodyMapper: Mappers.Registry
     },
     202: {
-      bodyMapper: Mappers.BatchEndpoint
+      bodyMapper: Mappers.Registry
     },
     204: {
-      bodyMapper: Mappers.BatchEndpoint
+      bodyMapper: Mappers.Registry
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body9,
+  requestBody: Parameters.body25,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.endpointName1
+    Parameters.registryName1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/listkeys",
-  httpMethod: "POST",
+const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EndpointAuthKeys
+      bodyMapper: Mappers.RegistryTrackedResourceArmPaginatedResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.endpointName
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -645,7 +686,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchEndpointTrackedResourceArmPaginatedResult
+      bodyMapper: Mappers.RegistryTrackedResourceArmPaginatedResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -655,7 +696,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
