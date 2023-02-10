@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   Token,
   TokensListOptionalParams,
@@ -63,7 +63,7 @@ export interface Tokens {
     tokenCreateParameters: Token,
     options?: TokensCreateOptionalParams
   ): Promise<
-    SimplePollerLike<OperationState<TokensCreateResponse>, TokensCreateResponse>
+    PollerLike<PollOperationState<TokensCreateResponse>, TokensCreateResponse>
   >;
   /**
    * Creates a token for a container registry with the specified parameters.
@@ -92,7 +92,7 @@ export interface Tokens {
     registryName: string,
     tokenName: string,
     options?: TokensDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a token from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -121,7 +121,7 @@ export interface Tokens {
     tokenUpdateParameters: TokenUpdateParameters,
     options?: TokensUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<OperationState<TokensUpdateResponse>, TokensUpdateResponse>
+    PollerLike<PollOperationState<TokensUpdateResponse>, TokensUpdateResponse>
   >;
   /**
    * Updates a token with the specified parameters.

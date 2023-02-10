@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   CacheRule,
   CacheRulesListOptionalParams,
@@ -63,8 +63,8 @@ export interface CacheRules {
     cacheRuleCreateParameters: CacheRule,
     options?: CacheRulesCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CacheRulesCreateResponse>,
+    PollerLike<
+      PollOperationState<CacheRulesCreateResponse>,
       CacheRulesCreateResponse
     >
   >;
@@ -95,7 +95,7 @@ export interface CacheRules {
     registryName: string,
     cacheRuleName: string,
     options?: CacheRulesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a cache rule resource from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -124,8 +124,8 @@ export interface CacheRules {
     cacheRuleUpdateParameters: CacheRuleUpdateParameters,
     options?: CacheRulesUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CacheRulesUpdateResponse>,
+    PollerLike<
+      PollOperationState<CacheRulesUpdateResponse>,
       CacheRulesUpdateResponse
     >
   >;

@@ -3896,7 +3896,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230209
+      typescript: 5.0.0-dev.20230210
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -6539,12 +6539,6 @@ packages:
     hasBin: true
     dev: false
 
-  /mkdirp/2.1.3:
-    resolution: {integrity: sha512-sjAkg21peAG9HS+Dkx7hlG9Ztx7HLeKnvB3NQRcu/mltCVmvkF0pisbiTSfDVYTT86XEfZrTUosLdZLStquZUw==}
-    engines: {node: '>=10'}
-    hasBin: true
-    dev: false
-
   /mocha-junit-reporter/1.23.3_mocha@7.2.0:
     resolution: {integrity: sha512-ed8LqbRj1RxZfjt/oC9t12sfrWsjZ3gNnbhV1nuj9R/Jb5/P3Xb4duv2eCfCDMYH+fEu0mqca7m4wsiVjsxsvA==}
     peerDependencies:
@@ -8787,8 +8781,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230209:
-    resolution: {integrity: sha512-EKEs7zC40JV4BTgxULx8oDWSya4r2FeqSVpwuK7ZRu4OBErBo8n59wBAR6r+NBbkxG8JzxMOE2+fazbu/nLi9A==}
+  /typescript/5.0.0-dev.20230210:
+    resolution: {integrity: sha512-FjXPw8PFeIuT1cxouvP4LRu8J1G+FsWVEGwlJ9GcVywRNDfD3Hh6flQFUympS+3QnAIiG/+CHs9ZS2EQIT733g==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11125,7 +11119,7 @@ packages:
     dev: false
 
   file:projects/arm-containerregistry.tgz:
-    resolution: {integrity: sha512-aafU9Vc6ExRvKpH14gdPXSncN18huZCpNYIpa0jSEmbgdDEEwPwQVJBEo7rOHSuxVPXqGej8/DNZrIdeEln2dg==, tarball: file:projects/arm-containerregistry.tgz}
+    resolution: {integrity: sha512-GdIZ08PrNkQvwrvWvjBWhtiRAmiRuNmIpFHA6VEyge8h0RXp/7SKKpcttFoActctqAo29AWbavERfaX2r6bPmg==, tarball: file:projects/arm-containerregistry.tgz}
     name: '@rush-temp/arm-containerregistry'
     version: 0.0.0
     dependencies:
@@ -11140,7 +11134,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 2.1.3
+      mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1

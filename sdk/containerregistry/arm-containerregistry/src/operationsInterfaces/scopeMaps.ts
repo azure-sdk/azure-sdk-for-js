@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   ScopeMap,
   ScopeMapsListOptionalParams,
@@ -63,8 +63,8 @@ export interface ScopeMaps {
     scopeMapCreateParameters: ScopeMap,
     options?: ScopeMapsCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<ScopeMapsCreateResponse>,
+    PollerLike<
+      PollOperationState<ScopeMapsCreateResponse>,
       ScopeMapsCreateResponse
     >
   >;
@@ -95,7 +95,7 @@ export interface ScopeMaps {
     registryName: string,
     scopeMapName: string,
     options?: ScopeMapsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a scope map from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -124,8 +124,8 @@ export interface ScopeMaps {
     scopeMapUpdateParameters: ScopeMapUpdateParameters,
     options?: ScopeMapsUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<ScopeMapsUpdateResponse>,
+    PollerLike<
+      PollOperationState<ScopeMapsUpdateResponse>,
       ScopeMapsUpdateResponse
     >
   >;
