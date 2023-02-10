@@ -20,11 +20,22 @@ export interface CheckNameAvailabilityParameters {
 }
 
 // @public
+export interface CorsConfiguration {
+    allowCredentials?: boolean;
+    headers?: string[];
+    maxAge?: number;
+    methods?: string[];
+    origins?: string[];
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
 export interface DicomService extends TaggedResource, ServiceManagedIdentity {
     authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
+    corsConfiguration?: CorsConfiguration;
+    readonly eventState?: ServiceEventState;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -152,6 +163,8 @@ export interface FhirService extends TaggedResource, ServiceManagedIdentity {
     corsConfiguration?: FhirServiceCorsConfiguration;
     readonly eventState?: ServiceEventState;
     exportConfiguration?: FhirServiceExportConfiguration;
+    implementationGuidesConfiguration?: ImplementationGuidesConfiguration;
+    importConfiguration?: FhirServiceImportConfiguration;
     kind?: FhirServiceKind;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
@@ -196,6 +209,13 @@ export interface FhirServiceCorsConfiguration {
 // @public
 export interface FhirServiceExportConfiguration {
     storageAccountName?: string;
+}
+
+// @public
+export interface FhirServiceImportConfiguration {
+    enabled?: boolean;
+    initialImportMode?: boolean;
+    integrationDataStore?: string;
 }
 
 // @public
@@ -307,6 +327,11 @@ export interface HealthcareApisManagementClientOptionalParams extends coreClient
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
+}
+
+// @public
+export interface ImplementationGuidesConfiguration {
+    usCoreMissingData?: boolean;
 }
 
 // @public
@@ -595,8 +620,13 @@ export interface MetricSpecification {
     dimensions?: MetricDimension[];
     displayDescription?: string;
     displayName?: string;
+    enableRegionalMdmAccount?: boolean;
     fillGapWithZero?: boolean;
+    isInternal?: boolean;
+    metricFilterPattern?: string;
     name?: string;
+    resourceIdDimensionNameOverride?: string;
+    sourceMdmAccount?: string;
     sourceMdmNamespace?: string;
     supportedAggregationTypes?: string[];
     supportedTimeGrainTypes?: string[];
@@ -864,6 +894,13 @@ export interface ServiceExportConfigurationInfo {
 }
 
 // @public
+export interface ServiceImportConfigurationInfo {
+    enabled?: boolean;
+    initialImportMode?: boolean;
+    integrationDataStore?: string;
+}
+
+// @public
 export interface ServiceManagedIdentity {
     identity?: ServiceManagedIdentityIdentity;
 }
@@ -1003,6 +1040,7 @@ export interface ServicesProperties {
     corsConfiguration?: ServiceCorsConfigurationInfo;
     cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
     exportConfiguration?: ServiceExportConfigurationInfo;
+    importConfiguration?: ServiceImportConfigurationInfo;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
