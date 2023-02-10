@@ -25,7 +25,9 @@ import {
   IotFhirDestination as IotFhirDestinationMapper,
   FhirService as FhirServiceMapper,
   FhirServicePatchResource as FhirServicePatchResourceMapper,
-  PrivateEndpointConnectionDescription as PrivateEndpointConnectionDescriptionMapper
+  PrivateEndpointConnectionDescription as PrivateEndpointConnectionDescriptionMapper,
+  AnalyticsConnector as AnalyticsConnectorMapper,
+  AnalyticsConnectorPatchResource as AnalyticsConnectorPatchResourceMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -55,7 +57,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-11-01",
+    defaultValue: "2023-04-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -295,6 +297,32 @@ export const fhirservicePatchResource: OperationParameter = {
 export const properties1: OperationParameter = {
   parameterPath: "properties",
   mapper: PrivateEndpointConnectionDescriptionMapper
+};
+
+export const analyticsConnectorName: OperationURLParameter = {
+  parameterPath: "analyticsConnectorName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z0-9][a-z0-9\\-]*[a-z0-9]$"),
+      MaxLength: 24,
+      MinLength: 3
+    },
+    serializedName: "analyticsConnectorName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const analyticsConnector: OperationParameter = {
+  parameterPath: "analyticsConnector",
+  mapper: AnalyticsConnectorMapper
+};
+
+export const analyticsConnectorPatchResource: OperationParameter = {
+  parameterPath: "analyticsConnectorPatchResource",
+  mapper: AnalyticsConnectorPatchResourceMapper
 };
 
 export const locationName: OperationURLParameter = {
