@@ -8,33 +8,34 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { MsixPackages } from "../operationsInterfaces";
+import { ScalingPlanPooledSchedules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient";
 import {
-  MsixPackage,
-  MsixPackagesListNextOptionalParams,
-  MsixPackagesListOptionalParams,
-  MsixPackagesListResponse,
-  MsixPackagesGetOptionalParams,
-  MsixPackagesGetResponse,
-  MsixPackagesCreateOrUpdateOptionalParams,
-  MsixPackagesCreateOrUpdateResponse,
-  MsixPackagesDeleteOptionalParams,
-  MsixPackagesUpdateOptionalParams,
-  MsixPackagesUpdateResponse,
-  MsixPackagesListNextResponse
+  ScalingPlanPooledSchedule,
+  ScalingPlanPooledSchedulesListNextOptionalParams,
+  ScalingPlanPooledSchedulesListOptionalParams,
+  ScalingPlanPooledSchedulesListResponse,
+  ScalingPlanPooledSchedulesGetOptionalParams,
+  ScalingPlanPooledSchedulesGetResponse,
+  ScalingPlanPooledSchedulesCreateOptionalParams,
+  ScalingPlanPooledSchedulesCreateResponse,
+  ScalingPlanPooledSchedulesDeleteOptionalParams,
+  ScalingPlanPooledSchedulesUpdateOptionalParams,
+  ScalingPlanPooledSchedulesUpdateResponse,
+  ScalingPlanPooledSchedulesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing MsixPackages operations. */
-export class MsixPackagesImpl implements MsixPackages {
+/** Class containing ScalingPlanPooledSchedules operations. */
+export class ScalingPlanPooledSchedulesImpl
+  implements ScalingPlanPooledSchedules {
   private readonly client: DesktopVirtualizationAPIClient;
 
   /**
-   * Initialize a new instance of the class MsixPackages class.
+   * Initialize a new instance of the class ScalingPlanPooledSchedules class.
    * @param client Reference to the service client
    */
   constructor(client: DesktopVirtualizationAPIClient) {
@@ -42,17 +43,21 @@ export class MsixPackagesImpl implements MsixPackages {
   }
 
   /**
-   * List MSIX packages in hostpool.
+   * List ScalingPlanPooledSchedules.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
+   * @param scalingPlanName The name of the scaling plan.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
-    hostPoolName: string,
-    options?: MsixPackagesListOptionalParams
-  ): PagedAsyncIterableIterator<MsixPackage> {
-    const iter = this.listPagingAll(resourceGroupName, hostPoolName, options);
+    scalingPlanName: string,
+    options?: ScalingPlanPooledSchedulesListOptionalParams
+  ): PagedAsyncIterableIterator<ScalingPlanPooledSchedule> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      scalingPlanName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -66,7 +71,7 @@ export class MsixPackagesImpl implements MsixPackages {
         }
         return this.listPagingPage(
           resourceGroupName,
-          hostPoolName,
+          scalingPlanName,
           options,
           settings
         );
@@ -76,14 +81,14 @@ export class MsixPackagesImpl implements MsixPackages {
 
   private async *listPagingPage(
     resourceGroupName: string,
-    hostPoolName: string,
-    options?: MsixPackagesListOptionalParams,
+    scalingPlanName: string,
+    options?: ScalingPlanPooledSchedulesListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<MsixPackage[]> {
-    let result: MsixPackagesListResponse;
+  ): AsyncIterableIterator<ScalingPlanPooledSchedule[]> {
+    let result: ScalingPlanPooledSchedulesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, hostPoolName, options);
+      result = await this._list(resourceGroupName, scalingPlanName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -92,7 +97,7 @@ export class MsixPackagesImpl implements MsixPackages {
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
-        hostPoolName,
+        scalingPlanName,
         continuationToken,
         options
       );
@@ -105,12 +110,12 @@ export class MsixPackagesImpl implements MsixPackages {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    hostPoolName: string,
-    options?: MsixPackagesListOptionalParams
-  ): AsyncIterableIterator<MsixPackage> {
+    scalingPlanName: string,
+    options?: ScalingPlanPooledSchedulesListOptionalParams
+  ): AsyncIterableIterator<ScalingPlanPooledSchedule> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
-      hostPoolName,
+      scalingPlanName,
       options
     )) {
       yield* page;
@@ -118,106 +123,102 @@ export class MsixPackagesImpl implements MsixPackages {
   }
 
   /**
-   * Get a msixpackage.
+   * Get a ScalingPlanPooledSchedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
-   * @param msixPackageFullName The version specific package full name of the MSIX package within
-   *                            specified hostpool
+   * @param scalingPlanName The name of the scaling plan.
+   * @param scalingPlanScheduleName The name of the ScalingPlanSchedule
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    hostPoolName: string,
-    msixPackageFullName: string,
-    options?: MsixPackagesGetOptionalParams
-  ): Promise<MsixPackagesGetResponse> {
+    scalingPlanName: string,
+    scalingPlanScheduleName: string,
+    options?: ScalingPlanPooledSchedulesGetOptionalParams
+  ): Promise<ScalingPlanPooledSchedulesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, msixPackageFullName, options },
+      { resourceGroupName, scalingPlanName, scalingPlanScheduleName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or update a MSIX package.
+   * Create or update a ScalingPlanPooledSchedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
-   * @param msixPackageFullName The version specific package full name of the MSIX package within
-   *                            specified hostpool
-   * @param msixPackage Object containing  MSIX Package definitions.
+   * @param scalingPlanName The name of the scaling plan.
+   * @param scalingPlanScheduleName The name of the ScalingPlanSchedule
+   * @param scalingPlanSchedule Object containing ScalingPlanPooledSchedule definitions.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  create(
     resourceGroupName: string,
-    hostPoolName: string,
-    msixPackageFullName: string,
-    msixPackage: MsixPackage,
-    options?: MsixPackagesCreateOrUpdateOptionalParams
-  ): Promise<MsixPackagesCreateOrUpdateResponse> {
+    scalingPlanName: string,
+    scalingPlanScheduleName: string,
+    scalingPlanSchedule: ScalingPlanPooledSchedule,
+    options?: ScalingPlanPooledSchedulesCreateOptionalParams
+  ): Promise<ScalingPlanPooledSchedulesCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        hostPoolName,
-        msixPackageFullName,
-        msixPackage,
+        scalingPlanName,
+        scalingPlanScheduleName,
+        scalingPlanSchedule,
         options
       },
-      createOrUpdateOperationSpec
+      createOperationSpec
     );
   }
 
   /**
-   * Remove an MSIX Package.
+   * Remove a ScalingPlanPooledSchedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
-   * @param msixPackageFullName The version specific package full name of the MSIX package within
-   *                            specified hostpool
+   * @param scalingPlanName The name of the scaling plan.
+   * @param scalingPlanScheduleName The name of the ScalingPlanSchedule
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
-    hostPoolName: string,
-    msixPackageFullName: string,
-    options?: MsixPackagesDeleteOptionalParams
+    scalingPlanName: string,
+    scalingPlanScheduleName: string,
+    options?: ScalingPlanPooledSchedulesDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, msixPackageFullName, options },
+      { resourceGroupName, scalingPlanName, scalingPlanScheduleName, options },
       deleteOperationSpec
     );
   }
 
   /**
-   * Update an  MSIX Package.
+   * Update a ScalingPlanPooledSchedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
-   * @param msixPackageFullName The version specific package full name of the MSIX package within
-   *                            specified hostpool
+   * @param scalingPlanName The name of the scaling plan.
+   * @param scalingPlanScheduleName The name of the ScalingPlanSchedule
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
-    hostPoolName: string,
-    msixPackageFullName: string,
-    options?: MsixPackagesUpdateOptionalParams
-  ): Promise<MsixPackagesUpdateResponse> {
+    scalingPlanName: string,
+    scalingPlanScheduleName: string,
+    options?: ScalingPlanPooledSchedulesUpdateOptionalParams
+  ): Promise<ScalingPlanPooledSchedulesUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, msixPackageFullName, options },
+      { resourceGroupName, scalingPlanName, scalingPlanScheduleName, options },
       updateOperationSpec
     );
   }
 
   /**
-   * List MSIX packages in hostpool.
+   * List ScalingPlanPooledSchedules.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
+   * @param scalingPlanName The name of the scaling plan.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
-    hostPoolName: string,
-    options?: MsixPackagesListOptionalParams
-  ): Promise<MsixPackagesListResponse> {
+    scalingPlanName: string,
+    options?: ScalingPlanPooledSchedulesListOptionalParams
+  ): Promise<ScalingPlanPooledSchedulesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, options },
+      { resourceGroupName, scalingPlanName, options },
       listOperationSpec
     );
   }
@@ -225,18 +226,18 @@ export class MsixPackagesImpl implements MsixPackages {
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
+   * @param scalingPlanName The name of the scaling plan.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
-    hostPoolName: string,
+    scalingPlanName: string,
     nextLink: string,
-    options?: MsixPackagesListNextOptionalParams
-  ): Promise<MsixPackagesListNextResponse> {
+    options?: ScalingPlanPooledSchedulesListNextOptionalParams
+  ): Promise<ScalingPlanPooledSchedulesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, nextLink, options },
+      { resourceGroupName, scalingPlanName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -246,11 +247,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules/{scalingPlanScheduleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MsixPackage
+      bodyMapper: Mappers.ScalingPlanPooledSchedule
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -261,35 +262,35 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostPoolName,
-    Parameters.msixPackageFullName
+    Parameters.scalingPlanName,
+    Parameters.scalingPlanScheduleName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules/{scalingPlanScheduleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MsixPackage
+      bodyMapper: Mappers.ScalingPlanPooledSchedule
     },
     201: {
-      bodyMapper: Mappers.MsixPackage
+      bodyMapper: Mappers.ScalingPlanPooledSchedule
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.msixPackage,
+  requestBody: Parameters.scalingPlanSchedule,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostPoolName,
-    Parameters.msixPackageFullName
+    Parameters.scalingPlanName,
+    Parameters.scalingPlanScheduleName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -297,7 +298,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules/{scalingPlanScheduleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -311,32 +312,32 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostPoolName,
-    Parameters.msixPackageFullName
+    Parameters.scalingPlanName,
+    Parameters.scalingPlanScheduleName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules/{scalingPlanScheduleName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.MsixPackage
+      bodyMapper: Mappers.ScalingPlanPooledSchedule
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.msixPackage1,
+  requestBody: Parameters.scalingPlanSchedule1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostPoolName,
-    Parameters.msixPackageFullName
+    Parameters.scalingPlanName,
+    Parameters.scalingPlanScheduleName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -344,11 +345,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MsixPackageList
+      bodyMapper: Mappers.ScalingPlanPooledScheduleList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -364,7 +365,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostPoolName
+    Parameters.scalingPlanName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -374,7 +375,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MsixPackageList
+      bodyMapper: Mappers.ScalingPlanPooledScheduleList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -385,7 +386,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostPoolName
+    Parameters.scalingPlanName
   ],
   headerParameters: [Parameters.accept],
   serializer
