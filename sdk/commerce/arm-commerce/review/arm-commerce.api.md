@@ -111,9 +111,6 @@ export interface UsageAggregates {
 
 // @public
 export interface UsageAggregatesListNextOptionalParams extends coreClient.OperationOptions {
-    aggregationGranularity?: AggregationGranularity;
-    continuationToken?: string;
-    showDetails?: boolean;
 }
 
 // @public
