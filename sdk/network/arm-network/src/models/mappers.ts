@@ -3248,8 +3248,8 @@ export const DdosProtectionPlan: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      virtualNetworks: {
-        serializedName: "properties.virtualNetworks",
+      publicIPAddresses: {
+        serializedName: "properties.publicIPAddresses",
         readOnly: true,
         type: {
           name: "Sequence",
@@ -3261,8 +3261,8 @@ export const DdosProtectionPlan: coreClient.CompositeMapper = {
           }
         }
       },
-      publicIpAddresses: {
-        serializedName: "properties.publicIpAddresses",
+      virtualNetworks: {
+        serializedName: "properties.virtualNetworks",
         readOnly: true,
         type: {
           name: "Sequence",
@@ -4894,6 +4894,70 @@ export const FirewallPolicySku: coreClient.CompositeMapper = {
   }
 };
 
+export const FirewallPolicyDraft: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FirewallPolicyDraft",
+    modelProperties: {
+      threatIntelMode: {
+        serializedName: "threatIntelMode",
+        type: {
+          name: "String"
+        }
+      },
+      threatIntelWhitelist: {
+        serializedName: "threatIntelWhitelist",
+        type: {
+          name: "Composite",
+          className: "FirewallPolicyThreatIntelWhitelist"
+        }
+      },
+      insights: {
+        serializedName: "insights",
+        type: {
+          name: "Composite",
+          className: "FirewallPolicyInsights"
+        }
+      },
+      snat: {
+        serializedName: "snat",
+        type: {
+          name: "Composite",
+          className: "FirewallPolicySnat"
+        }
+      },
+      sql: {
+        serializedName: "sql",
+        type: {
+          name: "Composite",
+          className: "FirewallPolicySQL"
+        }
+      },
+      dnsSettings: {
+        serializedName: "dnsSettings",
+        type: {
+          name: "Composite",
+          className: "DnsSettings"
+        }
+      },
+      explicitProxy: {
+        serializedName: "explicitProxy",
+        type: {
+          name: "Composite",
+          className: "ExplicitProxy"
+        }
+      },
+      intrusionDetection: {
+        serializedName: "intrusionDetection",
+        type: {
+          name: "Composite",
+          className: "FirewallPolicyIntrusionDetection"
+        }
+      }
+    }
+  }
+};
+
 export const FirewallPolicyListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4952,6 +5016,37 @@ export const FirewallPolicyRuleCollection: coreClient.CompositeMapper = {
         serializedName: "priority",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const FirewallPolicyDraftRuleCollectionGroup: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FirewallPolicyDraftRuleCollectionGroup",
+    modelProperties: {
+      priority: {
+        constraints: {
+          InclusiveMaximum: 65000,
+          InclusiveMinimum: 100
+        },
+        serializedName: "priority",
+        type: {
+          name: "Number"
+        }
+      },
+      ruleCollections: {
+        serializedName: "ruleCollections",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FirewallPolicyRuleCollection"
+            }
+          }
         }
       }
     }
@@ -15735,6 +15830,12 @@ export const WebApplicationFirewallCustomRule: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
       ruleType: {
         serializedName: "ruleType",
         required: true,
@@ -25548,6 +25649,13 @@ export const ExpressRouteCircuit: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      authorizationStatus: {
+        serializedName: "properties.authorizationStatus",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -27030,6 +27138,19 @@ export const VirtualNetwork: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "SubResource"
+            }
+          }
+        }
+      },
+      flowLogs: {
+        serializedName: "properties.flowLogs",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FlowLog"
             }
           }
         }

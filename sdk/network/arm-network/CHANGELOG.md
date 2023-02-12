@@ -1,15 +1,79 @@
 # Release History
+    
+## 31.0.0 (2023-02-12)
+    
+**Features**
 
-## 30.1.1 (Unreleased)
+  - Added operation FirewallPolicies.beginDeployDraft
+  - Added operation FirewallPolicies.beginDeployDraftAndWait
+  - Added operation FirewallPolicies.createOrUpdateDraft
+  - Added operation FirewallPolicies.deleteDraft
+  - Added operation FirewallPolicies.getDraft
+  - Added operation FirewallPolicyRuleCollectionGroups.createOrUpdateDraft
+  - Added operation FirewallPolicyRuleCollectionGroups.deleteDraft
+  - Added operation FirewallPolicyRuleCollectionGroups.getDraft
+  - Added Interface FirewallPoliciesCreateOrUpdateDraftOptionalParams
+  - Added Interface FirewallPoliciesDeleteDraftOptionalParams
+  - Added Interface FirewallPoliciesDeployDraftOptionalParams
+  - Added Interface FirewallPoliciesGetDraftOptionalParams
+  - Added Interface FirewallPolicyDraft
+  - Added Interface FirewallPolicyDraftRuleCollectionGroup
+  - Added Interface FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftOptionalParams
+  - Added Interface FirewallPolicyRuleCollectionGroupsDeleteDraftOptionalParams
+  - Added Interface FirewallPolicyRuleCollectionGroupsGetDraftOptionalParams
+  - Added Type Alias FirewallPoliciesCreateOrUpdateDraftResponse
+  - Added Type Alias FirewallPoliciesGetDraftResponse
+  - Added Type Alias FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftResponse
+  - Added Type Alias FirewallPolicyRuleCollectionGroupsDeleteDraftResponse
+  - Added Type Alias FirewallPolicyRuleCollectionGroupsGetDraftResponse
+  - Added Type Alias WebApplicationFirewallState
+  - Interface DdosProtectionPlan has a new optional parameter publicIPAddresses
+  - Interface ExpressRouteCircuit has a new optional parameter authorizationStatus
+  - Interface VirtualNetwork has a new optional parameter flowLogs
+  - Interface VpnGatewaysResetOptionalParams has a new optional parameter ipConfigurationId
+  - Interface WebApplicationFirewallCustomRule has a new optional parameter state
+  - Added Enum KnownWebApplicationFirewallState
+  - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus400
+  - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus404
+  - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus405
+  - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus408
+  - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus499
+  - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus500
+  - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus503
+  - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus504
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AdminRuleCollectionsListNextOptionalParams no longer has parameter skipToken
+  - Interface AdminRuleCollectionsListNextOptionalParams no longer has parameter top
+  - Interface AdminRulesListNextOptionalParams no longer has parameter skipToken
+  - Interface AdminRulesListNextOptionalParams no longer has parameter top
+  - Interface ConnectivityConfigurationsListNextOptionalParams no longer has parameter skipToken
+  - Interface ConnectivityConfigurationsListNextOptionalParams no longer has parameter top
+  - Interface DdosProtectionPlan no longer has parameter publicIpAddresses
+  - Interface ManagementGroupNetworkManagerConnectionsListNextOptionalParams no longer has parameter skipToken
+  - Interface ManagementGroupNetworkManagerConnectionsListNextOptionalParams no longer has parameter top
+  - Interface NetworkGroupsListNextOptionalParams no longer has parameter skipToken
+  - Interface NetworkGroupsListNextOptionalParams no longer has parameter top
+  - Interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextOptionalParams no longer has parameter expand
+  - Interface NetworkManagersListBySubscriptionNextOptionalParams no longer has parameter skipToken
+  - Interface NetworkManagersListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface NetworkManagersListNextOptionalParams no longer has parameter skipToken
+  - Interface NetworkManagersListNextOptionalParams no longer has parameter top
+  - Interface ScopeConnectionsListNextOptionalParams no longer has parameter skipToken
+  - Interface ScopeConnectionsListNextOptionalParams no longer has parameter top
+  - Interface SecurityAdminConfigurationsListNextOptionalParams no longer has parameter skipToken
+  - Interface SecurityAdminConfigurationsListNextOptionalParams no longer has parameter top
+  - Interface ServiceTagInformationListNextOptionalParams no longer has parameter noAddressPrefixes
+  - Interface ServiceTagInformationListNextOptionalParams no longer has parameter tagName
+  - Interface StaticMembersListNextOptionalParams no longer has parameter skipToken
+  - Interface StaticMembersListNextOptionalParams no longer has parameter top
+  - Interface SubscriptionNetworkManagerConnectionsListNextOptionalParams no longer has parameter skipToken
+  - Interface SubscriptionNetworkManagerConnectionsListNextOptionalParams no longer has parameter top
+  - Interface VirtualNetworksListDdosProtectionStatusNextOptionalParams no longer has parameter skipToken
+  - Interface VirtualNetworksListDdosProtectionStatusNextOptionalParams no longer has parameter top
+    
+    
 ## 30.1.0 (2022-12-13)
     
 **Features**

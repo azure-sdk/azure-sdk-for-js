@@ -179,8 +179,6 @@ export type AdminRuleCollectionsGetResponse = AdminRuleCollection;
 
 // @public
 export interface AdminRuleCollectionsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -241,8 +239,6 @@ export type AdminRulesGetResponse = BaseAdminRuleUnion;
 
 // @public
 export interface AdminRulesListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -2620,8 +2616,6 @@ export type ConnectivityConfigurationsGetResponse = ConnectivityConfiguration;
 
 // @public
 export interface ConnectivityConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -2917,7 +2911,7 @@ export interface DdosProtectionPlan {
     location?: string;
     readonly name?: string;
     readonly provisioningState?: ProvisioningState;
-    readonly publicIpAddresses?: SubResource[];
+    readonly publicIPAddresses?: SubResource[];
     readonly resourceGuid?: string;
     tags?: {
         [propertyName: string]: string;
@@ -3445,6 +3439,7 @@ export interface ExpressRouteCircuit extends Resource {
     allowClassicOperations?: boolean;
     authorizationKey?: string;
     authorizations?: ExpressRouteCircuitAuthorization[];
+    readonly authorizationStatus?: string;
     bandwidthInGbps?: number;
     circuitProvisioningState?: string;
     readonly etag?: string;
@@ -4624,11 +4619,23 @@ export interface FirewallPolicies {
     beginCreateOrUpdateAndWait(resourceGroupName: string, firewallPolicyName: string, parameters: FirewallPolicy, options?: FirewallPoliciesCreateOrUpdateOptionalParams): Promise<FirewallPoliciesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPoliciesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPoliciesDeleteOptionalParams): Promise<void>;
+    beginDeployDraft(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPoliciesDeployDraftOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeployDraftAndWait(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPoliciesDeployDraftOptionalParams): Promise<void>;
+    createOrUpdateDraft(resourceGroupName: string, firewallPolicyName: string, parameters: FirewallPolicyDraft, options?: FirewallPoliciesCreateOrUpdateDraftOptionalParams): Promise<FirewallPoliciesCreateOrUpdateDraftResponse>;
+    deleteDraft(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPoliciesDeleteDraftOptionalParams): Promise<void>;
     get(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPoliciesGetOptionalParams): Promise<FirewallPoliciesGetResponse>;
+    getDraft(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPoliciesGetDraftOptionalParams): Promise<FirewallPoliciesGetDraftResponse>;
     list(resourceGroupName: string, options?: FirewallPoliciesListOptionalParams): PagedAsyncIterableIterator<FirewallPolicy>;
     listAll(options?: FirewallPoliciesListAllOptionalParams): PagedAsyncIterableIterator<FirewallPolicy>;
     updateTags(resourceGroupName: string, firewallPolicyName: string, parameters: TagsObject, options?: FirewallPoliciesUpdateTagsOptionalParams): Promise<FirewallPoliciesUpdateTagsResponse>;
 }
+
+// @public
+export interface FirewallPoliciesCreateOrUpdateDraftOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirewallPoliciesCreateOrUpdateDraftResponse = FirewallPolicyDraft;
 
 // @public
 export interface FirewallPoliciesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -4640,10 +4647,28 @@ export interface FirewallPoliciesCreateOrUpdateOptionalParams extends coreClient
 export type FirewallPoliciesCreateOrUpdateResponse = FirewallPolicy;
 
 // @public
+export interface FirewallPoliciesDeleteDraftOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
 export interface FirewallPoliciesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface FirewallPoliciesDeployDraftOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface FirewallPoliciesGetDraftOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+}
+
+// @public
+export type FirewallPoliciesGetDraftResponse = FirewallPolicyDraft;
 
 // @public
 export interface FirewallPoliciesGetOptionalParams extends coreClient.OperationOptions {
@@ -4713,6 +4738,24 @@ export interface FirewallPolicy extends Resource {
 export interface FirewallPolicyCertificateAuthority {
     keyVaultSecretId?: string;
     name?: string;
+}
+
+// @public (undocumented)
+export interface FirewallPolicyDraft {
+    dnsSettings?: DnsSettings;
+    explicitProxy?: ExplicitProxy;
+    insights?: FirewallPolicyInsights;
+    intrusionDetection?: FirewallPolicyIntrusionDetection;
+    snat?: FirewallPolicySnat;
+    sql?: FirewallPolicySQL;
+    threatIntelMode?: AzureFirewallThreatIntelMode;
+    threatIntelWhitelist?: FirewallPolicyThreatIntelWhitelist;
+}
+
+// @public
+export interface FirewallPolicyDraftRuleCollectionGroup {
+    priority?: number;
+    ruleCollections?: FirewallPolicyRuleCollectionUnion[];
 }
 
 // @public
@@ -4924,9 +4967,19 @@ export interface FirewallPolicyRuleCollectionGroups {
     beginCreateOrUpdateAndWait(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, parameters: FirewallPolicyRuleCollectionGroup, options?: FirewallPolicyRuleCollectionGroupsCreateOrUpdateOptionalParams): Promise<FirewallPolicyRuleCollectionGroupsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, options?: FirewallPolicyRuleCollectionGroupsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, options?: FirewallPolicyRuleCollectionGroupsDeleteOptionalParams): Promise<void>;
+    createOrUpdateDraft(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, parameters: FirewallPolicyDraftRuleCollectionGroup, options?: FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftOptionalParams): Promise<FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftResponse>;
+    deleteDraft(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, parameters: FirewallPolicyRuleCollectionGroup, options?: FirewallPolicyRuleCollectionGroupsDeleteDraftOptionalParams): Promise<FirewallPolicyRuleCollectionGroupsDeleteDraftResponse>;
     get(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, options?: FirewallPolicyRuleCollectionGroupsGetOptionalParams): Promise<FirewallPolicyRuleCollectionGroupsGetResponse>;
+    getDraft(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, parameters: FirewallPolicyRuleCollectionGroup, options?: FirewallPolicyRuleCollectionGroupsGetDraftOptionalParams): Promise<FirewallPolicyRuleCollectionGroupsGetDraftResponse>;
     list(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPolicyRuleCollectionGroupsListOptionalParams): PagedAsyncIterableIterator<FirewallPolicyRuleCollectionGroup>;
 }
+
+// @public
+export interface FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftResponse = FirewallPolicyDraftRuleCollectionGroup;
 
 // @public
 export interface FirewallPolicyRuleCollectionGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -4938,10 +4991,24 @@ export interface FirewallPolicyRuleCollectionGroupsCreateOrUpdateOptionalParams 
 export type FirewallPolicyRuleCollectionGroupsCreateOrUpdateResponse = FirewallPolicyRuleCollectionGroup;
 
 // @public
+export interface FirewallPolicyRuleCollectionGroupsDeleteDraftOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirewallPolicyRuleCollectionGroupsDeleteDraftResponse = FirewallPolicyRuleCollectionGroup;
+
+// @public
 export interface FirewallPolicyRuleCollectionGroupsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface FirewallPolicyRuleCollectionGroupsGetDraftOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirewallPolicyRuleCollectionGroupsGetDraftResponse = FirewallPolicyDraftRuleCollectionGroup;
 
 // @public
 export interface FirewallPolicyRuleCollectionGroupsGetOptionalParams extends coreClient.OperationOptions {
@@ -5905,8 +5972,16 @@ export enum KnownApplicationGatewayCookieBasedAffinity {
 
 // @public
 export enum KnownApplicationGatewayCustomErrorStatusCode {
+    HttpStatus400 = "HttpStatus400",
     HttpStatus403 = "HttpStatus403",
-    HttpStatus502 = "HttpStatus502"
+    HttpStatus404 = "HttpStatus404",
+    HttpStatus405 = "HttpStatus405",
+    HttpStatus408 = "HttpStatus408",
+    HttpStatus499 = "HttpStatus499",
+    HttpStatus500 = "HttpStatus500",
+    HttpStatus502 = "HttpStatus502",
+    HttpStatus503 = "HttpStatus503",
+    HttpStatus504 = "HttpStatus504"
 }
 
 // @public
@@ -7356,6 +7431,12 @@ export enum KnownWebApplicationFirewallRuleType {
 }
 
 // @public
+export enum KnownWebApplicationFirewallState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownWebApplicationFirewallTransform {
     HtmlEntityDecode = "HtmlEntityDecode",
     Lowercase = "Lowercase",
@@ -8035,8 +8116,6 @@ export type ManagementGroupNetworkManagerConnectionsGetResponse = NetworkManager
 
 // @public
 export interface ManagementGroupNetworkManagerConnectionsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -8336,8 +8415,6 @@ export type NetworkGroupsGetResponse = NetworkGroup;
 
 // @public
 export interface NetworkGroupsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -8656,7 +8733,6 @@ export type NetworkInterfacesListResponse = NetworkInterfaceListResult;
 
 // @public
 export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -9215,8 +9291,6 @@ export type NetworkManagersGetResponse = NetworkManager;
 
 // @public
 export interface NetworkManagersListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -9233,8 +9307,6 @@ export type NetworkManagersListBySubscriptionResponse = NetworkManagerListResult
 
 // @public
 export interface NetworkManagersListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -11758,8 +11830,6 @@ export type ScopeConnectionsGetResponse = ScopeConnection;
 
 // @public
 export interface ScopeConnectionsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -11828,8 +11898,6 @@ export type SecurityAdminConfigurationsGetResponse = SecurityAdminConfiguration;
 
 // @public
 export interface SecurityAdminConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -12252,8 +12320,6 @@ export interface ServiceTagInformation {
 
 // @public
 export interface ServiceTagInformationListNextOptionalParams extends coreClient.OperationOptions {
-    noAddressPrefixes?: boolean;
-    tagName?: string;
 }
 
 // @public
@@ -12414,8 +12480,6 @@ export type StaticMembersGetResponse = StaticMember;
 
 // @public
 export interface StaticMembersListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -12577,8 +12641,6 @@ export type SubscriptionNetworkManagerConnectionsGetResponse = NetworkManagerCon
 
 // @public
 export interface SubscriptionNetworkManagerConnectionsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -13277,6 +13339,7 @@ export interface VirtualNetwork extends Resource {
     encryption?: VirtualNetworkEncryption;
     readonly etag?: string;
     extendedLocation?: ExtendedLocation;
+    readonly flowLogs?: FlowLog[];
     flowTimeoutInMinutes?: number;
     ipAllocations?: SubResource[];
     readonly provisioningState?: ProvisioningState;
@@ -14081,8 +14144,6 @@ export type VirtualNetworksListAllResponse = VirtualNetworkListResult;
 
 // @public
 export interface VirtualNetworksListDdosProtectionStatusNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -14836,6 +14897,7 @@ export type VpnGatewaysListResponse = ListVpnGatewaysResult;
 
 // @public
 export interface VpnGatewaysResetOptionalParams extends coreClient.OperationOptions {
+    ipConfigurationId?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -15308,6 +15370,7 @@ export interface WebApplicationFirewallCustomRule {
     name?: string;
     priority: number;
     ruleType: WebApplicationFirewallRuleType;
+    state?: WebApplicationFirewallState;
 }
 
 // @public
@@ -15404,6 +15467,9 @@ export type WebApplicationFirewallPolicyResourceState = string;
 
 // @public
 export type WebApplicationFirewallRuleType = string;
+
+// @public
+export type WebApplicationFirewallState = string;
 
 // @public
 export type WebApplicationFirewallTransform = string;
