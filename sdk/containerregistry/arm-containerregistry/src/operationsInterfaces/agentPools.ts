@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   AgentPool,
   AgentPoolsListOptionalParams,
@@ -65,8 +65,8 @@ export interface AgentPools {
     agentPool: AgentPool,
     options?: AgentPoolsCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<AgentPoolsCreateResponse>,
+    PollerLike<
+      PollOperationState<AgentPoolsCreateResponse>,
       AgentPoolsCreateResponse
     >
   >;
@@ -97,7 +97,7 @@ export interface AgentPools {
     registryName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a specified agent pool resource.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
@@ -126,8 +126,8 @@ export interface AgentPools {
     updateParameters: AgentPoolUpdateParameters,
     options?: AgentPoolsUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<AgentPoolsUpdateResponse>,
+    PollerLike<
+      PollOperationState<AgentPoolsUpdateResponse>,
       AgentPoolsUpdateResponse
     >
   >;
