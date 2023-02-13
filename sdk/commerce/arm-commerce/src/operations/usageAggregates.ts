@@ -87,12 +87,7 @@ export class UsageAggregatesImpl implements UsageAggregates {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        reportedStartTime,
-        reportedEndTime,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -133,19 +128,15 @@ export class UsageAggregatesImpl implements UsageAggregates {
 
   /**
    * ListNext
-   * @param reportedStartTime The start of the time range to retrieve data for.
-   * @param reportedEndTime The end of the time range to retrieve data for.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    reportedStartTime: Date,
-    reportedEndTime: Date,
     nextLink: string,
     options?: UsageAggregatesListNextOptionalParams
   ): Promise<UsageAggregatesListNextResponse> {
     return this.client.sendOperationRequest(
-      { reportedStartTime, reportedEndTime, nextLink, options },
+      { nextLink, options },
       listNextOperationSpec
     );
   }
@@ -188,14 +179,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.reportedStartTime,
-    Parameters.reportedEndTime,
-    Parameters.showDetails,
-    Parameters.aggregationGranularity,
-    Parameters.continuationToken,
-    Parameters.apiVersion
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
