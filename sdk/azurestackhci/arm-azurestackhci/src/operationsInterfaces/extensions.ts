@@ -17,7 +17,9 @@ import {
   ExtensionsCreateResponse,
   ExtensionsUpdateOptionalParams,
   ExtensionsUpdateResponse,
-  ExtensionsDeleteOptionalParams
+  ExtensionsDeleteOptionalParams,
+  ExtensionUpgradeParameters,
+  ExtensionsUpgradeOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -158,5 +160,39 @@ export interface Extensions {
     arcSettingName: string,
     extensionName: string,
     options?: ExtensionsDeleteOptionalParams
+  ): Promise<void>;
+  /**
+   * Upgrade a particular Arc Extension of HCI Cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param arcSettingName The name of the proxy resource holding details of HCI ArcSetting information.
+   * @param extensionName The name of the machine extension.
+   * @param extensionUpgradeParameters Parameters supplied to the Upgrade Extensions operation.
+   * @param options The options parameters.
+   */
+  beginUpgrade(
+    resourceGroupName: string,
+    clusterName: string,
+    arcSettingName: string,
+    extensionName: string,
+    extensionUpgradeParameters: ExtensionUpgradeParameters,
+    options?: ExtensionsUpgradeOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Upgrade a particular Arc Extension of HCI Cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param arcSettingName The name of the proxy resource holding details of HCI ArcSetting information.
+   * @param extensionName The name of the machine extension.
+   * @param extensionUpgradeParameters Parameters supplied to the Upgrade Extensions operation.
+   * @param options The options parameters.
+   */
+  beginUpgradeAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    arcSettingName: string,
+    extensionName: string,
+    extensionUpgradeParameters: ExtensionUpgradeParameters,
+    options?: ExtensionsUpgradeOptionalParams
   ): Promise<void>;
 }

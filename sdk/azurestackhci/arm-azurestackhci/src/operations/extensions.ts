@@ -27,6 +27,8 @@ import {
   ExtensionsUpdateOptionalParams,
   ExtensionsUpdateResponse,
   ExtensionsDeleteOptionalParams,
+  ExtensionUpgradeParameters,
+  ExtensionsUpgradeOptionalParams,
   ExtensionsListByArcSettingNextResponse
 } from "../models";
 
@@ -502,6 +504,111 @@ export class ExtensionsImpl implements Extensions {
   }
 
   /**
+   * Upgrade a particular Arc Extension of HCI Cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param arcSettingName The name of the proxy resource holding details of HCI ArcSetting information.
+   * @param extensionName The name of the machine extension.
+   * @param extensionUpgradeParameters Parameters supplied to the Upgrade Extensions operation.
+   * @param options The options parameters.
+   */
+  async beginUpgrade(
+    resourceGroupName: string,
+    clusterName: string,
+    arcSettingName: string,
+    extensionName: string,
+    extensionUpgradeParameters: ExtensionUpgradeParameters,
+    options?: ExtensionsUpgradeOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        clusterName,
+        arcSettingName,
+        extensionName,
+        extensionUpgradeParameters,
+        options
+      },
+      upgradeOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Upgrade a particular Arc Extension of HCI Cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param arcSettingName The name of the proxy resource holding details of HCI ArcSetting information.
+   * @param extensionName The name of the machine extension.
+   * @param extensionUpgradeParameters Parameters supplied to the Upgrade Extensions operation.
+   * @param options The options parameters.
+   */
+  async beginUpgradeAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    arcSettingName: string,
+    extensionName: string,
+    extensionUpgradeParameters: ExtensionUpgradeParameters,
+    options?: ExtensionsUpgradeOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginUpgrade(
+      resourceGroupName,
+      clusterName,
+      arcSettingName,
+      extensionName,
+      extensionUpgradeParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListByArcSettingNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
@@ -667,6 +774,33 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const upgradeOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/extensions/{extensionName}/upgrade",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.extensionUpgradeParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.arcSettingName,
+    Parameters.extensionName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const listByArcSettingNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -678,7 +812,6 @@ const listByArcSettingNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
