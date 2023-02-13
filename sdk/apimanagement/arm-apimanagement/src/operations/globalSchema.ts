@@ -45,7 +45,7 @@ export class GlobalSchemaImpl implements GlobalSchema {
 
   /**
    * Lists a collection of schemas registered with service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -129,7 +129,7 @@ export class GlobalSchemaImpl implements GlobalSchema {
 
   /**
    * Lists a collection of schemas registered with service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -146,7 +146,7 @@ export class GlobalSchemaImpl implements GlobalSchema {
 
   /**
    * Gets the entity state (Etag) version of the Schema specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -165,7 +165,7 @@ export class GlobalSchemaImpl implements GlobalSchema {
 
   /**
    * Gets the details of the Schema specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -184,7 +184,7 @@ export class GlobalSchemaImpl implements GlobalSchema {
 
   /**
    * Creates new or updates existing specified Schema of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param parameters Create or update parameters.
@@ -257,7 +257,7 @@ export class GlobalSchemaImpl implements GlobalSchema {
 
   /**
    * Creates new or updates existing specified Schema of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param parameters Create or update parameters.
@@ -282,7 +282,7 @@ export class GlobalSchemaImpl implements GlobalSchema {
 
   /**
    * Deletes specific Schema.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -304,7 +304,7 @@ export class GlobalSchemaImpl implements GlobalSchema {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
@@ -423,7 +423,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters55,
+  requestBody: Parameters.parameters66,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
