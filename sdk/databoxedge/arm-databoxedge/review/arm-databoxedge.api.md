@@ -306,6 +306,46 @@ export interface CloudErrorBody {
 }
 
 // @public
+export interface ClusterCapacityViewData {
+    fqdn?: string;
+    gpuCapacity?: ClusterGpuCapacity;
+    lastRefreshedTime?: Date;
+    memoryCapacity?: ClusterMemoryCapacity;
+    totalProvisionedNonHpnCores?: number;
+}
+
+// @public
+export interface ClusterGpuCapacity {
+    gpuFreeUnitsCount?: number;
+    gpuReservedForFailoverUnitsCount?: number;
+    gpuTotalUnitsCount?: number;
+    gpuType?: string;
+    gpuUsedUnitsCount?: number;
+}
+
+// @public
+export interface ClusterMemoryCapacity {
+    clusterFailoverMemoryMb?: number;
+    clusterFragmentationMemoryMb?: number;
+    clusterFreeMemoryMb?: number;
+    clusterHypervReserveMemoryMb?: number;
+    clusterInfraVmMemoryMb?: number;
+    clusterMemoryUsedByVmsMb?: number;
+    clusterNonFailoverVmMb?: number;
+    clusterTotalMemoryMb?: number;
+    clusterUsedMemoryMb?: number;
+}
+
+// @public
+export interface ClusterStorageViewData {
+    clusterFreeStorageMb?: number;
+    clusterTotalStorageMb?: number;
+}
+
+// @public
+export type ClusterWitnessType = string;
+
+// @public
 export interface CniConfig {
     readonly podSubnet?: string;
     readonly serviceSubnet?: string;
@@ -406,7 +446,7 @@ export type CreatedByType = string;
 export interface DataBoxEdgeDevice extends ARMBaseModel {
     readonly configuredRoleTypes?: RoleTypes[];
     readonly culture?: string;
-    dataBoxEdgeDeviceStatus?: DataBoxEdgeDeviceStatus;
+    readonly dataBoxEdgeDeviceStatus?: DataBoxEdgeDeviceStatus;
     dataResidency?: DataResidency;
     readonly description?: string;
     readonly deviceHcsVersion?: string;
@@ -418,7 +458,7 @@ export interface DataBoxEdgeDevice extends ARMBaseModel {
     etag?: string;
     readonly friendlyName?: string;
     identity?: ResourceIdentity;
-    kind?: DataBoxEdgeDeviceKind;
+    readonly kind?: DataBoxEdgeDeviceKind;
     location: string;
     readonly modelDescription?: string;
     readonly nodeCount?: number;
@@ -439,13 +479,20 @@ export interface DataBoxEdgeDeviceExtendedInfo extends ARMBaseModel {
     channelIntegrityKeyVersion?: string;
     clientSecretStoreId?: string;
     clientSecretStoreUrl?: string;
+    readonly cloudWitnessContainerName?: string;
+    readonly cloudWitnessStorageAccountName?: string;
+    readonly cloudWitnessStorageEndpoint?: string;
+    readonly clusterWitnessType?: ClusterWitnessType;
     readonly deviceSecrets?: {
         [propertyName: string]: Secret;
     };
     encryptionKey?: string;
     encryptionKeyThumbprint?: string;
+    readonly fileShareWitnessLocation?: string;
+    readonly fileShareWitnessUsername?: string;
     keyVaultSyncStatus?: KeyVaultSyncStatus;
     readonly resourceKey?: string;
+    readonly systemData?: SystemData;
 }
 
 // @public
@@ -495,6 +542,10 @@ export class DataBoxEdgeManagementClient extends coreClient.ServiceClient {
     bandwidthSchedules: BandwidthSchedules;
     // (undocumented)
     containers: Containers;
+    // (undocumented)
+    deviceCapacityCheck: DeviceCapacityCheck;
+    // (undocumented)
+    deviceCapacityInfoOperations: DeviceCapacityInfoOperations;
     // (undocumented)
     devices: Devices;
     // (undocumented)
@@ -584,6 +635,48 @@ export type DayOfWeek = string;
 // @public
 export interface DCAccessCode {
     authCode?: string;
+}
+
+// @public
+export interface DeviceCapacityCheck {
+    beginCheckResourceCreationFeasibility(resourceGroupName: string, deviceName: string, deviceCapacityRequestInfo: DeviceCapacityRequestInfo, options?: DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginCheckResourceCreationFeasibilityAndWait(resourceGroupName: string, deviceName: string, deviceCapacityRequestInfo: DeviceCapacityRequestInfo, options?: DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams): Promise<void>;
+}
+
+// @public
+export interface DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams extends coreClient.OperationOptions {
+    capacityName?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DeviceCapacityInfo extends ARMBaseModel {
+    clusterComputeCapacityInfo?: ClusterCapacityViewData;
+    clusterStorageCapacityInfo?: ClusterStorageViewData;
+    nodeCapacityInfos?: {
+        [propertyName: string]: HostCapacity;
+    };
+    readonly systemData?: SystemData;
+    timeStamp?: Date;
+}
+
+// @public
+export interface DeviceCapacityInfoGetDeviceCapacityInfoOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeviceCapacityInfoGetDeviceCapacityInfoResponse = DeviceCapacityInfo;
+
+// @public
+export interface DeviceCapacityInfoOperations {
+    getDeviceCapacityInfo(resourceGroupName: string, deviceName: string, options?: DeviceCapacityInfoGetDeviceCapacityInfoOptionalParams): Promise<DeviceCapacityInfoGetDeviceCapacityInfoResponse>;
+}
+
+// @public
+export interface DeviceCapacityRequestInfo {
+    vmPlacementQuery: string[][];
+    vmPlacementResults?: VmPlacementRequestResult[];
 }
 
 // @public
@@ -679,7 +772,6 @@ export interface DevicesInstallUpdatesOptionalParams extends coreClient.Operatio
 
 // @public
 export interface DevicesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -695,7 +787,6 @@ export type DevicesListByResourceGroupResponse = DataBoxEdgeDeviceList;
 
 // @public
 export interface DevicesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -864,6 +955,18 @@ export interface GenerateCertResponse {
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface HostCapacity {
+    availableGpuCount?: number;
+    effectiveAvailableMemoryMbOnHost?: number;
+    gpuType?: string;
+    hostName?: string;
+    numaNodesData?: NumaNodeData[];
+    vmUsedMemory?: {
+        [propertyName: string]: VmMemory;
+    };
+}
 
 // @public
 export type HostPlatformType = string;
@@ -1045,6 +1148,13 @@ export enum KnownClientPermissionType {
     NoAccess = "NoAccess",
     ReadOnly = "ReadOnly",
     ReadWrite = "ReadWrite"
+}
+
+// @public
+export enum KnownClusterWitnessType {
+    Cloud = "Cloud",
+    FileShare = "FileShare",
+    None = "None"
 }
 
 // @public
@@ -1391,13 +1501,17 @@ export enum KnownSkuAvailability {
 export enum KnownSkuName {
     Edge = "Edge",
     EdgeMRMini = "EdgeMR_Mini",
+    EdgeMRTCP = "EdgeMR_TCP",
     EdgePBase = "EdgeP_Base",
     EdgePHigh = "EdgeP_High",
     EdgePRBase = "EdgePR_Base",
     EdgePRBaseUPS = "EdgePR_Base_UPS",
     EP21281T4Mx1W = "EP2_128_1T4_Mx1_W",
+    EP2128GPU1Mx1W = "EP2_128_GPU1_Mx1_W",
     EP22562T4W = "EP2_256_2T4_W",
+    EP2256GPU2Mx1 = "EP2_256_GPU2_Mx1",
     EP2641VPUW = "EP2_64_1VPU_W",
+    EP264Mx1W = "EP2_64_Mx1_W",
     Gateway = "Gateway",
     GPU = "GPU",
     Management = "Management",
@@ -1831,6 +1945,17 @@ export type NodesListByDataBoxEdgeDeviceResponse = NodeList_2;
 export type NodeStatus = string;
 
 // @public
+export interface NumaNodeData {
+    effectiveAvailableMemoryInMb?: number;
+    freeVCpuIndexesForHpn?: number[];
+    logicalCoreCountPerCore?: number;
+    numaNodeIndex?: number;
+    totalMemoryInMb?: number;
+    vCpuIndexesForHpn?: number[];
+    vCpuIndexesForRoot?: number[];
+}
+
+// @public
 export interface Operation {
     display?: OperationDisplay;
     isDataAction?: boolean;
@@ -1889,7 +2014,9 @@ export interface Order extends ARMBaseModel {
     contactInformation?: ContactDetails;
     readonly currentStatus?: OrderStatus;
     readonly deliveryTrackingInfo?: TrackingInfo[];
+    readonly kind?: string;
     readonly orderHistory?: OrderStatus[];
+    readonly orderId?: string;
     readonly returnTrackingInfo?: TrackingInfo[];
     readonly serialNumber?: string;
     shipmentType?: ShipmentType;
@@ -2028,12 +2155,6 @@ export interface ResourceMoveDetails {
 
 // @public
 export type ResourceMoveStatus = string;
-
-// @public
-export interface ResourceTypeSku {
-    readonly resourceType?: string;
-    readonly skus?: SkuInformation[];
-}
 
 // @public
 export interface Role extends ARMBaseModel {
@@ -2236,25 +2357,6 @@ export interface SkuCost {
     readonly extendedUnit?: string;
     readonly meterId?: string;
     readonly quantity?: number;
-}
-
-// @public
-export interface SkuInformation {
-    readonly costs?: SkuCost[];
-    readonly family?: string;
-    readonly kind?: string;
-    readonly locationInfo?: SkuLocationInfo[];
-    readonly locations?: string[];
-    readonly name?: string;
-    readonly requiredFeatures?: string[];
-    readonly requiredQuotaIds?: string[];
-    readonly tier?: string;
-}
-
-// @public
-export interface SkuInformationList {
-    readonly nextLink?: string;
-    readonly value?: ResourceTypeSku[];
 }
 
 // @public
@@ -2508,7 +2610,6 @@ export type TriggersGetResponse = TriggerUnion;
 
 // @public
 export interface TriggersListByDataBoxEdgeDeviceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -2676,7 +2777,6 @@ export type UsersGetResponse = User;
 
 // @public
 export interface UsersListByDataBoxEdgeDeviceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -2692,6 +2792,20 @@ export type UsersListByDataBoxEdgeDeviceResponse = UserList;
 
 // @public
 export type UserType = string;
+
+// @public
+export interface VmMemory {
+    currentMemoryUsageMB?: number;
+    startupMemoryMB?: number;
+}
+
+// @public
+export interface VmPlacementRequestResult {
+    isFeasible?: boolean;
+    message?: string;
+    messageCode?: string;
+    vmSize?: string[];
+}
 
 // (No @packageDocumentation comment for this package)
 
