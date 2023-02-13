@@ -19,7 +19,9 @@ import {
   VaultCheckNameAvailabilityParameters as VaultCheckNameAvailabilityParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   ManagedHsm as ManagedHsmMapper,
+  CheckMhsmNameAvailabilityParameters as CheckMhsmNameAvailabilityParametersMapper,
   MhsmPrivateEndpointConnection as MhsmPrivateEndpointConnectionMapper,
+  ManagedHsmKeyCreateParameters as ManagedHsmKeyCreateParametersMapper,
   SecretCreateOrUpdateParameters as SecretCreateOrUpdateParametersMapper,
   SecretPatchParameters as SecretPatchParametersMapper
 } from "../models/mappers";
@@ -118,7 +120,7 @@ export const keyName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-11-01-preview",
+    defaultValue: "2022-11-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -273,12 +275,53 @@ export const name: OperationURLParameter = {
   }
 };
 
+export const mhsmName: OperationParameter = {
+  parameterPath: "mhsmName",
+  mapper: CheckMhsmNameAvailabilityParametersMapper
+};
+
 export const properties1: OperationParameter = {
   parameterPath: "properties",
   mapper: MhsmPrivateEndpointConnectionMapper
 };
 
 export const parameters5: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ManagedHsmKeyCreateParametersMapper
+};
+
+export const resourceGroupName1: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const name1: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z]([A-Za-z0-9]|\\-[A-Za-z0-9])+$"),
+      MaxLength: 24,
+      MinLength: 3
+    },
+    serializedName: "name",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters6: OperationParameter = {
   parameterPath: "parameters",
   mapper: SecretCreateOrUpdateParametersMapper
 };
@@ -297,7 +340,7 @@ export const secretName: OperationURLParameter = {
   }
 };
 
-export const parameters6: OperationParameter = {
+export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: SecretPatchParametersMapper
 };

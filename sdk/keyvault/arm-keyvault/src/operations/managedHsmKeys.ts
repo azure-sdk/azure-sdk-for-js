@@ -8,37 +8,37 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Keys } from "../operationsInterfaces";
+import { ManagedHsmKeys } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { KeyVaultManagementClient } from "../keyVaultManagementClient";
 import {
-  Key,
-  KeysListNextOptionalParams,
-  KeysListOptionalParams,
-  KeysListResponse,
-  KeysListVersionsNextOptionalParams,
-  KeysListVersionsOptionalParams,
-  KeysListVersionsResponse,
-  KeyCreateParameters,
-  KeysCreateIfNotExistOptionalParams,
-  KeysCreateIfNotExistResponse,
-  KeysGetOptionalParams,
-  KeysGetResponse,
-  KeysGetVersionOptionalParams,
-  KeysGetVersionResponse,
-  KeysListNextResponse,
-  KeysListVersionsNextResponse
+  ManagedHsmKey,
+  ManagedHsmKeysListNextOptionalParams,
+  ManagedHsmKeysListOptionalParams,
+  ManagedHsmKeysListResponse,
+  ManagedHsmKeysListVersionsNextOptionalParams,
+  ManagedHsmKeysListVersionsOptionalParams,
+  ManagedHsmKeysListVersionsResponse,
+  ManagedHsmKeyCreateParameters,
+  ManagedHsmKeysCreateIfNotExistOptionalParams,
+  ManagedHsmKeysCreateIfNotExistResponse,
+  ManagedHsmKeysGetOptionalParams,
+  ManagedHsmKeysGetResponse,
+  ManagedHsmKeysGetVersionOptionalParams,
+  ManagedHsmKeysGetVersionResponse,
+  ManagedHsmKeysListNextResponse,
+  ManagedHsmKeysListVersionsNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Keys operations. */
-export class KeysImpl implements Keys {
+/** Class containing ManagedHsmKeys operations. */
+export class ManagedHsmKeysImpl implements ManagedHsmKeys {
   private readonly client: KeyVaultManagementClient;
 
   /**
-   * Initialize a new instance of the class Keys class.
+   * Initialize a new instance of the class ManagedHsmKeys class.
    * @param client Reference to the service client
    */
   constructor(client: KeyVaultManagementClient) {
@@ -46,17 +46,17 @@ export class KeysImpl implements Keys {
   }
 
   /**
-   * Lists the keys in the specified key vault.
-   * @param resourceGroupName The name of the resource group which contains the specified key vault.
-   * @param vaultName The name of the vault which contains the keys to be retrieved.
+   * Lists the keys in the specified managed HSM.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the Managed HSM Pool within the specified resource group.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
-    vaultName: string,
-    options?: KeysListOptionalParams
-  ): PagedAsyncIterableIterator<Key> {
-    const iter = this.listPagingAll(resourceGroupName, vaultName, options);
+    name: string,
+    options?: ManagedHsmKeysListOptionalParams
+  ): PagedAsyncIterableIterator<ManagedHsmKey> {
+    const iter = this.listPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -68,26 +68,21 @@ export class KeysImpl implements Keys {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          vaultName,
-          options,
-          settings
-        );
+        return this.listPagingPage(resourceGroupName, name, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    vaultName: string,
-    options?: KeysListOptionalParams,
+    name: string,
+    options?: ManagedHsmKeysListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Key[]> {
-    let result: KeysListResponse;
+  ): AsyncIterableIterator<ManagedHsmKey[]> {
+    let result: ManagedHsmKeysListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, vaultName, options);
+      result = await this._list(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -96,7 +91,7 @@ export class KeysImpl implements Keys {
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
-        vaultName,
+        name,
         continuationToken,
         options
       );
@@ -109,12 +104,12 @@ export class KeysImpl implements Keys {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    vaultName: string,
-    options?: KeysListOptionalParams
-  ): AsyncIterableIterator<Key> {
+    name: string,
+    options?: ManagedHsmKeysListOptionalParams
+  ): AsyncIterableIterator<ManagedHsmKey> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
-      vaultName,
+      name,
       options
     )) {
       yield* page;
@@ -122,21 +117,23 @@ export class KeysImpl implements Keys {
   }
 
   /**
-   * Lists the versions of the specified key in the specified key vault.
-   * @param resourceGroupName The name of the resource group which contains the specified key vault.
-   * @param vaultName The name of the vault which contains the key versions to be retrieved.
-   * @param keyName The name of the key versions to be retrieved.
+   * Lists the versions of the specified key in the specified managed HSM.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the Managed HSM Pool within the specified resource group.
+   * @param keyName The name of the key to be created. The value you provide may be copied globally for
+   *                the purpose of running the service. The value provided should not include personally identifiable or
+   *                sensitive information.
    * @param options The options parameters.
    */
   public listVersions(
     resourceGroupName: string,
-    vaultName: string,
+    name: string,
     keyName: string,
-    options?: KeysListVersionsOptionalParams
-  ): PagedAsyncIterableIterator<Key> {
+    options?: ManagedHsmKeysListVersionsOptionalParams
+  ): PagedAsyncIterableIterator<ManagedHsmKey> {
     const iter = this.listVersionsPagingAll(
       resourceGroupName,
-      vaultName,
+      name,
       keyName,
       options
     );
@@ -153,7 +150,7 @@ export class KeysImpl implements Keys {
         }
         return this.listVersionsPagingPage(
           resourceGroupName,
-          vaultName,
+          name,
           keyName,
           options,
           settings
@@ -164,17 +161,17 @@ export class KeysImpl implements Keys {
 
   private async *listVersionsPagingPage(
     resourceGroupName: string,
-    vaultName: string,
+    name: string,
     keyName: string,
-    options?: KeysListVersionsOptionalParams,
+    options?: ManagedHsmKeysListVersionsOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Key[]> {
-    let result: KeysListVersionsResponse;
+  ): AsyncIterableIterator<ManagedHsmKey[]> {
+    let result: ManagedHsmKeysListVersionsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listVersions(
         resourceGroupName,
-        vaultName,
+        name,
         keyName,
         options
       );
@@ -186,7 +183,7 @@ export class KeysImpl implements Keys {
     while (continuationToken) {
       result = await this._listVersionsNext(
         resourceGroupName,
-        vaultName,
+        name,
         keyName,
         continuationToken,
         options
@@ -200,13 +197,13 @@ export class KeysImpl implements Keys {
 
   private async *listVersionsPagingAll(
     resourceGroupName: string,
-    vaultName: string,
+    name: string,
     keyName: string,
-    options?: KeysListVersionsOptionalParams
-  ): AsyncIterableIterator<Key> {
+    options?: ManagedHsmKeysListVersionsOptionalParams
+  ): AsyncIterableIterator<ManagedHsmKey> {
     for await (const page of this.listVersionsPagingPage(
       resourceGroupName,
-      vaultName,
+      name,
       keyName,
       options
     )) {
@@ -218,8 +215,8 @@ export class KeysImpl implements Keys {
    * Creates the first version of a new key if it does not exist. If it already exists, then the existing
    * key is returned without any write operations being performed. This API does not create subsequent
    * versions, and does not update existing keys.
-   * @param resourceGroupName The name of the resource group which contains the specified key vault.
-   * @param vaultName The name of the key vault which contains the key to be created.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the Managed HSM Pool within the specified resource group.
    * @param keyName The name of the key to be created. The value you provide may be copied globally for
    *                the purpose of running the service. The value provided should not include personally identifiable or
    *                sensitive information.
@@ -228,129 +225,137 @@ export class KeysImpl implements Keys {
    */
   createIfNotExist(
     resourceGroupName: string,
-    vaultName: string,
+    name: string,
     keyName: string,
-    parameters: KeyCreateParameters,
-    options?: KeysCreateIfNotExistOptionalParams
-  ): Promise<KeysCreateIfNotExistResponse> {
+    parameters: ManagedHsmKeyCreateParameters,
+    options?: ManagedHsmKeysCreateIfNotExistOptionalParams
+  ): Promise<ManagedHsmKeysCreateIfNotExistResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, keyName, parameters, options },
+      { resourceGroupName, name, keyName, parameters, options },
       createIfNotExistOperationSpec
     );
   }
 
   /**
-   * Gets the current version of the specified key from the specified key vault.
-   * @param resourceGroupName The name of the resource group which contains the specified key vault.
-   * @param vaultName The name of the vault which contains the key to be retrieved.
-   * @param keyName The name of the key to be retrieved.
+   * Gets the current version of the specified key from the specified managed HSM.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the Managed HSM Pool within the specified resource group.
+   * @param keyName The name of the key to be created. The value you provide may be copied globally for
+   *                the purpose of running the service. The value provided should not include personally identifiable or
+   *                sensitive information.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    vaultName: string,
+    name: string,
     keyName: string,
-    options?: KeysGetOptionalParams
-  ): Promise<KeysGetResponse> {
+    options?: ManagedHsmKeysGetOptionalParams
+  ): Promise<ManagedHsmKeysGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, keyName, options },
+      { resourceGroupName, name, keyName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Lists the keys in the specified key vault.
-   * @param resourceGroupName The name of the resource group which contains the specified key vault.
-   * @param vaultName The name of the vault which contains the keys to be retrieved.
+   * Lists the keys in the specified managed HSM.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the Managed HSM Pool within the specified resource group.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
-    vaultName: string,
-    options?: KeysListOptionalParams
-  ): Promise<KeysListResponse> {
+    name: string,
+    options?: ManagedHsmKeysListOptionalParams
+  ): Promise<ManagedHsmKeysListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, options },
+      { resourceGroupName, name, options },
       listOperationSpec
     );
   }
 
   /**
-   * Gets the specified version of the specified key in the specified key vault.
-   * @param resourceGroupName The name of the resource group which contains the specified key vault.
-   * @param vaultName The name of the vault which contains the key version to be retrieved.
-   * @param keyName The name of the key version to be retrieved.
+   * Gets the specified version of the specified key in the specified managed HSM.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the Managed HSM Pool within the specified resource group.
+   * @param keyName The name of the key to be created. The value you provide may be copied globally for
+   *                the purpose of running the service. The value provided should not include personally identifiable or
+   *                sensitive information.
    * @param keyVersion The version of the key to be retrieved.
    * @param options The options parameters.
    */
   getVersion(
     resourceGroupName: string,
-    vaultName: string,
+    name: string,
     keyName: string,
     keyVersion: string,
-    options?: KeysGetVersionOptionalParams
-  ): Promise<KeysGetVersionResponse> {
+    options?: ManagedHsmKeysGetVersionOptionalParams
+  ): Promise<ManagedHsmKeysGetVersionResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, keyName, keyVersion, options },
+      { resourceGroupName, name, keyName, keyVersion, options },
       getVersionOperationSpec
     );
   }
 
   /**
-   * Lists the versions of the specified key in the specified key vault.
-   * @param resourceGroupName The name of the resource group which contains the specified key vault.
-   * @param vaultName The name of the vault which contains the key versions to be retrieved.
-   * @param keyName The name of the key versions to be retrieved.
+   * Lists the versions of the specified key in the specified managed HSM.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the Managed HSM Pool within the specified resource group.
+   * @param keyName The name of the key to be created. The value you provide may be copied globally for
+   *                the purpose of running the service. The value provided should not include personally identifiable or
+   *                sensitive information.
    * @param options The options parameters.
    */
   private _listVersions(
     resourceGroupName: string,
-    vaultName: string,
+    name: string,
     keyName: string,
-    options?: KeysListVersionsOptionalParams
-  ): Promise<KeysListVersionsResponse> {
+    options?: ManagedHsmKeysListVersionsOptionalParams
+  ): Promise<ManagedHsmKeysListVersionsResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, keyName, options },
+      { resourceGroupName, name, keyName, options },
       listVersionsOperationSpec
     );
   }
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group which contains the specified key vault.
-   * @param vaultName The name of the vault which contains the keys to be retrieved.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the Managed HSM Pool within the specified resource group.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
-    vaultName: string,
+    name: string,
     nextLink: string,
-    options?: KeysListNextOptionalParams
-  ): Promise<KeysListNextResponse> {
+    options?: ManagedHsmKeysListNextOptionalParams
+  ): Promise<ManagedHsmKeysListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, nextLink, options },
+      { resourceGroupName, name, nextLink, options },
       listNextOperationSpec
     );
   }
 
   /**
    * ListVersionsNext
-   * @param resourceGroupName The name of the resource group which contains the specified key vault.
-   * @param vaultName The name of the vault which contains the key versions to be retrieved.
-   * @param keyName The name of the key versions to be retrieved.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the Managed HSM Pool within the specified resource group.
+   * @param keyName The name of the key to be created. The value you provide may be copied globally for
+   *                the purpose of running the service. The value provided should not include personally identifiable or
+   *                sensitive information.
    * @param nextLink The nextLink from the previous successful call to the ListVersions method.
    * @param options The options parameters.
    */
   private _listVersionsNext(
     resourceGroupName: string,
-    vaultName: string,
+    name: string,
     keyName: string,
     nextLink: string,
-    options?: KeysListVersionsNextOptionalParams
-  ): Promise<KeysListVersionsNextResponse> {
+    options?: ManagedHsmKeysListVersionsNextOptionalParams
+  ): Promise<ManagedHsmKeysListVersionsNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, keyName, nextLink, options },
+      { resourceGroupName, name, keyName, nextLink, options },
       listVersionsNextOperationSpec
     );
   }
@@ -360,24 +365,24 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createIfNotExistOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys/{keyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Key
+      bodyMapper: Mappers.ManagedHsmKey
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.keyName
+    Parameters.keyName,
+    Parameters.resourceGroupName1,
+    Parameters.name1
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -385,11 +390,11 @@ const createIfNotExistOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys/{keyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Key
+      bodyMapper: Mappers.ManagedHsmKey
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -399,20 +404,20 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.keyName
+    Parameters.keyName,
+    Parameters.resourceGroupName1,
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KeyListResult
+      bodyMapper: Mappers.ManagedHsmKeyListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -422,19 +427,19 @@ const listOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.resourceGroupName1,
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getVersionOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}/versions/{keyVersion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys/{keyName}/versions/{keyVersion}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Key
+      bodyMapper: Mappers.ManagedHsmKey
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -444,21 +449,21 @@ const getVersionOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName,
     Parameters.keyName,
-    Parameters.keyVersion
+    Parameters.keyVersion,
+    Parameters.resourceGroupName1,
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const listVersionsOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}/versions",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys/{keyName}/versions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KeyListResult
+      bodyMapper: Mappers.ManagedHsmKeyListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -468,9 +473,9 @@ const listVersionsOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.keyName
+    Parameters.keyName,
+    Parameters.resourceGroupName1,
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -480,7 +485,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KeyListResult
+      bodyMapper: Mappers.ManagedHsmKeyListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -489,9 +494,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceGroupName1,
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -501,7 +506,7 @@ const listVersionsNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KeyListResult
+      bodyMapper: Mappers.ManagedHsmKeyListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -510,10 +515,10 @@ const listVersionsNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName,
     Parameters.keyName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceGroupName1,
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
   serializer
