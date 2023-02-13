@@ -3928,7 +3928,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230210
+      typescript: 5.0.0-dev.20230213
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8712,8 +8712,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230210:
-    resolution: {integrity: sha512-FjXPw8PFeIuT1cxouvP4LRu8J1G+FsWVEGwlJ9GcVywRNDfD3Hh6flQFUympS+3QnAIiG/+CHs9ZS2EQIT733g==}
+  /typescript/5.0.0-dev.20230213:
+    resolution: {integrity: sha512-6winpoAguZ2b0juVOseKRELa6eIx8st5j42fHikEhzBb2NcuG7tSGMAjIo748WNXVija2L8T5D7vyaDGYftaDQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11724,15 +11724,15 @@ packages:
     dev: false
 
   file:projects/arm-digitaltwins.tgz:
-    resolution: {integrity: sha512-svnRvsCdoUvQfyHKEk29MPJXUO3mQYmR9/iB1ZQFu0fSBzDOTAAgRk4Jhg0A8esToT8DpbsBJMK+5q7ti7HhuQ==, tarball: file:projects/arm-digitaltwins.tgz}
+    resolution: {integrity: sha512-rxjJZrgUVA1KMDT4YTZlyYV6pBbKpYNpsbemLUsdv4oXKamqY3kaK+zUjWH55TdORDD6nKsx82JIvezRfNgCAQ==, tarball: file:projects/arm-digitaltwins.tgz}
     name: '@rush-temp/arm-digitaltwins'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
