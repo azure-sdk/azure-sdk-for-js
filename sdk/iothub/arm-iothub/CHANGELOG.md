@@ -1,16 +1,6 @@
 # Release History
-
-## 6.3.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 6.3.0-beta.1 (2022-12-06)
+    
+## 6.3.0-beta.2 (2023-02-13)
     
 **Features**
 
@@ -31,6 +21,7 @@
   - Add parameters of IotHubResourceUpdateHeaders to TypeAlias IotHubResourceUpdateResponse
   - Enum KnownRoutingSource has a new value DigitalTwinChangeEvents
   - Enum KnownRoutingSource has a new value MqttBrokerMessages
+  - Added function getContinuationToken
     
     
 ## 6.2.0 (2022-08-18)
