@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   Webhook,
   WebhooksListOptionalParams,
@@ -83,8 +83,8 @@ export interface Webhooks {
     webhookCreateParameters: WebhookCreateParameters,
     options?: WebhooksCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<WebhooksCreateResponse>,
+    PollerLike<
+      PollOperationState<WebhooksCreateResponse>,
       WebhooksCreateResponse
     >
   >;
@@ -115,7 +115,7 @@ export interface Webhooks {
     registryName: string,
     webhookName: string,
     options?: WebhooksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a webhook from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -144,8 +144,8 @@ export interface Webhooks {
     webhookUpdateParameters: WebhookUpdateParameters,
     options?: WebhooksUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<WebhooksUpdateResponse>,
+    PollerLike<
+      PollOperationState<WebhooksUpdateResponse>,
       WebhooksUpdateResponse
     >
   >;

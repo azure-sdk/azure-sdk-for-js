@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   ConnectedRegistry,
   ConnectedRegistriesListOptionalParams,
@@ -64,8 +64,8 @@ export interface ConnectedRegistries {
     connectedRegistryCreateParameters: ConnectedRegistry,
     options?: ConnectedRegistriesCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<ConnectedRegistriesCreateResponse>,
+    PollerLike<
+      PollOperationState<ConnectedRegistriesCreateResponse>,
       ConnectedRegistriesCreateResponse
     >
   >;
@@ -96,7 +96,7 @@ export interface ConnectedRegistries {
     registryName: string,
     connectedRegistryName: string,
     options?: ConnectedRegistriesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a connected registry from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -125,8 +125,8 @@ export interface ConnectedRegistries {
     connectedRegistryUpdateParameters: ConnectedRegistryUpdateParameters,
     options?: ConnectedRegistriesUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<ConnectedRegistriesUpdateResponse>,
+    PollerLike<
+      PollOperationState<ConnectedRegistriesUpdateResponse>,
       ConnectedRegistriesUpdateResponse
     >
   >;
@@ -157,7 +157,7 @@ export interface ConnectedRegistries {
     registryName: string,
     connectedRegistryName: string,
     options?: ConnectedRegistriesDeactivateOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deactivates the connected registry instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

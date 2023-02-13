@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   ExportPipeline,
   ExportPipelinesListOptionalParams,
@@ -60,8 +60,8 @@ export interface ExportPipelines {
     exportPipelineCreateParameters: ExportPipeline,
     options?: ExportPipelinesCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<ExportPipelinesCreateResponse>,
+    PollerLike<
+      PollOperationState<ExportPipelinesCreateResponse>,
       ExportPipelinesCreateResponse
     >
   >;
@@ -92,7 +92,7 @@ export interface ExportPipelines {
     registryName: string,
     exportPipelineName: string,
     options?: ExportPipelinesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes an export pipeline from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
