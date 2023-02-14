@@ -10,6 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   BuildpackBindingResource,
+  BuildpackBindingListForClusterOptionalParams,
   BuildpackBindingListOptionalParams,
   BuildpackBindingGetOptionalParams,
   BuildpackBindingGetResponse,
@@ -21,6 +22,18 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BuildpackBinding. */
 export interface BuildpackBinding {
+  /**
+   * Get collection of buildpack bindings under all builders.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param options The options parameters.
+   */
+  listForCluster(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: BuildpackBindingListForClusterOptionalParams
+  ): PagedAsyncIterableIterator<BuildpackBindingResource>;
   /**
    * Handles requests to list all buildpack bindings in a builder.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

@@ -58,6 +58,10 @@ export interface ClusterResourceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly serviceId?: string;
+  /** The resource Id of the Managed Environment that the Spring Apps instance builds on */
+  managedEnvironmentId?: string;
+  /** The name of the resource group that contains the infrastructure resources */
+  infraResourceGroup?: string;
   /**
    * Power state of the Service
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -807,6 +811,17 @@ export interface BuildResourceRequests {
   memory?: string;
 }
 
+/** Object that includes an array of BuildpackBinding resources and a possible link for next set */
+export interface BuildpackBindingResourceCollection {
+  /** Collection of BuildpackBinding resources */
+  value?: BuildpackBindingResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
 /** Properties of a buildpack binding */
 export interface BuildpackBindingProperties {
   /** Buildpack Binding Type */
@@ -826,17 +841,6 @@ export interface BuildpackBindingLaunchProperties {
   properties?: { [propertyName: string]: string };
   /** Sensitive properties for launchProperties */
   secrets?: { [propertyName: string]: string };
-}
-
-/** Object that includes an array of BuildpackBinding resources and a possible link for next set */
-export interface BuildpackBindingResourceCollection {
-  /** Collection of BuildpackBinding resources */
-  value?: BuildpackBindingResource[];
-  /**
-   * URL client should use to fetch the next page (per server side paging).
-   * It's null for now, added for future use.
-   */
-  nextLink?: string;
 }
 
 /** Object that includes an array of Build result resources and a possible link for next set */
@@ -1066,9 +1070,7 @@ export interface AppResourceProperties {
    */
   readonly url?: string;
   /** Collection of addons */
-  addonConfigs?: {
-    [propertyName: string]: { [propertyName: string]: Record<string, unknown> };
-  };
+  addonConfigs?: { [propertyName: string]: Record<string, unknown> };
   /**
    * Provisioning state of the App
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1095,6 +1097,8 @@ export interface AppResourceProperties {
   vnetAddons?: AppVNetAddons;
   /** App ingress settings payload. */
   ingressSettings?: IngressSettings;
+  /** Collection of auth secrets */
+  secrets?: Secret[];
 }
 
 /** Temporary disk payload */
@@ -1134,6 +1138,8 @@ export interface CustomPersistentDiskProperties {
   mountPath: string;
   /** Indicates whether the persistent disk is a readOnly one. */
   readOnly?: boolean;
+  /** If set to true, it will create and mount a dedicated directory for every individual app instance. */
+  enableSubPath?: boolean;
   /** These are the mount options for a persistent disk. */
   mountOptions?: string[];
 }
@@ -1177,6 +1183,14 @@ export interface IngressSettings {
 export interface IngressSettingsClientAuth {
   /** Collection of certificate resource id. */
   certificates?: string[];
+}
+
+/** Secret definition. */
+export interface Secret {
+  /** Secret Name. */
+  name?: string;
+  /** Secret Value. */
+  value?: string;
 }
 
 /** Managed identity properties retrieved from ARM request headers. */
@@ -1241,7 +1255,7 @@ export interface BindingResourceProperties {
   /** The key of the bound resource */
   key?: string;
   /** Binding parameters of the Binding resource */
-  bindingParameters?: { [propertyName: string]: Record<string, unknown> };
+  bindingParameters?: { [propertyName: string]: string };
   /**
    * The generated Spring Boot property file for this binding. The secret will be deducted.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1442,9 +1456,7 @@ export interface DeploymentSettings {
   /** Collection of environment variables */
   environmentVariables?: { [propertyName: string]: string };
   /** Collection of addons */
-  addonConfigs?: {
-    [propertyName: string]: { [propertyName: string]: Record<string, unknown> };
-  };
+  addonConfigs?: { [propertyName: string]: Record<string, unknown> };
   /** Periodic probe of App Instance liveness. App Instance will be restarted if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
   livenessProbe?: Probe;
   /** Periodic probe of App Instance service readiness. App Instance will be removed from service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
@@ -1453,6 +1465,8 @@ export interface DeploymentSettings {
   startupProbe?: Probe;
   /** Optional duration in seconds the App Instance needs to terminate gracefully. May be decreased in delete request. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down). If this value is nil, the default grace period will be used instead. The grace period is the duration in seconds after the processes running in the App Instance are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. Defaults to 90 seconds. */
   terminationGracePeriodSeconds?: number;
+  /** Scaling properties for the Azure Spring Apps App Instance. */
+  scale?: Scale;
   /** Container liveness and readiness probe settings */
   containerProbeSettings?: ContainerProbeSettings;
 }
@@ -1487,6 +1501,77 @@ export interface Probe {
 export interface ProbeAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HTTPGetAction" | "ExecAction" | "TCPSocketAction";
+}
+
+/** Azure Spring Apps scaling configurations. */
+export interface Scale {
+  /** Optional. Minimum number of container replicas. */
+  minReplicas?: number;
+  /** Optional. Maximum number of container replicas. Defaults to 10 if not set. */
+  maxReplicas?: number;
+  /** Scaling rules. */
+  rules?: ScaleRule[];
+}
+
+/** Azure Spring Apps App Instance scaling rule. */
+export interface ScaleRule {
+  /** Scale Rule Name */
+  name?: string;
+  /** Azure Queue based scaling. */
+  azureQueue?: QueueScaleRule;
+  /** Custom scale rule. */
+  custom?: CustomScaleRule;
+  /** HTTP requests based scaling. */
+  http?: HttpScaleRule;
+  /** Tcp requests based scaling. */
+  tcp?: TcpScaleRule;
+}
+
+/** Azure Spring Apps App Instance Azure Queue based scaling rule. */
+export interface QueueScaleRule {
+  /** Queue name. */
+  queueName?: string;
+  /** Queue length. */
+  queueLength?: number;
+  /** Authentication secrets for the queue scale rule. */
+  auth?: ScaleRuleAuth[];
+}
+
+/** Auth Secrets for Azure Spring Apps App Instance Scale Rule */
+export interface ScaleRuleAuth {
+  /** Name of the Azure Spring Apps App Instance secret from which to pull the auth params. */
+  secretRef?: string;
+  /** Trigger Parameter that uses the secret */
+  triggerParameter?: string;
+}
+
+/** Azure Spring Apps App Instance Custom scaling rule. */
+export interface CustomScaleRule {
+  /**
+   * Type of the custom scale rule
+   * eg: azure-servicebus, redis etc.
+   */
+  type?: string;
+  /** Metadata properties to describe custom scale rule. */
+  metadata?: { [propertyName: string]: string };
+  /** Authentication secrets for the custom scale rule. */
+  auth?: ScaleRuleAuth[];
+}
+
+/** Azure Spring Apps App Instance Http scaling rule. */
+export interface HttpScaleRule {
+  /** Metadata properties to describe http scale rule. */
+  metadata?: { [propertyName: string]: string };
+  /** Authentication secrets for the custom scale rule. */
+  auth?: ScaleRuleAuth[];
+}
+
+/** Azure Spring Apps App Instance Tcp scaling rule. */
+export interface TcpScaleRule {
+  /** Metadata properties to describe tcp scale rule. */
+  metadata?: { [propertyName: string]: string };
+  /** Authentication secrets for the tcp scale rule. */
+  auth?: ScaleRuleAuth[];
 }
 
 /** Container liveness and readiness probe settings */
@@ -1950,6 +2035,12 @@ export interface GatewayOperatorResourceRequests {
   readonly instanceCount?: number;
 }
 
+/** Resource Sku object used for scaling out and scaling in. */
+export interface SkuObject {
+  /** Sku of the Spring Cloud Gateway resource */
+  sku?: Sku;
+}
+
 /** Object that includes an array of gateway resources and a possible link for next set */
 export interface GatewayResourceCollection {
   /** Collection of gateway resources */
@@ -2306,7 +2397,7 @@ export interface AzureFileVolume extends CustomPersistentDiskProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureFileVolume";
   /** The share name of the Azure File share. */
-  shareName: string;
+  shareName?: string;
 }
 
 /** storage resource of type Azure Storage Account. */
@@ -2647,6 +2738,11 @@ export interface NetCoreZipUploadedUserSourceInfo
   netCoreMainEntryPath?: string;
   /** Runtime version of the .Net file */
   runtimeVersion?: string;
+}
+
+/** Defines headers for Gateways_updateCapacity operation. */
+export interface GatewaysUpdateCapacityHeaders {
+  location?: string;
 }
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
@@ -4204,6 +4300,13 @@ export interface BuildServiceListBuildResultsNextOptionalParams
 export type BuildServiceListBuildResultsNextResponse = BuildResultCollection;
 
 /** Optional parameters. */
+export interface BuildpackBindingListForClusterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listForCluster operation. */
+export type BuildpackBindingListForClusterResponse = BuildpackBindingResourceCollection;
+
+/** Optional parameters. */
 export interface BuildpackBindingGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4237,6 +4340,13 @@ export interface BuildpackBindingListOptionalParams
 
 /** Contains response data for the list operation. */
 export type BuildpackBindingListResponse = BuildpackBindingResourceCollection;
+
+/** Optional parameters. */
+export interface BuildpackBindingListForClusterNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listForClusterNext operation. */
+export type BuildpackBindingListForClusterNextResponse = BuildpackBindingResourceCollection;
 
 /** Optional parameters. */
 export interface BuildpackBindingListNextOptionalParams
@@ -4849,6 +4959,18 @@ export interface GatewaysCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type GatewaysCreateOrUpdateResponse = GatewayResource;
+
+/** Optional parameters. */
+export interface GatewaysUpdateCapacityOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateCapacity operation. */
+export type GatewaysUpdateCapacityResponse = GatewayResource;
 
 /** Optional parameters. */
 export interface GatewaysDeleteOptionalParams
