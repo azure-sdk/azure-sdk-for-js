@@ -117,7 +117,7 @@ export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-01-01";
+    this.apiVersion = options.apiVersion || "2023-03-01-preview";
     this.operations = new OperationsImpl(this);
     this.operationsStatus = new OperationsStatusImpl(this);
     this.redisEnterprise = new RedisEnterpriseImpl(this);
