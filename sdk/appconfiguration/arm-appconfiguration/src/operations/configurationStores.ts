@@ -1128,7 +1128,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1148,7 +1147,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1169,7 +1167,6 @@ const listKeysNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1191,7 +1188,6 @@ const listDeletedNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
