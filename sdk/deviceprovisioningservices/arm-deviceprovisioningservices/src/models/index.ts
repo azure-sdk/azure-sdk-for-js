@@ -58,7 +58,7 @@ export interface ErrorDetails {
    * The error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly code?: string;
+  readonly code?: number;
   /**
    * The HTTP status code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -194,6 +194,8 @@ export interface IotDpsPropertiesDescription {
    * Indicates if the DPS instance has Data Residency enabled, removing the cross geo-pair disaster recovery.
    */
   enableDataResidency?: boolean;
+  /** Portal endpoint to enable CORS for this provisioning service. */
+  portalOperationsHostName?: string;
 }
 
 /** The IP filter rules for a provisioning Service. */
@@ -322,6 +324,10 @@ export interface Resource {
   readonly type?: string;
   /** The resource location. */
   location: string;
+  /** The resource group of the resource. */
+  resourcegroup?: string;
+  /** The subscription id of the resource. */
+  subscriptionid?: string;
   /** The resource tags. */
   tags?: { [propertyName: string]: string };
 }

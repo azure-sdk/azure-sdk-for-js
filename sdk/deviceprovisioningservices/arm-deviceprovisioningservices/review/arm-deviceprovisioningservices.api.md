@@ -137,7 +137,7 @@ export type DpsCertificateVerifyCertificateResponse = CertificateResponse;
 
 // @public
 export interface ErrorDetails {
-    readonly code?: string;
+    readonly code?: number;
     readonly details?: string;
     readonly httpStatusCode?: string;
     readonly message?: string;
@@ -201,6 +201,7 @@ export interface IotDpsPropertiesDescription {
     readonly idScope?: string;
     iotHubs?: IotHubDefinitionDescription[];
     ipFilterRules?: IpFilterRule[];
+    portalOperationsHostName?: string;
     privateEndpointConnections?: PrivateEndpointConnection[];
     provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -621,6 +622,8 @@ export interface Resource {
     readonly id?: string;
     location: string;
     readonly name?: string;
+    resourcegroup?: string;
+    subscriptionid?: string;
     tags?: {
         [propertyName: string]: string;
     };
