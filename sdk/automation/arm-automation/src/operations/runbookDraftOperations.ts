@@ -60,7 +60,7 @@ export class RunbookDraftOperationsImpl implements RunbookDraftOperations {
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
-   * @param runbookContent The runbook draft content.
+   * @param runbookContent The runbook draft content.
    * @param options The options parameters.
    */
   async beginReplaceContent(
@@ -127,7 +127,8 @@ export class RunbookDraftOperationsImpl implements RunbookDraftOperations {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -138,7 +139,7 @@ export class RunbookDraftOperationsImpl implements RunbookDraftOperations {
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
-   * @param runbookContent The runbook draft content.
+   * @param runbookContent The runbook draft content.
    * @param options The options parameters.
    */
   async beginReplaceContentAndWait(
@@ -209,7 +210,7 @@ const getContentOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -242,7 +243,7 @@ const replaceContentOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.runbookContent,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -266,7 +267,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -289,7 +290,7 @@ const undoEditOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
