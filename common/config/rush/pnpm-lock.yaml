@@ -762,6 +762,19 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-msi/2.1.0:
+    resolution: {integrity: sha512-qP2BXpXkZ/I5gO479Dj6HFVkgSrAlYOG2AGVTqxTu0YIVdZdmrlZLH7SNl1Um9id+p7uNGNRdVKIBO5rcQgeJw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.7.1
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.10.1
+      tslib: 2.5.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-network/26.0.0:
     resolution: {integrity: sha512-Hp0Q4ZzChs8C0DUdGZOChWKMrhzZ53V0Q681puREZ9S1E6o2yWM0Vb+cYuWoyPOylwuzP2fjNjJZGtB7WuFd3w==}
     engines: {node: '>=12.0.0'}
@@ -3928,7 +3941,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230210
+      typescript: 5.0.0-dev.20230214
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8712,8 +8725,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230210:
-    resolution: {integrity: sha512-FjXPw8PFeIuT1cxouvP4LRu8J1G+FsWVEGwlJ9GcVywRNDfD3Hh6flQFUympS+3QnAIiG/+CHs9ZS2EQIT733g==}
+  /typescript/5.0.0-dev.20230214:
+    resolution: {integrity: sha512-CpXBmHZVBTjAslhkSqAaiR4zZgr5G46QvfKB51L4+alGm5F2Jqbdhy6+cIFzU3AiN1D/iEmA88E19N0/e5bttQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12384,11 +12397,12 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-nDr6eTA7cyP+vubc84TC9DyGp1M+sr5Bxdq6CLk1zhXVmJHx07hge1tA3RQNhZHYHnhHQJMXuyrh4VWlp4KMAA==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-LFhCmHX+enL5sdlt9iktnisCjQcqUpHNxdzqZYR1DqhAcG2SxLy4fNjAR9GvflCQaJtLk7J9NuaJSnOHeyAnWg==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
       '@azure/arm-compute': 17.3.1
+      '@azure/arm-msi': 2.1.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
       '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
@@ -13215,15 +13229,15 @@ packages:
     dev: false
 
   file:projects/arm-msi.tgz:
-    resolution: {integrity: sha512-l1MC+Rp5MO49yvbooF2fRTX6pnepbtZ9ApMhVpfd0S4qK9QgKptrqRj1107ylk+2+T7pw4h6/TyXhb0rhm25ZA==, tarball: file:projects/arm-msi.tgz}
+    resolution: {integrity: sha512-ASwo+S9K6HVfzUK8tGyRhVfzmcG+Yc4brfg064Wr+sUB0Cg0CVtax0hrQVpmA3evNw7vTuTCFqQiWKP6E+GT+A==, tarball: file:projects/arm-msi.tgz}
     name: '@rush-temp/arm-msi'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
