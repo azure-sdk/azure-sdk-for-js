@@ -317,11 +317,14 @@ export class CachesImpl implements Caches {
    * @param resourceGroupName Target resource group.
    * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
+   * @param cache Object containing the user-selectable properties of the new Cache. If read-only
+   *              properties are included, they must match the existing values of those properties.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     cacheName: string,
+    cache: Cache,
     options?: CachesCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -370,7 +373,7 @@ export class CachesImpl implements Caches {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, cacheName, options },
+      { resourceGroupName, cacheName, cache, options },
       createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -386,16 +389,20 @@ export class CachesImpl implements Caches {
    * @param resourceGroupName Target resource group.
    * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
+   * @param cache Object containing the user-selectable properties of the new Cache. If read-only
+   *              properties are included, they must match the existing values of those properties.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     cacheName: string,
+    cache: Cache,
     options?: CachesCreateOrUpdateOptionalParams
   ): Promise<CachesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       cacheName,
+      cache,
       options
     );
     return poller.pollUntilDone();
@@ -408,15 +415,84 @@ export class CachesImpl implements Caches {
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
-  update(
+  async beginUpdate(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: CachesUpdateOptionalParams
+  ): Promise<
+    PollerLike<PollOperationState<CachesUpdateResponse>, CachesUpdateResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<CachesUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, cacheName, options },
+      updateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update a Cache instance.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   *                  the [-0-9a-zA-Z_] char class.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
     resourceGroupName: string,
     cacheName: string,
     options?: CachesUpdateOptionalParams
   ): Promise<CachesUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, cacheName, options },
-      updateOperationSpec
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      cacheName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -1443,11 +1519,20 @@ const updateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.Cache
     },
+    201: {
+      bodyMapper: Mappers.Cache
+    },
+    202: {
+      bodyMapper: Mappers.Cache
+    },
+    204: {
+      bodyMapper: Mappers.Cache
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.cache,
+  requestBody: Parameters.cache1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
