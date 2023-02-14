@@ -42,7 +42,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
   /**
    * This operation applies changes from the specified Git branch to the configuration database. This is
    * a long running operation and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param parameters Deploy Configuration parameters.
@@ -122,7 +122,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
   /**
    * This operation applies changes from the specified Git branch to the configuration database. This is
    * a long running operation and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param parameters Deploy Configuration parameters.
@@ -148,7 +148,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
   /**
    * This operation creates a commit with the current configuration snapshot to the specified branch in
    * the repository. This is a long running operation and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param parameters Save Configuration parameters.
@@ -228,7 +228,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
   /**
    * This operation creates a commit with the current configuration snapshot to the specified branch in
    * the repository. This is a long running operation and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param parameters Save Configuration parameters.
@@ -254,7 +254,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
   /**
    * This operation validates the changes in the specified Git branch. This is a long running operation
    * and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param parameters Validate Configuration parameters.
@@ -334,7 +334,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
   /**
    * This operation validates the changes in the specified Git branch. This is a long running operation
    * and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param parameters Validate Configuration parameters.
@@ -360,7 +360,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
   /**
    * Gets the status of the most recent synchronization between the configuration database and the Git
    * repository.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param options The options parameters.
@@ -401,7 +401,7 @@ const deployOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters60,
+  requestBody: Parameters.parameters71,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -435,7 +435,7 @@ const saveOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters61,
+  requestBody: Parameters.parameters72,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -469,7 +469,7 @@ const validateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters60,
+  requestBody: Parameters.parameters71,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
