@@ -14,6 +14,32 @@ import { PollOperationState } from '@azure/core-lro';
 export type AKSIdentityType = "SystemAssigned" | "UserAssigned";
 
 // @public
+export interface AzureBlobDefinition {
+    accountKey?: string;
+    containerName?: string;
+    localAuthRef?: string;
+    managedIdentity?: ManagedIdentityDefinition;
+    sasToken?: string;
+    servicePrincipal?: ServicePrincipalDefinition;
+    syncIntervalInSeconds?: number;
+    timeoutInSeconds?: number;
+    url?: string;
+}
+
+// @public
+export interface AzureBlobPatchDefinition {
+    accountKey?: string;
+    containerName?: string;
+    localAuthRef?: string;
+    managedIdentity?: ManagedIdentityPatchDefinition;
+    sasToken?: string;
+    servicePrincipal?: ServicePrincipalPatchDefinition;
+    syncIntervalInSeconds?: number;
+    timeoutInSeconds?: number;
+    url?: string;
+}
+
+// @public
 export interface BucketDefinition {
     accessKey?: string;
     bucketName?: string;
@@ -79,14 +105,16 @@ export interface Extension extends ProxyResource {
     configurationSettings?: {
         [propertyName: string]: string;
     };
+    readonly currentVersion?: string;
     readonly customLocationSettings?: {
         [propertyName: string]: string;
     };
     readonly errorInfo?: ErrorDetail;
     extensionType?: string;
     identity?: Identity;
-    readonly installedVersion?: string;
+    readonly isSystemExtension?: boolean;
     readonly packageUri?: string;
+    plan?: Plan;
     readonly provisioningState?: ProvisioningState;
     releaseTrain?: string;
     scope?: Scope;
@@ -192,6 +220,7 @@ export type FluxConfigOperationStatusGetResponse = OperationStatusResult;
 
 // @public
 export interface FluxConfiguration extends ProxyResource {
+    azureBlob?: AzureBlobDefinition;
     bucket?: BucketDefinition;
     readonly complianceState?: FluxComplianceState;
     configurationProtectedSettings?: {
@@ -217,6 +246,7 @@ export interface FluxConfiguration extends ProxyResource {
 
 // @public
 export interface FluxConfigurationPatch {
+    azureBlob?: AzureBlobPatchDefinition;
     bucket?: BucketPatchDefinition;
     configurationProtectedSettings?: {
         [propertyName: string]: string;
@@ -427,6 +457,7 @@ export enum KnownScopeType {
 
 // @public
 export enum KnownSourceKindType {
+    AzureBlob = "AzureBlob",
     Bucket = "Bucket",
     GitRepository = "GitRepository"
 }
@@ -459,6 +490,16 @@ export type KustomizationValidationType = string;
 
 // @public
 export type LevelType = string;
+
+// @public
+export interface ManagedIdentityDefinition {
+    clientId?: string;
+}
+
+// @public
+export interface ManagedIdentityPatchDefinition {
+    clientId?: string;
+}
 
 // @public
 export type MessageLevelType = string;
@@ -572,6 +613,15 @@ export interface PatchExtension {
 }
 
 // @public
+export interface Plan {
+    name: string;
+    product: string;
+    promotionCode?: string;
+    publisher: string;
+    version?: string;
+}
+
+// @public
 export type ProvisioningState = string;
 
 // @public
@@ -636,6 +686,26 @@ export interface ScopeNamespace {
 
 // @public
 export type ScopeType = string;
+
+// @public
+export interface ServicePrincipalDefinition {
+    clientCertificate?: string;
+    clientCertificatePassword?: string;
+    clientCertificateSendChain?: boolean;
+    clientId?: string;
+    clientSecret?: string;
+    tenantId?: string;
+}
+
+// @public
+export interface ServicePrincipalPatchDefinition {
+    clientCertificate?: string;
+    clientCertificatePassword?: string;
+    clientCertificateSendChain?: boolean;
+    clientId?: string;
+    clientSecret?: string;
+    tenantId?: string;
+}
 
 // @public
 export interface SourceControlConfiguration extends ProxyResource {
