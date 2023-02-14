@@ -13,7 +13,7 @@ import { ResourceSku, ResourceSkusListSkusOptionalParams } from "../models";
 /** Interface representing a ResourceSkus. */
 export interface ResourceSkus {
   /**
-   * The skus action returns the list of SKUs that DMS supports.
+   * The skus action returns the list of SKUs that DMS (classic) supports.
    * @param options The options parameters.
    */
   listSkus(
