@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   PipelineRun,
   PipelineRunsListOptionalParams,
@@ -60,8 +60,8 @@ export interface PipelineRuns {
     pipelineRunCreateParameters: PipelineRun,
     options?: PipelineRunsCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<PipelineRunsCreateResponse>,
+    PollerLike<
+      PollOperationState<PipelineRunsCreateResponse>,
       PipelineRunsCreateResponse
     >
   >;
@@ -92,7 +92,7 @@ export interface PipelineRuns {
     registryName: string,
     pipelineRunName: string,
     options?: PipelineRunsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a pipeline run from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

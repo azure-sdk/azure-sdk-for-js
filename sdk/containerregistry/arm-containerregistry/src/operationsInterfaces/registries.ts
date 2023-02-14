@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   Registry,
   RegistriesListOptionalParams,
@@ -88,7 +88,7 @@ export interface Registries {
     registryName: string,
     parameters: ImportImageParameters,
     options?: RegistriesImportImageOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Copies an image to this container registry from the specified container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -136,8 +136,8 @@ export interface Registries {
     registry: Registry,
     options?: RegistriesCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<RegistriesCreateResponse>,
+    PollerLike<
+      PollOperationState<RegistriesCreateResponse>,
       RegistriesCreateResponse
     >
   >;
@@ -164,7 +164,7 @@ export interface Registries {
     resourceGroupName: string,
     registryName: string,
     options?: RegistriesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -189,8 +189,8 @@ export interface Registries {
     registryUpdateParameters: RegistryUpdateParameters,
     options?: RegistriesUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<RegistriesUpdateResponse>,
+    PollerLike<
+      PollOperationState<RegistriesUpdateResponse>,
       RegistriesUpdateResponse
     >
   >;
@@ -269,8 +269,8 @@ export interface Registries {
     generateCredentialsParameters: GenerateCredentialsParameters,
     options?: RegistriesGenerateCredentialsOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<RegistriesGenerateCredentialsResponse>,
+    PollerLike<
+      PollOperationState<RegistriesGenerateCredentialsResponse>,
       RegistriesGenerateCredentialsResponse
     >
   >;
@@ -300,8 +300,8 @@ export interface Registries {
     runRequest: RunRequestUnion,
     options?: RegistriesScheduleRunOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<RegistriesScheduleRunResponse>,
+    PollerLike<
+      PollOperationState<RegistriesScheduleRunResponse>,
       RegistriesScheduleRunResponse
     >
   >;

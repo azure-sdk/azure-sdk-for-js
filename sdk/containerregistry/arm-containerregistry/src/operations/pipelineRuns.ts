@@ -13,12 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   PipelineRun,
   PipelineRunsListNextOptionalParams,
@@ -172,8 +168,8 @@ export class PipelineRunsImpl implements PipelineRuns {
     pipelineRunCreateParameters: PipelineRun,
     options?: PipelineRunsCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<PipelineRunsCreateResponse>,
+    PollerLike<
+      PollOperationState<PipelineRunsCreateResponse>,
       PipelineRunsCreateResponse
     >
   > {
@@ -183,7 +179,7 @@ export class PipelineRunsImpl implements PipelineRuns {
     ): Promise<PipelineRunsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -216,24 +212,21 @@ export class PipelineRunsImpl implements PipelineRuns {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    const lro = new LroImpl(
+      sendOperation,
+      {
         resourceGroupName,
         registryName,
         pipelineRunName,
         pipelineRunCreateParameters,
         options
       },
-      spec: createOperationSpec
-    });
-    const poller = await createHttpPoller<
-      PipelineRunsCreateResponse,
-      OperationState<PipelineRunsCreateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+      createOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -276,14 +269,14 @@ export class PipelineRunsImpl implements PipelineRuns {
     registryName: string,
     pipelineRunName: string,
     options?: PipelineRunsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -316,15 +309,15 @@ export class PipelineRunsImpl implements PipelineRuns {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, registryName, pipelineRunName, options },
-      spec: deleteOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, registryName, pipelineRunName, options },
+      deleteOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
