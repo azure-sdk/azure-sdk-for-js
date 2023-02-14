@@ -18,12 +18,12 @@ import {
   SqlDatabaseGetResults,
   SqlResourcesListSqlDatabasesOptionalParams,
   SqlResourcesListSqlDatabasesResponse,
-  ClientEncryptionKeyGetResults,
-  SqlResourcesListClientEncryptionKeysOptionalParams,
-  SqlResourcesListClientEncryptionKeysResponse,
   SqlContainerGetResults,
   SqlResourcesListSqlContainersOptionalParams,
   SqlResourcesListSqlContainersResponse,
+  ClientEncryptionKeyGetResults,
+  SqlResourcesListClientEncryptionKeysOptionalParams,
+  SqlResourcesListClientEncryptionKeysResponse,
   SqlStoredProcedureGetResults,
   SqlResourcesListSqlStoredProceduresOptionalParams,
   SqlResourcesListSqlStoredProceduresResponse,
@@ -45,6 +45,7 @@ import {
   SqlResourcesCreateUpdateSqlDatabaseOptionalParams,
   SqlResourcesCreateUpdateSqlDatabaseResponse,
   SqlResourcesDeleteSqlDatabaseOptionalParams,
+  SqlResourcesDeleteSqlDatabaseResponse,
   SqlResourcesGetSqlDatabaseThroughputOptionalParams,
   SqlResourcesGetSqlDatabaseThroughputResponse,
   ThroughputSettingsUpdateParameters,
@@ -54,20 +55,13 @@ import {
   SqlResourcesMigrateSqlDatabaseToAutoscaleResponse,
   SqlResourcesMigrateSqlDatabaseToManualThroughputOptionalParams,
   SqlResourcesMigrateSqlDatabaseToManualThroughputResponse,
-  SqlResourcesGetClientEncryptionKeyOptionalParams,
-  SqlResourcesGetClientEncryptionKeyResponse,
-  ClientEncryptionKeyCreateUpdateParameters,
-  SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams,
-  SqlResourcesCreateUpdateClientEncryptionKeyResponse,
   SqlResourcesGetSqlContainerOptionalParams,
   SqlResourcesGetSqlContainerResponse,
   SqlContainerCreateUpdateParameters,
   SqlResourcesCreateUpdateSqlContainerOptionalParams,
   SqlResourcesCreateUpdateSqlContainerResponse,
   SqlResourcesDeleteSqlContainerOptionalParams,
-  MergeParameters,
-  SqlResourcesListSqlContainerPartitionMergeOptionalParams,
-  SqlResourcesListSqlContainerPartitionMergeResponse,
+  SqlResourcesDeleteSqlContainerResponse,
   SqlResourcesGetSqlContainerThroughputOptionalParams,
   SqlResourcesGetSqlContainerThroughputResponse,
   SqlResourcesUpdateSqlContainerThroughputOptionalParams,
@@ -76,34 +70,32 @@ import {
   SqlResourcesMigrateSqlContainerToAutoscaleResponse,
   SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams,
   SqlResourcesMigrateSqlContainerToManualThroughputResponse,
-  RetrieveThroughputParameters,
-  SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams,
-  SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse,
-  RedistributeThroughputParameters,
-  SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams,
-  SqlResourcesSqlDatabaseRedistributeThroughputResponse,
-  SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams,
-  SqlResourcesSqlContainerRetrieveThroughputDistributionResponse,
-  SqlResourcesSqlContainerRedistributeThroughputOptionalParams,
-  SqlResourcesSqlContainerRedistributeThroughputResponse,
+  SqlResourcesGetClientEncryptionKeyOptionalParams,
+  SqlResourcesGetClientEncryptionKeyResponse,
+  ClientEncryptionKeyCreateUpdateParameters,
+  SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams,
+  SqlResourcesCreateUpdateClientEncryptionKeyResponse,
   SqlResourcesGetSqlStoredProcedureOptionalParams,
   SqlResourcesGetSqlStoredProcedureResponse,
   SqlStoredProcedureCreateUpdateParameters,
   SqlResourcesCreateUpdateSqlStoredProcedureOptionalParams,
   SqlResourcesCreateUpdateSqlStoredProcedureResponse,
   SqlResourcesDeleteSqlStoredProcedureOptionalParams,
+  SqlResourcesDeleteSqlStoredProcedureResponse,
   SqlResourcesGetSqlUserDefinedFunctionOptionalParams,
   SqlResourcesGetSqlUserDefinedFunctionResponse,
   SqlUserDefinedFunctionCreateUpdateParameters,
   SqlResourcesCreateUpdateSqlUserDefinedFunctionOptionalParams,
   SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse,
   SqlResourcesDeleteSqlUserDefinedFunctionOptionalParams,
+  SqlResourcesDeleteSqlUserDefinedFunctionResponse,
   SqlResourcesGetSqlTriggerOptionalParams,
   SqlResourcesGetSqlTriggerResponse,
   SqlTriggerCreateUpdateParameters,
   SqlResourcesCreateUpdateSqlTriggerOptionalParams,
   SqlResourcesCreateUpdateSqlTriggerResponse,
   SqlResourcesDeleteSqlTriggerOptionalParams,
+  SqlResourcesDeleteSqlTriggerResponse,
   SqlResourcesGetSqlRoleDefinitionOptionalParams,
   SqlResourcesGetSqlRoleDefinitionResponse,
   SqlRoleDefinitionCreateUpdateParameters,
@@ -201,80 +193,6 @@ export class SqlResourcesImpl implements SqlResources {
   }
 
   /**
-   * Lists the ClientEncryptionKeys under an existing Azure Cosmos DB SQL database.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param options The options parameters.
-   */
-  public listClientEncryptionKeys(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?: SqlResourcesListClientEncryptionKeysOptionalParams
-  ): PagedAsyncIterableIterator<ClientEncryptionKeyGetResults> {
-    const iter = this.listClientEncryptionKeysPagingAll(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listClientEncryptionKeysPagingPage(
-          resourceGroupName,
-          accountName,
-          databaseName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listClientEncryptionKeysPagingPage(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?: SqlResourcesListClientEncryptionKeysOptionalParams,
-    _settings?: PageSettings
-  ): AsyncIterableIterator<ClientEncryptionKeyGetResults[]> {
-    let result: SqlResourcesListClientEncryptionKeysResponse;
-    result = await this._listClientEncryptionKeys(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      options
-    );
-    yield result.value || [];
-  }
-
-  private async *listClientEncryptionKeysPagingAll(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?: SqlResourcesListClientEncryptionKeysOptionalParams
-  ): AsyncIterableIterator<ClientEncryptionKeyGetResults> {
-    for await (const page of this.listClientEncryptionKeysPagingPage(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
    * Lists the SQL container under an existing Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -339,6 +257,80 @@ export class SqlResourcesImpl implements SqlResources {
     options?: SqlResourcesListSqlContainersOptionalParams
   ): AsyncIterableIterator<SqlContainerGetResults> {
     for await (const page of this.listSqlContainersPagingPage(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the ClientEncryptionKeys under an existing Azure Cosmos DB SQL database.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param options The options parameters.
+   */
+  public listClientEncryptionKeys(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: SqlResourcesListClientEncryptionKeysOptionalParams
+  ): PagedAsyncIterableIterator<ClientEncryptionKeyGetResults> {
+    const iter = this.listClientEncryptionKeysPagingAll(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listClientEncryptionKeysPagingPage(
+          resourceGroupName,
+          accountName,
+          databaseName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listClientEncryptionKeysPagingPage(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: SqlResourcesListClientEncryptionKeysOptionalParams,
+    _settings?: PageSettings
+  ): AsyncIterableIterator<ClientEncryptionKeyGetResults[]> {
+    let result: SqlResourcesListClientEncryptionKeysResponse;
+    result = await this._listClientEncryptionKeys(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      options
+    );
+    yield result.value || [];
+  }
+
+  private async *listClientEncryptionKeysPagingAll(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: SqlResourcesListClientEncryptionKeysOptionalParams
+  ): AsyncIterableIterator<ClientEncryptionKeyGetResults> {
+    for await (const page of this.listClientEncryptionKeysPagingPage(
       resourceGroupName,
       accountName,
       databaseName,
@@ -877,11 +869,16 @@ export class SqlResourcesImpl implements SqlResources {
     accountName: string,
     databaseName: string,
     options?: SqlResourcesDeleteSqlDatabaseOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<SqlResourcesDeleteSqlDatabaseResponse>,
+      SqlResourcesDeleteSqlDatabaseResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<SqlResourcesDeleteSqlDatabaseResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -942,7 +939,7 @@ export class SqlResourcesImpl implements SqlResources {
     accountName: string,
     databaseName: string,
     options?: SqlResourcesDeleteSqlDatabaseOptionalParams
-  ): Promise<void> {
+  ): Promise<SqlResourcesDeleteSqlDatabaseResponse> {
     const poller = await this.beginDeleteSqlDatabase(
       resourceGroupName,
       accountName,
@@ -1264,165 +1261,6 @@ export class SqlResourcesImpl implements SqlResources {
   }
 
   /**
-   * Lists the ClientEncryptionKeys under an existing Azure Cosmos DB SQL database.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param options The options parameters.
-   */
-  private _listClientEncryptionKeys(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?: SqlResourcesListClientEncryptionKeysOptionalParams
-  ): Promise<SqlResourcesListClientEncryptionKeysResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, databaseName, options },
-      listClientEncryptionKeysOperationSpec
-    );
-  }
-
-  /**
-   * Gets the ClientEncryptionKey under an existing Azure Cosmos DB SQL database.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param clientEncryptionKeyName Cosmos DB ClientEncryptionKey name.
-   * @param options The options parameters.
-   */
-  getClientEncryptionKey(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    clientEncryptionKeyName: string,
-    options?: SqlResourcesGetClientEncryptionKeyOptionalParams
-  ): Promise<SqlResourcesGetClientEncryptionKeyResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        accountName,
-        databaseName,
-        clientEncryptionKeyName,
-        options
-      },
-      getClientEncryptionKeyOperationSpec
-    );
-  }
-
-  /**
-   * Create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure
-   * Powershell (instead of directly).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param clientEncryptionKeyName Cosmos DB ClientEncryptionKey name.
-   * @param createUpdateClientEncryptionKeyParameters The parameters to provide for the client encryption
-   *                                                  key.
-   * @param options The options parameters.
-   */
-  async beginCreateUpdateClientEncryptionKey(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    clientEncryptionKeyName: string,
-    createUpdateClientEncryptionKeyParameters: ClientEncryptionKeyCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<SqlResourcesCreateUpdateClientEncryptionKeyResponse>,
-      SqlResourcesCreateUpdateClientEncryptionKeyResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<SqlResourcesCreateUpdateClientEncryptionKeyResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        accountName,
-        databaseName,
-        clientEncryptionKeyName,
-        createUpdateClientEncryptionKeyParameters,
-        options
-      },
-      createUpdateClientEncryptionKeyOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure
-   * Powershell (instead of directly).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param clientEncryptionKeyName Cosmos DB ClientEncryptionKey name.
-   * @param createUpdateClientEncryptionKeyParameters The parameters to provide for the client encryption
-   *                                                  key.
-   * @param options The options parameters.
-   */
-  async beginCreateUpdateClientEncryptionKeyAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    clientEncryptionKeyName: string,
-    createUpdateClientEncryptionKeyParameters: ClientEncryptionKeyCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
-  ): Promise<SqlResourcesCreateUpdateClientEncryptionKeyResponse> {
-    const poller = await this.beginCreateUpdateClientEncryptionKey(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      clientEncryptionKeyName,
-      createUpdateClientEncryptionKeyParameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * Lists the SQL container under an existing Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -1585,11 +1423,16 @@ export class SqlResourcesImpl implements SqlResources {
     databaseName: string,
     containerName: string,
     options?: SqlResourcesDeleteSqlContainerOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<SqlResourcesDeleteSqlContainerResponse>,
+      SqlResourcesDeleteSqlContainerResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<SqlResourcesDeleteSqlContainerResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -1652,122 +1495,12 @@ export class SqlResourcesImpl implements SqlResources {
     databaseName: string,
     containerName: string,
     options?: SqlResourcesDeleteSqlContainerOptionalParams
-  ): Promise<void> {
+  ): Promise<SqlResourcesDeleteSqlContainerResponse> {
     const poller = await this.beginDeleteSqlContainer(
       resourceGroupName,
       accountName,
       databaseName,
       containerName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Merges the partitions of a SQL Container
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param containerName Cosmos DB container name.
-   * @param mergeParameters The parameters for the merge operation.
-   * @param options The options parameters.
-   */
-  async beginListSqlContainerPartitionMerge(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    mergeParameters: MergeParameters,
-    options?: SqlResourcesListSqlContainerPartitionMergeOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<SqlResourcesListSqlContainerPartitionMergeResponse>,
-      SqlResourcesListSqlContainerPartitionMergeResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<SqlResourcesListSqlContainerPartitionMergeResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        accountName,
-        databaseName,
-        containerName,
-        mergeParameters,
-        options
-      },
-      listSqlContainerPartitionMergeOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Merges the partitions of a SQL Container
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param containerName Cosmos DB container name.
-   * @param mergeParameters The parameters for the merge operation.
-   * @param options The options parameters.
-   */
-  async beginListSqlContainerPartitionMergeAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    mergeParameters: MergeParameters,
-    options?: SqlResourcesListSqlContainerPartitionMergeOptionalParams
-  ): Promise<SqlResourcesListSqlContainerPartitionMergeResponse> {
-    const poller = await this.beginListSqlContainerPartitionMerge(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      containerName,
-      mergeParameters,
       options
     );
     return poller.pollUntilDone();
@@ -2102,32 +1835,79 @@ export class SqlResourcesImpl implements SqlResources {
   }
 
   /**
-   * Retrieve throughput distribution for an Azure Cosmos DB SQL database
+   * Lists the ClientEncryptionKeys under an existing Azure Cosmos DB SQL database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
-   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
-   *                                     for the current SQL database.
    * @param options The options parameters.
    */
-  async beginSqlDatabaseRetrieveThroughputDistribution(
+  private _listClientEncryptionKeys(
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    retrieveThroughputParameters: RetrieveThroughputParameters,
-    options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams
+    options?: SqlResourcesListClientEncryptionKeysOptionalParams
+  ): Promise<SqlResourcesListClientEncryptionKeysResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, databaseName, options },
+      listClientEncryptionKeysOperationSpec
+    );
+  }
+
+  /**
+   * Gets the ClientEncryptionKey under an existing Azure Cosmos DB SQL database.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param clientEncryptionKeyName Cosmos DB ClientEncryptionKey name.
+   * @param options The options parameters.
+   */
+  getClientEncryptionKey(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    clientEncryptionKeyName: string,
+    options?: SqlResourcesGetClientEncryptionKeyOptionalParams
+  ): Promise<SqlResourcesGetClientEncryptionKeyResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        clientEncryptionKeyName,
+        options
+      },
+      getClientEncryptionKeyOperationSpec
+    );
+  }
+
+  /**
+   * Create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure
+   * Powershell (instead of directly).
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param clientEncryptionKeyName Cosmos DB ClientEncryptionKey name.
+   * @param createUpdateClientEncryptionKeyParameters The parameters to provide for the client encryption
+   *                                                  key.
+   * @param options The options parameters.
+   */
+  async beginCreateUpdateClientEncryptionKey(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    clientEncryptionKeyName: string,
+    createUpdateClientEncryptionKeyParameters: ClientEncryptionKeyCreateUpdateParameters,
+    options?: SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<
-        SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse
-      >,
-      SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse
+      PollOperationState<SqlResourcesCreateUpdateClientEncryptionKeyResponse>,
+      SqlResourcesCreateUpdateClientEncryptionKeyResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse> => {
+    ): Promise<SqlResourcesCreateUpdateClientEncryptionKeyResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -2169,375 +1949,45 @@ export class SqlResourcesImpl implements SqlResources {
         resourceGroupName,
         accountName,
         databaseName,
-        retrieveThroughputParameters,
+        clientEncryptionKeyName,
+        createUpdateClientEncryptionKeyParameters,
         options
       },
-      sqlDatabaseRetrieveThroughputDistributionOperationSpec
+      createUpdateClientEncryptionKeyOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Retrieve throughput distribution for an Azure Cosmos DB SQL database
+   * Create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure
+   * Powershell (instead of directly).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
-   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
-   *                                     for the current SQL database.
+   * @param clientEncryptionKeyName Cosmos DB ClientEncryptionKey name.
+   * @param createUpdateClientEncryptionKeyParameters The parameters to provide for the client encryption
+   *                                                  key.
    * @param options The options parameters.
    */
-  async beginSqlDatabaseRetrieveThroughputDistributionAndWait(
+  async beginCreateUpdateClientEncryptionKeyAndWait(
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    retrieveThroughputParameters: RetrieveThroughputParameters,
-    options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams
-  ): Promise<SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse> {
-    const poller = await this.beginSqlDatabaseRetrieveThroughputDistribution(
+    clientEncryptionKeyName: string,
+    createUpdateClientEncryptionKeyParameters: ClientEncryptionKeyCreateUpdateParameters,
+    options?: SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
+  ): Promise<SqlResourcesCreateUpdateClientEncryptionKeyResponse> {
+    const poller = await this.beginCreateUpdateClientEncryptionKey(
       resourceGroupName,
       accountName,
       databaseName,
-      retrieveThroughputParameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Redistribute throughput for an Azure Cosmos DB SQL database
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
-   *                                         the current SQL database.
-   * @param options The options parameters.
-   */
-  async beginSqlDatabaseRedistributeThroughput(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    redistributeThroughputParameters: RedistributeThroughputParameters,
-    options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<SqlResourcesSqlDatabaseRedistributeThroughputResponse>,
-      SqlResourcesSqlDatabaseRedistributeThroughputResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<SqlResourcesSqlDatabaseRedistributeThroughputResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        accountName,
-        databaseName,
-        redistributeThroughputParameters,
-        options
-      },
-      sqlDatabaseRedistributeThroughputOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Redistribute throughput for an Azure Cosmos DB SQL database
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
-   *                                         the current SQL database.
-   * @param options The options parameters.
-   */
-  async beginSqlDatabaseRedistributeThroughputAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    redistributeThroughputParameters: RedistributeThroughputParameters,
-    options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams
-  ): Promise<SqlResourcesSqlDatabaseRedistributeThroughputResponse> {
-    const poller = await this.beginSqlDatabaseRedistributeThroughput(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      redistributeThroughputParameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Retrieve throughput distribution for an Azure Cosmos DB SQL container
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param containerName Cosmos DB container name.
-   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
-   *                                     for the current SQL container.
-   * @param options The options parameters.
-   */
-  async beginSqlContainerRetrieveThroughputDistribution(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    retrieveThroughputParameters: RetrieveThroughputParameters,
-    options?: SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<
-        SqlResourcesSqlContainerRetrieveThroughputDistributionResponse
-      >,
-      SqlResourcesSqlContainerRetrieveThroughputDistributionResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<SqlResourcesSqlContainerRetrieveThroughputDistributionResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        accountName,
-        databaseName,
-        containerName,
-        retrieveThroughputParameters,
-        options
-      },
-      sqlContainerRetrieveThroughputDistributionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Retrieve throughput distribution for an Azure Cosmos DB SQL container
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param containerName Cosmos DB container name.
-   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
-   *                                     for the current SQL container.
-   * @param options The options parameters.
-   */
-  async beginSqlContainerRetrieveThroughputDistributionAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    retrieveThroughputParameters: RetrieveThroughputParameters,
-    options?: SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams
-  ): Promise<SqlResourcesSqlContainerRetrieveThroughputDistributionResponse> {
-    const poller = await this.beginSqlContainerRetrieveThroughputDistribution(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      containerName,
-      retrieveThroughputParameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Redistribute throughput for an Azure Cosmos DB SQL container
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param containerName Cosmos DB container name.
-   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
-   *                                         the current SQL container.
-   * @param options The options parameters.
-   */
-  async beginSqlContainerRedistributeThroughput(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    redistributeThroughputParameters: RedistributeThroughputParameters,
-    options?: SqlResourcesSqlContainerRedistributeThroughputOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<
-        SqlResourcesSqlContainerRedistributeThroughputResponse
-      >,
-      SqlResourcesSqlContainerRedistributeThroughputResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<SqlResourcesSqlContainerRedistributeThroughputResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        accountName,
-        databaseName,
-        containerName,
-        redistributeThroughputParameters,
-        options
-      },
-      sqlContainerRedistributeThroughputOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Redistribute throughput for an Azure Cosmos DB SQL container
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param containerName Cosmos DB container name.
-   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
-   *                                         the current SQL container.
-   * @param options The options parameters.
-   */
-  async beginSqlContainerRedistributeThroughputAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    redistributeThroughputParameters: RedistributeThroughputParameters,
-    options?: SqlResourcesSqlContainerRedistributeThroughputOptionalParams
-  ): Promise<SqlResourcesSqlContainerRedistributeThroughputResponse> {
-    const poller = await this.beginSqlContainerRedistributeThroughput(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      containerName,
-      redistributeThroughputParameters,
+      clientEncryptionKeyName,
+      createUpdateClientEncryptionKeyParameters,
       options
     );
     return poller.pollUntilDone();
@@ -2727,11 +2177,16 @@ export class SqlResourcesImpl implements SqlResources {
     containerName: string,
     storedProcedureName: string,
     options?: SqlResourcesDeleteSqlStoredProcedureOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<SqlResourcesDeleteSqlStoredProcedureResponse>,
+      SqlResourcesDeleteSqlStoredProcedureResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<SqlResourcesDeleteSqlStoredProcedureResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -2803,7 +2258,7 @@ export class SqlResourcesImpl implements SqlResources {
     containerName: string,
     storedProcedureName: string,
     options?: SqlResourcesDeleteSqlStoredProcedureOptionalParams
-  ): Promise<void> {
+  ): Promise<SqlResourcesDeleteSqlStoredProcedureResponse> {
     const poller = await this.beginDeleteSqlStoredProcedure(
       resourceGroupName,
       accountName,
@@ -3001,11 +2456,16 @@ export class SqlResourcesImpl implements SqlResources {
     containerName: string,
     userDefinedFunctionName: string,
     options?: SqlResourcesDeleteSqlUserDefinedFunctionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<SqlResourcesDeleteSqlUserDefinedFunctionResponse>,
+      SqlResourcesDeleteSqlUserDefinedFunctionResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<SqlResourcesDeleteSqlUserDefinedFunctionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -3077,7 +2537,7 @@ export class SqlResourcesImpl implements SqlResources {
     containerName: string,
     userDefinedFunctionName: string,
     options?: SqlResourcesDeleteSqlUserDefinedFunctionOptionalParams
-  ): Promise<void> {
+  ): Promise<SqlResourcesDeleteSqlUserDefinedFunctionResponse> {
     const poller = await this.beginDeleteSqlUserDefinedFunction(
       resourceGroupName,
       accountName,
@@ -3271,11 +2731,16 @@ export class SqlResourcesImpl implements SqlResources {
     containerName: string,
     triggerName: string,
     options?: SqlResourcesDeleteSqlTriggerOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<SqlResourcesDeleteSqlTriggerResponse>,
+      SqlResourcesDeleteSqlTriggerResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<SqlResourcesDeleteSqlTriggerResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -3347,7 +2812,7 @@ export class SqlResourcesImpl implements SqlResources {
     containerName: string,
     triggerName: string,
     options?: SqlResourcesDeleteSqlTriggerOptionalParams
-  ): Promise<void> {
+  ): Promise<SqlResourcesDeleteSqlTriggerResponse> {
     const poller = await this.beginDeleteSqlTrigger(
       resourceGroupName,
       accountName,
@@ -4004,7 +3469,20 @@ const deleteSqlDatabaseOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {
+      headersMapper: Mappers.SqlResourcesDeleteSqlDatabaseHeaders
+    },
+    201: {
+      headersMapper: Mappers.SqlResourcesDeleteSqlDatabaseHeaders
+    },
+    202: {
+      headersMapper: Mappers.SqlResourcesDeleteSqlDatabaseHeaders
+    },
+    204: {
+      headersMapper: Mappers.SqlResourcesDeleteSqlDatabaseHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -4130,79 +3608,6 @@ const migrateSqlDatabaseToManualThroughputOperationSpec: coreClient.OperationSpe
   headerParameters: [Parameters.accept],
   serializer
 };
-const listClientEncryptionKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ClientEncryptionKeysListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getClientEncryptionKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys/{clientEncryptionKeyName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ClientEncryptionKeyGetResults
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.databaseName,
-    Parameters.clientEncryptionKeyName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createUpdateClientEncryptionKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys/{clientEncryptionKeyName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ClientEncryptionKeyGetResults
-    },
-    201: {
-      bodyMapper: Mappers.ClientEncryptionKeyGetResults
-    },
-    202: {
-      bodyMapper: Mappers.ClientEncryptionKeyGetResults
-    },
-    204: {
-      bodyMapper: Mappers.ClientEncryptionKeyGetResults
-    }
-  },
-  requestBody: Parameters.createUpdateClientEncryptionKeyParameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.databaseName,
-    Parameters.clientEncryptionKeyName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
 const listSqlContainersOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers",
@@ -4280,40 +3685,20 @@ const deleteSqlContainerOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.databaseName,
-    Parameters.containerName
-  ],
-  serializer
-};
-const listSqlContainerPartitionMergeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/partitionMerge",
-  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+      headersMapper: Mappers.SqlResourcesDeleteSqlContainerHeaders
     },
     201: {
-      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+      headersMapper: Mappers.SqlResourcesDeleteSqlContainerHeaders
     },
     202: {
-      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+      headersMapper: Mappers.SqlResourcesDeleteSqlContainerHeaders
     },
     204: {
-      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
+      headersMapper: Mappers.SqlResourcesDeleteSqlContainerHeaders
     }
   },
-  requestBody: Parameters.mergeParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -4323,8 +3708,6 @@ const listSqlContainerPartitionMergeOperationSpec: coreClient.OperationSpec = {
     Parameters.databaseName,
     Parameters.containerName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };
 const getSqlContainerThroughputOperationSpec: coreClient.OperationSpec = {
@@ -4446,28 +3829,15 @@ const migrateSqlContainerToManualThroughputOperationSpec: coreClient.OperationSp
   headerParameters: [Parameters.accept],
   serializer
 };
-const sqlDatabaseRetrieveThroughputDistributionOperationSpec: coreClient.OperationSpec = {
+const listClientEncryptionKeysOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/retrieveThroughputDistribution",
-  httpMethod: "POST",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
-    },
-    201: {
-      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
-    },
-    202: {
-      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
-    },
-    204: {
-      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ClientEncryptionKeysListResult
     }
   },
-  requestBody: Parameters.retrieveThroughputParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -4476,66 +3846,18 @@ const sqlDatabaseRetrieveThroughputDistributionOperationSpec: coreClient.Operati
     Parameters.accountName,
     Parameters.databaseName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer
 };
-const sqlDatabaseRedistributeThroughputOperationSpec: coreClient.OperationSpec = {
+const getClientEncryptionKeyOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/redistributeThroughput",
-  httpMethod: "POST",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys/{clientEncryptionKeyName}",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
-    },
-    201: {
-      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
-    },
-    202: {
-      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
-    },
-    204: {
-      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ClientEncryptionKeyGetResults
     }
   },
-  requestBody: Parameters.redistributeThroughputParameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const sqlContainerRetrieveThroughputDistributionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/retrieveThroughputDistribution",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
-    },
-    201: {
-      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
-    },
-    202: {
-      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
-    },
-    204: {
-      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.retrieveThroughputParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -4543,34 +3865,30 @@ const sqlContainerRetrieveThroughputDistributionOperationSpec: coreClient.Operat
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
-    Parameters.containerName
+    Parameters.clientEncryptionKeyName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer
 };
-const sqlContainerRedistributeThroughputOperationSpec: coreClient.OperationSpec = {
+const createUpdateClientEncryptionKeyOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/redistributeThroughput",
-  httpMethod: "POST",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys/{clientEncryptionKeyName}",
+  httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+      bodyMapper: Mappers.ClientEncryptionKeyGetResults
     },
     201: {
-      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+      bodyMapper: Mappers.ClientEncryptionKeyGetResults
     },
     202: {
-      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+      bodyMapper: Mappers.ClientEncryptionKeyGetResults
     },
     204: {
-      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ClientEncryptionKeyGetResults
     }
   },
-  requestBody: Parameters.redistributeThroughputParameters,
+  requestBody: Parameters.createUpdateClientEncryptionKeyParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -4578,7 +3896,7 @@ const sqlContainerRedistributeThroughputOperationSpec: coreClient.OperationSpec 
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
-    Parameters.containerName
+    Parameters.clientEncryptionKeyName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -4667,7 +3985,20 @@ const deleteSqlStoredProcedureOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {
+      headersMapper: Mappers.SqlResourcesDeleteSqlStoredProcedureHeaders
+    },
+    201: {
+      headersMapper: Mappers.SqlResourcesDeleteSqlStoredProcedureHeaders
+    },
+    202: {
+      headersMapper: Mappers.SqlResourcesDeleteSqlStoredProcedureHeaders
+    },
+    204: {
+      headersMapper: Mappers.SqlResourcesDeleteSqlStoredProcedureHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -4760,7 +4091,20 @@ const deleteSqlUserDefinedFunctionOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {
+      headersMapper: Mappers.SqlResourcesDeleteSqlUserDefinedFunctionHeaders
+    },
+    201: {
+      headersMapper: Mappers.SqlResourcesDeleteSqlUserDefinedFunctionHeaders
+    },
+    202: {
+      headersMapper: Mappers.SqlResourcesDeleteSqlUserDefinedFunctionHeaders
+    },
+    204: {
+      headersMapper: Mappers.SqlResourcesDeleteSqlUserDefinedFunctionHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -4853,7 +4197,20 @@ const deleteSqlTriggerOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {
+      headersMapper: Mappers.SqlResourcesDeleteSqlTriggerHeaders
+    },
+    201: {
+      headersMapper: Mappers.SqlResourcesDeleteSqlTriggerHeaders
+    },
+    202: {
+      headersMapper: Mappers.SqlResourcesDeleteSqlTriggerHeaders
+    },
+    204: {
+      headersMapper: Mappers.SqlResourcesDeleteSqlTriggerHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

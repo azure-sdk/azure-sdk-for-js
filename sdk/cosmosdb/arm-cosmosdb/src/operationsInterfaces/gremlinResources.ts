@@ -19,6 +19,7 @@ import {
   GremlinResourcesCreateUpdateGremlinDatabaseOptionalParams,
   GremlinResourcesCreateUpdateGremlinDatabaseResponse,
   GremlinResourcesDeleteGremlinDatabaseOptionalParams,
+  GremlinResourcesDeleteGremlinDatabaseResponse,
   GremlinResourcesGetGremlinDatabaseThroughputOptionalParams,
   GremlinResourcesGetGremlinDatabaseThroughputResponse,
   ThroughputSettingsUpdateParameters,
@@ -34,6 +35,7 @@ import {
   GremlinResourcesCreateUpdateGremlinGraphOptionalParams,
   GremlinResourcesCreateUpdateGremlinGraphResponse,
   GremlinResourcesDeleteGremlinGraphOptionalParams,
+  GremlinResourcesDeleteGremlinGraphResponse,
   GremlinResourcesGetGremlinGraphThroughputOptionalParams,
   GremlinResourcesGetGremlinGraphThroughputResponse,
   GremlinResourcesUpdateGremlinGraphThroughputOptionalParams,
@@ -137,7 +139,12 @@ export interface GremlinResources {
     accountName: string,
     databaseName: string,
     options?: GremlinResourcesDeleteGremlinDatabaseOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<GremlinResourcesDeleteGremlinDatabaseResponse>,
+      GremlinResourcesDeleteGremlinDatabaseResponse
+    >
+  >;
   /**
    * Deletes an existing Azure Cosmos DB Gremlin database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -150,7 +157,7 @@ export interface GremlinResources {
     accountName: string,
     databaseName: string,
     options?: GremlinResourcesDeleteGremlinDatabaseOptionalParams
-  ): Promise<void>;
+  ): Promise<GremlinResourcesDeleteGremlinDatabaseResponse>;
   /**
    * Gets the RUs per second of the Gremlin database under an existing Azure Cosmos DB database account
    * with the provided name.
@@ -338,7 +345,12 @@ export interface GremlinResources {
     databaseName: string,
     graphName: string,
     options?: GremlinResourcesDeleteGremlinGraphOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<GremlinResourcesDeleteGremlinGraphResponse>,
+      GremlinResourcesDeleteGremlinGraphResponse
+    >
+  >;
   /**
    * Deletes an existing Azure Cosmos DB Gremlin graph.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -353,7 +365,7 @@ export interface GremlinResources {
     databaseName: string,
     graphName: string,
     options?: GremlinResourcesDeleteGremlinGraphOptionalParams
-  ): Promise<void>;
+  ): Promise<GremlinResourcesDeleteGremlinGraphResponse>;
   /**
    * Gets the Gremlin graph throughput under an existing Azure Cosmos DB database account with the
    * provided name.
