@@ -13,12 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   Registry,
   RegistriesListNextOptionalParams,
@@ -298,14 +294,14 @@ export class RegistriesImpl implements Registries {
     registryName: string,
     parameters: ImportImageParameters,
     options?: RegistriesImportImageOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -338,15 +334,15 @@ export class RegistriesImpl implements Registries {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, registryName, parameters, options },
-      spec: importImageOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, registryName, parameters, options },
+      importImageOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -445,8 +441,8 @@ export class RegistriesImpl implements Registries {
     registry: Registry,
     options?: RegistriesCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<RegistriesCreateResponse>,
+    PollerLike<
+      PollOperationState<RegistriesCreateResponse>,
       RegistriesCreateResponse
     >
   > {
@@ -456,7 +452,7 @@ export class RegistriesImpl implements Registries {
     ): Promise<RegistriesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -489,18 +485,15 @@ export class RegistriesImpl implements Registries {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, registryName, registry, options },
-      spec: createOperationSpec
-    });
-    const poller = await createHttpPoller<
-      RegistriesCreateResponse,
-      OperationState<RegistriesCreateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, registryName, registry, options },
+      createOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -538,14 +531,14 @@ export class RegistriesImpl implements Registries {
     resourceGroupName: string,
     registryName: string,
     options?: RegistriesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -578,15 +571,15 @@ export class RegistriesImpl implements Registries {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, registryName, options },
-      spec: deleteOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, registryName, options },
+      deleteOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -624,8 +617,8 @@ export class RegistriesImpl implements Registries {
     registryUpdateParameters: RegistryUpdateParameters,
     options?: RegistriesUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<RegistriesUpdateResponse>,
+    PollerLike<
+      PollOperationState<RegistriesUpdateResponse>,
       RegistriesUpdateResponse
     >
   > {
@@ -635,7 +628,7 @@ export class RegistriesImpl implements Registries {
     ): Promise<RegistriesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -668,23 +661,15 @@ export class RegistriesImpl implements Registries {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        registryName,
-        registryUpdateParameters,
-        options
-      },
-      spec: updateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      RegistriesUpdateResponse,
-      OperationState<RegistriesUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, registryName, registryUpdateParameters, options },
+      updateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -820,8 +805,8 @@ export class RegistriesImpl implements Registries {
     generateCredentialsParameters: GenerateCredentialsParameters,
     options?: RegistriesGenerateCredentialsOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<RegistriesGenerateCredentialsResponse>,
+    PollerLike<
+      PollOperationState<RegistriesGenerateCredentialsResponse>,
       RegistriesGenerateCredentialsResponse
     >
   > {
@@ -831,7 +816,7 @@ export class RegistriesImpl implements Registries {
     ): Promise<RegistriesGenerateCredentialsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -864,23 +849,20 @@ export class RegistriesImpl implements Registries {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    const lro = new LroImpl(
+      sendOperation,
+      {
         resourceGroupName,
         registryName,
         generateCredentialsParameters,
         options
       },
-      spec: generateCredentialsOperationSpec
-    });
-    const poller = await createHttpPoller<
-      RegistriesGenerateCredentialsResponse,
-      OperationState<RegistriesGenerateCredentialsResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+      generateCredentialsOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -921,8 +903,8 @@ export class RegistriesImpl implements Registries {
     runRequest: RunRequestUnion,
     options?: RegistriesScheduleRunOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<RegistriesScheduleRunResponse>,
+    PollerLike<
+      PollOperationState<RegistriesScheduleRunResponse>,
       RegistriesScheduleRunResponse
     >
   > {
@@ -932,7 +914,7 @@ export class RegistriesImpl implements Registries {
     ): Promise<RegistriesScheduleRunResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -965,16 +947,13 @@ export class RegistriesImpl implements Registries {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, registryName, runRequest, options },
-      spec: scheduleRunOperationSpec
-    });
-    const poller = await createHttpPoller<
-      RegistriesScheduleRunResponse,
-      OperationState<RegistriesScheduleRunResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, registryName, runRequest, options },
+      scheduleRunOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

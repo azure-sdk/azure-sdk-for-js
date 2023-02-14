@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   CredentialSet,
   CredentialSetsListOptionalParams,
@@ -63,8 +63,8 @@ export interface CredentialSets {
     credentialSetCreateParameters: CredentialSet,
     options?: CredentialSetsCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CredentialSetsCreateResponse>,
+    PollerLike<
+      PollOperationState<CredentialSetsCreateResponse>,
       CredentialSetsCreateResponse
     >
   >;
@@ -95,7 +95,7 @@ export interface CredentialSets {
     registryName: string,
     credentialSetName: string,
     options?: CredentialSetsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a credential set from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -124,8 +124,8 @@ export interface CredentialSets {
     credentialSetUpdateParameters: CredentialSetUpdateParameters,
     options?: CredentialSetsUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CredentialSetsUpdateResponse>,
+    PollerLike<
+      PollOperationState<CredentialSetsUpdateResponse>,
       CredentialSetsUpdateResponse
     >
   >;
