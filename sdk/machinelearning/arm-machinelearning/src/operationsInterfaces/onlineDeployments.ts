@@ -181,7 +181,7 @@ export interface OnlineDeployments {
     options?: OnlineDeploymentsCreateOrUpdateOptionalParams
   ): Promise<OnlineDeploymentsCreateOrUpdateResponse>;
   /**
-   * Polls an Endpoint operation.
+   * Retrieve online deployment logs.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param endpointName Inference endpoint name.
