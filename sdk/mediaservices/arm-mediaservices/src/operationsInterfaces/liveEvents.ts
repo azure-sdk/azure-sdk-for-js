@@ -11,6 +11,12 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   LiveEvent,
   LiveEventsListOptionalParams,
+  LiveEventStatus,
+  LiveEventsListGetStatusOptionalParams,
+  LiveEventStreamEvent,
+  LiveEventsListGetStreamEventsOptionalParams,
+  LiveEventTrackEvent,
+  LiveEventsListGetTrackIngestHeartbeatsOptionalParams,
   LiveEventsGetOptionalParams,
   LiveEventsGetResponse,
   LiveEventsCreateOptionalParams,
@@ -43,6 +49,45 @@ export interface LiveEvents {
     accountName: string,
     options?: LiveEventsListOptionalParams
   ): PagedAsyncIterableIterator<LiveEvent>;
+  /**
+   * Gets status telemetry of a live event.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param options The options parameters.
+   */
+  beginListGetStatusAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: LiveEventsListGetStatusOptionalParams
+  ): PagedAsyncIterableIterator<LiveEventStatus>;
+  /**
+   * Get stream events telemetry of a live event.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param options The options parameters.
+   */
+  beginListGetStreamEventsAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: LiveEventsListGetStreamEventsOptionalParams
+  ): PagedAsyncIterableIterator<LiveEventStreamEvent>;
+  /**
+   * Get track ingest heartbeat events telemetry of a live event.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param options The options parameters.
+   */
+  beginListGetTrackIngestHeartbeatsAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: LiveEventsListGetTrackIngestHeartbeatsOptionalParams
+  ): PagedAsyncIterableIterator<LiveEventTrackEvent>;
   /**
    * Gets properties of a live event.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
