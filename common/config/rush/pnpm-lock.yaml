@@ -11312,15 +11312,15 @@ packages:
     dev: false
 
   file:projects/arm-databricks.tgz:
-    resolution: {integrity: sha512-S4DoCycrAXZEK2iDOmQivfCo29qoXRlfTYIDnnlEBX3vszWIuQy/JbLDWAR5efAX//XpoqkEq46PQyQK8ii34g==, tarball: file:projects/arm-databricks.tgz}
+    resolution: {integrity: sha512-3pNbdFlmzQOoiM8gZfxsLgM+GjESmhOHfyhiSFVhanMlvru3wHV+2paDQr1kJSl3NYo1+HpO+YYDAtXv9HDOeA==, tarball: file:projects/arm-databricks.tgz}
     name: '@rush-temp/arm-databricks'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36

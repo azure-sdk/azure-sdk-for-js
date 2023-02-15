@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for AzureDatabricksManagement client.
 
-The Microsoft Azure management APIs allow end users to operate on Azure Databricks Workspace resources.
+The Microsoft Azure management APIs allow end users to operate on Azure Databricks Workspace / Access Connector resources.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databricks/arm-databricks) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-databricks) |
