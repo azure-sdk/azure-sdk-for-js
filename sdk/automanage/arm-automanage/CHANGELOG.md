@@ -1,15 +1,34 @@
 # Release History
-
-## 1.0.3 (2023-01-11)
-
+    
+## 2.0.0 (2023-02-15)
+    
 **Features**
- 
-  - Exposes `getContinuationToken` helper function to extract continuation token
 
-**Bugs Fixed**
- 
-  - A series of small bug fixs relevant to authentication and apiVersion policy
+  - Added Interface AssignmentReportProperties
+  - Added Interface ServicePrincipalProperties
+  - Added Type Alias AssignmentMode
+  - Interface BestPractice has a new optional parameter properties
+  - Interface ConfigurationProfileAssignmentProperties has a new optional parameter mode
+  - Interface Report has a new optional parameter properties
+  - Interface ServicePrincipal has a new optional parameter properties
+  - Added function getContinuationToken
 
+**Breaking Changes**
+
+  - Interface BestPractice no longer has parameter configuration
+  - Interface Report no longer has parameter configurationProfile
+  - Interface Report no longer has parameter duration
+  - Interface Report no longer has parameter endTime
+  - Interface Report no longer has parameter error
+  - Interface Report no longer has parameter lastModifiedTime
+  - Interface Report no longer has parameter reportFormatVersion
+  - Interface Report no longer has parameter resources
+  - Interface Report no longer has parameter startTime
+  - Interface Report no longer has parameter status
+  - Interface Report no longer has parameter typePropertiesType
+  - Interface ServicePrincipal no longer has parameter authorizationSet
+  - Interface ServicePrincipal no longer has parameter servicePrincipalId
+    
 ## 1.0.2 (2022-10-08)
 
 **Bugs Fixed**
