@@ -320,7 +320,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ServerCommunicationLink
     }
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -329,7 +329,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.serverName,
     Parameters.communicationLinkName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

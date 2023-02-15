@@ -878,7 +878,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.serverName,
     Parameters.elasticPoolName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -925,7 +925,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.serverName,
     Parameters.elasticPoolName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
