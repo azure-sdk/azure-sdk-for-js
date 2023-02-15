@@ -131,6 +131,24 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
   }
 
   /**
+   * Lists the failover groups in a location.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param locationName The name of the region where the resource is located.
+   * @param options The options parameters.
+   */
+  private _listByLocation(
+    resourceGroupName: string,
+    locationName: string,
+    options?: InstanceFailoverGroupsListByLocationOptionalParams
+  ): Promise<InstanceFailoverGroupsListByLocationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, locationName, options },
+      listByLocationOperationSpec
+    );
+  }
+
+  /**
    * Gets a failover group.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -342,24 +360,6 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
       options
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Lists the failover groups in a location.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param locationName The name of the region where the resource is located.
-   * @param options The options parameters.
-   */
-  private _listByLocation(
-    resourceGroupName: string,
-    locationName: string,
-    options?: InstanceFailoverGroupsListByLocationOptionalParams
-  ): Promise<InstanceFailoverGroupsListByLocationResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, locationName, options },
-      listByLocationOperationSpec
-    );
   }
 
   /**
@@ -577,6 +577,26 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByLocationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.InstanceFailoverGroupListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion8],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.locationName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups/{failoverGroupName}",
@@ -587,7 +607,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -617,8 +637,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters27,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters91,
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -635,7 +655,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups/{failoverGroupName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -643,26 +663,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.locationName,
     Parameters.failoverGroupName
   ],
-  serializer
-};
-const listByLocationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.InstanceFailoverGroupListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.locationName
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const failoverOperationSpec: coreClient.OperationSpec = {
@@ -684,7 +684,7 @@ const failoverOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -714,7 +714,7 @@ const forceFailoverAllowDataLossOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
