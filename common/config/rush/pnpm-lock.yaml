@@ -10028,15 +10028,15 @@ packages:
     dev: false
 
   file:projects/arm-appcontainers.tgz:
-    resolution: {integrity: sha512-AKJ6xnmzgA6cDiBFKJqRMx7PdJOyGQe4eFiI1IU5pDMk3SB/ybs3gwg8TlIAXWIFbQAnvcNnPSmA1XN2reOWZg==, tarball: file:projects/arm-appcontainers.tgz}
+    resolution: {integrity: sha512-88DAERmgXS8CyXFsXKksv6X0CoZCbEEMgd1oVCSSP3m6tD56V0F9H/YAvadtE8d8W1RhklCo77kAitBlF0lEfg==, tarball: file:projects/arm-appcontainers.tgz}
     name: '@rush-temp/arm-appcontainers'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
@@ -17893,7 +17893,7 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-CtEBzCs8gADc56AozIehMF2iu7e7R/8YroShdvL2gjK6Hol5Tz+LRfNo4m9XoM17Mwsm1VtZe6Di0vA+WdiJ3g==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-zodipV0pcRnzrfWjHYqvU42+E4V7E6TqdSYdrmqk/W9isTlZ3lW7OQXvblPPmjo2gTxDBbq+MUcDJ1Bu4FPPYA==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:

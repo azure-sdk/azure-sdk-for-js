@@ -8,35 +8,32 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ConnectedEnvironmentsCertificates } from "../operationsInterfaces";
+import { ConnectedEnvironmentsDaprResiliencyRetryPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
-  Certificate,
-  ConnectedEnvironmentsCertificatesListNextOptionalParams,
-  ConnectedEnvironmentsCertificatesListOptionalParams,
-  ConnectedEnvironmentsCertificatesListResponse,
-  ConnectedEnvironmentsCertificatesGetOptionalParams,
-  ConnectedEnvironmentsCertificatesGetResponse,
-  ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams,
-  ConnectedEnvironmentsCertificatesCreateOrUpdateResponse,
-  ConnectedEnvironmentsCertificatesDeleteOptionalParams,
-  CertificatePatch,
-  ConnectedEnvironmentsCertificatesUpdateOptionalParams,
-  ConnectedEnvironmentsCertificatesUpdateResponse,
-  ConnectedEnvironmentsCertificatesListNextResponse
+  DaprResiliencyRetryPolicy,
+  ConnectedEnvironmentsDaprResiliencyRetryPoliciesListNextOptionalParams,
+  ConnectedEnvironmentsDaprResiliencyRetryPoliciesListOptionalParams,
+  ConnectedEnvironmentsDaprResiliencyRetryPoliciesListResponse,
+  ConnectedEnvironmentsDaprResiliencyRetryPoliciesGetOptionalParams,
+  ConnectedEnvironmentsDaprResiliencyRetryPoliciesGetResponse,
+  ConnectedEnvironmentsDaprResiliencyRetryPoliciesCreateOrUpdateOptionalParams,
+  ConnectedEnvironmentsDaprResiliencyRetryPoliciesCreateOrUpdateResponse,
+  ConnectedEnvironmentsDaprResiliencyRetryPoliciesDeleteOptionalParams,
+  ConnectedEnvironmentsDaprResiliencyRetryPoliciesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ConnectedEnvironmentsCertificates operations. */
-export class ConnectedEnvironmentsCertificatesImpl
-  implements ConnectedEnvironmentsCertificates {
+/** Class containing ConnectedEnvironmentsDaprResiliencyRetryPolicies operations. */
+export class ConnectedEnvironmentsDaprResiliencyRetryPoliciesImpl
+  implements ConnectedEnvironmentsDaprResiliencyRetryPolicies {
   private readonly client: ContainerAppsAPIClient;
 
   /**
-   * Initialize a new instance of the class ConnectedEnvironmentsCertificates class.
+   * Initialize a new instance of the class ConnectedEnvironmentsDaprResiliencyRetryPolicies class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerAppsAPIClient) {
@@ -44,7 +41,7 @@ export class ConnectedEnvironmentsCertificatesImpl
   }
 
   /**
-   * Get the Certificates in a given connected environment.
+   * Get the Dapr Resiliency Retry Policies for a connected environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param connectedEnvironmentName Name of the Connected Environment.
    * @param options The options parameters.
@@ -52,8 +49,8 @@ export class ConnectedEnvironmentsCertificatesImpl
   public list(
     resourceGroupName: string,
     connectedEnvironmentName: string,
-    options?: ConnectedEnvironmentsCertificatesListOptionalParams
-  ): PagedAsyncIterableIterator<Certificate> {
+    options?: ConnectedEnvironmentsDaprResiliencyRetryPoliciesListOptionalParams
+  ): PagedAsyncIterableIterator<DaprResiliencyRetryPolicy> {
     const iter = this.listPagingAll(
       resourceGroupName,
       connectedEnvironmentName,
@@ -83,10 +80,10 @@ export class ConnectedEnvironmentsCertificatesImpl
   private async *listPagingPage(
     resourceGroupName: string,
     connectedEnvironmentName: string,
-    options?: ConnectedEnvironmentsCertificatesListOptionalParams,
+    options?: ConnectedEnvironmentsDaprResiliencyRetryPoliciesListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Certificate[]> {
-    let result: ConnectedEnvironmentsCertificatesListResponse;
+  ): AsyncIterableIterator<DaprResiliencyRetryPolicy[]> {
+    let result: ConnectedEnvironmentsDaprResiliencyRetryPoliciesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(
@@ -116,8 +113,8 @@ export class ConnectedEnvironmentsCertificatesImpl
   private async *listPagingAll(
     resourceGroupName: string,
     connectedEnvironmentName: string,
-    options?: ConnectedEnvironmentsCertificatesListOptionalParams
-  ): AsyncIterableIterator<Certificate> {
+    options?: ConnectedEnvironmentsDaprResiliencyRetryPoliciesListOptionalParams
+  ): AsyncIterableIterator<DaprResiliencyRetryPolicy> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       connectedEnvironmentName,
@@ -128,7 +125,7 @@ export class ConnectedEnvironmentsCertificatesImpl
   }
 
   /**
-   * Get the Certificates in a given connected environment.
+   * Get the Dapr Resiliency Retry Policies for a connected environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param connectedEnvironmentName Name of the Connected Environment.
    * @param options The options parameters.
@@ -136,8 +133,8 @@ export class ConnectedEnvironmentsCertificatesImpl
   private _list(
     resourceGroupName: string,
     connectedEnvironmentName: string,
-    options?: ConnectedEnvironmentsCertificatesListOptionalParams
-  ): Promise<ConnectedEnvironmentsCertificatesListResponse> {
+    options?: ConnectedEnvironmentsDaprResiliencyRetryPoliciesListOptionalParams
+  ): Promise<ConnectedEnvironmentsDaprResiliencyRetryPoliciesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, connectedEnvironmentName, options },
       listOperationSpec
@@ -145,86 +142,70 @@ export class ConnectedEnvironmentsCertificatesImpl
   }
 
   /**
-   * Get the specified Certificate.
+   * Get a Dapr Resiliency Retry Policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param connectedEnvironmentName Name of the Connected Environment.
-   * @param certificateName Name of the Certificate.
+   * @param policyName Name of the Dapr Resiliency Retry Policy.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     connectedEnvironmentName: string,
-    certificateName: string,
-    options?: ConnectedEnvironmentsCertificatesGetOptionalParams
-  ): Promise<ConnectedEnvironmentsCertificatesGetResponse> {
+    policyName: string,
+    options?: ConnectedEnvironmentsDaprResiliencyRetryPoliciesGetOptionalParams
+  ): Promise<ConnectedEnvironmentsDaprResiliencyRetryPoliciesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, connectedEnvironmentName, certificateName, options },
+      { resourceGroupName, connectedEnvironmentName, policyName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or Update a Certificate.
+   * Creates or updates a Dapr Resiliency Retry Policy in a Connected Environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param connectedEnvironmentName Name of the Connected Environment.
-   * @param certificateName Name of the Certificate.
+   * @param policyName Name of the Dapr Resiliency Retry Policy.
+   * @param daprResiliencyRetryPoliciesEnvelope Configuration details of the Dapr Resiliency Retry
+   *                                            Policy.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     connectedEnvironmentName: string,
-    certificateName: string,
-    options?: ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams
-  ): Promise<ConnectedEnvironmentsCertificatesCreateOrUpdateResponse> {
+    policyName: string,
+    daprResiliencyRetryPoliciesEnvelope: DaprResiliencyRetryPolicy,
+    options?: ConnectedEnvironmentsDaprResiliencyRetryPoliciesCreateOrUpdateOptionalParams
+  ): Promise<
+    ConnectedEnvironmentsDaprResiliencyRetryPoliciesCreateOrUpdateResponse
+  > {
     return this.client.sendOperationRequest(
-      { resourceGroupName, connectedEnvironmentName, certificateName, options },
+      {
+        resourceGroupName,
+        connectedEnvironmentName,
+        policyName,
+        daprResiliencyRetryPoliciesEnvelope,
+        options
+      },
       createOrUpdateOperationSpec
     );
   }
 
   /**
-   * Deletes the specified Certificate.
+   * Delete a Dapr Resiliency Retry Policy from a Connected Environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param connectedEnvironmentName Name of the Connected Environment.
-   * @param certificateName Name of the Certificate.
+   * @param policyName Name of the Dapr Resiliency Retry Policy.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     connectedEnvironmentName: string,
-    certificateName: string,
-    options?: ConnectedEnvironmentsCertificatesDeleteOptionalParams
+    policyName: string,
+    options?: ConnectedEnvironmentsDaprResiliencyRetryPoliciesDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, connectedEnvironmentName, certificateName, options },
+      { resourceGroupName, connectedEnvironmentName, policyName, options },
       deleteOperationSpec
-    );
-  }
-
-  /**
-   * Patches a certificate. Currently only patching of tags is supported
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectedEnvironmentName Name of the Connected Environment.
-   * @param certificateName Name of the Certificate.
-   * @param certificateEnvelope Properties of a certificate that need to be updated
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    connectedEnvironmentName: string,
-    certificateName: string,
-    certificateEnvelope: CertificatePatch,
-    options?: ConnectedEnvironmentsCertificatesUpdateOptionalParams
-  ): Promise<ConnectedEnvironmentsCertificatesUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        connectedEnvironmentName,
-        certificateName,
-        certificateEnvelope,
-        options
-      },
-      updateOperationSpec
     );
   }
 
@@ -239,8 +220,8 @@ export class ConnectedEnvironmentsCertificatesImpl
     resourceGroupName: string,
     connectedEnvironmentName: string,
     nextLink: string,
-    options?: ConnectedEnvironmentsCertificatesListNextOptionalParams
-  ): Promise<ConnectedEnvironmentsCertificatesListNextResponse> {
+    options?: ConnectedEnvironmentsDaprResiliencyRetryPoliciesListNextOptionalParams
+  ): Promise<ConnectedEnvironmentsDaprResiliencyRetryPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, connectedEnvironmentName, nextLink, options },
       listNextOperationSpec
@@ -252,11 +233,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/daprResiliencyRetryPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateCollection
+      bodyMapper: Mappers.DaprResiliencyRetryPoliciesCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -267,18 +248,18 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.connectedEnvironmentName
+    Parameters.connectedEnvironmentName1
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates/{certificateName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/daprResiliencyRetryPolicies/{policyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Certificate
+      bodyMapper: Mappers.DaprResiliencyRetryPolicy
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -289,32 +270,35 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.connectedEnvironmentName,
-    Parameters.certificateName
+    Parameters.connectedEnvironmentName1,
+    Parameters.policyName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates/{certificateName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/daprResiliencyRetryPolicies/{policyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Certificate
+      bodyMapper: Mappers.DaprResiliencyRetryPolicy
+    },
+    201: {
+      bodyMapper: Mappers.DaprResiliencyRetryPolicy
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.certificateEnvelope,
+  requestBody: Parameters.daprResiliencyRetryPoliciesEnvelope,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.connectedEnvironmentName,
-    Parameters.certificateName
+    Parameters.connectedEnvironmentName1,
+    Parameters.policyName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -322,7 +306,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates/{certificateName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/daprResiliencyRetryPolicies/{policyName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -336,35 +320,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.connectedEnvironmentName,
-    Parameters.certificateName
+    Parameters.connectedEnvironmentName1,
+    Parameters.policyName
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates/{certificateName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Certificate
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  requestBody: Parameters.certificateEnvelope1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.connectedEnvironmentName,
-    Parameters.certificateName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -372,7 +331,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateCollection
+      bodyMapper: Mappers.DaprResiliencyRetryPoliciesCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -383,7 +342,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.connectedEnvironmentName
+    Parameters.connectedEnvironmentName1
   ],
   headerParameters: [Parameters.accept],
   serializer
