@@ -3157,6 +3157,13 @@ export enum KnownRpInMageRecoveryPointType {
 }
 
 // @public
+export enum KnownSecurityType {
+    ConfidentialVM = "ConfidentialVM",
+    None = "None",
+    TrustedLaunch = "TrustedLaunch"
+}
+
+// @public
 export enum KnownSetMultiVmSyncStatus {
     Disable = "Disable",
     Enable = "Enable"
@@ -6110,6 +6117,9 @@ export interface ScriptActionTaskDetails extends TaskTypeDetails {
 }
 
 // @public
+export type SecurityType = string;
+
+// @public
 export interface ServiceError {
     activityId?: string;
     code?: string;
@@ -6829,6 +6839,7 @@ export interface VMwareCbtDiskInput {
 
 // @public
 export interface VMwareCbtEnableMigrationInput extends EnableMigrationProviderSpecificInput {
+    confidentialVmKeyVaultId?: string;
     dataMoverRunAsAccountId: string;
     disksToInclude: VMwareCbtDiskInput[];
     instanceType: "VMwareCbt";
@@ -6854,6 +6865,7 @@ export interface VMwareCbtEnableMigrationInput extends EnableMigrationProviderSp
     targetResourceGroupId: string;
     targetSubnetName?: string;
     targetVmName?: string;
+    targetVmSecurityProfile?: VMwareCbtSecurityProfileProperties;
     targetVmSize?: string;
     targetVmTags?: {
         [propertyName: string]: string;
@@ -6872,11 +6884,13 @@ export interface VMwareCbtEventDetails extends EventProviderSpecificDetails {
 // @public
 export interface VMwareCbtMigrateInput extends MigrateProviderSpecificInput {
     instanceType: "VMwareCbt";
+    osUpgradeVersion?: string;
     performShutdown: string;
 }
 
 // @public
 export interface VMwareCbtMigrationDetails extends MigrationProviderSpecificSettings {
+    confidentialVmKeyVaultId?: string;
     readonly dataMoverRunAsAccountId?: string;
     readonly firmwareType?: string;
     readonly initialSeedingProgressPercentage?: number;
@@ -6887,6 +6901,7 @@ export interface VMwareCbtMigrationDetails extends MigrationProviderSpecificSett
     licenseType?: string;
     readonly migrationProgressPercentage?: number;
     readonly migrationRecoveryPointId?: string;
+    readonly osName?: string;
     readonly osType?: string;
     performAutoResync?: string;
     protectedDisks?: VMwareCbtProtectedDiskDetails[];
@@ -6902,6 +6917,7 @@ export interface VMwareCbtMigrationDetails extends MigrationProviderSpecificSett
     readonly snapshotRunAsAccountId?: string;
     sqlServerLicenseType?: string;
     readonly storageAccountId?: string;
+    supportedOSVersions?: string[];
     targetAvailabilitySetId?: string;
     targetAvailabilityZone?: string;
     targetBootDiagnosticsStorageAccountId?: string;
@@ -6917,6 +6933,7 @@ export interface VMwareCbtMigrationDetails extends MigrationProviderSpecificSett
     targetProximityPlacementGroupId?: string;
     targetResourceGroupId?: string;
     targetVmName?: string;
+    targetVmSecurityProfile?: VMwareCbtSecurityProfileProperties;
     targetVmSize?: string;
     targetVmTags?: {
         [propertyName: string]: string;
@@ -6992,6 +7009,7 @@ export interface VMwareCbtProtectedDiskDetails {
 
 // @public
 export interface VMwareCbtProtectionContainerMappingDetails extends ProtectionContainerMappingProviderSpecificDetails {
+    excludedSkus?: string[];
     instanceType: "VMwareCbt";
     readonly keyVaultId?: string;
     readonly keyVaultUri?: string;
@@ -7017,9 +7035,19 @@ export interface VMwareCbtResyncInput extends ResyncProviderSpecificInput {
 }
 
 // @public
+export interface VMwareCbtSecurityProfileProperties {
+    isTargetVmConfidentialEncryptionEnabled?: string;
+    isTargetVmIntegrityMonitoringEnabled?: string;
+    isTargetVmSecureBootEnabled?: string;
+    isTargetVmTpmEnabled?: string;
+    targetVmSecurityType?: SecurityType;
+}
+
+// @public
 export interface VMwareCbtTestMigrateInput extends TestMigrateProviderSpecificInput {
     instanceType: "VMwareCbt";
     networkId: string;
+    osUpgradeVersion?: string;
     recoveryPointId: string;
     vmNics?: VMwareCbtNicInput[];
 }
