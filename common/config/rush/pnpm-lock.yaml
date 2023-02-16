@@ -11726,15 +11726,15 @@ packages:
     dev: false
 
   file:projects/arm-digitaltwins.tgz:
-    resolution: {integrity: sha512-svnRvsCdoUvQfyHKEk29MPJXUO3mQYmR9/iB1ZQFu0fSBzDOTAAgRk4Jhg0A8esToT8DpbsBJMK+5q7ti7HhuQ==, tarball: file:projects/arm-digitaltwins.tgz}
+    resolution: {integrity: sha512-rxjJZrgUVA1KMDT4YTZlyYV6pBbKpYNpsbemLUsdv4oXKamqY3kaK+zUjWH55TdORDD6nKsx82JIvezRfNgCAQ==, tarball: file:projects/arm-digitaltwins.tgz}
     name: '@rush-temp/arm-digitaltwins'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
@@ -17893,7 +17893,7 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-CtEBzCs8gADc56AozIehMF2iu7e7R/8YroShdvL2gjK6Hol5Tz+LRfNo4m9XoM17Mwsm1VtZe6Di0vA+WdiJ3g==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-zodipV0pcRnzrfWjHYqvU42+E4V7E6TqdSYdrmqk/W9isTlZ3lW7OQXvblPPmjo2gTxDBbq+MUcDJ1Bu4FPPYA==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
@@ -18798,7 +18798,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-kLU74faNZXQAJXMne2lL+AAKkVKmU8+obYvymA9G2IuJBpPraaTOxyIOypkQeZqLuWCdZgrgeCno39dVP0MLtg==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-mSZh1szK6lxMnczMO7kgXzef/o22kR6Ttc0voG7IKFLpMKRq6gwvWDAtPzvAEz9qjHzskrN9Me89DaPc7H7ccw==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -18850,7 +18850,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false

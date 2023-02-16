@@ -482,7 +482,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.cleanupConnectionArtifacts
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -504,7 +507,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
