@@ -190,6 +190,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.UsageDetailsListResult
     },
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -213,6 +214,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.UsageDetailsListResult
     },
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
