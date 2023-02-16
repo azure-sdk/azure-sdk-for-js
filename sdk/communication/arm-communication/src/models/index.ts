@@ -311,6 +311,90 @@ export interface VerificationParameter {
   verificationType: VerificationType;
 }
 
+/** List of valid sender user names */
+export interface ValidSenderUsernameCollection {
+  /** List of valid sender user names. */
+  value: ValidSenderUsername[];
+}
+
+/** Input parameters for add valid sender user name */
+export interface ValidSenderUsername {
+  /** Name of sender. */
+  name: string;
+  /** The friendly display name of the sender. */
+  displayName: string;
+}
+
+/** Input parameters for remove valid sender user name */
+export interface RemoveValidSenderUsernameParameters {
+  /** List of valid sender user names. */
+  validSenderUsernameList: string[];
+}
+
+/** Object that describes the request parameter to list suppressed emails. */
+export interface SuppressionListRequest {
+  /** Optional parameter to operate on suppression list associated with a valid sender user name. When this parameter is not present, by default the domain level suppression list will be operated on. */
+  validSenderUsername: string;
+}
+
+/** Object that includes an array of suppressed email addresses and a possible link for next set. */
+export interface SuppressionListResponse {
+  /** List of suppressed email addresses. */
+  value?: SuppressionListRecordDto[];
+  /** The URL the client should use to fetch the next page (per server side paging). */
+  nextLink?: string;
+}
+
+/** A object that represents a SuppressionList record. */
+export interface SuppressionListRecordDto {
+  /** Email address of the recipient. */
+  email: string;
+  /**
+   * The list id which this address is unsubscribed from (maps to the mail from field in the portal).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly listId?: string;
+  /** The first name of the email recipient. */
+  firstName?: string;
+  /** The last name of the email recipient. */
+  lastName?: string;
+  /** An optional property to provide contextual notes or a description for an address. */
+  notes?: string;
+  /**
+   * The date the address was last updated in a suppression list.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdated?: string;
+}
+
+/** Object that describes what address will be added to the suppression list. */
+export interface SuppressionListAddRequest {
+  /** Optional parameter to operate on suppression list associated with a valid sender user name. When this parameter is not present, by default the domain level suppression list will be operated on. */
+  validSenderUsername?: string;
+  /** List of objects for each address to add to the suppression list */
+  addressInfoList: SuppressionListAddressInfo[];
+}
+
+/** Object that describes new email recipient being added to a suppression list. */
+export interface SuppressionListAddressInfo {
+  /** Email address of the recipient. */
+  email: string;
+  /** The first name of the email recipient. */
+  firstName?: string;
+  /** The last name of the email recipient. */
+  lastName?: string;
+  /** An optional property to provide contextual notes or a description for an address. */
+  notes?: string;
+}
+
+/** Object that describes what address will be removed from the suppression list. */
+export interface SuppressionListRemoveRequest {
+  /** Optional parameter to operate on suppression list associated with a valid sender user name. When this parameter is not present, by default the domain level suppression list will be operated on. */
+  validSenderUsername?: string;
+  /** List of email addresses to remove. */
+  addresses: string[];
+}
+
 /** Object that includes an array of EmailServices and a possible link for next set. */
 export interface EmailServiceResourceList {
   /** List of EmailService */
@@ -342,8 +426,6 @@ export interface CommunicationServiceResourceUpdate extends TaggedResource {
 
 /** A class that describes the PATCH request parameters of a Domains resource. */
 export interface UpdateDomainRequestParameters extends TaggedResource {
-  /** Collection of valid sender usernames. This is a key-value pair where key=username and value=display name. */
-  validSenderUsernames?: { [propertyName: string]: string };
   /** Describes whether user engagement tracking is enabled or disabled. */
   userEngagementTracking?: UserEngagementTracking;
 }
@@ -418,8 +500,6 @@ export interface DomainResource extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly verificationRecords?: DomainPropertiesVerificationRecords;
-  /** Collection of valid sender usernames. This is a key-value pair where key=username and value=display name. */
-  validSenderUsernames?: { [propertyName: string]: string };
   /** Describes whether user engagement tracking is enabled or disabled. */
   userEngagementTracking?: UserEngagementTracking;
 }
@@ -983,11 +1063,58 @@ export interface DomainsCancelVerificationOptionalParams
 export type DomainsCancelVerificationResponse = DomainsCancelVerificationHeaders;
 
 /** Optional parameters. */
+export interface DomainsListValidSenderUsernamesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listValidSenderUsernames operation. */
+export type DomainsListValidSenderUsernamesResponse = ValidSenderUsernameCollection;
+
+/** Optional parameters. */
+export interface DomainsAddValidSenderUsernamesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DomainsRemoveValidSenderUsernamesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DomainsListSuppressedEmailAddressesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional parameter to fetch suppression list associated with a valid sender user name. When this parameter is not present, by default the domain level suppression list will be returned. */
+  parameters?: SuppressionListRequest;
+  /** The maximum number of records to include in a single response. This value is honored if the specified value is smaller than server's default page size. */
+  top?: number;
+  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point for subsequent calls. */
+  skipToken?: string;
+}
+
+/** Contains response data for the listSuppressedEmailAddresses operation. */
+export type DomainsListSuppressedEmailAddressesResponse = SuppressionListResponse;
+
+/** Optional parameters. */
+export interface DomainsAddSuppressedEmailAddressesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DomainsRemoveSuppressedEmailAddressesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
 export interface DomainsListByEmailServiceResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByEmailServiceResourceNext operation. */
 export type DomainsListByEmailServiceResourceNextResponse = DomainResourceList;
+
+/** Optional parameters. */
+export interface DomainsListSuppressedEmailAddressesNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional parameter to fetch suppression list associated with a valid sender user name. When this parameter is not present, by default the domain level suppression list will be returned. */
+  parameters?: SuppressionListRequest;
+}
+
+/** Contains response data for the listSuppressedEmailAddressesNext operation. */
+export type DomainsListSuppressedEmailAddressesNextResponse = SuppressionListResponse;
 
 /** Optional parameters. */
 export interface EmailServicesGetOptionalParams

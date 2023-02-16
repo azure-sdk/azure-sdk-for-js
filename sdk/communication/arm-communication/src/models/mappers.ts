@@ -665,6 +665,261 @@ export const VerificationParameter: coreClient.CompositeMapper = {
   }
 };
 
+export const ValidSenderUsernameCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ValidSenderUsernameCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ValidSenderUsername"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ValidSenderUsername: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ValidSenderUsername",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RemoveValidSenderUsernameParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RemoveValidSenderUsernameParameters",
+    modelProperties: {
+      validSenderUsernameList: {
+        constraints: {
+          MinItems: 1
+        },
+        serializedName: "validSenderUsernameList",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SuppressionListRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SuppressionListRequest",
+    modelProperties: {
+      validSenderUsername: {
+        serializedName: "validSenderUsername",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SuppressionListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SuppressionListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SuppressionListRecordDto"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SuppressionListRecordDto: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SuppressionListRecordDto",
+    modelProperties: {
+      email: {
+        serializedName: "email",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      listId: {
+        serializedName: "listId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      firstName: {
+        serializedName: "firstName",
+        type: {
+          name: "String"
+        }
+      },
+      lastName: {
+        serializedName: "lastName",
+        type: {
+          name: "String"
+        }
+      },
+      notes: {
+        serializedName: "notes",
+        type: {
+          name: "String"
+        }
+      },
+      lastUpdated: {
+        serializedName: "lastUpdated",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SuppressionListAddRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SuppressionListAddRequest",
+    modelProperties: {
+      validSenderUsername: {
+        serializedName: "validSenderUsername",
+        type: {
+          name: "String"
+        }
+      },
+      addressInfoList: {
+        constraints: {
+          MinItems: 1
+        },
+        serializedName: "addressInfoList",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SuppressionListAddressInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SuppressionListAddressInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SuppressionListAddressInfo",
+    modelProperties: {
+      email: {
+        serializedName: "email",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      firstName: {
+        serializedName: "firstName",
+        type: {
+          name: "String"
+        }
+      },
+      lastName: {
+        serializedName: "lastName",
+        type: {
+          name: "String"
+        }
+      },
+      notes: {
+        serializedName: "notes",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SuppressionListRemoveRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SuppressionListRemoveRequest",
+    modelProperties: {
+      validSenderUsername: {
+        serializedName: "validSenderUsername",
+        type: {
+          name: "String"
+        }
+      },
+      addresses: {
+        constraints: {
+          MinItems: 1
+        },
+        serializedName: "addresses",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const EmailServiceResourceList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -753,13 +1008,6 @@ export const UpdateDomainRequestParameters: coreClient.CompositeMapper = {
     className: "UpdateDomainRequestParameters",
     modelProperties: {
       ...TaggedResource.type.modelProperties,
-      validSenderUsernames: {
-        serializedName: "properties.validSenderUsernames",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
       userEngagementTracking: {
         serializedName: "properties.userEngagementTracking",
         type: {
@@ -894,13 +1142,6 @@ export const DomainResource: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DomainPropertiesVerificationRecords"
-        }
-      },
-      validSenderUsernames: {
-        serializedName: "properties.validSenderUsernames",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
         }
       },
       userEngagementTracking: {

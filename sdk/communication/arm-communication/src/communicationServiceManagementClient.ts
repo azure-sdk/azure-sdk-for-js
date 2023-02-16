@@ -113,7 +113,7 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-07-01-preview";
+    this.apiVersion = options.apiVersion || "2022-10-01-preview";
     this.operations = new OperationsImpl(this);
     this.communicationServices = new CommunicationServicesImpl(this);
     this.domains = new DomainsImpl(this);

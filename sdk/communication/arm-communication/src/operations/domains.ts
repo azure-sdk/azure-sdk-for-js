@@ -20,6 +20,10 @@ import {
   DomainsListByEmailServiceResourceNextOptionalParams,
   DomainsListByEmailServiceResourceOptionalParams,
   DomainsListByEmailServiceResourceResponse,
+  SuppressionListRecordDto,
+  DomainsListSuppressedEmailAddressesNextOptionalParams,
+  DomainsListSuppressedEmailAddressesOptionalParams,
+  DomainsListSuppressedEmailAddressesResponse,
   DomainsGetOptionalParams,
   DomainsGetResponse,
   DomainsCreateOrUpdateOptionalParams,
@@ -33,7 +37,18 @@ import {
   DomainsInitiateVerificationResponse,
   DomainsCancelVerificationOptionalParams,
   DomainsCancelVerificationResponse,
-  DomainsListByEmailServiceResourceNextResponse
+  DomainsListValidSenderUsernamesOptionalParams,
+  DomainsListValidSenderUsernamesResponse,
+  ValidSenderUsernameCollection,
+  DomainsAddValidSenderUsernamesOptionalParams,
+  RemoveValidSenderUsernameParameters,
+  DomainsRemoveValidSenderUsernamesOptionalParams,
+  SuppressionListAddRequest,
+  DomainsAddSuppressedEmailAddressesOptionalParams,
+  SuppressionListRemoveRequest,
+  DomainsRemoveSuppressedEmailAddressesOptionalParams,
+  DomainsListByEmailServiceResourceNextResponse,
+  DomainsListSuppressedEmailAddressesNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -127,6 +142,99 @@ export class DomainsImpl implements Domains {
     for await (const page of this.listByEmailServiceResourcePagingPage(
       resourceGroupName,
       emailServiceName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Get a list of suppressed email addresses.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param emailServiceName The name of the EmailService resource.
+   * @param domainName The name of the Domains resource.
+   * @param options The options parameters.
+   */
+  public listSuppressedEmailAddresses(
+    resourceGroupName: string,
+    emailServiceName: string,
+    domainName: string,
+    options?: DomainsListSuppressedEmailAddressesOptionalParams
+  ): PagedAsyncIterableIterator<SuppressionListRecordDto> {
+    const iter = this.listSuppressedEmailAddressesPagingAll(
+      resourceGroupName,
+      emailServiceName,
+      domainName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listSuppressedEmailAddressesPagingPage(
+          resourceGroupName,
+          emailServiceName,
+          domainName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listSuppressedEmailAddressesPagingPage(
+    resourceGroupName: string,
+    emailServiceName: string,
+    domainName: string,
+    options?: DomainsListSuppressedEmailAddressesOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<SuppressionListRecordDto[]> {
+    let result: DomainsListSuppressedEmailAddressesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listSuppressedEmailAddresses(
+        resourceGroupName,
+        emailServiceName,
+        domainName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listSuppressedEmailAddressesNext(
+        resourceGroupName,
+        emailServiceName,
+        domainName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listSuppressedEmailAddressesPagingAll(
+    resourceGroupName: string,
+    emailServiceName: string,
+    domainName: string,
+    options?: DomainsListSuppressedEmailAddressesOptionalParams
+  ): AsyncIterableIterator<SuppressionListRecordDto> {
+    for await (const page of this.listSuppressedEmailAddressesPagingPage(
+      resourceGroupName,
+      emailServiceName,
+      domainName,
       options
     )) {
       yield* page;
@@ -649,6 +757,140 @@ export class DomainsImpl implements Domains {
   }
 
   /**
+   * Get a list of valid sender user names.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param emailServiceName The name of the EmailService resource.
+   * @param domainName The name of the Domains resource.
+   * @param options The options parameters.
+   */
+  listValidSenderUsernames(
+    resourceGroupName: string,
+    emailServiceName: string,
+    domainName: string,
+    options?: DomainsListValidSenderUsernamesOptionalParams
+  ): Promise<DomainsListValidSenderUsernamesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, emailServiceName, domainName, options },
+      listValidSenderUsernamesOperationSpec
+    );
+  }
+
+  /**
+   * Add to the list of valid sender user names.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param emailServiceName The name of the EmailService resource.
+   * @param domainName The name of the Domains resource.
+   * @param validSenderCollection Collection of valid sender user names.
+   * @param options The options parameters.
+   */
+  addValidSenderUsernames(
+    resourceGroupName: string,
+    emailServiceName: string,
+    domainName: string,
+    validSenderCollection: ValidSenderUsernameCollection,
+    options?: DomainsAddValidSenderUsernamesOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        emailServiceName,
+        domainName,
+        validSenderCollection,
+        options
+      },
+      addValidSenderUsernamesOperationSpec
+    );
+  }
+
+  /**
+   * Remove from the list of valid sender user names.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param emailServiceName The name of the EmailService resource.
+   * @param domainName The name of the Domains resource.
+   * @param removeValidSenderUsernameParameters Input parameters to remove valid sender user name
+   * @param options The options parameters.
+   */
+  removeValidSenderUsernames(
+    resourceGroupName: string,
+    emailServiceName: string,
+    domainName: string,
+    removeValidSenderUsernameParameters: RemoveValidSenderUsernameParameters,
+    options?: DomainsRemoveValidSenderUsernamesOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        emailServiceName,
+        domainName,
+        removeValidSenderUsernameParameters,
+        options
+      },
+      removeValidSenderUsernamesOperationSpec
+    );
+  }
+
+  /**
+   * Get a list of suppressed email addresses.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param emailServiceName The name of the EmailService resource.
+   * @param domainName The name of the Domains resource.
+   * @param options The options parameters.
+   */
+  private _listSuppressedEmailAddresses(
+    resourceGroupName: string,
+    emailServiceName: string,
+    domainName: string,
+    options?: DomainsListSuppressedEmailAddressesOptionalParams
+  ): Promise<DomainsListSuppressedEmailAddressesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, emailServiceName, domainName, options },
+      listSuppressedEmailAddressesOperationSpec
+    );
+  }
+
+  /**
+   * Add email addresses to the suppression list.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param emailServiceName The name of the EmailService resource.
+   * @param domainName The name of the Domains resource.
+   * @param parameters Input parameters for adding email addresses to a suppression list.
+   * @param options The options parameters.
+   */
+  addSuppressedEmailAddresses(
+    resourceGroupName: string,
+    emailServiceName: string,
+    domainName: string,
+    parameters: SuppressionListAddRequest,
+    options?: DomainsAddSuppressedEmailAddressesOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, emailServiceName, domainName, parameters, options },
+      addSuppressedEmailAddressesOperationSpec
+    );
+  }
+
+  /**
+   * Remove email addresses from the suppression list.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param emailServiceName The name of the EmailService resource.
+   * @param domainName The name of the Domains resource.
+   * @param parameters Input parameters for removing email addresses from a suppression list.
+   * @param options The options parameters.
+   */
+  removeSuppressedEmailAddresses(
+    resourceGroupName: string,
+    emailServiceName: string,
+    domainName: string,
+    parameters: SuppressionListRemoveRequest,
+    options?: DomainsRemoveSuppressedEmailAddressesOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, emailServiceName, domainName, parameters, options },
+      removeSuppressedEmailAddressesOperationSpec
+    );
+  }
+
+  /**
    * ListByEmailServiceResourceNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param emailServiceName The name of the EmailService resource.
@@ -665,6 +907,28 @@ export class DomainsImpl implements Domains {
     return this.client.sendOperationRequest(
       { resourceGroupName, emailServiceName, nextLink, options },
       listByEmailServiceResourceNextOperationSpec
+    );
+  }
+
+  /**
+   * ListSuppressedEmailAddressesNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param emailServiceName The name of the EmailService resource.
+   * @param domainName The name of the Domains resource.
+   * @param nextLink The nextLink from the previous successful call to the ListSuppressedEmailAddresses
+   *                 method.
+   * @param options The options parameters.
+   */
+  private _listSuppressedEmailAddressesNext(
+    resourceGroupName: string,
+    emailServiceName: string,
+    domainName: string,
+    nextLink: string,
+    options?: DomainsListSuppressedEmailAddressesNextOptionalParams
+  ): Promise<DomainsListSuppressedEmailAddressesNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, emailServiceName, domainName, nextLink, options },
+      listSuppressedEmailAddressesNextOperationSpec
     );
   }
 }
@@ -876,6 +1140,150 @@ const cancelVerificationOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
+const listValidSenderUsernamesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/listValidSenderUsernames",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ValidSenderUsernameCollection
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.emailServiceName,
+    Parameters.domainName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const addValidSenderUsernamesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/addValidSenderUsernames",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.validSenderCollection,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.emailServiceName,
+    Parameters.domainName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const removeValidSenderUsernamesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/removeValidSenderUsernames",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.removeValidSenderUsernameParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.emailServiceName,
+    Parameters.domainName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const listSuppressedEmailAddressesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/listSuppressedEmailAddresses",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SuppressionListResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters6,
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top,
+    Parameters.skipToken
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.emailServiceName,
+    Parameters.domainName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const addSuppressedEmailAddressesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/addSuppressedEmailAddresses",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters7,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.emailServiceName,
+    Parameters.domainName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const removeSuppressedEmailAddressesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/removeSuppressedEmailAddresses",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters8,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.emailServiceName,
+    Parameters.domainName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const listByEmailServiceResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -895,5 +1303,28 @@ const listByEmailServiceResourceNextOperationSpec: coreClient.OperationSpec = {
     Parameters.emailServiceName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const listSuppressedEmailAddressesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SuppressionListResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.emailServiceName,
+    Parameters.domainName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };

@@ -251,9 +251,6 @@ export interface DomainResource extends TrackedResource {
     readonly mailFromSenderDomain?: string;
     readonly provisioningState?: DomainsProvisioningState;
     userEngagementTracking?: UserEngagementTracking;
-    validSenderUsernames?: {
-        [propertyName: string]: string;
-    };
     readonly verificationRecords?: DomainPropertiesVerificationRecords;
     readonly verificationStates?: DomainPropertiesVerificationStates;
 }
@@ -266,6 +263,8 @@ export interface DomainResourceList {
 
 // @public
 export interface Domains {
+    addSuppressedEmailAddresses(resourceGroupName: string, emailServiceName: string, domainName: string, parameters: SuppressionListAddRequest, options?: DomainsAddSuppressedEmailAddressesOptionalParams): Promise<void>;
+    addValidSenderUsernames(resourceGroupName: string, emailServiceName: string, domainName: string, validSenderCollection: ValidSenderUsernameCollection, options?: DomainsAddValidSenderUsernamesOptionalParams): Promise<void>;
     beginCancelVerification(resourceGroupName: string, emailServiceName: string, domainName: string, parameters: VerificationParameter, options?: DomainsCancelVerificationOptionalParams): Promise<PollerLike<PollOperationState<DomainsCancelVerificationResponse>, DomainsCancelVerificationResponse>>;
     beginCancelVerificationAndWait(resourceGroupName: string, emailServiceName: string, domainName: string, parameters: VerificationParameter, options?: DomainsCancelVerificationOptionalParams): Promise<DomainsCancelVerificationResponse>;
     beginCreateOrUpdate(resourceGroupName: string, emailServiceName: string, domainName: string, parameters: DomainResource, options?: DomainsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DomainsCreateOrUpdateResponse>, DomainsCreateOrUpdateResponse>>;
@@ -278,6 +277,18 @@ export interface Domains {
     beginUpdateAndWait(resourceGroupName: string, emailServiceName: string, domainName: string, parameters: UpdateDomainRequestParameters, options?: DomainsUpdateOptionalParams): Promise<DomainsUpdateResponse>;
     get(resourceGroupName: string, emailServiceName: string, domainName: string, options?: DomainsGetOptionalParams): Promise<DomainsGetResponse>;
     listByEmailServiceResource(resourceGroupName: string, emailServiceName: string, options?: DomainsListByEmailServiceResourceOptionalParams): PagedAsyncIterableIterator<DomainResource>;
+    listSuppressedEmailAddresses(resourceGroupName: string, emailServiceName: string, domainName: string, options?: DomainsListSuppressedEmailAddressesOptionalParams): PagedAsyncIterableIterator<SuppressionListRecordDto>;
+    listValidSenderUsernames(resourceGroupName: string, emailServiceName: string, domainName: string, options?: DomainsListValidSenderUsernamesOptionalParams): Promise<DomainsListValidSenderUsernamesResponse>;
+    removeSuppressedEmailAddresses(resourceGroupName: string, emailServiceName: string, domainName: string, parameters: SuppressionListRemoveRequest, options?: DomainsRemoveSuppressedEmailAddressesOptionalParams): Promise<void>;
+    removeValidSenderUsernames(resourceGroupName: string, emailServiceName: string, domainName: string, removeValidSenderUsernameParameters: RemoveValidSenderUsernameParameters, options?: DomainsRemoveValidSenderUsernamesOptionalParams): Promise<void>;
+}
+
+// @public
+export interface DomainsAddSuppressedEmailAddressesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface DomainsAddValidSenderUsernamesOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -355,7 +366,40 @@ export interface DomainsListByEmailServiceResourceOptionalParams extends coreCli
 export type DomainsListByEmailServiceResourceResponse = DomainResourceList;
 
 // @public
+export interface DomainsListSuppressedEmailAddressesNextOptionalParams extends coreClient.OperationOptions {
+    parameters?: SuppressionListRequest;
+}
+
+// @public
+export type DomainsListSuppressedEmailAddressesNextResponse = SuppressionListResponse;
+
+// @public
+export interface DomainsListSuppressedEmailAddressesOptionalParams extends coreClient.OperationOptions {
+    parameters?: SuppressionListRequest;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type DomainsListSuppressedEmailAddressesResponse = SuppressionListResponse;
+
+// @public
+export interface DomainsListValidSenderUsernamesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DomainsListValidSenderUsernamesResponse = ValidSenderUsernameCollection;
+
+// @public
 export type DomainsProvisioningState = string;
+
+// @public
+export interface DomainsRemoveSuppressedEmailAddressesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface DomainsRemoveValidSenderUsernamesOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
 export interface DomainsUpdateHeaders {
@@ -677,11 +721,57 @@ export interface RegenerateKeyParameters {
 }
 
 // @public
+export interface RemoveValidSenderUsernameParameters {
+    validSenderUsernameList: string[];
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface SuppressionListAddRequest {
+    addressInfoList: SuppressionListAddressInfo[];
+    validSenderUsername?: string;
+}
+
+// @public
+export interface SuppressionListAddressInfo {
+    email: string;
+    firstName?: string;
+    lastName?: string;
+    notes?: string;
+}
+
+// @public
+export interface SuppressionListRecordDto {
+    email: string;
+    firstName?: string;
+    lastName?: string;
+    readonly lastUpdated?: string;
+    readonly listId?: string;
+    notes?: string;
+}
+
+// @public
+export interface SuppressionListRemoveRequest {
+    addresses: string[];
+    validSenderUsername?: string;
+}
+
+// @public
+export interface SuppressionListRequest {
+    validSenderUsername: string;
+}
+
+// @public
+export interface SuppressionListResponse {
+    nextLink?: string;
+    value?: SuppressionListRecordDto[];
 }
 
 // @public
@@ -712,13 +802,21 @@ export interface TrackedResource extends Resource {
 // @public
 export interface UpdateDomainRequestParameters extends TaggedResource {
     userEngagementTracking?: UserEngagementTracking;
-    validSenderUsernames?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
 export type UserEngagementTracking = string;
+
+// @public
+export interface ValidSenderUsername {
+    displayName: string;
+    name: string;
+}
+
+// @public
+export interface ValidSenderUsernameCollection {
+    value: ValidSenderUsername[];
+}
 
 // @public
 export interface VerificationParameter {

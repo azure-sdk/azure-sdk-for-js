@@ -11,6 +11,8 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   DomainResource,
   DomainsListByEmailServiceResourceOptionalParams,
+  SuppressionListRecordDto,
+  DomainsListSuppressedEmailAddressesOptionalParams,
   DomainsGetOptionalParams,
   DomainsGetResponse,
   DomainsCreateOrUpdateOptionalParams,
@@ -23,7 +25,17 @@ import {
   DomainsInitiateVerificationOptionalParams,
   DomainsInitiateVerificationResponse,
   DomainsCancelVerificationOptionalParams,
-  DomainsCancelVerificationResponse
+  DomainsCancelVerificationResponse,
+  DomainsListValidSenderUsernamesOptionalParams,
+  DomainsListValidSenderUsernamesResponse,
+  ValidSenderUsernameCollection,
+  DomainsAddValidSenderUsernamesOptionalParams,
+  RemoveValidSenderUsernameParameters,
+  DomainsRemoveValidSenderUsernamesOptionalParams,
+  SuppressionListAddRequest,
+  DomainsAddSuppressedEmailAddressesOptionalParams,
+  SuppressionListRemoveRequest,
+  DomainsRemoveSuppressedEmailAddressesOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,6 +52,19 @@ export interface Domains {
     emailServiceName: string,
     options?: DomainsListByEmailServiceResourceOptionalParams
   ): PagedAsyncIterableIterator<DomainResource>;
+  /**
+   * Get a list of suppressed email addresses.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param emailServiceName The name of the EmailService resource.
+   * @param domainName The name of the Domains resource.
+   * @param options The options parameters.
+   */
+  listSuppressedEmailAddresses(
+    resourceGroupName: string,
+    emailServiceName: string,
+    domainName: string,
+    options?: DomainsListSuppressedEmailAddressesOptionalParams
+  ): PagedAsyncIterableIterator<SuppressionListRecordDto>;
   /**
    * Get the Domains resource and its properties.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -218,4 +243,77 @@ export interface Domains {
     parameters: VerificationParameter,
     options?: DomainsCancelVerificationOptionalParams
   ): Promise<DomainsCancelVerificationResponse>;
+  /**
+   * Get a list of valid sender user names.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param emailServiceName The name of the EmailService resource.
+   * @param domainName The name of the Domains resource.
+   * @param options The options parameters.
+   */
+  listValidSenderUsernames(
+    resourceGroupName: string,
+    emailServiceName: string,
+    domainName: string,
+    options?: DomainsListValidSenderUsernamesOptionalParams
+  ): Promise<DomainsListValidSenderUsernamesResponse>;
+  /**
+   * Add to the list of valid sender user names.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param emailServiceName The name of the EmailService resource.
+   * @param domainName The name of the Domains resource.
+   * @param validSenderCollection Collection of valid sender user names.
+   * @param options The options parameters.
+   */
+  addValidSenderUsernames(
+    resourceGroupName: string,
+    emailServiceName: string,
+    domainName: string,
+    validSenderCollection: ValidSenderUsernameCollection,
+    options?: DomainsAddValidSenderUsernamesOptionalParams
+  ): Promise<void>;
+  /**
+   * Remove from the list of valid sender user names.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param emailServiceName The name of the EmailService resource.
+   * @param domainName The name of the Domains resource.
+   * @param removeValidSenderUsernameParameters Input parameters to remove valid sender user name
+   * @param options The options parameters.
+   */
+  removeValidSenderUsernames(
+    resourceGroupName: string,
+    emailServiceName: string,
+    domainName: string,
+    removeValidSenderUsernameParameters: RemoveValidSenderUsernameParameters,
+    options?: DomainsRemoveValidSenderUsernamesOptionalParams
+  ): Promise<void>;
+  /**
+   * Add email addresses to the suppression list.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param emailServiceName The name of the EmailService resource.
+   * @param domainName The name of the Domains resource.
+   * @param parameters Input parameters for adding email addresses to a suppression list.
+   * @param options The options parameters.
+   */
+  addSuppressedEmailAddresses(
+    resourceGroupName: string,
+    emailServiceName: string,
+    domainName: string,
+    parameters: SuppressionListAddRequest,
+    options?: DomainsAddSuppressedEmailAddressesOptionalParams
+  ): Promise<void>;
+  /**
+   * Remove email addresses from the suppression list.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param emailServiceName The name of the EmailService resource.
+   * @param domainName The name of the Domains resource.
+   * @param parameters Input parameters for removing email addresses from a suppression list.
+   * @param options The options parameters.
+   */
+  removeSuppressedEmailAddresses(
+    resourceGroupName: string,
+    emailServiceName: string,
+    domainName: string,
+    parameters: SuppressionListRemoveRequest,
+    options?: DomainsRemoveSuppressedEmailAddressesOptionalParams
+  ): Promise<void>;
 }

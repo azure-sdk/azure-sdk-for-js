@@ -1,16 +1,6 @@
 # Release History
-
-## 4.0.0-beta.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 4.0.0-beta.3 (2023-01-12)
+    
+## 4.0.0-beta.4 (2023-02-16)
     
 **Features**
 
@@ -41,6 +31,8 @@
   - Added Interface DomainPropertiesVerificationStates
   - Added Interface DomainResource
   - Added Interface DomainResourceList
+  - Added Interface DomainsAddSuppressedEmailAddressesOptionalParams
+  - Added Interface DomainsAddValidSenderUsernamesOptionalParams
   - Added Interface DomainsCancelVerificationHeaders
   - Added Interface DomainsCancelVerificationOptionalParams
   - Added Interface DomainsCreateOrUpdateHeaders
@@ -52,6 +44,11 @@
   - Added Interface DomainsInitiateVerificationOptionalParams
   - Added Interface DomainsListByEmailServiceResourceNextOptionalParams
   - Added Interface DomainsListByEmailServiceResourceOptionalParams
+  - Added Interface DomainsListSuppressedEmailAddressesNextOptionalParams
+  - Added Interface DomainsListSuppressedEmailAddressesOptionalParams
+  - Added Interface DomainsListValidSenderUsernamesOptionalParams
+  - Added Interface DomainsRemoveSuppressedEmailAddressesOptionalParams
+  - Added Interface DomainsRemoveValidSenderUsernamesOptionalParams
   - Added Interface DomainsUpdateHeaders
   - Added Interface DomainsUpdateOptionalParams
   - Added Interface EmailServiceResource
@@ -69,8 +66,17 @@
   - Added Interface EmailServicesListVerifiedExchangeOnlineDomainsOptionalParams
   - Added Interface EmailServicesUpdateHeaders
   - Added Interface EmailServicesUpdateOptionalParams
+  - Added Interface RemoveValidSenderUsernameParameters
+  - Added Interface SuppressionListAddRequest
+  - Added Interface SuppressionListAddressInfo
+  - Added Interface SuppressionListRecordDto
+  - Added Interface SuppressionListRemoveRequest
+  - Added Interface SuppressionListRequest
+  - Added Interface SuppressionListResponse
   - Added Interface TrackedResource
   - Added Interface UpdateDomainRequestParameters
+  - Added Interface ValidSenderUsername
+  - Added Interface ValidSenderUsernameCollection
   - Added Interface VerificationParameter
   - Added Interface VerificationStatusRecord
   - Added Type Alias CheckNameAvailabilityReason
@@ -93,6 +99,9 @@
   - Added Type Alias DomainsInitiateVerificationResponse
   - Added Type Alias DomainsListByEmailServiceResourceNextResponse
   - Added Type Alias DomainsListByEmailServiceResourceResponse
+  - Added Type Alias DomainsListSuppressedEmailAddressesNextResponse
+  - Added Type Alias DomainsListSuppressedEmailAddressesResponse
+  - Added Type Alias DomainsListValidSenderUsernamesResponse
   - Added Type Alias DomainsProvisioningState
   - Added Type Alias DomainsUpdateResponse
   - Added Type Alias EmailServicesCreateOrUpdateResponse

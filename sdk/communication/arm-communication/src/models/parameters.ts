@@ -20,6 +20,11 @@ import {
   DomainResource as DomainResourceMapper,
   UpdateDomainRequestParameters as UpdateDomainRequestParametersMapper,
   VerificationParameter as VerificationParameterMapper,
+  ValidSenderUsernameCollection as ValidSenderUsernameCollectionMapper,
+  RemoveValidSenderUsernameParameters as RemoveValidSenderUsernameParametersMapper,
+  SuppressionListRequest as SuppressionListRequestMapper,
+  SuppressionListAddRequest as SuppressionListAddRequestMapper,
+  SuppressionListRemoveRequest as SuppressionListRemoveRequestMapper,
   EmailServiceResource as EmailServiceResourceMapper,
   EmailServiceResourceUpdate as EmailServiceResourceUpdateMapper
 } from "../models/mappers";
@@ -51,7 +56,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-07-01-preview",
+    defaultValue: "2022-10-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -200,12 +205,57 @@ export const parameters5: OperationParameter = {
   mapper: VerificationParameterMapper
 };
 
+export const validSenderCollection: OperationParameter = {
+  parameterPath: "validSenderCollection",
+  mapper: ValidSenderUsernameCollectionMapper
+};
+
+export const removeValidSenderUsernameParameters: OperationParameter = {
+  parameterPath: "removeValidSenderUsernameParameters",
+  mapper: RemoveValidSenderUsernameParametersMapper
+};
+
 export const parameters6: OperationParameter = {
+  parameterPath: ["options", "parameters"],
+  mapper: SuppressionListRequestMapper
+};
+
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    serializedName: "$top",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const skipToken: OperationQueryParameter = {
+  parameterPath: ["options", "skipToken"],
+  mapper: {
+    serializedName: "$skipToken",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters7: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SuppressionListAddRequestMapper
+};
+
+export const parameters8: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SuppressionListRemoveRequestMapper
+};
+
+export const parameters9: OperationParameter = {
   parameterPath: "parameters",
   mapper: EmailServiceResourceMapper
 };
 
-export const parameters7: OperationParameter = {
+export const parameters10: OperationParameter = {
   parameterPath: "parameters",
   mapper: EmailServiceResourceUpdateMapper
 };
