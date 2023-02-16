@@ -39,7 +39,7 @@ export interface WebApplicationFirewallPolicies {
     options?: WebApplicationFirewallPoliciesListAllOptionalParams
   ): PagedAsyncIterableIterator<WebApplicationFirewallPolicy>;
   /**
-   * Retrieve protection policy with specified name within a resource group.
+   * Retrieve protection policy with specified name within a resource group. test
    * @param resourceGroupName The name of the resource group.
    * @param policyName The name of the policy.
    * @param options The options parameters.

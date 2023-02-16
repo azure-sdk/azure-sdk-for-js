@@ -188,7 +188,7 @@ export class WebApplicationFirewallPoliciesImpl
   }
 
   /**
-   * Retrieve protection policy with specified name within a resource group.
+   * Retrieve protection policy with specified name within a resource group. test
    * @param resourceGroupName The name of the resource group.
    * @param policyName The name of the policy.
    * @param options The options parameters.
@@ -462,7 +462,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -483,7 +482,6 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
