@@ -3930,7 +3930,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230215
+      typescript: 5.0.0-dev.20230216
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8714,8 +8714,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230215:
-    resolution: {integrity: sha512-rbuBEuyaLltNQkRsBCxysSHGGEaizuGaVEMO+8bBmTXQRSzITTl1WOg2UFXr9p0pwz8l0KJtOem8MggaGz1/XA==}
+  /typescript/5.0.0-dev.20230216:
+    resolution: {integrity: sha512-yeZZGWiNc5pbGg4J/bgN7vq2Lrs4YTNzhG5dv8owIe1PyYX4tMDla8NnXipy9h4Cmw6+DQA8FG9XZbymgmzSbA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -13535,15 +13535,15 @@ packages:
     dev: false
 
   file:projects/arm-operationalinsights.tgz:
-    resolution: {integrity: sha512-wk6CW9GBzdux2VXMVj4dIAgqd1KoO+ArwGzKnhQf4EiI6CFoZp/qwqXgE07DwHiLP8R48JzXRQ1+/ihWArxzug==, tarball: file:projects/arm-operationalinsights.tgz}
+    resolution: {integrity: sha512-sNNwsiL26vyTpYKjlgxX7lt7S0u9E31mlHSj+5S2TSdCDG5idTMAJSCk6iPJuC2MGEgUb6bo7i79+3LqCAI7Lg==, tarball: file:projects/arm-operationalinsights.tgz}
     name: '@rush-temp/arm-operationalinsights'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
@@ -17893,7 +17893,7 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-CtEBzCs8gADc56AozIehMF2iu7e7R/8YroShdvL2gjK6Hol5Tz+LRfNo4m9XoM17Mwsm1VtZe6Di0vA+WdiJ3g==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-zodipV0pcRnzrfWjHYqvU42+E4V7E6TqdSYdrmqk/W9isTlZ3lW7OQXvblPPmjo2gTxDBbq+MUcDJ1Bu4FPPYA==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
@@ -18798,7 +18798,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-kLU74faNZXQAJXMne2lL+AAKkVKmU8+obYvymA9G2IuJBpPraaTOxyIOypkQeZqLuWCdZgrgeCno39dVP0MLtg==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-mSZh1szK6lxMnczMO7kgXzef/o22kR6Ttc0voG7IKFLpMKRq6gwvWDAtPzvAEz9qjHzskrN9Me89DaPc7H7ccw==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -18850,7 +18850,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
