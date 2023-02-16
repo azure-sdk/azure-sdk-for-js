@@ -31,8 +31,13 @@ import {
   ManagedDatabaseUpdate,
   ManagedDatabasesUpdateOptionalParams,
   ManagedDatabasesUpdateResponse,
+  ManagedDatabaseMoveDefinition,
+  ManagedDatabasesCancelMoveOptionalParams,
+  ManagedDatabasesCompleteMoveOptionalParams,
   CompleteDatabaseRestoreDefinition,
   ManagedDatabasesCompleteRestoreOptionalParams,
+  ManagedDatabaseStartMoveDefinition,
+  ManagedDatabasesStartMoveOptionalParams,
   ManagedDatabasesListByInstanceNextResponse,
   ManagedDatabasesListInaccessibleByInstanceNextResponse
 } from "../models";
@@ -558,6 +563,206 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
   }
 
   /**
+   * Cancels a managed database move operation.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param databaseName The name of the database.
+   * @param parameters Parameters of the cancel managed database move operation.
+   * @param options The options parameters.
+   */
+  async beginCancelMove(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: ManagedDatabaseMoveDefinition,
+    options?: ManagedDatabasesCancelMoveOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        managedInstanceName,
+        databaseName,
+        parameters,
+        options
+      },
+      cancelMoveOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Cancels a managed database move operation.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param databaseName The name of the database.
+   * @param parameters Parameters of the cancel managed database move operation.
+   * @param options The options parameters.
+   */
+  async beginCancelMoveAndWait(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: ManagedDatabaseMoveDefinition,
+    options?: ManagedDatabasesCancelMoveOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginCancelMove(
+      resourceGroupName,
+      managedInstanceName,
+      databaseName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Completes a managed database move operation.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param databaseName The name of the database.
+   * @param parameters Parameters of the complete managed database move operation.
+   * @param options The options parameters.
+   */
+  async beginCompleteMove(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: ManagedDatabaseMoveDefinition,
+    options?: ManagedDatabasesCompleteMoveOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        managedInstanceName,
+        databaseName,
+        parameters,
+        options
+      },
+      completeMoveOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Completes a managed database move operation.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param databaseName The name of the database.
+   * @param parameters Parameters of the complete managed database move operation.
+   * @param options The options parameters.
+   */
+  async beginCompleteMoveAndWait(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: ManagedDatabaseMoveDefinition,
+    options?: ManagedDatabasesCompleteMoveOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginCompleteMove(
+      resourceGroupName,
+      managedInstanceName,
+      databaseName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Completes the restore operation on a managed database.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -658,6 +863,106 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
   }
 
   /**
+   * Starts a managed database move operation.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param databaseName The name of the database.
+   * @param parameters Parameters of the start managed database move operation.
+   * @param options The options parameters.
+   */
+  async beginStartMove(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: ManagedDatabaseStartMoveDefinition,
+    options?: ManagedDatabasesStartMoveOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        managedInstanceName,
+        databaseName,
+        parameters,
+        options
+      },
+      startMoveOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Starts a managed database move operation.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param databaseName The name of the database.
+   * @param parameters Parameters of the start managed database move operation.
+   * @param options The options parameters.
+   */
+  async beginStartMoveAndWait(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: ManagedDatabaseStartMoveDefinition,
+    options?: ManagedDatabasesStartMoveOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginStartMove(
+      resourceGroupName,
+      managedInstanceName,
+      databaseName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Gets a list of inaccessible managed databases in a managed instance
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -729,11 +1034,11 @@ const listByInstanceOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.managedInstanceName
   ],
   headerParameters: [Parameters.accept],
@@ -749,12 +1054,12 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.managedInstanceName
   ],
   headerParameters: [Parameters.accept],
@@ -779,13 +1084,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters39,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters54,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.managedInstanceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -797,12 +1102,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.managedInstanceName
   ],
   serializer
@@ -826,16 +1131,52 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters40,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters55,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.managedInstanceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const cancelMoveOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/cancelMove",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  requestBody: Parameters.parameters56,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.databaseName,
+    Parameters.subscriptionId,
+    Parameters.managedInstanceName
+  ],
+  headerParameters: [Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const completeMoveOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/completeMove",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  requestBody: Parameters.parameters56,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.databaseName,
+    Parameters.subscriptionId,
+    Parameters.managedInstanceName
+  ],
+  headerParameters: [Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -844,13 +1185,31 @@ const completeRestoreOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/completeRestore",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.parameters41,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters57,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
+    Parameters.managedInstanceName
+  ],
+  headerParameters: [Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const startMoveOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/startMove",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  requestBody: Parameters.parameters58,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.managedInstanceName
   ],
   headerParameters: [Parameters.contentType],
@@ -867,11 +1226,11 @@ const listInaccessibleByInstanceOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.managedInstanceName
   ],
   headerParameters: [Parameters.accept],
@@ -888,8 +1247,8 @@ const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.managedInstanceName
   ],
@@ -907,8 +1266,8 @@ const listInaccessibleByInstanceNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.managedInstanceName
   ],
