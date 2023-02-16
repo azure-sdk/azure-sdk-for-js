@@ -8,41 +8,75 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest
-} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  RoleAssignmentSchedulesImpl,
-  RoleAssignmentScheduleInstancesImpl,
-  RoleAssignmentScheduleRequestsImpl,
-  RoleEligibilitySchedulesImpl,
-  RoleEligibilityScheduleInstancesImpl,
-  RoleEligibilityScheduleRequestsImpl,
-  RoleManagementPoliciesImpl,
-  RoleManagementPolicyAssignmentsImpl,
-  EligibleChildResourcesImpl,
-  RoleAssignmentsImpl
+  OperationsImpl,
+  AccessReviewHistoryDefinitionsImpl,
+  AccessReviewHistoryDefinitionOperationsImpl,
+  AccessReviewHistoryDefinitionInstanceImpl,
+  AccessReviewHistoryDefinitionInstancesImpl,
+  AccessReviewScheduleDefinitionsImpl,
+  AccessReviewInstancesImpl,
+  AccessReviewInstanceOperationsImpl,
+  AccessReviewInstanceDecisionsImpl,
+  AccessReviewInstanceContactedReviewersImpl,
+  AccessReviewDefaultSettingsOperationsImpl,
+  ScopeAccessReviewHistoryDefinitionsImpl,
+  ScopeAccessReviewHistoryDefinitionImpl,
+  ScopeAccessReviewHistoryDefinitionInstanceImpl,
+  ScopeAccessReviewHistoryDefinitionInstancesImpl,
+  ScopeAccessReviewScheduleDefinitionsImpl,
+  ScopeAccessReviewInstancesImpl,
+  ScopeAccessReviewInstanceImpl,
+  ScopeAccessReviewInstanceDecisionsImpl,
+  ScopeAccessReviewInstanceContactedReviewersImpl,
+  ScopeAccessReviewDefaultSettingsImpl,
+  AccessReviewScheduleDefinitionsAssignedForMyApprovalImpl,
+  AccessReviewInstancesAssignedForMyApprovalImpl,
+  AccessReviewInstanceMyDecisionsImpl,
+  TenantLevelAccessReviewInstanceContactedReviewersImpl,
+  AlertsImpl,
+  AlertConfigurationsImpl,
+  AlertDefinitionsImpl,
+  AlertIncidentsImpl,
+  AlertOperationImpl
 } from "./operations";
 import {
-  RoleAssignmentSchedules,
-  RoleAssignmentScheduleInstances,
-  RoleAssignmentScheduleRequests,
-  RoleEligibilitySchedules,
-  RoleEligibilityScheduleInstances,
-  RoleEligibilityScheduleRequests,
-  RoleManagementPolicies,
-  RoleManagementPolicyAssignments,
-  EligibleChildResources,
-  RoleAssignments
+  Operations,
+  AccessReviewHistoryDefinitions,
+  AccessReviewHistoryDefinitionOperations,
+  AccessReviewHistoryDefinitionInstance,
+  AccessReviewHistoryDefinitionInstances,
+  AccessReviewScheduleDefinitions,
+  AccessReviewInstances,
+  AccessReviewInstanceOperations,
+  AccessReviewInstanceDecisions,
+  AccessReviewInstanceContactedReviewers,
+  AccessReviewDefaultSettingsOperations,
+  ScopeAccessReviewHistoryDefinitions,
+  ScopeAccessReviewHistoryDefinition,
+  ScopeAccessReviewHistoryDefinitionInstance,
+  ScopeAccessReviewHistoryDefinitionInstances,
+  ScopeAccessReviewScheduleDefinitions,
+  ScopeAccessReviewInstances,
+  ScopeAccessReviewInstance,
+  ScopeAccessReviewInstanceDecisions,
+  ScopeAccessReviewInstanceContactedReviewers,
+  ScopeAccessReviewDefaultSettings,
+  AccessReviewScheduleDefinitionsAssignedForMyApproval,
+  AccessReviewInstancesAssignedForMyApproval,
+  AccessReviewInstanceMyDecisions,
+  TenantLevelAccessReviewInstanceContactedReviewers,
+  Alerts,
+  AlertConfigurations,
+  AlertDefinitions,
+  AlertIncidents,
+  AlertOperation
 } from "./operationsInterfaces";
 import { AuthorizationManagementClientOptionalParams } from "./models";
 
 export class AuthorizationManagementClient extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
   subscriptionId: string;
 
   /**
@@ -72,7 +106,7 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-authorization/9.0.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-authorization/9.0.0-beta.5`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -125,66 +159,108 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-10-01-preview";
-    this.roleAssignmentSchedules = new RoleAssignmentSchedulesImpl(this);
-    this.roleAssignmentScheduleInstances = new RoleAssignmentScheduleInstancesImpl(
+    this.operations = new OperationsImpl(this);
+    this.accessReviewHistoryDefinitions = new AccessReviewHistoryDefinitionsImpl(
       this
     );
-    this.roleAssignmentScheduleRequests = new RoleAssignmentScheduleRequestsImpl(
+    this.accessReviewHistoryDefinitionOperations = new AccessReviewHistoryDefinitionOperationsImpl(
       this
     );
-    this.roleEligibilitySchedules = new RoleEligibilitySchedulesImpl(this);
-    this.roleEligibilityScheduleInstances = new RoleEligibilityScheduleInstancesImpl(
+    this.accessReviewHistoryDefinitionInstance = new AccessReviewHistoryDefinitionInstanceImpl(
       this
     );
-    this.roleEligibilityScheduleRequests = new RoleEligibilityScheduleRequestsImpl(
+    this.accessReviewHistoryDefinitionInstances = new AccessReviewHistoryDefinitionInstancesImpl(
       this
     );
-    this.roleManagementPolicies = new RoleManagementPoliciesImpl(this);
-    this.roleManagementPolicyAssignments = new RoleManagementPolicyAssignmentsImpl(
+    this.accessReviewScheduleDefinitions = new AccessReviewScheduleDefinitionsImpl(
       this
     );
-    this.eligibleChildResources = new EligibleChildResourcesImpl(this);
-    this.roleAssignments = new RoleAssignmentsImpl(this);
-    this.addCustomApiVersionPolicy(options.apiVersion);
+    this.accessReviewInstances = new AccessReviewInstancesImpl(this);
+    this.accessReviewInstanceOperations = new AccessReviewInstanceOperationsImpl(
+      this
+    );
+    this.accessReviewInstanceDecisions = new AccessReviewInstanceDecisionsImpl(
+      this
+    );
+    this.accessReviewInstanceContactedReviewers = new AccessReviewInstanceContactedReviewersImpl(
+      this
+    );
+    this.accessReviewDefaultSettingsOperations = new AccessReviewDefaultSettingsOperationsImpl(
+      this
+    );
+    this.scopeAccessReviewHistoryDefinitions = new ScopeAccessReviewHistoryDefinitionsImpl(
+      this
+    );
+    this.scopeAccessReviewHistoryDefinition = new ScopeAccessReviewHistoryDefinitionImpl(
+      this
+    );
+    this.scopeAccessReviewHistoryDefinitionInstance = new ScopeAccessReviewHistoryDefinitionInstanceImpl(
+      this
+    );
+    this.scopeAccessReviewHistoryDefinitionInstances = new ScopeAccessReviewHistoryDefinitionInstancesImpl(
+      this
+    );
+    this.scopeAccessReviewScheduleDefinitions = new ScopeAccessReviewScheduleDefinitionsImpl(
+      this
+    );
+    this.scopeAccessReviewInstances = new ScopeAccessReviewInstancesImpl(this);
+    this.scopeAccessReviewInstance = new ScopeAccessReviewInstanceImpl(this);
+    this.scopeAccessReviewInstanceDecisions = new ScopeAccessReviewInstanceDecisionsImpl(
+      this
+    );
+    this.scopeAccessReviewInstanceContactedReviewers = new ScopeAccessReviewInstanceContactedReviewersImpl(
+      this
+    );
+    this.scopeAccessReviewDefaultSettings = new ScopeAccessReviewDefaultSettingsImpl(
+      this
+    );
+    this.accessReviewScheduleDefinitionsAssignedForMyApproval = new AccessReviewScheduleDefinitionsAssignedForMyApprovalImpl(
+      this
+    );
+    this.accessReviewInstancesAssignedForMyApproval = new AccessReviewInstancesAssignedForMyApprovalImpl(
+      this
+    );
+    this.accessReviewInstanceMyDecisions = new AccessReviewInstanceMyDecisionsImpl(
+      this
+    );
+    this.tenantLevelAccessReviewInstanceContactedReviewers = new TenantLevelAccessReviewInstanceContactedReviewersImpl(
+      this
+    );
+    this.alerts = new AlertsImpl(this);
+    this.alertConfigurations = new AlertConfigurationsImpl(this);
+    this.alertDefinitions = new AlertDefinitionsImpl(this);
+    this.alertIncidents = new AlertIncidentsImpl(this);
+    this.alertOperation = new AlertOperationImpl(this);
   }
 
-  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
-  private addCustomApiVersionPolicy(apiVersion?: string) {
-    if (!apiVersion) {
-      return;
-    }
-    const apiVersionPolicy = {
-      name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest
-      ): Promise<PipelineResponse> {
-        const param = request.url.split("?");
-        if (param.length > 1) {
-          const newParams = param[1].split("&").map((item) => {
-            if (item.indexOf("api-version") > -1) {
-              return "api-version=" + apiVersion;
-            } else {
-              return item;
-            }
-          });
-          request.url = param[0] + "?" + newParams.join("&");
-        }
-        return next(request);
-      }
-    };
-    this.pipeline.addPolicy(apiVersionPolicy);
-  }
-
-  roleAssignmentSchedules: RoleAssignmentSchedules;
-  roleAssignmentScheduleInstances: RoleAssignmentScheduleInstances;
-  roleAssignmentScheduleRequests: RoleAssignmentScheduleRequests;
-  roleEligibilitySchedules: RoleEligibilitySchedules;
-  roleEligibilityScheduleInstances: RoleEligibilityScheduleInstances;
-  roleEligibilityScheduleRequests: RoleEligibilityScheduleRequests;
-  roleManagementPolicies: RoleManagementPolicies;
-  roleManagementPolicyAssignments: RoleManagementPolicyAssignments;
-  eligibleChildResources: EligibleChildResources;
-  roleAssignments: RoleAssignments;
+  operations: Operations;
+  accessReviewHistoryDefinitions: AccessReviewHistoryDefinitions;
+  accessReviewHistoryDefinitionOperations: AccessReviewHistoryDefinitionOperations;
+  accessReviewHistoryDefinitionInstance: AccessReviewHistoryDefinitionInstance;
+  accessReviewHistoryDefinitionInstances: AccessReviewHistoryDefinitionInstances;
+  accessReviewScheduleDefinitions: AccessReviewScheduleDefinitions;
+  accessReviewInstances: AccessReviewInstances;
+  accessReviewInstanceOperations: AccessReviewInstanceOperations;
+  accessReviewInstanceDecisions: AccessReviewInstanceDecisions;
+  accessReviewInstanceContactedReviewers: AccessReviewInstanceContactedReviewers;
+  accessReviewDefaultSettingsOperations: AccessReviewDefaultSettingsOperations;
+  scopeAccessReviewHistoryDefinitions: ScopeAccessReviewHistoryDefinitions;
+  scopeAccessReviewHistoryDefinition: ScopeAccessReviewHistoryDefinition;
+  scopeAccessReviewHistoryDefinitionInstance: ScopeAccessReviewHistoryDefinitionInstance;
+  scopeAccessReviewHistoryDefinitionInstances: ScopeAccessReviewHistoryDefinitionInstances;
+  scopeAccessReviewScheduleDefinitions: ScopeAccessReviewScheduleDefinitions;
+  scopeAccessReviewInstances: ScopeAccessReviewInstances;
+  scopeAccessReviewInstance: ScopeAccessReviewInstance;
+  scopeAccessReviewInstanceDecisions: ScopeAccessReviewInstanceDecisions;
+  scopeAccessReviewInstanceContactedReviewers: ScopeAccessReviewInstanceContactedReviewers;
+  scopeAccessReviewDefaultSettings: ScopeAccessReviewDefaultSettings;
+  accessReviewScheduleDefinitionsAssignedForMyApproval: AccessReviewScheduleDefinitionsAssignedForMyApproval;
+  accessReviewInstancesAssignedForMyApproval: AccessReviewInstancesAssignedForMyApproval;
+  accessReviewInstanceMyDecisions: AccessReviewInstanceMyDecisions;
+  tenantLevelAccessReviewInstanceContactedReviewers: TenantLevelAccessReviewInstanceContactedReviewers;
+  alerts: Alerts;
+  alertConfigurations: AlertConfigurations;
+  alertDefinitions: AlertDefinitions;
+  alertIncidents: AlertIncidents;
+  alertOperation: AlertOperation;
 }
