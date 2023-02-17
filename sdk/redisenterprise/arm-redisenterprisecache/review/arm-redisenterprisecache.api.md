@@ -26,8 +26,16 @@ export type ActionType = string;
 export type AofFrequency = string;
 
 // @public
+export interface Capability {
+    name?: string;
+    value?: boolean;
+}
+
+// @public
 export interface Cluster extends TrackedResource {
+    encryption?: ClusterPropertiesEncryption;
     readonly hostName?: string;
+    identity?: ManagedServiceIdentity;
     minimumTlsVersion?: TlsVersion;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
@@ -47,8 +55,27 @@ export interface ClusterList {
 }
 
 // @public
+export interface ClusterPropertiesEncryption {
+    customerManagedKeyEncryption?: ClusterPropertiesEncryptionCustomerManagedKeyEncryption;
+}
+
+// @public
+export interface ClusterPropertiesEncryptionCustomerManagedKeyEncryption {
+    keyEncryptionKeyIdentity?: ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity;
+    keyEncryptionKeyUrl?: string;
+}
+
+// @public
+export interface ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity {
+    identityType?: ManagedServiceIdentityType;
+    userAssignedIdentityResourceId?: string;
+}
+
+// @public
 export interface ClusterUpdate {
+    encryption?: ClusterPropertiesEncryption;
     readonly hostName?: string;
+    identity?: ManagedServiceIdentity;
     minimumTlsVersion?: TlsVersion;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
@@ -59,6 +86,9 @@ export interface ClusterUpdate {
         [propertyName: string]: string;
     };
 }
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface Database extends ProxyResource {
@@ -93,6 +123,8 @@ export interface Databases {
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesDeleteOptionalParams): Promise<void>;
     beginExport(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ExportClusterParameters, options?: DatabasesExportOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginExportAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ExportClusterParameters, options?: DatabasesExportOptionalParams): Promise<void>;
+    beginFlush(resourceGroupName: string, clusterName: string, databaseName: string, parameters: FlushParameters, options?: DatabasesFlushOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginFlushAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: FlushParameters, options?: DatabasesFlushOptionalParams): Promise<void>;
     beginForceUnlink(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ForceUnlinkParameters, options?: DatabasesForceUnlinkOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginForceUnlinkAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ForceUnlinkParameters, options?: DatabasesForceUnlinkOptionalParams): Promise<void>;
     beginImport(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ImportClusterParameters, options?: DatabasesImportOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
@@ -123,6 +155,18 @@ export interface DatabasesDeleteOptionalParams extends coreClient.OperationOptio
 
 // @public
 export interface DatabasesExportOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DatabasesFlushHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface DatabasesFlushOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -227,6 +271,11 @@ export interface ExportClusterParameters {
 }
 
 // @public
+export interface FlushParameters {
+    ids?: string[];
+}
+
+// @public
 export interface ForceUnlinkParameters {
     ids: string[];
 }
@@ -257,6 +306,14 @@ export enum KnownClusteringPolicy {
 }
 
 // @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
 export enum KnownEvictionPolicy {
     AllKeysLFU = "AllKeysLFU",
     AllKeysLRU = "AllKeysLRU",
@@ -275,6 +332,27 @@ export enum KnownLinkState {
     Linking = "Linking",
     UnlinkFailed = "UnlinkFailed",
     Unlinking = "Unlinking"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedIdentity = "systemAssignedIdentity",
+    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+    UserAssigned = "UserAssigned",
+    UserAssignedIdentity = "userAssignedIdentity"
+}
+
+// @public
+export enum KnownName {
+    EnterpriseE10 = "Enterprise_E10",
+    EnterpriseE100 = "Enterprise_E100",
+    EnterpriseE20 = "Enterprise_E20",
+    EnterpriseE50 = "Enterprise_E50",
+    EnterpriseFlashF1500 = "EnterpriseFlash_F1500",
+    EnterpriseFlashF300 = "EnterpriseFlash_F300",
+    EnterpriseFlashF700 = "EnterpriseFlash_F700"
 }
 
 // @public
@@ -366,11 +444,33 @@ export interface LinkedDatabase {
 export type LinkState = string;
 
 // @public
+export interface LocationInfo {
+    capabilities?: Capability[];
+    location?: string;
+}
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
+
+// @public
 export interface Module {
     args?: string;
     name: string;
     readonly version?: string;
 }
+
+// @public
+export type Name = string;
 
 // @public
 export interface Operation {
@@ -633,6 +733,8 @@ export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     redisEnterprise: RedisEnterprise;
     // (undocumented)
+    skus: Skus;
+    // (undocumented)
     subscriptionId: string;
 }
 
@@ -658,9 +760,22 @@ export interface RegenerateKeyParameters {
 }
 
 // @public
+export interface RegionSkuDetail {
+    locationInfo?: LocationInfo;
+    resourceType?: string;
+    skuDetails?: SkuDetail;
+}
+
+// @public
+export interface RegionSkuDetails {
+    value?: RegionSkuDetail[];
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -674,7 +789,34 @@ export interface Sku {
 }
 
 // @public
+export interface SkuDetail {
+    name?: Name;
+}
+
+// @public
 export type SkuName = string;
+
+// @public
+export interface Skus {
+    list(location: string, options?: SkusListOptionalParams): PagedAsyncIterableIterator<RegionSkuDetail>;
+}
+
+// @public
+export interface SkusListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SkusListResponse = RegionSkuDetails;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
 
 // @public
 export type TlsVersion = string;
@@ -685,6 +827,12 @@ export interface TrackedResource extends Resource {
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // (No @packageDocumentation comment for this package)
