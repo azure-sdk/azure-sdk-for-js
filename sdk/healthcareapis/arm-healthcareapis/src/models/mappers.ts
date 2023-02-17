@@ -84,6 +84,13 @@ export const ServicesProperties: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ServiceAcrConfigurationInfo"
         }
+      },
+      importConfiguration: {
+        serializedName: "importConfiguration",
+        type: {
+          name: "Composite",
+          className: "ServiceImportConfigurationInfo"
+        }
       }
     }
   }
@@ -365,6 +372,33 @@ export const ServiceOciArtifactEntry: coreClient.CompositeMapper = {
         serializedName: "digest",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceImportConfigurationInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServiceImportConfigurationInfo",
+    modelProperties: {
+      integrationDataStore: {
+        serializedName: "integrationDataStore",
+        type: {
+          name: "String"
+        }
+      },
+      initialImportMode: {
+        serializedName: "initialImportMode",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -891,6 +925,69 @@ export const DicomServiceAuthenticationConfiguration: coreClient.CompositeMapper
   }
 };
 
+export const CorsConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CorsConfiguration",
+    modelProperties: {
+      origins: {
+        serializedName: "origins",
+        type: {
+          name: "Sequence",
+          element: {
+            constraints: {
+              Pattern: new RegExp(
+                "^(?:(?:(?:[hH][tT][tT][pP](?:[sS]|))\\:\\/\\/(?:[a-zA-Z0-9-]+[.]?)+(?:\\:[0-9]{1,5})?|[*]))$"
+              )
+            },
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      headers: {
+        serializedName: "headers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      methods: {
+        serializedName: "methods",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      maxAge: {
+        constraints: {
+          InclusiveMaximum: 99999,
+          InclusiveMinimum: 0
+        },
+        serializedName: "maxAge",
+        type: {
+          name: "Number"
+        }
+      },
+      allowCredentials: {
+        serializedName: "allowCredentials",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const ServiceManagedIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1289,6 +1386,150 @@ export const ResourceVersionPolicyConfiguration: coreClient.CompositeMapper = {
   }
 };
 
+export const FhirServiceImportConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FhirServiceImportConfiguration",
+    modelProperties: {
+      integrationDataStore: {
+        serializedName: "integrationDataStore",
+        type: {
+          name: "String"
+        }
+      },
+      initialImportMode: {
+        serializedName: "initialImportMode",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ImplementationGuidesConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImplementationGuidesConfiguration",
+    modelProperties: {
+      usCoreMissingData: {
+        serializedName: "usCoreMissingData",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const AnalyticsConnectorCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AnalyticsConnectorCollection",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AnalyticsConnector"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AnalyticsConnectorDataSource: coreClient.CompositeMapper = {
+  serializedName: "AnalyticsConnectorDataSource",
+  type: {
+    name: "Composite",
+    className: "AnalyticsConnectorDataSource",
+    uberParent: "AnalyticsConnectorDataSource",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AnalyticsConnectorMapping: coreClient.CompositeMapper = {
+  serializedName: "AnalyticsConnectorMapping",
+  type: {
+    name: "Composite",
+    className: "AnalyticsConnectorMapping",
+    uberParent: "AnalyticsConnectorMapping",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AnalyticsConnectorDataDestination: coreClient.CompositeMapper = {
+  serializedName: "AnalyticsConnectorDataDestination",
+  type: {
+    name: "Composite",
+    className: "AnalyticsConnectorDataDestination",
+    uberParent: "AnalyticsConnectorDataDestination",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ListOperations: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1550,6 +1791,12 @@ export const MetricSpecification: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
+      metricFilterPattern: {
+        serializedName: "metricFilterPattern",
+        type: {
+          name: "String"
+        }
+      },
       dimensions: {
         serializedName: "dimensions",
         type: {
@@ -1562,8 +1809,32 @@ export const MetricSpecification: coreClient.CompositeMapper = {
           }
         }
       },
+      isInternal: {
+        serializedName: "isInternal",
+        type: {
+          name: "Boolean"
+        }
+      },
+      sourceMdmAccount: {
+        serializedName: "sourceMdmAccount",
+        type: {
+          name: "String"
+        }
+      },
       sourceMdmNamespace: {
         serializedName: "sourceMdmNamespace",
+        type: {
+          name: "String"
+        }
+      },
+      enableRegionalMdmAccount: {
+        serializedName: "enableRegionalMdmAccount",
+        type: {
+          name: "Boolean"
+        }
+      },
+      resourceIdDimensionNameOverride: {
+        serializedName: "resourceIdDimensionNameOverride",
         type: {
           name: "String"
         }
@@ -1836,6 +2107,17 @@ export const FhirServicePatchResource: coreClient.CompositeMapper = {
   }
 };
 
+export const AnalyticsConnectorPatchResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AnalyticsConnectorPatchResource",
+    modelProperties: {
+      ...ResourceTags.type.modelProperties,
+      ...ServiceManagedIdentity.type.modelProperties
+    }
+  }
+};
+
 export const DicomService: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1864,6 +2146,13 @@ export const DicomService: coreClient.CompositeMapper = {
           className: "DicomServiceAuthenticationConfiguration"
         }
       },
+      corsConfiguration: {
+        serializedName: "properties.corsConfiguration",
+        type: {
+          name: "Composite",
+          className: "CorsConfiguration"
+        }
+      },
       serviceUrl: {
         serializedName: "properties.serviceUrl",
         readOnly: true,
@@ -1886,6 +2175,13 @@ export const DicomService: coreClient.CompositeMapper = {
       },
       publicNetworkAccess: {
         serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      eventState: {
+        serializedName: "properties.eventState",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -2032,6 +2328,72 @@ export const FhirService: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ResourceVersionPolicyConfiguration"
         }
+      },
+      importConfiguration: {
+        serializedName: "properties.importConfiguration",
+        type: {
+          name: "Composite",
+          className: "FhirServiceImportConfiguration"
+        }
+      },
+      implementationGuidesConfiguration: {
+        serializedName: "properties.implementationGuidesConfiguration",
+        type: {
+          name: "Composite",
+          className: "ImplementationGuidesConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const AnalyticsConnector: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AnalyticsConnector",
+    modelProperties: {
+      ...TaggedResource.type.modelProperties,
+      ...ServiceManagedIdentity.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      dataSourceConfiguration: {
+        serializedName: "properties.dataSourceConfiguration",
+        type: {
+          name: "Composite",
+          className: "AnalyticsConnectorDataSource"
+        }
+      },
+      dataMappingConfiguration: {
+        serializedName: "properties.dataMappingConfiguration",
+        type: {
+          name: "Composite",
+          className: "AnalyticsConnectorMapping"
+        }
+      },
+      dataDestinationConfiguration: {
+        serializedName: "properties.dataDestinationConfiguration",
+        type: {
+          name: "Composite",
+          className: "AnalyticsConnectorDataDestination"
+        }
+      },
+      schedulerCronExpression: {
+        serializedName: "properties.schedulerCronExpression",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2062,6 +2424,134 @@ export const IotFhirDestinationProperties: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "IotMappingProperties"
+        }
+      }
+    }
+  }
+};
+
+export const AnalyticsConnectorFhirServiceDataSource: coreClient.CompositeMapper = {
+  serializedName: "fhirservice",
+  type: {
+    name: "Composite",
+    className: "AnalyticsConnectorFhirServiceDataSource",
+    uberParent: "AnalyticsConnectorDataSource",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator:
+      AnalyticsConnectorDataSource.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AnalyticsConnectorDataSource.type.modelProperties,
+      url: {
+        serializedName: "url",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      kind: {
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AnalyticsConnectorDicomServiceDataSource: coreClient.CompositeMapper = {
+  serializedName: "dicomservice",
+  type: {
+    name: "Composite",
+    className: "AnalyticsConnectorDicomServiceDataSource",
+    uberParent: "AnalyticsConnectorDataSource",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator:
+      AnalyticsConnectorDataSource.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AnalyticsConnectorDataSource.type.modelProperties,
+      url: {
+        serializedName: "url",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      apiVersion: {
+        serializedName: "apiVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AnalyticsConnectorFhirToParquetMapping: coreClient.CompositeMapper = {
+  serializedName: "fhirToParquet",
+  type: {
+    name: "Composite",
+    className: "AnalyticsConnectorFhirToParquetMapping",
+    uberParent: "AnalyticsConnectorMapping",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator:
+      AnalyticsConnectorMapping.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AnalyticsConnectorMapping.type.modelProperties,
+      filterConfigurationReference: {
+        serializedName: "filterConfigurationReference",
+        type: {
+          name: "String"
+        }
+      },
+      extensionSchemaReference: {
+        serializedName: "extensionSchemaReference",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AnalyticsConnectorDicomToParquetMapping: coreClient.CompositeMapper = {
+  serializedName: "dicomToParquet",
+  type: {
+    name: "Composite",
+    className: "AnalyticsConnectorDicomToParquetMapping",
+    uberParent: "AnalyticsConnectorMapping",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator:
+      AnalyticsConnectorMapping.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AnalyticsConnectorMapping.type.modelProperties,
+      extensionSchemaReference: {
+        serializedName: "extensionSchemaReference",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AnalyticsConnectorDataLakeDataDestination: coreClient.CompositeMapper = {
+  serializedName: "datalake",
+  type: {
+    name: "Composite",
+    className: "AnalyticsConnectorDataLakeDataDestination",
+    uberParent: "AnalyticsConnectorDataDestination",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator:
+      AnalyticsConnectorDataDestination.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AnalyticsConnectorDataDestination.type.modelProperties,
+      dataLakeName: {
+        serializedName: "dataLakeName",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -2169,4 +2659,45 @@ export const IotFhirDestination: coreClient.CompositeMapper = {
       }
     }
   }
+};
+
+export const AnalyticsConnectorsUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AnalyticsConnectorsUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AnalyticsConnectorsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AnalyticsConnectorsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export let discriminators = {
+  AnalyticsConnectorDataSource: AnalyticsConnectorDataSource,
+  AnalyticsConnectorMapping: AnalyticsConnectorMapping,
+  AnalyticsConnectorDataDestination: AnalyticsConnectorDataDestination,
+  "AnalyticsConnectorDataSource.fhirservice": AnalyticsConnectorFhirServiceDataSource,
+  "AnalyticsConnectorDataSource.dicomservice": AnalyticsConnectorDicomServiceDataSource,
+  "AnalyticsConnectorMapping.fhirToParquet": AnalyticsConnectorFhirToParquetMapping,
+  "AnalyticsConnectorMapping.dicomToParquet": AnalyticsConnectorDicomToParquetMapping,
+  "AnalyticsConnectorDataDestination.datalake": AnalyticsConnectorDataLakeDataDestination
 };

@@ -8,6 +8,18 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type AnalyticsConnectorDataSourceUnion =
+  | AnalyticsConnectorDataSource
+  | AnalyticsConnectorFhirServiceDataSource
+  | AnalyticsConnectorDicomServiceDataSource;
+export type AnalyticsConnectorMappingUnion =
+  | AnalyticsConnectorMapping
+  | AnalyticsConnectorFhirToParquetMapping
+  | AnalyticsConnectorDicomToParquetMapping;
+export type AnalyticsConnectorDataDestinationUnion =
+  | AnalyticsConnectorDataDestination
+  | AnalyticsConnectorDataLakeDataDestination;
+
 /** The properties of a service instance. */
 export interface ServicesProperties {
   /**
@@ -31,6 +43,8 @@ export interface ServicesProperties {
   publicNetworkAccess?: PublicNetworkAccess;
   /** The azure container registry settings used for convert data operation of the service instance. */
   acrConfiguration?: ServiceAcrConfigurationInfo;
+  /** The settings for the import operation of the service instance. */
+  importConfiguration?: ServiceImportConfigurationInfo;
 }
 
 /** An access policy entry. */
@@ -131,6 +145,16 @@ export interface ServiceOciArtifactEntry {
   imageName?: string;
   /** The artifact digest. */
   digest?: string;
+}
+
+/** Import operation configuration information */
+export interface ServiceImportConfigurationInfo {
+  /** The name of the default integration storage account. */
+  integrationDataStore?: string;
+  /** If the FHIR service is in InitialImportMode. */
+  initialImportMode?: boolean;
+  /** If the import operation is enabled. */
+  enabled?: boolean;
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -350,6 +374,20 @@ export interface DicomServiceAuthenticationConfiguration {
   readonly audiences?: string[];
 }
 
+/** The settings for the CORS configuration of the service instance. */
+export interface CorsConfiguration {
+  /** The origins to be allowed via CORS. */
+  origins?: string[];
+  /** The headers to be allowed via CORS. */
+  headers?: string[];
+  /** The methods to be allowed via CORS. */
+  methods?: string[];
+  /** The max age to be allowed via CORS. */
+  maxAge?: number;
+  /** If credentials are allowed via CORS. */
+  allowCredentials?: boolean;
+}
+
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ServiceManagedIdentity {
   /** Setting indicating whether the service has a managed identity associated with it. */
@@ -489,6 +527,56 @@ export interface ResourceVersionPolicyConfiguration {
   resourceTypeOverrides?: { [propertyName: string]: FhirResourceVersionPolicy };
 }
 
+/** Import operation configuration information */
+export interface FhirServiceImportConfiguration {
+  /** The name of the default integration storage account. */
+  integrationDataStore?: string;
+  /** If the FHIR service is in InitialImportMode. */
+  initialImportMode?: boolean;
+  /** If the import operation is enabled. */
+  enabled?: boolean;
+}
+
+/** The settings for Implementation Guides - defining capabilities for national standards, vendor consortiums, clinical societies, etc. */
+export interface ImplementationGuidesConfiguration {
+  /** If US Core Missing Data requirement is enabled. */
+  usCoreMissingData?: boolean;
+}
+
+/** A collection of Analytics Connectors. */
+export interface AnalyticsConnectorCollection {
+  /** The link used to get the next page of AnalyticsConnectors. */
+  nextLink?: string;
+  /** The list of Analytics Connectors. */
+  value?: AnalyticsConnector[];
+}
+
+/** Data source for Analytics Connector. The target resource must be in the same workspace with the Analytics Connector. */
+export interface AnalyticsConnectorDataSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "fhirservice" | "dicomservice";
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+}
+
+/** Data mapping configuration for Analytics Connector. */
+export interface AnalyticsConnectorMapping {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "fhirToParquet" | "dicomToParquet";
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+}
+
+/** Data destination configuration for Analytics Connector. */
+export interface AnalyticsConnectorDataDestination {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "datalake";
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** Name of data destination. */
+  name?: string;
+}
+
 /** Available operations of the service */
 export interface ListOperations {
   /**
@@ -599,10 +687,20 @@ export interface MetricSpecification {
   supportedTimeGrainTypes?: string[];
   /** Optional. If set to true, then zero will be returned for time duration where no metric is emitted/published. */
   fillGapWithZero?: boolean;
+  /** Pattern for the filter of the metric. */
+  metricFilterPattern?: string;
   /** Dimensions of the metric */
   dimensions?: MetricDimension[];
-  /** Name of the MDM namespace. Optional. */
+  /** Whether the metric is internal. */
+  isInternal?: boolean;
+  /** The source MDM account. */
+  sourceMdmAccount?: string;
+  /** The source MDM namespace. */
   sourceMdmNamespace?: string;
+  /** Whether regional MDM account enabled. */
+  enableRegionalMdmAccount?: boolean;
+  /** The resource Id dimension name override. */
+  resourceIdDimensionNameOverride?: string;
 }
 
 /** Specifications of the Dimension of metrics */
@@ -713,6 +811,11 @@ export interface FhirServicePatchResource
   extends ResourceTags,
     ServiceManagedIdentity {}
 
+/** AnalyticsConnector patch properties */
+export interface AnalyticsConnectorPatchResource
+  extends ResourceTags,
+    ServiceManagedIdentity {}
+
 /** The common properties for any location based resource, tracked or proxy. */
 export interface LocationBasedResource extends ResourceCore {
   /** The resource location. */
@@ -733,6 +836,8 @@ export interface DicomService extends TaggedResource, ServiceManagedIdentity {
   readonly provisioningState?: ProvisioningState;
   /** Dicom Service authentication configuration. */
   authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
+  /** Dicom Service Cors configuration. */
+  corsConfiguration?: CorsConfiguration;
   /**
    * The url of the Dicom Services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -745,6 +850,11 @@ export interface DicomService extends TaggedResource, ServiceManagedIdentity {
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
   publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * DICOM Service event support status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eventState?: ServiceEventState;
 }
 
 /** IoT Connector definition. */
@@ -803,6 +913,34 @@ export interface FhirService extends TaggedResource, ServiceManagedIdentity {
   readonly eventState?: ServiceEventState;
   /** Determines tracking of history for resources. */
   resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration;
+  /** Fhir Service import configuration. */
+  importConfiguration?: FhirServiceImportConfiguration;
+  /** Implementation Guides configuration. */
+  implementationGuidesConfiguration?: ImplementationGuidesConfiguration;
+}
+
+/** Analytics Connector definition. */
+export interface AnalyticsConnector
+  extends TaggedResource,
+    ServiceManagedIdentity {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Data source for Analytics Connector. */
+  dataSourceConfiguration?: AnalyticsConnectorDataSourceUnion;
+  /** Data mapping configuration for Analytics Connector. */
+  dataMappingConfiguration?: AnalyticsConnectorMappingUnion;
+  /** Data destination configuration for Analytics Connector. */
+  dataDestinationConfiguration?: AnalyticsConnectorDataDestinationUnion;
+  /** Scheduler cron expression for Analytics Connector. */
+  schedulerCronExpression?: string;
 }
 
 /** IoT Connector destination properties for an Azure FHIR service. */
@@ -813,6 +951,57 @@ export interface IotFhirDestinationProperties extends IotDestinationProperties {
   fhirServiceResourceId: string;
   /** FHIR Mappings */
   fhirMapping: IotMappingProperties;
+}
+
+/** The FHIR service data source for Analytics Connector. */
+export interface AnalyticsConnectorFhirServiceDataSource
+  extends AnalyticsConnectorDataSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "fhirservice";
+  /** The URL of FHIR service. */
+  url: string;
+  /** The kind of FHIR Service. */
+  kind: FhirServiceVersion;
+}
+
+/** The DICOM service data source for Analytics Connector. */
+export interface AnalyticsConnectorDicomServiceDataSource
+  extends AnalyticsConnectorDataSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "dicomservice";
+  /** The URL of DICOM service. */
+  url: string;
+  /** The API version of DICOM service. */
+  apiVersion: string;
+}
+
+/** FHIR Service data mapping configuration for Analytics Connector. */
+export interface AnalyticsConnectorFhirToParquetMapping
+  extends AnalyticsConnectorMapping {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "fhirToParquet";
+  /** Artifact reference for filter configurations. */
+  filterConfigurationReference?: string;
+  /** Artifact reference for extension schema. */
+  extensionSchemaReference?: string;
+}
+
+/** DICOM Service data mapping configuration for Analytics Connector. */
+export interface AnalyticsConnectorDicomToParquetMapping
+  extends AnalyticsConnectorMapping {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "dicomToParquet";
+  /** Artifact reference for extension schema. */
+  extensionSchemaReference?: string;
+}
+
+/** The Data Lake data destination for Analytics Connector. */
+export interface AnalyticsConnectorDataLakeDataDestination
+  extends AnalyticsConnectorDataDestination {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "datalake";
+  /** The name for the Data Lake. */
+  dataLakeName: string;
 }
 
 /** The Private Endpoint Connection resource. */
@@ -863,6 +1052,16 @@ export interface IotFhirDestination extends LocationBasedResource {
   fhirServiceResourceId: string;
   /** FHIR Mappings */
   fhirMapping: IotMappingProperties;
+}
+
+/** Defines headers for AnalyticsConnectors_update operation. */
+export interface AnalyticsConnectorsUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for AnalyticsConnectors_delete operation. */
+export interface AnalyticsConnectorsDeleteHeaders {
+  location?: string;
 }
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
@@ -1021,6 +1220,27 @@ export enum KnownManagedServiceIdentityType {
  */
 export type ManagedServiceIdentityType = string;
 
+/** Known values of {@link ServiceEventState} that the service accepts. */
+export enum KnownServiceEventState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Updating */
+  Updating = "Updating"
+}
+
+/**
+ * Defines values for ServiceEventState. \
+ * {@link KnownServiceEventState} can be used interchangeably with ServiceEventState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled** \
+ * **Updating**
+ */
+export type ServiceEventState = string;
+
 /** Known values of {@link ServiceManagedIdentityType} that the service accepts. */
 export enum KnownServiceManagedIdentityType {
   /** None */
@@ -1081,27 +1301,6 @@ export enum KnownFhirServiceKind {
  */
 export type FhirServiceKind = string;
 
-/** Known values of {@link ServiceEventState} that the service accepts. */
-export enum KnownServiceEventState {
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Updating */
-  Updating = "Updating"
-}
-
-/**
- * Defines values for ServiceEventState. \
- * {@link KnownServiceEventState} can be used interchangeably with ServiceEventState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Disabled** \
- * **Enabled** \
- * **Updating**
- */
-export type ServiceEventState = string;
-
 /** Known values of {@link FhirResourceVersionPolicy} that the service accepts. */
 export enum KnownFhirResourceVersionPolicy {
   /** NoVersion */
@@ -1122,6 +1321,57 @@ export enum KnownFhirResourceVersionPolicy {
  * **versioned-update**
  */
 export type FhirResourceVersionPolicy = string;
+
+/** Known values of {@link AnalyticsConnectorDataSourceType} that the service accepts. */
+export enum KnownAnalyticsConnectorDataSourceType {
+  /** Fhirservice */
+  Fhirservice = "fhirservice",
+  /** Dicomservice */
+  Dicomservice = "dicomservice"
+}
+
+/**
+ * Defines values for AnalyticsConnectorDataSourceType. \
+ * {@link KnownAnalyticsConnectorDataSourceType} can be used interchangeably with AnalyticsConnectorDataSourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **fhirservice** \
+ * **dicomservice**
+ */
+export type AnalyticsConnectorDataSourceType = string;
+
+/** Known values of {@link AnalyticsConnectorMappingType} that the service accepts. */
+export enum KnownAnalyticsConnectorMappingType {
+  /** FhirToParquet */
+  FhirToParquet = "fhirToParquet",
+  /** DicomToParquet */
+  DicomToParquet = "dicomToParquet"
+}
+
+/**
+ * Defines values for AnalyticsConnectorMappingType. \
+ * {@link KnownAnalyticsConnectorMappingType} can be used interchangeably with AnalyticsConnectorMappingType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **fhirToParquet** \
+ * **dicomToParquet**
+ */
+export type AnalyticsConnectorMappingType = string;
+
+/** Known values of {@link AnalyticsConnectorDataDestinationType} that the service accepts. */
+export enum KnownAnalyticsConnectorDataDestinationType {
+  /** Datalake */
+  Datalake = "datalake"
+}
+
+/**
+ * Defines values for AnalyticsConnectorDataDestinationType. \
+ * {@link KnownAnalyticsConnectorDataDestinationType} can be used interchangeably with AnalyticsConnectorDataDestinationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **datalake**
+ */
+export type AnalyticsConnectorDataDestinationType = string;
 
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
@@ -1164,6 +1414,24 @@ export enum KnownOperationResultStatus {
  * **Running**
  */
 export type OperationResultStatus = string;
+
+/** Known values of {@link FhirServiceVersion} that the service accepts. */
+export enum KnownFhirServiceVersion {
+  /** STU3 */
+  STU3 = "STU3",
+  /** R4 */
+  R4 = "R4"
+}
+
+/**
+ * Defines values for FhirServiceVersion. \
+ * {@link KnownFhirServiceVersion} can be used interchangeably with FhirServiceVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **STU3** \
+ * **R4**
+ */
+export type FhirServiceVersion = string;
 /** Defines values for Kind. */
 export type Kind = "fhir" | "fhir-Stu3" | "fhir-R4";
 /** Defines values for ServiceNameUnavailabilityReason. */
@@ -1613,6 +1881,60 @@ export interface WorkspacePrivateLinkResourcesGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type WorkspacePrivateLinkResourcesGetResponse = PrivateLinkResourceDescription;
+
+/** Optional parameters. */
+export interface AnalyticsConnectorsListByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWorkspace operation. */
+export type AnalyticsConnectorsListByWorkspaceResponse = AnalyticsConnectorCollection;
+
+/** Optional parameters. */
+export interface AnalyticsConnectorsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AnalyticsConnectorsGetResponse = AnalyticsConnector;
+
+/** Optional parameters. */
+export interface AnalyticsConnectorsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AnalyticsConnectorsCreateOrUpdateResponse = AnalyticsConnector;
+
+/** Optional parameters. */
+export interface AnalyticsConnectorsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type AnalyticsConnectorsUpdateResponse = AnalyticsConnector;
+
+/** Optional parameters. */
+export interface AnalyticsConnectorsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface AnalyticsConnectorsListByWorkspaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWorkspaceNext operation. */
+export type AnalyticsConnectorsListByWorkspaceNextResponse = AnalyticsConnectorCollection;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
