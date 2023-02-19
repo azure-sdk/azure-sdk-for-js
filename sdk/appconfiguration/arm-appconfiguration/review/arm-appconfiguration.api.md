@@ -139,7 +139,6 @@ export type ConfigurationStoresGetResponse = ConfigurationStore;
 
 // @public
 export interface ConfigurationStoresListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
 }
 
 // @public
@@ -169,7 +168,6 @@ export type ConfigurationStoresListDeletedResponse = DeletedConfigurationStoreLi
 
 // @public
 export interface ConfigurationStoresListKeysNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
 }
 
 // @public
@@ -185,7 +183,6 @@ export type ConfigurationStoresListKeysResponse = ApiKeyListResult;
 
 // @public
 export interface ConfigurationStoresListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
 }
 
 // @public
@@ -322,7 +319,6 @@ export interface KeyValues {
     beginDeleteAndWait(resourceGroupName: string, configStoreName: string, keyValueName: string, options?: KeyValuesDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, configStoreName: string, keyValueName: string, options?: KeyValuesCreateOrUpdateOptionalParams): Promise<KeyValuesCreateOrUpdateResponse>;
     get(resourceGroupName: string, configStoreName: string, keyValueName: string, options?: KeyValuesGetOptionalParams): Promise<KeyValuesGetResponse>;
-    listByConfigurationStore(resourceGroupName: string, configStoreName: string, options?: KeyValuesListByConfigurationStoreOptionalParams): PagedAsyncIterableIterator<KeyValue>;
 }
 
 // @public
@@ -345,22 +341,6 @@ export interface KeyValuesGetOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type KeyValuesGetResponse = KeyValue;
-
-// @public
-export interface KeyValuesListByConfigurationStoreNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-}
-
-// @public
-export type KeyValuesListByConfigurationStoreNextResponse = KeyValueListResult;
-
-// @public
-export interface KeyValuesListByConfigurationStoreOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-}
-
-// @public
-export type KeyValuesListByConfigurationStoreResponse = KeyValueListResult;
 
 // @public
 export interface KeyVaultProperties {
@@ -496,7 +476,6 @@ export type OperationsCheckNameAvailabilityResponse = NameAvailabilityStatus;
 
 // @public
 export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
 }
 
 // @public
