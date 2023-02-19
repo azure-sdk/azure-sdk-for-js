@@ -1,6 +1,6 @@
 # Release History
     
-## 10.1.0-beta.5 (2023-02-10)
+## 11.0.0-beta.1 (2023-02-19)
     
 **Features**
 
@@ -242,6 +242,9 @@
   - Added Enum KnownTokenPasswordName
   - Added Enum KnownTokenStatus
   - Added function getContinuationToken
+
+**Breaking Changes**
+
   - Interface RunsListNextOptionalParams no longer has parameter filter
   - Interface RunsListNextOptionalParams no longer has parameter top
     

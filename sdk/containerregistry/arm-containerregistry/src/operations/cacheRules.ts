@@ -13,12 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   CacheRule,
   CacheRulesListNextOptionalParams,
@@ -175,8 +171,8 @@ export class CacheRulesImpl implements CacheRules {
     cacheRuleCreateParameters: CacheRule,
     options?: CacheRulesCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CacheRulesCreateResponse>,
+    PollerLike<
+      PollOperationState<CacheRulesCreateResponse>,
       CacheRulesCreateResponse
     >
   > {
@@ -186,7 +182,7 @@ export class CacheRulesImpl implements CacheRules {
     ): Promise<CacheRulesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -219,24 +215,21 @@ export class CacheRulesImpl implements CacheRules {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    const lro = new LroImpl(
+      sendOperation,
+      {
         resourceGroupName,
         registryName,
         cacheRuleName,
         cacheRuleCreateParameters,
         options
       },
-      spec: createOperationSpec
-    });
-    const poller = await createHttpPoller<
-      CacheRulesCreateResponse,
-      OperationState<CacheRulesCreateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+      createOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -279,14 +272,14 @@ export class CacheRulesImpl implements CacheRules {
     registryName: string,
     cacheRuleName: string,
     options?: CacheRulesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -319,15 +312,15 @@ export class CacheRulesImpl implements CacheRules {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, registryName, cacheRuleName, options },
-      spec: deleteOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, registryName, cacheRuleName, options },
+      deleteOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -370,8 +363,8 @@ export class CacheRulesImpl implements CacheRules {
     cacheRuleUpdateParameters: CacheRuleUpdateParameters,
     options?: CacheRulesUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CacheRulesUpdateResponse>,
+    PollerLike<
+      PollOperationState<CacheRulesUpdateResponse>,
       CacheRulesUpdateResponse
     >
   > {
@@ -381,7 +374,7 @@ export class CacheRulesImpl implements CacheRules {
     ): Promise<CacheRulesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -414,24 +407,21 @@ export class CacheRulesImpl implements CacheRules {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    const lro = new LroImpl(
+      sendOperation,
+      {
         resourceGroupName,
         registryName,
         cacheRuleName,
         cacheRuleUpdateParameters,
         options
       },
-      spec: updateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      CacheRulesUpdateResponse,
-      OperationState<CacheRulesUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+      updateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;

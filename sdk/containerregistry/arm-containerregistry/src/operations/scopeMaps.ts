@@ -13,12 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   ScopeMap,
   ScopeMapsListNextOptionalParams,
@@ -175,8 +171,8 @@ export class ScopeMapsImpl implements ScopeMaps {
     scopeMapCreateParameters: ScopeMap,
     options?: ScopeMapsCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<ScopeMapsCreateResponse>,
+    PollerLike<
+      PollOperationState<ScopeMapsCreateResponse>,
       ScopeMapsCreateResponse
     >
   > {
@@ -186,7 +182,7 @@ export class ScopeMapsImpl implements ScopeMaps {
     ): Promise<ScopeMapsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -219,24 +215,21 @@ export class ScopeMapsImpl implements ScopeMaps {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    const lro = new LroImpl(
+      sendOperation,
+      {
         resourceGroupName,
         registryName,
         scopeMapName,
         scopeMapCreateParameters,
         options
       },
-      spec: createOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ScopeMapsCreateResponse,
-      OperationState<ScopeMapsCreateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+      createOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -279,14 +272,14 @@ export class ScopeMapsImpl implements ScopeMaps {
     registryName: string,
     scopeMapName: string,
     options?: ScopeMapsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -319,15 +312,15 @@ export class ScopeMapsImpl implements ScopeMaps {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, registryName, scopeMapName, options },
-      spec: deleteOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, registryName, scopeMapName, options },
+      deleteOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -370,8 +363,8 @@ export class ScopeMapsImpl implements ScopeMaps {
     scopeMapUpdateParameters: ScopeMapUpdateParameters,
     options?: ScopeMapsUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<ScopeMapsUpdateResponse>,
+    PollerLike<
+      PollOperationState<ScopeMapsUpdateResponse>,
       ScopeMapsUpdateResponse
     >
   > {
@@ -381,7 +374,7 @@ export class ScopeMapsImpl implements ScopeMaps {
     ): Promise<ScopeMapsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -414,24 +407,21 @@ export class ScopeMapsImpl implements ScopeMaps {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    const lro = new LroImpl(
+      sendOperation,
+      {
         resourceGroupName,
         registryName,
         scopeMapName,
         scopeMapUpdateParameters,
         options
       },
-      spec: updateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ScopeMapsUpdateResponse,
-      OperationState<ScopeMapsUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+      updateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
