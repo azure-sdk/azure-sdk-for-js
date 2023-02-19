@@ -18,13 +18,25 @@ import {
   ArcSettingsImpl,
   ClustersImpl,
   ExtensionsImpl,
-  OperationsImpl
+  OffersImpl,
+  OperationsImpl,
+  PublishersImpl,
+  SkusImpl,
+  UpdateRunsImpl,
+  UpdateSummariesOperationsImpl,
+  UpdatesImpl
 } from "./operations";
 import {
   ArcSettings,
   Clusters,
   Extensions,
-  Operations
+  Offers,
+  Operations,
+  Publishers,
+  Skus,
+  UpdateRuns,
+  UpdateSummariesOperations,
+  Updates
 } from "./operationsInterfaces";
 import { AzureStackHCIClientOptionalParams } from "./models";
 
@@ -60,7 +72,7 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-azurestackhci/3.1.1`;
+    const packageDetails = `azsdk-js-arm-azurestackhci/4.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -113,11 +125,17 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-05-01";
+    this.apiVersion = options.apiVersion || "2023-02-01";
     this.arcSettings = new ArcSettingsImpl(this);
     this.clusters = new ClustersImpl(this);
     this.extensions = new ExtensionsImpl(this);
+    this.offers = new OffersImpl(this);
     this.operations = new OperationsImpl(this);
+    this.publishers = new PublishersImpl(this);
+    this.skus = new SkusImpl(this);
+    this.updateRuns = new UpdateRunsImpl(this);
+    this.updateSummariesOperations = new UpdateSummariesOperationsImpl(this);
+    this.updates = new UpdatesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -152,5 +170,11 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
   arcSettings: ArcSettings;
   clusters: Clusters;
   extensions: Extensions;
+  offers: Offers;
   operations: Operations;
+  publishers: Publishers;
+  skus: Skus;
+  updateRuns: UpdateRuns;
+  updateSummariesOperations: UpdateSummariesOperations;
+  updates: Updates;
 }
