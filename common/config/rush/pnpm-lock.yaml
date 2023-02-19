@@ -3928,7 +3928,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230216
+      typescript: 5.0.0-dev.20230219
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8712,8 +8712,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230216:
-    resolution: {integrity: sha512-yeZZGWiNc5pbGg4J/bgN7vq2Lrs4YTNzhG5dv8owIe1PyYX4tMDla8NnXipy9h4Cmw6+DQA8FG9XZbymgmzSbA==}
+  /typescript/5.0.0-dev.20230219:
+    resolution: {integrity: sha512-CjlwGu0BGvavGAPs7/2sng1K0EYubaZc3irzGboNBs83OI2+ij4QixjS8+nXcoR4H3uumDnyd7Vo/LoIgdSa7Q==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10811,16 +10811,16 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-nAS8my45QL20JXjcqm/LyVZX6Osh/OJQHqEcGw9EekFmWkgiYs0FoyNkXyzYoQ+8RNIoSthLc3WHoo8ud6rzOA==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-/6LaxSwqtFEhu2InFsFMkgb0rpPdFdKxdXMKXptu3xmseGQDGW76+J57HP8/rFp09fIzlBaEVrFC2E10NxzUaQ==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
       '@azure/arm-network': 26.0.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36

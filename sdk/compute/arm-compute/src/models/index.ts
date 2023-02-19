@@ -638,7 +638,7 @@ export interface TerminateNotificationProfile {
 }
 
 export interface OSImageNotificationProfile {
-  /** Length of time a Virtual Machine being reimaged or having its OS upgraded will have to potentially approve the OS Image Scheduled Event before the event is auto approved (timed out). The configuration is specified in ISO 8601 format, with the value set to 15 minutes (PT15M) */
+  /** Length of time a Virtual Machine being reimaged or having its OS upgraded will have to potentially approve the OS Image Scheduled Event before the event is auto approved (timed out). The configuration is specified in ISO 8601 format, and the value must be 15 minutes (PT15M) */
   notBeforeTimeout?: string;
   /** Specifies whether the OS Image Scheduled event is enabled or disabled. */
   enable?: boolean;
@@ -1294,6 +1294,14 @@ export interface VirtualMachineScaleSetVMInstanceView {
   readonly assignedHost?: string;
   /** The placement group in which the VM is running. If the VM is deallocated it will not have a placementGroupId. */
   placementGroupId?: string;
+  /** Specifies the host OS name of the virtual machine. <br><br> This name cannot be updated after the VM is created. <br><br> **Max-length (Windows):** 15 characters <br><br> **Max-length (Linux):** 64 characters. <br><br> For naming conventions and restrictions see [Azure infrastructure services implementation guidelines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-infrastructure-subscription-accounts-guidelines?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#1-naming-conventions). */
+  computerName?: string;
+  /** The Operating System running on the hybrid machine. */
+  osName?: string;
+  /** The version of Operating System running on the hybrid machine. */
+  osVersion?: string;
+  /** The hypervisor generation of the Virtual Machine [V1, V2] */
+  hyperVGeneration?: HyperVGeneration;
 }
 
 /** The instance view of the VM Agent running on the virtual machine. */
@@ -7015,6 +7023,24 @@ export enum KnownOrchestrationServiceStateAction {
  */
 export type OrchestrationServiceStateAction = string;
 
+/** Known values of {@link HyperVGeneration} that the service accepts. */
+export enum KnownHyperVGeneration {
+  /** V1 */
+  V1 = "V1",
+  /** V2 */
+  V2 = "V2"
+}
+
+/**
+ * Defines values for HyperVGeneration. \
+ * {@link KnownHyperVGeneration} can be used interchangeably with HyperVGeneration,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **V1** \
+ * **V2**
+ */
+export type HyperVGeneration = string;
+
 /** Known values of {@link VirtualMachineSizeTypes} that the service accepts. */
 export enum KnownVirtualMachineSizeTypes {
   /** BasicA0 */
@@ -8116,24 +8142,6 @@ export enum KnownDiskStorageAccountTypes {
  */
 export type DiskStorageAccountTypes = string;
 
-/** Known values of {@link HyperVGeneration} that the service accepts. */
-export enum KnownHyperVGeneration {
-  /** V1 */
-  V1 = "V1",
-  /** V2 */
-  V2 = "V2"
-}
-
-/**
- * Defines values for HyperVGeneration. \
- * {@link KnownHyperVGeneration} can be used interchangeably with HyperVGeneration,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **V1** \
- * **V2**
- */
-export type HyperVGeneration = string;
-
 /** Known values of {@link Architecture} that the service accepts. */
 export enum KnownArchitecture {
   /** X64 */
@@ -8624,7 +8632,9 @@ export enum KnownStorageAccountType {
   /** StandardZRS */
   StandardZRS = "Standard_ZRS",
   /** PremiumLRS */
-  PremiumLRS = "Premium_LRS"
+  PremiumLRS = "Premium_LRS",
+  /** StandardSSDLRS */
+  StandardSSDLRS = "StandardSSD_LRS"
 }
 
 /**
@@ -8634,7 +8644,8 @@ export enum KnownStorageAccountType {
  * ### Known values supported by the service
  * **Standard_LRS** \
  * **Standard_ZRS** \
- * **Premium_LRS**
+ * **Premium_LRS** \
+ * **StandardSSD_LRS**
  */
 export type StorageAccountType = string;
 
