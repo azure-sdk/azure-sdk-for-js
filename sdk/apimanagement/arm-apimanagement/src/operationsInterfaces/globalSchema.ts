@@ -25,7 +25,7 @@ import {
 export interface GlobalSchema {
   /**
    * Lists a collection of schemas registered with service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -36,7 +36,7 @@ export interface GlobalSchema {
   ): PagedAsyncIterableIterator<GlobalSchemaContract>;
   /**
    * Gets the entity state (Etag) version of the Schema specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -49,7 +49,7 @@ export interface GlobalSchema {
   ): Promise<GlobalSchemaGetEntityTagResponse>;
   /**
    * Gets the details of the Schema specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -62,7 +62,7 @@ export interface GlobalSchema {
   ): Promise<GlobalSchemaGetResponse>;
   /**
    * Creates new or updates existing specified Schema of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param parameters Create or update parameters.
@@ -82,7 +82,7 @@ export interface GlobalSchema {
   >;
   /**
    * Creates new or updates existing specified Schema of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param parameters Create or update parameters.
@@ -97,7 +97,7 @@ export interface GlobalSchema {
   ): Promise<GlobalSchemaCreateOrUpdateResponse>;
   /**
    * Deletes specific Schema.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
