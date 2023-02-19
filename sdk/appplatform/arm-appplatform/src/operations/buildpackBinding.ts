@@ -17,6 +17,9 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   BuildpackBindingResource,
+  BuildpackBindingListForClusterNextOptionalParams,
+  BuildpackBindingListForClusterOptionalParams,
+  BuildpackBindingListForClusterResponse,
   BuildpackBindingListNextOptionalParams,
   BuildpackBindingListOptionalParams,
   BuildpackBindingListResponse,
@@ -25,6 +28,7 @@ import {
   BuildpackBindingCreateOrUpdateOptionalParams,
   BuildpackBindingCreateOrUpdateResponse,
   BuildpackBindingDeleteOptionalParams,
+  BuildpackBindingListForClusterNextResponse,
   BuildpackBindingListNextResponse
 } from "../models";
 
@@ -39,6 +43,91 @@ export class BuildpackBindingImpl implements BuildpackBinding {
    */
   constructor(client: AppPlatformManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * Get collection of buildpack bindings under all builders.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param options The options parameters.
+   */
+  public listForCluster(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: BuildpackBindingListForClusterOptionalParams
+  ): PagedAsyncIterableIterator<BuildpackBindingResource> {
+    const iter = this.listForClusterPagingAll(
+      resourceGroupName,
+      serviceName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listForClusterPagingPage(
+          resourceGroupName,
+          serviceName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listForClusterPagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: BuildpackBindingListForClusterOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<BuildpackBindingResource[]> {
+    let result: BuildpackBindingListForClusterResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listForCluster(
+        resourceGroupName,
+        serviceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listForClusterNext(
+        resourceGroupName,
+        serviceName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listForClusterPagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: BuildpackBindingListForClusterOptionalParams
+  ): AsyncIterableIterator<BuildpackBindingResource> {
+    for await (const page of this.listForClusterPagingPage(
+      resourceGroupName,
+      serviceName,
+      options
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -142,6 +231,24 @@ export class BuildpackBindingImpl implements BuildpackBinding {
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Get collection of buildpack bindings under all builders.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param options The options parameters.
+   */
+  private _listForCluster(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: BuildpackBindingListForClusterOptionalParams
+  ): Promise<BuildpackBindingListForClusterResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, options },
+      listForClusterOperationSpec
+    );
   }
 
   /**
@@ -427,6 +534,26 @@ export class BuildpackBindingImpl implements BuildpackBinding {
   }
 
   /**
+   * ListForClusterNext
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param nextLink The nextLink from the previous successful call to the ListForCluster method.
+   * @param options The options parameters.
+   */
+  private _listForClusterNext(
+    resourceGroupName: string,
+    serviceName: string,
+    nextLink: string,
+    options?: BuildpackBindingListForClusterNextOptionalParams
+  ): Promise<BuildpackBindingListForClusterNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, nextLink, options },
+      listForClusterNextOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -460,6 +587,28 @@ export class BuildpackBindingImpl implements BuildpackBinding {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listForClusterOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildpackBindings",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BuildpackBindingResourceCollection
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders/{builderName}/buildpackBindings/{buildpackBindingName}",
@@ -567,6 +716,27 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName,
     Parameters.buildServiceName,
     Parameters.builderName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listForClusterNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BuildpackBindingResourceCollection
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

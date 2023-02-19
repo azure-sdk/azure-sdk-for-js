@@ -484,9 +484,7 @@ export interface AppResourceCollection {
 // @public
 export interface AppResourceProperties {
     addonConfigs?: {
-        [propertyName: string]: {
-            [propertyName: string]: Record<string, unknown>;
-        };
+        [propertyName: string]: Record<string, unknown>;
     };
     customPersistentDisks?: CustomPersistentDiskResource[];
     enableEndToEndTLS?: boolean;
@@ -497,6 +495,7 @@ export interface AppResourceProperties {
     persistentDisk?: PersistentDisk;
     readonly provisioningState?: AppResourceProvisioningState;
     public?: boolean;
+    secrets?: Secret[];
     temporaryDisk?: TemporaryDisk;
     readonly url?: string;
     vnetAddons?: AppVNetAddons;
@@ -609,7 +608,7 @@ export interface AvailableRuntimeVersions {
 
 // @public
 export interface AzureFileVolume extends CustomPersistentDiskProperties {
-    shareName: string;
+    shareName?: string;
     type: "AzureFileVolume";
 }
 
@@ -630,7 +629,7 @@ export interface BindingResourceCollection {
 // @public
 export interface BindingResourceProperties {
     bindingParameters?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: string;
     };
     readonly createdAt?: string;
     readonly generatedProperties?: string;
@@ -741,6 +740,7 @@ export interface BuildpackBinding {
     beginDeleteAndWait(resourceGroupName: string, serviceName: string, buildServiceName: string, builderName: string, buildpackBindingName: string, options?: BuildpackBindingDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serviceName: string, buildServiceName: string, builderName: string, buildpackBindingName: string, options?: BuildpackBindingGetOptionalParams): Promise<BuildpackBindingGetResponse>;
     list(resourceGroupName: string, serviceName: string, buildServiceName: string, builderName: string, options?: BuildpackBindingListOptionalParams): PagedAsyncIterableIterator<BuildpackBindingResource>;
+    listForCluster(resourceGroupName: string, serviceName: string, options?: BuildpackBindingListForClusterOptionalParams): PagedAsyncIterableIterator<BuildpackBindingResource>;
 }
 
 // @public
@@ -774,6 +774,20 @@ export interface BuildpackBindingLaunchProperties {
         [propertyName: string]: string;
     };
 }
+
+// @public
+export interface BuildpackBindingListForClusterNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildpackBindingListForClusterNextResponse = BuildpackBindingResourceCollection;
+
+// @public
+export interface BuildpackBindingListForClusterOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildpackBindingListForClusterResponse = BuildpackBindingResourceCollection;
 
 // @public
 export interface BuildpackBindingListNextOptionalParams extends coreClient.OperationOptions {
@@ -1249,6 +1263,8 @@ export interface CloudErrorBody {
 // @public
 export interface ClusterResourceProperties {
     readonly fqdn?: string;
+    infraResourceGroup?: string;
+    managedEnvironmentId?: string;
     marketplaceResource?: MarketplaceResource;
     networkProfile?: NetworkProfile;
     readonly powerState?: PowerState;
@@ -1697,6 +1713,7 @@ export type CustomizedAcceleratorValidateResultState = string;
 
 // @public
 export interface CustomPersistentDiskProperties {
+    enableSubPath?: boolean;
     mountOptions?: string[];
     mountPath: string;
     readOnly?: boolean;
@@ -1710,6 +1727,15 @@ export type CustomPersistentDiskPropertiesUnion = CustomPersistentDiskProperties
 export interface CustomPersistentDiskResource {
     customPersistentDiskProperties?: CustomPersistentDiskPropertiesUnion;
     storageId: string;
+}
+
+// @public
+export interface CustomScaleRule {
+    auth?: ScaleRuleAuth[];
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    type?: string;
 }
 
 // @public
@@ -1823,9 +1849,7 @@ export type DeploymentsEnableRemoteDebuggingResponse = RemoteDebugging;
 // @public
 export interface DeploymentSettings {
     addonConfigs?: {
-        [propertyName: string]: {
-            [propertyName: string]: Record<string, unknown>;
-        };
+        [propertyName: string]: Record<string, unknown>;
     };
     containerProbeSettings?: ContainerProbeSettings;
     environmentVariables?: {
@@ -1834,6 +1858,7 @@ export interface DeploymentSettings {
     livenessProbe?: Probe;
     readinessProbe?: Probe;
     resourceRequests?: ResourceRequests;
+    scale?: Scale;
     startupProbe?: Probe;
     terminationGracePeriodSeconds?: number;
 }
@@ -2303,6 +2328,8 @@ export interface Gateways {
     beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, gatewayName: string, gatewayResource: GatewayResource, options?: GatewaysCreateOrUpdateOptionalParams): Promise<GatewaysCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewaysDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewaysDeleteOptionalParams): Promise<void>;
+    beginUpdateCapacity(resourceGroupName: string, serviceName: string, gatewayName: string, gatewayCapacityResource: SkuObject, options?: GatewaysUpdateCapacityOptionalParams): Promise<PollerLike<PollOperationState<GatewaysUpdateCapacityResponse>, GatewaysUpdateCapacityResponse>>;
+    beginUpdateCapacityAndWait(resourceGroupName: string, serviceName: string, gatewayName: string, gatewayCapacityResource: SkuObject, options?: GatewaysUpdateCapacityOptionalParams): Promise<GatewaysUpdateCapacityResponse>;
     get(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewaysGetOptionalParams): Promise<GatewaysGetResponse>;
     list(resourceGroupName: string, serviceName: string, options?: GatewaysListOptionalParams): PagedAsyncIterableIterator<GatewayResource>;
     listEnvSecrets(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewaysListEnvSecretsOptionalParams): Promise<GatewaysListEnvSecretsResponse>;
@@ -2355,6 +2382,21 @@ export interface GatewaysListOptionalParams extends coreClient.OperationOptions 
 export type GatewaysListResponse = GatewayResourceCollection;
 
 // @public
+export interface GatewaysUpdateCapacityHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface GatewaysUpdateCapacityOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GatewaysUpdateCapacityResponse = GatewayResource;
+
+// @public
 export interface GatewaysValidateDomainOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -2384,6 +2426,14 @@ export interface HttpGetAction extends ProbeAction {
     path?: string;
     scheme?: HttpSchemeType;
     type: "HTTPGetAction";
+}
+
+// @public
+export interface HttpScaleRule {
+    auth?: ScaleRuleAuth[];
+    metadata?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -3109,6 +3159,13 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
+export interface QueueScaleRule {
+    auth?: ScaleRuleAuth[];
+    queueLength?: number;
+    queueName?: string;
+}
+
+// @public
 export interface RegenerateTestKeyRequestPayload {
     keyType: TestKeyType;
 }
@@ -3220,6 +3277,34 @@ export interface RuntimeVersionsListRuntimeVersionsOptionalParams extends coreCl
 
 // @public
 export type RuntimeVersionsListRuntimeVersionsResponse = AvailableRuntimeVersions;
+
+// @public
+export interface Scale {
+    maxReplicas?: number;
+    minReplicas?: number;
+    rules?: ScaleRule[];
+}
+
+// @public
+export interface ScaleRule {
+    azureQueue?: QueueScaleRule;
+    custom?: CustomScaleRule;
+    http?: HttpScaleRule;
+    name?: string;
+    tcp?: TcpScaleRule;
+}
+
+// @public
+export interface ScaleRuleAuth {
+    secretRef?: string;
+    triggerParameter?: string;
+}
+
+// @public
+export interface Secret {
+    name?: string;
+    value?: string;
+}
 
 // @public
 export interface ServiceRegistries {
@@ -3468,6 +3553,11 @@ export interface SkuCapacity {
 }
 
 // @public
+export interface SkuObject {
+    sku?: Sku;
+}
+
+// @public
 export interface Skus {
     list(options?: SkusListOptionalParams): PagedAsyncIterableIterator<ResourceSku>;
 }
@@ -3639,6 +3729,14 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: LastModifiedByType;
+}
+
+// @public
+export interface TcpScaleRule {
+    auth?: ScaleRuleAuth[];
+    metadata?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public

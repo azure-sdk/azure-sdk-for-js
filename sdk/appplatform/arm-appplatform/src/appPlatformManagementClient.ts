@@ -109,7 +109,7 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appplatform/2.1.0-beta.6`;
+    const packageDetails = `azsdk-js-arm-appplatform/3.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -162,7 +162,7 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-11-01-preview";
+    this.apiVersion = options.apiVersion || "2023-01-01-preview";
     this.services = new ServicesImpl(this);
     this.configServers = new ConfigServersImpl(this);
     this.configurationServices = new ConfigurationServicesImpl(this);
