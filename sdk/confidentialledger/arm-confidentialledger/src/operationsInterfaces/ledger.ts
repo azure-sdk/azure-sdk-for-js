@@ -26,7 +26,7 @@ import {
 export interface Ledger {
   /**
    * Retrieves the properties of all Confidential Ledgers.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -42,7 +42,7 @@ export interface Ledger {
   ): PagedAsyncIterableIterator<ConfidentialLedger>;
   /**
    * Retrieves the properties of a Confidential Ledger.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param ledgerName Name of the Confidential Ledger
    * @param options The options parameters.
    */
@@ -53,7 +53,7 @@ export interface Ledger {
   ): Promise<LedgerGetResponse>;
   /**
    * Deletes an existing Confidential Ledger.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param ledgerName Name of the Confidential Ledger
    * @param options The options parameters.
    */
@@ -64,7 +64,7 @@ export interface Ledger {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes an existing Confidential Ledger.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param ledgerName Name of the Confidential Ledger
    * @param options The options parameters.
    */
@@ -75,7 +75,7 @@ export interface Ledger {
   ): Promise<void>;
   /**
    * Creates a  Confidential Ledger with the specified ledger parameters.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param ledgerName Name of the Confidential Ledger
    * @param confidentialLedger Confidential Ledger Create Request Body
    * @param options The options parameters.
@@ -90,7 +90,7 @@ export interface Ledger {
   >;
   /**
    * Creates a  Confidential Ledger with the specified ledger parameters.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param ledgerName Name of the Confidential Ledger
    * @param confidentialLedger Confidential Ledger Create Request Body
    * @param options The options parameters.
@@ -103,7 +103,7 @@ export interface Ledger {
   ): Promise<LedgerCreateResponse>;
   /**
    * Updates properties of Confidential Ledger
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param ledgerName Name of the Confidential Ledger
    * @param confidentialLedger Confidential Ledger request body for Updating Ledger
    * @param options The options parameters.
@@ -118,7 +118,7 @@ export interface Ledger {
   >;
   /**
    * Updates properties of Confidential Ledger
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param ledgerName Name of the Confidential Ledger
    * @param confidentialLedger Confidential Ledger request body for Updating Ledger
    * @param options The options parameters.
