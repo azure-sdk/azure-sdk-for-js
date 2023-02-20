@@ -13,12 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataFactoryManagementClient } from "../dataFactoryManagementClient";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   IntegrationRuntimeResource,
   IntegrationRuntimesListByFactoryNextOptionalParams,
@@ -384,8 +380,8 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     integrationRuntimeName: string,
     options?: IntegrationRuntimesStartOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<IntegrationRuntimesStartResponse>,
+    PollerLike<
+      PollOperationState<IntegrationRuntimesStartResponse>,
       IntegrationRuntimesStartResponse
     >
   > {
@@ -395,7 +391,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     ): Promise<IntegrationRuntimesStartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -428,16 +424,13 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, factoryName, integrationRuntimeName, options },
-      spec: startOperationSpec
-    });
-    const poller = await createHttpPoller<
-      IntegrationRuntimesStartResponse,
-      OperationState<IntegrationRuntimesStartResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, factoryName, integrationRuntimeName, options },
+      startOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -478,14 +471,14 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     factoryName: string,
     integrationRuntimeName: string,
     options?: IntegrationRuntimesStopOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -518,13 +511,13 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, factoryName, integrationRuntimeName, options },
-      spec: stopOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, factoryName, integrationRuntimeName, options },
+      stopOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

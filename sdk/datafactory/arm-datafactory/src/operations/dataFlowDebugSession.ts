@@ -13,12 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataFactoryManagementClient } from "../dataFactoryManagementClient";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   DataFlowDebugSessionInfo,
   DataFlowDebugSessionQueryByFactoryNextOptionalParams,
@@ -148,8 +144,8 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
     request: CreateDataFlowDebugSessionRequest,
     options?: DataFlowDebugSessionCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<DataFlowDebugSessionCreateResponse>,
+    PollerLike<
+      PollOperationState<DataFlowDebugSessionCreateResponse>,
       DataFlowDebugSessionCreateResponse
     >
   > {
@@ -159,7 +155,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
     ): Promise<DataFlowDebugSessionCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -192,16 +188,13 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, factoryName, request, options },
-      spec: createOperationSpec
-    });
-    const poller = await createHttpPoller<
-      DataFlowDebugSessionCreateResponse,
-      OperationState<DataFlowDebugSessionCreateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, factoryName, request, options },
+      createOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -298,8 +291,8 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
     request: DataFlowDebugCommandRequest,
     options?: DataFlowDebugSessionExecuteCommandOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<DataFlowDebugSessionExecuteCommandResponse>,
+    PollerLike<
+      PollOperationState<DataFlowDebugSessionExecuteCommandResponse>,
       DataFlowDebugSessionExecuteCommandResponse
     >
   > {
@@ -309,7 +302,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
     ): Promise<DataFlowDebugSessionExecuteCommandResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -342,16 +335,13 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, factoryName, request, options },
-      spec: executeCommandOperationSpec
-    });
-    const poller = await createHttpPoller<
-      DataFlowDebugSessionExecuteCommandResponse,
-      OperationState<DataFlowDebugSessionExecuteCommandResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, factoryName, request, options },
+      executeCommandOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
