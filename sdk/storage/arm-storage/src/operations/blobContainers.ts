@@ -952,12 +952,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ListContainerItems
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.maxpagesize1,
-    Parameters.include1
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

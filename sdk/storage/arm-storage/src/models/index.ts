@@ -3979,14 +3979,7 @@ export type EncryptionScopesListResponse = EncryptionScopeListResult;
 
 /** Optional parameters. */
 export interface EncryptionScopesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Optional, specifies the maximum number of encryption scopes that will be included in the list response. */
-  maxpagesize?: number;
-  /** Optional. When specified, only encryption scope names starting with the filter will be listed. */
-  filter?: string;
-  /** Optional, when specified, will list encryption scopes with the specific state. Defaults to All */
-  include?: ListEncryptionScopesInclude;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type EncryptionScopesListNextResponse = EncryptionScopeListResult;
@@ -4137,14 +4130,7 @@ export interface BlobContainersObjectLevelWormOptionalParams
 
 /** Optional parameters. */
 export interface BlobContainersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Optional. When specified, only container names starting with the filter will be listed. */
-  filter?: string;
-  /** Optional. Specified maximum number of containers that can be included in the list. */
-  maxpagesize?: string;
-  /** Optional, used to include the properties for soft deleted blob containers. */
-  include?: ListContainersInclude;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BlobContainersListNextResponse = ListContainerItems;
@@ -4241,14 +4227,7 @@ export type FileSharesLeaseResponse = FileSharesLeaseHeaders &
 
 /** Optional parameters. */
 export interface FileSharesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Optional. When specified, only share names starting with the filter will be listed. */
-  filter?: string;
-  /** Optional. Specified maximum number of shares that can be included in the list. */
-  maxpagesize?: string;
-  /** Optional, used to expand the properties within share's properties. Valid values are: deleted, snapshots. Should be passed as a string with delimiter ',' */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type FileSharesListNextResponse = FileShareItems;
@@ -4311,12 +4290,7 @@ export type QueueListResponse = ListQueueResource;
 
 /** Optional parameters. */
 export interface QueueListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Optional, When specified, only the queues with a name starting with the given filter will be listed. */
-  filter?: string;
-  /** Optional, a maximum number of queues that should be included in a list queue response */
-  maxpagesize?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type QueueListNextResponse = ListQueueResource;
