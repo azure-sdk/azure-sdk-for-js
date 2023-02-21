@@ -12,8 +12,8 @@ import {
   AnalysisServicesServer,
   ServersListByResourceGroupOptionalParams,
   ServersListOptionalParams,
-  ServersGetDetailsOptionalParams,
-  ServersGetDetailsResponse,
+  ServersGetDetaisOptionalParams,
+  ServersGetDetaisResponse,
   ServersCreateOptionalParams,
   ServersCreateResponse,
   ServersDeleteOptionalParams,
@@ -65,11 +65,11 @@ export interface Servers {
    *                   and a maximum of 63.
    * @param options The options parameters.
    */
-  getDetails(
+  getDetais(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersGetDetailsOptionalParams
-  ): Promise<ServersGetDetailsResponse>;
+    options?: ServersGetDetaisOptionalParams
+  ): Promise<ServersGetDetaisResponse>;
   /**
    * Provisions the specified Analysis Services server based on the configuration specified in the
    * request.

@@ -20,8 +20,8 @@ import {
   ServersListByResourceGroupResponse,
   ServersListOptionalParams,
   ServersListResponse,
-  ServersGetDetailsOptionalParams,
-  ServersGetDetailsResponse,
+  ServersGetDetaisOptionalParams,
+  ServersGetDetaisResponse,
   ServersCreateOptionalParams,
   ServersCreateResponse,
   ServersDeleteOptionalParams,
@@ -160,14 +160,14 @@ export class ServersImpl implements Servers {
    *                   and a maximum of 63.
    * @param options The options parameters.
    */
-  getDetails(
+  getDetais(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersGetDetailsOptionalParams
-  ): Promise<ServersGetDetailsResponse> {
+    options?: ServersGetDetaisOptionalParams
+  ): Promise<ServersGetDetaisResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      getDetailsOperationSpec
+      getDetaisOperationSpec
     );
   }
 
@@ -766,7 +766,7 @@ export class ServersImpl implements Servers {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getDetailsOperationSpec: coreClient.OperationSpec = {
+const getDetaisOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}",
   httpMethod: "GET",

@@ -1,15 +1,17 @@
 # Release History
+    
+## 5.0.0 (2023-02-21)
+    
+**Features**
 
-## 4.1.4 (Unreleased)
+  - Added operation Servers.getDetais
+  - Added Interface ServersGetDetaisOptionalParams
+  - Added Type Alias ServersGetDetaisResponse
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation Servers.getDetails
+    
 ## 4.1.3 (2022-11-14)
 
 -  Bugs Fixed

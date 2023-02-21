@@ -583,11 +583,11 @@ export type ManagedMode = 0 | 1;
 export type ServerMonitorMode = 0 | 1;
 
 /** Optional parameters. */
-export interface ServersGetDetailsOptionalParams
+export interface ServersGetDetaisOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getDetails operation. */
-export type ServersGetDetailsResponse = AnalysisServicesServer;
+/** Contains response data for the getDetais operation. */
+export type ServersGetDetaisResponse = AnalysisServicesServer;
 
 /** Optional parameters. */
 export interface ServersCreateOptionalParams

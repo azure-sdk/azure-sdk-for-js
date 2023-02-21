@@ -329,7 +329,7 @@ export interface Servers {
     beginUpdateAndWait(resourceGroupName: string, serverName: string, serverUpdateParameters: AnalysisServicesServerUpdateParameters, options?: ServersUpdateOptionalParams): Promise<ServersUpdateResponse>;
     checkNameAvailability(location: string, serverParameters: CheckServerNameAvailabilityParameters, options?: ServersCheckNameAvailabilityOptionalParams): Promise<ServersCheckNameAvailabilityResponse>;
     dissociateGateway(resourceGroupName: string, serverName: string, options?: ServersDissociateGatewayOptionalParams): Promise<void>;
-    getDetails(resourceGroupName: string, serverName: string, options?: ServersGetDetailsOptionalParams): Promise<ServersGetDetailsResponse>;
+    getDetais(resourceGroupName: string, serverName: string, options?: ServersGetDetaisOptionalParams): Promise<ServersGetDetaisResponse>;
     list(options?: ServersListOptionalParams): PagedAsyncIterableIterator<AnalysisServicesServer>;
     listByResourceGroup(resourceGroupName: string, options?: ServersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AnalysisServicesServer>;
     listGatewayStatus(resourceGroupName: string, serverName: string, options?: ServersListGatewayStatusOptionalParams): Promise<ServersListGatewayStatusResponse>;
@@ -366,11 +366,11 @@ export interface ServersDissociateGatewayOptionalParams extends coreClient.Opera
 }
 
 // @public
-export interface ServersGetDetailsOptionalParams extends coreClient.OperationOptions {
+export interface ServersGetDetaisOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ServersGetDetailsResponse = AnalysisServicesServer;
+export type ServersGetDetaisResponse = AnalysisServicesServer;
 
 // @public
 export interface ServersListByResourceGroupOptionalParams extends coreClient.OperationOptions {
