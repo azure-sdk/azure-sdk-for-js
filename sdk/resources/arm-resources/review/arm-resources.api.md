@@ -199,7 +199,6 @@ export type DeploymentOperationsGetResponse = DeploymentOperation;
 
 // @public
 export interface DeploymentOperationsListAtManagementGroupScopeNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -215,7 +214,6 @@ export type DeploymentOperationsListAtManagementGroupScopeResponse = DeploymentO
 
 // @public
 export interface DeploymentOperationsListAtScopeNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -231,7 +229,6 @@ export type DeploymentOperationsListAtScopeResponse = DeploymentOperationsListRe
 
 // @public
 export interface DeploymentOperationsListAtSubscriptionScopeNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -247,7 +244,6 @@ export type DeploymentOperationsListAtSubscriptionScopeResponse = DeploymentOper
 
 // @public
 export interface DeploymentOperationsListAtTenantScopeNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -263,7 +259,6 @@ export type DeploymentOperationsListAtTenantScopeResponse = DeploymentOperations
 
 // @public
 export interface DeploymentOperationsListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -603,8 +598,6 @@ export type DeploymentsGetResponse = DeploymentExtended;
 
 // @public
 export interface DeploymentsListAtManagementGroupScopeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -621,8 +614,6 @@ export type DeploymentsListAtManagementGroupScopeResponse = DeploymentListResult
 
 // @public
 export interface DeploymentsListAtScopeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -639,8 +630,6 @@ export type DeploymentsListAtScopeResponse = DeploymentListResult;
 
 // @public
 export interface DeploymentsListAtSubscriptionScopeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -657,8 +646,6 @@ export type DeploymentsListAtSubscriptionScopeResponse = DeploymentListResult;
 
 // @public
 export interface DeploymentsListAtTenantScopeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -675,8 +662,6 @@ export type DeploymentsListAtTenantScopeResponse = DeploymentListResult;
 
 // @public
 export interface DeploymentsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -1162,7 +1147,6 @@ export type ProvidersGetResponse = Provider;
 
 // @public
 export interface ProvidersListAtTenantScopeNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -1178,7 +1162,6 @@ export type ProvidersListAtTenantScopeResponse = ProviderListResult;
 
 // @public
 export interface ProvidersListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -1336,8 +1319,6 @@ export type ResourceGroupsGetResponse = ResourceGroup;
 
 // @public
 export interface ResourceGroupsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -1506,9 +1487,6 @@ export type ResourcesGetResponse = GenericResource;
 
 // @public
 export interface ResourcesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -1526,9 +1504,6 @@ export type ResourcesListByResourceGroupResponse = ResourceListResult;
 
 // @public
 export interface ResourcesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -1647,7 +1622,14 @@ export interface Tags {
 }
 
 // @public
+export interface TagsCreateOrUpdateAtScopeHeaders {
+    location?: string;
+}
+
+// @public
 export interface TagsCreateOrUpdateAtScopeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1668,7 +1650,14 @@ export interface TagsCreateOrUpdateValueOptionalParams extends coreClient.Operat
 export type TagsCreateOrUpdateValueResponse = TagValue;
 
 // @public
+export interface TagsDeleteAtScopeHeaders {
+    location?: string;
+}
+
+// @public
 export interface TagsDeleteAtScopeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1708,15 +1697,18 @@ export interface TagsListResult {
 
 // @public
 export interface TagsOperations {
+    beginCreateOrUpdateAtScope(scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams): Promise<PollerLike<PollOperationState<TagsCreateOrUpdateAtScopeResponse>, TagsCreateOrUpdateAtScopeResponse>>;
+    beginCreateOrUpdateAtScopeAndWait(scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams): Promise<TagsCreateOrUpdateAtScopeResponse>;
+    beginDeleteAtScope(scope: string, options?: TagsDeleteAtScopeOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAtScopeAndWait(scope: string, options?: TagsDeleteAtScopeOptionalParams): Promise<void>;
+    beginUpdateAtScope(scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams): Promise<PollerLike<PollOperationState<TagsUpdateAtScopeResponse>, TagsUpdateAtScopeResponse>>;
+    beginUpdateAtScopeAndWait(scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams): Promise<TagsUpdateAtScopeResponse>;
     createOrUpdate(tagName: string, options?: TagsCreateOrUpdateOptionalParams): Promise<TagsCreateOrUpdateResponse>;
-    createOrUpdateAtScope(scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams): Promise<TagsCreateOrUpdateAtScopeResponse>;
     createOrUpdateValue(tagName: string, tagValue: string, options?: TagsCreateOrUpdateValueOptionalParams): Promise<TagsCreateOrUpdateValueResponse>;
     delete(tagName: string, options?: TagsDeleteOptionalParams): Promise<void>;
-    deleteAtScope(scope: string, options?: TagsDeleteAtScopeOptionalParams): Promise<void>;
     deleteValue(tagName: string, tagValue: string, options?: TagsDeleteValueOptionalParams): Promise<void>;
     getAtScope(scope: string, options?: TagsGetAtScopeOptionalParams): Promise<TagsGetAtScopeResponse>;
     list(options?: TagsListOptionalParams): PagedAsyncIterableIterator<TagDetails>;
-    updateAtScope(scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams): Promise<TagsUpdateAtScopeResponse>;
 }
 
 // @public
@@ -1737,7 +1729,14 @@ export interface TagsResource {
 }
 
 // @public
+export interface TagsUpdateAtScopeHeaders {
+    location?: string;
+}
+
+// @public
 export interface TagsUpdateAtScopeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public

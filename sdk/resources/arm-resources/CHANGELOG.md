@@ -1,15 +1,57 @@
 # Release History
+    
+## 6.0.0 (2023-02-21)
+    
+**Features**
 
-## 5.1.1 (Unreleased)
+  - Added operation TagsOperations.beginCreateOrUpdateAtScope
+  - Added operation TagsOperations.beginCreateOrUpdateAtScopeAndWait
+  - Added operation TagsOperations.beginDeleteAtScope
+  - Added operation TagsOperations.beginDeleteAtScopeAndWait
+  - Added operation TagsOperations.beginUpdateAtScope
+  - Added operation TagsOperations.beginUpdateAtScopeAndWait
+  - Added Interface TagsCreateOrUpdateAtScopeHeaders
+  - Added Interface TagsDeleteAtScopeHeaders
+  - Added Interface TagsUpdateAtScopeHeaders
+  - Interface TagsCreateOrUpdateAtScopeOptionalParams has a new optional parameter resumeFrom
+  - Interface TagsCreateOrUpdateAtScopeOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface TagsDeleteAtScopeOptionalParams has a new optional parameter resumeFrom
+  - Interface TagsDeleteAtScopeOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface TagsUpdateAtScopeOptionalParams has a new optional parameter resumeFrom
+  - Interface TagsUpdateAtScopeOptionalParams has a new optional parameter updateIntervalInMs
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation TagsOperations.createOrUpdateAtScope
+  - Removed operation TagsOperations.deleteAtScope
+  - Removed operation TagsOperations.updateAtScope
+  - Interface DeploymentOperationsListAtManagementGroupScopeNextOptionalParams no longer has parameter top
+  - Interface DeploymentOperationsListAtScopeNextOptionalParams no longer has parameter top
+  - Interface DeploymentOperationsListAtSubscriptionScopeNextOptionalParams no longer has parameter top
+  - Interface DeploymentOperationsListAtTenantScopeNextOptionalParams no longer has parameter top
+  - Interface DeploymentOperationsListNextOptionalParams no longer has parameter top
+  - Interface DeploymentsListAtManagementGroupScopeNextOptionalParams no longer has parameter filter
+  - Interface DeploymentsListAtManagementGroupScopeNextOptionalParams no longer has parameter top
+  - Interface DeploymentsListAtScopeNextOptionalParams no longer has parameter filter
+  - Interface DeploymentsListAtScopeNextOptionalParams no longer has parameter top
+  - Interface DeploymentsListAtSubscriptionScopeNextOptionalParams no longer has parameter filter
+  - Interface DeploymentsListAtSubscriptionScopeNextOptionalParams no longer has parameter top
+  - Interface DeploymentsListAtTenantScopeNextOptionalParams no longer has parameter filter
+  - Interface DeploymentsListAtTenantScopeNextOptionalParams no longer has parameter top
+  - Interface DeploymentsListByResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface DeploymentsListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface ProvidersListAtTenantScopeNextOptionalParams no longer has parameter expand
+  - Interface ProvidersListNextOptionalParams no longer has parameter expand
+  - Interface ResourceGroupsListNextOptionalParams no longer has parameter filter
+  - Interface ResourceGroupsListNextOptionalParams no longer has parameter top
+  - Interface ResourcesListByResourceGroupNextOptionalParams no longer has parameter expand
+  - Interface ResourcesListByResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface ResourcesListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface ResourcesListNextOptionalParams no longer has parameter expand
+  - Interface ResourcesListNextOptionalParams no longer has parameter filter
+  - Interface ResourcesListNextOptionalParams no longer has parameter top
+    
+    
 ## 5.1.0 (2022-11-10)
     
 **Features**
