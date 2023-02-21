@@ -26,7 +26,7 @@ import {
 export interface Pools {
   /**
    * List all capacity pools in the NetApp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -37,7 +37,7 @@ export interface Pools {
   ): PagedAsyncIterableIterator<CapacityPool>;
   /**
    * Get details of the specified capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param options The options parameters.
@@ -50,7 +50,7 @@ export interface Pools {
   ): Promise<PoolsGetResponse>;
   /**
    * Create or Update a capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param body Capacity pool object supplied in the body of the operation.
@@ -70,7 +70,7 @@ export interface Pools {
   >;
   /**
    * Create or Update a capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param body Capacity pool object supplied in the body of the operation.
@@ -85,7 +85,7 @@ export interface Pools {
   ): Promise<PoolsCreateOrUpdateResponse>;
   /**
    * Patch the specified capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param body Capacity pool object supplied in the body of the operation.
@@ -102,7 +102,7 @@ export interface Pools {
   >;
   /**
    * Patch the specified capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param body Capacity pool object supplied in the body of the operation.
@@ -117,7 +117,7 @@ export interface Pools {
   ): Promise<PoolsUpdateResponse>;
   /**
    * Delete the specified capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param options The options parameters.
@@ -130,7 +130,7 @@ export interface Pools {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Delete the specified capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param options The options parameters.

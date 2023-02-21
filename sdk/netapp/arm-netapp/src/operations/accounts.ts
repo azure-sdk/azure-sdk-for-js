@@ -105,7 +105,7 @@ export class AccountsImpl implements Accounts {
 
   /**
    * List and describe all NetApp accounts in the resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public list(
@@ -180,7 +180,7 @@ export class AccountsImpl implements Accounts {
 
   /**
    * List and describe all NetApp accounts in the resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _list(
@@ -195,7 +195,7 @@ export class AccountsImpl implements Accounts {
 
   /**
    * Get the NetApp account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -212,7 +212,7 @@ export class AccountsImpl implements Accounts {
 
   /**
    * Create or update the specified NetApp account within the resource group
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param body NetApp Account object supplied in the body of the operation.
    * @param options The options parameters.
@@ -283,7 +283,7 @@ export class AccountsImpl implements Accounts {
 
   /**
    * Create or update the specified NetApp account within the resource group
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param body NetApp Account object supplied in the body of the operation.
    * @param options The options parameters.
@@ -305,7 +305,7 @@ export class AccountsImpl implements Accounts {
 
   /**
    * Delete the specified NetApp account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -369,7 +369,7 @@ export class AccountsImpl implements Accounts {
 
   /**
    * Delete the specified NetApp account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -388,7 +388,7 @@ export class AccountsImpl implements Accounts {
 
   /**
    * Patch the specified NetApp account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param body NetApp Account object supplied in the body of the operation.
    * @param options The options parameters.
@@ -459,7 +459,7 @@ export class AccountsImpl implements Accounts {
 
   /**
    * Patch the specified NetApp account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param body NetApp Account object supplied in the body of the operation.
    * @param options The options parameters.
@@ -483,7 +483,7 @@ export class AccountsImpl implements Accounts {
    * Renew identity credentials that are used to authenticate to key vault, for customer-managed key
    * encryption. If encryption.identity.principalId does not match identity.principalId, running this
    * operation will fix it.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -549,7 +549,7 @@ export class AccountsImpl implements Accounts {
    * Renew identity credentials that are used to authenticate to key vault, for customer-managed key
    * encryption. If encryption.identity.principalId does not match identity.principalId, running this
    * operation will fix it.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -583,7 +583,7 @@ export class AccountsImpl implements Accounts {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -738,6 +738,7 @@ const renewCredentialsOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/renewCredentials",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

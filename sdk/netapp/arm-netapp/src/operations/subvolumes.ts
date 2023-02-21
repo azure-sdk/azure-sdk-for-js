@@ -48,7 +48,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Returns a list of the subvolumes in the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -150,7 +150,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Returns a list of the subvolumes in the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -171,7 +171,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Returns the path associated with the subvolumeName provided
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -201,7 +201,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -286,7 +286,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -317,7 +317,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Patch a subvolume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -402,7 +402,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Patch a subvolume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -433,7 +433,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Delete subvolume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -510,7 +510,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Delete subvolume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -538,7 +538,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Get details of the specified subvolume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -620,7 +620,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Get details of the specified subvolume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -648,7 +648,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * ListByVolumeNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -743,7 +743,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body27,
+  requestBody: Parameters.body29,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -777,7 +777,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body28,
+  requestBody: Parameters.body30,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

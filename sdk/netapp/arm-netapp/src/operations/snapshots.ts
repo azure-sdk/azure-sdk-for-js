@@ -44,7 +44,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * List all snapshots associated with the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -126,7 +126,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * List all snapshots associated with the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -147,7 +147,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Get details of the specified snapshot
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -177,7 +177,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Create the specified snapshot within the given volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -262,7 +262,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Create the specified snapshot within the given volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -293,7 +293,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Patch a snapshot
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -378,7 +378,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Patch a snapshot
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -409,7 +409,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Delete snapshot
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -486,7 +486,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Delete snapshot
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -514,7 +514,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Restore the specified files from the specified snapshot to the active filesystem
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -593,7 +593,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Restore the specified files from the specified snapshot to the active filesystem
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -689,7 +689,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body15,
+  requestBody: Parameters.body16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -723,7 +723,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body16,
+  requestBody: Parameters.body17,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -760,7 +760,7 @@ const restoreFilesOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots/{snapshotName}/restoreFiles",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.body17,
+  requestBody: Parameters.body18,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

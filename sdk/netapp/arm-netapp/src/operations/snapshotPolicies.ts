@@ -45,7 +45,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
 
   /**
    * List snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -103,7 +103,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
 
   /**
    * List snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -120,7 +120,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
 
   /**
    * Get a snapshot Policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param options The options parameters.
@@ -139,7 +139,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
 
   /**
    * Create a snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param body Snapshot policy object supplied in the body of the operation.
@@ -160,7 +160,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
 
   /**
    * Patch a snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param body Snapshot policy object supplied in the body of the operation.
@@ -233,7 +233,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
 
   /**
    * Patch a snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param body Snapshot policy object supplied in the body of the operation.
@@ -258,7 +258,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
 
   /**
    * Delete snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param options The options parameters.
@@ -324,7 +324,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
 
   /**
    * Delete snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param options The options parameters.
@@ -346,7 +346,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
 
   /**
    * Get volumes associated with snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param options The options parameters.
@@ -420,7 +420,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body18,
+  requestBody: Parameters.body19,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -452,7 +452,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body19,
+  requestBody: Parameters.body20,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

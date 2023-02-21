@@ -41,7 +41,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
 
   /**
    * List all volume groups for given account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -107,7 +107,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
 
   /**
    * List all volume groups for given account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -124,7 +124,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
 
   /**
    * Get details of the specified volume group
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param volumeGroupName The name of the volumeGroup
    * @param options The options parameters.
@@ -143,7 +143,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
 
   /**
    * Create a volume group along with specified volumes
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param volumeGroupName The name of the volumeGroup
    * @param body Volume Group object supplied in the body of the operation.
@@ -215,7 +215,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
 
   /**
    * Create a volume group along with specified volumes
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param volumeGroupName The name of the volumeGroup
    * @param body Volume Group object supplied in the body of the operation.
@@ -240,7 +240,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
 
   /**
    * Delete the specified volume group only if there are no volumes under volume group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param volumeGroupName The name of the volumeGroup
    * @param options The options parameters.
@@ -305,7 +305,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
 
   /**
    * Delete the specified volume group only if there are no volumes under volume group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param volumeGroupName The name of the volumeGroup
    * @param options The options parameters.
@@ -388,7 +388,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body26,
+  requestBody: Parameters.body28,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -28,7 +28,9 @@ import {
   BackupsCreateResponse,
   BackupsUpdateOptionalParams,
   BackupsUpdateResponse,
-  BackupsDeleteOptionalParams
+  BackupsDeleteOptionalParams,
+  BackupRestoreFiles,
+  BackupsRestoreFilesOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,7 +48,7 @@ export class BackupsImpl implements Backups {
 
   /**
    * List all backups for a volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -128,7 +130,7 @@ export class BackupsImpl implements Backups {
 
   /**
    * Get the status of the backup for a volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -149,7 +151,7 @@ export class BackupsImpl implements Backups {
 
   /**
    * Get the status of the restore for a volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -170,7 +172,7 @@ export class BackupsImpl implements Backups {
 
   /**
    * List all backups for a volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -191,7 +193,7 @@ export class BackupsImpl implements Backups {
 
   /**
    * Gets the specified backup of the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -221,7 +223,7 @@ export class BackupsImpl implements Backups {
 
   /**
    * Create a backup for the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -303,7 +305,7 @@ export class BackupsImpl implements Backups {
 
   /**
    * Create a backup for the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -334,7 +336,7 @@ export class BackupsImpl implements Backups {
 
   /**
    * Patch a backup for the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -413,7 +415,7 @@ export class BackupsImpl implements Backups {
 
   /**
    * Patch a backup for the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -441,7 +443,7 @@ export class BackupsImpl implements Backups {
 
   /**
    * Delete a backup of the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -518,7 +520,7 @@ export class BackupsImpl implements Backups {
 
   /**
    * Delete a backup of the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -539,6 +541,117 @@ export class BackupsImpl implements Backups {
       poolName,
       volumeName,
       backupName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Restore the specified files from the specified backup to the active filesystem
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param backupName The name of the backup
+   * @param body Restore payload supplied in the body of the operation.
+   * @param options The options parameters.
+   */
+  async beginRestoreFiles(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    backupName: string,
+    body: BackupRestoreFiles,
+    options?: BackupsRestoreFilesOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        backupName,
+        body,
+        options
+      },
+      restoreFilesOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Restore the specified files from the specified backup to the active filesystem
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param backupName The name of the backup
+   * @param body Restore payload supplied in the body of the operation.
+   * @param options The options parameters.
+   */
+  async beginRestoreFilesAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    backupName: string,
+    body: BackupRestoreFiles,
+    options?: BackupsRestoreFilesOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginRestoreFiles(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      backupName,
+      body,
       options
     );
     return poller.pollUntilDone();
@@ -655,7 +768,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body20,
+  requestBody: Parameters.body21,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -689,7 +802,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body21,
+  requestBody: Parameters.body22,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -719,5 +832,25 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.volumeName,
     Parameters.backupName
   ],
+  serializer
+};
+const restoreFilesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/backups/{backupName}/restoreFiles",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  requestBody: Parameters.body23,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName,
+    Parameters.backupName
+  ],
+  headerParameters: [Parameters.contentType],
+  mediaType: "json",
   serializer
 };

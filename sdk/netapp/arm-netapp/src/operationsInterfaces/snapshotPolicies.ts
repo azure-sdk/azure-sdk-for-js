@@ -28,7 +28,7 @@ import {
 export interface SnapshotPolicies {
   /**
    * List snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -39,7 +39,7 @@ export interface SnapshotPolicies {
   ): PagedAsyncIterableIterator<SnapshotPolicy>;
   /**
    * Get a snapshot Policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param options The options parameters.
@@ -52,7 +52,7 @@ export interface SnapshotPolicies {
   ): Promise<SnapshotPoliciesGetResponse>;
   /**
    * Create a snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param body Snapshot policy object supplied in the body of the operation.
@@ -67,7 +67,7 @@ export interface SnapshotPolicies {
   ): Promise<SnapshotPoliciesCreateResponse>;
   /**
    * Patch a snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param body Snapshot policy object supplied in the body of the operation.
@@ -87,7 +87,7 @@ export interface SnapshotPolicies {
   >;
   /**
    * Patch a snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param body Snapshot policy object supplied in the body of the operation.
@@ -102,7 +102,7 @@ export interface SnapshotPolicies {
   ): Promise<SnapshotPoliciesUpdateResponse>;
   /**
    * Delete snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param options The options parameters.
@@ -115,7 +115,7 @@ export interface SnapshotPolicies {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Delete snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param options The options parameters.
@@ -128,7 +128,7 @@ export interface SnapshotPolicies {
   ): Promise<void>;
   /**
    * Get volumes associated with snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param options The options parameters.

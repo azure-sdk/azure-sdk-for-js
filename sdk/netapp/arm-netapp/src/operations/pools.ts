@@ -46,7 +46,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * List all capacity pools in the NetApp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -122,7 +122,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * List all capacity pools in the NetApp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -139,7 +139,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Get details of the specified capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param options The options parameters.
@@ -158,7 +158,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Create or Update a capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param body Capacity pool object supplied in the body of the operation.
@@ -231,7 +231,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Create or Update a capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param body Capacity pool object supplied in the body of the operation.
@@ -256,7 +256,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Patch the specified capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param body Capacity pool object supplied in the body of the operation.
@@ -326,7 +326,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Patch the specified capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param body Capacity pool object supplied in the body of the operation.
@@ -351,7 +351,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Delete the specified capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param options The options parameters.
@@ -417,7 +417,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Delete the specified capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param options The options parameters.
@@ -439,7 +439,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
