@@ -191,17 +191,17 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.skip,
-    Parameters.apiVersion2,
+    Parameters.apiVersion,
     Parameters.skiptoken,
-    Parameters.filter1,
+    Parameters.filter,
+    Parameters.skip,
     Parameters.top
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.managedInstanceName
   ],
   headerParameters: [Parameters.accept],
@@ -218,9 +218,9 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.managedInstanceName
   ],

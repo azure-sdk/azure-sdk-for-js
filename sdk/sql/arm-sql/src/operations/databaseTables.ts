@@ -236,13 +236,13 @@ const listBySchemaOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2, Parameters.filter1],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.schemaName
   ],
   headerParameters: [Parameters.accept],
@@ -258,13 +258,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.schemaName,
     Parameters.tableName
   ],
@@ -282,10 +282,10 @@ const listBySchemaNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.schemaName
   ],
