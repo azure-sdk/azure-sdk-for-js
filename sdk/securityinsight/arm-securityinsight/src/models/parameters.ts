@@ -17,16 +17,19 @@ import {
   AutomationRule as AutomationRuleMapper,
   ManualTriggerRequestBody as ManualTriggerRequestBodyMapper,
   Incident as IncidentMapper,
-  TeamProperties as TeamPropertiesMapper,
+  TeamInformation as TeamInformationMapper,
   Bookmark as BookmarkMapper,
   Relation as RelationMapper,
   BookmarkExpandParameters as BookmarkExpandParametersMapper,
+  PackageInstallationProperties as PackageInstallationPropertiesMapper,
+  TemplateProperties as TemplatePropertiesMapper,
   EntityExpandParameters as EntityExpandParametersMapper,
   EntityGetInsightsParameters as EntityGetInsightsParametersMapper,
   EntityTimelineParameters as EntityTimelineParametersMapper,
   CustomEntityQuery as CustomEntityQueryMapper,
   FileImport as FileImportMapper,
   IncidentComment as IncidentCommentMapper,
+  IncidentTask as IncidentTaskMapper,
   MetadataModel as MetadataModelMapper,
   MetadataPatch as MetadataPatchMapper,
   SentinelOnboardingState as SentinelOnboardingStateMapper,
@@ -36,6 +39,7 @@ import {
   ThreatIntelligenceIndicatorModel as ThreatIntelligenceIndicatorModelMapper,
   ThreatIntelligenceFilteringCriteria as ThreatIntelligenceFilteringCriteriaMapper,
   ThreatIntelligenceAppendTags as ThreatIntelligenceAppendTagsMapper,
+  AnalyticsRuleRunTrigger as AnalyticsRuleRunTriggerMapper,
   Watchlist as WatchlistMapper,
   WatchlistItem as WatchlistItemMapper,
   DataConnector as DataConnectorMapper,
@@ -70,7 +74,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-01-preview",
+    defaultValue: "2023-03-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -112,6 +116,7 @@ export const workspaceName: OperationURLParameter = {
   parameterPath: "workspaceName",
   mapper: {
     constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"),
       MaxLength: 90,
       MinLength: 1
     },
@@ -280,7 +285,7 @@ export const incident: OperationParameter = {
 
 export const teamProperties: OperationParameter = {
   parameterPath: "teamProperties",
-  mapper: TeamPropertiesMapper
+  mapper: TeamInformationMapper
 };
 
 export const bookmarkId: OperationURLParameter = {
@@ -318,6 +323,38 @@ export const relation: OperationParameter = {
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
   mapper: BookmarkExpandParametersMapper
+};
+
+export const packageId: OperationURLParameter = {
+  parameterPath: "packageId",
+  mapper: {
+    serializedName: "packageId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const packageInstallationProperties: OperationParameter = {
+  parameterPath: "packageInstallationProperties",
+  mapper: PackageInstallationPropertiesMapper
+};
+
+export const templateId: OperationURLParameter = {
+  parameterPath: "templateId",
+  mapper: {
+    serializedName: "templateId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const templateInstallationProperties: OperationParameter = {
+  parameterPath: "templateInstallationProperties",
+  mapper: TemplatePropertiesMapper
 };
 
 export const ipAddress: OperationQueryParameter = {
@@ -460,6 +497,22 @@ export const incidentComment: OperationParameter = {
   mapper: IncidentCommentMapper
 };
 
+export const incidentTaskId: OperationURLParameter = {
+  parameterPath: "incidentTaskId",
+  mapper: {
+    serializedName: "incidentTaskId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const incidentTask: OperationParameter = {
+  parameterPath: "incidentTask",
+  mapper: IncidentTaskMapper
+};
+
 export const skip: OperationQueryParameter = {
   parameterPath: ["options", "skip"],
   mapper: {
@@ -516,6 +569,34 @@ export const sentinelOnboardingStateName: OperationURLParameter = {
 export const sentinelOnboardingStateParameter: OperationParameter = {
   parameterPath: ["options", "sentinelOnboardingStateParameter"],
   mapper: SentinelOnboardingStateMapper
+};
+
+export const recommendationId: OperationURLParameter = {
+  parameterPath: "recommendationId",
+  mapper: {
+    serializedName: "recommendationId",
+    required: true,
+    type: {
+      name: "Uuid"
+    }
+  }
+};
+
+export const recommendationPatch: OperationParameter = {
+  parameterPath: "recommendationPatch",
+  mapper: {
+    serializedName: "recommendationPatch",
+    required: true,
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "Composite",
+          className: "RecommendationPatch"
+        }
+      }
+    }
+  }
 };
 
 export const settingsResourceName: OperationURLParameter = {
@@ -606,6 +687,22 @@ export const threatIntelligenceAppendTags: OperationParameter = {
 export const threatIntelligenceReplaceTags: OperationParameter = {
   parameterPath: "threatIntelligenceReplaceTags",
   mapper: ThreatIntelligenceIndicatorModelMapper
+};
+
+export const ruleRunId: OperationURLParameter = {
+  parameterPath: "ruleRunId",
+  mapper: {
+    serializedName: "ruleRunId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const analyticsRuleRunTriggerParameter: OperationParameter = {
+  parameterPath: "analyticsRuleRunTriggerParameter",
+  mapper: AnalyticsRuleRunTriggerMapper
 };
 
 export const watchlistAlias: OperationURLParameter = {
