@@ -3984,7 +3984,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230216
+      typescript: 5.0.0-dev.20230220
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8698,8 +8698,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230216:
-    resolution: {integrity: sha512-yeZZGWiNc5pbGg4J/bgN7vq2Lrs4YTNzhG5dv8owIe1PyYX4tMDla8NnXipy9h4Cmw6+DQA8FG9XZbymgmzSbA==}
+  /typescript/5.0.0-dev.20230220:
+    resolution: {integrity: sha512-Mz8+qrRqafbke4GCbwkWfbQ7oVUOvySQyt6kv0qoxl1fGKsIMqG/WB+w3zrjeUM9koD8/Tybpi9AGmlz665tEA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -13968,15 +13968,15 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservicesbackup.tgz:
-    resolution: {integrity: sha512-Ud5XgJpsZBq5vtmnlseRPAZJyuySlBBzMClfqQBtsu+dT7yoIkp4G9rEcz/Df/AVxmXxJkD4Xkpnynndio88HQ==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
+    resolution: {integrity: sha512-ujbREIL2OAvAl4obLe3bLdX5pWVhmoIotgheSrxKlwDSXlt1gfgiOPSpHziRnuORPeetdSjiSbRXLRrZIzSl2w==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
     name: '@rush-temp/arm-recoveryservicesbackup'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.36
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
