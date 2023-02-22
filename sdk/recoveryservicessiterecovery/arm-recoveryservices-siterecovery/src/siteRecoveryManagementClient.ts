@@ -161,7 +161,7 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-10-01";
+    this.apiVersion = options.apiVersion || "2023-01-01";
     this.operations = new OperationsImpl(this);
     this.replicationAlertSettings = new ReplicationAlertSettingsImpl(this);
     this.replicationAppliances = new ReplicationAppliancesImpl(this);
