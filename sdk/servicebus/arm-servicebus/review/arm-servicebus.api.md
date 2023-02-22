@@ -630,6 +630,7 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends ProxyResource {
+    groupIds?: string[];
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: ConnectionState;
     provisioningState?: EndPointProvisioningState;
@@ -963,7 +964,7 @@ export interface SBNamespaceUpdateParameters extends ResourceNamespacePatch {
     encryption?: Encryption;
     identity?: Identity;
     readonly metricId?: string;
-    privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
     readonly serviceBusEndpoint?: string;
     sku?: SBSku;

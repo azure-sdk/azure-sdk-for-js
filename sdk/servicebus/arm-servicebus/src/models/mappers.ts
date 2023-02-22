@@ -1328,6 +1328,17 @@ export const PrivateEndpointConnection: coreClient.CompositeMapper = {
           className: "ConnectionState"
         }
       },
+      groupIds: {
+        serializedName: "properties.groupIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         type: {
@@ -2281,6 +2292,7 @@ export const SBNamespaceUpdateParameters: coreClient.CompositeMapper = {
       },
       privateEndpointConnections: {
         serializedName: "properties.privateEndpointConnections",
+        readOnly: true,
         type: {
           name: "Sequence",
           element: {

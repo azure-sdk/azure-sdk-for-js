@@ -550,6 +550,8 @@ export interface PrivateEndpointConnection extends ProxyResource {
   privateEndpoint?: PrivateEndpoint;
   /** Details about the state of the connection. */
   privateLinkServiceConnectionState?: ConnectionState;
+  /** Gets the groupIds. */
+  groupIds?: string[];
   /** Provisioning state of the Private Endpoint Connection. */
   provisioningState?: EndPointProvisioningState;
 }
@@ -967,8 +969,11 @@ export interface SBNamespaceUpdateParameters extends ResourceNamespacePatch {
   readonly metricId?: string;
   /** Properties of BYOK Encryption description */
   encryption?: Encryption;
-  /** List of private endpoint connections. */
-  privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * List of private endpoint connections.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /** This property disables SAS authentication for the Service Bus namespace. */
   disableLocalAuth?: boolean;
   /** Alternate name for namespace */
