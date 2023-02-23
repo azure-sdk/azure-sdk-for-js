@@ -8,26 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Operations } from "../operationsInterfaces";
+import { OperationsResult } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ConsumptionManagementClient } from "../consumptionManagementClient";
 import {
-  Operation,
-  OperationsListNextOptionalParams,
-  OperationsListOptionalParams,
-  OperationsListResponse,
-  OperationsListNextResponse
+  OperationV2,
+  OperationsResultListNextOptionalParams,
+  OperationsResultListOptionalParams,
+  OperationsResultListResponse,
+  OperationsResultListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Operations operations. */
-export class OperationsImpl implements Operations {
+/** Class containing OperationsResult operations. */
+export class OperationsResultImpl implements OperationsResult {
   private readonly client: ConsumptionManagementClient;
 
   /**
-   * Initialize a new instance of the class Operations class.
+   * Initialize a new instance of the class OperationsResult class.
    * @param client Reference to the service client
    */
   constructor(client: ConsumptionManagementClient) {
@@ -39,8 +39,8 @@ export class OperationsImpl implements Operations {
    * @param options The options parameters.
    */
   public list(
-    options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<Operation> {
+    options?: OperationsResultListOptionalParams
+  ): PagedAsyncIterableIterator<OperationV2> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -59,10 +59,10 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingPage(
-    options?: OperationsListOptionalParams,
+    options?: OperationsResultListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Operation[]> {
-    let result: OperationsListResponse;
+  ): AsyncIterableIterator<OperationV2[]> {
+    let result: OperationsResultListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
@@ -81,8 +81,8 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingAll(
-    options?: OperationsListOptionalParams
-  ): AsyncIterableIterator<Operation> {
+    options?: OperationsResultListOptionalParams
+  ): AsyncIterableIterator<OperationV2> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
@@ -93,8 +93,8 @@ export class OperationsImpl implements Operations {
    * @param options The options parameters.
    */
   private _list(
-    options?: OperationsListOptionalParams
-  ): Promise<OperationsListResponse> {
+    options?: OperationsResultListOptionalParams
+  ): Promise<OperationsResultListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -105,8 +105,8 @@ export class OperationsImpl implements Operations {
    */
   private _listNext(
     nextLink: string,
-    options?: OperationsListNextOptionalParams
-  ): Promise<OperationsListNextResponse> {
+    options?: OperationsResultListNextOptionalParams
+  ): Promise<OperationsResultListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
@@ -121,7 +121,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.OperationListResultV2
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -137,7 +137,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.OperationListResultV2
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

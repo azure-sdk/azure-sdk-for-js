@@ -14,67 +14,25 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import {
-  UsageDetailsImpl,
-  MarketplacesImpl,
-  BudgetsImpl,
-  TagsImpl,
-  ChargesImpl,
-  BalancesImpl,
-  ReservationsSummariesImpl,
-  ReservationsDetailsImpl,
-  ReservationRecommendationsImpl,
-  ReservationRecommendationDetailsImpl,
-  ReservationTransactionsImpl,
-  PriceSheetImpl,
-  OperationsImpl,
-  AggregatedCostImpl,
-  EventsOperationsImpl,
-  LotsOperationsImpl,
-  CreditsImpl
-} from "./operations";
-import {
-  UsageDetails,
-  Marketplaces,
-  Budgets,
-  Tags,
-  Charges,
-  Balances,
-  ReservationsSummaries,
-  ReservationsDetails,
-  ReservationRecommendations,
-  ReservationRecommendationDetails,
-  ReservationTransactions,
-  PriceSheet,
-  Operations,
-  AggregatedCost,
-  EventsOperations,
-  LotsOperations,
-  Credits
-} from "./operationsInterfaces";
+import { PriceSheetsImpl, OperationsResultImpl } from "./operations";
+import { PriceSheets, OperationsResult } from "./operationsInterfaces";
 import { ConsumptionManagementClientOptionalParams } from "./models";
 
 export class ConsumptionManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
 
   /**
    * Initializes a new instance of the ConsumptionManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Azure Subscription ID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
-    subscriptionId: string,
     options?: ConsumptionManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
-    }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
     }
 
     // Initializing default values for options
@@ -86,7 +44,7 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-consumption/9.2.1`;
+    const packageDetails = `azsdk-js-arm-consumption/10.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -134,31 +92,12 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
         })
       );
     }
-    // Parameter assignments
-    this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-10-01";
-    this.usageDetails = new UsageDetailsImpl(this);
-    this.marketplaces = new MarketplacesImpl(this);
-    this.budgets = new BudgetsImpl(this);
-    this.tags = new TagsImpl(this);
-    this.charges = new ChargesImpl(this);
-    this.balances = new BalancesImpl(this);
-    this.reservationsSummaries = new ReservationsSummariesImpl(this);
-    this.reservationsDetails = new ReservationsDetailsImpl(this);
-    this.reservationRecommendations = new ReservationRecommendationsImpl(this);
-    this.reservationRecommendationDetails = new ReservationRecommendationDetailsImpl(
-      this
-    );
-    this.reservationTransactions = new ReservationTransactionsImpl(this);
-    this.priceSheet = new PriceSheetImpl(this);
-    this.operations = new OperationsImpl(this);
-    this.aggregatedCost = new AggregatedCostImpl(this);
-    this.eventsOperations = new EventsOperationsImpl(this);
-    this.lotsOperations = new LotsOperationsImpl(this);
-    this.credits = new CreditsImpl(this);
+    this.apiVersion = options.apiVersion || "2023-03-01";
+    this.priceSheets = new PriceSheetsImpl(this);
+    this.operationsResult = new OperationsResultImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -190,21 +129,6 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  usageDetails: UsageDetails;
-  marketplaces: Marketplaces;
-  budgets: Budgets;
-  tags: Tags;
-  charges: Charges;
-  balances: Balances;
-  reservationsSummaries: ReservationsSummaries;
-  reservationsDetails: ReservationsDetails;
-  reservationRecommendations: ReservationRecommendations;
-  reservationRecommendationDetails: ReservationRecommendationDetails;
-  reservationTransactions: ReservationTransactions;
-  priceSheet: PriceSheet;
-  operations: Operations;
-  aggregatedCost: AggregatedCost;
-  eventsOperations: EventsOperations;
-  lotsOperations: LotsOperations;
-  credits: Credits;
+  priceSheets: PriceSheets;
+  operationsResult: OperationsResult;
 }

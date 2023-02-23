@@ -1,15 +1,85 @@
 # Release History
+    
+## 10.0.0 (2023-02-23)
+    
+**Features**
 
-## 9.2.1 (Unreleased)
+  - Added operation group OperationsResult
+  - Added operation group PriceSheets
+  - Added Interface MeterDetailsV2
+  - Added Interface OperationListResultV2
+  - Added Interface OperationsResultListNextOptionalParams
+  - Added Interface OperationsResultListOptionalParams
+  - Added Interface OperationV2
+  - Added Interface OperationV2Display
+  - Added Interface PriceSheetPropertiesV2
+  - Added Interface PriceSheetResultV2
+  - Added Interface PriceSheetsGetByBillingPeriodOptionalParams
+  - Added Interface PriceSheetsGetOptionalParams
+  - Added Type Alias OperationsResultListNextResponse
+  - Added Type Alias OperationsResultListResponse
+  - Added Type Alias PriceSheetsGetByBillingPeriodResponse
+  - Added Type Alias PriceSheetsGetResponse
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group AggregatedCost
+  - Removed operation group Balances
+  - Removed operation group Budgets
+  - Removed operation group Charges
+  - Removed operation group Credits
+  - Removed operation group EventsOperations
+  - Removed operation group LotsOperations
+  - Removed operation group Marketplaces
+  - Removed operation group Operations
+  - Removed operation group PriceSheet
+  - Removed operation group ReservationRecommendationDetails
+  - Removed operation group ReservationRecommendations
+  - Removed operation group ReservationsDetails
+  - Removed operation group ReservationsSummaries
+  - Removed operation group ReservationTransactions
+  - Removed operation group Tags
+  - Removed operation group UsageDetails
+  - Class ConsumptionManagementClient has a new signature
+  - Class ConsumptionManagementClient no longer has parameter aggregatedCost
+  - Class ConsumptionManagementClient no longer has parameter balances
+  - Class ConsumptionManagementClient no longer has parameter budgets
+  - Class ConsumptionManagementClient no longer has parameter charges
+  - Class ConsumptionManagementClient no longer has parameter credits
+  - Class ConsumptionManagementClient no longer has parameter eventsOperations
+  - Class ConsumptionManagementClient no longer has parameter lotsOperations
+  - Class ConsumptionManagementClient no longer has parameter marketplaces
+  - Class ConsumptionManagementClient no longer has parameter operations
+  - Class ConsumptionManagementClient no longer has parameter priceSheet
+  - Class ConsumptionManagementClient no longer has parameter reservationRecommendationDetails
+  - Class ConsumptionManagementClient no longer has parameter reservationRecommendations
+  - Class ConsumptionManagementClient no longer has parameter reservationsDetails
+  - Class ConsumptionManagementClient no longer has parameter reservationsSummaries
+  - Class ConsumptionManagementClient no longer has parameter reservationTransactions
+  - Class ConsumptionManagementClient no longer has parameter subscriptionId
+  - Class ConsumptionManagementClient no longer has parameter tags
+  - Class ConsumptionManagementClient no longer has parameter usageDetails
+  - Removed Enum KnownBillingFrequency
+  - Removed Enum KnownBudgetOperatorType
+  - Removed Enum KnownCategoryType
+  - Removed Enum KnownChargeSummaryKind
+  - Removed Enum KnownCultureCode
+  - Removed Enum KnownDatagrain
+  - Removed Enum KnownEventType
+  - Removed Enum KnownLookBackPeriod
+  - Removed Enum KnownLotSource
+  - Removed Enum KnownMetrictype
+  - Removed Enum KnownOperatorType
+  - Removed Enum KnownPricingModelType
+  - Removed Enum KnownReservationRecommendationKind
+  - Removed Enum KnownScope
+  - Removed Enum KnownStatus
+  - Removed Enum KnownTerm
+  - Removed Enum KnownThresholdType
+  - Removed Enum KnownTimeGrainType
+  - Removed Enum KnownUsageDetailsKind
+    
+    
 ## 9.2.0 (2023-01-03)
     
 **Features**

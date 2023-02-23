@@ -6,24 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PriceSheet } from "../operationsInterfaces";
+import { PriceSheets } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ConsumptionManagementClient } from "../consumptionManagementClient";
 import {
-  PriceSheetGetOptionalParams,
-  PriceSheetGetResponse,
-  PriceSheetGetByBillingPeriodOptionalParams,
-  PriceSheetGetByBillingPeriodResponse
+  PriceSheetsGetOptionalParams,
+  PriceSheetsGetResponse,
+  PriceSheetsGetByBillingPeriodOptionalParams,
+  PriceSheetsGetByBillingPeriodResponse
 } from "../models";
 
-/** Class containing PriceSheet operations. */
-export class PriceSheetImpl implements PriceSheet {
+/** Class containing PriceSheets operations. */
+export class PriceSheetsImpl implements PriceSheets {
   private readonly client: ConsumptionManagementClient;
 
   /**
-   * Initialize a new instance of the class PriceSheet class.
+   * Initialize a new instance of the class PriceSheets class.
    * @param client Reference to the service client
    */
   constructor(client: ConsumptionManagementClient) {
@@ -31,26 +31,35 @@ export class PriceSheetImpl implements PriceSheet {
   }
 
   /**
-   * Gets the price sheet for a subscription. Price sheet is available via this API only for May 1, 2014
+   * List the price sheet for a subscription. Price sheet is available via this API only for May 1, 2014
    * or later.
+   * @param subscriptionId Azure Subscription ID.
    * @param options The options parameters.
    */
-  get(options?: PriceSheetGetOptionalParams): Promise<PriceSheetGetResponse> {
-    return this.client.sendOperationRequest({ options }, getOperationSpec);
+  get(
+    subscriptionId: string,
+    options?: PriceSheetsGetOptionalParams
+  ): Promise<PriceSheetsGetResponse> {
+    return this.client.sendOperationRequest(
+      { subscriptionId, options },
+      getOperationSpec
+    );
   }
 
   /**
    * Get the price sheet for a scope by subscriptionId and billing period. Price sheet is available via
    * this API only for May 1, 2014 or later.
+   * @param subscriptionId Azure Subscription ID.
    * @param billingPeriodName Billing Period Name.
    * @param options The options parameters.
    */
   getByBillingPeriod(
+    subscriptionId: string,
     billingPeriodName: string,
-    options?: PriceSheetGetByBillingPeriodOptionalParams
-  ): Promise<PriceSheetGetByBillingPeriodResponse> {
+    options?: PriceSheetsGetByBillingPeriodOptionalParams
+  ): Promise<PriceSheetsGetByBillingPeriodResponse> {
     return this.client.sendOperationRequest(
-      { billingPeriodName, options },
+      { subscriptionId, billingPeriodName, options },
       getByBillingPeriodOperationSpec
     );
   }
@@ -64,7 +73,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PriceSheetResult
+      bodyMapper: Mappers.PriceSheetResultV2
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -86,7 +95,7 @@ const getByBillingPeriodOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PriceSheetResult
+      bodyMapper: Mappers.PriceSheetResultV2
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -100,8 +109,8 @@ const getByBillingPeriodOperationSpec: coreClient.OperationSpec = {
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.billingPeriodName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.billingPeriodName
   ],
   headerParameters: [Parameters.accept],
   serializer
