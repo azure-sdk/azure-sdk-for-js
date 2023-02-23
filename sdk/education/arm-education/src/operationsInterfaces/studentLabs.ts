@@ -26,7 +26,7 @@ export interface StudentLabs {
   ): PagedAsyncIterableIterator<StudentLabDetails>;
   /**
    * Get the details for a specified lab associated with the student lab.
-   * @param studentLabName Student lab name.
+   * @param studentLabName The ID that uniquely identifies a student lab.
    * @param options The options parameters.
    */
   get(

@@ -21,9 +21,9 @@ import {
 export interface JoinRequests {
   /**
    * get student join requests
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
    * @param options The options parameters.
    */
   list(
@@ -34,10 +34,10 @@ export interface JoinRequests {
   ): PagedAsyncIterableIterator<JoinRequestDetails>;
   /**
    * get student join requests
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
-   * @param joinRequestName Join name
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param joinRequestName The ID that uniquely identifies a join request.
    * @param options The options parameters.
    */
   get(
@@ -49,10 +49,10 @@ export interface JoinRequests {
   ): Promise<JoinRequestsGetResponse>;
   /**
    * Approve student joining the redeemable lab
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
-   * @param joinRequestName Join name
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param joinRequestName The ID that uniquely identifies a join request.
    * @param options The options parameters.
    */
   approve(
@@ -64,10 +64,10 @@ export interface JoinRequests {
   ): Promise<void>;
   /**
    * Deny student joining the redeemable lab
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
-   * @param joinRequestName Join name
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param joinRequestName The ID that uniquely identifies a join request.
    * @param options The options parameters.
    */
   deny(

@@ -48,8 +48,8 @@ export class LabsImpl implements Labs {
 
   /**
    * Get a list of labs associated with the provided billing account name and billing profile name.
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param options The options parameters.
    */
   public listAll(
@@ -133,9 +133,9 @@ export class LabsImpl implements Labs {
   /**
    * Get the details for a specific lab associated with the provided billing account name, billing
    * profile name, and invoice section name.
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
    * @param options The options parameters.
    */
   public list(
@@ -226,8 +226,8 @@ export class LabsImpl implements Labs {
 
   /**
    * Get a list of labs associated with the provided billing account name and billing profile name.
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param options The options parameters.
    */
   private _listAll(
@@ -244,9 +244,9 @@ export class LabsImpl implements Labs {
   /**
    * Get the details for a specific lab associated with the provided billing account name, billing
    * profile name, and invoice section name.
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
    * @param options The options parameters.
    */
   private _list(
@@ -264,9 +264,9 @@ export class LabsImpl implements Labs {
   /**
    * Get the details for a specific lab associated with the provided billing account name, billing
    * profile name, and invoice section name.
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
    * @param options The options parameters.
    */
   get(
@@ -284,9 +284,9 @@ export class LabsImpl implements Labs {
   /**
    * Delete a specific lab associated with the provided billing account name, billing profile name, and
    * invoice section name. Note all students must be removed from the lab in order to delete the lab.
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
    * @param options The options parameters.
    */
   delete(
@@ -303,9 +303,9 @@ export class LabsImpl implements Labs {
 
   /**
    * Create a new lab or update a previously created lab.
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
    * @param parameters Request parameters that are provided to create lab resource.
    * @param options The options parameters.
    */
@@ -330,9 +330,9 @@ export class LabsImpl implements Labs {
 
   /**
    * Generate invite code for a lab
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
    * @param parameters Request parameters that are provided to generate invite code.
    * @param options The options parameters.
    */
@@ -357,8 +357,8 @@ export class LabsImpl implements Labs {
 
   /**
    * ListAllNext
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param nextLink The nextLink from the previous successful call to the ListAll method.
    * @param options The options parameters.
    */
@@ -376,9 +376,9 @@ export class LabsImpl implements Labs {
 
   /**
    * ListNext
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
