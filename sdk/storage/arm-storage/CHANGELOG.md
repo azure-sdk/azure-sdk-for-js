@@ -1,15 +1,22 @@
 # Release History
+    
+## 19.0.0 (2023-02-24)
+    
+**Breaking Changes**
 
-## 18.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface BlobContainersListNextOptionalParams no longer has parameter filter
+  - Interface BlobContainersListNextOptionalParams no longer has parameter include
+  - Interface BlobContainersListNextOptionalParams no longer has parameter maxpagesize
+  - Interface EncryptionScopesListNextOptionalParams no longer has parameter filter
+  - Interface EncryptionScopesListNextOptionalParams no longer has parameter include
+  - Interface EncryptionScopesListNextOptionalParams no longer has parameter maxpagesize
+  - Interface FileSharesListNextOptionalParams no longer has parameter expand
+  - Interface FileSharesListNextOptionalParams no longer has parameter filter
+  - Interface FileSharesListNextOptionalParams no longer has parameter maxpagesize
+  - Interface QueueListNextOptionalParams no longer has parameter filter
+  - Interface QueueListNextOptionalParams no longer has parameter maxpagesize
+    
+    
 ## 18.1.0 (2022-11-24)
     
 **Features**

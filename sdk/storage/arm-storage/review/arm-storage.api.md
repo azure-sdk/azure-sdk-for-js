@@ -209,9 +209,6 @@ export type BlobContainersLeaseResponse = LeaseContainerResponse;
 
 // @public
 export interface BlobContainersListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    include?: ListContainersInclude;
-    maxpagesize?: string;
 }
 
 // @public
@@ -604,9 +601,6 @@ export type EncryptionScopesGetResponse = EncryptionScope;
 
 // @public
 export interface EncryptionScopesListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    include?: ListEncryptionScopesInclude;
-    maxpagesize?: number;
 }
 
 // @public
@@ -837,9 +831,6 @@ export type FileSharesLeaseResponse = FileSharesLeaseHeaders & LeaseShareRespons
 
 // @public
 export interface FileSharesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    maxpagesize?: string;
 }
 
 // @public
@@ -1983,8 +1974,6 @@ export type QueueGetResponse = StorageQueue;
 
 // @public
 export interface QueueListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    maxpagesize?: string;
 }
 
 // @public
