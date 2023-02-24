@@ -216,6 +216,24 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
   }
 
   /**
+   * Lists a server trust group.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param locationName The name of the region where the resource is located.
+   * @param options The options parameters.
+   */
+  private _listByLocation(
+    resourceGroupName: string,
+    locationName: string,
+    options?: ServerTrustGroupsListByLocationOptionalParams
+  ): Promise<ServerTrustGroupsListByLocationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, locationName, options },
+      listByLocationOperationSpec
+    );
+  }
+
+  /**
    * Gets a server trust group.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -430,24 +448,6 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
   }
 
   /**
-   * Lists a server trust group.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param locationName The name of the region where the resource is located.
-   * @param options The options parameters.
-   */
-  private _listByLocation(
-    resourceGroupName: string,
-    locationName: string,
-    options?: ServerTrustGroupsListByLocationOptionalParams
-  ): Promise<ServerTrustGroupsListByLocationResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, locationName, options },
-      listByLocationOperationSpec
-    );
-  }
-
-  /**
    * Gets a server trust groups by instance name.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -508,6 +508,26 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByLocationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/serverTrustGroups",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ServerTrustGroupListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.locationName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/serverTrustGroups/{serverTrustGroupName}",
@@ -518,11 +538,11 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.locationName,
     Parameters.serverTrustGroupName
   ],
@@ -548,12 +568,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters65,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters88,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.locationName,
     Parameters.serverTrustGroupName
   ],
@@ -566,34 +586,14 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/serverTrustGroups/{serverTrustGroupName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.locationName,
     Parameters.serverTrustGroupName
   ],
-  serializer
-};
-const listByLocationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/serverTrustGroups",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ServerTrustGroupListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.locationName
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listByInstanceOperationSpec: coreClient.OperationSpec = {
@@ -606,11 +606,11 @@ const listByInstanceOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.managedInstanceName
   ],
   headerParameters: [Parameters.accept],
@@ -627,8 +627,8 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.locationName
   ],
@@ -646,8 +646,8 @@ const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.managedInstanceName
   ],

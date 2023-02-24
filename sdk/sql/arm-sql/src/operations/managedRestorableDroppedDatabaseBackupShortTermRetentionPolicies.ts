@@ -139,6 +139,33 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
   }
 
   /**
+   * Gets a dropped database's short term retention policy list.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param restorableDroppedDatabaseId
+   * @param options The options parameters.
+   */
+  private _listByRestorableDroppedDatabase(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    restorableDroppedDatabaseId: string,
+    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseOptionalParams
+  ): Promise<
+    ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseResponse
+  > {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        managedInstanceName,
+        restorableDroppedDatabaseId,
+        options
+      },
+      listByRestorableDroppedDatabaseOperationSpec
+    );
+  }
+
+  /**
    * Gets a dropped database's short term retention policy.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -399,33 +426,6 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
   }
 
   /**
-   * Gets a dropped database's short term retention policy list.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
-   * @param restorableDroppedDatabaseId
-   * @param options The options parameters.
-   */
-  private _listByRestorableDroppedDatabase(
-    resourceGroupName: string,
-    managedInstanceName: string,
-    restorableDroppedDatabaseId: string,
-    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseOptionalParams
-  ): Promise<
-    ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseResponse
-  > {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        managedInstanceName,
-        restorableDroppedDatabaseId,
-        options
-      },
-      listByRestorableDroppedDatabaseOperationSpec
-    );
-  }
-
-  /**
    * ListByRestorableDroppedDatabaseNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -459,6 +459,27 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByRestorableDroppedDatabaseOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicyListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.managedInstanceName,
+    Parameters.restorableDroppedDatabaseId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies/{policyName}",
@@ -469,13 +490,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.managedInstanceName,
-    Parameters.policyName1,
+    Parameters.policyName2,
     Parameters.restorableDroppedDatabaseId
   ],
   headerParameters: [Parameters.accept],
@@ -500,14 +521,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters38,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters47,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.managedInstanceName,
-    Parameters.policyName1,
+    Parameters.policyName2,
     Parameters.restorableDroppedDatabaseId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -533,39 +554,18 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters38,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters47,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.managedInstanceName,
-    Parameters.policyName1,
+    Parameters.policyName2,
     Parameters.restorableDroppedDatabaseId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const listByRestorableDroppedDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicyListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managedInstanceName,
-    Parameters.restorableDroppedDatabaseId
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listByRestorableDroppedDatabaseNextOperationSpec: coreClient.OperationSpec = {
@@ -579,8 +579,8 @@ const listByRestorableDroppedDatabaseNextOperationSpec: coreClient.OperationSpec
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.managedInstanceName,
     Parameters.restorableDroppedDatabaseId

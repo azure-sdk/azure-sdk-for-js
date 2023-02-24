@@ -8,39 +8,39 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  ServiceObjective,
-  ServiceObjectivesListByServerOptionalParams,
-  ServiceObjectivesGetOptionalParams,
-  ServiceObjectivesGetResponse
+  ManagedDatabaseMoveOperationResult,
+  ManagedDatabaseMoveOperationsListByLocationOptionalParams,
+  ManagedDatabaseMoveOperationsGetOptionalParams,
+  ManagedDatabaseMoveOperationsGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a ServiceObjectives. */
-export interface ServiceObjectives {
+/** Interface representing a ManagedDatabaseMoveOperations. */
+export interface ManagedDatabaseMoveOperations {
   /**
-   * Returns database service objectives.
+   * Lists managed database move operations.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
+   * @param locationName
    * @param options The options parameters.
    */
-  listByServer(
+  listByLocation(
     resourceGroupName: string,
-    serverName: string,
-    options?: ServiceObjectivesListByServerOptionalParams
-  ): PagedAsyncIterableIterator<ServiceObjective>;
+    locationName: string,
+    options?: ManagedDatabaseMoveOperationsListByLocationOptionalParams
+  ): PagedAsyncIterableIterator<ManagedDatabaseMoveOperationResult>;
   /**
-   * Gets a database service objective.
+   * Gets a managed database move operation.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param serviceObjectiveName The name of the service objective to retrieve.
+   * @param locationName
+   * @param operationId
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    serverName: string,
-    serviceObjectiveName: string,
-    options?: ServiceObjectivesGetOptionalParams
-  ): Promise<ServiceObjectivesGetResponse>;
+    locationName: string,
+    operationId: string,
+    options?: ManagedDatabaseMoveOperationsGetOptionalParams
+  ): Promise<ManagedDatabaseMoveOperationsGetResponse>;
 }
