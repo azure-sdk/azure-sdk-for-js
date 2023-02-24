@@ -23,3 +23,5 @@ export * from "./aggregatedCost";
 export * from "./eventsOperations";
 export * from "./lotsOperations";
 export * from "./credits";
+export * from "./priceSheets";
+export * from "./operationsResult";
