@@ -155,17 +155,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skiptoken,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.select,
-    Parameters.search,
-    Parameters.view,
-    Parameters.groupName
-  ],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept, Parameters.cacheControl],
   serializer

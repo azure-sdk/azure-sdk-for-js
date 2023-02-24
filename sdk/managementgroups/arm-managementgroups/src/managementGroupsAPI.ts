@@ -67,7 +67,7 @@ export class ManagementGroupsAPI extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-managementgroups/2.0.3`;
+    const packageDetails = `azsdk-js-arm-managementgroups/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

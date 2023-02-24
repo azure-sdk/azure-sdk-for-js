@@ -301,7 +301,6 @@ const getSubscriptionsUnderManagementGroupNextOperationSpec: coreClient.Operatio
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
   urlParameters: [Parameters.$host, Parameters.groupId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
