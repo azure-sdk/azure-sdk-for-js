@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   IntegrationRuntimeResource,
   IntegrationRuntimesListByFactoryOptionalParams,
@@ -198,8 +198,8 @@ export interface IntegrationRuntimes {
     integrationRuntimeName: string,
     options?: IntegrationRuntimesStartOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<IntegrationRuntimesStartResponse>,
+    PollerLike<
+      PollOperationState<IntegrationRuntimesStartResponse>,
       IntegrationRuntimesStartResponse
     >
   >;
@@ -228,7 +228,7 @@ export interface IntegrationRuntimes {
     factoryName: string,
     integrationRuntimeName: string,
     options?: IntegrationRuntimesStopOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Stops a ManagedReserved type integration runtime.
    * @param resourceGroupName The resource group name.
