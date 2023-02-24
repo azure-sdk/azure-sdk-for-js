@@ -21,16 +21,8 @@ import {
   ActionGroupsUpdateOptionalParams,
   ActionGroupsUpdateResponse,
   NotificationRequestBody,
-  ActionGroupsPostTestNotificationsOptionalParams,
-  ActionGroupsPostTestNotificationsResponse,
-  ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams,
-  ActionGroupsCreateNotificationsAtResourceGroupLevelResponse,
   ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams,
   ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse,
-  ActionGroupsGetTestNotificationsOptionalParams,
-  ActionGroupsGetTestNotificationsResponse,
-  ActionGroupsGetTestNotificationsAtResourceGroupLevelOptionalParams,
-  ActionGroupsGetTestNotificationsAtResourceGroupLevelResponse,
   ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams,
   ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse,
   EnableRequest,
@@ -106,58 +98,6 @@ export interface ActionGroups {
   ): Promise<ActionGroupsUpdateResponse>;
   /**
    * Send test notifications to a set of provided receivers
-   * @param notificationRequest The notification request body which includes the contact details
-   * @param options The options parameters.
-   */
-  beginPostTestNotifications(
-    notificationRequest: NotificationRequestBody,
-    options?: ActionGroupsPostTestNotificationsOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<ActionGroupsPostTestNotificationsResponse>,
-      ActionGroupsPostTestNotificationsResponse
-    >
-  >;
-  /**
-   * Send test notifications to a set of provided receivers
-   * @param notificationRequest The notification request body which includes the contact details
-   * @param options The options parameters.
-   */
-  beginPostTestNotificationsAndWait(
-    notificationRequest: NotificationRequestBody,
-    options?: ActionGroupsPostTestNotificationsOptionalParams
-  ): Promise<ActionGroupsPostTestNotificationsResponse>;
-  /**
-   * Send test notifications to a set of provided receivers
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param notificationRequest The notification request body which includes the contact details
-   * @param options The options parameters.
-   */
-  beginCreateNotificationsAtResourceGroupLevel(
-    resourceGroupName: string,
-    notificationRequest: NotificationRequestBody,
-    options?: ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<
-        ActionGroupsCreateNotificationsAtResourceGroupLevelResponse
-      >,
-      ActionGroupsCreateNotificationsAtResourceGroupLevelResponse
-    >
-  >;
-  /**
-   * Send test notifications to a set of provided receivers
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param notificationRequest The notification request body which includes the contact details
-   * @param options The options parameters.
-   */
-  beginCreateNotificationsAtResourceGroupLevelAndWait(
-    resourceGroupName: string,
-    notificationRequest: NotificationRequestBody,
-    options?: ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams
-  ): Promise<ActionGroupsCreateNotificationsAtResourceGroupLevelResponse>;
-  /**
-   * Send test notifications to a set of provided receivers
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param actionGroupName The name of the action group.
    * @param notificationRequest The notification request body which includes the contact details
@@ -189,26 +129,6 @@ export interface ActionGroups {
     notificationRequest: NotificationRequestBody,
     options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams
   ): Promise<ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse>;
-  /**
-   * Get the test notifications by the notification id
-   * @param notificationId The notification id
-   * @param options The options parameters.
-   */
-  getTestNotifications(
-    notificationId: string,
-    options?: ActionGroupsGetTestNotificationsOptionalParams
-  ): Promise<ActionGroupsGetTestNotificationsResponse>;
-  /**
-   * Get the test notifications by the notification id
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param notificationId The notification id
-   * @param options The options parameters.
-   */
-  getTestNotificationsAtResourceGroupLevel(
-    resourceGroupName: string,
-    notificationId: string,
-    options?: ActionGroupsGetTestNotificationsAtResourceGroupLevelOptionalParams
-  ): Promise<ActionGroupsGetTestNotificationsAtResourceGroupLevelResponse>;
   /**
    * Get the test notifications by the notification id
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
