@@ -31,10 +31,17 @@ import {
   StaticSitesGetStaticSiteBuildsNextOptionalParams,
   StaticSitesGetStaticSiteBuildsOptionalParams,
   StaticSitesGetStaticSiteBuildsResponse,
+  DatabaseConnection,
+  StaticSitesGetBuildDatabaseConnectionsNextOptionalParams,
+  StaticSitesGetBuildDatabaseConnectionsOptionalParams,
+  StaticSitesGetBuildDatabaseConnectionsResponse,
   StaticSiteFunctionOverviewARMResource,
   StaticSitesListStaticSiteBuildFunctionsNextOptionalParams,
   StaticSitesListStaticSiteBuildFunctionsOptionalParams,
   StaticSitesListStaticSiteBuildFunctionsResponse,
+  StaticSitesGetBuildDatabaseConnectionsWithDetailsNextOptionalParams,
+  StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams,
+  StaticSitesGetBuildDatabaseConnectionsWithDetailsResponse,
   StaticSiteUserProvidedFunctionAppARMResource,
   StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildNextOptionalParams,
   StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildOptionalParams,
@@ -43,6 +50,9 @@ import {
   StaticSitesListStaticSiteCustomDomainsNextOptionalParams,
   StaticSitesListStaticSiteCustomDomainsOptionalParams,
   StaticSitesListStaticSiteCustomDomainsResponse,
+  StaticSitesGetDatabaseConnectionsNextOptionalParams,
+  StaticSitesGetDatabaseConnectionsOptionalParams,
+  StaticSitesGetDatabaseConnectionsResponse,
   StaticSitesListStaticSiteFunctionsNextOptionalParams,
   StaticSitesListStaticSiteFunctionsOptionalParams,
   StaticSitesListStaticSiteFunctionsResponse,
@@ -50,6 +60,13 @@ import {
   StaticSitesGetPrivateEndpointConnectionListNextOptionalParams,
   StaticSitesGetPrivateEndpointConnectionListOptionalParams,
   StaticSitesGetPrivateEndpointConnectionListResponse,
+  StaticSitesGetDatabaseConnectionsWithDetailsNextOptionalParams,
+  StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams,
+  StaticSitesGetDatabaseConnectionsWithDetailsResponse,
+  StaticSiteTrafficSplittingPropertiesARMResource,
+  StaticSitesListBasicAuthNextOptionalParams,
+  StaticSitesListBasicAuthOptionalParams,
+  StaticSitesListBasicAuthResponse,
   StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextOptionalParams,
   StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalParams,
   StaticSitesGetUserProvidedFunctionAppsForStaticSiteResponse,
@@ -82,6 +99,16 @@ import {
   StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse,
   StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsOptionalParams,
   StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse,
+  StaticSitesGetBuildDatabaseConnectionOptionalParams,
+  StaticSitesGetBuildDatabaseConnectionResponse,
+  StaticSitesCreateOrUpdateBuildDatabaseConnectionOptionalParams,
+  StaticSitesCreateOrUpdateBuildDatabaseConnectionResponse,
+  StaticSitesDeleteBuildDatabaseConnectionOptionalParams,
+  DatabaseConnectionPatchRequest,
+  StaticSitesUpdateBuildDatabaseConnectionOptionalParams,
+  StaticSitesUpdateBuildDatabaseConnectionResponse,
+  StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams,
+  StaticSitesGetBuildDatabaseConnectionWithDetailsResponse,
   StaticSitesListStaticSiteBuildAppSettingsOptionalParams,
   StaticSitesListStaticSiteBuildAppSettingsResponse,
   StaticSitesListStaticSiteBuildFunctionAppSettingsOptionalParams,
@@ -107,6 +134,15 @@ import {
   StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse,
   StaticSitesDeleteStaticSiteCustomDomainOptionalParams,
   StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams,
+  StaticSitesGetDatabaseConnectionOptionalParams,
+  StaticSitesGetDatabaseConnectionResponse,
+  StaticSitesCreateOrUpdateDatabaseConnectionOptionalParams,
+  StaticSitesCreateOrUpdateDatabaseConnectionResponse,
+  StaticSitesDeleteDatabaseConnectionOptionalParams,
+  StaticSitesUpdateDatabaseConnectionOptionalParams,
+  StaticSitesUpdateDatabaseConnectionResponse,
+  StaticSitesGetDatabaseConnectionWithDetailsOptionalParams,
+  StaticSitesGetDatabaseConnectionWithDetailsResponse,
   StaticSitesDetachStaticSiteOptionalParams,
   StaticSitesListStaticSiteAppSettingsOptionalParams,
   StaticSitesListStaticSiteAppSettingsResponse,
@@ -127,6 +163,13 @@ import {
   StaticSitesGetPrivateLinkResourcesResponse,
   StaticSiteResetPropertiesARMResource,
   StaticSitesResetStaticSiteApiKeyOptionalParams,
+  TrafficSplittingName,
+  StaticSitesGetTrafficSplittingOptionalParams,
+  StaticSitesGetTrafficSplittingResponse,
+  BasicAuthName,
+  StaticSitesCreateOrUpdateTrafficSplittingOptionalParams,
+  StaticSitesCreateOrUpdateTrafficSplittingResponse,
+  StaticSitesDeleteTrafficSplittingOptionalParams,
   StaticSitesGetUserProvidedFunctionAppForStaticSiteOptionalParams,
   StaticSitesGetUserProvidedFunctionAppForStaticSiteResponse,
   StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams,
@@ -149,11 +192,16 @@ import {
   StaticSitesGetStaticSitesByResourceGroupNextResponse,
   StaticSitesListStaticSiteUsersNextResponse,
   StaticSitesGetStaticSiteBuildsNextResponse,
+  StaticSitesGetBuildDatabaseConnectionsNextResponse,
   StaticSitesListStaticSiteBuildFunctionsNextResponse,
+  StaticSitesGetBuildDatabaseConnectionsWithDetailsNextResponse,
   StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildNextResponse,
   StaticSitesListStaticSiteCustomDomainsNextResponse,
+  StaticSitesGetDatabaseConnectionsNextResponse,
   StaticSitesListStaticSiteFunctionsNextResponse,
   StaticSitesGetPrivateEndpointConnectionListNextResponse,
+  StaticSitesGetDatabaseConnectionsWithDetailsNextResponse,
+  StaticSitesListBasicAuthNextResponse,
   StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextResponse,
   StaticSitesGetLinkedBackendsNextResponse,
   StaticSitesGetLinkedBackendsForBuildNextResponse
@@ -479,6 +527,99 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
+   * Returns overviews of database connections for a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param options The options parameters.
+   */
+  public listBuildDatabaseConnections(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesGetBuildDatabaseConnectionsOptionalParams
+  ): PagedAsyncIterableIterator<DatabaseConnection> {
+    const iter = this.getBuildDatabaseConnectionsPagingAll(
+      resourceGroupName,
+      name,
+      environmentName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getBuildDatabaseConnectionsPagingPage(
+          resourceGroupName,
+          name,
+          environmentName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *getBuildDatabaseConnectionsPagingPage(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesGetBuildDatabaseConnectionsOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<DatabaseConnection[]> {
+    let result: StaticSitesGetBuildDatabaseConnectionsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getBuildDatabaseConnections(
+        resourceGroupName,
+        name,
+        environmentName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._getBuildDatabaseConnectionsNext(
+        resourceGroupName,
+        name,
+        environmentName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *getBuildDatabaseConnectionsPagingAll(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesGetBuildDatabaseConnectionsOptionalParams
+  ): AsyncIterableIterator<DatabaseConnection> {
+    for await (const page of this.getBuildDatabaseConnectionsPagingPage(
+      resourceGroupName,
+      name,
+      environmentName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
    * Description for Gets the functions of a particular static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -562,6 +703,99 @@ export class StaticSitesImpl implements StaticSites {
     options?: StaticSitesListStaticSiteBuildFunctionsOptionalParams
   ): AsyncIterableIterator<StaticSiteFunctionOverviewARMResource> {
     for await (const page of this.listStaticSiteBuildFunctionsPagingPage(
+      resourceGroupName,
+      name,
+      environmentName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Returns details of database connections for a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param options The options parameters.
+   */
+  public listBuildDatabaseConnectionsWithDetails(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams
+  ): PagedAsyncIterableIterator<DatabaseConnection> {
+    const iter = this.getBuildDatabaseConnectionsWithDetailsPagingAll(
+      resourceGroupName,
+      name,
+      environmentName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getBuildDatabaseConnectionsWithDetailsPagingPage(
+          resourceGroupName,
+          name,
+          environmentName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *getBuildDatabaseConnectionsWithDetailsPagingPage(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<DatabaseConnection[]> {
+    let result: StaticSitesGetBuildDatabaseConnectionsWithDetailsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getBuildDatabaseConnectionsWithDetails(
+        resourceGroupName,
+        name,
+        environmentName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._getBuildDatabaseConnectionsWithDetailsNext(
+        resourceGroupName,
+        name,
+        environmentName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *getBuildDatabaseConnectionsWithDetailsPagingAll(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams
+  ): AsyncIterableIterator<DatabaseConnection> {
+    for await (const page of this.getBuildDatabaseConnectionsWithDetailsPagingPage(
       resourceGroupName,
       name,
       environmentName,
@@ -750,6 +984,90 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
+   * Returns overviews of database connections for a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param options The options parameters.
+   */
+  public listDatabaseConnections(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesGetDatabaseConnectionsOptionalParams
+  ): PagedAsyncIterableIterator<DatabaseConnection> {
+    const iter = this.getDatabaseConnectionsPagingAll(
+      resourceGroupName,
+      name,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getDatabaseConnectionsPagingPage(
+          resourceGroupName,
+          name,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *getDatabaseConnectionsPagingPage(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesGetDatabaseConnectionsOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<DatabaseConnection[]> {
+    let result: StaticSitesGetDatabaseConnectionsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getDatabaseConnections(
+        resourceGroupName,
+        name,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._getDatabaseConnectionsNext(
+        resourceGroupName,
+        name,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *getDatabaseConnectionsPagingAll(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesGetDatabaseConnectionsOptionalParams
+  ): AsyncIterableIterator<DatabaseConnection> {
+    for await (const page of this.getDatabaseConnectionsPagingPage(
+      resourceGroupName,
+      name,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
    * Description for Gets the functions of a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -909,6 +1227,168 @@ export class StaticSitesImpl implements StaticSites {
     options?: StaticSitesGetPrivateEndpointConnectionListOptionalParams
   ): AsyncIterableIterator<RemotePrivateEndpointConnectionARMResource> {
     for await (const page of this.getPrivateEndpointConnectionListPagingPage(
+      resourceGroupName,
+      name,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Returns details of database connections for a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param options The options parameters.
+   */
+  public listDatabaseConnectionsWithDetails(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams
+  ): PagedAsyncIterableIterator<DatabaseConnection> {
+    const iter = this.getDatabaseConnectionsWithDetailsPagingAll(
+      resourceGroupName,
+      name,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getDatabaseConnectionsWithDetailsPagingPage(
+          resourceGroupName,
+          name,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *getDatabaseConnectionsWithDetailsPagingPage(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<DatabaseConnection[]> {
+    let result: StaticSitesGetDatabaseConnectionsWithDetailsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getDatabaseConnectionsWithDetails(
+        resourceGroupName,
+        name,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._getDatabaseConnectionsWithDetailsNext(
+        resourceGroupName,
+        name,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *getDatabaseConnectionsWithDetailsPagingAll(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams
+  ): AsyncIterableIterator<DatabaseConnection> {
+    for await (const page of this.getDatabaseConnectionsWithDetailsPagingPage(
+      resourceGroupName,
+      name,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Description for Gets the traffic splitting properties for a static site as a collection.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param options The options parameters.
+   */
+  public listBasicAuth(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesListBasicAuthOptionalParams
+  ): PagedAsyncIterableIterator<
+    StaticSiteTrafficSplittingPropertiesARMResource
+  > {
+    const iter = this.listBasicAuthPagingAll(resourceGroupName, name, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBasicAuthPagingPage(
+          resourceGroupName,
+          name,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listBasicAuthPagingPage(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesListBasicAuthOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<StaticSiteTrafficSplittingPropertiesARMResource[]> {
+    let result: StaticSitesListBasicAuthResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBasicAuth(resourceGroupName, name, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBasicAuthNext(
+        resourceGroupName,
+        name,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listBasicAuthPagingAll(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesListBasicAuthOptionalParams
+  ): AsyncIterableIterator<StaticSiteTrafficSplittingPropertiesARMResource> {
+    for await (const page of this.listBasicAuthPagingPage(
       resourceGroupName,
       name,
       options
@@ -1668,6 +2148,168 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
+   * Returns overviews of database connections for a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param options The options parameters.
+   */
+  private _getBuildDatabaseConnections(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesGetBuildDatabaseConnectionsOptionalParams
+  ): Promise<StaticSitesGetBuildDatabaseConnectionsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, environmentName, options },
+      getBuildDatabaseConnectionsOperationSpec
+    );
+  }
+
+  /**
+   * Returns overview of a database connection for a static site build by name
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param databaseConnectionName Name of the database connection.
+   * @param options The options parameters.
+   */
+  getBuildDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    databaseConnectionName: string,
+    options?: StaticSitesGetBuildDatabaseConnectionOptionalParams
+  ): Promise<StaticSitesGetBuildDatabaseConnectionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        environmentName,
+        databaseConnectionName,
+        options
+      },
+      getBuildDatabaseConnectionOperationSpec
+    );
+  }
+
+  /**
+   * Description for Create or update a database connection for a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param databaseConnectionName Name of the database connection.
+   * @param databaseConnectionRequestEnvelope A JSON representation of the database connection request
+   *                                          properties
+   * @param options The options parameters.
+   */
+  createOrUpdateBuildDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    databaseConnectionName: string,
+    databaseConnectionRequestEnvelope: DatabaseConnection,
+    options?: StaticSitesCreateOrUpdateBuildDatabaseConnectionOptionalParams
+  ): Promise<StaticSitesCreateOrUpdateBuildDatabaseConnectionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        environmentName,
+        databaseConnectionName,
+        databaseConnectionRequestEnvelope,
+        options
+      },
+      createOrUpdateBuildDatabaseConnectionOperationSpec
+    );
+  }
+
+  /**
+   * Delete a database connection for a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param databaseConnectionName Name of the database connection.
+   * @param options The options parameters.
+   */
+  deleteBuildDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    databaseConnectionName: string,
+    options?: StaticSitesDeleteBuildDatabaseConnectionOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        environmentName,
+        databaseConnectionName,
+        options
+      },
+      deleteBuildDatabaseConnectionOperationSpec
+    );
+  }
+
+  /**
+   * Description for Create or update a database connection for a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param databaseConnectionName Name of the database connection.
+   * @param databaseConnectionRequestEnvelope A JSON representation of the database connection request
+   *                                          properties
+   * @param options The options parameters.
+   */
+  updateBuildDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    databaseConnectionName: string,
+    databaseConnectionRequestEnvelope: DatabaseConnectionPatchRequest,
+    options?: StaticSitesUpdateBuildDatabaseConnectionOptionalParams
+  ): Promise<StaticSitesUpdateBuildDatabaseConnectionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        environmentName,
+        databaseConnectionName,
+        databaseConnectionRequestEnvelope,
+        options
+      },
+      updateBuildDatabaseConnectionOperationSpec
+    );
+  }
+
+  /**
+   * Returns details of a database connection for a static site build by name
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param databaseConnectionName Name of the database connection.
+   * @param options The options parameters.
+   */
+  getBuildDatabaseConnectionWithDetails(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    databaseConnectionName: string,
+    options?: StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams
+  ): Promise<StaticSitesGetBuildDatabaseConnectionWithDetailsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        environmentName,
+        databaseConnectionName,
+        options
+      },
+      getBuildDatabaseConnectionWithDetailsOperationSpec
+    );
+  }
+
+  /**
    * Description for Gets the functions of a particular static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -1721,6 +2363,25 @@ export class StaticSitesImpl implements StaticSites {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, environmentName, options },
       listStaticSiteBuildFunctionAppSettingsOperationSpec
+    );
+  }
+
+  /**
+   * Returns details of database connections for a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param options The options parameters.
+   */
+  private _getBuildDatabaseConnectionsWithDetails(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams
+  ): Promise<StaticSitesGetBuildDatabaseConnectionsWithDetailsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, environmentName, options },
+      getBuildDatabaseConnectionsWithDetailsOperationSpec
     );
   }
 
@@ -2397,6 +3058,136 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
+   * Returns overviews of database connections for a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param options The options parameters.
+   */
+  private _getDatabaseConnections(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesGetDatabaseConnectionsOptionalParams
+  ): Promise<StaticSitesGetDatabaseConnectionsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      getDatabaseConnectionsOperationSpec
+    );
+  }
+
+  /**
+   * Returns overview of a database connection for a static site by name
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param databaseConnectionName Name of the database connection.
+   * @param options The options parameters.
+   */
+  getDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    databaseConnectionName: string,
+    options?: StaticSitesGetDatabaseConnectionOptionalParams
+  ): Promise<StaticSitesGetDatabaseConnectionResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, databaseConnectionName, options },
+      getDatabaseConnectionOperationSpec
+    );
+  }
+
+  /**
+   * Description for Create or update a database connection for a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param databaseConnectionName Name of the database connection.
+   * @param databaseConnectionRequestEnvelope A JSON representation of the database connection request
+   *                                          properties
+   * @param options The options parameters.
+   */
+  createOrUpdateDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    databaseConnectionName: string,
+    databaseConnectionRequestEnvelope: DatabaseConnection,
+    options?: StaticSitesCreateOrUpdateDatabaseConnectionOptionalParams
+  ): Promise<StaticSitesCreateOrUpdateDatabaseConnectionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        databaseConnectionName,
+        databaseConnectionRequestEnvelope,
+        options
+      },
+      createOrUpdateDatabaseConnectionOperationSpec
+    );
+  }
+
+  /**
+   * Delete a database connection for a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param databaseConnectionName Name of the database connection.
+   * @param options The options parameters.
+   */
+  deleteDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    databaseConnectionName: string,
+    options?: StaticSitesDeleteDatabaseConnectionOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, databaseConnectionName, options },
+      deleteDatabaseConnectionOperationSpec
+    );
+  }
+
+  /**
+   * Description for Create or update a database connection for a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param databaseConnectionName Name of the database connection.
+   * @param databaseConnectionRequestEnvelope A JSON representation of the database connection request
+   *                                          properties
+   * @param options The options parameters.
+   */
+  updateDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    databaseConnectionName: string,
+    databaseConnectionRequestEnvelope: DatabaseConnectionPatchRequest,
+    options?: StaticSitesUpdateDatabaseConnectionOptionalParams
+  ): Promise<StaticSitesUpdateDatabaseConnectionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        databaseConnectionName,
+        databaseConnectionRequestEnvelope,
+        options
+      },
+      updateDatabaseConnectionOperationSpec
+    );
+  }
+
+  /**
+   * Returns details of a database connection for a static site by name
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param databaseConnectionName Name of the database connection.
+   * @param options The options parameters.
+   */
+  getDatabaseConnectionWithDetails(
+    resourceGroupName: string,
+    name: string,
+    databaseConnectionName: string,
+    options?: StaticSitesGetDatabaseConnectionWithDetailsOptionalParams
+  ): Promise<StaticSitesGetDatabaseConnectionWithDetailsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, databaseConnectionName, options },
+      getDatabaseConnectionWithDetailsOperationSpec
+    );
+  }
+
+  /**
    * Description for Detaches a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site to detach.
@@ -2829,6 +3620,181 @@ export class StaticSitesImpl implements StaticSites {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, resetPropertiesEnvelope, options },
       resetStaticSiteApiKeyOperationSpec
+    );
+  }
+
+  /**
+   * Returns details of database connections for a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param options The options parameters.
+   */
+  private _getDatabaseConnectionsWithDetails(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams
+  ): Promise<StaticSitesGetDatabaseConnectionsWithDetailsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      getDatabaseConnectionsWithDetailsOperationSpec
+    );
+  }
+
+  /**
+   * Description for Gets the traffic splitting properties for a static site as a collection.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param options The options parameters.
+   */
+  private _listBasicAuth(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesListBasicAuthOptionalParams
+  ): Promise<StaticSitesListBasicAuthResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      listBasicAuthOperationSpec
+    );
+  }
+
+  /**
+   * Description for Gets the traffic splitting state of a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param trafficSplittingName name of the traffic splitting entry.
+   * @param options The options parameters.
+   */
+  getTrafficSplitting(
+    resourceGroupName: string,
+    name: string,
+    trafficSplittingName: TrafficSplittingName,
+    options?: StaticSitesGetTrafficSplittingOptionalParams
+  ): Promise<StaticSitesGetTrafficSplittingResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, trafficSplittingName, options },
+      getTrafficSplittingOperationSpec
+    );
+  }
+
+  /**
+   * Description for Adds or updates traffic splitting for a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param trafficSplittingName name of the traffic splitting entry.
+   * @param trafficSplittingEnvelope A JSON representation of the traffic splitting properties.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateTrafficSplitting(
+    resourceGroupName: string,
+    name: string,
+    trafficSplittingName: BasicAuthName,
+    trafficSplittingEnvelope: StaticSiteTrafficSplittingPropertiesARMResource,
+    options?: StaticSitesCreateOrUpdateTrafficSplittingOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<StaticSitesCreateOrUpdateTrafficSplittingResponse>,
+      StaticSitesCreateOrUpdateTrafficSplittingResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<StaticSitesCreateOrUpdateTrafficSplittingResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        name,
+        trafficSplittingName,
+        trafficSplittingEnvelope,
+        options
+      },
+      createOrUpdateTrafficSplittingOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Description for Adds or updates traffic splitting for a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param trafficSplittingName name of the traffic splitting entry.
+   * @param trafficSplittingEnvelope A JSON representation of the traffic splitting properties.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateTrafficSplittingAndWait(
+    resourceGroupName: string,
+    name: string,
+    trafficSplittingName: BasicAuthName,
+    trafficSplittingEnvelope: StaticSiteTrafficSplittingPropertiesARMResource,
+    options?: StaticSitesCreateOrUpdateTrafficSplittingOptionalParams
+  ): Promise<StaticSitesCreateOrUpdateTrafficSplittingResponse> {
+    const poller = await this.beginCreateOrUpdateTrafficSplitting(
+      resourceGroupName,
+      name,
+      trafficSplittingName,
+      trafficSplittingEnvelope,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Description for Deletes traffic splitting for a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param trafficSplittingName name of the traffic splitting entry.
+   * @param options The options parameters.
+   */
+  deleteTrafficSplitting(
+    resourceGroupName: string,
+    name: string,
+    trafficSplittingName: TrafficSplittingName,
+    options?: StaticSitesDeleteTrafficSplittingOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, trafficSplittingName, options },
+      deleteTrafficSplittingOperationSpec
     );
   }
 
@@ -3695,6 +4661,28 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
+   * GetBuildDatabaseConnectionsNext
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param nextLink The nextLink from the previous successful call to the GetBuildDatabaseConnections
+   *                 method.
+   * @param options The options parameters.
+   */
+  private _getBuildDatabaseConnectionsNext(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    nextLink: string,
+    options?: StaticSitesGetBuildDatabaseConnectionsNextOptionalParams
+  ): Promise<StaticSitesGetBuildDatabaseConnectionsNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, environmentName, nextLink, options },
+      getBuildDatabaseConnectionsNextOperationSpec
+    );
+  }
+
+  /**
    * ListStaticSiteBuildFunctionsNext
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -3713,6 +4701,28 @@ export class StaticSitesImpl implements StaticSites {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, environmentName, nextLink, options },
       listStaticSiteBuildFunctionsNextOperationSpec
+    );
+  }
+
+  /**
+   * GetBuildDatabaseConnectionsWithDetailsNext
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param nextLink The nextLink from the previous successful call to the
+   *                 GetBuildDatabaseConnectionsWithDetails method.
+   * @param options The options parameters.
+   */
+  private _getBuildDatabaseConnectionsWithDetailsNext(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    nextLink: string,
+    options?: StaticSitesGetBuildDatabaseConnectionsWithDetailsNextOptionalParams
+  ): Promise<StaticSitesGetBuildDatabaseConnectionsWithDetailsNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, environmentName, nextLink, options },
+      getBuildDatabaseConnectionsWithDetailsNextOperationSpec
     );
   }
 
@@ -3761,6 +4771,25 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
+   * GetDatabaseConnectionsNext
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param nextLink The nextLink from the previous successful call to the GetDatabaseConnections method.
+   * @param options The options parameters.
+   */
+  private _getDatabaseConnectionsNext(
+    resourceGroupName: string,
+    name: string,
+    nextLink: string,
+    options?: StaticSitesGetDatabaseConnectionsNextOptionalParams
+  ): Promise<StaticSitesGetDatabaseConnectionsNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, nextLink, options },
+      getDatabaseConnectionsNextOperationSpec
+    );
+  }
+
+  /**
    * ListStaticSiteFunctionsNext
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -3797,6 +4826,45 @@ export class StaticSitesImpl implements StaticSites {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, nextLink, options },
       getPrivateEndpointConnectionListNextOperationSpec
+    );
+  }
+
+  /**
+   * GetDatabaseConnectionsWithDetailsNext
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param nextLink The nextLink from the previous successful call to the
+   *                 GetDatabaseConnectionsWithDetails method.
+   * @param options The options parameters.
+   */
+  private _getDatabaseConnectionsWithDetailsNext(
+    resourceGroupName: string,
+    name: string,
+    nextLink: string,
+    options?: StaticSitesGetDatabaseConnectionsWithDetailsNextOptionalParams
+  ): Promise<StaticSitesGetDatabaseConnectionsWithDetailsNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, nextLink, options },
+      getDatabaseConnectionsWithDetailsNextOperationSpec
+    );
+  }
+
+  /**
+   * ListBasicAuthNext
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param nextLink The nextLink from the previous successful call to the ListBasicAuth method.
+   * @param options The options parameters.
+   */
+  private _listBasicAuthNext(
+    resourceGroupName: string,
+    name: string,
+    nextLink: string,
+    options?: StaticSitesListBasicAuthNextOptionalParams
+  ): Promise<StaticSitesListBasicAuthNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, nextLink, options },
+      listBasicAuthNextOperationSpec
     );
   }
 
@@ -4219,6 +5287,152 @@ const createOrUpdateStaticSiteBuildFunctionAppSettingsOperationSpec: coreClient.
   mediaType: "json",
   serializer
 };
+const getBuildDatabaseConnectionsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/databaseConnections",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnectionCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName2
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getBuildDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/databaseConnections/{databaseConnectionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName2,
+    Parameters.databaseConnectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateBuildDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/databaseConnections/{databaseConnectionName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.databaseConnectionRequestEnvelope,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName2,
+    Parameters.databaseConnectionName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteBuildDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/databaseConnections/{databaseConnectionName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName2,
+    Parameters.databaseConnectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const updateBuildDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/databaseConnections/{databaseConnectionName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.databaseConnectionRequestEnvelope1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName2,
+    Parameters.databaseConnectionName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getBuildDatabaseConnectionWithDetailsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/databaseConnections/{databaseConnectionName}/show",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName2,
+    Parameters.databaseConnectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listStaticSiteBuildFunctionsOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/functions",
@@ -4284,6 +5498,29 @@ const listStaticSiteBuildFunctionAppSettingsOperationSpec: coreClient.OperationS
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.environmentName1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getBuildDatabaseConnectionsWithDetailsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/showDatabaseConnections",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnectionCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName2
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -4620,6 +5857,146 @@ const validateCustomDomainCanBeAddedToStaticSiteOperationSpec: coreClient.Operat
   mediaType: "json",
   serializer
 };
+const getDatabaseConnectionsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/databaseConnections",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnectionCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/databaseConnections/{databaseConnectionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.databaseConnectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/databaseConnections/{databaseConnectionName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.databaseConnectionRequestEnvelope,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.databaseConnectionName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/databaseConnections/{databaseConnectionName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.databaseConnectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const updateDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/databaseConnections/{databaseConnectionName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.databaseConnectionRequestEnvelope1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.databaseConnectionName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getDatabaseConnectionWithDetailsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/databaseConnections/{databaseConnectionName}/show",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.databaseConnectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const detachStaticSiteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/detach",
@@ -4914,6 +6291,128 @@ const resetStaticSiteApiKeyOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const getDatabaseConnectionsWithDetailsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/showDatabaseConnections",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnectionCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listBasicAuthOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/trafficSplitting",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteTrafficSplittingPropertiesCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getTrafficSplittingOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/trafficSplitting/{trafficSplittingName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteTrafficSplittingPropertiesARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.trafficSplittingName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateTrafficSplittingOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/trafficSplitting/{trafficSplittingName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteTrafficSplittingPropertiesARMResource
+    },
+    201: {
+      bodyMapper: Mappers.StaticSiteTrafficSplittingPropertiesARMResource
+    },
+    202: {
+      bodyMapper: Mappers.StaticSiteTrafficSplittingPropertiesARMResource
+    },
+    204: {
+      bodyMapper: Mappers.StaticSiteTrafficSplittingPropertiesARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.trafficSplittingEnvelope,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.trafficSplittingName1
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteTrafficSplittingOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/trafficSplitting/{trafficSplittingName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.trafficSplittingName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getUserProvidedFunctionAppsForStaticSiteOperationSpec: coreClient.OperationSpec = {
@@ -5312,7 +6811,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5332,7 +6830,6 @@ const getStaticSitesByResourceGroupNextOperationSpec: coreClient.OperationSpec =
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5353,7 +6850,6 @@ const listStaticSiteUsersNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5376,13 +6872,34 @@ const getStaticSiteBuildsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getBuildDatabaseConnectionsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnectionCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+    Parameters.environmentName2
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -5398,7 +6915,6 @@ const listStaticSiteBuildFunctionsNextOperationSpec: coreClient.OperationSpec = 
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5406,6 +6922,28 @@ const listStaticSiteBuildFunctionsNextOperationSpec: coreClient.OperationSpec = 
     Parameters.name,
     Parameters.nextLink,
     Parameters.environmentName1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getBuildDatabaseConnectionsWithDetailsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnectionCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+    Parameters.environmentName2
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -5421,7 +6959,6 @@ const getUserProvidedFunctionAppsForStaticSiteBuildNextOperationSpec: coreClient
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5444,7 +6981,27 @@ const listStaticSiteCustomDomainsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getDatabaseConnectionsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnectionCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5466,7 +7023,6 @@ const listStaticSiteFunctionsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5488,7 +7044,48 @@ const getPrivateEndpointConnectionListNextOperationSpec: coreClient.OperationSpe
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getDatabaseConnectionsWithDetailsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnectionCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listBasicAuthNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteTrafficSplittingPropertiesCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5510,7 +7107,6 @@ const getUserProvidedFunctionAppsForStaticSiteNextOperationSpec: coreClient.Oper
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5532,7 +7128,6 @@ const getLinkedBackendsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5554,7 +7149,6 @@ const getLinkedBackendsForBuildNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

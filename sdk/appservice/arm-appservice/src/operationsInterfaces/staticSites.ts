@@ -16,15 +16,22 @@ import {
   StaticSitesListStaticSiteUsersOptionalParams,
   StaticSiteBuildARMResource,
   StaticSitesGetStaticSiteBuildsOptionalParams,
+  DatabaseConnection,
+  StaticSitesGetBuildDatabaseConnectionsOptionalParams,
   StaticSiteFunctionOverviewARMResource,
   StaticSitesListStaticSiteBuildFunctionsOptionalParams,
+  StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams,
   StaticSiteUserProvidedFunctionAppARMResource,
   StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildOptionalParams,
   StaticSiteCustomDomainOverviewARMResource,
   StaticSitesListStaticSiteCustomDomainsOptionalParams,
+  StaticSitesGetDatabaseConnectionsOptionalParams,
   StaticSitesListStaticSiteFunctionsOptionalParams,
   RemotePrivateEndpointConnectionARMResource,
   StaticSitesGetPrivateEndpointConnectionListOptionalParams,
+  StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams,
+  StaticSiteTrafficSplittingPropertiesARMResource,
+  StaticSitesListBasicAuthOptionalParams,
   StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalParams,
   StaticSiteLinkedBackendARMResource,
   StaticSitesGetLinkedBackendsOptionalParams,
@@ -51,6 +58,16 @@ import {
   StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse,
   StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsOptionalParams,
   StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse,
+  StaticSitesGetBuildDatabaseConnectionOptionalParams,
+  StaticSitesGetBuildDatabaseConnectionResponse,
+  StaticSitesCreateOrUpdateBuildDatabaseConnectionOptionalParams,
+  StaticSitesCreateOrUpdateBuildDatabaseConnectionResponse,
+  StaticSitesDeleteBuildDatabaseConnectionOptionalParams,
+  DatabaseConnectionPatchRequest,
+  StaticSitesUpdateBuildDatabaseConnectionOptionalParams,
+  StaticSitesUpdateBuildDatabaseConnectionResponse,
+  StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams,
+  StaticSitesGetBuildDatabaseConnectionWithDetailsResponse,
   StaticSitesListStaticSiteBuildAppSettingsOptionalParams,
   StaticSitesListStaticSiteBuildAppSettingsResponse,
   StaticSitesListStaticSiteBuildFunctionAppSettingsOptionalParams,
@@ -76,6 +93,15 @@ import {
   StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse,
   StaticSitesDeleteStaticSiteCustomDomainOptionalParams,
   StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams,
+  StaticSitesGetDatabaseConnectionOptionalParams,
+  StaticSitesGetDatabaseConnectionResponse,
+  StaticSitesCreateOrUpdateDatabaseConnectionOptionalParams,
+  StaticSitesCreateOrUpdateDatabaseConnectionResponse,
+  StaticSitesDeleteDatabaseConnectionOptionalParams,
+  StaticSitesUpdateDatabaseConnectionOptionalParams,
+  StaticSitesUpdateDatabaseConnectionResponse,
+  StaticSitesGetDatabaseConnectionWithDetailsOptionalParams,
+  StaticSitesGetDatabaseConnectionWithDetailsResponse,
   StaticSitesDetachStaticSiteOptionalParams,
   StaticSitesListStaticSiteAppSettingsOptionalParams,
   StaticSitesListStaticSiteAppSettingsResponse,
@@ -96,6 +122,13 @@ import {
   StaticSitesGetPrivateLinkResourcesResponse,
   StaticSiteResetPropertiesARMResource,
   StaticSitesResetStaticSiteApiKeyOptionalParams,
+  TrafficSplittingName,
+  StaticSitesGetTrafficSplittingOptionalParams,
+  StaticSitesGetTrafficSplittingResponse,
+  BasicAuthName,
+  StaticSitesCreateOrUpdateTrafficSplittingOptionalParams,
+  StaticSitesCreateOrUpdateTrafficSplittingResponse,
+  StaticSitesDeleteTrafficSplittingOptionalParams,
   StaticSitesGetUserProvidedFunctionAppForStaticSiteOptionalParams,
   StaticSitesGetUserProvidedFunctionAppForStaticSiteResponse,
   StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams,
@@ -160,6 +193,19 @@ export interface StaticSites {
     options?: StaticSitesGetStaticSiteBuildsOptionalParams
   ): PagedAsyncIterableIterator<StaticSiteBuildARMResource>;
   /**
+   * Returns overviews of database connections for a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param options The options parameters.
+   */
+  listBuildDatabaseConnections(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesGetBuildDatabaseConnectionsOptionalParams
+  ): PagedAsyncIterableIterator<DatabaseConnection>;
+  /**
    * Description for Gets the functions of a particular static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -172,6 +218,19 @@ export interface StaticSites {
     environmentName: string,
     options?: StaticSitesListStaticSiteBuildFunctionsOptionalParams
   ): PagedAsyncIterableIterator<StaticSiteFunctionOverviewARMResource>;
+  /**
+   * Returns details of database connections for a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param options The options parameters.
+   */
+  listBuildDatabaseConnectionsWithDetails(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams
+  ): PagedAsyncIterableIterator<DatabaseConnection>;
   /**
    * Description for Gets the details of the user provided function apps registered with a static site
    * build
@@ -198,6 +257,17 @@ export interface StaticSites {
     options?: StaticSitesListStaticSiteCustomDomainsOptionalParams
   ): PagedAsyncIterableIterator<StaticSiteCustomDomainOverviewARMResource>;
   /**
+   * Returns overviews of database connections for a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param options The options parameters.
+   */
+  listDatabaseConnections(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesGetDatabaseConnectionsOptionalParams
+  ): PagedAsyncIterableIterator<DatabaseConnection>;
+  /**
    * Description for Gets the functions of a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -219,6 +289,30 @@ export interface StaticSites {
     name: string,
     options?: StaticSitesGetPrivateEndpointConnectionListOptionalParams
   ): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
+  /**
+   * Returns details of database connections for a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param options The options parameters.
+   */
+  listDatabaseConnectionsWithDetails(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams
+  ): PagedAsyncIterableIterator<DatabaseConnection>;
+  /**
+   * Description for Gets the traffic splitting properties for a static site as a collection.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param options The options parameters.
+   */
+  listBasicAuth(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesListBasicAuthOptionalParams
+  ): PagedAsyncIterableIterator<
+    StaticSiteTrafficSplittingPropertiesARMResource
+  >;
   /**
    * Description for Gets the details of the user provided function apps registered with a static site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -449,6 +543,87 @@ export interface StaticSites {
   ): Promise<
     StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse
   >;
+  /**
+   * Returns overview of a database connection for a static site build by name
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param databaseConnectionName Name of the database connection.
+   * @param options The options parameters.
+   */
+  getBuildDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    databaseConnectionName: string,
+    options?: StaticSitesGetBuildDatabaseConnectionOptionalParams
+  ): Promise<StaticSitesGetBuildDatabaseConnectionResponse>;
+  /**
+   * Description for Create or update a database connection for a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param databaseConnectionName Name of the database connection.
+   * @param databaseConnectionRequestEnvelope A JSON representation of the database connection request
+   *                                          properties
+   * @param options The options parameters.
+   */
+  createOrUpdateBuildDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    databaseConnectionName: string,
+    databaseConnectionRequestEnvelope: DatabaseConnection,
+    options?: StaticSitesCreateOrUpdateBuildDatabaseConnectionOptionalParams
+  ): Promise<StaticSitesCreateOrUpdateBuildDatabaseConnectionResponse>;
+  /**
+   * Delete a database connection for a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param databaseConnectionName Name of the database connection.
+   * @param options The options parameters.
+   */
+  deleteBuildDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    databaseConnectionName: string,
+    options?: StaticSitesDeleteBuildDatabaseConnectionOptionalParams
+  ): Promise<void>;
+  /**
+   * Description for Create or update a database connection for a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param databaseConnectionName Name of the database connection.
+   * @param databaseConnectionRequestEnvelope A JSON representation of the database connection request
+   *                                          properties
+   * @param options The options parameters.
+   */
+  updateBuildDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    databaseConnectionName: string,
+    databaseConnectionRequestEnvelope: DatabaseConnectionPatchRequest,
+    options?: StaticSitesUpdateBuildDatabaseConnectionOptionalParams
+  ): Promise<StaticSitesUpdateBuildDatabaseConnectionResponse>;
+  /**
+   * Returns details of a database connection for a static site build by name
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param databaseConnectionName Name of the database connection.
+   * @param options The options parameters.
+   */
+  getBuildDatabaseConnectionWithDetails(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    databaseConnectionName: string,
+    options?: StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams
+  ): Promise<StaticSitesGetBuildDatabaseConnectionWithDetailsResponse>;
   /**
    * Description for Gets the application settings of a static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -735,6 +910,77 @@ export interface StaticSites {
     options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams
   ): Promise<void>;
   /**
+   * Returns overview of a database connection for a static site by name
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param databaseConnectionName Name of the database connection.
+   * @param options The options parameters.
+   */
+  getDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    databaseConnectionName: string,
+    options?: StaticSitesGetDatabaseConnectionOptionalParams
+  ): Promise<StaticSitesGetDatabaseConnectionResponse>;
+  /**
+   * Description for Create or update a database connection for a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param databaseConnectionName Name of the database connection.
+   * @param databaseConnectionRequestEnvelope A JSON representation of the database connection request
+   *                                          properties
+   * @param options The options parameters.
+   */
+  createOrUpdateDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    databaseConnectionName: string,
+    databaseConnectionRequestEnvelope: DatabaseConnection,
+    options?: StaticSitesCreateOrUpdateDatabaseConnectionOptionalParams
+  ): Promise<StaticSitesCreateOrUpdateDatabaseConnectionResponse>;
+  /**
+   * Delete a database connection for a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param databaseConnectionName Name of the database connection.
+   * @param options The options parameters.
+   */
+  deleteDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    databaseConnectionName: string,
+    options?: StaticSitesDeleteDatabaseConnectionOptionalParams
+  ): Promise<void>;
+  /**
+   * Description for Create or update a database connection for a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param databaseConnectionName Name of the database connection.
+   * @param databaseConnectionRequestEnvelope A JSON representation of the database connection request
+   *                                          properties
+   * @param options The options parameters.
+   */
+  updateDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    databaseConnectionName: string,
+    databaseConnectionRequestEnvelope: DatabaseConnectionPatchRequest,
+    options?: StaticSitesUpdateDatabaseConnectionOptionalParams
+  ): Promise<StaticSitesUpdateDatabaseConnectionResponse>;
+  /**
+   * Returns details of a database connection for a static site by name
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param databaseConnectionName Name of the database connection.
+   * @param options The options parameters.
+   */
+  getDatabaseConnectionWithDetails(
+    resourceGroupName: string,
+    name: string,
+    databaseConnectionName: string,
+    options?: StaticSitesGetDatabaseConnectionWithDetailsOptionalParams
+  ): Promise<StaticSitesGetDatabaseConnectionWithDetailsResponse>;
+  /**
    * Description for Detaches a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site to detach.
@@ -904,6 +1150,67 @@ export interface StaticSites {
     name: string,
     resetPropertiesEnvelope: StaticSiteResetPropertiesARMResource,
     options?: StaticSitesResetStaticSiteApiKeyOptionalParams
+  ): Promise<void>;
+  /**
+   * Description for Gets the traffic splitting state of a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param trafficSplittingName name of the traffic splitting entry.
+   * @param options The options parameters.
+   */
+  getTrafficSplitting(
+    resourceGroupName: string,
+    name: string,
+    trafficSplittingName: TrafficSplittingName,
+    options?: StaticSitesGetTrafficSplittingOptionalParams
+  ): Promise<StaticSitesGetTrafficSplittingResponse>;
+  /**
+   * Description for Adds or updates traffic splitting for a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param trafficSplittingName name of the traffic splitting entry.
+   * @param trafficSplittingEnvelope A JSON representation of the traffic splitting properties.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateTrafficSplitting(
+    resourceGroupName: string,
+    name: string,
+    trafficSplittingName: BasicAuthName,
+    trafficSplittingEnvelope: StaticSiteTrafficSplittingPropertiesARMResource,
+    options?: StaticSitesCreateOrUpdateTrafficSplittingOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<StaticSitesCreateOrUpdateTrafficSplittingResponse>,
+      StaticSitesCreateOrUpdateTrafficSplittingResponse
+    >
+  >;
+  /**
+   * Description for Adds or updates traffic splitting for a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param trafficSplittingName name of the traffic splitting entry.
+   * @param trafficSplittingEnvelope A JSON representation of the traffic splitting properties.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateTrafficSplittingAndWait(
+    resourceGroupName: string,
+    name: string,
+    trafficSplittingName: BasicAuthName,
+    trafficSplittingEnvelope: StaticSiteTrafficSplittingPropertiesARMResource,
+    options?: StaticSitesCreateOrUpdateTrafficSplittingOptionalParams
+  ): Promise<StaticSitesCreateOrUpdateTrafficSplittingResponse>;
+  /**
+   * Description for Deletes traffic splitting for a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param trafficSplittingName name of the traffic splitting entry.
+   * @param options The options parameters.
+   */
+  deleteTrafficSplitting(
+    resourceGroupName: string,
+    name: string,
+    trafficSplittingName: TrafficSplittingName,
+    options?: StaticSitesDeleteTrafficSplittingOptionalParams
   ): Promise<void>;
   /**
    * Description for Gets the details of the user provided function app registered with a static site
