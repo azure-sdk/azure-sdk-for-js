@@ -13,6 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ResourceManagementClient } from "../resourceManagementClient";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   TagDetails,
   TagsListNextOptionalParams,
@@ -192,15 +194,86 @@ export class TagsOperationsImpl implements TagsOperations {
    * @param parameters Wrapper resource for tags API requests and responses.
    * @param options The options parameters.
    */
-  createOrUpdateAtScope(
+  async beginCreateOrUpdateAtScope(
+    scope: string,
+    parameters: TagsResource,
+    options?: TagsCreateOrUpdateAtScopeOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<TagsCreateOrUpdateAtScopeResponse>,
+      TagsCreateOrUpdateAtScopeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<TagsCreateOrUpdateAtScopeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { scope, parameters, options },
+      createOrUpdateAtScopeOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * This operation allows adding or replacing the entire set of tags on the specified resource or
+   * subscription. The specified entity can have a maximum of 50 tags.
+   * @param scope The resource scope.
+   * @param parameters Wrapper resource for tags API requests and responses.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAtScopeAndWait(
     scope: string,
     parameters: TagsResource,
     options?: TagsCreateOrUpdateAtScopeOptionalParams
   ): Promise<TagsCreateOrUpdateAtScopeResponse> {
-    return this.client.sendOperationRequest(
-      { scope, parameters, options },
-      createOrUpdateAtScopeOperationSpec
+    const poller = await this.beginCreateOrUpdateAtScope(
+      scope,
+      parameters,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -213,15 +286,85 @@ export class TagsOperationsImpl implements TagsOperations {
    * @param parameters Wrapper resource for tags patch API request only.
    * @param options The options parameters.
    */
-  updateAtScope(
+  async beginUpdateAtScope(
+    scope: string,
+    parameters: TagsPatchResource,
+    options?: TagsUpdateAtScopeOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<TagsUpdateAtScopeResponse>,
+      TagsUpdateAtScopeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<TagsUpdateAtScopeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { scope, parameters, options },
+      updateAtScopeOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * This operation allows replacing, merging or selectively deleting tags on the specified resource or
+   * subscription. The specified entity can have a maximum of 50 tags at the end of the operation. The
+   * 'replace' option replaces the entire set of existing tags with a new set. The 'merge' option allows
+   * adding tags with new names and updating the values of tags with existing names. The 'delete' option
+   * allows selectively deleting tags based on given names or name/value pairs.
+   * @param scope The resource scope.
+   * @param parameters Wrapper resource for tags patch API request only.
+   * @param options The options parameters.
+   */
+  async beginUpdateAtScopeAndWait(
     scope: string,
     parameters: TagsPatchResource,
     options?: TagsUpdateAtScopeOptionalParams
   ): Promise<TagsUpdateAtScopeResponse> {
-    return this.client.sendOperationRequest(
-      { scope, parameters, options },
-      updateAtScopeOperationSpec
-    );
+    const poller = await this.beginUpdateAtScope(scope, parameters, options);
+    return poller.pollUntilDone();
   }
 
   /**
@@ -244,14 +387,73 @@ export class TagsOperationsImpl implements TagsOperations {
    * @param scope The resource scope.
    * @param options The options parameters.
    */
-  deleteAtScope(
+  async beginDeleteAtScope(
     scope: string,
     options?: TagsDeleteAtScopeOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
       { scope, options },
       deleteAtScopeOperationSpec
     );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes the entire set of tags on a resource or subscription.
+   * @param scope The resource scope.
+   * @param options The options parameters.
+   */
+  async beginDeleteAtScopeAndWait(
+    scope: string,
+    options?: TagsDeleteAtScopeOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginDeleteAtScope(scope, options);
+    return poller.pollUntilDone();
   }
 
   /**
@@ -383,6 +585,15 @@ const createOrUpdateAtScopeOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.TagsResource
     },
+    201: {
+      bodyMapper: Mappers.TagsResource
+    },
+    202: {
+      bodyMapper: Mappers.TagsResource
+    },
+    204: {
+      bodyMapper: Mappers.TagsResource
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -399,6 +610,15 @@ const updateAtScopeOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
+      bodyMapper: Mappers.TagsResource
+    },
+    201: {
+      bodyMapper: Mappers.TagsResource
+    },
+    202: {
+      bodyMapper: Mappers.TagsResource
+    },
+    204: {
       bodyMapper: Mappers.TagsResource
     },
     default: {
@@ -433,6 +653,9 @@ const deleteAtScopeOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -453,7 +676,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
