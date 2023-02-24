@@ -3855,7 +3855,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230223
+      typescript: 5.0.0-dev.20230224
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8604,8 +8604,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230223:
-    resolution: {integrity: sha512-dUsdRdWs5mX+5uhIGuE1IEkfTzM5vY9qfVxIbRB3vxVINGEI8mS9/f3gs5xenafNblfMX8wUVvQ7y2x6Syk0tA==}
+  /typescript/5.0.0-dev.20230224:
+    resolution: {integrity: sha512-ntlbPkFF0PM1+lmvLenUGwo+3EJPq5QAvAsw+6HA6KTOHpF3IcmYE57rcgpL54NLXhqz84RNTtcmb4dttBuBsA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10495,15 +10495,15 @@ packages:
     dev: false
 
   file:projects/arm-changes.tgz:
-    resolution: {integrity: sha512-B8N9yM+1Vp9CzUjf5v04PDB2vxlbhIGq/5fJoYje1pEHa+tLmcyaiiGn+96Pw9SlMsJ7XQJ8Z8AFPsCk4JfRAQ==, tarball: file:projects/arm-changes.tgz}
+    resolution: {integrity: sha512-pbgSizSD6fqUc3TJ6Um2g9rFWWYq/9QnuI4F76c6aT86S3dBO2HjQkFt3GXBgKBAi8LypRKj5+5f59I8y3zmrQ==, tarball: file:projects/arm-changes.tgz}
     name: '@rush-temp/arm-changes'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.7
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
@@ -11964,15 +11964,15 @@ packages:
     dev: false
 
   file:projects/arm-features.tgz:
-    resolution: {integrity: sha512-xeoRu2vTD3xQ2h+KA+2zkDNG7AM3+awOInV5RGm86yAtRPAtz/weXH3vgimhCIg7HhQJHWF3i8qE9+eXcIDYJw==, tarball: file:projects/arm-features.tgz}
+    resolution: {integrity: sha512-QSRmk3iRSsS5Gp8yf6bgyt2nOM2XenHe6J8YcUF1K29Ip27cKRuIR/gYSXgSP0KtxC+t79CAjKl5wzSIkzvHzQ==, tarball: file:projects/arm-features.tgz}
     name: '@rush-temp/arm-features'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.7
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
@@ -12541,15 +12541,15 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-G6eUZBvHVwVqwPvmMs3L3nIXxTlCqO1EdlbCdmc03yWQWZDhB4/1zpJI57r+MKFwpp7Hh4aaQMS969vjb/ZM1A==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-xlGVxP5sS3yFgQtNT1TItsy2qHVnrc6OxUIXTKzyfCsyKeIu7LsEAjrE9vm7c7t5KC85iSTSDtMbKOvFi48o7Q==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.7
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
@@ -12624,15 +12624,15 @@ packages:
     dev: false
 
   file:projects/arm-locks.tgz:
-    resolution: {integrity: sha512-y5sE5EWeQqgTSWY3yIdpUF84BAAdiphTy7DTx/94BeU07jsVdWgYIDDFrrbUUsu2D2a4SiTHSXyiwc4+F4Hnlw==, tarball: file:projects/arm-locks.tgz}
+    resolution: {integrity: sha512-M8FKQIl8dYrf+Ky+Ub12Lf8NeMhC9Fraqf7M0bJZdthL83Ot6JstRL1oExZ+KmtZ5OZDjKEFh8OxWONQtxmEAQ==, tarball: file:projects/arm-locks.tgz}
     name: '@rush-temp/arm-locks'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.7
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
@@ -12761,15 +12761,15 @@ packages:
     dev: false
 
   file:projects/arm-managedapplications.tgz:
-    resolution: {integrity: sha512-MyYntSTdIQn5AwQIsy90k4V0uLmgRynGKJl8KlKAZ779BjA1ux5s8b0resLSwicN/rePVrZlHYF3IhVlASv6QA==, tarball: file:projects/arm-managedapplications.tgz}
+    resolution: {integrity: sha512-upZnU6/BmJIfn4KK8OZM9NMPYWp2IgCAyDpeF4L6ohYcnLTsHIY9mRVdqYQUwLqWdgfBx+W9PRtNMXlw5qP+Zw==, tarball: file:projects/arm-managedapplications.tgz}
     name: '@rush-temp/arm-managedapplications'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.7
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
@@ -13551,15 +13551,15 @@ packages:
     dev: false
 
   file:projects/arm-policy.tgz:
-    resolution: {integrity: sha512-IciJx9xqVQORaDOK/Gsm6zPvPVBtEjR8+JyL2AluuCbyTvfmDI+VSsuc7uAhYbEoVRa1xu1Prpp6k16C4oRn6w==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-8WtqMPYlSxYPqzcoBEVlsZPy9r7ZZRE472Vnm3oCss0iGVxGjmzq4D6/G7pe/8SEQIs/03HuZrIjiasLcWvshQ==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.7
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
@@ -14158,15 +14158,15 @@ packages:
     dev: false
 
   file:projects/arm-resources-subscriptions.tgz:
-    resolution: {integrity: sha512-HLDiqkIrLxtnmzIfq03xmy5rn1CdCg5NFyM6N+ipwXeNkCgIdk28rBKKGC3vz5QYbtgFPylDgrummJli9E33ZQ==, tarball: file:projects/arm-resources-subscriptions.tgz}
+    resolution: {integrity: sha512-jzeJrcW+MsKdsNzsMsg0JztNAol91RI0sBsu0QATEnQ35wpS1q+f+kThUBzkLAtsHh4utvE8CDE3xRrLhlT3ew==, tarball: file:projects/arm-resources-subscriptions.tgz}
     name: '@rush-temp/arm-resources-subscriptions'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.7
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
@@ -14185,15 +14185,15 @@ packages:
     dev: false
 
   file:projects/arm-resources.tgz:
-    resolution: {integrity: sha512-Zu3QMWfINqKQaQUTCeqCoSt3cKqshq6KsKIvFSUj5je73MO6VRK4Jfr8lLPamhFDVeZ2/ZD8kP3qPaIEOqKnrA==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-yfRrlJ8rdEfD5Lv7DEpuf/mk41z8JL6zjl4huSgddGNRHVCj0qK7OQsfRqpiySY240MvR9b1Ox97J34jKrErBg==, tarball: file:projects/arm-resources.tgz}
     name: '@rush-temp/arm-resources'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.7
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
@@ -15027,15 +15027,15 @@ packages:
     dev: false
 
   file:projects/arm-templatespecs.tgz:
-    resolution: {integrity: sha512-k+IkhuH0X48gA6YncaNmSgc5fi4ytUR1unL6ojsrmRSO2PmryKBJCsDjftkWe76TgGyBZoDQWJGSbIoltJQjGw==, tarball: file:projects/arm-templatespecs.tgz}
+    resolution: {integrity: sha512-4IcGgLJrM5zBR+d5UzY0iK2Y7r4UgfPrYZPGkdtYBsdBsM4OMx+b6zDyuaRx6443hme2BkUmQaud+4X/zzGLNA==, tarball: file:projects/arm-templatespecs.tgz}
     name: '@rush-temp/arm-templatespecs'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.7
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
