@@ -142,6 +142,7 @@ specifiers:
   '@rush-temp/arm-network-1': file:./projects/arm-network-1.tgz
   '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:./projects/arm-network-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-networkfunction': file:./projects/arm-networkfunction.tgz
+  '@rush-temp/arm-newrelic': file:./projects/arm-newrelic.tgz
   '@rush-temp/arm-nginx': file:./projects/arm-nginx.tgz
   '@rush-temp/arm-notificationhubs': file:./projects/arm-notificationhubs.tgz
   '@rush-temp/arm-oep': file:./projects/arm-oep.tgz
@@ -471,6 +472,7 @@ dependencies:
   '@rush-temp/arm-network-1': file:projects/arm-network-1.tgz
   '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:projects/arm-network-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-networkfunction': file:projects/arm-networkfunction.tgz
+  '@rush-temp/arm-newrelic': file:projects/arm-newrelic.tgz
   '@rush-temp/arm-nginx': file:projects/arm-nginx.tgz
   '@rush-temp/arm-notificationhubs': file:projects/arm-notificationhubs.tgz
   '@rush-temp/arm-oep': file:projects/arm-oep.tgz
@@ -3855,7 +3857,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230223
+      typescript: 5.0.0-dev.20230224
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8604,8 +8606,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230223:
-    resolution: {integrity: sha512-dUsdRdWs5mX+5uhIGuE1IEkfTzM5vY9qfVxIbRB3vxVINGEI8mS9/f3gs5xenafNblfMX8wUVvQ7y2x6Syk0tA==}
+  /typescript/5.0.0-dev.20230224:
+    resolution: {integrity: sha512-ntlbPkFF0PM1+lmvLenUGwo+3EJPq5QAvAsw+6HA6KTOHpF3IcmYE57rcgpL54NLXhqz84RNTtcmb4dttBuBsA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -13313,6 +13315,33 @@ packages:
       '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
       '@rollup/plugin-json': 6.0.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.36
+      chai: 4.3.7
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
+      tslib: 2.4.1
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-newrelic.tgz:
+    resolution: {integrity: sha512-cehnguJnhXigtde7FrBfTQXyOYuANvCJ4UDa3MFn2NkaXNRnkmVMjKi4mqnqMM1pGSuj2XrNDkMLoqVPnB8r2Q==, tarball: file:projects/arm-newrelic.tgz}
+    name: '@rush-temp/arm-newrelic'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.33.7
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
