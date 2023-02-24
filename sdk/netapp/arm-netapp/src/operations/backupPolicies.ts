@@ -43,7 +43,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * List backup policies for Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -101,7 +101,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * List backup policies for Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -118,7 +118,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * Get a particular backup Policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param options The options parameters.
@@ -137,7 +137,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * Create a backup policy for Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param body Backup policy object supplied in the body of the operation.
@@ -210,7 +210,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * Create a backup policy for Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param body Backup policy object supplied in the body of the operation.
@@ -235,7 +235,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * Patch a backup policy for Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param body Backup policy object supplied in the body of the operation.
@@ -308,7 +308,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * Patch a backup policy for Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param body Backup policy object supplied in the body of the operation.
@@ -333,7 +333,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * Delete backup policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param options The options parameters.
@@ -399,7 +399,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * Delete backup policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param options The options parameters.
@@ -482,7 +482,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body22,
+  requestBody: Parameters.body24,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -514,7 +514,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body23,
+  requestBody: Parameters.body25,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

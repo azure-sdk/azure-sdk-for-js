@@ -27,7 +27,7 @@ import {
 export interface Snapshots {
   /**
    * List all snapshots associated with the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -42,7 +42,7 @@ export interface Snapshots {
   ): PagedAsyncIterableIterator<Snapshot>;
   /**
    * Get details of the specified snapshot
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -59,7 +59,7 @@ export interface Snapshots {
   ): Promise<SnapshotsGetResponse>;
   /**
    * Create the specified snapshot within the given volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -83,7 +83,7 @@ export interface Snapshots {
   >;
   /**
    * Create the specified snapshot within the given volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -102,7 +102,7 @@ export interface Snapshots {
   ): Promise<SnapshotsCreateResponse>;
   /**
    * Patch a snapshot
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -126,7 +126,7 @@ export interface Snapshots {
   >;
   /**
    * Patch a snapshot
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -145,7 +145,7 @@ export interface Snapshots {
   ): Promise<SnapshotsUpdateResponse>;
   /**
    * Delete snapshot
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -162,7 +162,7 @@ export interface Snapshots {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Delete snapshot
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -179,7 +179,7 @@ export interface Snapshots {
   ): Promise<void>;
   /**
    * Restore the specified files from the specified snapshot to the active filesystem
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -198,7 +198,7 @@ export interface Snapshots {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Restore the specified files from the specified snapshot to the active filesystem
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
