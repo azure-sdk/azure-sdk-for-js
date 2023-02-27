@@ -22,6 +22,13 @@ import {
   ProfilesUpdateOptionalParams,
   ProfilesUpdateResponse,
   ProfilesDeleteOptionalParams,
+  CanMigrateParameters,
+  ProfilesCanMigrateOptionalParams,
+  ProfilesCanMigrateResponse,
+  MigrationParameters,
+  ProfilesMigrateOptionalParams,
+  ProfilesMigrateResponse,
+  ProfilesMigrationCommitOptionalParams,
   ProfilesGenerateSsoUriOptionalParams,
   ProfilesGenerateSsoUriResponse,
   ProfilesListSupportedOptimizationTypesOptionalParams,
@@ -172,6 +179,86 @@ export interface Profiles {
     resourceGroupName: string,
     profileName: string,
     options?: ProfilesDeleteOptionalParams
+  ): Promise<void>;
+  /**
+   * Checks if CDN profile can be migrated to Azure Frontdoor(Standard/Premium) profile.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param canMigrateParameters Properties needed to check if cdn profile or classic frontdoor can be
+   *                             migrated.
+   * @param options The options parameters.
+   */
+  beginCanMigrate(
+    resourceGroupName: string,
+    canMigrateParameters: CanMigrateParameters,
+    options?: ProfilesCanMigrateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ProfilesCanMigrateResponse>,
+      ProfilesCanMigrateResponse
+    >
+  >;
+  /**
+   * Checks if CDN profile can be migrated to Azure Frontdoor(Standard/Premium) profile.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param canMigrateParameters Properties needed to check if cdn profile or classic frontdoor can be
+   *                             migrated.
+   * @param options The options parameters.
+   */
+  beginCanMigrateAndWait(
+    resourceGroupName: string,
+    canMigrateParameters: CanMigrateParameters,
+    options?: ProfilesCanMigrateOptionalParams
+  ): Promise<ProfilesCanMigrateResponse>;
+  /**
+   * Migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. The change need to be
+   * committed after this.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param migrationParameters Properties needed to migrate the profile.
+   * @param options The options parameters.
+   */
+  beginMigrate(
+    resourceGroupName: string,
+    migrationParameters: MigrationParameters,
+    options?: ProfilesMigrateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ProfilesMigrateResponse>,
+      ProfilesMigrateResponse
+    >
+  >;
+  /**
+   * Migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. The change need to be
+   * committed after this.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param migrationParameters Properties needed to migrate the profile.
+   * @param options The options parameters.
+   */
+  beginMigrateAndWait(
+    resourceGroupName: string,
+    migrationParameters: MigrationParameters,
+    options?: ProfilesMigrateOptionalParams
+  ): Promise<ProfilesMigrateResponse>;
+  /**
+   * Commit the migrated Azure Frontdoor(Standard/Premium) profile.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param options The options parameters.
+   */
+  beginMigrationCommit(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesMigrationCommitOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Commit the migrated Azure Frontdoor(Standard/Premium) profile.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param options The options parameters.
+   */
+  beginMigrationCommitAndWait(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesMigrationCommitOptionalParams
   ): Promise<void>;
   /**
    * Generates a dynamic SSO URI used to sign in to the CDN supplemental portal. Supplemental portal is

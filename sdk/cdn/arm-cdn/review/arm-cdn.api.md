@@ -37,6 +37,12 @@ export interface AfdCustomDomains {
 }
 
 // @public
+export interface AfdCustomDomainsCreateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface AfdCustomDomainsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -44,6 +50,12 @@ export interface AfdCustomDomainsCreateOptionalParams extends coreClient.Operati
 
 // @public
 export type AfdCustomDomainsCreateResponse = AFDDomain;
+
+// @public
+export interface AfdCustomDomainsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface AfdCustomDomainsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -73,9 +85,21 @@ export interface AfdCustomDomainsListByProfileOptionalParams extends coreClient.
 export type AfdCustomDomainsListByProfileResponse = AFDDomainListResult;
 
 // @public
+export interface AfdCustomDomainsRefreshValidationTokenHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface AfdCustomDomainsRefreshValidationTokenOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface AfdCustomDomainsUpdateHeaders {
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -92,6 +116,9 @@ export interface AFDDomain extends ProxyResource {
     azureDnsZone?: ResourceReference;
     readonly deploymentStatus?: DeploymentStatus;
     readonly domainValidationState?: DomainValidationState;
+    extendedProperties?: {
+        [propertyName: string]: string;
+    };
     hostName?: string;
     preValidatedCustomDomainResourceId?: ResourceReference;
     readonly profileName?: string;
@@ -116,6 +143,9 @@ export interface AFDDomainListResult {
 // @public
 export interface AFDDomainProperties extends AFDDomainUpdatePropertiesParameters, AFDStateProperties {
     readonly domainValidationState?: DomainValidationState;
+    extendedProperties?: {
+        [propertyName: string]: string;
+    };
     hostName: string;
     readonly validationProperties?: DomainValidationProperties;
 }
@@ -184,6 +214,12 @@ export interface AfdEndpoints {
 }
 
 // @public
+export interface AfdEndpointsCreateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface AfdEndpointsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -191,6 +227,12 @@ export interface AfdEndpointsCreateOptionalParams extends coreClient.OperationOp
 
 // @public
 export type AfdEndpointsCreateResponse = AFDEndpoint;
+
+// @public
+export interface AfdEndpointsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface AfdEndpointsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -234,9 +276,21 @@ export interface AfdEndpointsListResourceUsageOptionalParams extends coreClient.
 export type AfdEndpointsListResourceUsageResponse = UsagesListResult;
 
 // @public
+export interface AfdEndpointsPurgeContentHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface AfdEndpointsPurgeContentOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface AfdEndpointsUpdateHeaders {
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -324,6 +378,12 @@ export interface AfdOriginGroups {
 }
 
 // @public
+export interface AfdOriginGroupsCreateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface AfdOriginGroupsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -331,6 +391,12 @@ export interface AfdOriginGroupsCreateOptionalParams extends coreClient.Operatio
 
 // @public
 export type AfdOriginGroupsCreateResponse = AFDOriginGroup;
+
+// @public
+export interface AfdOriginGroupsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface AfdOriginGroupsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -372,6 +438,12 @@ export interface AfdOriginGroupsListResourceUsageOptionalParams extends coreClie
 
 // @public
 export type AfdOriginGroupsListResourceUsageResponse = UsagesListResult;
+
+// @public
+export interface AfdOriginGroupsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface AfdOriginGroupsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -423,6 +495,12 @@ export interface AfdOrigins {
 }
 
 // @public
+export interface AfdOriginsCreateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface AfdOriginsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -430,6 +508,12 @@ export interface AfdOriginsCreateOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type AfdOriginsCreateResponse = AFDOrigin;
+
+// @public
+export interface AfdOriginsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface AfdOriginsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -457,6 +541,12 @@ export interface AfdOriginsListByOriginGroupOptionalParams extends coreClient.Op
 
 // @public
 export type AfdOriginsListByOriginGroupResponse = AFDOriginListResult;
+
+// @public
+export interface AfdOriginsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface AfdOriginsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -499,9 +589,20 @@ export interface AFDOriginUpdatePropertiesParameters {
 
 // @public
 export interface AfdProfiles {
+    beginUpgrade(resourceGroupName: string, profileName: string, profileUpgradeParameters: ProfileUpgradeParameters, options?: AfdProfilesUpgradeOptionalParams): Promise<PollerLike<PollOperationState<AfdProfilesUpgradeResponse>, AfdProfilesUpgradeResponse>>;
+    beginUpgradeAndWait(resourceGroupName: string, profileName: string, profileUpgradeParameters: ProfileUpgradeParameters, options?: AfdProfilesUpgradeOptionalParams): Promise<AfdProfilesUpgradeResponse>;
+    checkEndpointNameAvailability(resourceGroupName: string, profileName: string, checkEndpointNameAvailabilityInput: CheckEndpointNameAvailabilityInput, options?: AfdProfilesCheckEndpointNameAvailabilityOptionalParams): Promise<AfdProfilesCheckEndpointNameAvailabilityResponse>;
     checkHostNameAvailability(resourceGroupName: string, profileName: string, checkHostNameAvailabilityInput: CheckHostNameAvailabilityInput, options?: AfdProfilesCheckHostNameAvailabilityOptionalParams): Promise<AfdProfilesCheckHostNameAvailabilityResponse>;
     listResourceUsage(resourceGroupName: string, profileName: string, options?: AfdProfilesListResourceUsageOptionalParams): PagedAsyncIterableIterator<Usage>;
+    validateSecret(resourceGroupName: string, profileName: string, validateSecretInput: ValidateSecretInput, options?: AfdProfilesValidateSecretOptionalParams): Promise<AfdProfilesValidateSecretResponse>;
 }
+
+// @public
+export interface AfdProfilesCheckEndpointNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AfdProfilesCheckEndpointNameAvailabilityResponse = CheckEndpointNameAvailabilityOutput;
 
 // @public
 export interface AfdProfilesCheckHostNameAvailabilityOptionalParams extends coreClient.OperationOptions {
@@ -523,6 +624,28 @@ export interface AfdProfilesListResourceUsageOptionalParams extends coreClient.O
 
 // @public
 export type AfdProfilesListResourceUsageResponse = UsagesListResult;
+
+// @public
+export interface AfdProfilesUpgradeHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface AfdProfilesUpgradeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AfdProfilesUpgradeResponse = Profile;
+
+// @public
+export interface AfdProfilesValidateSecretOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AfdProfilesValidateSecretResponse = ValidateSecretOutput;
 
 // @public
 export type AfdProvisioningState = string;
@@ -598,6 +721,22 @@ export interface CacheKeyQueryStringActionParameters {
 export type CacheType = string;
 
 // @public
+export type CanMigrateDefaultSku = string;
+
+// @public
+export interface CanMigrateParameters {
+    classicResourceReference: ResourceReference;
+}
+
+// @public
+export interface CanMigrateResult {
+    readonly canMigrate?: boolean;
+    readonly defaultSku?: CanMigrateDefaultSku;
+    // (undocumented)
+    errors?: MigrationErrorType[];
+}
+
+// @public
 export interface CdnCertificateSourceParameters {
     certificateType: CertificateType;
     // (undocumented)
@@ -669,8 +808,6 @@ export class CdnManagementClient extends coreClient.ServiceClient {
     securityPolicies: SecurityPolicies;
     // (undocumented)
     subscriptionId: string;
-    // (undocumented)
-    validate: Validate;
     validateProbe(validateProbeInput: ValidateProbeInput, options?: ValidateProbeOptionalParams): Promise<ValidateProbeResponse>;
 }
 
@@ -686,6 +823,9 @@ export interface CdnWebApplicationFirewallPolicy extends TrackedResource {
     customRules?: CustomRuleList;
     readonly endpointLinks?: CdnEndpoint[];
     etag?: string;
+    extendedProperties?: {
+        [propertyName: string]: string;
+    };
     managedRules?: ManagedRuleSetList;
     policySettings?: PolicySettings;
     readonly provisioningState?: ProvisioningState;
@@ -911,6 +1051,12 @@ export interface CustomDomains {
 }
 
 // @public
+export interface CustomDomainsCreateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface CustomDomainsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -920,9 +1066,21 @@ export interface CustomDomainsCreateOptionalParams extends coreClient.OperationO
 export type CustomDomainsCreateResponse = CustomDomain;
 
 // @public
+export interface CustomDomainsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface CustomDomainsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface CustomDomainsDisableCustomHttpsHeaders {
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -933,6 +1091,12 @@ export interface CustomDomainsDisableCustomHttpsOptionalParams extends coreClien
 
 // @public
 export type CustomDomainsDisableCustomHttpsResponse = CustomDomain;
+
+// @public
+export interface CustomDomainsEnableCustomHttpsHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface CustomDomainsEnableCustomHttpsOptionalParams extends coreClient.OperationOptions {
@@ -1371,6 +1535,12 @@ export interface Endpoints {
 }
 
 // @public
+export interface EndpointsCreateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface EndpointsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1378,6 +1548,12 @@ export interface EndpointsCreateOptionalParams extends coreClient.OperationOptio
 
 // @public
 export type EndpointsCreateResponse = Endpoint;
+
+// @public
+export interface EndpointsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface EndpointsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1421,15 +1597,33 @@ export interface EndpointsListResourceUsageOptionalParams extends coreClient.Ope
 export type EndpointsListResourceUsageResponse = ResourceUsageListResult;
 
 // @public
+export interface EndpointsLoadContentHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface EndpointsLoadContentOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
+export interface EndpointsPurgeContentHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface EndpointsPurgeContentOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface EndpointsStartHeaders {
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -1442,6 +1636,12 @@ export interface EndpointsStartOptionalParams extends coreClient.OperationOption
 export type EndpointsStartResponse = Endpoint;
 
 // @public
+export interface EndpointsStopHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface EndpointsStopOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1449,6 +1649,12 @@ export interface EndpointsStopOptionalParams extends coreClient.OperationOptions
 
 // @public
 export type EndpointsStopResponse = Endpoint;
+
+// @public
+export interface EndpointsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface EndpointsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1692,6 +1898,12 @@ export enum KnownCacheBehavior {
 // @public
 export enum KnownCacheType {
     All = "All"
+}
+
+// @public
+export enum KnownCanMigrateDefaultSku {
+    PremiumAzureFrontDoor = "Premium_AzureFrontDoor",
+    StandardAzureFrontDoor = "Standard_AzureFrontDoor"
 }
 
 // @public
@@ -1957,6 +2169,14 @@ export enum KnownManagedRuleEnabledState {
 }
 
 // @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownMatchProcessingBehavior {
     Continue = "Continue",
     Stop = "Stop"
@@ -1986,14 +2206,14 @@ export enum KnownMatchVariable {
 }
 
 // @public
-export enum KnownMetricsResponseGranularity {
+export enum KnownMetricsGranularity {
     P1D = "P1D",
     PT1H = "PT1H",
     PT5M = "PT5M"
 }
 
 // @public
-export enum KnownMetricsResponseSeriesItemUnit {
+export enum KnownMetricsSeriesUnit {
     BitsPerSecond = "bitsPerSecond",
     Bytes = "bytes",
     Count = "count",
@@ -2129,10 +2349,15 @@ export enum KnownProfileProvisioningState {
 
 // @public
 export enum KnownProfileResourceState {
+    AbortingMigration = "AbortingMigration",
     Active = "Active",
+    CommittingMigration = "CommittingMigration",
     Creating = "Creating",
     Deleting = "Deleting",
-    Disabled = "Disabled"
+    Disabled = "Disabled",
+    Migrated = "Migrated",
+    Migrating = "Migrating",
+    PendingMigrationCommit = "PendingMigrationCommit"
 }
 
 // @public
@@ -2458,10 +2683,15 @@ export enum KnownWafMetric {
 }
 
 // @public
-export enum KnownWafMetricsResponseGranularity {
+export enum KnownWafMetricsGranularity {
     P1D = "P1D",
     PT1H = "PT1H",
     PT5M = "PT5M"
+}
+
+// @public
+export enum KnownWafMetricsSeriesUnit {
+    Count = "count"
 }
 
 // @public
@@ -2676,6 +2906,19 @@ export interface ManagedRuleSetsListOptionalParams extends coreClient.OperationO
 export type ManagedRuleSetsListResponse = ManagedRuleSetDefinitionList;
 
 // @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
+
+// @public
 export interface MatchCondition {
     matchValue: string[];
     matchVariable: WafMatchVariable;
@@ -2700,6 +2943,9 @@ export interface MetricAvailability {
 }
 
 // @public
+export type MetricsGranularity = string;
+
+// @public
 export interface MetricSpecification {
     aggregationType?: string;
     availabilities?: MetricAvailability[];
@@ -2721,13 +2967,10 @@ export interface MetricsResponse {
     // (undocumented)
     dateTimeEnd?: Date;
     // (undocumented)
-    granularity?: MetricsResponseGranularity;
+    granularity?: MetricsGranularity;
     // (undocumented)
     series?: MetricsResponseSeriesItem[];
 }
-
-// @public
-export type MetricsResponseGranularity = string;
 
 // @public (undocumented)
 export interface MetricsResponseSeriesItem {
@@ -2738,11 +2981,8 @@ export interface MetricsResponseSeriesItem {
     // (undocumented)
     metric?: string;
     // (undocumented)
-    unit?: MetricsResponseSeriesItemUnit;
+    unit?: MetricsSeriesUnit;
 }
-
-// @public
-export type MetricsResponseSeriesItemUnit = string;
 
 // @public (undocumented)
 export interface MetricsResponseSeriesPropertiesItemsItem {
@@ -2750,6 +2990,38 @@ export interface MetricsResponseSeriesPropertiesItemsItem {
     name?: string;
     // (undocumented)
     value?: string;
+}
+
+// @public
+export type MetricsSeriesUnit = string;
+
+// @public
+export interface MigrateResult {
+    // (undocumented)
+    errors?: MigrationErrorType[];
+    readonly migratedProfileResourceId?: ResourceReference;
+}
+
+// @public
+export interface MigrationErrorType {
+    readonly code?: string;
+    readonly errorMessage?: string;
+    readonly nextSteps?: string;
+    readonly resourceName?: string;
+}
+
+// @public
+export interface MigrationParameters {
+    classicResourceReference: ResourceReference;
+    migrationWebApplicationFirewallMappings?: MigrationWebApplicationFirewallMapping[];
+    profileName: string;
+    sku: Sku;
+}
+
+// @public
+export interface MigrationWebApplicationFirewallMapping {
+    migratedFrom?: ResourceReference;
+    migratedTo?: ResourceReference;
 }
 
 // @public
@@ -2881,6 +3153,12 @@ export interface OriginGroups {
 }
 
 // @public
+export interface OriginGroupsCreateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface OriginGroupsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2888,6 +3166,12 @@ export interface OriginGroupsCreateOptionalParams extends coreClient.OperationOp
 
 // @public
 export type OriginGroupsCreateResponse = OriginGroup;
+
+// @public
+export interface OriginGroupsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface OriginGroupsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -2915,6 +3199,12 @@ export interface OriginGroupsListByEndpointOptionalParams extends coreClient.Ope
 
 // @public
 export type OriginGroupsListByEndpointResponse = OriginGroupListResult;
+
+// @public
+export interface OriginGroupsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface OriginGroupsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -2973,6 +3263,12 @@ export interface Origins {
 }
 
 // @public
+export interface OriginsCreateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface OriginsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2980,6 +3276,12 @@ export interface OriginsCreateOptionalParams extends coreClient.OperationOptions
 
 // @public
 export type OriginsCreateResponse = Origin;
+
+// @public
+export interface OriginsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface OriginsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -3007,6 +3309,12 @@ export interface OriginsListByEndpointOptionalParams extends coreClient.Operatio
 
 // @public
 export type OriginsListByEndpointResponse = OriginListResult;
+
+// @public
+export interface OriginsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface OriginsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -3062,6 +3370,12 @@ export interface Policies {
 }
 
 // @public
+export interface PoliciesCreateOrUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface PoliciesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -3094,6 +3408,12 @@ export interface PoliciesListOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type PoliciesListResponse = CdnWebApplicationFirewallPolicyList;
+
+// @public
+export interface PoliciesUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface PoliciesUpdateOptionalParams extends coreClient.OperationOptions {
@@ -3147,12 +3467,22 @@ export type ProbeProtocol = "NotSet" | "Http" | "Https";
 
 // @public
 export interface Profile extends TrackedResource {
+    extendedProperties?: {
+        [propertyName: string]: string;
+    };
     readonly frontDoorId?: string;
+    identity?: ManagedServiceIdentity;
     readonly kind?: string;
     originResponseTimeoutSeconds?: number;
     readonly provisioningState?: ProfileProvisioningState;
     readonly resourceState?: ProfileResourceState;
     sku: Sku;
+}
+
+// @public
+export interface ProfileChangeSkuWafMapping {
+    changeToWafPolicy: ResourceReference;
+    securityPolicyName: string;
 }
 
 // @public
@@ -3169,10 +3499,16 @@ export type ProfileResourceState = string;
 
 // @public
 export interface Profiles {
+    beginCanMigrate(resourceGroupName: string, canMigrateParameters: CanMigrateParameters, options?: ProfilesCanMigrateOptionalParams): Promise<PollerLike<PollOperationState<ProfilesCanMigrateResponse>, ProfilesCanMigrateResponse>>;
+    beginCanMigrateAndWait(resourceGroupName: string, canMigrateParameters: CanMigrateParameters, options?: ProfilesCanMigrateOptionalParams): Promise<ProfilesCanMigrateResponse>;
     beginCreate(resourceGroupName: string, profileName: string, profile: Profile, options?: ProfilesCreateOptionalParams): Promise<PollerLike<PollOperationState<ProfilesCreateResponse>, ProfilesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, profileName: string, profile: Profile, options?: ProfilesCreateOptionalParams): Promise<ProfilesCreateResponse>;
     beginDelete(resourceGroupName: string, profileName: string, options?: ProfilesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, profileName: string, options?: ProfilesDeleteOptionalParams): Promise<void>;
+    beginMigrate(resourceGroupName: string, migrationParameters: MigrationParameters, options?: ProfilesMigrateOptionalParams): Promise<PollerLike<PollOperationState<ProfilesMigrateResponse>, ProfilesMigrateResponse>>;
+    beginMigrateAndWait(resourceGroupName: string, migrationParameters: MigrationParameters, options?: ProfilesMigrateOptionalParams): Promise<ProfilesMigrateResponse>;
+    beginMigrationCommit(resourceGroupName: string, profileName: string, options?: ProfilesMigrationCommitOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginMigrationCommitAndWait(resourceGroupName: string, profileName: string, options?: ProfilesMigrationCommitOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, profileName: string, profileUpdateParameters: ProfileUpdateParameters, options?: ProfilesUpdateOptionalParams): Promise<PollerLike<PollOperationState<ProfilesUpdateResponse>, ProfilesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, profileName: string, profileUpdateParameters: ProfileUpdateParameters, options?: ProfilesUpdateOptionalParams): Promise<ProfilesUpdateResponse>;
     generateSsoUri(resourceGroupName: string, profileName: string, options?: ProfilesGenerateSsoUriOptionalParams): Promise<ProfilesGenerateSsoUriResponse>;
@@ -3184,6 +3520,27 @@ export interface Profiles {
 }
 
 // @public
+export interface ProfilesCanMigrateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ProfilesCanMigrateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ProfilesCanMigrateResponse = CanMigrateResult;
+
+// @public
+export interface ProfilesCreateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface ProfilesCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -3191,6 +3548,12 @@ export interface ProfilesCreateOptionalParams extends coreClient.OperationOption
 
 // @public
 export type ProfilesCreateResponse = Profile;
+
+// @public
+export interface ProfilesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface ProfilesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -3262,6 +3625,39 @@ export interface ProfilesListSupportedOptimizationTypesOptionalParams extends co
 export type ProfilesListSupportedOptimizationTypesResponse = SupportedOptimizationTypesListResult;
 
 // @public
+export interface ProfilesMigrateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ProfilesMigrateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ProfilesMigrateResponse = MigrateResult;
+
+// @public
+export interface ProfilesMigrationCommitHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ProfilesMigrationCommitOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ProfilesUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface ProfilesUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -3272,10 +3668,16 @@ export type ProfilesUpdateResponse = Profile;
 
 // @public
 export interface ProfileUpdateParameters {
+    identity?: ManagedServiceIdentity;
     originResponseTimeoutSeconds?: number;
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface ProfileUpgradeParameters {
+    wafMappingList: ProfileChangeSkuWafMapping[];
 }
 
 // @public
@@ -3599,6 +4001,12 @@ export interface Routes {
 }
 
 // @public
+export interface RoutesCreateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface RoutesCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -3606,6 +4014,12 @@ export interface RoutesCreateOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type RoutesCreateResponse = Route;
+
+// @public
+export interface RoutesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface RoutesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -3633,6 +4047,12 @@ export interface RoutesListByEndpointOptionalParams extends coreClient.Operation
 
 // @public
 export type RoutesListByEndpointResponse = RouteListResult;
+
+// @public
+export interface RoutesUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface RoutesUpdateOptionalParams extends coreClient.OperationOptions {
@@ -3718,6 +4138,12 @@ export interface Rules {
 }
 
 // @public
+export interface RulesCreateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface RulesCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -3725,6 +4151,12 @@ export interface RulesCreateOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export type RulesCreateResponse = Rule;
+
+// @public
+export interface RulesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface RulesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -3766,6 +4198,12 @@ export interface RuleSetsCreateOptionalParams extends coreClient.OperationOption
 
 // @public
 export type RuleSetsCreateResponse = RuleSet;
+
+// @public
+export interface RuleSetsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface RuleSetsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -3828,6 +4266,12 @@ export interface RulesListByRuleSetOptionalParams extends coreClient.OperationOp
 
 // @public
 export type RulesListByRuleSetResponse = RuleListResult;
+
+// @public
+export interface RulesUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface RulesUpdateOptionalParams extends coreClient.OperationOptions {
@@ -3895,6 +4339,12 @@ export interface Secrets {
 }
 
 // @public
+export interface SecretsCreateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface SecretsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -3902,6 +4352,12 @@ export interface SecretsCreateOptionalParams extends coreClient.OperationOptions
 
 // @public
 export type SecretsCreateResponse = Secret;
+
+// @public
+export interface SecretsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface SecretsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -3946,6 +4402,12 @@ export interface SecurityPolicies {
 }
 
 // @public
+export interface SecurityPoliciesCreateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface SecurityPoliciesCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -3953,6 +4415,12 @@ export interface SecurityPoliciesCreateOptionalParams extends coreClient.Operati
 
 // @public
 export type SecurityPoliciesCreateResponse = SecurityPolicy;
+
+// @public
+export interface SecurityPoliciesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface SecurityPoliciesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -3980,6 +4448,12 @@ export interface SecurityPoliciesListByProfileOptionalParams extends coreClient.
 
 // @public
 export type SecurityPoliciesListByProfileResponse = SecurityPolicyListResult;
+
+// @public
+export interface SecurityPoliciesPatchHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface SecurityPoliciesPatchOptionalParams extends coreClient.OperationOptions {
@@ -4278,14 +4752,15 @@ export interface UsagesListResult {
 export type UsageUnit = string;
 
 // @public
-export interface UserManagedHttpsParameters extends CustomDomainHttpsParameters {
-    certificateSource: "AzureKeyVault";
-    certificateSourceParameters: KeyVaultCertificateSourceParameters;
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public
-export interface Validate {
-    secret(validateSecretInput: ValidateSecretInput, options?: ValidateSecretOptionalParams): Promise<ValidateSecretResponse>;
+export interface UserManagedHttpsParameters extends CustomDomainHttpsParameters {
+    certificateSource: "AzureKeyVault";
+    certificateSourceParameters: KeyVaultCertificateSourceParameters;
 }
 
 // @public
@@ -4327,17 +4802,10 @@ export interface ValidateSecretInput {
 }
 
 // @public
-export interface ValidateSecretOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
 export interface ValidateSecretOutput {
     message?: string;
     status?: Status;
 }
-
-// @public
-export type ValidateSecretResponse = ValidateSecretOutput;
 
 // @public
 export interface ValidationToken {
@@ -4357,19 +4825,19 @@ export type WafMatchVariable = string;
 export type WafMetric = string;
 
 // @public
+export type WafMetricsGranularity = string;
+
+// @public
 export interface WafMetricsResponse {
     // (undocumented)
     dateTimeBegin?: Date;
     // (undocumented)
     dateTimeEnd?: Date;
     // (undocumented)
-    granularity?: WafMetricsResponseGranularity;
+    granularity?: WafMetricsGranularity;
     // (undocumented)
     series?: WafMetricsResponseSeriesItem[];
 }
-
-// @public
-export type WafMetricsResponseGranularity = string;
 
 // @public (undocumented)
 export interface WafMetricsResponseSeriesItem {
@@ -4380,7 +4848,7 @@ export interface WafMetricsResponseSeriesItem {
     // (undocumented)
     metric?: string;
     // (undocumented)
-    unit?: "count";
+    unit?: WafMetricsSeriesUnit;
 }
 
 // @public (undocumented)
@@ -4390,6 +4858,9 @@ export interface WafMetricsResponseSeriesPropertiesItemsItem {
     // (undocumented)
     value?: string;
 }
+
+// @public
+export type WafMetricsSeriesUnit = string;
 
 // @public
 export type WafRankingGroupBy = string;
