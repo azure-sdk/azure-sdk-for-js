@@ -46,9 +46,6 @@ export interface AzureResourcePropertiesBase {
 export type AzureResourcePropertiesBaseUnion = AzureResourcePropertiesBase | AzureKeyVaultProperties;
 
 // @public
-export type AzureResourceType = string;
-
-// @public
 export type ClientType = string;
 
 // @public
@@ -117,11 +114,6 @@ export enum KnownAuthType {
 }
 
 // @public
-export enum KnownAzureResourceType {
-    KeyVault = "KeyVault"
-}
-
-// @public
 export enum KnownClientType {
     Django = "django",
     Dotnet = "dotnet",
@@ -158,15 +150,16 @@ export enum KnownSecretType {
 }
 
 // @public
-export enum KnownTargetServiceType {
+export enum KnownType {
     AzureResource = "AzureResource",
     ConfluentBootstrapServer = "ConfluentBootstrapServer",
-    ConfluentSchemaRegistry = "ConfluentSchemaRegistry"
+    ConfluentSchemaRegistry = "ConfluentSchemaRegistry",
+    KeyVault = "KeyVault"
 }
 
 // @public
 export enum KnownValidationResultStatus {
-    Failure = "failure",
+    Failed = "failed",
     Success = "success",
     Warning = "warning"
 }
@@ -280,7 +273,7 @@ export interface LinkerValidateOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export type LinkerValidateResponse = ValidateOperationResult;
+export type LinkerValidateResponse = ValidateResult;
 
 // @public
 export interface Operation {
@@ -432,7 +425,7 @@ export interface TargetServiceBase {
 export type TargetServiceBaseUnion = TargetServiceBase | AzureResource | ConfluentBootstrapServer | ConfluentSchemaRegistry;
 
 // @public
-export type TargetServiceType = string;
+export type Type = string;
 
 // @public
 export interface UserAssignedIdentityAuthInfo extends AuthInfoBase {
@@ -442,15 +435,13 @@ export interface UserAssignedIdentityAuthInfo extends AuthInfoBase {
 }
 
 // @public
-export interface ValidateOperationResult {
+export interface ValidateResult {
     authType?: AuthType;
     isConnectionAvailable?: boolean;
     linkerName?: string;
     reportEndTimeUtc?: Date;
     reportStartTimeUtc?: Date;
-    resourceId?: string;
     sourceId?: string;
-    status?: string;
     targetId?: string;
     validationDetail?: ValidationResultItem[];
 }
