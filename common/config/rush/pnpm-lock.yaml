@@ -3855,7 +3855,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230224
+      typescript: 5.0.0-dev.20230226
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8604,8 +8604,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230224:
-    resolution: {integrity: sha512-ntlbPkFF0PM1+lmvLenUGwo+3EJPq5QAvAsw+6HA6KTOHpF3IcmYE57rcgpL54NLXhqz84RNTtcmb4dttBuBsA==}
+  /typescript/5.0.0-dev.20230226:
+    resolution: {integrity: sha512-JThVuZ1oAbEqUEN2xvLcO++QpyUcH6Ru6ppL6Q0PStHGjRmSoeJZgOgEdM34jVKv8f1lDpUXQK1cZ1zxbrZaSA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11111,15 +11111,15 @@ packages:
     dev: false
 
   file:projects/arm-databox.tgz:
-    resolution: {integrity: sha512-aQS+py+GGZlUmSGWYvqO3JcxLLwV5FJysJkKujsvyltDS5M713dO2IbGTLfsAQoWJtF7lFsk/+GMwVkIePiYCQ==, tarball: file:projects/arm-databox.tgz}
+    resolution: {integrity: sha512-7+GKIFxRE7wtSao8mmMHO8VIVEcPlGnvhsBoRPe2HtBJF/ayb53w5tq36hqxO21WR9Vvitmy/4VWVsgUp+hCbQ==, tarball: file:projects/arm-databox.tgz}
     name: '@rush-temp/arm-databox'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.7
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
