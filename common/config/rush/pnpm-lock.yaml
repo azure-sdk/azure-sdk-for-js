@@ -13065,7 +13065,7 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-3kQTcZERON/AYNpQexVQ2f6Nt9bpNxGHZIeFW5p8wL+Aves1oDlp1FDJ8w2tgehvgYqJrxDuUcosN0cQ14y8kg==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-JDZVaV0iO02HyTSiiyi0nfvk4oVJXBBVGA4nfQoPJWHSpfJH1/iGLw2KMylK9+vDUhuiBd/wMTfXp+0qXZqjzw==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
@@ -13073,9 +13073,9 @@ packages:
       '@azure/arm-storage': 17.2.1
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.7
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
@@ -18958,7 +18958,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-mYK6I+h0xzksiXIMd9/qOAU7QtVuQXfHFH7QcSSsTwkOFnNx967vIH40CRpeEXAUAjEXfKM0uaJPVw6W3saoEA==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-qfxL0rEhbj/NgJrnJW+7fuanBIdmW93Tv2tyggnI2tN3Emb7d3HezB4W1NOrKLaVkQ6ZIi1s461sO7W7WuTuOA==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:

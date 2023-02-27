@@ -6,22 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { VMInsights } from "../operationsInterfaces";
+import { MetricsOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MonitorClient } from "../monitorClient";
-import {
-  VMInsightsGetOnboardingStatusOptionalParams,
-  VMInsightsGetOnboardingStatusResponse
-} from "../models";
+import { MetricsListOptionalParams, MetricsListResponse } from "../models";
 
-/** Class containing VMInsights operations. */
-export class VMInsightsImpl implements VMInsights {
+/** Class containing MetricsOperations operations. */
+export class MetricsOperationsImpl implements MetricsOperations {
   private readonly client: MonitorClient;
 
   /**
-   * Initialize a new instance of the class VMInsights class.
+   * Initialize a new instance of the class MetricsOperations class.
    * @param client Reference to the service client
    */
   constructor(client: MonitorClient) {
@@ -29,37 +26,46 @@ export class VMInsightsImpl implements VMInsights {
   }
 
   /**
-   * Retrieves the VM Insights onboarding status for the specified resource or resource scope.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource, or scope,
-   *                    whose status to retrieve.
+   * **Lists the metric values for a resource**.
+   * @param resourceUri The identifier of the resource.
    * @param options The options parameters.
    */
-  getOnboardingStatus(
+  list(
     resourceUri: string,
-    options?: VMInsightsGetOnboardingStatusOptionalParams
-  ): Promise<VMInsightsGetOnboardingStatusResponse> {
+    options?: MetricsListOptionalParams
+  ): Promise<MetricsListResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      getOnboardingStatusOperationSpec
+      listOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOnboardingStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.Insights/vmInsightsOnboardingStatuses/default",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/providers/Microsoft.Insights/metrics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VMInsightsOnboardingStatus
+      bodyMapper: Mappers.Response
     },
     default: {
-      bodyMapper: Mappers.ResponseWithError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [
+    Parameters.filter1,
+    Parameters.apiVersion6,
+    Parameters.metricnamespace,
+    Parameters.timespan1,
+    Parameters.interval1,
+    Parameters.metricnames,
+    Parameters.aggregation1,
+    Parameters.top,
+    Parameters.orderby,
+    Parameters.resultType
+  ],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
   serializer

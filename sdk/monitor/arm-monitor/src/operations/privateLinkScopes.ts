@@ -387,7 +387,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -404,7 +404,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -426,7 +426,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -448,7 +448,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -474,7 +474,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.azureMonitorPrivateLinkScopePayload,
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -498,7 +498,7 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.privateLinkScopeTags,
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
