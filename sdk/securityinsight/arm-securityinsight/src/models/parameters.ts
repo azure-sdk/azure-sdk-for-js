@@ -14,10 +14,11 @@ import {
 import {
   AlertRule as AlertRuleMapper,
   ActionRequest as ActionRequestMapper,
+  AnalyticsRuleRunTrigger as AnalyticsRuleRunTriggerMapper,
   AutomationRule as AutomationRuleMapper,
   ManualTriggerRequestBody as ManualTriggerRequestBodyMapper,
   Incident as IncidentMapper,
-  TeamProperties as TeamPropertiesMapper,
+  TeamInformation as TeamInformationMapper,
   Bookmark as BookmarkMapper,
   Relation as RelationMapper,
   BookmarkExpandParameters as BookmarkExpandParametersMapper,
@@ -27,6 +28,7 @@ import {
   CustomEntityQuery as CustomEntityQueryMapper,
   FileImport as FileImportMapper,
   IncidentComment as IncidentCommentMapper,
+  IncidentTask as IncidentTaskMapper,
   MetadataModel as MetadataModelMapper,
   MetadataPatch as MetadataPatchMapper,
   SentinelOnboardingState as SentinelOnboardingStateMapper,
@@ -70,7 +72,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-01-preview",
+    defaultValue: "2023-02-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -112,6 +114,7 @@ export const workspaceName: OperationURLParameter = {
   parameterPath: "workspaceName",
   mapper: {
     constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"),
       MaxLength: 90,
       MinLength: 1
     },
@@ -190,6 +193,22 @@ export const alertRuleTemplateId: OperationURLParameter = {
   }
 };
 
+export const ruleRunId: OperationURLParameter = {
+  parameterPath: "ruleRunId",
+  mapper: {
+    serializedName: "ruleRunId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const analyticsRuleRunTriggerParameter: OperationParameter = {
+  parameterPath: "analyticsRuleRunTriggerParameter",
+  mapper: AnalyticsRuleRunTriggerMapper
+};
+
 export const automationRuleId: OperationURLParameter = {
   parameterPath: "automationRuleId",
   mapper: {
@@ -245,6 +264,9 @@ export const orderby: OperationQueryParameter = {
 export const top: OperationQueryParameter = {
   parameterPath: ["options", "top"],
   mapper: {
+    constraints: {
+      InclusiveMaximum: 1000
+    },
     serializedName: "$top",
     type: {
       name: "Number"
@@ -280,7 +302,7 @@ export const incident: OperationParameter = {
 
 export const teamProperties: OperationParameter = {
   parameterPath: "teamProperties",
-  mapper: TeamPropertiesMapper
+  mapper: TeamInformationMapper
 };
 
 export const bookmarkId: OperationURLParameter = {
@@ -297,6 +319,16 @@ export const bookmarkId: OperationURLParameter = {
 export const bookmark: OperationParameter = {
   parameterPath: "bookmark",
   mapper: BookmarkMapper
+};
+
+export const top1: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    serializedName: "$top",
+    type: {
+      name: "Number"
+    }
+  }
 };
 
 export const relationName: OperationURLParameter = {
@@ -460,6 +492,22 @@ export const incidentComment: OperationParameter = {
   mapper: IncidentCommentMapper
 };
 
+export const incidentTaskId: OperationURLParameter = {
+  parameterPath: "incidentTaskId",
+  mapper: {
+    serializedName: "incidentTaskId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const incidentTask: OperationParameter = {
+  parameterPath: "incidentTask",
+  mapper: IncidentTaskMapper
+};
+
 export const skip: OperationQueryParameter = {
   parameterPath: ["options", "skip"],
   mapper: {
@@ -516,6 +564,34 @@ export const sentinelOnboardingStateName: OperationURLParameter = {
 export const sentinelOnboardingStateParameter: OperationParameter = {
   parameterPath: ["options", "sentinelOnboardingStateParameter"],
   mapper: SentinelOnboardingStateMapper
+};
+
+export const recommendationId: OperationURLParameter = {
+  parameterPath: "recommendationId",
+  mapper: {
+    serializedName: "recommendationId",
+    required: true,
+    type: {
+      name: "Uuid"
+    }
+  }
+};
+
+export const recommendationPatch: OperationParameter = {
+  parameterPath: "recommendationPatch",
+  mapper: {
+    serializedName: "recommendationPatch",
+    required: true,
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "Composite",
+          className: "RecommendationPatch"
+        }
+      }
+    }
+  }
 };
 
 export const settingsResourceName: OperationURLParameter = {
