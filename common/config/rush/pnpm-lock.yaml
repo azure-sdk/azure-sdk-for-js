@@ -158,6 +158,7 @@ specifiers:
   '@rush-temp/arm-powerbidedicated': file:./projects/arm-powerbidedicated.tgz
   '@rush-temp/arm-powerbiembedded': file:./projects/arm-powerbiembedded.tgz
   '@rush-temp/arm-privatedns': file:./projects/arm-privatedns.tgz
+  '@rush-temp/arm-professionalservice': file:./projects/arm-professionalservice.tgz
   '@rush-temp/arm-purview': file:./projects/arm-purview.tgz
   '@rush-temp/arm-quota': file:./projects/arm-quota.tgz
   '@rush-temp/arm-recoveryservices': file:./projects/arm-recoveryservices.tgz
@@ -487,6 +488,7 @@ dependencies:
   '@rush-temp/arm-powerbidedicated': file:projects/arm-powerbidedicated.tgz
   '@rush-temp/arm-powerbiembedded': file:projects/arm-powerbiembedded.tgz
   '@rush-temp/arm-privatedns': file:projects/arm-privatedns.tgz
+  '@rush-temp/arm-professionalservice': file:projects/arm-professionalservice.tgz
   '@rush-temp/arm-purview': file:projects/arm-purview.tgz
   '@rush-temp/arm-quota': file:projects/arm-quota.tgz
   '@rush-temp/arm-recoveryservices': file:projects/arm-recoveryservices.tgz
@@ -13770,6 +13772,33 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-professionalservice.tgz:
+    resolution: {integrity: sha512-GhtaRzikLHWz/mwjnweRsjQz5rr+Q9p9Idi+5k2gQEKyUiFf5vqW0Ikk6tppJroWpRkyBTuRuf3xval4P0Ui8g==, tarball: file:projects/arm-professionalservice.tgz}
+    name: '@rush-temp/arm-professionalservice'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.33.7
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.36
+      chai: 4.3.7
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
+      tslib: 2.4.1
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-purview.tgz:
     resolution: {integrity: sha512-DwQeFHPWwXf2QIHBoQtfOclUkl4WnSTVVsCwaz1CodrUp9IbczwM4PSzM/iUHynivIOWSjUopHPNbqgPvR3pGA==, tarball: file:projects/arm-purview.tgz}
     name: '@rush-temp/arm-purview'
@@ -18958,7 +18987,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-mYK6I+h0xzksiXIMd9/qOAU7QtVuQXfHFH7QcSSsTwkOFnNx967vIH40CRpeEXAUAjEXfKM0uaJPVw6W3saoEA==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-qfxL0rEhbj/NgJrnJW+7fuanBIdmW93Tv2tyggnI2tN3Emb7d3HezB4W1NOrKLaVkQ6ZIi1s461sO7W7WuTuOA==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
