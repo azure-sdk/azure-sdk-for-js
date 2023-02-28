@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { RecoverableDatabases } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -14,10 +15,12 @@ import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
 import {
   RecoverableDatabase,
+  RecoverableDatabasesListByServerNextOptionalParams,
   RecoverableDatabasesListByServerOptionalParams,
   RecoverableDatabasesListByServerResponse,
   RecoverableDatabasesGetOptionalParams,
-  RecoverableDatabasesGetResponse
+  RecoverableDatabasesGetResponse,
+  RecoverableDatabasesListByServerNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +37,7 @@ export class RecoverableDatabasesImpl implements RecoverableDatabases {
   }
 
   /**
-   * Gets a list of recoverable databases
+   * Gets a list of recoverable databases.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -75,11 +78,29 @@ export class RecoverableDatabasesImpl implements RecoverableDatabases {
     resourceGroupName: string,
     serverName: string,
     options?: RecoverableDatabasesListByServerOptionalParams,
-    _settings?: PageSettings
+    settings?: PageSettings
   ): AsyncIterableIterator<RecoverableDatabase[]> {
     let result: RecoverableDatabasesListByServerResponse;
-    result = await this._listByServer(resourceGroupName, serverName, options);
-    yield result.value || [];
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByServer(resourceGroupName, serverName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByServerNext(
+        resourceGroupName,
+        serverName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listByServerPagingAll(
@@ -97,27 +118,7 @@ export class RecoverableDatabasesImpl implements RecoverableDatabases {
   }
 
   /**
-   * Gets a recoverable database, which is a resource representing a database's geo backup
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    options?: RecoverableDatabasesGetOptionalParams
-  ): Promise<RecoverableDatabasesGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * Gets a list of recoverable databases
+   * Gets a list of recoverable databases.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -133,30 +134,50 @@ export class RecoverableDatabasesImpl implements RecoverableDatabases {
       listByServerOperationSpec
     );
   }
+
+  /**
+   * Gets a recoverable database.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: RecoverableDatabasesGetOptionalParams
+  ): Promise<RecoverableDatabasesGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, databaseName, options },
+      getOperationSpec
+    );
+  }
+
+  /**
+   * ListByServerNext
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param nextLink The nextLink from the previous successful call to the ListByServer method.
+   * @param options The options parameters.
+   */
+  private _listByServerNext(
+    resourceGroupName: string,
+    serverName: string,
+    nextLink: string,
+    options?: RecoverableDatabasesListByServerNextOptionalParams
+  ): Promise<RecoverableDatabasesListByServerNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, nextLink, options },
+      listByServerNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/recoverableDatabases/{databaseName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RecoverableDatabase
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listByServerOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/recoverableDatabases",
@@ -164,14 +185,59 @@ const listByServerOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.RecoverableDatabaseListResult
-    }
+    },
+    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
+    Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/recoverableDatabases/{databaseName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RecoverableDatabase
+    },
+    default: {}
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.expand,
+    Parameters.filter
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByServerNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RecoverableDatabaseListResult
+    },
+    default: {}
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.subscriptionId,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

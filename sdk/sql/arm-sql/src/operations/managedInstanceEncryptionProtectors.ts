@@ -21,11 +21,11 @@ import {
   ManagedInstanceEncryptionProtectorsListByInstanceOptionalParams,
   ManagedInstanceEncryptionProtectorsListByInstanceResponse,
   EncryptionProtectorName,
-  ManagedInstanceEncryptionProtectorsRevalidateOptionalParams,
   ManagedInstanceEncryptionProtectorsGetOptionalParams,
   ManagedInstanceEncryptionProtectorsGetResponse,
   ManagedInstanceEncryptionProtectorsCreateOrUpdateOptionalParams,
   ManagedInstanceEncryptionProtectorsCreateOrUpdateResponse,
+  ManagedInstanceEncryptionProtectorsRevalidateOptionalParams,
   ManagedInstanceEncryptionProtectorsListByInstanceNextResponse
 } from "../models";
 
@@ -126,100 +126,6 @@ export class ManagedInstanceEncryptionProtectorsImpl
     )) {
       yield* page;
     }
-  }
-
-  /**
-   * Revalidates an existing encryption protector.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
-   * @param encryptionProtectorName The name of the encryption protector to be updated.
-   * @param options The options parameters.
-   */
-  async beginRevalidate(
-    resourceGroupName: string,
-    managedInstanceName: string,
-    encryptionProtectorName: EncryptionProtectorName,
-    options?: ManagedInstanceEncryptionProtectorsRevalidateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        managedInstanceName,
-        encryptionProtectorName,
-        options
-      },
-      revalidateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Revalidates an existing encryption protector.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
-   * @param encryptionProtectorName The name of the encryption protector to be updated.
-   * @param options The options parameters.
-   */
-  async beginRevalidateAndWait(
-    resourceGroupName: string,
-    managedInstanceName: string,
-    encryptionProtectorName: EncryptionProtectorName,
-    options?: ManagedInstanceEncryptionProtectorsRevalidateOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginRevalidate(
-      resourceGroupName,
-      managedInstanceName,
-      encryptionProtectorName,
-      options
-    );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -373,6 +279,100 @@ export class ManagedInstanceEncryptionProtectorsImpl
   }
 
   /**
+   * Revalidates an existing encryption protector.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param encryptionProtectorName The name of the encryption protector to be updated.
+   * @param options The options parameters.
+   */
+  async beginRevalidate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    encryptionProtectorName: EncryptionProtectorName,
+    options?: ManagedInstanceEncryptionProtectorsRevalidateOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        managedInstanceName,
+        encryptionProtectorName,
+        options
+      },
+      revalidateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Revalidates an existing encryption protector.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param encryptionProtectorName The name of the encryption protector to be updated.
+   * @param options The options parameters.
+   */
+  async beginRevalidateAndWait(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    encryptionProtectorName: EncryptionProtectorName,
+    options?: ManagedInstanceEncryptionProtectorsRevalidateOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginRevalidate(
+      resourceGroupName,
+      managedInstanceName,
+      encryptionProtectorName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListByInstanceNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -395,21 +395,6 @@ export class ManagedInstanceEncryptionProtectorsImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const revalidateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/encryptionProtector/{encryptionProtectorName}/revalidate",
-  httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.encryptionProtectorName,
-    Parameters.managedInstanceName
-  ],
-  serializer
-};
 const listByInstanceOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/encryptionProtector",
@@ -420,11 +405,11 @@ const listByInstanceOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.managedInstanceName
   ],
   headerParameters: [Parameters.accept],
@@ -440,11 +425,11 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.encryptionProtectorName,
     Parameters.managedInstanceName
   ],
@@ -470,17 +455,32 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters49,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters63,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.encryptionProtectorName,
     Parameters.managedInstanceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const revalidateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/encryptionProtector/{encryptionProtectorName}/revalidate",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.encryptionProtectorName,
+    Parameters.managedInstanceName
+  ],
   serializer
 };
 const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
@@ -494,8 +494,8 @@ const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.managedInstanceName
   ],
