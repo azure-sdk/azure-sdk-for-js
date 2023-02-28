@@ -1,15 +1,23 @@
 # Release History
+    
+## 3.0.0 (2023-02-28)
+    
+**Features**
 
-## 2.1.1 (Unreleased)
+  - Added Interface ValidateResult
+  - Added Type Alias Type
+  - Added Type Alias ValidationItemResult
+  - Added Enum KnownType
+  - Added Enum KnownValidationItemResult
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter result of interface ValidationResultItem is changed from ValidationResultStatus to ValidationItemResult
+  - Removed Enum KnownAzureResourceType
+  - Removed Enum KnownTargetServiceType
+  - Removed Enum KnownValidationResultStatus
+    
+    
 ## 2.1.0 (2022-12-16)
     
 **Features**
