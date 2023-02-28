@@ -13,6 +13,7 @@ import {
 } from "@azure/core-client";
 import {
   GitHubOAuthCallRequest as GitHubOAuthCallRequestMapper,
+  ArtifactGenerationProperties as ArtifactGenerationPropertiesMapper,
   Workflow as WorkflowMapper,
   TagsObject as TagsObjectMapper
 } from "../models/mappers";
@@ -44,7 +45,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-04-01-preview",
+    defaultValue: "2022-09-16-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -120,6 +121,11 @@ export const state: OperationQueryParameter = {
   }
 };
 
+export const parameters1: OperationParameter = {
+  parameterPath: ["options", "parameters"],
+  mapper: ArtifactGenerationPropertiesMapper
+};
+
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -136,7 +142,7 @@ export const resourceGroupName: OperationURLParameter = {
 };
 
 export const managedClusterResource: OperationQueryParameter = {
-  parameterPath: ["options", "managedClusterResource"],
+  parameterPath: "managedClusterResource",
   mapper: {
     serializedName: "managedClusterResource",
     type: {
@@ -163,12 +169,12 @@ export const workflowName: OperationURLParameter = {
   }
 };
 
-export const parameters1: OperationParameter = {
+export const parameters2: OperationParameter = {
   parameterPath: "parameters",
   mapper: WorkflowMapper
 };
 
-export const parameters2: OperationParameter = {
+export const parameters3: OperationParameter = {
   parameterPath: "parameters",
   mapper: TagsObjectMapper
 };

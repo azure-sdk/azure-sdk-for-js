@@ -510,6 +510,93 @@ export const WorkflowRun: coreClient.CompositeMapper = {
   }
 };
 
+export const ArtifactGenerationProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ArtifactGenerationProperties",
+    modelProperties: {
+      generationLanguage: {
+        serializedName: "generationLanguage",
+        type: {
+          name: "String"
+        }
+      },
+      languageVersion: {
+        serializedName: "languageVersion",
+        type: {
+          name: "String"
+        }
+      },
+      builderVersion: {
+        serializedName: "builderVersion",
+        type: {
+          name: "String"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "String"
+        }
+      },
+      appName: {
+        serializedName: "appName",
+        type: {
+          name: "String"
+        }
+      },
+      dockerfileOutputDirectory: {
+        serializedName: "dockerfileOutputDirectory",
+        type: {
+          name: "String"
+        }
+      },
+      manifestOutputDirectory: {
+        serializedName: "manifestOutputDirectory",
+        type: {
+          name: "String"
+        }
+      },
+      dockerfileGenerationMode: {
+        serializedName: "dockerfileGenerationMode",
+        type: {
+          name: "String"
+        }
+      },
+      manifestGenerationMode: {
+        serializedName: "manifestGenerationMode",
+        type: {
+          name: "String"
+        }
+      },
+      manifestType: {
+        serializedName: "manifestType",
+        type: {
+          name: "String"
+        }
+      },
+      imageName: {
+        serializedName: "imageName",
+        type: {
+          name: "String"
+        }
+      },
+      namespace: {
+        serializedName: "namespace",
+        type: {
+          name: "String"
+        }
+      },
+      imageTag: {
+        serializedName: "imageTag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DeleteWorkflowResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -535,6 +622,27 @@ export const TagsObject: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const GeneratePreviewArtifactsResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GeneratePreviewArtifactsResponse",
+    modelProperties: {
+      pathToFile1WithExtension: {
+        serializedName: "path/to/file1\\.withExtension",
+        type: {
+          name: "String"
+        }
+      },
+      pathToFile2WithExtension: {
+        serializedName: "path/to/file2\\.withExtension",
+        type: {
+          name: "String"
         }
       }
     }
@@ -597,6 +705,13 @@ export const Workflow: coreClient.CompositeMapper = {
     className: "Workflow",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
+      artifactGenerationProperties: {
+        serializedName: "properties.artifactGenerationProperties",
+        type: {
+          name: "Composite",
+          className: "ArtifactGenerationProperties"
+        }
+      },
       repositoryOwner: {
         serializedName: "properties.githubWorkflowProfile.repositoryOwner",
         type: {
@@ -690,6 +805,7 @@ export const Workflow: coreClient.CompositeMapper = {
       },
       authStatus: {
         serializedName: "properties.githubWorkflowProfile.authStatus",
+        readOnly: true,
         type: {
           name: "String"
         }

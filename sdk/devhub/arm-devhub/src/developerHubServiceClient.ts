@@ -25,23 +25,32 @@ import {
   GitHubOAuthCallbackOptionalParams,
   GitHubOAuthCallbackResponse,
   ListGitHubOAuthOptionalParams,
-  ListGitHubOAuthResponse
+  ListGitHubOAuthResponse,
+  GeneratePreviewArtifactsOptionalParams,
+  GeneratePreviewArtifactsOperationResponse
 } from "./models";
 
 export class DeveloperHubServiceClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
+  code: string;
+  state: string;
+  managedClusterResource?: string;
 
   /**
    * Initializes a new instance of the DeveloperHubServiceClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
+   * @param code The code response from authenticating the GitHub App.
+   * @param state The state response from authenticating the GitHub App.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
+    code: string,
+    state: string,
     options?: DeveloperHubServiceClientOptionalParams
   ) {
     if (credentials === undefined) {
@@ -49,6 +58,12 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
     }
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
+    }
+    if (code === undefined) {
+      throw new Error("'code' cannot be null");
+    }
+    if (state === undefined) {
+      throw new Error("'state' cannot be null");
     }
 
     // Initializing default values for options
@@ -110,10 +125,12 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
+    this.code = code;
+    this.state = state;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-04-01-preview";
+    this.apiVersion = options.apiVersion || "2022-09-16-preview";
     this.operations = new OperationsImpl(this);
     this.workflowOperations = new WorkflowOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
@@ -165,18 +182,14 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
   /**
    * Callback URL to hit once authenticated with GitHub App to have the service store the OAuth token.
    * @param location The name of Azure region.
-   * @param code The code response from authenticating the GitHub App.
-   * @param state The state response from authenticating the GitHub App.
    * @param options The options parameters.
    */
   gitHubOAuthCallback(
     location: string,
-    code: string,
-    state: string,
     options?: GitHubOAuthCallbackOptionalParams
   ): Promise<GitHubOAuthCallbackResponse> {
     return this.sendOperationRequest(
-      { location, code, state, options },
+      { location, options },
       gitHubOAuthCallbackOperationSpec
     );
   }
@@ -193,6 +206,21 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
     return this.sendOperationRequest(
       { location, options },
       listGitHubOAuthOperationSpec
+    );
+  }
+
+  /**
+   * Generate preview dockerfile and manifests.
+   * @param location The name of Azure region.
+   * @param options The options parameters.
+   */
+  generatePreviewArtifacts(
+    location: string,
+    options?: GeneratePreviewArtifactsOptionalParams
+  ): Promise<GeneratePreviewArtifactsOperationResponse> {
+    return this.sendOperationRequest(
+      { location, options },
+      generatePreviewArtifactsOperationSpec
     );
   }
 
@@ -265,5 +293,28 @@ const listGitHubOAuthOperationSpec: coreClient.OperationSpec = {
     Parameters.location
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const generatePreviewArtifactsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/locations/{location}/generatePreviewArtifacts",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GeneratePreviewArtifactsResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
