@@ -114,7 +114,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.aggregation1,
     Parameters.resultType,
     Parameters.sensitivities,
-    Parameters.apiVersion6
+    Parameters.apiVersion7
   ],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
