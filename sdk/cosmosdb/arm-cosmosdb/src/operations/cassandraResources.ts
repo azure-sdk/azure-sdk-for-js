@@ -12,12 +12,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   CassandraKeyspaceGetResults,
   CassandraResourcesListCassandraKeyspacesOptionalParams,
@@ -264,8 +260,10 @@ export class CassandraResourcesImpl implements CassandraResources {
     createUpdateCassandraKeyspaceParameters: CassandraKeyspaceCreateUpdateParameters,
     options?: CassandraResourcesCreateUpdateCassandraKeyspaceOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CassandraResourcesCreateUpdateCassandraKeyspaceResponse>,
+    PollerLike<
+      PollOperationState<
+        CassandraResourcesCreateUpdateCassandraKeyspaceResponse
+      >,
       CassandraResourcesCreateUpdateCassandraKeyspaceResponse
     >
   > {
@@ -275,7 +273,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     ): Promise<CassandraResourcesCreateUpdateCassandraKeyspaceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -308,22 +306,19 @@ export class CassandraResourcesImpl implements CassandraResources {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    const lro = new LroImpl(
+      sendOperation,
+      {
         resourceGroupName,
         accountName,
         keyspaceName,
         createUpdateCassandraKeyspaceParameters,
         options
       },
-      spec: createUpdateCassandraKeyspaceOperationSpec
-    });
-    const poller = await createHttpPoller<
-      CassandraResourcesCreateUpdateCassandraKeyspaceResponse,
-      OperationState<CassandraResourcesCreateUpdateCassandraKeyspaceResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+      createUpdateCassandraKeyspaceOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -369,8 +364,8 @@ export class CassandraResourcesImpl implements CassandraResources {
     keyspaceName: string,
     options?: CassandraResourcesDeleteCassandraKeyspaceOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CassandraResourcesDeleteCassandraKeyspaceResponse>,
+    PollerLike<
+      PollOperationState<CassandraResourcesDeleteCassandraKeyspaceResponse>,
       CassandraResourcesDeleteCassandraKeyspaceResponse
     >
   > {
@@ -380,7 +375,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     ): Promise<CassandraResourcesDeleteCassandraKeyspaceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -413,16 +408,13 @@ export class CassandraResourcesImpl implements CassandraResources {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, accountName, keyspaceName, options },
-      spec: deleteCassandraKeyspaceOperationSpec
-    });
-    const poller = await createHttpPoller<
-      CassandraResourcesDeleteCassandraKeyspaceResponse,
-      OperationState<CassandraResourcesDeleteCassandraKeyspaceResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, accountName, keyspaceName, options },
+      deleteCassandraKeyspaceOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -487,8 +479,8 @@ export class CassandraResourcesImpl implements CassandraResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: CassandraResourcesUpdateCassandraKeyspaceThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<
+    PollerLike<
+      PollOperationState<
         CassandraResourcesUpdateCassandraKeyspaceThroughputResponse
       >,
       CassandraResourcesUpdateCassandraKeyspaceThroughputResponse
@@ -500,7 +492,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     ): Promise<CassandraResourcesUpdateCassandraKeyspaceThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -533,24 +525,19 @@ export class CassandraResourcesImpl implements CassandraResources {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    const lro = new LroImpl(
+      sendOperation,
+      {
         resourceGroupName,
         accountName,
         keyspaceName,
         updateThroughputParameters,
         options
       },
-      spec: updateCassandraKeyspaceThroughputOperationSpec
-    });
-    const poller = await createHttpPoller<
-      CassandraResourcesUpdateCassandraKeyspaceThroughputResponse,
-      OperationState<
-        CassandraResourcesUpdateCassandraKeyspaceThroughputResponse
-      >
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+      updateCassandraKeyspaceThroughputOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -596,8 +583,8 @@ export class CassandraResourcesImpl implements CassandraResources {
     keyspaceName: string,
     options?: CassandraResourcesMigrateCassandraKeyspaceToAutoscaleOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<
+    PollerLike<
+      PollOperationState<
         CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse
       >,
       CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse
@@ -609,7 +596,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     ): Promise<CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -642,18 +629,13 @@ export class CassandraResourcesImpl implements CassandraResources {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, accountName, keyspaceName, options },
-      spec: migrateCassandraKeyspaceToAutoscaleOperationSpec
-    });
-    const poller = await createHttpPoller<
-      CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse,
-      OperationState<
-        CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse
-      >
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, accountName, keyspaceName, options },
+      migrateCassandraKeyspaceToAutoscaleOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -695,8 +677,8 @@ export class CassandraResourcesImpl implements CassandraResources {
     keyspaceName: string,
     options?: CassandraResourcesMigrateCassandraKeyspaceToManualThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<
+    PollerLike<
+      PollOperationState<
         CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse
       >,
       CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse
@@ -708,7 +690,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     ): Promise<CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -741,18 +723,13 @@ export class CassandraResourcesImpl implements CassandraResources {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, accountName, keyspaceName, options },
-      spec: migrateCassandraKeyspaceToManualThroughputOperationSpec
-    });
-    const poller = await createHttpPoller<
-      CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse,
-      OperationState<
-        CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse
-      >
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, accountName, keyspaceName, options },
+      migrateCassandraKeyspaceToManualThroughputOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -841,8 +818,8 @@ export class CassandraResourcesImpl implements CassandraResources {
     createUpdateCassandraTableParameters: CassandraTableCreateUpdateParameters,
     options?: CassandraResourcesCreateUpdateCassandraTableOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CassandraResourcesCreateUpdateCassandraTableResponse>,
+    PollerLike<
+      PollOperationState<CassandraResourcesCreateUpdateCassandraTableResponse>,
       CassandraResourcesCreateUpdateCassandraTableResponse
     >
   > {
@@ -852,7 +829,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     ): Promise<CassandraResourcesCreateUpdateCassandraTableResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -885,9 +862,9 @@ export class CassandraResourcesImpl implements CassandraResources {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    const lro = new LroImpl(
+      sendOperation,
+      {
         resourceGroupName,
         accountName,
         keyspaceName,
@@ -895,13 +872,10 @@ export class CassandraResourcesImpl implements CassandraResources {
         createUpdateCassandraTableParameters,
         options
       },
-      spec: createUpdateCassandraTableOperationSpec
-    });
-    const poller = await createHttpPoller<
-      CassandraResourcesCreateUpdateCassandraTableResponse,
-      OperationState<CassandraResourcesCreateUpdateCassandraTableResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+      createUpdateCassandraTableOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -952,8 +926,8 @@ export class CassandraResourcesImpl implements CassandraResources {
     tableName: string,
     options?: CassandraResourcesDeleteCassandraTableOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CassandraResourcesDeleteCassandraTableResponse>,
+    PollerLike<
+      PollOperationState<CassandraResourcesDeleteCassandraTableResponse>,
       CassandraResourcesDeleteCassandraTableResponse
     >
   > {
@@ -963,7 +937,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     ): Promise<CassandraResourcesDeleteCassandraTableResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -996,22 +970,13 @@ export class CassandraResourcesImpl implements CassandraResources {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        accountName,
-        keyspaceName,
-        tableName,
-        options
-      },
-      spec: deleteCassandraTableOperationSpec
-    });
-    const poller = await createHttpPoller<
-      CassandraResourcesDeleteCassandraTableResponse,
-      OperationState<CassandraResourcesDeleteCassandraTableResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, accountName, keyspaceName, tableName, options },
+      deleteCassandraTableOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1083,8 +1048,10 @@ export class CassandraResourcesImpl implements CassandraResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: CassandraResourcesUpdateCassandraTableThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CassandraResourcesUpdateCassandraTableThroughputResponse>,
+    PollerLike<
+      PollOperationState<
+        CassandraResourcesUpdateCassandraTableThroughputResponse
+      >,
       CassandraResourcesUpdateCassandraTableThroughputResponse
     >
   > {
@@ -1094,7 +1061,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     ): Promise<CassandraResourcesUpdateCassandraTableThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1127,9 +1094,9 @@ export class CassandraResourcesImpl implements CassandraResources {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    const lro = new LroImpl(
+      sendOperation,
+      {
         resourceGroupName,
         accountName,
         keyspaceName,
@@ -1137,13 +1104,10 @@ export class CassandraResourcesImpl implements CassandraResources {
         updateThroughputParameters,
         options
       },
-      spec: updateCassandraTableThroughputOperationSpec
-    });
-    const poller = await createHttpPoller<
-      CassandraResourcesUpdateCassandraTableThroughputResponse,
-      OperationState<CassandraResourcesUpdateCassandraTableThroughputResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+      updateCassandraTableThroughputOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1194,8 +1158,8 @@ export class CassandraResourcesImpl implements CassandraResources {
     tableName: string,
     options?: CassandraResourcesMigrateCassandraTableToAutoscaleOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<
+    PollerLike<
+      PollOperationState<
         CassandraResourcesMigrateCassandraTableToAutoscaleResponse
       >,
       CassandraResourcesMigrateCassandraTableToAutoscaleResponse
@@ -1207,7 +1171,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     ): Promise<CassandraResourcesMigrateCassandraTableToAutoscaleResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1240,22 +1204,13 @@ export class CassandraResourcesImpl implements CassandraResources {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        accountName,
-        keyspaceName,
-        tableName,
-        options
-      },
-      spec: migrateCassandraTableToAutoscaleOperationSpec
-    });
-    const poller = await createHttpPoller<
-      CassandraResourcesMigrateCassandraTableToAutoscaleResponse,
-      OperationState<CassandraResourcesMigrateCassandraTableToAutoscaleResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, accountName, keyspaceName, tableName, options },
+      migrateCassandraTableToAutoscaleOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1302,8 +1257,8 @@ export class CassandraResourcesImpl implements CassandraResources {
     tableName: string,
     options?: CassandraResourcesMigrateCassandraTableToManualThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<
+    PollerLike<
+      PollOperationState<
         CassandraResourcesMigrateCassandraTableToManualThroughputResponse
       >,
       CassandraResourcesMigrateCassandraTableToManualThroughputResponse
@@ -1315,7 +1270,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     ): Promise<CassandraResourcesMigrateCassandraTableToManualThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1348,24 +1303,13 @@ export class CassandraResourcesImpl implements CassandraResources {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        accountName,
-        keyspaceName,
-        tableName,
-        options
-      },
-      spec: migrateCassandraTableToManualThroughputOperationSpec
-    });
-    const poller = await createHttpPoller<
-      CassandraResourcesMigrateCassandraTableToManualThroughputResponse,
-      OperationState<
-        CassandraResourcesMigrateCassandraTableToManualThroughputResponse
-      >
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, accountName, keyspaceName, tableName, options },
+      migrateCassandraTableToManualThroughputOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

@@ -12,12 +12,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListByDatabaseAccountOptionalParams,
@@ -165,8 +161,8 @@ export class PrivateEndpointConnectionsImpl
     parameters: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
+    PollerLike<
+      PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
       PrivateEndpointConnectionsCreateOrUpdateResponse
     >
   > {
@@ -176,7 +172,7 @@ export class PrivateEndpointConnectionsImpl
     ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -209,22 +205,19 @@ export class PrivateEndpointConnectionsImpl
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    const lro = new LroImpl(
+      sendOperation,
+      {
         resourceGroupName,
         accountName,
         privateEndpointConnectionName,
         parameters,
         options
       },
-      spec: createOrUpdateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      PrivateEndpointConnectionsCreateOrUpdateResponse,
-      OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+      createOrUpdateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -268,14 +261,14 @@ export class PrivateEndpointConnectionsImpl
     accountName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -308,18 +301,18 @@ export class PrivateEndpointConnectionsImpl
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    const lro = new LroImpl(
+      sendOperation,
+      {
         resourceGroupName,
         accountName,
         privateEndpointConnectionName,
         options
       },
-      spec: deleteOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
+      deleteOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
