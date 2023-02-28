@@ -113,7 +113,7 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-04-01-preview";
+    this.apiVersion = options.apiVersion || "2022-03-01-preview";
     this.operations = new OperationsImpl(this);
     this.workflowOperations = new WorkflowOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);

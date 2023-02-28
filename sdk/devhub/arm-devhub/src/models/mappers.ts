@@ -690,6 +690,7 @@ export const Workflow: coreClient.CompositeMapper = {
       },
       authStatus: {
         serializedName: "properties.githubWorkflowProfile.authStatus",
+        readOnly: true,
         type: {
           name: "String"
         }

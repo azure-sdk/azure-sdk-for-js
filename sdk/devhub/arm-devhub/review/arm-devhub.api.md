@@ -20,6 +20,9 @@ export interface Acr {
 export type ActionType = string;
 
 // @public
+export type AuthorizationStatus = string;
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -132,6 +135,13 @@ export interface GitHubWorkflowProfileOidcCredentials {
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAuthorizationStatus {
+    Authorized = "Authorized",
+    Error = "Error",
+    NotFound = "NotFound"
 }
 
 // @public
@@ -255,7 +265,7 @@ export interface TrackedResource extends Resource {
 export interface Workflow extends TrackedResource {
     acr?: Acr;
     aksResourceId?: string;
-    authStatus?: ManifestType;
+    readonly authStatus?: AuthorizationStatus;
     branchName?: string;
     // (undocumented)
     deploymentProperties?: DeploymentProperties;

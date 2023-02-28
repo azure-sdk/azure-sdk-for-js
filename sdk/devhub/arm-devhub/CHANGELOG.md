@@ -1,15 +1,17 @@
 # Release History
+    
+## 1.0.0-beta.3 (2023-02-28)
+    
+**Features**
 
-## 1.0.0-beta.3 (Unreleased)
+  - Added Type Alias AuthorizationStatus
+  - Added Enum KnownAuthorizationStatus
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter authStatus of interface Workflow is changed from ManifestType to AuthorizationStatus
+    
+    
 ## 1.0.0-beta.2 (2023-01-04)
     
 **Features**
