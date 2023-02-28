@@ -1,15 +1,21 @@
 # Release History
+    
+## 21.0.0 (2023-02-28)
+    
+**Features**
 
-## 20.0.1 (Unreleased)
+  - Added Type Alias EdgeZoneStorageAccountType
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter computerName
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter hyperVGeneration
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter osName
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter osVersion
+  - Added Enum KnownEdgeZoneStorageAccountType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter storageAccountType of interface GalleryTargetExtendedLocation is changed from StorageAccountType to EdgeZoneStorageAccountType
+    
+    
 ## 20.0.0 (2023-01-05)
     
 **Features**

@@ -2054,6 +2054,9 @@ export interface DiskUpdate {
 }
 
 // @public
+export type EdgeZoneStorageAccountType = string;
+
+// @public
 export interface Encryption {
     diskEncryptionSetId?: string;
     type?: EncryptionType;
@@ -2722,7 +2725,7 @@ export interface GalleryTargetExtendedLocation {
     extendedLocation?: GalleryExtendedLocation;
     extendedLocationReplicaCount?: number;
     name?: string;
-    storageAccountType?: StorageAccountType;
+    storageAccountType?: EdgeZoneStorageAccountType;
 }
 
 // @public
@@ -3181,6 +3184,14 @@ export enum KnownDiskStorageAccountTypes {
     StandardSSDLRS = "StandardSSD_LRS",
     StandardSSDZRS = "StandardSSD_ZRS",
     UltraSSDLRS = "UltraSSD_LRS"
+}
+
+// @public
+export enum KnownEdgeZoneStorageAccountType {
+    PremiumLRS = "Premium_LRS",
+    StandardLRS = "Standard_LRS",
+    StandardSSDLRS = "StandardSSD_LRS",
+    StandardZRS = "Standard_ZRS"
 }
 
 // @public
@@ -7205,9 +7216,13 @@ export interface VirtualMachineScaleSetVMInstanceRequiredIDs {
 export interface VirtualMachineScaleSetVMInstanceView {
     readonly assignedHost?: string;
     bootDiagnostics?: BootDiagnosticsInstanceView;
+    computerName?: string;
     disks?: DiskInstanceView[];
     extensions?: VirtualMachineExtensionInstanceView[];
+    hyperVGeneration?: HyperVGeneration;
     maintenanceRedeployStatus?: MaintenanceRedeployStatus;
+    osName?: string;
+    osVersion?: string;
     placementGroupId?: string;
     platformFaultDomain?: number;
     platformUpdateDomain?: number;
