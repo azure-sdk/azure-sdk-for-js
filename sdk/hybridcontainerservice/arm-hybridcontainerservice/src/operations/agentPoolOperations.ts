@@ -41,18 +41,18 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
   /**
    * Gets the agent pool in the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     agentPoolName: string,
     options?: AgentPoolGetOptionalParams
   ): Promise<AgentPoolGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, provisionedClustersName, agentPoolName, options },
+      { resourceGroupName, resourceName, agentPoolName, options },
       getOperationSpec
     );
   }
@@ -60,14 +60,14 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
   /**
    * Creates the agent pool in the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
    * @param agentPool The agentPool resource definition
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     agentPoolName: string,
     agentPool: AgentPool,
     options?: AgentPoolCreateOrUpdateOptionalParams
@@ -118,13 +118,7 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
 
     const lro = new LroImpl(
       sendOperation,
-      {
-        resourceGroupName,
-        provisionedClustersName,
-        agentPoolName,
-        agentPool,
-        options
-      },
+      { resourceGroupName, resourceName, agentPoolName, agentPool, options },
       createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -139,21 +133,21 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
   /**
    * Creates the agent pool in the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
    * @param agentPool The agentPool resource definition
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     agentPoolName: string,
     agentPool: AgentPool,
     options?: AgentPoolCreateOrUpdateOptionalParams
   ): Promise<AgentPoolCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      provisionedClustersName,
+      resourceName,
       agentPoolName,
       agentPool,
       options
@@ -164,18 +158,18 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
   /**
    * Deletes the agent pool in the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     agentPoolName: string,
     options?: AgentPoolDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, provisionedClustersName, agentPoolName, options },
+      { resourceGroupName, resourceName, agentPoolName, options },
       deleteOperationSpec
     );
   }
@@ -183,26 +177,20 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
   /**
    * Updates the agent pool in the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
    * @param agentPool The agentPool resource definition
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     agentPoolName: string,
     agentPool: AgentPool,
     options?: AgentPoolUpdateOptionalParams
   ): Promise<AgentPoolUpdateResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        provisionedClustersName,
-        agentPoolName,
-        agentPool,
-        options
-      },
+      { resourceGroupName, resourceName, agentPoolName, agentPool, options },
       updateOperationSpec
     );
   }
@@ -210,16 +198,16 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
   /**
    * Gets the agent pools in the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param options The options parameters.
    */
   listByProvisionedCluster(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     options?: AgentPoolListByProvisionedClusterOptionalParams
   ): Promise<AgentPoolListByProvisionedClusterResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, provisionedClustersName, options },
+      { resourceGroupName, resourceName, options },
       listByProvisionedClusterOperationSpec
     );
   }
@@ -229,7 +217,7 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{provisionedClustersName}/agentPools/{agentPoolName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{resourceName}/agentPools/{agentPoolName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -244,7 +232,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.provisionedClustersName,
+    Parameters.resourceName,
     Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept],
@@ -252,7 +240,7 @@ const getOperationSpec: coreClient.OperationSpec = {
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{provisionedClustersName}/agentPools/{agentPoolName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{resourceName}/agentPools/{agentPoolName}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -277,7 +265,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.provisionedClustersName,
+    Parameters.resourceName,
     Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -286,7 +274,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{provisionedClustersName}/agentPools/{agentPoolName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{resourceName}/agentPools/{agentPoolName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -300,7 +288,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.provisionedClustersName,
+    Parameters.resourceName,
     Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept],
@@ -308,7 +296,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{provisionedClustersName}/agentPools/{agentPoolName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{resourceName}/agentPools/{agentPoolName}",
   httpMethod: "PATCH",
   responses: {
     200: {
@@ -327,7 +315,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.provisionedClustersName,
+    Parameters.resourceName,
     Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -336,7 +324,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const listByProvisionedClusterOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{provisionedClustersName}/agentPools",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{resourceName}/agentPools",
   httpMethod: "GET",
   responses: {
     200: {
@@ -351,7 +339,7 @@ const listByProvisionedClusterOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.provisionedClustersName
+    Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
   serializer
