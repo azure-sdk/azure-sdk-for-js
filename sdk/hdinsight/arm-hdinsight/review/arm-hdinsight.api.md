@@ -1466,6 +1466,7 @@ export interface SshPublicKey {
 // @public
 export interface StorageAccount {
     container?: string;
+    enableSecureChannel?: boolean;
     fileshare?: string;
     fileSystem?: string;
     isDefault?: boolean;

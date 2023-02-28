@@ -807,6 +807,12 @@ export const StorageAccount: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      enableSecureChannel: {
+        serializedName: "enableSecureChannel",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }

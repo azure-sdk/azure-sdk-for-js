@@ -1,15 +1,11 @@
 # Release History
+    
+## 1.3.0 (2023-02-28)
+    
+**Features**
 
-## 1.2.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface StorageAccount has a new optional parameter enableSecureChannel
+    
 ## 1.2.1 (2023-01-10)
 
 **Features**

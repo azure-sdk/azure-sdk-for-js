@@ -275,6 +275,8 @@ export interface StorageAccount {
   saskey?: string;
   /** The file share name. */
   fileshare?: string;
+  /** Customer specify use secure channel or not. Only work when IsDefault is true. It will impact the setting of FS.defaultFS for ambari and could be null. */
+  enableSecureChannel?: boolean;
 }
 
 /** The disk encryption properties */
