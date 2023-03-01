@@ -46,6 +46,8 @@ import {
   ThreatIntelligenceIndicatorMetricsImpl,
   WatchlistsImpl,
   WatchlistItemsImpl,
+  WorkspaceManagerAssignmentsImpl,
+  WorkspaceManagerAssignmentJobsImpl,
   DataConnectorsImpl,
   DataConnectorsCheckRequirementsOperationsImpl,
   OperationsImpl
@@ -82,6 +84,8 @@ import {
   ThreatIntelligenceIndicatorMetrics,
   Watchlists,
   WatchlistItems,
+  WorkspaceManagerAssignments,
+  WorkspaceManagerAssignmentJobs,
   DataConnectors,
   DataConnectorsCheckRequirementsOperations,
   Operations
@@ -173,7 +177,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-01-preview";
+    this.apiVersion = options.apiVersion || "2023-03-01-preview";
     this.alertRules = new AlertRulesImpl(this);
     this.actions = new ActionsImpl(this);
     this.alertRuleTemplates = new AlertRuleTemplatesImpl(this);
@@ -213,6 +217,12 @@ export class SecurityInsights extends coreClient.ServiceClient {
     );
     this.watchlists = new WatchlistsImpl(this);
     this.watchlistItems = new WatchlistItemsImpl(this);
+    this.workspaceManagerAssignments = new WorkspaceManagerAssignmentsImpl(
+      this
+    );
+    this.workspaceManagerAssignmentJobs = new WorkspaceManagerAssignmentJobsImpl(
+      this
+    );
     this.dataConnectors = new DataConnectorsImpl(this);
     this.dataConnectorsCheckRequirementsOperations = new DataConnectorsCheckRequirementsOperationsImpl(
       this
@@ -280,6 +290,8 @@ export class SecurityInsights extends coreClient.ServiceClient {
   threatIntelligenceIndicatorMetrics: ThreatIntelligenceIndicatorMetrics;
   watchlists: Watchlists;
   watchlistItems: WatchlistItems;
+  workspaceManagerAssignments: WorkspaceManagerAssignments;
+  workspaceManagerAssignmentJobs: WorkspaceManagerAssignmentJobs;
   dataConnectors: DataConnectors;
   dataConnectorsCheckRequirementsOperations: DataConnectorsCheckRequirementsOperations;
   operations: Operations;

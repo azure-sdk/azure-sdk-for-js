@@ -38,6 +38,7 @@ import {
   ThreatIntelligenceAppendTags as ThreatIntelligenceAppendTagsMapper,
   Watchlist as WatchlistMapper,
   WatchlistItem as WatchlistItemMapper,
+  WorkspaceManagerAssignment as WorkspaceManagerAssignmentMapper,
   DataConnector as DataConnectorMapper,
   DataConnectorConnectBody as DataConnectorConnectBodyMapper,
   DataConnectorsCheckRequirements as DataConnectorsCheckRequirementsMapper
@@ -70,7 +71,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-01-preview",
+    defaultValue: "2023-03-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -112,6 +113,7 @@ export const workspaceName: OperationURLParameter = {
   parameterPath: "workspaceName",
   mapper: {
     constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"),
       MaxLength: 90,
       MinLength: 1
     },
@@ -638,6 +640,39 @@ export const watchlistItemId: OperationURLParameter = {
 export const watchlistItem: OperationParameter = {
   parameterPath: "watchlistItem",
   mapper: WatchlistItemMapper
+};
+
+export const workspaceManagerAssignmentName: OperationURLParameter = {
+  parameterPath: "workspaceManagerAssignmentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$")
+    },
+    serializedName: "workspaceManagerAssignmentName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const workspaceManagerAssignment: OperationParameter = {
+  parameterPath: "workspaceManagerAssignment",
+  mapper: WorkspaceManagerAssignmentMapper
+};
+
+export const jobName: OperationURLParameter = {
+  parameterPath: "jobName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$")
+    },
+    serializedName: "jobName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const dataConnectorId: OperationURLParameter = {

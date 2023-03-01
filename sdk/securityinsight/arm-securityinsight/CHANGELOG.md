@@ -1,15 +1,59 @@
 # Release History
+    
+## 1.0.0-beta.7 (2023-03-01)
+    
+**Features**
 
-## 1.0.0-beta.7 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group WorkspaceManagerAssignmentJobs
+  - Added operation group WorkspaceManagerAssignments
+  - Added Interface AlertPropertyMapping
+  - Added Interface AssignmentItem
+  - Added Interface AzureEntityResource
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorModel
+  - Added Interface ErrorResponse
+  - Added Interface Job
+  - Added Interface JobItem
+  - Added Interface JobList
+  - Added Interface SentinelEntityMapping
+  - Added Interface WorkspaceManagerAssignment
+  - Added Interface WorkspaceManagerAssignmentJobsCreateOptionalParams
+  - Added Interface WorkspaceManagerAssignmentJobsDeleteOptionalParams
+  - Added Interface WorkspaceManagerAssignmentJobsGetOptionalParams
+  - Added Interface WorkspaceManagerAssignmentJobsListNextOptionalParams
+  - Added Interface WorkspaceManagerAssignmentJobsListOptionalParams
+  - Added Interface WorkspaceManagerAssignmentList
+  - Added Interface WorkspaceManagerAssignmentsCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceManagerAssignmentsDeleteOptionalParams
+  - Added Interface WorkspaceManagerAssignmentsGetOptionalParams
+  - Added Interface WorkspaceManagerAssignmentsListNextOptionalParams
+  - Added Interface WorkspaceManagerAssignmentsListOptionalParams
+  - Added Type Alias AlertProperty
+  - Added Type Alias ProvisioningState
+  - Added Type Alias Status
+  - Added Type Alias WorkspaceManagerAssignmentJobsCreateResponse
+  - Added Type Alias WorkspaceManagerAssignmentJobsGetResponse
+  - Added Type Alias WorkspaceManagerAssignmentJobsListNextResponse
+  - Added Type Alias WorkspaceManagerAssignmentJobsListResponse
+  - Added Type Alias WorkspaceManagerAssignmentsCreateOrUpdateResponse
+  - Added Type Alias WorkspaceManagerAssignmentsGetResponse
+  - Added Type Alias WorkspaceManagerAssignmentsListNextResponse
+  - Added Type Alias WorkspaceManagerAssignmentsListResponse
+  - Interface AlertDetailsOverride has a new optional parameter alertDynamicProperties
+  - Interface NrtAlertRule has a new optional parameter sentinelEntitiesMappings
+  - Interface NrtAlertRuleTemplate has a new optional parameter sentinelEntitiesMappings
+  - Interface QueryBasedAlertRuleTemplateProperties has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRule has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRuleCommonProperties has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRuleTemplate has a new optional parameter sentinelEntitiesMappings
+  - Interface SecurityAlertTimelineItem has a new optional parameter intent
+  - Interface SecurityAlertTimelineItem has a new optional parameter techniques
+  - Added Enum KnownAlertProperty
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownStatus
+    
+    
 ## 1.0.0-beta.6 (2023-02-03)
     
 **Features**

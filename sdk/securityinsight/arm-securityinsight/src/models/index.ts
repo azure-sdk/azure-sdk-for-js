@@ -1329,6 +1329,103 @@ export interface WatchlistItemList {
   value: WatchlistItem[];
 }
 
+/** List of all the workspace manager assignments. */
+export interface WorkspaceManagerAssignmentList {
+  /**
+   * URL to fetch the next set of workspace manager assignments.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** Array of workspace manager assignments. */
+  value: WorkspaceManagerAssignment[];
+}
+
+/** Object to describe the resource added */
+export interface AssignmentItem {
+  /** The resource id */
+  resourceId?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** List of all the jobs */
+export interface JobList {
+  /**
+   * URL to fetch the next set of jobs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** Array of jobs. */
+  value: Job[];
+}
+
+/** Object to describe the item added */
+export interface JobItem {
+  /** The resource id */
+  resourceId?: string;
+  /** Status of the item publication */
+  status?: Status;
+  /** The time the item publishing was executed */
+  executionTime?: Date;
+  /** The list of error descriptions if the item publication fails. */
+  errors?: ErrorModel[];
+}
+
+/** The error description for why a publication failed */
+export interface ErrorModel {
+  /** The member resource name for which the publication error occured */
+  memberResourceName: string;
+  /** The error message */
+  errorMessage: string;
+}
+
 /** List all the data connectors. */
 export interface DataConnectorList {
   /**
@@ -1479,6 +1576,8 @@ export interface QueryBasedAlertRuleTemplateProperties {
   alertDetailsOverride?: AlertDetailsOverride;
   /** The event grouping settings. */
   eventGroupingSettings?: EventGroupingSettings;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
 }
 
 /** Single entity mapping for the alert rule */
@@ -1507,12 +1606,28 @@ export interface AlertDetailsOverride {
   alertTacticsColumnName?: string;
   /** the column name to take the alert severity from */
   alertSeverityColumnName?: string;
+  /** List of additional dynamic properties to override */
+  alertDynamicProperties?: AlertPropertyMapping[];
+}
+
+/** A single alert property mapping to override */
+export interface AlertPropertyMapping {
+  /** The V3 alert property */
+  alertProperty?: AlertProperty;
+  /** the column name to use to override this property */
+  value?: string;
 }
 
 /** Event grouping settings property bag. */
 export interface EventGroupingSettings {
   /** The event grouping aggregation kinds */
   aggregationKind?: EventGroupingAggregationKind;
+}
+
+/** A single sentinel entity mapping */
+export interface SentinelEntityMapping {
+  /** the column name to be mapped to the SentinelEntities */
+  columnName?: string;
 }
 
 /** Represents a supported source signal configuration in Fusion detection. */
@@ -1656,6 +1771,8 @@ export interface ScheduledAlertRuleCommonProperties {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
 }
 
 export interface AutomationRuleBooleanCondition {
@@ -2302,6 +2419,15 @@ export interface OfficeConsent extends Resource {
   consentId?: string;
 }
 
+/** The resource model definition for an Azure Resource Manager resource with an etag. */
+export interface AzureEntityResource extends Resource {
+  /**
+   * Resource Etag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+}
+
 /** Action property bag. */
 export interface ActionResponseProperties extends ActionPropertiesBase {
   /** The name of the logic app's workflow. */
@@ -2459,6 +2585,13 @@ export interface SecurityAlertTimelineItem extends EntityTimelineItem {
   timeGenerated: Date;
   /** The name of the alert type. */
   alertType: string;
+  /**
+   * The intent of the alert.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly intent?: KillChainIntent;
+  /** The techniques of the alert. */
+  techniques?: string[];
 }
 
 /** Represents Insight Query. */
@@ -4357,6 +4490,23 @@ export interface WatchlistItem extends ResourceWithEtag {
   entityMapping?: { [propertyName: string]: any };
 }
 
+/** The assignment job */
+export interface Job extends ResourceWithEtag {
+  /**
+   * The time the job completed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: Date;
+  /** List of items published by the job */
+  items?: JobItem[];
+  /** State of the job */
+  provisioningState?: ProvisioningState;
+  /** The time the job started */
+  startTime?: Date;
+  /** Message to describe error, if an error exists */
+  errorMessage?: string;
+}
+
 /** Data connector */
 export interface DataConnector extends ResourceWithEtag {
   /** The data connector kind */
@@ -4547,6 +4697,8 @@ export interface ScheduledAlertRuleTemplate extends AlertRuleTemplate {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
 }
 
 /** Represents NRT alert rule template. */
@@ -4591,6 +4743,8 @@ export interface NrtAlertRuleTemplate extends AlertRuleTemplate {
   alertDetailsOverride?: AlertDetailsOverride;
   /** The event grouping settings. */
   eventGroupingSettings?: EventGroupingSettings;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
 }
 
 /** Represents a security alert entity. */
@@ -5813,6 +5967,24 @@ export interface ActivityEntityQueryTemplate extends EntityQueryTemplate {
   entitiesFilter?: { [propertyName: string]: string[] };
 }
 
+/** The workspace manager assignment */
+export interface WorkspaceManagerAssignment extends AzureEntityResource {
+  /** The name of the workspace manager group targeted by the workspace manager assignment */
+  targetResourceName?: string;
+  /**
+   * The time the last job associated to this assignment ended at
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastJobEndTime?: Date;
+  /**
+   * State of the last job associated to this assignment
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastJobProvisioningState?: ProvisioningState;
+  /** List of resources included in this workspace manager assignment */
+  items?: AssignmentItem[];
+}
+
 /** MLBehaviorAnalytics alert rule template properties. */
 export interface MLBehaviorAnalyticsAlertRuleTemplateProperties
   extends AlertRuleTemplateWithMitreProperties {
@@ -6004,6 +6176,8 @@ export interface ScheduledAlertRule extends AlertRule {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /** The version of the alert rule template used to create this rule - in format <a.b.c>, where all are numbers, for example 0 <1.0.2> */
@@ -6072,6 +6246,8 @@ export interface NrtAlertRule extends AlertRule {
   alertDetailsOverride?: AlertDetailsOverride;
   /** The event grouping settings. */
   eventGroupingSettings?: EventGroupingSettings;
+  /** Array of the sentinel entity mappings of the alert rule */
+  sentinelEntitiesMappings?: SentinelEntityMapping[];
 }
 
 /** Represents Expansion entity query. */
@@ -7678,6 +7854,51 @@ export enum KnownSourceType {
  */
 export type SourceType = string;
 
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** The job succeeded */
+  Succeeded = "Succeeded",
+  /** The job was canceled */
+  Canceled = "Canceled",
+  /** The job is in progress */
+  InProgress = "InProgress",
+  /** The job failed */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: The job succeeded \
+ * **Canceled**: The job was canceled \
+ * **InProgress**: The job is in progress \
+ * **Failed**: The job failed
+ */
+export type ProvisioningState = string;
+
+/** Known values of {@link Status} that the service accepts. */
+export enum KnownStatus {
+  /** The item publication succeeded */
+  Succeeded = "Succeeded",
+  /** The item publication failed */
+  Failed = "Failed",
+  /** The item publication is in progress */
+  InProgress = "InProgress"
+}
+
+/**
+ * Defines values for Status. \
+ * {@link KnownStatus} can be used interchangeably with Status,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: The item publication succeeded \
+ * **Failed**: The item publication failed \
+ * **InProgress**: The item publication is in progress
+ */
+export type Status = string;
+
 /** Known values of {@link DataConnectorKind} that the service accepts. */
 export enum KnownDataConnectorKind {
   /** AzureActiveDirectory */
@@ -7896,6 +8117,45 @@ export enum KnownEntityMappingType {
  * **SubmissionMail**: Submission mail entity type
  */
 export type EntityMappingType = string;
+
+/** Known values of {@link AlertProperty} that the service accepts. */
+export enum KnownAlertProperty {
+  /** Alert's link */
+  AlertLink = "AlertLink",
+  /** Confidence level property */
+  ConfidenceLevel = "ConfidenceLevel",
+  /** Confidence score */
+  ConfidenceScore = "ConfidenceScore",
+  /** Extended links to the alert */
+  ExtendedLinks = "ExtendedLinks",
+  /** Product name alert property */
+  ProductName = "ProductName",
+  /** Provider name alert property */
+  ProviderName = "ProviderName",
+  /** Product component name alert property */
+  ProductComponentName = "ProductComponentName",
+  /** Remediation steps alert property */
+  RemediationSteps = "RemediationSteps",
+  /** Techniques alert property */
+  Techniques = "Techniques"
+}
+
+/**
+ * Defines values for AlertProperty. \
+ * {@link KnownAlertProperty} can be used interchangeably with AlertProperty,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AlertLink**: Alert's link \
+ * **ConfidenceLevel**: Confidence level property \
+ * **ConfidenceScore**: Confidence score \
+ * **ExtendedLinks**: Extended links to the alert \
+ * **ProductName**: Product name alert property \
+ * **ProviderName**: Provider name alert property \
+ * **ProductComponentName**: Product component name alert property \
+ * **RemediationSteps**: Remediation steps alert property \
+ * **Techniques**: Techniques alert property
+ */
+export type AlertProperty = string;
 
 /** Known values of {@link EventGroupingAggregationKind} that the service accepts. */
 export enum KnownEventGroupingAggregationKind {
@@ -9719,6 +9979,84 @@ export interface WatchlistItemsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type WatchlistItemsListNextResponse = WatchlistItemList;
+
+/** Optional parameters. */
+export interface WorkspaceManagerAssignmentsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Sorts the results. Optional. */
+  orderby?: string;
+  /** Returns only the first n results. Optional. */
+  top?: number;
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type WorkspaceManagerAssignmentsListResponse = WorkspaceManagerAssignmentList;
+
+/** Optional parameters. */
+export interface WorkspaceManagerAssignmentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkspaceManagerAssignmentsGetResponse = WorkspaceManagerAssignment;
+
+/** Optional parameters. */
+export interface WorkspaceManagerAssignmentsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type WorkspaceManagerAssignmentsCreateOrUpdateResponse = WorkspaceManagerAssignment;
+
+/** Optional parameters. */
+export interface WorkspaceManagerAssignmentsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface WorkspaceManagerAssignmentsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type WorkspaceManagerAssignmentsListNextResponse = WorkspaceManagerAssignmentList;
+
+/** Optional parameters. */
+export interface WorkspaceManagerAssignmentJobsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Sorts the results. Optional. */
+  orderby?: string;
+  /** Returns only the first n results. Optional. */
+  top?: number;
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type WorkspaceManagerAssignmentJobsListResponse = JobList;
+
+/** Optional parameters. */
+export interface WorkspaceManagerAssignmentJobsCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type WorkspaceManagerAssignmentJobsCreateResponse = Job;
+
+/** Optional parameters. */
+export interface WorkspaceManagerAssignmentJobsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkspaceManagerAssignmentJobsGetResponse = Job;
+
+/** Optional parameters. */
+export interface WorkspaceManagerAssignmentJobsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface WorkspaceManagerAssignmentJobsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type WorkspaceManagerAssignmentJobsListNextResponse = JobList;
 
 /** Optional parameters. */
 export interface DataConnectorsListOptionalParams

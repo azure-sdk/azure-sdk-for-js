@@ -246,8 +246,18 @@ export type AlertDetail = string;
 export interface AlertDetailsOverride {
     alertDescriptionFormat?: string;
     alertDisplayNameFormat?: string;
+    alertDynamicProperties?: AlertPropertyMapping[];
     alertSeverityColumnName?: string;
     alertTacticsColumnName?: string;
+}
+
+// @public
+export type AlertProperty = string;
+
+// @public
+export interface AlertPropertyMapping {
+    alertProperty?: AlertProperty;
+    value?: string;
 }
 
 // @public
@@ -442,6 +452,11 @@ export interface ASCDataConnector extends DataConnector {
 // @public
 export interface ASCDataConnectorProperties extends DataConnectorWithAlertsProperties {
     subscriptionId?: string;
+}
+
+// @public
+export interface AssignmentItem {
+    resourceId?: string;
 }
 
 // @public
@@ -682,6 +697,11 @@ export interface AwsS3DataConnectorDataTypesLogs extends DataConnectorDataTypeCo
 export interface AzureDevOpsResourceInfo {
     pipelineId?: string;
     serviceConnectionId?: string;
+}
+
+// @public
+export interface AzureEntityResource extends Resource {
+    readonly etag?: string;
 }
 
 // @public
@@ -1760,6 +1780,32 @@ export type EntityUnion = Entity | SecurityAlert | HuntingBookmark | AccountEnti
 export type Enum13 = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorModel {
+    errorMessage: string;
+    memberResourceName: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export type EventGroupingAggregationKind = string;
 
 // @public
@@ -2655,6 +2701,29 @@ export interface IPGeodataGetOptionalParams extends coreClient.OperationOptions 
 export type IPGeodataGetResponse = EnrichmentIpGeodata;
 
 // @public
+export interface Job extends ResourceWithEtag {
+    readonly endTime?: Date;
+    errorMessage?: string;
+    items?: JobItem[];
+    provisioningState?: ProvisioningState;
+    startTime?: Date;
+}
+
+// @public
+export interface JobItem {
+    errors?: ErrorModel[];
+    executionTime?: Date;
+    resourceId?: string;
+    status?: Status;
+}
+
+// @public
+export interface JobList {
+    readonly nextLink?: string;
+    value: Job[];
+}
+
+// @public
 export type KillChainIntent = string;
 
 // @public
@@ -2670,6 +2739,19 @@ export enum KnownActionType {
 export enum KnownAlertDetail {
     DisplayName = "DisplayName",
     Severity = "Severity"
+}
+
+// @public
+export enum KnownAlertProperty {
+    AlertLink = "AlertLink",
+    ConfidenceLevel = "ConfidenceLevel",
+    ConfidenceScore = "ConfidenceScore",
+    ExtendedLinks = "ExtendedLinks",
+    ProductComponentName = "ProductComponentName",
+    ProductName = "ProductName",
+    ProviderName = "ProviderName",
+    RemediationSteps = "RemediationSteps",
+    Techniques = "Techniques"
 }
 
 // @public
@@ -3283,6 +3365,14 @@ export enum KnownProviderName {
 }
 
 // @public
+export enum KnownProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownRegistryHive {
     HkeyA = "HKEY_A",
     HkeyClassesRoot = "HKEY_CLASSES_ROOT",
@@ -3352,6 +3442,13 @@ export enum KnownSourceKind {
 export enum KnownSourceType {
     LocalFile = "Local file",
     RemoteStorage = "Remote storage"
+}
+
+// @public
+export enum KnownStatus {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -3956,6 +4053,7 @@ export interface NrtAlertRule extends AlertRule {
     kind: "NRT";
     readonly lastModifiedUtc?: Date;
     query?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     suppressionDuration?: string;
     suppressionEnabled?: boolean;
@@ -3980,6 +4078,7 @@ export interface NrtAlertRuleTemplate extends AlertRuleTemplate {
     readonly lastUpdatedDateUTC?: Date;
     query?: string;
     requiredDataConnectors?: AlertRuleTemplateDataSource[];
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     status?: TemplateStatus;
     tactics?: AttackTactic[];
@@ -4346,6 +4445,9 @@ export interface PropertyConditionProperties extends AutomationRuleCondition {
 export type ProviderName = string;
 
 // @public
+export type ProvisioningState = string;
+
+// @public
 export interface QueryBasedAlertRuleTemplateProperties {
     alertDetailsOverride?: AlertDetailsOverride;
     customDetails?: {
@@ -4354,6 +4456,7 @@ export interface QueryBasedAlertRuleTemplateProperties {
     entityMappings?: EntityMapping[];
     eventGroupingSettings?: EventGroupingSettings;
     query?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     version?: string;
 }
@@ -4502,6 +4605,7 @@ export interface ScheduledAlertRule extends AlertRule {
     query?: string;
     queryFrequency?: string;
     queryPeriod?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     suppressionDuration?: string;
     suppressionEnabled?: boolean;
@@ -4523,6 +4627,7 @@ export interface ScheduledAlertRuleCommonProperties {
     query?: string;
     queryFrequency?: string;
     queryPeriod?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     triggerOperator?: TriggerOperator;
     triggerThreshold?: number;
@@ -4561,6 +4666,7 @@ export interface ScheduledAlertRuleTemplate extends AlertRuleTemplate {
     queryFrequency?: string;
     queryPeriod?: string;
     requiredDataConnectors?: AlertRuleTemplateDataSource[];
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     status?: TemplateStatus;
     tactics?: AttackTactic[];
@@ -4646,10 +4752,12 @@ export interface SecurityAlertTimelineItem extends EntityTimelineItem {
     description?: string;
     displayName: string;
     endTimeUtc: Date;
+    readonly intent?: KillChainIntent;
     kind: "SecurityAlert";
     productName?: string;
     severity: AlertSeverity;
     startTimeUtc: Date;
+    techniques?: string[];
     timeGenerated: Date;
 }
 
@@ -4749,6 +4857,10 @@ export class SecurityInsights extends coreClient.ServiceClient {
     watchlistItems: WatchlistItems;
     // (undocumented)
     watchlists: Watchlists;
+    // (undocumented)
+    workspaceManagerAssignmentJobs: WorkspaceManagerAssignmentJobs;
+    // (undocumented)
+    workspaceManagerAssignments: WorkspaceManagerAssignments;
 }
 
 // @public
@@ -4820,6 +4932,11 @@ export type SecurityMLAnalyticsSettingsListResponse = SecurityMLAnalyticsSetting
 
 // @public (undocumented)
 export type SecurityMLAnalyticsSettingUnion = SecurityMLAnalyticsSetting | AnomalySecurityMLAnalyticsSettings;
+
+// @public
+export interface SentinelEntityMapping {
+    columnName?: string;
+}
 
 // @public
 export interface SentinelOnboardingState extends ResourceWithEtag {
@@ -4970,6 +5087,9 @@ export type SourceKind = string;
 
 // @public
 export type SourceType = string;
+
+// @public
+export type Status = string;
 
 // @public
 export interface SubmissionMailEntity extends Entity {
@@ -5663,6 +5783,106 @@ export interface Webhook {
     webhookSecretUpdateTime?: string;
     webhookUrl?: string;
 }
+
+// @public
+export interface WorkspaceManagerAssignment extends AzureEntityResource {
+    items?: AssignmentItem[];
+    readonly lastJobEndTime?: Date;
+    readonly lastJobProvisioningState?: ProvisioningState;
+    targetResourceName?: string;
+}
+
+// @public
+export interface WorkspaceManagerAssignmentJobs {
+    create(resourceGroupName: string, workspaceName: string, workspaceManagerAssignmentName: string, options?: WorkspaceManagerAssignmentJobsCreateOptionalParams): Promise<WorkspaceManagerAssignmentJobsCreateResponse>;
+    delete(resourceGroupName: string, workspaceName: string, workspaceManagerAssignmentName: string, jobName: string, options?: WorkspaceManagerAssignmentJobsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, workspaceName: string, workspaceManagerAssignmentName: string, jobName: string, options?: WorkspaceManagerAssignmentJobsGetOptionalParams): Promise<WorkspaceManagerAssignmentJobsGetResponse>;
+    list(resourceGroupName: string, workspaceName: string, workspaceManagerAssignmentName: string, options?: WorkspaceManagerAssignmentJobsListOptionalParams): PagedAsyncIterableIterator<Job>;
+}
+
+// @public
+export interface WorkspaceManagerAssignmentJobsCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspaceManagerAssignmentJobsCreateResponse = Job;
+
+// @public
+export interface WorkspaceManagerAssignmentJobsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface WorkspaceManagerAssignmentJobsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspaceManagerAssignmentJobsGetResponse = Job;
+
+// @public
+export interface WorkspaceManagerAssignmentJobsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspaceManagerAssignmentJobsListNextResponse = JobList;
+
+// @public
+export interface WorkspaceManagerAssignmentJobsListOptionalParams extends coreClient.OperationOptions {
+    orderby?: string;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type WorkspaceManagerAssignmentJobsListResponse = JobList;
+
+// @public
+export interface WorkspaceManagerAssignmentList {
+    readonly nextLink?: string;
+    value: WorkspaceManagerAssignment[];
+}
+
+// @public
+export interface WorkspaceManagerAssignments {
+    createOrUpdate(resourceGroupName: string, workspaceName: string, workspaceManagerAssignmentName: string, workspaceManagerAssignment: WorkspaceManagerAssignment, options?: WorkspaceManagerAssignmentsCreateOrUpdateOptionalParams): Promise<WorkspaceManagerAssignmentsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, workspaceName: string, workspaceManagerAssignmentName: string, options?: WorkspaceManagerAssignmentsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, workspaceName: string, workspaceManagerAssignmentName: string, options?: WorkspaceManagerAssignmentsGetOptionalParams): Promise<WorkspaceManagerAssignmentsGetResponse>;
+    list(resourceGroupName: string, workspaceName: string, options?: WorkspaceManagerAssignmentsListOptionalParams): PagedAsyncIterableIterator<WorkspaceManagerAssignment>;
+}
+
+// @public
+export interface WorkspaceManagerAssignmentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspaceManagerAssignmentsCreateOrUpdateResponse = WorkspaceManagerAssignment;
+
+// @public
+export interface WorkspaceManagerAssignmentsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface WorkspaceManagerAssignmentsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspaceManagerAssignmentsGetResponse = WorkspaceManagerAssignment;
+
+// @public
+export interface WorkspaceManagerAssignmentsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspaceManagerAssignmentsListNextResponse = WorkspaceManagerAssignmentList;
+
+// @public
+export interface WorkspaceManagerAssignmentsListOptionalParams extends coreClient.OperationOptions {
+    orderby?: string;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type WorkspaceManagerAssignmentsListResponse = WorkspaceManagerAssignmentList;
 
 // (No @packageDocumentation comment for this package)
 
