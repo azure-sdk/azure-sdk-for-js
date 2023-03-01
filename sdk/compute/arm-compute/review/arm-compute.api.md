@@ -3526,6 +3526,7 @@ export enum KnownSnapshotStorageAccountTypes {
 export enum KnownStorageAccountType {
     PremiumLRS = "Premium_LRS",
     StandardLRS = "Standard_LRS",
+    StandardSSDLRS = "StandardSSD_LRS",
     StandardZRS = "Standard_ZRS"
 }
 
@@ -6534,7 +6535,7 @@ export interface VirtualMachineScaleSetInstanceViewStatusesSummary {
 }
 
 // @public
-export interface VirtualMachineScaleSetIPConfiguration extends SubResource {
+export interface VirtualMachineScaleSetIPConfiguration {
     applicationGatewayBackendAddressPools?: SubResource[];
     applicationSecurityGroups?: SubResource[];
     loadBalancerBackendAddressPools?: SubResource[];
@@ -6584,7 +6585,7 @@ export interface VirtualMachineScaleSetManagedDiskParameters {
 }
 
 // @public
-export interface VirtualMachineScaleSetNetworkConfiguration extends SubResource {
+export interface VirtualMachineScaleSetNetworkConfiguration {
     deleteOption?: DeleteOptions;
     disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
@@ -6973,10 +6974,12 @@ export interface VirtualMachineScaleSetUpdate extends UpdateResource {
     identity?: VirtualMachineScaleSetIdentity;
     overprovision?: boolean;
     plan?: Plan;
+    priorityMixPolicy?: PriorityMixPolicy;
     proximityPlacementGroup?: SubResource;
     scaleInPolicy?: ScaleInPolicy;
     singlePlacementGroup?: boolean;
     sku?: Sku;
+    spotRestorePolicy?: SpotRestorePolicy;
     upgradePolicy?: UpgradePolicy;
     virtualMachineProfile?: VirtualMachineScaleSetUpdateVMProfile;
 }
@@ -7205,9 +7208,13 @@ export interface VirtualMachineScaleSetVMInstanceRequiredIDs {
 export interface VirtualMachineScaleSetVMInstanceView {
     readonly assignedHost?: string;
     bootDiagnostics?: BootDiagnosticsInstanceView;
+    computerName?: string;
     disks?: DiskInstanceView[];
     extensions?: VirtualMachineExtensionInstanceView[];
+    hyperVGeneration?: HyperVGeneration;
     maintenanceRedeployStatus?: MaintenanceRedeployStatus;
+    osName?: string;
+    osVersion?: string;
     placementGroupId?: string;
     platformFaultDomain?: number;
     platformUpdateDomain?: number;
