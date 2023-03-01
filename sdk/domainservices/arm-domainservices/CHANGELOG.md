@@ -1,15 +1,21 @@
 # Release History
+    
+## 4.2.0 (2023-03-01)
+    
+**Features**
 
-## 4.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias ChannelBinding
+  - Added Type Alias LdapSigning
+  - Added Type Alias SyncScope
+  - Interface DomainSecuritySettings has a new optional parameter channelBinding
+  - Interface DomainSecuritySettings has a new optional parameter ldapSigning
+  - Interface DomainService has a new optional parameter syncApplicationId
+  - Interface DomainService has a new optional parameter syncScope
+  - Added Enum KnownChannelBinding
+  - Added Enum KnownLdapSigning
+  - Added Enum KnownSyncScope
+    
+    
 ## 4.1.0 (2022-11-22)
     
 **Features**
