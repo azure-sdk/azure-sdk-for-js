@@ -1130,6 +1130,17 @@ export const apiVersion18: OperationQueryParameter = {
   }
 };
 
+export const scope1: OperationURLParameter = {
+  parameterPath: "scope",
+  mapper: {
+    serializedName: "scope",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const governanceRule: OperationParameter = {
   parameterPath: "governanceRule",
   mapper: GovernanceRuleMapper
@@ -1144,6 +1155,20 @@ export const operationId: OperationURLParameter = {
   parameterPath: "operationId",
   mapper: {
     serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const assessmentName1: OperationURLParameter = {
+  parameterPath: "assessmentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$")
+    },
+    serializedName: "assessmentName",
     required: true,
     type: {
       name: "String"
