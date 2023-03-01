@@ -1,16 +1,6 @@
 # Release History
-
-## 17.4.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 17.4.0-beta.1 (2023-01-18)
+    
+## 18.0.0-beta.3 (2023-03-01)
     
 **Features**
 
@@ -68,7 +58,6 @@
   - Added Interface ManagedClusterAzureMonitorProfileMetrics
   - Added Interface ManagedClusterIngressProfile
   - Added Interface ManagedClusterIngressProfileWebAppRouting
-  - Added Interface ManagedClusterNodeResourceGroupProfile
   - Added Interface ManagedClusterPropertiesForSnapshot
   - Added Interface ManagedClustersAbortLatestOperationHeaders
   - Added Interface ManagedClustersAbortLatestOperationOptionalParams
@@ -135,7 +124,6 @@
   - Added Type Alias NetworkPluginMode
   - Added Type Alias NodeOSUpgradeChannel
   - Added Type Alias Protocol
-  - Added Type Alias RestrictionLevel
   - Added Type Alias TrustedAccessRoleBindingProvisioningState
   - Added Type Alias TrustedAccessRoleBindingsCreateOrUpdateResponse
   - Added Type Alias TrustedAccessRoleBindingsGetResponse
@@ -160,7 +148,6 @@
   - Interface ManagedCluster has a new optional parameter enableNamespaceResources
   - Interface ManagedCluster has a new optional parameter guardrailsProfile
   - Interface ManagedCluster has a new optional parameter ingressProfile
-  - Interface ManagedCluster has a new optional parameter nodeResourceGroupProfile
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter capacityReservationGroupID
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter enableCustomCATrust
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter messageOfTheDay
@@ -189,17 +176,19 @@
   - Added Enum KnownNetworkPluginMode
   - Added Enum KnownNodeOSUpgradeChannel
   - Added Enum KnownProtocol
-  - Added Enum KnownRestrictionLevel
   - Added Enum KnownTrustedAccessRoleBindingProvisioningState
   - Added Enum KnownType
   - Added Enum KnownUpdateMode
   - Enum KnownOssku has a new value Mariner
   - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
   - Enum KnownSnapshotType has a new value ManagedCluster
-  - Enum KnownWorkloadRuntime has a new value KataMshvVmIsolation
+
+**Breaking Changes**
+
   - Interface ContainerServiceClientOptionalParams no longer has parameter apiVersion
   - Class ContainerServiceClient no longer has parameter apiVersion
-
+    
+    
 ## 17.3.0 (2023-01-06)
     
 **Features**

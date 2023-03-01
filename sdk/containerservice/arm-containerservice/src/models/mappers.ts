@@ -1536,21 +1536,6 @@ export const ManagedClusterOidcIssuerProfile: coreClient.CompositeMapper = {
   }
 };
 
-export const ManagedClusterNodeResourceGroupProfile: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterNodeResourceGroupProfile",
-    modelProperties: {
-      restrictionLevel: {
-        serializedName: "restrictionLevel",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ContainerServiceNetworkProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5230,13 +5215,6 @@ export const ManagedCluster: coreClient.CompositeMapper = {
         serializedName: "properties.nodeResourceGroup",
         type: {
           name: "String"
-        }
-      },
-      nodeResourceGroupProfile: {
-        serializedName: "properties.nodeResourceGroupProfile",
-        type: {
-          name: "Composite",
-          className: "ManagedClusterNodeResourceGroupProfile"
         }
       },
       enableRbac: {

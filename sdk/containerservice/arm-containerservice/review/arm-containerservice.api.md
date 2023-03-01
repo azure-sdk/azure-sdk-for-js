@@ -1142,12 +1142,6 @@ export enum KnownPublicNetworkAccess {
 }
 
 // @public
-export enum KnownRestrictionLevel {
-    ReadOnly = "ReadOnly",
-    Unrestricted = "Unrestricted"
-}
-
-// @public
 export enum KnownScaleDownMode {
     Deallocate = "Deallocate",
     Delete = "Delete"
@@ -1219,7 +1213,6 @@ export enum KnownWeekDay {
 
 // @public
 export enum KnownWorkloadRuntime {
-    KataMshvVmIsolation = "KataMshvVmIsolation",
     OCIContainer = "OCIContainer",
     WasmWasi = "WasmWasi"
 }
@@ -1358,7 +1351,6 @@ export interface ManagedCluster extends TrackedResource {
     readonly maxAgentPools?: number;
     networkProfile?: ContainerServiceNetworkProfile;
     nodeResourceGroup?: string;
-    nodeResourceGroupProfile?: ManagedClusterNodeResourceGroupProfile;
     oidcIssuerProfile?: ManagedClusterOidcIssuerProfile;
     podIdentityProfile?: ManagedClusterPodIdentityProfile;
     readonly powerState?: PowerState;
@@ -1570,11 +1562,6 @@ export interface ManagedClusterNATGatewayProfile {
     effectiveOutboundIPs?: ResourceReference[];
     idleTimeoutInMinutes?: number;
     managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfile;
-}
-
-// @public
-export interface ManagedClusterNodeResourceGroupProfile {
-    restrictionLevel?: RestrictionLevel;
 }
 
 // @public
@@ -2398,9 +2385,6 @@ export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 export interface ResourceReference {
     id?: string;
 }
-
-// @public
-export type RestrictionLevel = string;
 
 // @public
 export interface RunCommandRequest {
