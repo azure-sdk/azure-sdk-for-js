@@ -17,5 +17,6 @@ export * from "./iotConnectorFhirDestination";
 export * from "./fhirServices";
 export * from "./workspacePrivateEndpointConnections";
 export * from "./workspacePrivateLinkResources";
+export * from "./analyticsConnectors";
 export * from "./operations";
 export * from "./operationResults";

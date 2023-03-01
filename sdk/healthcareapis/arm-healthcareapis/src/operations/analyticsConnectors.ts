@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Workspaces } from "../operationsInterfaces";
+import { AnalyticsConnectors } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -16,32 +16,28 @@ import { HealthcareApisManagementClient } from "../healthcareApisManagementClien
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  Workspace,
-  WorkspacesListBySubscriptionNextOptionalParams,
-  WorkspacesListBySubscriptionOptionalParams,
-  WorkspacesListBySubscriptionResponse,
-  WorkspacesListByResourceGroupNextOptionalParams,
-  WorkspacesListByResourceGroupOptionalParams,
-  WorkspacesListByResourceGroupResponse,
-  WorkspacesGetOptionalParams,
-  WorkspacesGetResponse,
-  WorkspacesCreateOrUpdateOptionalParams,
-  WorkspacesCreateOrUpdateResponse,
-  WorkspacePatchResource,
-  WorkspacesUpdateOptionalParams,
-  WorkspacesUpdateResponse,
-  WorkspacesDeleteOptionalParams,
-  WorkspacesListBySubscriptionNextResponse,
-  WorkspacesListByResourceGroupNextResponse
+  AnalyticsConnector,
+  AnalyticsConnectorsListByWorkspaceNextOptionalParams,
+  AnalyticsConnectorsListByWorkspaceOptionalParams,
+  AnalyticsConnectorsListByWorkspaceResponse,
+  AnalyticsConnectorsGetOptionalParams,
+  AnalyticsConnectorsGetResponse,
+  AnalyticsConnectorsCreateOrUpdateOptionalParams,
+  AnalyticsConnectorsCreateOrUpdateResponse,
+  AnalyticsConnectorPatchResource,
+  AnalyticsConnectorsUpdateOptionalParams,
+  AnalyticsConnectorsUpdateResponse,
+  AnalyticsConnectorsDeleteOptionalParams,
+  AnalyticsConnectorsListByWorkspaceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Workspaces operations. */
-export class WorkspacesImpl implements Workspaces {
+/** Class containing AnalyticsConnectors operations. */
+export class AnalyticsConnectorsImpl implements AnalyticsConnectors {
   private readonly client: HealthcareApisManagementClient;
 
   /**
-   * Initialize a new instance of the class Workspaces class.
+   * Initialize a new instance of the class AnalyticsConnectors class.
    * @param client Reference to the service client
    */
   constructor(client: HealthcareApisManagementClient) {
@@ -49,69 +45,21 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
-   * Lists all the available workspaces under the specified subscription.
-   * @param options The options parameters.
-   */
-  public listBySubscription(
-    options?: WorkspacesListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<Workspace> {
-    const iter = this.listBySubscriptionPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
-      }
-    };
-  }
-
-  private async *listBySubscriptionPagingPage(
-    options?: WorkspacesListBySubscriptionOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<Workspace[]> {
-    let result: WorkspacesListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listBySubscriptionNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listBySubscriptionPagingAll(
-    options?: WorkspacesListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<Workspace> {
-    for await (const page of this.listBySubscriptionPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Lists all the available workspaces under the specified resource group.
+   * Lists all Analytics Connectors for the given workspace.
    * @param resourceGroupName The name of the resource group that contains the service instance.
+   * @param workspaceName The name of workspace resource.
    * @param options The options parameters.
    */
-  public listByResourceGroup(
+  public listByWorkspace(
     resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<Workspace> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+    workspaceName: string,
+    options?: AnalyticsConnectorsListByWorkspaceOptionalParams
+  ): PagedAsyncIterableIterator<AnalyticsConnector> {
+    const iter = this.listByWorkspacePagingAll(
+      resourceGroupName,
+      workspaceName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -123,8 +71,9 @@ export class WorkspacesImpl implements Workspaces {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
+        return this.listByWorkspacePagingPage(
           resourceGroupName,
+          workspaceName,
           options,
           settings
         );
@@ -132,23 +81,29 @@ export class WorkspacesImpl implements Workspaces {
     };
   }
 
-  private async *listByResourceGroupPagingPage(
+  private async *listByWorkspacePagingPage(
     resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams,
+    workspaceName: string,
+    options?: AnalyticsConnectorsListByWorkspaceOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Workspace[]> {
-    let result: WorkspacesListByResourceGroupResponse;
+  ): AsyncIterableIterator<AnalyticsConnector[]> {
+    let result: AnalyticsConnectorsListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
+      result = await this._listByWorkspace(
+        resourceGroupName,
+        workspaceName,
+        options
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
+      result = await this._listByWorkspaceNext(
         resourceGroupName,
+        workspaceName,
         continuationToken,
         options
       );
@@ -159,12 +114,14 @@ export class WorkspacesImpl implements Workspaces {
     }
   }
 
-  private async *listByResourceGroupPagingAll(
+  private async *listByWorkspacePagingAll(
     resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<Workspace> {
-    for await (const page of this.listByResourceGroupPagingPage(
+    workspaceName: string,
+    options?: AnalyticsConnectorsListByWorkspaceOptionalParams
+  ): AsyncIterableIterator<AnalyticsConnector> {
+    for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
+      workspaceName,
       options
     )) {
       yield* page;
@@ -172,72 +129,65 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
-   * Lists all the available workspaces under the specified subscription.
-   * @param options The options parameters.
-   */
-  private _listBySubscription(
-    options?: WorkspacesListBySubscriptionOptionalParams
-  ): Promise<WorkspacesListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec
-    );
-  }
-
-  /**
-   * Lists all the available workspaces under the specified resource group.
-   * @param resourceGroupName The name of the resource group that contains the service instance.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams
-  ): Promise<WorkspacesListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec
-    );
-  }
-
-  /**
-   * Gets the properties of the specified workspace.
+   * Lists all Analytics Connectors for the given workspace.
    * @param resourceGroupName The name of the resource group that contains the service instance.
    * @param workspaceName The name of workspace resource.
+   * @param options The options parameters.
+   */
+  private _listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: AnalyticsConnectorsListByWorkspaceOptionalParams
+  ): Promise<AnalyticsConnectorsListByWorkspaceResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, options },
+      listByWorkspaceOperationSpec
+    );
+  }
+
+  /**
+   * Gets the properties of the specified Analytics Connector.
+   * @param resourceGroupName The name of the resource group that contains the service instance.
+   * @param workspaceName The name of workspace resource.
+   * @param analyticsConnectorName The name of Analytics Connector resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesGetOptionalParams
-  ): Promise<WorkspacesGetResponse> {
+    analyticsConnectorName: string,
+    options?: AnalyticsConnectorsGetOptionalParams
+  ): Promise<AnalyticsConnectorsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, options },
+      { resourceGroupName, workspaceName, analyticsConnectorName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates or updates a workspace resource with the specified parameters.
+   * Creates or updates a Analytics Connector resource with the specified parameters.
    * @param resourceGroupName The name of the resource group that contains the service instance.
    * @param workspaceName The name of workspace resource.
-   * @param workspace The parameters for creating or updating a healthcare workspace.
+   * @param analyticsConnectorName The name of Analytics Connector resource.
+   * @param analyticsConnector The parameters for creating or updating a Analytics Connector resource.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
-    workspace: Workspace,
-    options?: WorkspacesCreateOrUpdateOptionalParams
+    analyticsConnectorName: string,
+    analyticsConnector: AnalyticsConnector,
+    options?: AnalyticsConnectorsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<WorkspacesCreateOrUpdateResponse>,
-      WorkspacesCreateOrUpdateResponse
+      PollOperationState<AnalyticsConnectorsCreateOrUpdateResponse>,
+      AnalyticsConnectorsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<WorkspacesCreateOrUpdateResponse> => {
+    ): Promise<AnalyticsConnectorsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -275,61 +225,73 @@ export class WorkspacesImpl implements Workspaces {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, workspaceName, workspace, options },
+      {
+        resourceGroupName,
+        workspaceName,
+        analyticsConnectorName,
+        analyticsConnector,
+        options
+      },
       createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates or updates a workspace resource with the specified parameters.
+   * Creates or updates a Analytics Connector resource with the specified parameters.
    * @param resourceGroupName The name of the resource group that contains the service instance.
    * @param workspaceName The name of workspace resource.
-   * @param workspace The parameters for creating or updating a healthcare workspace.
+   * @param analyticsConnectorName The name of Analytics Connector resource.
+   * @param analyticsConnector The parameters for creating or updating a Analytics Connector resource.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    workspace: Workspace,
-    options?: WorkspacesCreateOrUpdateOptionalParams
-  ): Promise<WorkspacesCreateOrUpdateResponse> {
+    analyticsConnectorName: string,
+    analyticsConnector: AnalyticsConnector,
+    options?: AnalyticsConnectorsCreateOrUpdateOptionalParams
+  ): Promise<AnalyticsConnectorsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       workspaceName,
-      workspace,
+      analyticsConnectorName,
+      analyticsConnector,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Patch workspace details.
+   * Patch Analytics Connector Service details.
    * @param resourceGroupName The name of the resource group that contains the service instance.
    * @param workspaceName The name of workspace resource.
-   * @param workspacePatchResource The parameters for updating a specified workspace.
+   * @param analyticsConnectorName The name of Analytics Connector resource.
+   * @param analyticsConnectorPatchResource The parameters for updating a Analytics Connector.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     workspaceName: string,
-    workspacePatchResource: WorkspacePatchResource,
-    options?: WorkspacesUpdateOptionalParams
+    analyticsConnectorName: string,
+    analyticsConnectorPatchResource: AnalyticsConnectorPatchResource,
+    options?: AnalyticsConnectorsUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<WorkspacesUpdateResponse>,
-      WorkspacesUpdateResponse
+      PollOperationState<AnalyticsConnectorsUpdateResponse>,
+      AnalyticsConnectorsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<WorkspacesUpdateResponse> => {
+    ): Promise<AnalyticsConnectorsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -367,49 +329,61 @@ export class WorkspacesImpl implements Workspaces {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, workspaceName, workspacePatchResource, options },
+      {
+        resourceGroupName,
+        workspaceName,
+        analyticsConnectorName,
+        analyticsConnectorPatchResource,
+        options
+      },
       updateOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Patch workspace details.
+   * Patch Analytics Connector Service details.
    * @param resourceGroupName The name of the resource group that contains the service instance.
    * @param workspaceName The name of workspace resource.
-   * @param workspacePatchResource The parameters for updating a specified workspace.
+   * @param analyticsConnectorName The name of Analytics Connector resource.
+   * @param analyticsConnectorPatchResource The parameters for updating a Analytics Connector.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    workspacePatchResource: WorkspacePatchResource,
-    options?: WorkspacesUpdateOptionalParams
-  ): Promise<WorkspacesUpdateResponse> {
+    analyticsConnectorName: string,
+    analyticsConnectorPatchResource: AnalyticsConnectorPatchResource,
+    options?: AnalyticsConnectorsUpdateOptionalParams
+  ): Promise<AnalyticsConnectorsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       workspaceName,
-      workspacePatchResource,
+      analyticsConnectorName,
+      analyticsConnectorPatchResource,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes a specified workspace.
+   * Deletes a Analytics Connector.
    * @param resourceGroupName The name of the resource group that contains the service instance.
    * @param workspaceName The name of workspace resource.
+   * @param analyticsConnectorName The name of Analytics Connector resource.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesDeleteOptionalParams
+    analyticsConnectorName: string,
+    options?: AnalyticsConnectorsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -452,95 +426,69 @@ export class WorkspacesImpl implements Workspaces {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, workspaceName, options },
+      { resourceGroupName, workspaceName, analyticsConnectorName, options },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes a specified workspace.
+   * Deletes a Analytics Connector.
    * @param resourceGroupName The name of the resource group that contains the service instance.
    * @param workspaceName The name of workspace resource.
+   * @param analyticsConnectorName The name of Analytics Connector resource.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesDeleteOptionalParams
+    analyticsConnectorName: string,
+    options?: AnalyticsConnectorsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
+      analyticsConnectorName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListBySubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
-   * @param options The options parameters.
-   */
-  private _listBySubscriptionNext(
-    nextLink: string,
-    options?: WorkspacesListBySubscriptionNextOptionalParams
-  ): Promise<WorkspacesListBySubscriptionNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listBySubscriptionNextOperationSpec
-    );
-  }
-
-  /**
-   * ListByResourceGroupNext
+   * ListByWorkspaceNext
    * @param resourceGroupName The name of the resource group that contains the service instance.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param workspaceName The name of workspace resource.
+   * @param nextLink The nextLink from the previous successful call to the ListByWorkspace method.
    * @param options The options parameters.
    */
-  private _listByResourceGroupNext(
+  private _listByWorkspaceNext(
     resourceGroupName: string,
+    workspaceName: string,
     nextLink: string,
-    options?: WorkspacesListByResourceGroupNextOptionalParams
-  ): Promise<WorkspacesListByResourceGroupNextResponse> {
+    options?: AnalyticsConnectorsListByWorkspaceNextOptionalParams
+  ): Promise<AnalyticsConnectorsListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      { resourceGroupName, workspaceName, nextLink, options },
+      listByWorkspaceNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HealthcareApis/workspaces",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/analyticsconnectors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceList
-    },
-    default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkspaceList
+      bodyMapper: Mappers.AnalyticsConnectorCollection
     },
     default: {
       bodyMapper: Mappers.ErrorDetails
@@ -550,18 +498,19 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.workspaceName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/analyticsconnectors/{analyticsConnectorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Workspace
+      bodyMapper: Mappers.AnalyticsConnector
     },
     default: {
       bodyMapper: Mappers.ErrorDetails
@@ -572,39 +521,41 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
+    Parameters.analyticsConnectorName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/analyticsconnectors/{analyticsConnectorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Workspace
+      bodyMapper: Mappers.AnalyticsConnector
     },
     201: {
-      bodyMapper: Mappers.Workspace
+      bodyMapper: Mappers.AnalyticsConnector
     },
     202: {
-      bodyMapper: Mappers.Workspace
+      bodyMapper: Mappers.AnalyticsConnector
     },
     204: {
-      bodyMapper: Mappers.Workspace
+      bodyMapper: Mappers.AnalyticsConnector
     },
     default: {
       bodyMapper: Mappers.ErrorDetails
     }
   },
-  requestBody: Parameters.workspace,
+  requestBody: Parameters.analyticsConnector,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
+    Parameters.analyticsConnectorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -612,32 +563,33 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/analyticsconnectors/{analyticsConnectorName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Workspace
+      bodyMapper: Mappers.AnalyticsConnector
     },
     201: {
-      bodyMapper: Mappers.Workspace
+      bodyMapper: Mappers.AnalyticsConnector
     },
     202: {
-      bodyMapper: Mappers.Workspace
+      bodyMapper: Mappers.AnalyticsConnector
     },
     204: {
-      bodyMapper: Mappers.Workspace
+      bodyMapper: Mappers.AnalyticsConnector
     },
     default: {
       bodyMapper: Mappers.ErrorDetails
     }
   },
-  requestBody: Parameters.workspacePatchResource,
+  requestBody: Parameters.analyticsConnectorPatchResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
+    Parameters.analyticsConnectorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -645,7 +597,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/analyticsconnectors/{analyticsConnectorName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -661,36 +613,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
+    Parameters.analyticsConnectorName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
+const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceList
-    },
-    default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkspaceList
+      bodyMapper: Mappers.AnalyticsConnectorCollection
     },
     default: {
       bodyMapper: Mappers.ErrorDetails
@@ -700,7 +634,8 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.workspaceName
   ],
   headerParameters: [Parameters.accept],
   serializer
