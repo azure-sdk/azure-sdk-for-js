@@ -238,6 +238,8 @@ export interface Catalog {
 // @public
 export interface CatalogMsrp {
     p1Y?: Price;
+    p3Y?: Price;
+    p5Y?: Price;
 }
 
 // @public
@@ -1552,7 +1554,7 @@ export interface ReturnPostOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ReturnPostResponse = ReturnPostHeaders & RefundResponse;
+export type ReturnPostResponse = ReservationOrderResponse;
 
 // @public
 export interface SavingsPlanPurchaseRequest {

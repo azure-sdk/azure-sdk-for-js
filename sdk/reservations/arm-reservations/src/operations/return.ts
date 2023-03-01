@@ -121,20 +121,16 @@ const postOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RefundResponse,
-      headersMapper: Mappers.ReturnPostHeaders
+      bodyMapper: Mappers.ReservationOrderResponse
     },
     201: {
-      bodyMapper: Mappers.RefundResponse,
-      headersMapper: Mappers.ReturnPostHeaders
+      bodyMapper: Mappers.ReservationOrderResponse
     },
     202: {
-      bodyMapper: Mappers.RefundResponse,
-      headersMapper: Mappers.ReturnPostHeaders
+      bodyMapper: Mappers.ReservationOrderResponse
     },
     204: {
-      bodyMapper: Mappers.RefundResponse,
-      headersMapper: Mappers.ReturnPostHeaders
+      bodyMapper: Mappers.ReservationOrderResponse
     },
     default: {
       bodyMapper: Mappers.ErrorModel
