@@ -3925,7 +3925,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230227
+      typescript: 5.1.0-dev.20230301
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8644,8 +8644,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230227:
-    resolution: {integrity: sha512-nPxrgb/3C40X3eXsCPUpiVEgQltswKoAh3Zwm7tDIVE4ldDr3flXq63odqyWUuOZFc/+NCFdm80RpTB0nz2M8w==}
+  /typescript/5.1.0-dev.20230301:
+    resolution: {integrity: sha512-aJ0PIgQ00zlf9npD2tri7MWDAooMoh3iIn4v0hAMSRCSKqJjTzt7fVopvdtbvWPKripipxeXnX5mhkBZcGrEKQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11143,15 +11143,15 @@ packages:
     dev: false
 
   file:projects/arm-databox.tgz:
-    resolution: {integrity: sha512-aQS+py+GGZlUmSGWYvqO3JcxLLwV5FJysJkKujsvyltDS5M713dO2IbGTLfsAQoWJtF7lFsk/+GMwVkIePiYCQ==, tarball: file:projects/arm-databox.tgz}
+    resolution: {integrity: sha512-7+GKIFxRE7wtSao8mmMHO8VIVEcPlGnvhsBoRPe2HtBJF/ayb53w5tq36hqxO21WR9Vvitmy/4VWVsgUp+hCbQ==, tarball: file:projects/arm-databox.tgz}
     name: '@rush-temp/arm-databox'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.36
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
@@ -19076,7 +19076,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-xuXx7xw2PY3EfFu3Y2ZhtncwocIC2pYEbZudC76SeEw2+SFX58NBKRvspIr6XKH0CYFLtIeflkeCwmjc1WsCdw==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-H+1+hOCQ8fol8EJZj522Y1j1k5pE72nNkgDzgnP+gUOIh0KlNsHDjHCh2+keKPNZcq6fU1joESBcwUbHoZ7QKw==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
