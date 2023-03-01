@@ -82,7 +82,6 @@ export type AttachedNetworksGetByProjectResponse = AttachedNetworkConnection;
 
 // @public
 export interface AttachedNetworksListByDevCenterNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -98,7 +97,6 @@ export type AttachedNetworksListByDevCenterResponse = AttachedNetworkListResult;
 
 // @public
 export interface AttachedNetworksListByProjectNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -178,7 +176,6 @@ export type CatalogsGetResponse = Catalog;
 
 // @public
 export interface CatalogsListByDevCenterNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -340,7 +337,6 @@ export type DevBoxDefinitionsGetResponse = DevBoxDefinition;
 
 // @public
 export interface DevBoxDefinitionsListByDevCenterNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -356,7 +352,6 @@ export type DevBoxDefinitionsListByDevCenterResponse = DevBoxDefinitionListResul
 
 // @public
 export interface DevBoxDefinitionsListByProjectNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -508,7 +503,6 @@ export interface DevCenterSku extends Sku {
 
 // @public
 export interface DevCentersListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -524,7 +518,6 @@ export type DevCentersListByResourceGroupResponse = DevCenterListResult;
 
 // @public
 export interface DevCentersListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -607,7 +600,6 @@ export type EnvironmentTypesGetResponse = EnvironmentType;
 
 // @public
 export interface EnvironmentTypesListByDevCenterNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -689,7 +681,6 @@ export type GalleriesGetResponse = Gallery;
 
 // @public
 export interface GalleriesListByDevCenterNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -798,7 +789,6 @@ export type ImagesGetResponse = Image_2;
 
 // @public
 export interface ImagesListByDevCenterNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -814,7 +804,6 @@ export type ImagesListByDevCenterResponse = ImageListResult;
 
 // @public
 export interface ImagesListByGalleryNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1096,7 +1085,6 @@ export type NetworkConnectionsGetResponse = NetworkConnection;
 
 // @public
 export interface NetworkConnectionsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1112,7 +1100,6 @@ export type NetworkConnectionsListByResourceGroupResponse = NetworkConnectionLis
 
 // @public
 export interface NetworkConnectionsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1128,7 +1115,6 @@ export type NetworkConnectionsListBySubscriptionResponse = NetworkConnectionList
 
 // @public
 export interface NetworkConnectionsListHealthDetailsNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1314,7 +1300,6 @@ export type PoolsGetResponse = Pool;
 
 // @public
 export interface PoolsListByProjectNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1376,7 +1361,6 @@ export type ProjectAllowedEnvironmentTypesGetResponse = AllowedEnvironmentType;
 
 // @public
 export interface ProjectAllowedEnvironmentTypesListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1446,7 +1430,6 @@ export type ProjectEnvironmentTypesGetResponse = ProjectEnvironmentType;
 
 // @public
 export interface ProjectEnvironmentTypesListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1547,7 +1530,6 @@ export type ProjectsGetResponse = Project;
 
 // @public
 export interface ProjectsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1563,7 +1545,6 @@ export type ProjectsListByResourceGroupResponse = ProjectListResult;
 
 // @public
 export interface ProjectsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1691,7 +1672,6 @@ export type SchedulesGetResponse = Schedule;
 
 // @public
 export interface SchedulesListByPoolNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1755,7 +1735,6 @@ export interface Skus {
 
 // @public
 export interface SkusListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public

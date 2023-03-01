@@ -1,15 +1,32 @@
 # Release History
+    
+## 1.0.0-beta.5 (2023-03-01)
+    
+**Breaking Changes**
 
-## 1.0.0-beta.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AttachedNetworksListByDevCenterNextOptionalParams no longer has parameter top
+  - Interface AttachedNetworksListByProjectNextOptionalParams no longer has parameter top
+  - Interface CatalogsListByDevCenterNextOptionalParams no longer has parameter top
+  - Interface DevBoxDefinitionsListByDevCenterNextOptionalParams no longer has parameter top
+  - Interface DevBoxDefinitionsListByProjectNextOptionalParams no longer has parameter top
+  - Interface DevCentersListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface DevCentersListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface EnvironmentTypesListByDevCenterNextOptionalParams no longer has parameter top
+  - Interface GalleriesListByDevCenterNextOptionalParams no longer has parameter top
+  - Interface ImagesListByDevCenterNextOptionalParams no longer has parameter top
+  - Interface ImagesListByGalleryNextOptionalParams no longer has parameter top
+  - Interface NetworkConnectionsListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface NetworkConnectionsListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface NetworkConnectionsListHealthDetailsNextOptionalParams no longer has parameter top
+  - Interface PoolsListByProjectNextOptionalParams no longer has parameter top
+  - Interface ProjectAllowedEnvironmentTypesListNextOptionalParams no longer has parameter top
+  - Interface ProjectEnvironmentTypesListNextOptionalParams no longer has parameter top
+  - Interface ProjectsListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface ProjectsListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface SchedulesListByPoolNextOptionalParams no longer has parameter top
+  - Interface SkusListBySubscriptionNextOptionalParams no longer has parameter top
+    
+    
 ## 1.0.0-beta.4 (2022-11-23)
     
 **Features**

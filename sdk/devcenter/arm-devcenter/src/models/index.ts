@@ -1753,20 +1753,14 @@ export interface DevCentersDeleteOptionalParams
 
 /** Optional parameters. */
 export interface DevCentersListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type DevCentersListBySubscriptionNextResponse = DevCenterListResult;
 
 /** Optional parameters. */
 export interface DevCentersListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type DevCentersListByResourceGroupNextResponse = DevCenterListResult;
@@ -1833,20 +1827,14 @@ export interface ProjectsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface ProjectsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type ProjectsListBySubscriptionNextResponse = ProjectListResult;
 
 /** Optional parameters. */
 export interface ProjectsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ProjectsListByResourceGroupNextResponse = ProjectListResult;
@@ -1908,20 +1896,14 @@ export interface AttachedNetworksDeleteOptionalParams
 
 /** Optional parameters. */
 export interface AttachedNetworksListByProjectNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProjectNext operation. */
 export type AttachedNetworksListByProjectNextResponse = AttachedNetworkListResult;
 
 /** Optional parameters. */
 export interface AttachedNetworksListByDevCenterNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDevCenterNext operation. */
 export type AttachedNetworksListByDevCenterNextResponse = AttachedNetworkListResult;
@@ -1966,10 +1948,7 @@ export interface GalleriesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface GalleriesListByDevCenterNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDevCenterNext operation. */
 export type GalleriesListByDevCenterNextResponse = GalleryListResult;
@@ -2002,20 +1981,14 @@ export type ImagesGetResponse = Image;
 
 /** Optional parameters. */
 export interface ImagesListByDevCenterNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDevCenterNext operation. */
 export type ImagesListByDevCenterNextResponse = ImageListResult;
 
 /** Optional parameters. */
 export interface ImagesListByGalleryNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByGalleryNext operation. */
 export type ImagesListByGalleryNextResponse = ImageListResult;
@@ -2102,10 +2075,7 @@ export interface CatalogsSyncOptionalParams
 
 /** Optional parameters. */
 export interface CatalogsListByDevCenterNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDevCenterNext operation. */
 export type CatalogsListByDevCenterNextResponse = CatalogListResult;
@@ -2147,10 +2117,7 @@ export interface EnvironmentTypesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface EnvironmentTypesListByDevCenterNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDevCenterNext operation. */
 export type EnvironmentTypesListByDevCenterNextResponse = EnvironmentTypeListResult;
@@ -2174,10 +2141,7 @@ export type ProjectAllowedEnvironmentTypesGetResponse = AllowedEnvironmentType;
 
 /** Optional parameters. */
 export interface ProjectAllowedEnvironmentTypesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ProjectAllowedEnvironmentTypesListNextResponse = AllowedEnvironmentTypeListResult;
@@ -2219,10 +2183,7 @@ export interface ProjectEnvironmentTypesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface ProjectEnvironmentTypesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ProjectEnvironmentTypesListNextResponse = ProjectEnvironmentTypeListResult;
@@ -2296,20 +2257,14 @@ export type DevBoxDefinitionsGetByProjectResponse = DevBoxDefinition;
 
 /** Optional parameters. */
 export interface DevBoxDefinitionsListByDevCenterNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDevCenterNext operation. */
 export type DevBoxDefinitionsListByDevCenterNextResponse = DevBoxDefinitionListResult;
 
 /** Optional parameters. */
 export interface DevBoxDefinitionsListByProjectNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProjectNext operation. */
 export type DevBoxDefinitionsListByProjectNextResponse = DevBoxDefinitionListResult;
@@ -2368,10 +2323,7 @@ export type SkusListBySubscriptionResponse = SkuListResult;
 
 /** Optional parameters. */
 export interface SkusListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type SkusListBySubscriptionNextResponse = SkuListResult;
@@ -2425,10 +2377,7 @@ export interface PoolsDeleteOptionalParams extends coreClient.OperationOptions {
 
 /** Optional parameters. */
 export interface PoolsListByProjectNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProjectNext operation. */
 export type PoolsListByProjectNextResponse = PoolListResult;
@@ -2494,10 +2443,7 @@ export interface SchedulesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface SchedulesListByPoolNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPoolNext operation. */
 export type SchedulesListByPoolNextResponse = ScheduleListResult;
@@ -2590,30 +2536,21 @@ export interface NetworkConnectionsRunHealthChecksOptionalParams
 
 /** Optional parameters. */
 export interface NetworkConnectionsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type NetworkConnectionsListBySubscriptionNextResponse = NetworkConnectionListResult;
 
 /** Optional parameters. */
 export interface NetworkConnectionsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type NetworkConnectionsListByResourceGroupNextResponse = NetworkConnectionListResult;
 
 /** Optional parameters. */
 export interface NetworkConnectionsListHealthDetailsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listHealthDetailsNext operation. */
 export type NetworkConnectionsListHealthDetailsNextResponse = HealthCheckStatusDetailsListResult;
