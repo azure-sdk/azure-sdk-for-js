@@ -9,7 +9,7 @@ import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
-export type AvailabilityStateValues = "Available" | "Unavailable" | "Unknown";
+export type AvailabilityStateValues = string;
 
 // @public
 export interface AvailabilityStatus {
@@ -102,120 +102,25 @@ export interface AvailabilityStatusProperties {
     occuredTime?: Date;
     reasonChronicity?: ReasonChronicityTypes;
     reasonType?: string;
-    recentlyResolvedState?: AvailabilityStatusPropertiesRecentlyResolvedState;
+    recentlyResolved?: AvailabilityStatusPropertiesRecentlyResolved;
     recommendedActions?: RecommendedAction[];
     reportedTime?: Date;
     resolutionETA?: Date;
     rootCauseAttributionTime?: Date;
     serviceImpactingEvents?: ServiceImpactingEvent[];
     summary?: string;
+    title?: string;
 }
 
 // @public
-export interface AvailabilityStatusPropertiesRecentlyResolvedState {
+export interface AvailabilityStatusPropertiesRecentlyResolved {
     resolvedTime?: Date;
-    unavailabilitySummary?: string;
-    unavailableOccurredTime?: Date;
+    unavailableOccuredTime?: Date;
+    unavailableSummary?: string;
 }
 
 // @public
-export interface ChildAvailabilityStatuses {
-    getByResource(resourceUri: string, options?: ChildAvailabilityStatusesGetByResourceOptionalParams): Promise<ChildAvailabilityStatusesGetByResourceResponse>;
-    list(resourceUri: string, options?: ChildAvailabilityStatusesListOptionalParams): PagedAsyncIterableIterator<AvailabilityStatus>;
-}
-
-// @public
-export interface ChildAvailabilityStatusesGetByResourceOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-}
-
-// @public
-export type ChildAvailabilityStatusesGetByResourceResponse = AvailabilityStatus;
-
-// @public
-export interface ChildAvailabilityStatusesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ChildAvailabilityStatusesListNextResponse = AvailabilityStatusListResult;
-
-// @public
-export interface ChildAvailabilityStatusesListOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-}
-
-// @public
-export type ChildAvailabilityStatusesListResponse = AvailabilityStatusListResult;
-
-// @public
-export interface ChildResources {
-    list(resourceUri: string, options?: ChildResourcesListOptionalParams): PagedAsyncIterableIterator<AvailabilityStatus>;
-}
-
-// @public
-export interface ChildResourcesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ChildResourcesListNextResponse = AvailabilityStatusListResult;
-
-// @public
-export interface ChildResourcesListOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-}
-
-// @public
-export type ChildResourcesListResponse = AvailabilityStatusListResult;
-
-// @public
-export interface EmergingIssueImpact {
-    id?: string;
-    name?: string;
-    regions?: ImpactedRegion[];
-}
-
-// @public
-export interface EmergingIssueListResult {
-    nextLink?: string;
-    value?: EmergingIssuesGetResult[];
-}
-
-// @public
-export interface EmergingIssues {
-    get(options?: EmergingIssuesGetOptionalParams): Promise<EmergingIssuesGetResponse>;
-    list(options?: EmergingIssuesListOptionalParams): PagedAsyncIterableIterator<EmergingIssuesGetResult>;
-}
-
-// @public
-export interface EmergingIssuesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EmergingIssuesGetResponse = EmergingIssuesGetResult;
-
-// @public
-export interface EmergingIssuesGetResult extends Resource {
-    refreshTimestamp?: Date;
-    statusActiveEvents?: StatusActiveEvent[];
-    statusBanners?: StatusBanner[];
-}
-
-// @public
-export interface EmergingIssuesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EmergingIssuesListNextResponse = EmergingIssueListResult;
-
-// @public
-export interface EmergingIssuesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EmergingIssuesListResponse = EmergingIssueListResult;
+export type CreatedByType = string;
 
 // @public
 export interface ErrorResponse {
@@ -225,7 +130,185 @@ export interface ErrorResponse {
 }
 
 // @public
+interface Event_2 extends ProxyResource {
+    additionalInformation?: EventPropertiesAdditionalInformation;
+    article?: EventPropertiesArticle;
+    description?: string;
+    duration?: number;
+    enableChatWithUs?: boolean;
+    enableMicrosoftSupport?: boolean;
+    eventLevel?: EventLevelValues;
+    eventSource?: EventSourceValues;
+    eventType?: EventTypeValues;
+    externalIncidentId?: string;
+    faqs?: Faq[];
+    header?: string;
+    hirStage?: string;
+    impact?: Impact[];
+    impactMitigationTime?: Date;
+    impactStartTime?: Date;
+    impactType?: string;
+    isHIR?: boolean;
+    lastUpdateTime?: Date;
+    level?: LevelValues;
+    links?: Link[];
+    platformInitiated?: boolean;
+    priority?: number;
+    recommendedActions?: EventPropertiesRecommendedActions;
+    status?: EventStatusValues;
+    summary?: string;
+    title?: string;
+}
+export { Event_2 as Event }
+
+// @public
+export interface EventGetBySubscriptionIdAndTrackingIdOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    queryStartTime?: string;
+}
+
+// @public
+export type EventGetBySubscriptionIdAndTrackingIdResponse = Event_2;
+
+// @public
+export interface EventGetByTenantIdAndTrackingIdOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    queryStartTime?: string;
+}
+
+// @public
+export type EventGetByTenantIdAndTrackingIdResponse = Event_2;
+
+// @public
+export interface EventImpactedResource extends ProxyResource {
+    info?: KeyValueItem[];
+    readonly targetRegion?: string;
+    readonly targetResourceId?: string;
+    readonly targetResourceType?: string;
+}
+
+// @public
+export interface EventImpactedResourceListResult {
+    nextLink?: string;
+    value: EventImpactedResource[];
+}
+
+// @public
+export type EventLevelValues = string;
+
+// @public
+export interface EventOperations {
+    getBySubscriptionIdAndTrackingId(eventTrackingId: string, options?: EventGetBySubscriptionIdAndTrackingIdOptionalParams): Promise<EventGetBySubscriptionIdAndTrackingIdResponse>;
+    getByTenantIdAndTrackingId(eventTrackingId: string, options?: EventGetByTenantIdAndTrackingIdOptionalParams): Promise<EventGetByTenantIdAndTrackingIdResponse>;
+}
+
+// @public
+export interface EventPropertiesAdditionalInformation {
+    message?: string;
+}
+
+// @public
+export interface EventPropertiesArticle {
+    articleContent?: string;
+}
+
+// @public
+export interface EventPropertiesRecommendedActions {
+    actions?: EventPropertiesRecommendedActionsItem[];
+    localeCode?: string;
+    message?: string;
+}
+
+// @public
+export interface EventPropertiesRecommendedActionsItem {
+    actionText?: string;
+    groupId?: number;
+}
+
+// @public
+export interface Events {
+    nextLink?: string;
+    value: Event_2[];
+}
+
+// @public
+export interface EventsListBySingleResourceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EventsListBySingleResourceNextResponse = Events;
+
+// @public
+export interface EventsListBySingleResourceOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type EventsListBySingleResourceResponse = Events;
+
+// @public
+export interface EventsListBySubscriptionIdNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EventsListBySubscriptionIdNextResponse = Events;
+
+// @public
+export interface EventsListBySubscriptionIdOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    queryStartTime?: string;
+}
+
+// @public
+export type EventsListBySubscriptionIdResponse = Events;
+
+// @public
+export interface EventsListByTenantIdNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EventsListByTenantIdNextResponse = Events;
+
+// @public
+export interface EventsListByTenantIdOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    queryStartTime?: string;
+}
+
+// @public
+export type EventsListByTenantIdResponse = Events;
+
+// @public
+export interface EventsOperations {
+    listBySingleResource(resourceUri: string, options?: EventsListBySingleResourceOptionalParams): PagedAsyncIterableIterator<Event_2>;
+    listBySubscriptionId(options?: EventsListBySubscriptionIdOptionalParams): PagedAsyncIterableIterator<Event_2>;
+    listByTenantId(options?: EventsListByTenantIdOptionalParams): PagedAsyncIterableIterator<Event_2>;
+}
+
+// @public
+export type EventSourceValues = string;
+
+// @public
+export type EventStatusValues = string;
+
+// @public
+export type EventTypeValues = string;
+
+// @public
+export interface Faq {
+    answer?: string;
+    localeCode?: string;
+    question?: string;
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface Impact {
+    impactedRegions?: ImpactedServiceRegion[];
+    impactedService?: string;
+}
 
 // @public
 export interface ImpactedRegion {
@@ -234,18 +317,149 @@ export interface ImpactedRegion {
 }
 
 // @public
-export enum KnownSeverityValues {
+export interface ImpactedResources {
+    get(eventTrackingId: string, impactedResourceName: string, options?: ImpactedResourcesGetOptionalParams): Promise<ImpactedResourcesGetResponse>;
+    listBySubscriptionIdAndEventId(eventTrackingId: string, options?: ImpactedResourcesListBySubscriptionIdAndEventIdOptionalParams): PagedAsyncIterableIterator<EventImpactedResource>;
+}
+
+// @public
+export interface ImpactedResourcesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImpactedResourcesGetResponse = EventImpactedResource;
+
+// @public
+export interface ImpactedResourcesListBySubscriptionIdAndEventIdNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImpactedResourcesListBySubscriptionIdAndEventIdNextResponse = EventImpactedResourceListResult;
+
+// @public
+export interface ImpactedResourcesListBySubscriptionIdAndEventIdOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type ImpactedResourcesListBySubscriptionIdAndEventIdResponse = EventImpactedResourceListResult;
+
+// @public
+export interface ImpactedResourceStatus extends ProxyResource {
+    availabilityState?: AvailabilityStateValues;
+    occurredTime?: Date;
+    reasonType?: ReasonTypeValues;
+    summary?: string;
+    title?: string;
+}
+
+// @public
+export interface ImpactedServiceRegion {
+    impactedRegion?: string;
+    impactedSubscriptions?: string[];
+    impactedTenants?: string[];
+    lastUpdateTime?: Date;
+    status?: EventStatusValues;
+    updates?: Update[];
+}
+
+// @public
+export interface KeyValueItem {
+    readonly key?: string;
+    readonly value?: string;
+}
+
+// @public
+export enum KnownAvailabilityStateValues {
+    Available = "Available",
+    Degraded = "Degraded",
+    Unavailable = "Unavailable",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
+export enum KnownEventLevelValues {
+    Critical = "Critical",
     Error = "Error",
-    Information = "Information",
+    Informational = "Informational",
     Warning = "Warning"
 }
 
 // @public
-export enum KnownStageValues {
-    Active = "Active",
-    Archived = "Archived",
-    Resolve = "Resolve"
+export enum KnownEventSourceValues {
+    ResourceHealth = "ResourceHealth",
+    ServiceHealth = "ServiceHealth"
 }
+
+// @public
+export enum KnownEventStatusValues {
+    Active = "Active",
+    Resolved = "Resolved"
+}
+
+// @public
+export enum KnownEventTypeValues {
+    EmergingIssues = "EmergingIssues",
+    HealthAdvisory = "HealthAdvisory",
+    PlannedMaintenance = "PlannedMaintenance",
+    RCA = "RCA",
+    SecurityAdvisory = "SecurityAdvisory",
+    ServiceIssue = "ServiceIssue"
+}
+
+// @public
+export enum KnownLevelValues {
+    Critical = "Critical",
+    Warning = "Warning"
+}
+
+// @public
+export enum KnownLinkTypeValues {
+    Button = "Button",
+    Hyperlink = "Hyperlink"
+}
+
+// @public
+export enum KnownReasonChronicityTypes {
+    Persistent = "Persistent",
+    Transient = "Transient"
+}
+
+// @public
+export enum KnownReasonTypeValues {
+    Planned = "Planned",
+    Unplanned = "Unplanned",
+    UserInitiated = "UserInitiated"
+}
+
+// @public
+export type LevelValues = string;
+
+// @public
+export interface Link {
+    bladeName?: string;
+    displayText?: LinkDisplayText;
+    extensionName?: string;
+    parameters?: Record<string, unknown>;
+    type?: LinkTypeValues;
+}
+
+// @public
+export interface LinkDisplayText {
+    localizedValue?: string;
+    value?: string;
+}
+
+// @public
+export type LinkTypeValues = string;
 
 // @public (undocumented)
 export class MicrosoftResourceHealth extends coreClient.ServiceClient {
@@ -257,11 +471,11 @@ export class MicrosoftResourceHealth extends coreClient.ServiceClient {
     // (undocumented)
     availabilityStatuses: AvailabilityStatuses;
     // (undocumented)
-    childAvailabilityStatuses: ChildAvailabilityStatuses;
+    eventOperations: EventOperations;
     // (undocumented)
-    childResources: ChildResources;
+    eventsOperations: EventsOperations;
     // (undocumented)
-    emergingIssues: EmergingIssues;
+    impactedResources: ImpactedResources;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -307,7 +521,14 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-export type ReasonChronicityTypes = "Transient" | "Persistent";
+export interface ProxyResource extends Resource {
+}
+
+// @public
+export type ReasonChronicityTypes = string;
+
+// @public
+export type ReasonTypeValues = string;
 
 // @public
 export interface RecommendedAction {
@@ -320,6 +541,7 @@ export interface RecommendedAction {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -346,31 +568,27 @@ export interface ServiceImpactingEventStatus {
 }
 
 // @public
-export type SeverityValues = string;
-
-// @public
-export type StageValues = string;
-
-// @public
-export interface StatusActiveEvent {
-    cloud?: string;
-    description?: string;
-    impacts?: EmergingIssueImpact[];
-    lastModifiedTime?: Date;
-    published?: boolean;
-    severity?: SeverityValues;
-    stage?: StageValues;
-    startTime?: Date;
-    title?: string;
-    trackingId?: string;
-}
-
-// @public
 export interface StatusBanner {
     cloud?: string;
     lastModifiedTime?: Date;
     message?: string;
     title?: string;
+}
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface Update {
+    summary?: string;
+    updateDateTime?: Date;
 }
 
 // (No @packageDocumentation comment for this package)
