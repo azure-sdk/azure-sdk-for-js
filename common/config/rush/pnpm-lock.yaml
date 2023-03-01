@@ -749,6 +749,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-eventhub/5.1.0:
+    resolution: {integrity: sha512-yKglRlr8zbnenZKV7ERnF7b7OXZkoqr0m0ciIeJkMaJJzXETiSuw8xB3O3dAMSf9pR1npQMFngTgFKhxb26ysg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.7.2
+      '@azure/core-lro': 2.5.1
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.10.1
+      tslib: 2.5.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-network/26.0.0:
     resolution: {integrity: sha512-Hp0Q4ZzChs8C0DUdGZOChWKMrhzZ53V0Q681puREZ9S1E6o2yWM0Vb+cYuWoyPOylwuzP2fjNjJZGtB7WuFd3w==}
     engines: {node: '>=12.0.0'}
@@ -3925,7 +3940,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230227
+      typescript: 5.1.0-dev.20230301
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8644,8 +8659,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230227:
-    resolution: {integrity: sha512-nPxrgb/3C40X3eXsCPUpiVEgQltswKoAh3Zwm7tDIVE4ldDr3flXq63odqyWUuOZFc/+NCFdm80RpTB0nz2M8w==}
+  /typescript/5.1.0-dev.20230301:
+    resolution: {integrity: sha512-aJ0PIgQ00zlf9npD2tri7MWDAooMoh3iIn4v0hAMSRCSKqJjTzt7fVopvdtbvWPKripipxeXnX5mhkBZcGrEKQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11939,7 +11954,7 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-Y/gqHaWgID6Z7K6BXcCVlpfyoOCNnsWu2Mt0ou3jwkNbhm1xR4emj4owkk90NSamm6JPpY3Aq44BOqXAq0tNcw==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-tUQAOteLFVQsZFV4li5KNIpcryTTw19+8wyISwC8YMsTHZ5xmn5rcUPh4IV3X9fE/4ljY7xzG/gHdZTLlOEJ9g==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
@@ -11947,9 +11962,9 @@ packages:
       '@azure/arm-storage': 17.2.1
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.36
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
@@ -13096,10 +13111,11 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-3kQTcZERON/AYNpQexVQ2f6Nt9bpNxGHZIeFW5p8wL+Aves1oDlp1FDJ8w2tgehvgYqJrxDuUcosN0cQ14y8kg==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-luaTSeQ7hBpEe31zkH+29tcDmwY2CLEkJUTjDvBJnaDnqxXQ+5cBURDHJA1GWy0KoeQoFcXPF9zbwNoquzpKDw==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
+      '@azure/arm-eventhub': 5.1.0
       '@azure/arm-operationalinsights': 8.0.1
       '@azure/arm-storage': 17.2.1
       '@azure/identity': 2.1.0
@@ -19076,7 +19092,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-xuXx7xw2PY3EfFu3Y2ZhtncwocIC2pYEbZudC76SeEw2+SFX58NBKRvspIr6XKH0CYFLtIeflkeCwmjc1WsCdw==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-H+1+hOCQ8fol8EJZj522Y1j1k5pE72nNkgDzgnP+gUOIh0KlNsHDjHCh2+keKPNZcq6fU1joESBcwUbHoZ7QKw==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:

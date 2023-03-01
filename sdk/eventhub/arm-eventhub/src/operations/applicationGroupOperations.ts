@@ -8,31 +8,32 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { SchemaRegistry } from "../operationsInterfaces";
+import { ApplicationGroupOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { EventHubManagementClient } from "../eventHubManagementClient";
 import {
-  SchemaGroup,
-  SchemaRegistryListByNamespaceNextOptionalParams,
-  SchemaRegistryListByNamespaceOptionalParams,
-  SchemaRegistryListByNamespaceResponse,
-  SchemaRegistryCreateOrUpdateOptionalParams,
-  SchemaRegistryCreateOrUpdateResponse,
-  SchemaRegistryDeleteOptionalParams,
-  SchemaRegistryGetOptionalParams,
-  SchemaRegistryGetResponse,
-  SchemaRegistryListByNamespaceNextResponse
+  ApplicationGroup,
+  ApplicationGroupListByNamespaceNextOptionalParams,
+  ApplicationGroupListByNamespaceOptionalParams,
+  ApplicationGroupListByNamespaceResponse,
+  ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams,
+  ApplicationGroupCreateOrUpdateApplicationGroupResponse,
+  ApplicationGroupDeleteOptionalParams,
+  ApplicationGroupGetOptionalParams,
+  ApplicationGroupGetResponse,
+  ApplicationGroupListByNamespaceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SchemaRegistry operations. */
-export class SchemaRegistryImpl implements SchemaRegistry {
+/** Class containing ApplicationGroupOperations operations. */
+export class ApplicationGroupOperationsImpl
+  implements ApplicationGroupOperations {
   private readonly client: EventHubManagementClient;
 
   /**
-   * Initialize a new instance of the class SchemaRegistry class.
+   * Initialize a new instance of the class ApplicationGroupOperations class.
    * @param client Reference to the service client
    */
   constructor(client: EventHubManagementClient) {
@@ -40,7 +41,7 @@ export class SchemaRegistryImpl implements SchemaRegistry {
   }
 
   /**
-   * Gets all the Schema Groups in a Namespace.
+   * Gets a list of application groups for a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param options The options parameters.
@@ -48,8 +49,8 @@ export class SchemaRegistryImpl implements SchemaRegistry {
   public listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: SchemaRegistryListByNamespaceOptionalParams
-  ): PagedAsyncIterableIterator<SchemaGroup> {
+    options?: ApplicationGroupListByNamespaceOptionalParams
+  ): PagedAsyncIterableIterator<ApplicationGroup> {
     const iter = this.listByNamespacePagingAll(
       resourceGroupName,
       namespaceName,
@@ -79,10 +80,10 @@ export class SchemaRegistryImpl implements SchemaRegistry {
   private async *listByNamespacePagingPage(
     resourceGroupName: string,
     namespaceName: string,
-    options?: SchemaRegistryListByNamespaceOptionalParams,
+    options?: ApplicationGroupListByNamespaceOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<SchemaGroup[]> {
-    let result: SchemaRegistryListByNamespaceResponse;
+  ): AsyncIterableIterator<ApplicationGroup[]> {
+    let result: ApplicationGroupListByNamespaceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByNamespace(
@@ -112,8 +113,8 @@ export class SchemaRegistryImpl implements SchemaRegistry {
   private async *listByNamespacePagingAll(
     resourceGroupName: string,
     namespaceName: string,
-    options?: SchemaRegistryListByNamespaceOptionalParams
-  ): AsyncIterableIterator<SchemaGroup> {
+    options?: ApplicationGroupListByNamespaceOptionalParams
+  ): AsyncIterableIterator<ApplicationGroup> {
     for await (const page of this.listByNamespacePagingPage(
       resourceGroupName,
       namespaceName,
@@ -124,7 +125,7 @@ export class SchemaRegistryImpl implements SchemaRegistry {
   }
 
   /**
-   * Gets all the Schema Groups in a Namespace.
+   * Gets a list of application groups for a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param options The options parameters.
@@ -132,8 +133,8 @@ export class SchemaRegistryImpl implements SchemaRegistry {
   private _listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: SchemaRegistryListByNamespaceOptionalParams
-  ): Promise<SchemaRegistryListByNamespaceResponse> {
+    options?: ApplicationGroupListByNamespaceOptionalParams
+  ): Promise<ApplicationGroupListByNamespaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, options },
       listByNamespaceOperationSpec
@@ -141,66 +142,66 @@ export class SchemaRegistryImpl implements SchemaRegistry {
   }
 
   /**
-   * Creates or Updates an EventHub schema group.
+   * Creates or updates an ApplicationGroup for a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
-   * @param schemaGroupName The Schema Group name
-   * @param parameters Parameters supplied to create an Event Hub resource.
+   * @param applicationGroupName The Application Group name
+   * @param parameters The ApplicationGroup.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  createOrUpdateApplicationGroup(
     resourceGroupName: string,
     namespaceName: string,
-    schemaGroupName: string,
-    parameters: SchemaGroup,
-    options?: SchemaRegistryCreateOrUpdateOptionalParams
-  ): Promise<SchemaRegistryCreateOrUpdateResponse> {
+    applicationGroupName: string,
+    parameters: ApplicationGroup,
+    options?: ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams
+  ): Promise<ApplicationGroupCreateOrUpdateApplicationGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         namespaceName,
-        schemaGroupName,
+        applicationGroupName,
         parameters,
         options
       },
-      createOrUpdateOperationSpec
+      createOrUpdateApplicationGroupOperationSpec
     );
   }
 
   /**
-   * Deletes an EventHub schema group.
+   * Deletes an ApplicationGroup for a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
-   * @param schemaGroupName The Schema Group name
+   * @param applicationGroupName The Application Group name
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     namespaceName: string,
-    schemaGroupName: string,
-    options?: SchemaRegistryDeleteOptionalParams
+    applicationGroupName: string,
+    options?: ApplicationGroupDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, schemaGroupName, options },
+      { resourceGroupName, namespaceName, applicationGroupName, options },
       deleteOperationSpec
     );
   }
 
   /**
-   * Gets the details of an EventHub schema group.
+   * Gets an ApplicationGroup for a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
-   * @param schemaGroupName The Schema Group name
+   * @param applicationGroupName The Application Group name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     namespaceName: string,
-    schemaGroupName: string,
-    options?: SchemaRegistryGetOptionalParams
-  ): Promise<SchemaRegistryGetResponse> {
+    applicationGroupName: string,
+    options?: ApplicationGroupGetOptionalParams
+  ): Promise<ApplicationGroupGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, schemaGroupName, options },
+      { resourceGroupName, namespaceName, applicationGroupName, options },
       getOperationSpec
     );
   }
@@ -216,8 +217,8 @@ export class SchemaRegistryImpl implements SchemaRegistry {
     resourceGroupName: string,
     namespaceName: string,
     nextLink: string,
-    options?: SchemaRegistryListByNamespaceNextOptionalParams
-  ): Promise<SchemaRegistryListByNamespaceNextResponse> {
+    options?: ApplicationGroupListByNamespaceNextOptionalParams
+  ): Promise<ApplicationGroupListByNamespaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, nextLink, options },
       listByNamespaceNextOperationSpec
@@ -229,17 +230,17 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByNamespaceOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/schemagroups",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/applicationGroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SchemaGroupListResult
+      bodyMapper: Mappers.ApplicationGroupListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -249,26 +250,26 @@ const listByNamespaceOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateApplicationGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/schemagroups/{schemaGroupName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/applicationGroups/{applicationGroupName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SchemaGroup
+      bodyMapper: Mappers.ApplicationGroup
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.schemaGroupName
+    Parameters.applicationGroupName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -276,7 +277,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/schemagroups/{schemaGroupName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/applicationGroups/{applicationGroupName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -291,18 +292,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.schemaGroupName
+    Parameters.applicationGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/schemagroups/{schemaGroupName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/applicationGroups/{applicationGroupName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SchemaGroup
+      bodyMapper: Mappers.ApplicationGroup
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -314,7 +315,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.schemaGroupName
+    Parameters.applicationGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -324,7 +325,7 @@ const listByNamespaceNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SchemaGroupListResult
+      bodyMapper: Mappers.ApplicationGroupListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

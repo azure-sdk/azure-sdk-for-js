@@ -164,8 +164,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Deletes an existing namespace. This operation also removes all associated resources under the
-   * namespace.
+   * Deletes a Private Endpoint Connection.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param privateEndpointConnectionName The PrivateEndpointConnection name
@@ -235,8 +234,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Deletes an existing namespace. This operation also removes all associated resources under the
-   * namespace.
+   * Deletes a Private Endpoint Connection.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param privateEndpointConnectionName The PrivateEndpointConnection name
@@ -336,11 +334,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     201: {
       bodyMapper: Mappers.PrivateEndpointConnection
     },
+    202: {
+      bodyMapper: Mappers.PrivateEndpointConnection
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -411,7 +412,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
