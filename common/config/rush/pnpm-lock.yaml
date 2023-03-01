@@ -3925,7 +3925,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230227
+      typescript: 5.1.0-dev.20230301
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8644,8 +8644,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230227:
-    resolution: {integrity: sha512-nPxrgb/3C40X3eXsCPUpiVEgQltswKoAh3Zwm7tDIVE4ldDr3flXq63odqyWUuOZFc/+NCFdm80RpTB0nz2M8w==}
+  /typescript/5.1.0-dev.20230301:
+    resolution: {integrity: sha512-aJ0PIgQ00zlf9npD2tri7MWDAooMoh3iIn4v0hAMSRCSKqJjTzt7fVopvdtbvWPKripipxeXnX5mhkBZcGrEKQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -13237,15 +13237,15 @@ packages:
     dev: false
 
   file:projects/arm-network-1.tgz:
-    resolution: {integrity: sha512-nRB23KbWFLIfwLC91/VTK2wDC9qdAXRMwq32KAjyFPIJV4UYXsjusXURC4Xj3Q5FH9DA/acfuWF/TutVmzEBTg==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-16MPJIDUV+b2PGSChHrYt1o4axpmIW4xbcRVJK8rfkhkpi6NE4TYPnWeiFjHZG1uVYsX2eWedz2vOZdPoL+eAg==, tarball: file:projects/arm-network-1.tgz}
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.36
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
