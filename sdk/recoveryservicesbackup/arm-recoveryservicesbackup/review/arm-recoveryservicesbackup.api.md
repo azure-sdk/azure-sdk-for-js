@@ -85,7 +85,6 @@ export interface AzureFileShareProvisionILRRequest extends ILRRequest {
 export interface AzureFileShareRecoveryPoint extends RecoveryPoint {
     fileShareSnapshotUri?: string;
     objectType: "AzureFileShareRecoveryPoint";
-    recoveryPointProperties?: RecoveryPointProperties;
     recoveryPointSizeInGB?: number;
     recoveryPointTime?: Date;
     recoveryPointType?: string;
@@ -619,7 +618,6 @@ export interface AzureWorkloadRecoveryPoint extends RecoveryPoint {
     recoveryPointMoveReadinessInfo?: {
         [propertyName: string]: RecoveryPointMoveReadinessInfo;
     };
-    recoveryPointProperties?: RecoveryPointProperties;
     recoveryPointTierDetails?: RecoveryPointTierInformationV2[];
     recoveryPointTimeInUTC?: Date;
     type?: RestorePointType;
@@ -1665,7 +1663,6 @@ export interface GenericRecoveryPoint extends RecoveryPoint {
     friendlyName?: string;
     objectType: "GenericRecoveryPoint";
     recoveryPointAdditionalInfo?: string;
-    recoveryPointProperties?: RecoveryPointProperties;
     recoveryPointTime?: Date;
     recoveryPointType?: string;
 }
@@ -1755,7 +1752,6 @@ export interface IaasVMRecoveryPoint extends RecoveryPoint {
     recoveryPointMoveReadinessInfo?: {
         [propertyName: string]: RecoveryPointMoveReadinessInfo;
     };
-    recoveryPointProperties?: RecoveryPointProperties;
     recoveryPointTierDetails?: RecoveryPointTierInformationV2[];
     recoveryPointTime?: Date;
     recoveryPointType?: string;
@@ -2289,7 +2285,6 @@ export enum KnownProtectedItemHealthStatus {
 
 // @public
 export enum KnownProtectedItemState {
-    BackupsSuspended = "BackupsSuspended",
     Invalid = "Invalid",
     IRPending = "IRPending",
     Protected = "Protected",
@@ -2310,7 +2305,6 @@ export enum KnownProtectionIntentItemType {
 
 // @public
 export enum KnownProtectionState {
-    BackupsSuspended = "BackupsSuspended",
     Invalid = "Invalid",
     IRPending = "IRPending",
     Protected = "Protected",
@@ -3358,12 +3352,6 @@ export interface RecoveryPointMoveReadinessInfo {
     additionalInfo?: string;
     // (undocumented)
     isReadyForMove?: boolean;
-}
-
-// @public
-export interface RecoveryPointProperties {
-    expiryTime?: string;
-    ruleName?: string;
 }
 
 // @public

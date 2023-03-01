@@ -1,15 +1,17 @@
 # Release History
+    
+## 11.0.0 (2023-03-01)
+    
+**Breaking Changes**
 
-## 10.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AzureFileShareRecoveryPoint no longer has parameter recoveryPointProperties
+  - Interface AzureWorkloadRecoveryPoint no longer has parameter recoveryPointProperties
+  - Interface GenericRecoveryPoint no longer has parameter recoveryPointProperties
+  - Interface IaasVMRecoveryPoint no longer has parameter recoveryPointProperties
+  - Enum KnownProtectedItemState no longer has value BackupsSuspended
+  - Enum KnownProtectionState no longer has value BackupsSuspended
+    
+    
 ## 10.0.0 (2023-01-18)
     
 **Features**

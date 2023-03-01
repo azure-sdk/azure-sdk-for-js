@@ -2362,27 +2362,6 @@ export const AzureFileshareProtectedItemExtendedInfo: coreClient.CompositeMapper
   }
 };
 
-export const RecoveryPointProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RecoveryPointProperties",
-    modelProperties: {
-      expiryTime: {
-        serializedName: "expiryTime",
-        type: {
-          name: "String"
-        }
-      },
-      ruleName: {
-        serializedName: "ruleName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const RestoreFileSpecs: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6403,13 +6382,6 @@ export const AzureFileShareRecoveryPoint: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
-      },
-      recoveryPointProperties: {
-        serializedName: "recoveryPointProperties",
-        type: {
-          name: "Composite",
-          className: "RecoveryPointProperties"
-        }
       }
     }
   }
@@ -6462,13 +6434,6 @@ export const AzureWorkloadRecoveryPoint: coreClient.CompositeMapper = {
             }
           }
         }
-      },
-      recoveryPointProperties: {
-        serializedName: "recoveryPointProperties",
-        type: {
-          name: "Composite",
-          className: "RecoveryPointProperties"
-        }
       }
     }
   }
@@ -6505,13 +6470,6 @@ export const GenericRecoveryPoint: coreClient.CompositeMapper = {
         serializedName: "recoveryPointAdditionalInfo",
         type: {
           name: "String"
-        }
-      },
-      recoveryPointProperties: {
-        serializedName: "recoveryPointProperties",
-        type: {
-          name: "Composite",
-          className: "RecoveryPointProperties"
         }
       }
     }
@@ -6634,13 +6592,6 @@ export const IaasVMRecoveryPoint: coreClient.CompositeMapper = {
               className: "RecoveryPointMoveReadinessInfo"
             }
           }
-        }
-      },
-      recoveryPointProperties: {
-        serializedName: "recoveryPointProperties",
-        type: {
-          name: "Composite",
-          className: "RecoveryPointProperties"
         }
       }
     }

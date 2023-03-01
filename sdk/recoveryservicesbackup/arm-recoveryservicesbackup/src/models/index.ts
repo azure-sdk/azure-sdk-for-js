@@ -1097,14 +1097,6 @@ export interface AzureFileshareProtectedItemExtendedInfo {
   readonly resourceStateSyncTime?: Date;
 }
 
-/** Properties of Recovery Point */
-export interface RecoveryPointProperties {
-  /** Expiry time of Recovery Point in UTC. */
-  expiryTime?: string;
-  /** Rule name tagged on Recovery Point that governs life cycle */
-  ruleName?: string;
-}
-
 /** Restore file specs like file path, type and target folder path info. */
 export interface RestoreFileSpecs {
   /** Source File/Folder path */
@@ -2548,8 +2540,6 @@ export interface AzureFileShareRecoveryPoint extends RecoveryPoint {
   fileShareSnapshotUri?: string;
   /** Contains recovery point size */
   recoveryPointSizeInGB?: number;
-  /** Properties of Recovery Point */
-  recoveryPointProperties?: RecoveryPointProperties;
 }
 
 /** Workload specific recovery point, specifically encapsulates full/diff recovery point */
@@ -2572,8 +2562,6 @@ export interface AzureWorkloadRecoveryPoint extends RecoveryPoint {
   recoveryPointMoveReadinessInfo?: {
     [propertyName: string]: RecoveryPointMoveReadinessInfo;
   };
-  /** Properties of Recovery Point */
-  recoveryPointProperties?: RecoveryPointProperties;
 }
 
 /** Generic backup copy. */
@@ -2588,8 +2576,6 @@ export interface GenericRecoveryPoint extends RecoveryPoint {
   recoveryPointTime?: Date;
   /** Additional information associated with this backup copy. */
   recoveryPointAdditionalInfo?: string;
-  /** Properties of Recovery Point */
-  recoveryPointProperties?: RecoveryPointProperties;
 }
 
 /** IaaS VM workload specific backup copy. */
@@ -2628,8 +2614,6 @@ export interface IaasVMRecoveryPoint extends RecoveryPoint {
   recoveryPointMoveReadinessInfo?: {
     [propertyName: string]: RecoveryPointMoveReadinessInfo;
   };
-  /** Properties of Recovery Point */
-  recoveryPointProperties?: RecoveryPointProperties;
 }
 
 /** AzureFileShare Restore Request */
@@ -4318,9 +4302,7 @@ export enum KnownProtectionState {
   /** ProtectionStopped */
   ProtectionStopped = "ProtectionStopped",
   /** ProtectionPaused */
-  ProtectionPaused = "ProtectionPaused",
-  /** BackupsSuspended */
-  BackupsSuspended = "BackupsSuspended"
+  ProtectionPaused = "ProtectionPaused"
 }
 
 /**
@@ -4333,8 +4315,7 @@ export enum KnownProtectionState {
  * **Protected** \
  * **ProtectionError** \
  * **ProtectionStopped** \
- * **ProtectionPaused** \
- * **BackupsSuspended**
+ * **ProtectionPaused**
  */
 export type ProtectionState = string;
 
@@ -4648,9 +4629,7 @@ export enum KnownProtectedItemState {
   /** ProtectionStopped */
   ProtectionStopped = "ProtectionStopped",
   /** ProtectionPaused */
-  ProtectionPaused = "ProtectionPaused",
-  /** BackupsSuspended */
-  BackupsSuspended = "BackupsSuspended"
+  ProtectionPaused = "ProtectionPaused"
 }
 
 /**
@@ -4663,8 +4642,7 @@ export enum KnownProtectedItemState {
  * **Protected** \
  * **ProtectionError** \
  * **ProtectionStopped** \
- * **ProtectionPaused** \
- * **BackupsSuspended**
+ * **ProtectionPaused**
  */
 export type ProtectedItemState = string;
 
