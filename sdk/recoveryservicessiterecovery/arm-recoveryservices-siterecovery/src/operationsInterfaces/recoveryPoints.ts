@@ -19,17 +19,12 @@ import {
 export interface RecoveryPoints {
   /**
    * Lists the available recovery points for a replication protected item.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName The fabric name.
    * @param protectionContainerName The protection container name.
    * @param replicatedProtectedItemName The replication protected item name.
    * @param options The options parameters.
    */
   listByReplicationProtectedItems(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -37,9 +32,6 @@ export interface RecoveryPoints {
   ): PagedAsyncIterableIterator<RecoveryPoint>;
   /**
    * Get the details of specified recovery point.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName The fabric name.
    * @param protectionContainerName The protection container name.
    * @param replicatedProtectedItemName The replication protected item name.
@@ -47,8 +39,6 @@ export interface RecoveryPoints {
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,

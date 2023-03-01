@@ -47,17 +47,12 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
 
   /**
    * Lists the replication policies for a vault.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param options The options parameters.
    */
   public list(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationPoliciesListOptionalParams
   ): PagedAsyncIterableIterator<Policy> {
-    const iter = this.listPagingAll(resourceName, resourceGroupName, options);
+    const iter = this.listPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -69,38 +64,26 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceName,
-          resourceGroupName,
-          options,
-          settings
-        );
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationPoliciesListOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<Policy[]> {
     let result: ReplicationPoliciesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceName, resourceGroupName, options);
+      result = await this._list(options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceName,
-        resourceGroupName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -109,69 +92,45 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
   }
 
   private async *listPagingAll(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationPoliciesListOptionalParams
   ): AsyncIterableIterator<Policy> {
-    for await (const page of this.listPagingPage(
-      resourceName,
-      resourceGroupName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
    * Lists the replication policies for a vault.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param options The options parameters.
    */
   private _list(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationPoliciesListOptionalParams
   ): Promise<ReplicationPoliciesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, options },
-      listOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
    * Gets the details of a replication policy.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param policyName Replication policy name.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
-    resourceGroupName: string,
     policyName: string,
     options?: ReplicationPoliciesGetOptionalParams
   ): Promise<ReplicationPoliciesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, policyName, options },
+      { policyName, options },
       getOperationSpec
     );
   }
 
   /**
    * The operation to create a replication policy.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param policyName Replication policy name.
    * @param input Create policy input.
    * @param options The options parameters.
    */
   async beginCreate(
-    resourceName: string,
-    resourceGroupName: string,
     policyName: string,
     input: CreatePolicyInput,
     options?: ReplicationPoliciesCreateOptionalParams
@@ -222,7 +181,7 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceName, resourceGroupName, policyName, input, options },
+      { policyName, input, options },
       createOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -235,41 +194,25 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
 
   /**
    * The operation to create a replication policy.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param policyName Replication policy name.
    * @param input Create policy input.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
-    resourceName: string,
-    resourceGroupName: string,
     policyName: string,
     input: CreatePolicyInput,
     options?: ReplicationPoliciesCreateOptionalParams
   ): Promise<ReplicationPoliciesCreateResponse> {
-    const poller = await this.beginCreate(
-      resourceName,
-      resourceGroupName,
-      policyName,
-      input,
-      options
-    );
+    const poller = await this.beginCreate(policyName, input, options);
     return poller.pollUntilDone();
   }
 
   /**
    * The operation to delete a replication policy.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param policyName Replication policy name.
    * @param options The options parameters.
    */
   async beginDelete(
-    resourceName: string,
-    resourceGroupName: string,
     policyName: string,
     options?: ReplicationPoliciesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
@@ -314,7 +257,7 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceName, resourceGroupName, policyName, options },
+      { policyName, options },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -327,39 +270,24 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
 
   /**
    * The operation to delete a replication policy.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param policyName Replication policy name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
-    resourceName: string,
-    resourceGroupName: string,
     policyName: string,
     options?: ReplicationPoliciesDeleteOptionalParams
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceName,
-      resourceGroupName,
-      policyName,
-      options
-    );
+    const poller = await this.beginDelete(policyName, options);
     return poller.pollUntilDone();
   }
 
   /**
    * The operation to update a replication policy.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param policyName Policy Id.
    * @param input Update Policy Input.
    * @param options The options parameters.
    */
   async beginUpdate(
-    resourceName: string,
-    resourceGroupName: string,
     policyName: string,
     input: UpdatePolicyInput,
     options?: ReplicationPoliciesUpdateOptionalParams
@@ -410,7 +338,7 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceName, resourceGroupName, policyName, input, options },
+      { policyName, input, options },
       updateOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -423,46 +351,30 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
 
   /**
    * The operation to update a replication policy.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param policyName Policy Id.
    * @param input Update Policy Input.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
-    resourceName: string,
-    resourceGroupName: string,
     policyName: string,
     input: UpdatePolicyInput,
     options?: ReplicationPoliciesUpdateOptionalParams
   ): Promise<ReplicationPoliciesUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceName,
-      resourceGroupName,
-      policyName,
-      input,
-      options
-    );
+    const poller = await this.beginUpdate(policyName, input, options);
     return poller.pollUntilDone();
   }
 
   /**
    * ListNext
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    resourceName: string,
-    resourceGroupName: string,
     nextLink: string,
     options?: ReplicationPoliciesListNextOptionalParams
   ): Promise<ReplicationPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, nextLink, options },
+      { nextLink, options },
       listNextOperationSpec
     );
   }

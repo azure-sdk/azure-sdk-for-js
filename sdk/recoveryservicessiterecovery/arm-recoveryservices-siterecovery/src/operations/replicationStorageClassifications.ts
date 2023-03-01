@@ -43,24 +43,14 @@ export class ReplicationStorageClassificationsImpl
 
   /**
    * Lists the storage classifications available in the specified fabric.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Site name of interest.
    * @param options The options parameters.
    */
   public listByReplicationFabrics(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationStorageClassificationsListByReplicationFabricsOptionalParams
   ): PagedAsyncIterableIterator<StorageClassification> {
-    const iter = this.listByReplicationFabricsPagingAll(
-      resourceName,
-      resourceGroupName,
-      fabricName,
-      options
-    );
+    const iter = this.listByReplicationFabricsPagingAll(fabricName, options);
     return {
       next() {
         return iter.next();
@@ -73,8 +63,6 @@ export class ReplicationStorageClassificationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByReplicationFabricsPagingPage(
-          resourceName,
-          resourceGroupName,
           fabricName,
           options,
           settings
@@ -84,8 +72,6 @@ export class ReplicationStorageClassificationsImpl
   }
 
   private async *listByReplicationFabricsPagingPage(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationStorageClassificationsListByReplicationFabricsOptionalParams,
     settings?: PageSettings
@@ -93,12 +79,7 @@ export class ReplicationStorageClassificationsImpl
     let result: ReplicationStorageClassificationsListByReplicationFabricsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByReplicationFabrics(
-        resourceName,
-        resourceGroupName,
-        fabricName,
-        options
-      );
+      result = await this._listByReplicationFabrics(fabricName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -106,8 +87,6 @@ export class ReplicationStorageClassificationsImpl
     }
     while (continuationToken) {
       result = await this._listByReplicationFabricsNext(
-        resourceName,
-        resourceGroupName,
         fabricName,
         continuationToken,
         options
@@ -120,14 +99,10 @@ export class ReplicationStorageClassificationsImpl
   }
 
   private async *listByReplicationFabricsPagingAll(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationStorageClassificationsListByReplicationFabricsOptionalParams
   ): AsyncIterableIterator<StorageClassification> {
     for await (const page of this.listByReplicationFabricsPagingPage(
-      resourceName,
-      resourceGroupName,
       fabricName,
       options
     )) {
@@ -137,17 +112,12 @@ export class ReplicationStorageClassificationsImpl
 
   /**
    * Lists the storage classifications in the vault.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param options The options parameters.
    */
   public list(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationStorageClassificationsListOptionalParams
   ): PagedAsyncIterableIterator<StorageClassification> {
-    const iter = this.listPagingAll(resourceName, resourceGroupName, options);
+    const iter = this.listPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -159,38 +129,26 @@ export class ReplicationStorageClassificationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceName,
-          resourceGroupName,
-          options,
-          settings
-        );
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationStorageClassificationsListOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<StorageClassification[]> {
     let result: ReplicationStorageClassificationsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceName, resourceGroupName, options);
+      result = await this._list(options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceName,
-        resourceGroupName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -199,100 +157,65 @@ export class ReplicationStorageClassificationsImpl
   }
 
   private async *listPagingAll(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationStorageClassificationsListOptionalParams
   ): AsyncIterableIterator<StorageClassification> {
-    for await (const page of this.listPagingPage(
-      resourceName,
-      resourceGroupName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
    * Lists the storage classifications available in the specified fabric.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Site name of interest.
    * @param options The options parameters.
    */
   private _listByReplicationFabrics(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationStorageClassificationsListByReplicationFabricsOptionalParams
   ): Promise<
     ReplicationStorageClassificationsListByReplicationFabricsResponse
   > {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, fabricName, options },
+      { fabricName, options },
       listByReplicationFabricsOperationSpec
     );
   }
 
   /**
    * Gets the details of the specified storage classification.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Fabric name.
    * @param storageClassificationName Storage classification name.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     storageClassificationName: string,
     options?: ReplicationStorageClassificationsGetOptionalParams
   ): Promise<ReplicationStorageClassificationsGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceName,
-        resourceGroupName,
-        fabricName,
-        storageClassificationName,
-        options
-      },
+      { fabricName, storageClassificationName, options },
       getOperationSpec
     );
   }
 
   /**
    * Lists the storage classifications in the vault.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param options The options parameters.
    */
   private _list(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationStorageClassificationsListOptionalParams
   ): Promise<ReplicationStorageClassificationsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, options },
-      listOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
    * ListByReplicationFabricsNext
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Site name of interest.
    * @param nextLink The nextLink from the previous successful call to the ListByReplicationFabrics
    *                 method.
    * @param options The options parameters.
    */
   private _listByReplicationFabricsNext(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     nextLink: string,
     options?: ReplicationStorageClassificationsListByReplicationFabricsNextOptionalParams
@@ -300,27 +223,22 @@ export class ReplicationStorageClassificationsImpl
     ReplicationStorageClassificationsListByReplicationFabricsNextResponse
   > {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, fabricName, nextLink, options },
+      { fabricName, nextLink, options },
       listByReplicationFabricsNextOperationSpec
     );
   }
 
   /**
    * ListNext
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    resourceName: string,
-    resourceGroupName: string,
     nextLink: string,
     options?: ReplicationStorageClassificationsListNextOptionalParams
   ): Promise<ReplicationStorageClassificationsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, nextLink, options },
+      { nextLink, options },
       listNextOperationSpec
     );
   }

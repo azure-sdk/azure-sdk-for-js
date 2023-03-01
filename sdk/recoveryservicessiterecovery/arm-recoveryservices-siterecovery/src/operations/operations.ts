@@ -36,15 +36,12 @@ export class OperationsImpl implements Operations {
 
   /**
    * Operation to return the list of available operations.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param options The options parameters.
    */
   public list(
-    resourceGroupName: string,
     options?: OperationsListOptionalParams
   ): PagedAsyncIterableIterator<OperationsDiscovery> {
-    const iter = this.listPagingAll(resourceGroupName, options);
+    const iter = this.listPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -56,31 +53,26 @@ export class OperationsImpl implements Operations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(resourceGroupName, options, settings);
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    resourceGroupName: string,
     options?: OperationsListOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<OperationsDiscovery[]> {
     let result: OperationsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, options);
+      result = await this._list(options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -89,44 +81,34 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingAll(
-    resourceGroupName: string,
     options?: OperationsListOptionalParams
   ): AsyncIterableIterator<OperationsDiscovery> {
-    for await (const page of this.listPagingPage(resourceGroupName, options)) {
+    for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
    * Operation to return the list of available operations.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param options The options parameters.
    */
   private _list(
-    resourceGroupName: string,
     options?: OperationsListOptionalParams
   ): Promise<OperationsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    resourceGroupName: string,
     nextLink: string,
     options?: OperationsListNextOptionalParams
   ): Promise<OperationsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
+      { nextLink, options },
       listNextOperationSpec
     );
   }

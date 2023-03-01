@@ -52,24 +52,14 @@ export class ReplicationRecoveryServicesProvidersImpl
 
   /**
    * Lists the registered recovery services providers for the specified fabric.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Fabric name.
    * @param options The options parameters.
    */
   public listByReplicationFabrics(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationRecoveryServicesProvidersListByReplicationFabricsOptionalParams
   ): PagedAsyncIterableIterator<RecoveryServicesProvider> {
-    const iter = this.listByReplicationFabricsPagingAll(
-      resourceName,
-      resourceGroupName,
-      fabricName,
-      options
-    );
+    const iter = this.listByReplicationFabricsPagingAll(fabricName, options);
     return {
       next() {
         return iter.next();
@@ -82,8 +72,6 @@ export class ReplicationRecoveryServicesProvidersImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByReplicationFabricsPagingPage(
-          resourceName,
-          resourceGroupName,
           fabricName,
           options,
           settings
@@ -93,8 +81,6 @@ export class ReplicationRecoveryServicesProvidersImpl
   }
 
   private async *listByReplicationFabricsPagingPage(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationRecoveryServicesProvidersListByReplicationFabricsOptionalParams,
     settings?: PageSettings
@@ -102,12 +88,7 @@ export class ReplicationRecoveryServicesProvidersImpl
     let result: ReplicationRecoveryServicesProvidersListByReplicationFabricsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByReplicationFabrics(
-        resourceName,
-        resourceGroupName,
-        fabricName,
-        options
-      );
+      result = await this._listByReplicationFabrics(fabricName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -115,8 +96,6 @@ export class ReplicationRecoveryServicesProvidersImpl
     }
     while (continuationToken) {
       result = await this._listByReplicationFabricsNext(
-        resourceName,
-        resourceGroupName,
         fabricName,
         continuationToken,
         options
@@ -129,14 +108,10 @@ export class ReplicationRecoveryServicesProvidersImpl
   }
 
   private async *listByReplicationFabricsPagingAll(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationRecoveryServicesProvidersListByReplicationFabricsOptionalParams
   ): AsyncIterableIterator<RecoveryServicesProvider> {
     for await (const page of this.listByReplicationFabricsPagingPage(
-      resourceName,
-      resourceGroupName,
       fabricName,
       options
     )) {
@@ -146,17 +121,12 @@ export class ReplicationRecoveryServicesProvidersImpl
 
   /**
    * Lists the registered recovery services providers in the vault.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param options The options parameters.
    */
   public list(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationRecoveryServicesProvidersListOptionalParams
   ): PagedAsyncIterableIterator<RecoveryServicesProvider> {
-    const iter = this.listPagingAll(resourceName, resourceGroupName, options);
+    const iter = this.listPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -168,38 +138,26 @@ export class ReplicationRecoveryServicesProvidersImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceName,
-          resourceGroupName,
-          options,
-          settings
-        );
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationRecoveryServicesProvidersListOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<RecoveryServicesProvider[]> {
     let result: ReplicationRecoveryServicesProvidersListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceName, resourceGroupName, options);
+      result = await this._list(options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceName,
-        resourceGroupName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -208,76 +166,55 @@ export class ReplicationRecoveryServicesProvidersImpl
   }
 
   private async *listPagingAll(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationRecoveryServicesProvidersListOptionalParams
   ): AsyncIterableIterator<RecoveryServicesProvider> {
-    for await (const page of this.listPagingPage(
-      resourceName,
-      resourceGroupName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
    * Lists the registered recovery services providers for the specified fabric.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Fabric name.
    * @param options The options parameters.
    */
   private _listByReplicationFabrics(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationRecoveryServicesProvidersListByReplicationFabricsOptionalParams
   ): Promise<
     ReplicationRecoveryServicesProvidersListByReplicationFabricsResponse
   > {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, fabricName, options },
+      { fabricName, options },
       listByReplicationFabricsOperationSpec
     );
   }
 
   /**
    * Gets the details of registered recovery services provider.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Fabric name.
    * @param providerName Recovery services provider name.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     providerName: string,
     options?: ReplicationRecoveryServicesProvidersGetOptionalParams
   ): Promise<ReplicationRecoveryServicesProvidersGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, fabricName, providerName, options },
+      { fabricName, providerName, options },
       getOperationSpec
     );
   }
 
   /**
    * The operation to add a recovery services provider.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Fabric name.
    * @param providerName Recovery services provider name.
    * @param addProviderInput Add provider input.
    * @param options The options parameters.
    */
   async beginCreate(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     providerName: string,
     addProviderInput: AddRecoveryServicesProviderInput,
@@ -329,14 +266,7 @@ export class ReplicationRecoveryServicesProvidersImpl
 
     const lro = new LroImpl(
       sendOperation,
-      {
-        resourceName,
-        resourceGroupName,
-        fabricName,
-        providerName,
-        addProviderInput,
-        options
-      },
+      { fabricName, providerName, addProviderInput, options },
       createOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -349,25 +279,18 @@ export class ReplicationRecoveryServicesProvidersImpl
 
   /**
    * The operation to add a recovery services provider.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Fabric name.
    * @param providerName Recovery services provider name.
    * @param addProviderInput Add provider input.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     providerName: string,
     addProviderInput: AddRecoveryServicesProviderInput,
     options?: ReplicationRecoveryServicesProvidersCreateOptionalParams
   ): Promise<ReplicationRecoveryServicesProvidersCreateResponse> {
     const poller = await this.beginCreate(
-      resourceName,
-      resourceGroupName,
       fabricName,
       providerName,
       addProviderInput,
@@ -378,16 +301,11 @@ export class ReplicationRecoveryServicesProvidersImpl
 
   /**
    * The operation to purge(force delete) a recovery services provider from the vault.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Fabric name.
    * @param providerName Recovery services provider name.
    * @param options The options parameters.
    */
   async beginPurge(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     providerName: string,
     options?: ReplicationRecoveryServicesProvidersPurgeOptionalParams
@@ -433,7 +351,7 @@ export class ReplicationRecoveryServicesProvidersImpl
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceName, resourceGroupName, fabricName, providerName, options },
+      { fabricName, providerName, options },
       purgeOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -446,42 +364,26 @@ export class ReplicationRecoveryServicesProvidersImpl
 
   /**
    * The operation to purge(force delete) a recovery services provider from the vault.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Fabric name.
    * @param providerName Recovery services provider name.
    * @param options The options parameters.
    */
   async beginPurgeAndWait(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     providerName: string,
     options?: ReplicationRecoveryServicesProvidersPurgeOptionalParams
   ): Promise<void> {
-    const poller = await this.beginPurge(
-      resourceName,
-      resourceGroupName,
-      fabricName,
-      providerName,
-      options
-    );
+    const poller = await this.beginPurge(fabricName, providerName, options);
     return poller.pollUntilDone();
   }
 
   /**
    * The operation to refresh the information from the recovery services provider.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Fabric name.
    * @param providerName Recovery services provider name.
    * @param options The options parameters.
    */
   async beginRefreshProvider(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     providerName: string,
     options?: ReplicationRecoveryServicesProvidersRefreshProviderOptionalParams
@@ -534,7 +436,7 @@ export class ReplicationRecoveryServicesProvidersImpl
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceName, resourceGroupName, fabricName, providerName, options },
+      { fabricName, providerName, options },
       refreshProviderOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -547,23 +449,16 @@ export class ReplicationRecoveryServicesProvidersImpl
 
   /**
    * The operation to refresh the information from the recovery services provider.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Fabric name.
    * @param providerName Recovery services provider name.
    * @param options The options parameters.
    */
   async beginRefreshProviderAndWait(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     providerName: string,
     options?: ReplicationRecoveryServicesProvidersRefreshProviderOptionalParams
   ): Promise<ReplicationRecoveryServicesProvidersRefreshProviderResponse> {
     const poller = await this.beginRefreshProvider(
-      resourceName,
-      resourceGroupName,
       fabricName,
       providerName,
       options
@@ -573,16 +468,11 @@ export class ReplicationRecoveryServicesProvidersImpl
 
   /**
    * The operation to removes/delete(unregister) a recovery services provider from the vault.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Fabric name.
    * @param providerName Recovery services provider name.
    * @param options The options parameters.
    */
   async beginDelete(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     providerName: string,
     options?: ReplicationRecoveryServicesProvidersDeleteOptionalParams
@@ -628,7 +518,7 @@ export class ReplicationRecoveryServicesProvidersImpl
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceName, resourceGroupName, fabricName, providerName, options },
+      { fabricName, providerName, options },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -641,61 +531,37 @@ export class ReplicationRecoveryServicesProvidersImpl
 
   /**
    * The operation to removes/delete(unregister) a recovery services provider from the vault.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Fabric name.
    * @param providerName Recovery services provider name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     providerName: string,
     options?: ReplicationRecoveryServicesProvidersDeleteOptionalParams
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceName,
-      resourceGroupName,
-      fabricName,
-      providerName,
-      options
-    );
+    const poller = await this.beginDelete(fabricName, providerName, options);
     return poller.pollUntilDone();
   }
 
   /**
    * Lists the registered recovery services providers in the vault.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param options The options parameters.
    */
   private _list(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationRecoveryServicesProvidersListOptionalParams
   ): Promise<ReplicationRecoveryServicesProvidersListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, options },
-      listOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
    * ListByReplicationFabricsNext
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Fabric name.
    * @param nextLink The nextLink from the previous successful call to the ListByReplicationFabrics
    *                 method.
    * @param options The options parameters.
    */
   private _listByReplicationFabricsNext(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     nextLink: string,
     options?: ReplicationRecoveryServicesProvidersListByReplicationFabricsNextOptionalParams
@@ -703,27 +569,22 @@ export class ReplicationRecoveryServicesProvidersImpl
     ReplicationRecoveryServicesProvidersListByReplicationFabricsNextResponse
   > {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, fabricName, nextLink, options },
+      { fabricName, nextLink, options },
       listByReplicationFabricsNextOperationSpec
     );
   }
 
   /**
    * ListNext
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    resourceName: string,
-    resourceGroupName: string,
     nextLink: string,
     options?: ReplicationRecoveryServicesProvidersListNextOptionalParams
   ): Promise<ReplicationRecoveryServicesProvidersListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, nextLink, options },
+      { nextLink, options },
       listNextOperationSpec
     );
   }

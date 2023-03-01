@@ -54,17 +54,12 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
 
   /**
    * Gets a list of the Azure Site Recovery fabrics in the vault.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param options The options parameters.
    */
   public list(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationFabricsListOptionalParams
   ): PagedAsyncIterableIterator<Fabric> {
-    const iter = this.listPagingAll(resourceName, resourceGroupName, options);
+    const iter = this.listPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -76,38 +71,26 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceName,
-          resourceGroupName,
-          options,
-          settings
-        );
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationFabricsListOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<Fabric[]> {
     let result: ReplicationFabricsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceName, resourceGroupName, options);
+      result = await this._list(options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceName,
-        resourceGroupName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -116,69 +99,45 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
   }
 
   private async *listPagingAll(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationFabricsListOptionalParams
   ): AsyncIterableIterator<Fabric> {
-    for await (const page of this.listPagingPage(
-      resourceName,
-      resourceGroupName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
    * Gets a list of the Azure Site Recovery fabrics in the vault.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param options The options parameters.
    */
   private _list(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationFabricsListOptionalParams
   ): Promise<ReplicationFabricsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, options },
-      listOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
    * Gets the details of an Azure Site Recovery fabric.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Fabric name.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationFabricsGetOptionalParams
   ): Promise<ReplicationFabricsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, fabricName, options },
+      { fabricName, options },
       getOperationSpec
     );
   }
 
   /**
    * The operation to create an Azure Site Recovery fabric (for e.g. Hyper-V site).
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Name of the ASR fabric.
    * @param input Fabric creation input.
    * @param options The options parameters.
    */
   async beginCreate(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     input: FabricCreationInput,
     options?: ReplicationFabricsCreateOptionalParams
@@ -229,7 +188,7 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceName, resourceGroupName, fabricName, input, options },
+      { fabricName, input, options },
       createOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -242,41 +201,25 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
 
   /**
    * The operation to create an Azure Site Recovery fabric (for e.g. Hyper-V site).
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Name of the ASR fabric.
    * @param input Fabric creation input.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     input: FabricCreationInput,
     options?: ReplicationFabricsCreateOptionalParams
   ): Promise<ReplicationFabricsCreateResponse> {
-    const poller = await this.beginCreate(
-      resourceName,
-      resourceGroupName,
-      fabricName,
-      input,
-      options
-    );
+    const poller = await this.beginCreate(fabricName, input, options);
     return poller.pollUntilDone();
   }
 
   /**
    * The operation to purge(force delete) an Azure Site Recovery fabric.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName ASR fabric to purge.
    * @param options The options parameters.
    */
   async beginPurge(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationFabricsPurgeOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
@@ -321,7 +264,7 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceName, resourceGroupName, fabricName, options },
+      { fabricName, options },
       purgeOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -334,38 +277,23 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
 
   /**
    * The operation to purge(force delete) an Azure Site Recovery fabric.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName ASR fabric to purge.
    * @param options The options parameters.
    */
   async beginPurgeAndWait(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationFabricsPurgeOptionalParams
   ): Promise<void> {
-    const poller = await this.beginPurge(
-      resourceName,
-      resourceGroupName,
-      fabricName,
-      options
-    );
+    const poller = await this.beginPurge(fabricName, options);
     return poller.pollUntilDone();
   }
 
   /**
    * The operation to perform a consistency check on the fabric.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Fabric name.
    * @param options The options parameters.
    */
   async beginCheckConsistency(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationFabricsCheckConsistencyOptionalParams
   ): Promise<
@@ -415,7 +343,7 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceName, resourceGroupName, fabricName, options },
+      { fabricName, options },
       checkConsistencyOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -428,38 +356,23 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
 
   /**
    * The operation to perform a consistency check on the fabric.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Fabric name.
    * @param options The options parameters.
    */
   async beginCheckConsistencyAndWait(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationFabricsCheckConsistencyOptionalParams
   ): Promise<ReplicationFabricsCheckConsistencyResponse> {
-    const poller = await this.beginCheckConsistency(
-      resourceName,
-      resourceGroupName,
-      fabricName,
-      options
-    );
+    const poller = await this.beginCheckConsistency(fabricName, options);
     return poller.pollUntilDone();
   }
 
   /**
    * The operation to migrate an Azure Site Recovery fabric to AAD.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName ASR fabric to migrate.
    * @param options The options parameters.
    */
   async beginMigrateToAad(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationFabricsMigrateToAadOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
@@ -504,7 +417,7 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceName, resourceGroupName, fabricName, options },
+      { fabricName, options },
       migrateToAadOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -517,39 +430,24 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
 
   /**
    * The operation to migrate an Azure Site Recovery fabric to AAD.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName ASR fabric to migrate.
    * @param options The options parameters.
    */
   async beginMigrateToAadAndWait(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationFabricsMigrateToAadOptionalParams
   ): Promise<void> {
-    const poller = await this.beginMigrateToAad(
-      resourceName,
-      resourceGroupName,
-      fabricName,
-      options
-    );
+    const poller = await this.beginMigrateToAad(fabricName, options);
     return poller.pollUntilDone();
   }
 
   /**
    * The operation to move replications from a process server to another process server.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName The name of the fabric containing the process server.
    * @param failoverProcessServerRequest The input to the failover process server operation.
    * @param options The options parameters.
    */
   async beginReassociateGateway(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     failoverProcessServerRequest: FailoverProcessServerRequest,
     options?: ReplicationFabricsReassociateGatewayOptionalParams
@@ -600,13 +498,7 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
 
     const lro = new LroImpl(
       sendOperation,
-      {
-        resourceName,
-        resourceGroupName,
-        fabricName,
-        failoverProcessServerRequest,
-        options
-      },
+      { fabricName, failoverProcessServerRequest, options },
       reassociateGatewayOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -619,23 +511,16 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
 
   /**
    * The operation to move replications from a process server to another process server.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName The name of the fabric containing the process server.
    * @param failoverProcessServerRequest The input to the failover process server operation.
    * @param options The options parameters.
    */
   async beginReassociateGatewayAndWait(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     failoverProcessServerRequest: FailoverProcessServerRequest,
     options?: ReplicationFabricsReassociateGatewayOptionalParams
   ): Promise<ReplicationFabricsReassociateGatewayResponse> {
     const poller = await this.beginReassociateGateway(
-      resourceName,
-      resourceGroupName,
       fabricName,
       failoverProcessServerRequest,
       options
@@ -645,15 +530,10 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
 
   /**
    * The operation to delete or remove an Azure Site Recovery fabric.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName ASR fabric to delete.
    * @param options The options parameters.
    */
   async beginDelete(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationFabricsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
@@ -698,7 +578,7 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceName, resourceGroupName, fabricName, options },
+      { fabricName, options },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -711,39 +591,24 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
 
   /**
    * The operation to delete or remove an Azure Site Recovery fabric.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName ASR fabric to delete.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationFabricsDeleteOptionalParams
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceName,
-      resourceGroupName,
-      fabricName,
-      options
-    );
+    const poller = await this.beginDelete(fabricName, options);
     return poller.pollUntilDone();
   }
 
   /**
    * Renews the connection certificate for the ASR replication fabric.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName fabric name to renew certs for.
    * @param renewCertificate Renew certificate input.
    * @param options The options parameters.
    */
   async beginRenewCertificate(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     renewCertificate: RenewCertificateInput,
     options?: ReplicationFabricsRenewCertificateOptionalParams
@@ -794,13 +659,7 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
 
     const lro = new LroImpl(
       sendOperation,
-      {
-        resourceName,
-        resourceGroupName,
-        fabricName,
-        renewCertificate,
-        options
-      },
+      { fabricName, renewCertificate, options },
       renewCertificateOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -813,23 +672,16 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
 
   /**
    * Renews the connection certificate for the ASR replication fabric.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName fabric name to renew certs for.
    * @param renewCertificate Renew certificate input.
    * @param options The options parameters.
    */
   async beginRenewCertificateAndWait(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     renewCertificate: RenewCertificateInput,
     options?: ReplicationFabricsRenewCertificateOptionalParams
   ): Promise<ReplicationFabricsRenewCertificateResponse> {
     const poller = await this.beginRenewCertificate(
-      resourceName,
-      resourceGroupName,
       fabricName,
       renewCertificate,
       options
@@ -839,20 +691,15 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
 
   /**
    * ListNext
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    resourceName: string,
-    resourceGroupName: string,
     nextLink: string,
     options?: ReplicationFabricsListNextOptionalParams
   ): Promise<ReplicationFabricsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, nextLink, options },
+      { nextLink, options },
       listNextOperationSpec
     );
   }

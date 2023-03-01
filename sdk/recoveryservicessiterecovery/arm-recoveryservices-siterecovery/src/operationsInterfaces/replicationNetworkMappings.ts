@@ -28,45 +28,30 @@ import {
 export interface ReplicationNetworkMappings {
   /**
    * Lists all ASR network mappings for the specified network.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Primary fabric name.
    * @param networkName Primary network name.
    * @param options The options parameters.
    */
   listByReplicationNetworks(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     networkName: string,
     options?: ReplicationNetworkMappingsListByReplicationNetworksOptionalParams
   ): PagedAsyncIterableIterator<NetworkMapping>;
   /**
    * Lists all ASR network mappings in the vault.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param options The options parameters.
    */
   list(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationNetworkMappingsListOptionalParams
   ): PagedAsyncIterableIterator<NetworkMapping>;
   /**
    * Gets the details of an ASR network mapping.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Primary fabric name.
    * @param networkName Primary network name.
    * @param networkMappingName Network mapping name.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     networkName: string,
     networkMappingName: string,
@@ -74,9 +59,6 @@ export interface ReplicationNetworkMappings {
   ): Promise<ReplicationNetworkMappingsGetResponse>;
   /**
    * The operation to create an ASR network mapping.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Primary fabric name.
    * @param networkName Primary network name.
    * @param networkMappingName Network mapping name.
@@ -84,8 +66,6 @@ export interface ReplicationNetworkMappings {
    * @param options The options parameters.
    */
   beginCreate(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     networkName: string,
     networkMappingName: string,
@@ -99,9 +79,6 @@ export interface ReplicationNetworkMappings {
   >;
   /**
    * The operation to create an ASR network mapping.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Primary fabric name.
    * @param networkName Primary network name.
    * @param networkMappingName Network mapping name.
@@ -109,8 +86,6 @@ export interface ReplicationNetworkMappings {
    * @param options The options parameters.
    */
   beginCreateAndWait(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     networkName: string,
     networkMappingName: string,
@@ -119,17 +94,12 @@ export interface ReplicationNetworkMappings {
   ): Promise<ReplicationNetworkMappingsCreateResponse>;
   /**
    * The operation to delete a network mapping.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Primary fabric name.
    * @param networkName Primary network name.
    * @param networkMappingName ARM Resource Name for network mapping.
    * @param options The options parameters.
    */
   beginDelete(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     networkName: string,
     networkMappingName: string,
@@ -137,17 +107,12 @@ export interface ReplicationNetworkMappings {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * The operation to delete a network mapping.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Primary fabric name.
    * @param networkName Primary network name.
    * @param networkMappingName ARM Resource Name for network mapping.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     networkName: string,
     networkMappingName: string,
@@ -155,9 +120,6 @@ export interface ReplicationNetworkMappings {
   ): Promise<void>;
   /**
    * The operation to update an ASR network mapping.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Primary fabric name.
    * @param networkName Primary network name.
    * @param networkMappingName Network mapping name.
@@ -165,8 +127,6 @@ export interface ReplicationNetworkMappings {
    * @param options The options parameters.
    */
   beginUpdate(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     networkName: string,
     networkMappingName: string,
@@ -180,9 +140,6 @@ export interface ReplicationNetworkMappings {
   >;
   /**
    * The operation to update an ASR network mapping.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param fabricName Primary fabric name.
    * @param networkName Primary network name.
    * @param networkMappingName Network mapping name.
@@ -190,8 +147,6 @@ export interface ReplicationNetworkMappings {
    * @param options The options parameters.
    */
   beginUpdateAndWait(
-    resourceName: string,
-    resourceGroupName: string,
     fabricName: string,
     networkName: string,
     networkMappingName: string,

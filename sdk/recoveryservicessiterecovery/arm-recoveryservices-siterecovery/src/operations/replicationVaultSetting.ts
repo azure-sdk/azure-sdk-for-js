@@ -43,17 +43,12 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
 
   /**
    * Gets the list of vault setting. This includes the Migration Hub connection settings.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param options The options parameters.
    */
   public list(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationVaultSettingListOptionalParams
   ): PagedAsyncIterableIterator<VaultSetting> {
-    const iter = this.listPagingAll(resourceName, resourceGroupName, options);
+    const iter = this.listPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -65,38 +60,26 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceName,
-          resourceGroupName,
-          options,
-          settings
-        );
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationVaultSettingListOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<VaultSetting[]> {
     let result: ReplicationVaultSettingListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceName, resourceGroupName, options);
+      result = await this._list(options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceName,
-        resourceGroupName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -105,69 +88,45 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
   }
 
   private async *listPagingAll(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationVaultSettingListOptionalParams
   ): AsyncIterableIterator<VaultSetting> {
-    for await (const page of this.listPagingPage(
-      resourceName,
-      resourceGroupName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
    * Gets the list of vault setting. This includes the Migration Hub connection settings.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param options The options parameters.
    */
   private _list(
-    resourceName: string,
-    resourceGroupName: string,
     options?: ReplicationVaultSettingListOptionalParams
   ): Promise<ReplicationVaultSettingListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, options },
-      listOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
    * Gets the vault setting. This includes the Migration Hub connection settings.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param vaultSettingName Vault setting name.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
-    resourceGroupName: string,
     vaultSettingName: string,
     options?: ReplicationVaultSettingGetOptionalParams
   ): Promise<ReplicationVaultSettingGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, vaultSettingName, options },
+      { vaultSettingName, options },
       getOperationSpec
     );
   }
 
   /**
    * The operation to configure vault setting.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param vaultSettingName Vault setting name.
    * @param input Vault setting creation input.
    * @param options The options parameters.
    */
   async beginCreate(
-    resourceName: string,
-    resourceGroupName: string,
     vaultSettingName: string,
     input: VaultSettingCreationInput,
     options?: ReplicationVaultSettingCreateOptionalParams
@@ -218,7 +177,7 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceName, resourceGroupName, vaultSettingName, input, options },
+      { vaultSettingName, input, options },
       createOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -231,46 +190,30 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
 
   /**
    * The operation to configure vault setting.
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param vaultSettingName Vault setting name.
    * @param input Vault setting creation input.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
-    resourceName: string,
-    resourceGroupName: string,
     vaultSettingName: string,
     input: VaultSettingCreationInput,
     options?: ReplicationVaultSettingCreateOptionalParams
   ): Promise<ReplicationVaultSettingCreateResponse> {
-    const poller = await this.beginCreate(
-      resourceName,
-      resourceGroupName,
-      vaultSettingName,
-      input,
-      options
-    );
+    const poller = await this.beginCreate(vaultSettingName, input, options);
     return poller.pollUntilDone();
   }
 
   /**
    * ListNext
-   * @param resourceName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    resourceName: string,
-    resourceGroupName: string,
     nextLink: string,
     options?: ReplicationVaultSettingListNextOptionalParams
   ): Promise<ReplicationVaultSettingListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, nextLink, options },
+      { nextLink, options },
       listNextOperationSpec
     );
   }

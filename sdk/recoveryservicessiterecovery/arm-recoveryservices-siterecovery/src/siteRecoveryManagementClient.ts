@@ -79,24 +79,37 @@ import { SiteRecoveryManagementClientOptionalParams } from "./models";
 export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
+  resourceGroupName: string;
   subscriptionId: string;
+  resourceName: string;
 
   /**
    * Initializes a new instance of the SiteRecoveryManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param subscriptionId The subscription Id.
+   * @param resourceName The name of the recovery services vault.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
+    resourceGroupName: string,
     subscriptionId: string,
+    resourceName: string,
     options?: SiteRecoveryManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
+    if (resourceGroupName === undefined) {
+      throw new Error("'resourceGroupName' cannot be null");
+    }
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
+    }
+    if (resourceName === undefined) {
+      throw new Error("'resourceName' cannot be null");
     }
 
     // Initializing default values for options
@@ -108,7 +121,7 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-recoveryservices-siterecovery/5.0.2`;
+    const packageDetails = `azsdk-js-arm-recoveryservices-siterecovery/6.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -157,7 +170,9 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
       );
     }
     // Parameter assignments
+    this.resourceGroupName = resourceGroupName;
     this.subscriptionId = subscriptionId;
+    this.resourceName = resourceName;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
