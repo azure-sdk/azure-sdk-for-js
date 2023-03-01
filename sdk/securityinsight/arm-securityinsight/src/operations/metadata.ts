@@ -259,7 +259,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.orderby,
-    Parameters.top,
+    Parameters.top1,
     Parameters.skip
   ],
   urlParameters: [

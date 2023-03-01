@@ -8,34 +8,31 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { FileImports } from "../operationsInterfaces";
+import { IncidentTasks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
 import {
-  FileImport,
-  FileImportsListNextOptionalParams,
-  FileImportsListOptionalParams,
-  FileImportsListResponse,
-  FileImportsGetOptionalParams,
-  FileImportsGetResponse,
-  FileImportsCreateOptionalParams,
-  FileImportsCreateResponse,
-  FileImportsDeleteOptionalParams,
-  FileImportsDeleteResponse,
-  FileImportsListNextResponse
+  IncidentTask,
+  IncidentTasksListNextOptionalParams,
+  IncidentTasksListOptionalParams,
+  IncidentTasksListResponse,
+  IncidentTasksGetOptionalParams,
+  IncidentTasksGetResponse,
+  IncidentTasksCreateOrUpdateOptionalParams,
+  IncidentTasksCreateOrUpdateResponse,
+  IncidentTasksDeleteOptionalParams,
+  IncidentTasksListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing FileImports operations. */
-export class FileImportsImpl implements FileImports {
+/** Class containing IncidentTasks operations. */
+export class IncidentTasksImpl implements IncidentTasks {
   private readonly client: SecurityInsights;
 
   /**
-   * Initialize a new instance of the class FileImports class.
+   * Initialize a new instance of the class IncidentTasks class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityInsights) {
@@ -43,17 +40,24 @@ export class FileImportsImpl implements FileImports {
   }
 
   /**
-   * Gets all file imports.
+   * Gets all incident tasks.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
+   * @param incidentId Incident ID
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FileImportsListOptionalParams
-  ): PagedAsyncIterableIterator<FileImport> {
-    const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
+    incidentId: string,
+    options?: IncidentTasksListOptionalParams
+  ): PagedAsyncIterableIterator<IncidentTask> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      workspaceName,
+      incidentId,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -68,6 +72,7 @@ export class FileImportsImpl implements FileImports {
         return this.listPagingPage(
           resourceGroupName,
           workspaceName,
+          incidentId,
           options,
           settings
         );
@@ -78,13 +83,19 @@ export class FileImportsImpl implements FileImports {
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FileImportsListOptionalParams,
+    incidentId: string,
+    options?: IncidentTasksListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<FileImport[]> {
-    let result: FileImportsListResponse;
+  ): AsyncIterableIterator<IncidentTask[]> {
+    let result: IncidentTasksListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, workspaceName, options);
+      result = await this._list(
+        resourceGroupName,
+        workspaceName,
+        incidentId,
+        options
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -94,6 +105,7 @@ export class FileImportsImpl implements FileImports {
       result = await this._listNext(
         resourceGroupName,
         workspaceName,
+        incidentId,
         continuationToken,
         options
       );
@@ -107,11 +119,13 @@ export class FileImportsImpl implements FileImports {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FileImportsListOptionalParams
-  ): AsyncIterableIterator<FileImport> {
+    incidentId: string,
+    options?: IncidentTasksListOptionalParams
+  ): AsyncIterableIterator<IncidentTask> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
+      incidentId,
       options
     )) {
       yield* page;
@@ -119,170 +133,113 @@ export class FileImportsImpl implements FileImports {
   }
 
   /**
-   * Gets all file imports.
+   * Gets all incident tasks.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
+   * @param incidentId Incident ID
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FileImportsListOptionalParams
-  ): Promise<FileImportsListResponse> {
+    incidentId: string,
+    options?: IncidentTasksListOptionalParams
+  ): Promise<IncidentTasksListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, options },
+      { resourceGroupName, workspaceName, incidentId, options },
       listOperationSpec
     );
   }
 
   /**
-   * Gets a file import.
+   * Gets an incident task.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param fileImportId File import ID
+   * @param incidentId Incident ID
+   * @param incidentTaskId Incident task ID
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
-    fileImportId: string,
-    options?: FileImportsGetOptionalParams
-  ): Promise<FileImportsGetResponse> {
+    incidentId: string,
+    incidentTaskId: string,
+    options?: IncidentTasksGetOptionalParams
+  ): Promise<IncidentTasksGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, fileImportId, options },
+      { resourceGroupName, workspaceName, incidentId, incidentTaskId, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates the file import.
+   * Creates or updates the incident task.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param fileImportId File import ID
-   * @param fileImport The file import
+   * @param incidentId Incident ID
+   * @param incidentTaskId Incident task ID
+   * @param incidentTask The incident task
    * @param options The options parameters.
    */
-  create(
+  createOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
-    fileImportId: string,
-    fileImport: FileImport,
-    options?: FileImportsCreateOptionalParams
-  ): Promise<FileImportsCreateResponse> {
+    incidentId: string,
+    incidentTaskId: string,
+    incidentTask: IncidentTask,
+    options?: IncidentTasksCreateOrUpdateOptionalParams
+  ): Promise<IncidentTasksCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, fileImportId, fileImport, options },
-      createOperationSpec
+      {
+        resourceGroupName,
+        workspaceName,
+        incidentId,
+        incidentTaskId,
+        incidentTask,
+        options
+      },
+      createOrUpdateOperationSpec
     );
   }
 
   /**
-   * Delete the file import.
+   * Delete the incident task.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param fileImportId File import ID
+   * @param incidentId Incident ID
+   * @param incidentTaskId Incident task ID
    * @param options The options parameters.
    */
-  async beginDelete(
+  delete(
     resourceGroupName: string,
     workspaceName: string,
-    fileImportId: string,
-    options?: FileImportsDeleteOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<FileImportsDeleteResponse>,
-      FileImportsDeleteResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<FileImportsDeleteResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, fileImportId, options },
+    incidentId: string,
+    incidentTaskId: string,
+    options?: IncidentTasksDeleteOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, incidentId, incidentTaskId, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Delete the file import.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param fileImportId File import ID
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    workspaceName: string,
-    fileImportId: string,
-    options?: FileImportsDeleteOptionalParams
-  ): Promise<FileImportsDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      workspaceName,
-      fileImportId,
-      options
-    );
-    return poller.pollUntilDone();
   }
 
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
+   * @param incidentId Incident ID
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     workspaceName: string,
+    incidentId: string,
     nextLink: string,
-    options?: FileImportsListNextOptionalParams
-  ): Promise<FileImportsListNextResponse> {
+    options?: IncidentTasksListNextOptionalParams
+  ): Promise<IncidentTasksListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, nextLink, options },
+      { resourceGroupName, workspaceName, incidentId, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -292,39 +249,34 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/fileImports",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/tasks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileImportList
+      bodyMapper: Mappers.IncidentTaskList
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.orderby,
-    Parameters.skipToken,
-    Parameters.top1
-  ],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
+    Parameters.incidentId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/fileImports/{fileImportId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/tasks/{incidentTaskId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileImport
+      bodyMapper: Mappers.IncidentTask
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -336,31 +288,36 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.fileImportId
+    Parameters.incidentId,
+    Parameters.incidentTaskId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/fileImports/{fileImportId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/tasks/{incidentTaskId}",
   httpMethod: "PUT",
   responses: {
+    200: {
+      bodyMapper: Mappers.IncidentTask
+    },
     201: {
-      bodyMapper: Mappers.FileImport
+      bodyMapper: Mappers.IncidentTask
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.fileImport,
+  requestBody: Parameters.incidentTask,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.fileImportId
+    Parameters.incidentId,
+    Parameters.incidentTaskId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -368,21 +325,11 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/fileImports/{fileImportId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/tasks/{incidentTaskId}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      bodyMapper: Mappers.FileImport
-    },
-    201: {
-      bodyMapper: Mappers.FileImport
-    },
-    202: {
-      bodyMapper: Mappers.FileImport
-    },
-    204: {
-      bodyMapper: Mappers.FileImport
-    },
+    200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -393,7 +340,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.fileImportId
+    Parameters.incidentId,
+    Parameters.incidentTaskId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -403,7 +351,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileImportList
+      bodyMapper: Mappers.IncidentTaskList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -414,7 +362,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.incidentId
   ],
   headerParameters: [Parameters.accept],
   serializer
