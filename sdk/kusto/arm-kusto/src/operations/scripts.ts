@@ -373,7 +373,7 @@ export class ScriptsImpl implements Scripts {
   }
 
   /**
-   * Deletes a Kusto principalAssignment.
+   * Deletes a Kusto database script.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
@@ -440,7 +440,7 @@ export class ScriptsImpl implements Scripts {
   }
 
   /**
-   * Deletes a Kusto principalAssignment.
+   * Deletes a Kusto database script.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
