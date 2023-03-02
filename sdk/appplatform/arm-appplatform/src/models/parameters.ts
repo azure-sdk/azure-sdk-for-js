@@ -37,6 +37,7 @@ import {
   RemoteDebuggingPayload as RemoteDebuggingPayloadMapper,
   DiagnosticParameters as DiagnosticParametersMapper,
   GatewayResource as GatewayResourceMapper,
+  SkuObject as SkuObjectMapper,
   GatewayRouteConfigResource as GatewayRouteConfigResourceMapper,
   GatewayCustomDomainResource as GatewayCustomDomainResourceMapper,
   ApiPortalResource as ApiPortalResourceMapper,
@@ -73,7 +74,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-11-01-preview",
+    defaultValue: "2023-01-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -107,6 +108,9 @@ export const resourceGroupName: OperationURLParameter = {
 export const serviceName: OperationURLParameter = {
   parameterPath: "serviceName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9-]*[a-z0-9]$")
+    },
     serializedName: "serviceName",
     required: true,
     type: {
@@ -508,6 +512,11 @@ export const gatewayName: OperationURLParameter = {
 export const gatewayResource: OperationParameter = {
   parameterPath: "gatewayResource",
   mapper: GatewayResourceMapper
+};
+
+export const gatewayCapacityResource: OperationParameter = {
+  parameterPath: "gatewayCapacityResource",
+  mapper: SkuObjectMapper
 };
 
 export const routeConfigName: OperationURLParameter = {
