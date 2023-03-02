@@ -15735,6 +15735,12 @@ export const WebApplicationFirewallCustomRule: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
       ruleType: {
         serializedName: "ruleType",
         required: true,
@@ -17804,8 +17810,8 @@ export const Subnet: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      applicationGatewayIpConfigurations: {
-        serializedName: "properties.applicationGatewayIpConfigurations",
+      applicationGatewayIPConfigurations: {
+        serializedName: "properties.applicationGatewayIPConfigurations",
         type: {
           name: "Sequence",
           element: {
@@ -25548,6 +25554,13 @@ export const ExpressRouteCircuit: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      authorizationStatus: {
+        serializedName: "properties.authorizationStatus",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -27030,6 +27043,19 @@ export const VirtualNetwork: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "SubResource"
+            }
+          }
+        }
+      },
+      flowLogs: {
+        serializedName: "properties.flowLogs",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FlowLog"
             }
           }
         }

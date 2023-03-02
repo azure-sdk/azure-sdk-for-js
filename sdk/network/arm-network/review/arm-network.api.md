@@ -179,8 +179,6 @@ export type AdminRuleCollectionsGetResponse = AdminRuleCollection;
 
 // @public
 export interface AdminRuleCollectionsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -241,8 +239,6 @@ export type AdminRulesGetResponse = BaseAdminRuleUnion;
 
 // @public
 export interface AdminRulesListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -2620,8 +2616,6 @@ export type ConnectivityConfigurationsGetResponse = ConnectivityConfiguration;
 
 // @public
 export interface ConnectivityConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -3445,6 +3439,7 @@ export interface ExpressRouteCircuit extends Resource {
     allowClassicOperations?: boolean;
     authorizationKey?: string;
     authorizations?: ExpressRouteCircuitAuthorization[];
+    readonly authorizationStatus?: string;
     bandwidthInGbps?: number;
     circuitProvisioningState?: string;
     readonly etag?: string;
@@ -5905,8 +5900,16 @@ export enum KnownApplicationGatewayCookieBasedAffinity {
 
 // @public
 export enum KnownApplicationGatewayCustomErrorStatusCode {
+    HttpStatus400 = "HttpStatus400",
     HttpStatus403 = "HttpStatus403",
-    HttpStatus502 = "HttpStatus502"
+    HttpStatus404 = "HttpStatus404",
+    HttpStatus405 = "HttpStatus405",
+    HttpStatus408 = "HttpStatus408",
+    HttpStatus499 = "HttpStatus499",
+    HttpStatus500 = "HttpStatus500",
+    HttpStatus502 = "HttpStatus502",
+    HttpStatus503 = "HttpStatus503",
+    HttpStatus504 = "HttpStatus504"
 }
 
 // @public
@@ -7356,6 +7359,12 @@ export enum KnownWebApplicationFirewallRuleType {
 }
 
 // @public
+export enum KnownWebApplicationFirewallState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownWebApplicationFirewallTransform {
     HtmlEntityDecode = "HtmlEntityDecode",
     Lowercase = "Lowercase",
@@ -8035,8 +8044,6 @@ export type ManagementGroupNetworkManagerConnectionsGetResponse = NetworkManager
 
 // @public
 export interface ManagementGroupNetworkManagerConnectionsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -8336,8 +8343,6 @@ export type NetworkGroupsGetResponse = NetworkGroup;
 
 // @public
 export interface NetworkGroupsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -8656,7 +8661,6 @@ export type NetworkInterfacesListResponse = NetworkInterfaceListResult;
 
 // @public
 export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -9215,8 +9219,6 @@ export type NetworkManagersGetResponse = NetworkManager;
 
 // @public
 export interface NetworkManagersListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -9233,8 +9235,6 @@ export type NetworkManagersListBySubscriptionResponse = NetworkManagerListResult
 
 // @public
 export interface NetworkManagersListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -11758,8 +11758,6 @@ export type ScopeConnectionsGetResponse = ScopeConnection;
 
 // @public
 export interface ScopeConnectionsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -11828,8 +11826,6 @@ export type SecurityAdminConfigurationsGetResponse = SecurityAdminConfiguration;
 
 // @public
 export interface SecurityAdminConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -12252,8 +12248,6 @@ export interface ServiceTagInformation {
 
 // @public
 export interface ServiceTagInformationListNextOptionalParams extends coreClient.OperationOptions {
-    noAddressPrefixes?: boolean;
-    tagName?: string;
 }
 
 // @public
@@ -12414,8 +12408,6 @@ export type StaticMembersGetResponse = StaticMember;
 
 // @public
 export interface StaticMembersListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -12447,7 +12439,7 @@ export interface StaticRoutesConfig {
 export interface Subnet extends SubResource {
     addressPrefix?: string;
     addressPrefixes?: string[];
-    applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
+    applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
     delegations?: Delegation[];
     readonly etag?: string;
     ipAllocations?: SubResource[];
@@ -12577,8 +12569,6 @@ export type SubscriptionNetworkManagerConnectionsGetResponse = NetworkManagerCon
 
 // @public
 export interface SubscriptionNetworkManagerConnectionsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -13277,6 +13267,7 @@ export interface VirtualNetwork extends Resource {
     encryption?: VirtualNetworkEncryption;
     readonly etag?: string;
     extendedLocation?: ExtendedLocation;
+    readonly flowLogs?: FlowLog[];
     flowTimeoutInMinutes?: number;
     ipAllocations?: SubResource[];
     readonly provisioningState?: ProvisioningState;
@@ -14081,8 +14072,6 @@ export type VirtualNetworksListAllResponse = VirtualNetworkListResult;
 
 // @public
 export interface VirtualNetworksListDdosProtectionStatusNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -14836,6 +14825,7 @@ export type VpnGatewaysListResponse = ListVpnGatewaysResult;
 
 // @public
 export interface VpnGatewaysResetOptionalParams extends coreClient.OperationOptions {
+    ipConfigurationId?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -15308,6 +15298,7 @@ export interface WebApplicationFirewallCustomRule {
     name?: string;
     priority: number;
     ruleType: WebApplicationFirewallRuleType;
+    state?: WebApplicationFirewallState;
 }
 
 // @public
@@ -15404,6 +15395,9 @@ export type WebApplicationFirewallPolicyResourceState = string;
 
 // @public
 export type WebApplicationFirewallRuleType = string;
+
+// @public
+export type WebApplicationFirewallState = string;
 
 // @public
 export type WebApplicationFirewallTransform = string;
