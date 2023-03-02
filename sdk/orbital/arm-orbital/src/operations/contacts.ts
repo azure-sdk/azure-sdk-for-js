@@ -42,9 +42,9 @@ export class ContactsImpl implements Contacts {
   }
 
   /**
-   * Returns list of contacts by spacecraftName
+   * Returns list of contacts by spacecraftName.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
+   * @param spacecraftName Spacecraft ID.
    * @param options The options parameters.
    */
   public list(
@@ -118,9 +118,9 @@ export class ContactsImpl implements Contacts {
   }
 
   /**
-   * Returns list of contacts by spacecraftName
+   * Returns list of contacts by spacecraftName.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
+   * @param spacecraftName Spacecraft ID.
    * @param options The options parameters.
    */
   private _list(
@@ -135,10 +135,10 @@ export class ContactsImpl implements Contacts {
   }
 
   /**
-   * Gets the specified contact in a specified resource group
+   * Gets the specified contact in a specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
-   * @param contactName Contact Name
+   * @param spacecraftName Spacecraft ID.
+   * @param contactName Contact name.
    * @param options The options parameters.
    */
   get(
@@ -156,8 +156,8 @@ export class ContactsImpl implements Contacts {
   /**
    * Creates a contact.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
-   * @param contactName Contact Name
+   * @param spacecraftName Spacecraft ID.
+   * @param contactName Contact name.
    * @param parameters The parameters to provide for the created contact.
    * @param options The options parameters.
    */
@@ -229,8 +229,8 @@ export class ContactsImpl implements Contacts {
   /**
    * Creates a contact.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
-   * @param contactName Contact Name
+   * @param spacecraftName Spacecraft ID.
+   * @param contactName Contact name.
    * @param parameters The parameters to provide for the created contact.
    * @param options The options parameters.
    */
@@ -252,10 +252,10 @@ export class ContactsImpl implements Contacts {
   }
 
   /**
-   * Deletes a specified contact
+   * Deletes a specified contact.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
-   * @param contactName Contact Name
+   * @param spacecraftName Spacecraft ID.
+   * @param contactName Contact name.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -318,10 +318,10 @@ export class ContactsImpl implements Contacts {
   }
 
   /**
-   * Deletes a specified contact
+   * Deletes a specified contact.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
-   * @param contactName Contact Name
+   * @param spacecraftName Spacecraft ID.
+   * @param contactName Contact name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -342,7 +342,7 @@ export class ContactsImpl implements Contacts {
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
+   * @param spacecraftName Spacecraft ID.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -370,7 +370,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ContactListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
@@ -392,7 +392,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Contact
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -424,7 +424,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Contact
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters3,
@@ -450,7 +450,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -472,7 +472,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ContactListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
