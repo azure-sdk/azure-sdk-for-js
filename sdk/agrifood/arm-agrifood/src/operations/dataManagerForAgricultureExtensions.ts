@@ -8,28 +8,29 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { FarmBeatsExtensions } from "../operationsInterfaces";
+import { DataManagerForAgricultureExtensions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AgriFoodMgmtClient } from "../agriFoodMgmtClient";
 import {
-  FarmBeatsExtension,
-  FarmBeatsExtensionsListNextOptionalParams,
-  FarmBeatsExtensionsListOptionalParams,
-  FarmBeatsExtensionsListResponse,
-  FarmBeatsExtensionsGetOptionalParams,
-  FarmBeatsExtensionsGetResponse,
-  FarmBeatsExtensionsListNextResponse
+  DataManagerForAgricultureExtension,
+  DataManagerForAgricultureExtensionsListNextOptionalParams,
+  DataManagerForAgricultureExtensionsListOptionalParams,
+  DataManagerForAgricultureExtensionsListResponse,
+  DataManagerForAgricultureExtensionsGetOptionalParams,
+  DataManagerForAgricultureExtensionsGetResponse,
+  DataManagerForAgricultureExtensionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing FarmBeatsExtensions operations. */
-export class FarmBeatsExtensionsImpl implements FarmBeatsExtensions {
+/** Class containing DataManagerForAgricultureExtensions operations. */
+export class DataManagerForAgricultureExtensionsImpl
+  implements DataManagerForAgricultureExtensions {
   private readonly client: AgriFoodMgmtClient;
 
   /**
-   * Initialize a new instance of the class FarmBeatsExtensions class.
+   * Initialize a new instance of the class DataManagerForAgricultureExtensions class.
    * @param client Reference to the service client
    */
   constructor(client: AgriFoodMgmtClient) {
@@ -37,12 +38,12 @@ export class FarmBeatsExtensionsImpl implements FarmBeatsExtensions {
   }
 
   /**
-   * Get list of farmBeats extension.
+   * Get list of Data Manager For Agriculture extension.
    * @param options The options parameters.
    */
   public list(
-    options?: FarmBeatsExtensionsListOptionalParams
-  ): PagedAsyncIterableIterator<FarmBeatsExtension> {
+    options?: DataManagerForAgricultureExtensionsListOptionalParams
+  ): PagedAsyncIterableIterator<DataManagerForAgricultureExtension> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -61,10 +62,10 @@ export class FarmBeatsExtensionsImpl implements FarmBeatsExtensions {
   }
 
   private async *listPagingPage(
-    options?: FarmBeatsExtensionsListOptionalParams,
+    options?: DataManagerForAgricultureExtensionsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<FarmBeatsExtension[]> {
-    let result: FarmBeatsExtensionsListResponse;
+  ): AsyncIterableIterator<DataManagerForAgricultureExtension[]> {
+    let result: DataManagerForAgricultureExtensionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
@@ -83,34 +84,34 @@ export class FarmBeatsExtensionsImpl implements FarmBeatsExtensions {
   }
 
   private async *listPagingAll(
-    options?: FarmBeatsExtensionsListOptionalParams
-  ): AsyncIterableIterator<FarmBeatsExtension> {
+    options?: DataManagerForAgricultureExtensionsListOptionalParams
+  ): AsyncIterableIterator<DataManagerForAgricultureExtension> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Get list of farmBeats extension.
+   * Get list of Data Manager For Agriculture extension.
    * @param options The options parameters.
    */
   private _list(
-    options?: FarmBeatsExtensionsListOptionalParams
-  ): Promise<FarmBeatsExtensionsListResponse> {
+    options?: DataManagerForAgricultureExtensionsListOptionalParams
+  ): Promise<DataManagerForAgricultureExtensionsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
-   * Get farmBeats extension.
-   * @param farmBeatsExtensionId farmBeatsExtensionId to be queried.
+   * Get Data Manager For Agriculture extension.
+   * @param dataManagerForAgricultureExtensionId dataManagerForAgricultureExtensionId to be queried.
    * @param options The options parameters.
    */
   get(
-    farmBeatsExtensionId: string,
-    options?: FarmBeatsExtensionsGetOptionalParams
-  ): Promise<FarmBeatsExtensionsGetResponse> {
+    dataManagerForAgricultureExtensionId: string,
+    options?: DataManagerForAgricultureExtensionsGetOptionalParams
+  ): Promise<DataManagerForAgricultureExtensionsGetResponse> {
     return this.client.sendOperationRequest(
-      { farmBeatsExtensionId, options },
+      { dataManagerForAgricultureExtensionId, options },
       getOperationSpec
     );
   }
@@ -122,8 +123,8 @@ export class FarmBeatsExtensionsImpl implements FarmBeatsExtensions {
    */
   private _listNext(
     nextLink: string,
-    options?: FarmBeatsExtensionsListNextOptionalParams
-  ): Promise<FarmBeatsExtensionsListNextResponse> {
+    options?: DataManagerForAgricultureExtensionsListNextOptionalParams
+  ): Promise<DataManagerForAgricultureExtensionsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
@@ -138,7 +139,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FarmBeatsExtensionListResponse
+      bodyMapper: Mappers.DataManagerForAgricultureExtensionListResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -146,11 +147,11 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.extensionCategories,
-    Parameters.maxPageSize,
     Parameters.farmBeatsExtensionIds,
     Parameters.farmBeatsExtensionNames,
-    Parameters.publisherIds
+    Parameters.extensionCategories,
+    Parameters.publisherIds,
+    Parameters.maxPageSize
   ],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
@@ -158,18 +159,21 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/providers/Microsoft.AgFoodPlatform/farmBeatsExtensionDefinitions/{farmBeatsExtensionId}",
+    "/providers/Microsoft.AgFoodPlatform/farmBeatsExtensionDefinitions/{dataManagerForAgricultureExtensionId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FarmBeatsExtension
+      bodyMapper: Mappers.DataManagerForAgricultureExtension
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.farmBeatsExtensionId],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.dataManagerForAgricultureExtensionId
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -178,20 +182,12 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FarmBeatsExtensionListResponse
+      bodyMapper: Mappers.DataManagerForAgricultureExtensionListResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.extensionCategories,
-    Parameters.maxPageSize,
-    Parameters.farmBeatsExtensionIds,
-    Parameters.farmBeatsExtensionNames,
-    Parameters.publisherIds
-  ],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

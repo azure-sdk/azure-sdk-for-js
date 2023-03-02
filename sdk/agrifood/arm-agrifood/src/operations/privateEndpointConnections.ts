@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { PrivateEndpointConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,16 +15,15 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   PrivateEndpointConnection,
-  PrivateEndpointConnectionsListByResourceOptionalParams,
-  PrivateEndpointConnectionsListByResourceResponse,
   PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   PrivateEndpointConnectionsCreateOrUpdateResponse,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsGetResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsListByResourceOptionalParams,
+  PrivateEndpointConnectionsListByResourceResponse
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateEndpointConnections operations. */
 export class PrivateEndpointConnectionsImpl
   implements PrivateEndpointConnections {
@@ -40,92 +38,26 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Get list of Private endpoint connections.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
-   * @param options The options parameters.
-   */
-  public listByResource(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
-    options?: PrivateEndpointConnectionsListByResourceOptionalParams
-  ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
-    const iter = this.listByResourcePagingAll(
-      resourceGroupName,
-      farmBeatsResourceName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourcePagingPage(
-          resourceGroupName,
-          farmBeatsResourceName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listByResourcePagingPage(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
-    options?: PrivateEndpointConnectionsListByResourceOptionalParams,
-    _settings?: PageSettings
-  ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result: PrivateEndpointConnectionsListByResourceResponse;
-    result = await this._listByResource(
-      resourceGroupName,
-      farmBeatsResourceName,
-      options
-    );
-    yield result.value || [];
-  }
-
-  private async *listByResourcePagingAll(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
-    options?: PrivateEndpointConnectionsListByResourceOptionalParams
-  ): AsyncIterableIterator<PrivateEndpointConnection> {
-    for await (const page of this.listByResourcePagingPage(
-      resourceGroupName,
-      farmBeatsResourceName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
    * Approves or Rejects a Private endpoint connection request.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
    * @param privateEndpointConnectionName Private endpoint connection name.
-   * @param body Request object.
+   * @param request Request object.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
-    farmBeatsResourceName: string,
+    dataManagerForAgricultureResourceName: string,
     privateEndpointConnectionName: string,
-    body: PrivateEndpointConnection,
+    request: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
   ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        farmBeatsResourceName,
+        dataManagerForAgricultureResourceName,
         privateEndpointConnectionName,
-        body,
+        request,
         options
       },
       createOrUpdateOperationSpec
@@ -135,20 +67,20 @@ export class PrivateEndpointConnectionsImpl
   /**
    * Get Private endpoint connection object.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
    * @param privateEndpointConnectionName Private endpoint connection name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    farmBeatsResourceName: string,
+    dataManagerForAgricultureResourceName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsGetOptionalParams
   ): Promise<PrivateEndpointConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        farmBeatsResourceName,
+        dataManagerForAgricultureResourceName,
         privateEndpointConnectionName,
         options
       },
@@ -159,13 +91,13 @@ export class PrivateEndpointConnectionsImpl
   /**
    * Delete Private endpoint connection request.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
    * @param privateEndpointConnectionName Private endpoint connection name.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    farmBeatsResourceName: string,
+    dataManagerForAgricultureResourceName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
@@ -212,7 +144,7 @@ export class PrivateEndpointConnectionsImpl
       sendOperation,
       {
         resourceGroupName,
-        farmBeatsResourceName,
+        dataManagerForAgricultureResourceName,
         privateEndpointConnectionName,
         options
       },
@@ -221,7 +153,7 @@ export class PrivateEndpointConnectionsImpl
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -230,19 +162,19 @@ export class PrivateEndpointConnectionsImpl
   /**
    * Delete Private endpoint connection request.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
    * @param privateEndpointConnectionName Private endpoint connection name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    farmBeatsResourceName: string,
+    dataManagerForAgricultureResourceName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      farmBeatsResourceName,
+      dataManagerForAgricultureResourceName,
       privateEndpointConnectionName,
       options
     );
@@ -252,16 +184,16 @@ export class PrivateEndpointConnectionsImpl
   /**
    * Get list of Private endpoint connections.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
    * @param options The options parameters.
    */
-  private _listByResource(
+  listByResource(
     resourceGroupName: string,
-    farmBeatsResourceName: string,
+    dataManagerForAgricultureResourceName: string,
     options?: PrivateEndpointConnectionsListByResourceOptionalParams
   ): Promise<PrivateEndpointConnectionsListByResourceResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, farmBeatsResourceName, options },
+      { resourceGroupName, dataManagerForAgricultureResourceName, options },
       listByResourceOperationSpec
     );
   }
@@ -271,40 +203,42 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{dataManagerForAgricultureResourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnection
     },
+    400: {
+      bodyMapper: Mappers.ErrorResponse
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body3,
+  requestBody: Parameters.request2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.farmBeatsResourceName,
+    Parameters.dataManagerForAgricultureResourceName,
     Parameters.privateEndpointConnectionName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{dataManagerForAgricultureResourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnection
     },
     404: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+      bodyMapper: Mappers.ErrorResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -315,7 +249,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.farmBeatsResourceName,
+    Parameters.dataManagerForAgricultureResourceName,
     Parameters.privateEndpointConnectionName
   ],
   headerParameters: [Parameters.accept],
@@ -323,7 +257,7 @@ const getOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{dataManagerForAgricultureResourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -339,7 +273,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.farmBeatsResourceName,
+    Parameters.dataManagerForAgricultureResourceName,
     Parameters.privateEndpointConnectionName
   ],
   headerParameters: [Parameters.accept],
@@ -347,7 +281,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
 };
 const listByResourceOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}/privateEndpointConnections",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{dataManagerForAgricultureResourceName}/privateEndpointConnections",
   httpMethod: "GET",
   responses: {
     200: {
@@ -362,7 +296,7 @@ const listByResourceOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.farmBeatsResourceName
+    Parameters.dataManagerForAgricultureResourceName
   ],
   headerParameters: [Parameters.accept],
   serializer

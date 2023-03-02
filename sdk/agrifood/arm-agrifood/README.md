@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure AgriFoodMgmt client.
 
-APIs documentation for Azure AgFoodPlatform Resource Provider Service.
+APIs documentation for Microsoft Azure Data Manager for Agriculture Service.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/agrifood/arm-agrifood) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-agrifood) |
