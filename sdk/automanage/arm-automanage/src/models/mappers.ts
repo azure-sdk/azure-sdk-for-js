@@ -34,18 +34,18 @@ export const BestPractice: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ConfigurationProfileProperties"
+        }
+      },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
           className: "SystemData"
-        }
-      },
-      configuration: {
-        serializedName: "properties.configuration",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
         }
       }
     }
@@ -457,6 +457,89 @@ export const OperationDisplay: coreClient.CompositeMapper = {
   }
 };
 
+export const AssignmentReportProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AssignmentReportProperties",
+    modelProperties: {
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "String"
+        }
+      },
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedTime: {
+        serializedName: "lastModifiedTime",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      duration: {
+        serializedName: "duration",
+        readOnly: true,
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      configurationProfile: {
+        serializedName: "configurationProfile",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resources: {
+        serializedName: "resources",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReportResource"
+            }
+          }
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      },
+      reportFormatVersion: {
+        serializedName: "reportFormatVersion",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ReportResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -537,6 +620,29 @@ export const ServicePrincipalListResult: coreClient.CompositeMapper = {
               className: "ServicePrincipal"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const ServicePrincipalProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServicePrincipalProperties",
+    modelProperties: {
+      servicePrincipalId: {
+        serializedName: "servicePrincipalId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      authorizationSet: {
+        serializedName: "authorizationSet",
+        readOnly: true,
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -655,85 +761,18 @@ export const Report: coreClient.CompositeMapper = {
     className: "Report",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "AssignmentReportProperties"
+        }
+      },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
           className: "SystemData"
-        }
-      },
-      startTime: {
-        serializedName: "properties.startTime",
-        type: {
-          name: "String"
-        }
-      },
-      endTime: {
-        serializedName: "properties.endTime",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedTime: {
-        serializedName: "properties.lastModifiedTime",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      duration: {
-        serializedName: "properties.duration",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      typePropertiesType: {
-        serializedName: "properties.type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        serializedName: "properties.status",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      configurationProfile: {
-        serializedName: "properties.configurationProfile",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      resources: {
-        serializedName: "properties.resources",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportResource"
-            }
-          }
-        }
-      },
-      error: {
-        serializedName: "properties.error",
-        type: {
-          name: "Composite",
-          className: "ErrorDetail"
-        }
-      },
-      reportFormatVersion: {
-        serializedName: "properties.reportFormatVersion",
-        readOnly: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -746,25 +785,18 @@ export const ServicePrincipal: coreClient.CompositeMapper = {
     className: "ServicePrincipal",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ServicePrincipalProperties"
+        }
+      },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
           className: "SystemData"
-        }
-      },
-      servicePrincipalId: {
-        serializedName: "properties.servicePrincipalId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      authorizationSet: {
-        serializedName: "properties.authorizationSet",
-        readOnly: true,
-        type: {
-          name: "Boolean"
         }
       }
     }
