@@ -109,14 +109,6 @@ export interface Entities {
 // @public
 export interface EntitiesListNextOptionalParams extends coreClient.OperationOptions {
     cacheControl?: string;
-    filter?: string;
-    groupName?: string;
-    search?: Enum2;
-    select?: string;
-    skip?: number;
-    skiptoken?: string;
-    top?: number;
-    view?: Enum3;
 }
 
 // @public
@@ -127,12 +119,12 @@ export interface EntitiesListOptionalParams extends coreClient.OperationOptions 
     cacheControl?: string;
     filter?: string;
     groupName?: string;
-    search?: Enum2;
+    search?: EntitySearchType;
     select?: string;
     skip?: number;
     skiptoken?: string;
     top?: number;
-    view?: Enum3;
+    view?: EntityViewParameterType;
 }
 
 // @public
@@ -178,13 +170,10 @@ export interface EntityParentGroupInfo {
 }
 
 // @public
-export type Enum0 = string;
+export type EntitySearchType = string;
 
 // @public
-export type Enum2 = string;
-
-// @public
-export type Enum3 = string;
+export type EntityViewParameterType = string;
 
 // @public
 export interface ErrorDetails {
@@ -269,14 +258,7 @@ export interface HierarchySettingsUpdateOptionalParams extends coreClient.Operat
 export type HierarchySettingsUpdateResponse = HierarchySettings;
 
 // @public
-export enum KnownEnum0 {
-    Ancestors = "ancestors",
-    Children = "children",
-    Path = "path"
-}
-
-// @public
-export enum KnownEnum2 {
+export enum KnownEntitySearchType {
     AllowedChildren = "AllowedChildren",
     AllowedParents = "AllowedParents",
     ChildrenOnly = "ChildrenOnly",
@@ -285,7 +267,7 @@ export enum KnownEnum2 {
 }
 
 // @public
-export enum KnownEnum3 {
+export enum KnownEntityViewParameterType {
     Audit = "Audit",
     FullHierarchy = "FullHierarchy",
     GroupsOnly = "GroupsOnly",
@@ -293,17 +275,10 @@ export enum KnownEnum3 {
 }
 
 // @public
-export enum KnownManagementGroupChildType {
-    MicrosoftManagementManagementGroups = "Microsoft.Management/managementGroups",
-    Subscriptions = "/subscriptions"
-}
-
-// @public
-export enum KnownPermissions {
-    Delete = "delete",
-    Edit = "edit",
-    Noaccess = "noaccess",
-    View = "view"
+export enum KnownManagementGroupExpandType {
+    Ancestors = "ancestors",
+    Children = "children",
+    Path = "path"
 }
 
 // @public
@@ -333,7 +308,7 @@ export interface ManagementGroupChildInfo {
 }
 
 // @public
-export type ManagementGroupChildType = string;
+export type ManagementGroupChildType = "Microsoft.Management/managementGroups" | "/subscriptions";
 
 // @public
 export interface ManagementGroupDetails {
@@ -345,6 +320,9 @@ export interface ManagementGroupDetails {
     updatedTime?: Date;
     version?: number;
 }
+
+// @public
+export type ManagementGroupExpandType = string;
 
 // @public
 export interface ManagementGroupInfo {
@@ -442,8 +420,6 @@ export type ManagementGroupsDeleteResponse = ManagementGroupsDeleteHeaders & Azu
 
 // @public
 export interface ManagementGroupsGetDescendantsNextOptionalParams extends coreClient.OperationOptions {
-    skiptoken?: string;
-    top?: number;
 }
 
 // @public
@@ -461,7 +437,7 @@ export type ManagementGroupsGetDescendantsResponse = DescendantListResult;
 // @public
 export interface ManagementGroupsGetOptionalParams extends coreClient.OperationOptions {
     cacheControl?: string;
-    expand?: Enum0;
+    expand?: ManagementGroupExpandType;
     filter?: string;
     recurse?: boolean;
 }
@@ -472,7 +448,6 @@ export type ManagementGroupsGetResponse = ManagementGroup;
 // @public
 export interface ManagementGroupsListNextOptionalParams extends coreClient.OperationOptions {
     cacheControl?: string;
-    skiptoken?: string;
 }
 
 // @public
@@ -518,7 +493,6 @@ export type ManagementGroupSubscriptionsGetSubscriptionResponse = SubscriptionUn
 
 // @public
 export interface ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupNextOptionalParams extends coreClient.OperationOptions {
-    skiptoken?: string;
 }
 
 // @public
@@ -589,6 +563,13 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
+export interface ParentGroupBagInfo {
+    displayName?: string;
+    id?: string;
+    name?: string;
+}
+
+// @public
 export interface ParentGroupInfo {
     displayName?: string;
     id?: string;
@@ -602,7 +583,7 @@ export interface PatchManagementGroupRequest {
 }
 
 // @public
-type Permissions_2 = string;
+type Permissions_2 = "noaccess" | "view" | "edit" | "delete";
 export { Permissions_2 as Permissions }
 
 // @public
@@ -623,7 +604,7 @@ export interface SubscriptionUnderManagementGroup {
     displayName?: string;
     readonly id?: string;
     readonly name?: string;
-    parent?: DescendantParentGroupInfo;
+    parent?: ParentGroupBagInfo;
     state?: string;
     tenant?: string;
     readonly type?: string;

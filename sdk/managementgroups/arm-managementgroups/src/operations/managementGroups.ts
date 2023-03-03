@@ -594,7 +594,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept, Parameters.cacheControl],
   serializer
@@ -610,11 +609,6 @@ const getDescendantsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skiptoken,
-    Parameters.top
-  ],
   urlParameters: [Parameters.$host, Parameters.groupId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
