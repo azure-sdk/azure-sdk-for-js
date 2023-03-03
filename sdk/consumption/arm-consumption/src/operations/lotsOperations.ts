@@ -21,8 +21,12 @@ import {
   LotsListByBillingAccountNextOptionalParams,
   LotsListByBillingAccountOptionalParams,
   LotsListByBillingAccountResponse,
+  LotsListByCustomerNextOptionalParams,
+  LotsListByCustomerOptionalParams,
+  LotsListByCustomerResponse,
   LotsListByBillingProfileNextResponse,
-  LotsListByBillingAccountNextResponse
+  LotsListByBillingAccountNextResponse,
+  LotsListByCustomerNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,9 +43,8 @@ export class LotsOperationsImpl implements LotsOperations {
   }
 
   /**
-   * Lists all Azure credits and Microsoft Azure consumption commitments for a billing account or a
-   * billing profile. Microsoft Azure consumption commitments are only supported for the billing account
-   * scope.
+   * Lists all Azure credits for a billing account or a billing profile. The API is only supported for
+   * Microsoft Customer Agreements (MCA) billing accounts.
    * @param billingAccountId BillingAccount ID
    * @param billingProfileId Azure Billing Profile ID.
    * @param options The options parameters.
@@ -125,9 +128,8 @@ export class LotsOperationsImpl implements LotsOperations {
   }
 
   /**
-   * Lists all Azure credits and Microsoft Azure consumption commitments for a billing account or a
-   * billing profile. Microsoft Azure consumption commitments are only supported for the billing account
-   * scope.
+   * Lists all Microsoft Azure consumption commitments for a billing account. The API is only supported
+   * for Microsoft Customer Agreements (MCA) and Direct Enterprise Agreement (EA)  billing accounts.
    * @param billingAccountId BillingAccount ID
    * @param options The options parameters.
    */
@@ -196,9 +198,93 @@ export class LotsOperationsImpl implements LotsOperations {
   }
 
   /**
-   * Lists all Azure credits and Microsoft Azure consumption commitments for a billing account or a
-   * billing profile. Microsoft Azure consumption commitments are only supported for the billing account
-   * scope.
+   * Lists all Azure credits for a customer. The API is only supported for Microsoft Partner  Agreements
+   * (MPA) billing accounts.
+   * @param billingAccountId BillingAccount ID
+   * @param customerId Customer ID
+   * @param options The options parameters.
+   */
+  public listByCustomer(
+    billingAccountId: string,
+    customerId: string,
+    options?: LotsListByCustomerOptionalParams
+  ): PagedAsyncIterableIterator<LotSummary> {
+    const iter = this.listByCustomerPagingAll(
+      billingAccountId,
+      customerId,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByCustomerPagingPage(
+          billingAccountId,
+          customerId,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listByCustomerPagingPage(
+    billingAccountId: string,
+    customerId: string,
+    options?: LotsListByCustomerOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<LotSummary[]> {
+    let result: LotsListByCustomerResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByCustomer(
+        billingAccountId,
+        customerId,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByCustomerNext(
+        billingAccountId,
+        customerId,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByCustomerPagingAll(
+    billingAccountId: string,
+    customerId: string,
+    options?: LotsListByCustomerOptionalParams
+  ): AsyncIterableIterator<LotSummary> {
+    for await (const page of this.listByCustomerPagingPage(
+      billingAccountId,
+      customerId,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists all Azure credits for a billing account or a billing profile. The API is only supported for
+   * Microsoft Customer Agreements (MCA) billing accounts.
    * @param billingAccountId BillingAccount ID
    * @param billingProfileId Azure Billing Profile ID.
    * @param options The options parameters.
@@ -215,9 +301,8 @@ export class LotsOperationsImpl implements LotsOperations {
   }
 
   /**
-   * Lists all Azure credits and Microsoft Azure consumption commitments for a billing account or a
-   * billing profile. Microsoft Azure consumption commitments are only supported for the billing account
-   * scope.
+   * Lists all Microsoft Azure consumption commitments for a billing account. The API is only supported
+   * for Microsoft Customer Agreements (MCA) and Direct Enterprise Agreement (EA)  billing accounts.
    * @param billingAccountId BillingAccount ID
    * @param options The options parameters.
    */
@@ -228,6 +313,24 @@ export class LotsOperationsImpl implements LotsOperations {
     return this.client.sendOperationRequest(
       { billingAccountId, options },
       listByBillingAccountOperationSpec
+    );
+  }
+
+  /**
+   * Lists all Azure credits for a customer. The API is only supported for Microsoft Partner  Agreements
+   * (MPA) billing accounts.
+   * @param billingAccountId BillingAccount ID
+   * @param customerId Customer ID
+   * @param options The options parameters.
+   */
+  private _listByCustomer(
+    billingAccountId: string,
+    customerId: string,
+    options?: LotsListByCustomerOptionalParams
+  ): Promise<LotsListByCustomerResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountId, customerId, options },
+      listByCustomerOperationSpec
     );
   }
 
@@ -264,6 +367,25 @@ export class LotsOperationsImpl implements LotsOperations {
     return this.client.sendOperationRequest(
       { billingAccountId, nextLink, options },
       listByBillingAccountNextOperationSpec
+    );
+  }
+
+  /**
+   * ListByCustomerNext
+   * @param billingAccountId BillingAccount ID
+   * @param customerId Customer ID
+   * @param nextLink The nextLink from the previous successful call to the ListByCustomer method.
+   * @param options The options parameters.
+   */
+  private _listByCustomerNext(
+    billingAccountId: string,
+    customerId: string,
+    nextLink: string,
+    options?: LotsListByCustomerNextOptionalParams
+  ): Promise<LotsListByCustomerNextResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountId, customerId, nextLink, options },
+      listByCustomerNextOperationSpec
     );
   }
 }
@@ -308,6 +430,27 @@ const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const listByCustomerOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}/providers/Microsoft.Consumption/lots",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Lots
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountId,
+    Parameters.customerId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -343,6 +486,26 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.nextLink,
     Parameters.billingAccountId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByCustomerNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Lots
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.billingAccountId,
+    Parameters.customerId
   ],
   headerParameters: [Parameters.accept],
   serializer
