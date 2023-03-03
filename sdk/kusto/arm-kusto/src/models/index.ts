@@ -1654,10 +1654,6 @@ export enum KnownLanguageExtensionImageName {
   R = "R",
   /** Python365 */
   Python365 = "Python3_6_5",
-  /** Python3912 */
-  Python3912 = "Python3_9_12",
-  /** Python3912IncludeDeepLearning */
-  Python3912IncludeDeepLearning = "Python3_9_12IncludeDeepLearning",
   /** Python3108 */
   Python3108 = "Python3_10_8"
 }
@@ -1669,8 +1665,6 @@ export enum KnownLanguageExtensionImageName {
  * ### Known values supported by the service
  * **R** \
  * **Python3_6_5** \
- * **Python3_9_12** \
- * **Python3_9_12IncludeDeepLearning** \
  * **Python3_10_8**
  */
 export type LanguageExtensionImageName = string;

@@ -1196,8 +1196,6 @@ export enum KnownKind {
 export enum KnownLanguageExtensionImageName {
     Python3108 = "Python3_10_8",
     Python365 = "Python3_6_5",
-    Python3912 = "Python3_9_12",
-    Python3912IncludeDeepLearning = "Python3_9_12IncludeDeepLearning",
     // (undocumented)
     R = "R"
 }
