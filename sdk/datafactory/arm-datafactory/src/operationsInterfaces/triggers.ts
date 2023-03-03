@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   TriggerResource,
   TriggersListByFactoryOptionalParams,
@@ -110,8 +110,8 @@ export interface Triggers {
     triggerName: string,
     options?: TriggersSubscribeToEventsOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<TriggersSubscribeToEventsResponse>,
+    PollerLike<
+      PollOperationState<TriggersSubscribeToEventsResponse>,
       TriggersSubscribeToEventsResponse
     >
   >;
@@ -154,8 +154,8 @@ export interface Triggers {
     triggerName: string,
     options?: TriggersUnsubscribeFromEventsOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<TriggersUnsubscribeFromEventsResponse>,
+    PollerLike<
+      PollOperationState<TriggersUnsubscribeFromEventsResponse>,
       TriggersUnsubscribeFromEventsResponse
     >
   >;
@@ -184,7 +184,7 @@ export interface Triggers {
     factoryName: string,
     triggerName: string,
     options?: TriggersStartOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Starts a trigger.
    * @param resourceGroupName The resource group name.
@@ -210,7 +210,7 @@ export interface Triggers {
     factoryName: string,
     triggerName: string,
     options?: TriggersStopOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Stops a trigger.
    * @param resourceGroupName The resource group name.
