@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   MongoDBDatabaseGetResults,
   MongoDBResourcesListMongoDBDatabasesOptionalParams,
@@ -144,8 +144,8 @@ export interface MongoDBResources {
     createUpdateMongoDBDatabaseParameters: MongoDBDatabaseCreateUpdateParameters,
     options?: MongoDBResourcesCreateUpdateMongoDBDatabaseOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<MongoDBResourcesCreateUpdateMongoDBDatabaseResponse>,
+    PollerLike<
+      PollOperationState<MongoDBResourcesCreateUpdateMongoDBDatabaseResponse>,
       MongoDBResourcesCreateUpdateMongoDBDatabaseResponse
     >
   >;
@@ -178,8 +178,8 @@ export interface MongoDBResources {
     databaseName: string,
     options?: MongoDBResourcesDeleteMongoDBDatabaseOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<MongoDBResourcesDeleteMongoDBDatabaseResponse>,
+    PollerLike<
+      PollOperationState<MongoDBResourcesDeleteMongoDBDatabaseResponse>,
       MongoDBResourcesDeleteMongoDBDatabaseResponse
     >
   >;
@@ -226,8 +226,10 @@ export interface MongoDBResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: MongoDBResourcesUpdateMongoDBDatabaseThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse>,
+    PollerLike<
+      PollOperationState<
+        MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse
+      >,
       MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse
     >
   >;
@@ -260,8 +262,10 @@ export interface MongoDBResources {
     databaseName: string,
     options?: MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse>,
+    PollerLike<
+      PollOperationState<
+        MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse
+      >,
       MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse
     >
   >;
@@ -291,8 +295,8 @@ export interface MongoDBResources {
     databaseName: string,
     options?: MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<
+    PollerLike<
+      PollOperationState<
         MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse
       >,
       MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse
@@ -344,8 +348,8 @@ export interface MongoDBResources {
     createUpdateMongoDBCollectionParameters: MongoDBCollectionCreateUpdateParameters,
     options?: MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<MongoDBResourcesCreateUpdateMongoDBCollectionResponse>,
+    PollerLike<
+      PollOperationState<MongoDBResourcesCreateUpdateMongoDBCollectionResponse>,
       MongoDBResourcesCreateUpdateMongoDBCollectionResponse
     >
   >;
@@ -382,8 +386,8 @@ export interface MongoDBResources {
     collectionName: string,
     options?: MongoDBResourcesDeleteMongoDBCollectionOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<MongoDBResourcesDeleteMongoDBCollectionResponse>,
+    PollerLike<
+      PollOperationState<MongoDBResourcesDeleteMongoDBCollectionResponse>,
       MongoDBResourcesDeleteMongoDBCollectionResponse
     >
   >;
@@ -436,8 +440,10 @@ export interface MongoDBResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<MongoDBResourcesUpdateMongoDBCollectionThroughputResponse>,
+    PollerLike<
+      PollOperationState<
+        MongoDBResourcesUpdateMongoDBCollectionThroughputResponse
+      >,
       MongoDBResourcesUpdateMongoDBCollectionThroughputResponse
     >
   >;
@@ -474,8 +480,8 @@ export interface MongoDBResources {
     collectionName: string,
     options?: MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<
+    PollerLike<
+      PollOperationState<
         MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse
       >,
       MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse
@@ -511,8 +517,8 @@ export interface MongoDBResources {
     collectionName: string,
     options?: MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<
+    PollerLike<
+      PollOperationState<
         MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse
       >,
       MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse
@@ -564,8 +570,10 @@ export interface MongoDBResources {
     createUpdateMongoRoleDefinitionParameters: MongoRoleDefinitionCreateUpdateParameters,
     options?: MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse>,
+    PollerLike<
+      PollOperationState<
+        MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse
+      >,
       MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse
     >
   >;
@@ -597,7 +605,7 @@ export interface MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     options?: MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes an existing Azure Cosmos DB Mongo Role Definition.
    * @param mongoRoleDefinitionId The ID for the Role Definition {dbName.roleName}.
@@ -640,8 +648,10 @@ export interface MongoDBResources {
     createUpdateMongoUserDefinitionParameters: MongoUserDefinitionCreateUpdateParameters,
     options?: MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<MongoDBResourcesCreateUpdateMongoUserDefinitionResponse>,
+    PollerLike<
+      PollOperationState<
+        MongoDBResourcesCreateUpdateMongoUserDefinitionResponse
+      >,
       MongoDBResourcesCreateUpdateMongoUserDefinitionResponse
     >
   >;
@@ -673,7 +683,7 @@ export interface MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     options?: MongoDBResourcesDeleteMongoUserDefinitionOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes an existing Azure Cosmos DB Mongo User Definition.
    * @param mongoUserDefinitionId The ID for the User Definition {dbName.userName}.
@@ -704,8 +714,8 @@ export interface MongoDBResources {
     location: ContinuousBackupRestoreLocation,
     options?: MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<
+    PollerLike<
+      PollOperationState<
         MongoDBResourcesRetrieveContinuousBackupInformationResponse
       >,
       MongoDBResourcesRetrieveContinuousBackupInformationResponse

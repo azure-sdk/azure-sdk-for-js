@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   DatabaseAccountGetResults,
   DatabaseAccountsListOptionalParams,
@@ -128,8 +128,8 @@ export interface DatabaseAccounts {
     updateParameters: DatabaseAccountUpdateParameters,
     options?: DatabaseAccountsUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<DatabaseAccountsUpdateResponse>,
+    PollerLike<
+      PollOperationState<DatabaseAccountsUpdateResponse>,
       DatabaseAccountsUpdateResponse
     >
   >;
@@ -160,8 +160,8 @@ export interface DatabaseAccounts {
     createUpdateParameters: DatabaseAccountCreateUpdateParameters,
     options?: DatabaseAccountsCreateOrUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<DatabaseAccountsCreateOrUpdateResponse>,
+    PollerLike<
+      PollOperationState<DatabaseAccountsCreateOrUpdateResponse>,
       DatabaseAccountsCreateOrUpdateResponse
     >
   >;
@@ -190,8 +190,8 @@ export interface DatabaseAccounts {
     accountName: string,
     options?: DatabaseAccountsDeleteOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<DatabaseAccountsDeleteResponse>,
+    PollerLike<
+      PollOperationState<DatabaseAccountsDeleteResponse>,
       DatabaseAccountsDeleteResponse
     >
   >;
@@ -222,8 +222,8 @@ export interface DatabaseAccounts {
     failoverParameters: FailoverPolicies,
     options?: DatabaseAccountsFailoverPriorityChangeOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<DatabaseAccountsFailoverPriorityChangeResponse>,
+    PollerLike<
+      PollOperationState<DatabaseAccountsFailoverPriorityChangeResponse>,
       DatabaseAccountsFailoverPriorityChangeResponse
     >
   >;
@@ -277,7 +277,7 @@ export interface DatabaseAccounts {
     accountName: string,
     regionParameterForOffline: RegionForOnlineOffline,
     options?: DatabaseAccountsOfflineRegionOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Offline the specified region for the specified Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -303,7 +303,7 @@ export interface DatabaseAccounts {
     accountName: string,
     regionParameterForOnline: RegionForOnlineOffline,
     options?: DatabaseAccountsOnlineRegionOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Online the specified region for the specified Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -351,7 +351,7 @@ export interface DatabaseAccounts {
     accountName: string,
     keyToRegenerate: DatabaseAccountRegenerateKeyParameters,
     options?: DatabaseAccountsRegenerateKeyOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Regenerates an access key for the specified Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

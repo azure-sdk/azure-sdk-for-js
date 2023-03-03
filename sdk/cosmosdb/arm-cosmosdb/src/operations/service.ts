@@ -12,12 +12,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   ServiceResource,
   ServiceListOptionalParams,
@@ -133,10 +129,7 @@ export class ServiceImpl implements Service {
     createUpdateParameters: ServiceResourceCreateUpdateParameters,
     options?: ServiceCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<ServiceCreateResponse>,
-      ServiceCreateResponse
-    >
+    PollerLike<PollOperationState<ServiceCreateResponse>, ServiceCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -144,7 +137,7 @@ export class ServiceImpl implements Service {
     ): Promise<ServiceCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -177,22 +170,19 @@ export class ServiceImpl implements Service {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    const lro = new LroImpl(
+      sendOperation,
+      {
         resourceGroupName,
         accountName,
         serviceName,
         createUpdateParameters,
         options
       },
-      spec: createOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ServiceCreateResponse,
-      OperationState<ServiceCreateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+      createOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -255,14 +245,14 @@ export class ServiceImpl implements Service {
     accountName: string,
     serviceName: string,
     options?: ServiceDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -295,13 +285,13 @@ export class ServiceImpl implements Service {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, accountName, serviceName, options },
-      spec: deleteOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, accountName, serviceName, options },
+      deleteOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
