@@ -25,27 +25,27 @@ export interface AgentPoolOperations {
   /**
    * Gets the agent pool in the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     agentPoolName: string,
     options?: AgentPoolGetOptionalParams
   ): Promise<AgentPoolGetResponse>;
   /**
    * Creates the agent pool in the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
    * @param agentPool The agentPool resource definition
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     agentPoolName: string,
     agentPool: AgentPool,
     options?: AgentPoolCreateOrUpdateOptionalParams
@@ -58,14 +58,14 @@ export interface AgentPoolOperations {
   /**
    * Creates the agent pool in the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
    * @param agentPool The agentPool resource definition
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     agentPoolName: string,
     agentPool: AgentPool,
     options?: AgentPoolCreateOrUpdateOptionalParams
@@ -73,27 +73,27 @@ export interface AgentPoolOperations {
   /**
    * Deletes the agent pool in the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     agentPoolName: string,
     options?: AgentPoolDeleteOptionalParams
   ): Promise<void>;
   /**
    * Updates the agent pool in the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
    * @param agentPool The agentPool resource definition
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     agentPoolName: string,
     agentPool: AgentPool,
     options?: AgentPoolUpdateOptionalParams
@@ -101,12 +101,12 @@ export interface AgentPoolOperations {
   /**
    * Gets the agent pools in the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param options The options parameters.
    */
   listByProvisionedCluster(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     options?: AgentPoolListByProvisionedClusterOptionalParams
   ): Promise<AgentPoolListByProvisionedClusterResponse>;
 }

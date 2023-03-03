@@ -20,7 +20,10 @@ import {
   ProvisionedClustersDeleteOptionalParams,
   ProvisionedClustersPatch,
   ProvisionedClustersUpdateOptionalParams,
-  ProvisionedClustersUpdateResponse
+  ProvisionedClustersUpdateResponse,
+  ProvisionedClustersGetUpgradeProfileOptionalParams,
+  ProvisionedClustersGetUpgradeProfileResponse,
+  ProvisionedClustersUpgradeNodeImageVersionForEntireClusterOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,24 +48,24 @@ export interface ProvisionedClustersOperations {
   /**
    * Gets the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     options?: ProvisionedClustersGetOptionalParams
   ): Promise<ProvisionedClustersGetResponse>;
   /**
    * Creates the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param provisionedClusters The provisionedClusters resource definition.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     provisionedClusters: ProvisionedClusters,
     options?: ProvisionedClustersCreateOrUpdateOptionalParams
   ): Promise<
@@ -74,37 +77,37 @@ export interface ProvisionedClustersOperations {
   /**
    * Creates the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param provisionedClusters The provisionedClusters resource definition.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     provisionedClusters: ProvisionedClusters,
     options?: ProvisionedClustersCreateOrUpdateOptionalParams
   ): Promise<ProvisionedClustersCreateOrUpdateResponse>;
   /**
    * Deletes the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     options?: ProvisionedClustersDeleteOptionalParams
   ): Promise<void>;
   /**
    * Updates the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param provisionedClusters The provisionedClusters resource patch definition.
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     provisionedClusters: ProvisionedClustersPatch,
     options?: ProvisionedClustersUpdateOptionalParams
   ): Promise<
@@ -116,14 +119,49 @@ export interface ProvisionedClustersOperations {
   /**
    * Updates the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param provisionedClusters The provisionedClusters resource patch definition.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     provisionedClusters: ProvisionedClustersPatch,
     options?: ProvisionedClustersUpdateOptionalParams
   ): Promise<ProvisionedClustersUpdateResponse>;
+  /**
+   * Gets the upgrade profile of a provisioned cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName Parameter for the name of the provisioned cluster
+   * @param options The options parameters.
+   */
+  getUpgradeProfile(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ProvisionedClustersGetUpgradeProfileOptionalParams
+  ): Promise<ProvisionedClustersGetUpgradeProfileResponse>;
+  /**
+   * Upgrading the node image version of a cluster applies the newest OS and runtime updates to the
+   * nodes.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName Parameter for the name of the provisioned cluster
+   * @param options The options parameters.
+   */
+  beginUpgradeNodeImageVersionForEntireCluster(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ProvisionedClustersUpgradeNodeImageVersionForEntireClusterOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Upgrading the node image version of a cluster applies the newest OS and runtime updates to the
+   * nodes.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName Parameter for the name of the provisioned cluster
+   * @param options The options parameters.
+   */
+  beginUpgradeNodeImageVersionForEntireClusterAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ProvisionedClustersUpgradeNodeImageVersionForEntireClusterOptionalParams
+  ): Promise<void>;
 }

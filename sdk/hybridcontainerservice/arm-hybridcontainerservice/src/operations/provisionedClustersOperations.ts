@@ -32,6 +32,9 @@ import {
   ProvisionedClustersPatch,
   ProvisionedClustersUpdateOptionalParams,
   ProvisionedClustersUpdateResponse,
+  ProvisionedClustersGetUpgradeProfileOptionalParams,
+  ProvisionedClustersGetUpgradeProfileResponse,
+  ProvisionedClustersUpgradeNodeImageVersionForEntireClusterOptionalParams,
   ProvisionedClustersListByResourceGroupNextResponse,
   ProvisionedClustersListBySubscriptionNextResponse
 } from "../models";
@@ -176,16 +179,16 @@ export class ProvisionedClustersOperationsImpl
   /**
    * Gets the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     options?: ProvisionedClustersGetOptionalParams
   ): Promise<ProvisionedClustersGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, provisionedClustersName, options },
+      { resourceGroupName, resourceName, options },
       getOperationSpec
     );
   }
@@ -193,13 +196,13 @@ export class ProvisionedClustersOperationsImpl
   /**
    * Creates the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param provisionedClusters The provisionedClusters resource definition.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     provisionedClusters: ProvisionedClusters,
     options?: ProvisionedClustersCreateOrUpdateOptionalParams
   ): Promise<
@@ -249,12 +252,7 @@ export class ProvisionedClustersOperationsImpl
 
     const lro = new LroImpl(
       sendOperation,
-      {
-        resourceGroupName,
-        provisionedClustersName,
-        provisionedClusters,
-        options
-      },
+      { resourceGroupName, resourceName, provisionedClusters, options },
       createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -269,19 +267,19 @@ export class ProvisionedClustersOperationsImpl
   /**
    * Creates the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param provisionedClusters The provisionedClusters resource definition.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     provisionedClusters: ProvisionedClusters,
     options?: ProvisionedClustersCreateOrUpdateOptionalParams
   ): Promise<ProvisionedClustersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      provisionedClustersName,
+      resourceName,
       provisionedClusters,
       options
     );
@@ -291,16 +289,16 @@ export class ProvisionedClustersOperationsImpl
   /**
    * Deletes the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     options?: ProvisionedClustersDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, provisionedClustersName, options },
+      { resourceGroupName, resourceName, options },
       deleteOperationSpec
     );
   }
@@ -308,13 +306,13 @@ export class ProvisionedClustersOperationsImpl
   /**
    * Updates the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param provisionedClusters The provisionedClusters resource patch definition.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     provisionedClusters: ProvisionedClustersPatch,
     options?: ProvisionedClustersUpdateOptionalParams
   ): Promise<
@@ -364,12 +362,7 @@ export class ProvisionedClustersOperationsImpl
 
     const lro = new LroImpl(
       sendOperation,
-      {
-        resourceGroupName,
-        provisionedClustersName,
-        provisionedClusters,
-        options
-      },
+      { resourceGroupName, resourceName, provisionedClusters, options },
       updateOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -384,19 +377,19 @@ export class ProvisionedClustersOperationsImpl
   /**
    * Updates the Hybrid AKS provisioned cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param provisionedClusters The provisionedClusters resource patch definition.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     provisionedClusters: ProvisionedClustersPatch,
     options?: ProvisionedClustersUpdateOptionalParams
   ): Promise<ProvisionedClustersUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      provisionedClustersName,
+      resourceName,
       provisionedClusters,
       options
     );
@@ -429,6 +422,108 @@ export class ProvisionedClustersOperationsImpl
       { options },
       listBySubscriptionOperationSpec
     );
+  }
+
+  /**
+   * Gets the upgrade profile of a provisioned cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName Parameter for the name of the provisioned cluster
+   * @param options The options parameters.
+   */
+  getUpgradeProfile(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ProvisionedClustersGetUpgradeProfileOptionalParams
+  ): Promise<ProvisionedClustersGetUpgradeProfileResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, resourceName, options },
+      getUpgradeProfileOperationSpec
+    );
+  }
+
+  /**
+   * Upgrading the node image version of a cluster applies the newest OS and runtime updates to the
+   * nodes.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName Parameter for the name of the provisioned cluster
+   * @param options The options parameters.
+   */
+  async beginUpgradeNodeImageVersionForEntireCluster(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ProvisionedClustersUpgradeNodeImageVersionForEntireClusterOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, resourceName, options },
+      upgradeNodeImageVersionForEntireClusterOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Upgrading the node image version of a cluster applies the newest OS and runtime updates to the
+   * nodes.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName Parameter for the name of the provisioned cluster
+   * @param options The options parameters.
+   */
+  async beginUpgradeNodeImageVersionForEntireClusterAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ProvisionedClustersUpgradeNodeImageVersionForEntireClusterOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginUpgradeNodeImageVersionForEntireCluster(
+      resourceGroupName,
+      resourceName,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -468,7 +563,7 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{provisionedClustersName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{resourceName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -483,14 +578,14 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.provisionedClustersName
+    Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{provisionedClustersName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{resourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -515,7 +610,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.provisionedClustersName
+    Parameters.resourceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -523,7 +618,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{provisionedClustersName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{resourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -537,14 +632,14 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.provisionedClustersName
+    Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{provisionedClustersName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{resourceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
@@ -569,7 +664,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.provisionedClustersName
+    Parameters.resourceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -613,6 +708,51 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const getUpgradeProfileOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{resourceName}/upgradeProfiles/default",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProvisionedClusterUpgradeProfile
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const upgradeNodeImageVersionForEntireClusterOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{resourceName}/upgradeNodeImageVersionForEntireCluster",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -624,7 +764,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -645,7 +784,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
