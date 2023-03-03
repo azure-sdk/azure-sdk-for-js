@@ -13,12 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   Replication,
   ReplicationsListNextOptionalParams,
@@ -175,8 +171,8 @@ export class ReplicationsImpl implements Replications {
     replication: Replication,
     options?: ReplicationsCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<ReplicationsCreateResponse>,
+    PollerLike<
+      PollOperationState<ReplicationsCreateResponse>,
       ReplicationsCreateResponse
     >
   > {
@@ -186,7 +182,7 @@ export class ReplicationsImpl implements Replications {
     ): Promise<ReplicationsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -219,24 +215,21 @@ export class ReplicationsImpl implements Replications {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    const lro = new LroImpl(
+      sendOperation,
+      {
         resourceGroupName,
         registryName,
         replicationName,
         replication,
         options
       },
-      spec: createOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ReplicationsCreateResponse,
-      OperationState<ReplicationsCreateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+      createOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -279,14 +272,14 @@ export class ReplicationsImpl implements Replications {
     registryName: string,
     replicationName: string,
     options?: ReplicationsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -319,15 +312,15 @@ export class ReplicationsImpl implements Replications {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, registryName, replicationName, options },
-      spec: deleteOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, registryName, replicationName, options },
+      deleteOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -370,8 +363,8 @@ export class ReplicationsImpl implements Replications {
     replicationUpdateParameters: ReplicationUpdateParameters,
     options?: ReplicationsUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<ReplicationsUpdateResponse>,
+    PollerLike<
+      PollOperationState<ReplicationsUpdateResponse>,
       ReplicationsUpdateResponse
     >
   > {
@@ -381,7 +374,7 @@ export class ReplicationsImpl implements Replications {
     ): Promise<ReplicationsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -414,24 +407,21 @@ export class ReplicationsImpl implements Replications {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    const lro = new LroImpl(
+      sendOperation,
+      {
         resourceGroupName,
         registryName,
         replicationName,
         replicationUpdateParameters,
         options
       },
-      spec: updateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ReplicationsUpdateResponse,
-      OperationState<ReplicationsUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+      updateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;

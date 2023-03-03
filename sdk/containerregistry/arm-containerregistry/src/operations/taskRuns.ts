@@ -13,12 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   TaskRun,
   TaskRunsListNextOptionalParams,
@@ -160,8 +156,8 @@ export class TaskRunsImpl implements TaskRuns {
     taskRun: TaskRun,
     options?: TaskRunsCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<TaskRunsCreateResponse>,
+    PollerLike<
+      PollOperationState<TaskRunsCreateResponse>,
       TaskRunsCreateResponse
     >
   > {
@@ -171,7 +167,7 @@ export class TaskRunsImpl implements TaskRuns {
     ): Promise<TaskRunsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -204,16 +200,13 @@ export class TaskRunsImpl implements TaskRuns {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, registryName, taskRunName, taskRun, options },
-      spec: createOperationSpec
-    });
-    const poller = await createHttpPoller<
-      TaskRunsCreateResponse,
-      OperationState<TaskRunsCreateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, registryName, taskRunName, taskRun, options },
+      createOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -257,14 +250,14 @@ export class TaskRunsImpl implements TaskRuns {
     registryName: string,
     taskRunName: string,
     options?: TaskRunsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -297,13 +290,13 @@ export class TaskRunsImpl implements TaskRuns {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, registryName, taskRunName, options },
-      spec: deleteOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, registryName, taskRunName, options },
+      deleteOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -347,8 +340,8 @@ export class TaskRunsImpl implements TaskRuns {
     updateParameters: TaskRunUpdateParameters,
     options?: TaskRunsUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<TaskRunsUpdateResponse>,
+    PollerLike<
+      PollOperationState<TaskRunsUpdateResponse>,
       TaskRunsUpdateResponse
     >
   > {
@@ -358,7 +351,7 @@ export class TaskRunsImpl implements TaskRuns {
     ): Promise<TaskRunsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -391,22 +384,19 @@ export class TaskRunsImpl implements TaskRuns {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    const lro = new LroImpl(
+      sendOperation,
+      {
         resourceGroupName,
         registryName,
         taskRunName,
         updateParameters,
         options
       },
-      spec: updateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      TaskRunsUpdateResponse,
-      OperationState<TaskRunsUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+      updateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

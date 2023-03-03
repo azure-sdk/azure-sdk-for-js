@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   Replication,
   ReplicationsListOptionalParams,
@@ -63,8 +63,8 @@ export interface Replications {
     replication: Replication,
     options?: ReplicationsCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<ReplicationsCreateResponse>,
+    PollerLike<
+      PollOperationState<ReplicationsCreateResponse>,
       ReplicationsCreateResponse
     >
   >;
@@ -95,7 +95,7 @@ export interface Replications {
     registryName: string,
     replicationName: string,
     options?: ReplicationsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a replication from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -124,8 +124,8 @@ export interface Replications {
     replicationUpdateParameters: ReplicationUpdateParameters,
     options?: ReplicationsUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<ReplicationsUpdateResponse>,
+    PollerLike<
+      PollOperationState<ReplicationsUpdateResponse>,
       ReplicationsUpdateResponse
     >
   >;
