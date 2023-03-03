@@ -92,7 +92,8 @@ export class OperationsResultsImpl implements OperationsResults {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -134,7 +135,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.OperationResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
