@@ -96,8 +96,8 @@ export class GrantsImpl implements Grants {
 
   /**
    * Get details for a specific grant linked to the provided billing account and billing profile.
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param options The options parameters.
    */
   public list(
@@ -190,8 +190,8 @@ export class GrantsImpl implements Grants {
 
   /**
    * Get details for a specific grant linked to the provided billing account and billing profile.
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param options The options parameters.
    */
   private _list(
@@ -207,8 +207,8 @@ export class GrantsImpl implements Grants {
 
   /**
    * Get details for a specific grant linked to the provided billing account and billing profile.
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param options The options parameters.
    */
   get(
@@ -239,8 +239,8 @@ export class GrantsImpl implements Grants {
 
   /**
    * ListNext
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */

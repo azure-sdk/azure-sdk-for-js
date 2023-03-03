@@ -40,9 +40,9 @@ export class JoinRequestsImpl implements JoinRequests {
 
   /**
    * get student join requests
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
    * @param options The options parameters.
    */
   public list(
@@ -133,9 +133,9 @@ export class JoinRequestsImpl implements JoinRequests {
 
   /**
    * get student join requests
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
    * @param options The options parameters.
    */
   private _list(
@@ -152,10 +152,10 @@ export class JoinRequestsImpl implements JoinRequests {
 
   /**
    * get student join requests
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
-   * @param joinRequestName Join name
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param joinRequestName The ID that uniquely identifies a join request.
    * @param options The options parameters.
    */
   get(
@@ -179,10 +179,10 @@ export class JoinRequestsImpl implements JoinRequests {
 
   /**
    * Approve student joining the redeemable lab
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
-   * @param joinRequestName Join name
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param joinRequestName The ID that uniquely identifies a join request.
    * @param options The options parameters.
    */
   approve(
@@ -206,10 +206,10 @@ export class JoinRequestsImpl implements JoinRequests {
 
   /**
    * Deny student joining the redeemable lab
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
-   * @param joinRequestName Join name
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param joinRequestName The ID that uniquely identifies a join request.
    * @param options The options parameters.
    */
   deny(
@@ -233,9 +233,9 @@ export class JoinRequestsImpl implements JoinRequests {
 
   /**
    * ListNext
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */

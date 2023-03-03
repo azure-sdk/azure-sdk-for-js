@@ -41,9 +41,9 @@ export class StudentsImpl implements Students {
 
   /**
    * Get a list of details about students that are associated with the specified lab.
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
    * @param options The options parameters.
    */
   public list(
@@ -134,9 +134,9 @@ export class StudentsImpl implements Students {
 
   /**
    * Get a list of details about students that are associated with the specified lab.
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
    * @param options The options parameters.
    */
   private _list(
@@ -153,9 +153,9 @@ export class StudentsImpl implements Students {
 
   /**
    * Get the details for a specific student in the specified lab by student alias
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
    * @param studentAlias Student alias.
    * @param options The options parameters.
    */
@@ -180,9 +180,9 @@ export class StudentsImpl implements Students {
 
   /**
    * Delete the specified student based on the student alias.
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
    * @param studentAlias Student alias.
    * @param options The options parameters.
    */
@@ -208,9 +208,9 @@ export class StudentsImpl implements Students {
   /**
    * Create and add a new student to the specified lab or update the details of an existing student in a
    * lab. Note the student must have a valid tenant to accept the lab after they have been added to lab.
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
    * @param studentAlias Student alias.
    * @param parameters Request parameters that are provided to update student properties.
    * @param options The options parameters.
@@ -238,9 +238,9 @@ export class StudentsImpl implements Students {
 
   /**
    * ListNext
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
-   * @param invoiceSectionName Invoice section name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */

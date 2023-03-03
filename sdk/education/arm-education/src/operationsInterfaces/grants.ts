@@ -27,8 +27,8 @@ export interface Grants {
   ): PagedAsyncIterableIterator<GrantDetails>;
   /**
    * Get details for a specific grant linked to the provided billing account and billing profile.
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param options The options parameters.
    */
   list(
@@ -38,8 +38,8 @@ export interface Grants {
   ): PagedAsyncIterableIterator<GrantDetails>;
   /**
    * Get details for a specific grant linked to the provided billing account and billing profile.
-   * @param billingAccountName Billing account name.
-   * @param billingProfileName Billing profile name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param options The options parameters.
    */
   get(
