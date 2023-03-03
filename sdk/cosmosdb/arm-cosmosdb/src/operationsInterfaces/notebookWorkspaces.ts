@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   NotebookWorkspace,
   NotebookWorkspacesListByDatabaseAccountOptionalParams,
@@ -67,8 +67,8 @@ export interface NotebookWorkspaces {
     notebookCreateUpdateParameters: NotebookWorkspaceCreateUpdateParameters,
     options?: NotebookWorkspacesCreateOrUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<NotebookWorkspacesCreateOrUpdateResponse>,
+    PollerLike<
+      PollOperationState<NotebookWorkspacesCreateOrUpdateResponse>,
       NotebookWorkspacesCreateOrUpdateResponse
     >
   >;
@@ -100,7 +100,7 @@ export interface NotebookWorkspaces {
     accountName: string,
     notebookWorkspaceName: NotebookWorkspaceName,
     options?: NotebookWorkspacesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes the notebook workspace for a Cosmos DB account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -139,7 +139,7 @@ export interface NotebookWorkspaces {
     accountName: string,
     notebookWorkspaceName: NotebookWorkspaceName,
     options?: NotebookWorkspacesRegenerateAuthTokenOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Regenerates the auth token for the notebook workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -165,7 +165,7 @@ export interface NotebookWorkspaces {
     accountName: string,
     notebookWorkspaceName: NotebookWorkspaceName,
     options?: NotebookWorkspacesStartOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Starts the notebook workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
