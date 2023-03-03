@@ -43,7 +43,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
 
   /**
    * List all quota rules associated with the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -125,7 +125,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
 
   /**
    * List all quota rules associated with the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -146,7 +146,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
 
   /**
    * Get details of the specified quota rule
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -176,7 +176,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
 
   /**
    * Create the specified quota rule within the given volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -261,7 +261,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
 
   /**
    * Create the specified quota rule within the given volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -292,7 +292,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
 
   /**
    * Patch a quota rule
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -377,7 +377,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
 
   /**
    * Patch a quota rule
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -408,7 +408,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
 
   /**
    * Delete quota rule
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -485,7 +485,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
 
   /**
    * Delete quota rule
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -578,7 +578,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body24,
+  requestBody: Parameters.body26,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -612,7 +612,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body25,
+  requestBody: Parameters.body27,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -28,7 +28,7 @@ import {
 export interface Subvolumes {
   /**
    * Returns a list of the subvolumes in the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -43,7 +43,7 @@ export interface Subvolumes {
   ): PagedAsyncIterableIterator<SubvolumeInfo>;
   /**
    * Returns the path associated with the subvolumeName provided
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -60,7 +60,7 @@ export interface Subvolumes {
   ): Promise<SubvolumesGetResponse>;
   /**
    * Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -84,7 +84,7 @@ export interface Subvolumes {
   >;
   /**
    * Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -103,7 +103,7 @@ export interface Subvolumes {
   ): Promise<SubvolumesCreateResponse>;
   /**
    * Patch a subvolume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -127,7 +127,7 @@ export interface Subvolumes {
   >;
   /**
    * Patch a subvolume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -146,7 +146,7 @@ export interface Subvolumes {
   ): Promise<SubvolumesUpdateResponse>;
   /**
    * Delete subvolume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -163,7 +163,7 @@ export interface Subvolumes {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Delete subvolume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -180,7 +180,7 @@ export interface Subvolumes {
   ): Promise<void>;
   /**
    * Get details of the specified subvolume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -202,7 +202,7 @@ export interface Subvolumes {
   >;
   /**
    * Get details of the specified subvolume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume

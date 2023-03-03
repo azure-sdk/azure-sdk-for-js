@@ -21,7 +21,9 @@ import {
   BackupsCreateResponse,
   BackupsUpdateOptionalParams,
   BackupsUpdateResponse,
-  BackupsDeleteOptionalParams
+  BackupsDeleteOptionalParams,
+  BackupRestoreFiles,
+  BackupsRestoreFilesOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +31,7 @@ import {
 export interface Backups {
   /**
    * List all backups for a volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -44,7 +46,7 @@ export interface Backups {
   ): PagedAsyncIterableIterator<Backup>;
   /**
    * Get the status of the backup for a volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -59,7 +61,7 @@ export interface Backups {
   ): Promise<BackupsGetStatusResponse>;
   /**
    * Get the status of the restore for a volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -74,7 +76,7 @@ export interface Backups {
   ): Promise<BackupsGetVolumeRestoreStatusResponse>;
   /**
    * Gets the specified backup of the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -91,7 +93,7 @@ export interface Backups {
   ): Promise<BackupsGetResponse>;
   /**
    * Create a backup for the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -112,7 +114,7 @@ export interface Backups {
   >;
   /**
    * Create a backup for the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -131,7 +133,7 @@ export interface Backups {
   ): Promise<BackupsCreateResponse>;
   /**
    * Patch a backup for the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -150,7 +152,7 @@ export interface Backups {
   >;
   /**
    * Patch a backup for the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -167,7 +169,7 @@ export interface Backups {
   ): Promise<BackupsUpdateResponse>;
   /**
    * Delete a backup of the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -184,7 +186,7 @@ export interface Backups {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Delete a backup of the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -198,5 +200,43 @@ export interface Backups {
     volumeName: string,
     backupName: string,
     options?: BackupsDeleteOptionalParams
+  ): Promise<void>;
+  /**
+   * Restore the specified files from the specified backup to the active filesystem
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param backupName The name of the backup
+   * @param body Restore payload supplied in the body of the operation.
+   * @param options The options parameters.
+   */
+  beginRestoreFiles(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    backupName: string,
+    body: BackupRestoreFiles,
+    options?: BackupsRestoreFilesOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Restore the specified files from the specified backup to the active filesystem
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param backupName The name of the backup
+   * @param body Restore payload supplied in the body of the operation.
+   * @param options The options parameters.
+   */
+  beginRestoreFilesAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    backupName: string,
+    body: BackupRestoreFiles,
+    options?: BackupsRestoreFilesOptionalParams
   ): Promise<void>;
 }

@@ -34,6 +34,7 @@ import {
   VolumeRevert,
   VolumesRevertOptionalParams,
   VolumesResetCifsPasswordOptionalParams,
+  VolumesBreakFileLocksOptionalParams,
   VolumesBreakReplicationOptionalParams,
   ReestablishReplicationRequest,
   VolumesReestablishReplicationOptionalParams,
@@ -67,7 +68,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * List all volumes within the capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param options The options parameters.
@@ -160,7 +161,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * List all replications for a specified volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -242,7 +243,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * List all volumes within the capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param options The options parameters.
@@ -261,7 +262,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Get the details of the specified volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -282,7 +283,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Create or update the specified volume within the capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -357,7 +358,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Create or update the specified volume within the capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -385,7 +386,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Patch the specified volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -457,7 +458,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Patch the specified volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -485,7 +486,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Delete the specified volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -553,7 +554,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Delete the specified volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -578,7 +579,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Revert a volume to the snapshot specified in the body
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -648,7 +649,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Revert a volume to the snapshot specified in the body
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -676,7 +677,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Reset cifs password from volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -743,7 +744,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Reset cifs password from volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -767,8 +768,101 @@ export class VolumesImpl implements Volumes {
   }
 
   /**
+   * Break all the file locks on a volume
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  async beginBreakFileLocks(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesBreakFileLocksOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, accountName, poolName, volumeName, options },
+      breakFileLocksOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Break all the file locks on a volume
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  async beginBreakFileLocksAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesBreakFileLocksOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginBreakFileLocks(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Break the replication connection on the destination volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -836,7 +930,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Break the replication connection on the destination volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -862,7 +956,7 @@ export class VolumesImpl implements Volumes {
   /**
    * Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or
    * policy-based snapshots
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -933,7 +1027,7 @@ export class VolumesImpl implements Volumes {
   /**
    * Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or
    * policy-based snapshots
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -961,7 +1055,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Get the status of the replication
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -982,7 +1076,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * List all replications for a specified volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -1004,7 +1098,7 @@ export class VolumesImpl implements Volumes {
   /**
    * Resync the connection on the destination volume. If the operation is ran on the source volume it
    * will reverse-resync the connection and sync from destination to source.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -1073,7 +1167,7 @@ export class VolumesImpl implements Volumes {
   /**
    * Resync the connection on the destination volume. If the operation is ran on the source volume it
    * will reverse-resync the connection and sync from destination to source.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -1099,7 +1193,7 @@ export class VolumesImpl implements Volumes {
   /**
    * Delete the replication connection on the destination volume, and send release to the source
    * replication
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -1168,7 +1262,7 @@ export class VolumesImpl implements Volumes {
   /**
    * Delete the replication connection on the destination volume, and send release to the source
    * replication
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -1193,7 +1287,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Authorize the replication connection on the source volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -1263,7 +1357,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Authorize the replication connection on the source volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -1291,7 +1385,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Re-Initializes the replication connection on the destination volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -1359,7 +1453,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Re-Initializes the replication connection on the destination volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -1384,7 +1478,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Moves volume to another pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -1454,7 +1548,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Moves volume to another pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -1482,7 +1576,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Relocates volume to a new stamp
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -1549,7 +1643,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Relocates volume to a new stamp
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -1574,7 +1668,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Finalizes the relocation of the volume and cleans up the old volume.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -1641,7 +1735,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * Finalizes the relocation of the volume and cleans up the old volume.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -1667,7 +1761,7 @@ export class VolumesImpl implements Volumes {
   /**
    * Reverts the volume relocation process, cleans up the new volume and starts using the former-existing
    * volume.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -1735,7 +1829,7 @@ export class VolumesImpl implements Volumes {
   /**
    * Reverts the volume relocation process, cleans up the new volume and starts using the former-existing
    * volume.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -1760,7 +1854,7 @@ export class VolumesImpl implements Volumes {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param nextLink The nextLink from the previous successful call to the List method.
@@ -1944,12 +2038,31 @@ const resetCifsPasswordOperationSpec: coreClient.OperationSpec = {
   ],
   serializer
 };
+const breakFileLocksOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/breakFileLocks",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  requestBody: Parameters.body10,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName
+  ],
+  headerParameters: [Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const breakReplicationOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/breakReplication",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.body10,
+  requestBody: Parameters.body11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1968,7 +2081,7 @@ const reestablishReplicationOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/reestablishReplication",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.body11,
+  requestBody: Parameters.body12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2063,7 +2176,7 @@ const authorizeReplicationOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/authorizeReplication",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.body12,
+  requestBody: Parameters.body13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2098,7 +2211,7 @@ const poolChangeOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/poolChange",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.body13,
+  requestBody: Parameters.body14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2117,7 +2230,7 @@ const relocateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/relocate",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.body14,
+  requestBody: Parameters.body15,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
