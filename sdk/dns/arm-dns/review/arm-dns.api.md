@@ -181,8 +181,6 @@ export type RecordSetsGetResponse = RecordSet;
 
 // @public
 export interface RecordSetsListAllByDnsZoneNextOptionalParams extends coreClient.OperationOptions {
-    recordSetNameSuffix?: string;
-    top?: number;
 }
 
 // @public
@@ -199,8 +197,6 @@ export type RecordSetsListAllByDnsZoneResponse = RecordSetListResult;
 
 // @public
 export interface RecordSetsListByDnsZoneNextOptionalParams extends coreClient.OperationOptions {
-    recordsetnamesuffix?: string;
-    top?: number;
 }
 
 // @public
@@ -217,8 +213,6 @@ export type RecordSetsListByDnsZoneResponse = RecordSetListResult;
 
 // @public
 export interface RecordSetsListByTypeNextOptionalParams extends coreClient.OperationOptions {
-    recordsetnamesuffix?: string;
-    top?: number;
 }
 
 // @public
@@ -343,7 +337,6 @@ export type ZonesGetResponse = Zone;
 
 // @public
 export interface ZonesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -359,7 +352,6 @@ export type ZonesListByResourceGroupResponse = ZoneListResult;
 
 // @public
 export interface ZonesListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
