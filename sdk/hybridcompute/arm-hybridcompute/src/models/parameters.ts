@@ -47,7 +47,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-10-preview",
+    defaultValue: "2023-03-03-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -88,6 +88,11 @@ export const resourceGroupName: OperationURLParameter = {
 export const machineName: OperationURLParameter = {
   parameterPath: "machineName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]"),
+      MaxLength: 54,
+      MinLength: 1
+    },
     serializedName: "machineName",
     required: true,
     type: {
@@ -166,6 +171,64 @@ export const extensionUpgradeParameters: OperationParameter = {
   mapper: MachineExtensionUpgradeMapper
 };
 
+export const location: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const publisher: OperationURLParameter = {
+  parameterPath: "publisher",
+  mapper: {
+    serializedName: "publisher",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const extensionType: OperationURLParameter = {
+  parameterPath: "extensionType",
+  mapper: {
+    serializedName: "extensionType",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const version: OperationURLParameter = {
+  parameterPath: "version",
+  mapper: {
+    serializedName: "version",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const metadataName: OperationURLParameter = {
+  parameterPath: "metadataName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]")
+    },
+    serializedName: "metadataName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const scopeName: OperationURLParameter = {
   parameterPath: "scopeName",
   mapper: {
@@ -187,7 +250,7 @@ export const privateLinkScopeTags: OperationParameter = {
   mapper: TagsResourceMapper
 };
 
-export const location: OperationURLParameter = {
+export const location1: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
     constraints: {
