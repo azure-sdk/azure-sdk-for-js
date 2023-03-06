@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   Endpoint,
   EndpointsListOptionalParams,
@@ -91,7 +91,7 @@ export interface Endpoints {
     storageMoverName: string,
     endpointName: string,
     options?: EndpointsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes an Endpoint resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
