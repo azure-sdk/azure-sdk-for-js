@@ -289,10 +289,8 @@ export interface HighAvailabilitySoftwareConfiguration {
 
 // @public
 export interface ImageReference {
-    readonly exactVersion?: string;
     offer?: string;
     publisher?: string;
-    sharedGalleryImageId?: string;
     sku?: string;
     version?: string;
 }
