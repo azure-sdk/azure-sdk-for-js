@@ -33,7 +33,7 @@ import {
 export interface NamedValue {
   /**
    * Lists a collection of named values defined within a service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -44,7 +44,7 @@ export interface NamedValue {
   ): PagedAsyncIterableIterator<NamedValueContract>;
   /**
    * Gets the entity state (Etag) version of the named value specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param options The options parameters.
@@ -57,7 +57,7 @@ export interface NamedValue {
   ): Promise<NamedValueGetEntityTagResponse>;
   /**
    * Gets the details of the named value specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param options The options parameters.
@@ -70,7 +70,7 @@ export interface NamedValue {
   ): Promise<NamedValueGetResponse>;
   /**
    * Creates or updates named value.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param parameters Create parameters.
@@ -90,7 +90,7 @@ export interface NamedValue {
   >;
   /**
    * Creates or updates named value.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param parameters Create parameters.
@@ -105,7 +105,7 @@ export interface NamedValue {
   ): Promise<NamedValueCreateOrUpdateResponse>;
   /**
    * Updates the specific named value.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -128,7 +128,7 @@ export interface NamedValue {
   >;
   /**
    * Updates the specific named value.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -146,7 +146,7 @@ export interface NamedValue {
   ): Promise<NamedValueUpdateResponse>;
   /**
    * Deletes specific named value from the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -162,7 +162,7 @@ export interface NamedValue {
   ): Promise<void>;
   /**
    * Gets the secret of the named value specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param options The options parameters.
@@ -175,7 +175,7 @@ export interface NamedValue {
   ): Promise<NamedValueListValueResponse>;
   /**
    * Refresh the secret of the named value specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param options The options parameters.
@@ -193,7 +193,7 @@ export interface NamedValue {
   >;
   /**
    * Refresh the secret of the named value specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param options The options parameters.
