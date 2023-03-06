@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   CassandraKeyspaceGetResults,
   CassandraResourcesListCassandraKeyspacesOptionalParams,
@@ -103,8 +103,10 @@ export interface CassandraResources {
     createUpdateCassandraKeyspaceParameters: CassandraKeyspaceCreateUpdateParameters,
     options?: CassandraResourcesCreateUpdateCassandraKeyspaceOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CassandraResourcesCreateUpdateCassandraKeyspaceResponse>,
+    PollerLike<
+      PollOperationState<
+        CassandraResourcesCreateUpdateCassandraKeyspaceResponse
+      >,
       CassandraResourcesCreateUpdateCassandraKeyspaceResponse
     >
   >;
@@ -137,8 +139,8 @@ export interface CassandraResources {
     keyspaceName: string,
     options?: CassandraResourcesDeleteCassandraKeyspaceOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CassandraResourcesDeleteCassandraKeyspaceResponse>,
+    PollerLike<
+      PollOperationState<CassandraResourcesDeleteCassandraKeyspaceResponse>,
       CassandraResourcesDeleteCassandraKeyspaceResponse
     >
   >;
@@ -185,8 +187,8 @@ export interface CassandraResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: CassandraResourcesUpdateCassandraKeyspaceThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<
+    PollerLike<
+      PollOperationState<
         CassandraResourcesUpdateCassandraKeyspaceThroughputResponse
       >,
       CassandraResourcesUpdateCassandraKeyspaceThroughputResponse
@@ -221,8 +223,8 @@ export interface CassandraResources {
     keyspaceName: string,
     options?: CassandraResourcesMigrateCassandraKeyspaceToAutoscaleOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<
+    PollerLike<
+      PollOperationState<
         CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse
       >,
       CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse
@@ -254,8 +256,8 @@ export interface CassandraResources {
     keyspaceName: string,
     options?: CassandraResourcesMigrateCassandraKeyspaceToManualThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<
+    PollerLike<
+      PollOperationState<
         CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse
       >,
       CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse
@@ -309,8 +311,8 @@ export interface CassandraResources {
     createUpdateCassandraTableParameters: CassandraTableCreateUpdateParameters,
     options?: CassandraResourcesCreateUpdateCassandraTableOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CassandraResourcesCreateUpdateCassandraTableResponse>,
+    PollerLike<
+      PollOperationState<CassandraResourcesCreateUpdateCassandraTableResponse>,
       CassandraResourcesCreateUpdateCassandraTableResponse
     >
   >;
@@ -347,8 +349,8 @@ export interface CassandraResources {
     tableName: string,
     options?: CassandraResourcesDeleteCassandraTableOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CassandraResourcesDeleteCassandraTableResponse>,
+    PollerLike<
+      PollOperationState<CassandraResourcesDeleteCassandraTableResponse>,
       CassandraResourcesDeleteCassandraTableResponse
     >
   >;
@@ -401,8 +403,10 @@ export interface CassandraResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: CassandraResourcesUpdateCassandraTableThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CassandraResourcesUpdateCassandraTableThroughputResponse>,
+    PollerLike<
+      PollOperationState<
+        CassandraResourcesUpdateCassandraTableThroughputResponse
+      >,
       CassandraResourcesUpdateCassandraTableThroughputResponse
     >
   >;
@@ -439,8 +443,8 @@ export interface CassandraResources {
     tableName: string,
     options?: CassandraResourcesMigrateCassandraTableToAutoscaleOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<
+    PollerLike<
+      PollOperationState<
         CassandraResourcesMigrateCassandraTableToAutoscaleResponse
       >,
       CassandraResourcesMigrateCassandraTableToAutoscaleResponse
@@ -476,8 +480,8 @@ export interface CassandraResources {
     tableName: string,
     options?: CassandraResourcesMigrateCassandraTableToManualThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<
+    PollerLike<
+      PollOperationState<
         CassandraResourcesMigrateCassandraTableToManualThroughputResponse
       >,
       CassandraResourcesMigrateCassandraTableToManualThroughputResponse

@@ -1070,6 +1070,20 @@ export const DatabaseAccountConnectionString: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      keyKind: {
+        serializedName: "keyKind",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }

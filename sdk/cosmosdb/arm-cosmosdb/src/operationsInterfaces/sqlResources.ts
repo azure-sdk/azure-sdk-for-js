@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   SqlDatabaseGetResults,
   SqlResourcesListSqlDatabasesOptionalParams,
@@ -234,8 +234,8 @@ export interface SqlResources {
     createUpdateSqlDatabaseParameters: SqlDatabaseCreateUpdateParameters,
     options?: SqlResourcesCreateUpdateSqlDatabaseOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesCreateUpdateSqlDatabaseResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesCreateUpdateSqlDatabaseResponse>,
       SqlResourcesCreateUpdateSqlDatabaseResponse
     >
   >;
@@ -267,8 +267,8 @@ export interface SqlResources {
     databaseName: string,
     options?: SqlResourcesDeleteSqlDatabaseOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesDeleteSqlDatabaseResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesDeleteSqlDatabaseResponse>,
       SqlResourcesDeleteSqlDatabaseResponse
     >
   >;
@@ -315,8 +315,8 @@ export interface SqlResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: SqlResourcesUpdateSqlDatabaseThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesUpdateSqlDatabaseThroughputResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesUpdateSqlDatabaseThroughputResponse>,
       SqlResourcesUpdateSqlDatabaseThroughputResponse
     >
   >;
@@ -349,8 +349,8 @@ export interface SqlResources {
     databaseName: string,
     options?: SqlResourcesMigrateSqlDatabaseToAutoscaleOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesMigrateSqlDatabaseToAutoscaleResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesMigrateSqlDatabaseToAutoscaleResponse>,
       SqlResourcesMigrateSqlDatabaseToAutoscaleResponse
     >
   >;
@@ -380,8 +380,10 @@ export interface SqlResources {
     databaseName: string,
     options?: SqlResourcesMigrateSqlDatabaseToManualThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesMigrateSqlDatabaseToManualThroughputResponse>,
+    PollerLike<
+      PollOperationState<
+        SqlResourcesMigrateSqlDatabaseToManualThroughputResponse
+      >,
       SqlResourcesMigrateSqlDatabaseToManualThroughputResponse
     >
   >;
@@ -430,8 +432,8 @@ export interface SqlResources {
     createUpdateSqlContainerParameters: SqlContainerCreateUpdateParameters,
     options?: SqlResourcesCreateUpdateSqlContainerOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesCreateUpdateSqlContainerResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesCreateUpdateSqlContainerResponse>,
       SqlResourcesCreateUpdateSqlContainerResponse
     >
   >;
@@ -467,8 +469,8 @@ export interface SqlResources {
     containerName: string,
     options?: SqlResourcesDeleteSqlContainerOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesDeleteSqlContainerResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesDeleteSqlContainerResponse>,
       SqlResourcesDeleteSqlContainerResponse
     >
   >;
@@ -520,8 +522,8 @@ export interface SqlResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: SqlResourcesUpdateSqlContainerThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesUpdateSqlContainerThroughputResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesUpdateSqlContainerThroughputResponse>,
       SqlResourcesUpdateSqlContainerThroughputResponse
     >
   >;
@@ -558,8 +560,8 @@ export interface SqlResources {
     containerName: string,
     options?: SqlResourcesMigrateSqlContainerToAutoscaleOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesMigrateSqlContainerToAutoscaleResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesMigrateSqlContainerToAutoscaleResponse>,
       SqlResourcesMigrateSqlContainerToAutoscaleResponse
     >
   >;
@@ -593,8 +595,10 @@ export interface SqlResources {
     containerName: string,
     options?: SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesMigrateSqlContainerToManualThroughputResponse>,
+    PollerLike<
+      PollOperationState<
+        SqlResourcesMigrateSqlContainerToManualThroughputResponse
+      >,
       SqlResourcesMigrateSqlContainerToManualThroughputResponse
     >
   >;
@@ -647,8 +651,8 @@ export interface SqlResources {
     createUpdateClientEncryptionKeyParameters: ClientEncryptionKeyCreateUpdateParameters,
     options?: SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesCreateUpdateClientEncryptionKeyResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesCreateUpdateClientEncryptionKeyResponse>,
       SqlResourcesCreateUpdateClientEncryptionKeyResponse
     >
   >;
@@ -708,8 +712,8 @@ export interface SqlResources {
     createUpdateSqlStoredProcedureParameters: SqlStoredProcedureCreateUpdateParameters,
     options?: SqlResourcesCreateUpdateSqlStoredProcedureOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesCreateUpdateSqlStoredProcedureResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesCreateUpdateSqlStoredProcedureResponse>,
       SqlResourcesCreateUpdateSqlStoredProcedureResponse
     >
   >;
@@ -750,8 +754,8 @@ export interface SqlResources {
     storedProcedureName: string,
     options?: SqlResourcesDeleteSqlStoredProcedureOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesDeleteSqlStoredProcedureResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesDeleteSqlStoredProcedureResponse>,
       SqlResourcesDeleteSqlStoredProcedureResponse
     >
   >;
@@ -809,8 +813,10 @@ export interface SqlResources {
     createUpdateSqlUserDefinedFunctionParameters: SqlUserDefinedFunctionCreateUpdateParameters,
     options?: SqlResourcesCreateUpdateSqlUserDefinedFunctionOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse>,
+    PollerLike<
+      PollOperationState<
+        SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse
+      >,
       SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse
     >
   >;
@@ -851,8 +857,8 @@ export interface SqlResources {
     userDefinedFunctionName: string,
     options?: SqlResourcesDeleteSqlUserDefinedFunctionOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesDeleteSqlUserDefinedFunctionResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesDeleteSqlUserDefinedFunctionResponse>,
       SqlResourcesDeleteSqlUserDefinedFunctionResponse
     >
   >;
@@ -909,8 +915,8 @@ export interface SqlResources {
     createUpdateSqlTriggerParameters: SqlTriggerCreateUpdateParameters,
     options?: SqlResourcesCreateUpdateSqlTriggerOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesCreateUpdateSqlTriggerResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesCreateUpdateSqlTriggerResponse>,
       SqlResourcesCreateUpdateSqlTriggerResponse
     >
   >;
@@ -950,8 +956,8 @@ export interface SqlResources {
     triggerName: string,
     options?: SqlResourcesDeleteSqlTriggerOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesDeleteSqlTriggerResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesDeleteSqlTriggerResponse>,
       SqlResourcesDeleteSqlTriggerResponse
     >
   >;
@@ -1001,8 +1007,8 @@ export interface SqlResources {
     createUpdateSqlRoleDefinitionParameters: SqlRoleDefinitionCreateUpdateParameters,
     options?: SqlResourcesCreateUpdateSqlRoleDefinitionOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesCreateUpdateSqlRoleDefinitionResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesCreateUpdateSqlRoleDefinitionResponse>,
       SqlResourcesCreateUpdateSqlRoleDefinitionResponse
     >
   >;
@@ -1034,7 +1040,7 @@ export interface SqlResources {
     resourceGroupName: string,
     accountName: string,
     options?: SqlResourcesDeleteSqlRoleDefinitionOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes an existing Azure Cosmos DB SQL Role Definition.
    * @param roleDefinitionId The GUID for the Role Definition.
@@ -1077,8 +1083,8 @@ export interface SqlResources {
     createUpdateSqlRoleAssignmentParameters: SqlRoleAssignmentCreateUpdateParameters,
     options?: SqlResourcesCreateUpdateSqlRoleAssignmentOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesCreateUpdateSqlRoleAssignmentResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesCreateUpdateSqlRoleAssignmentResponse>,
       SqlResourcesCreateUpdateSqlRoleAssignmentResponse
     >
   >;
@@ -1110,7 +1116,7 @@ export interface SqlResources {
     resourceGroupName: string,
     accountName: string,
     options?: SqlResourcesDeleteSqlRoleAssignmentOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes an existing Azure Cosmos DB SQL Role Assignment.
    * @param roleAssignmentId The GUID for the Role Assignment.
@@ -1141,8 +1147,10 @@ export interface SqlResources {
     location: ContinuousBackupRestoreLocation,
     options?: SqlResourcesRetrieveContinuousBackupInformationOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesRetrieveContinuousBackupInformationResponse>,
+    PollerLike<
+      PollOperationState<
+        SqlResourcesRetrieveContinuousBackupInformationResponse
+      >,
       SqlResourcesRetrieveContinuousBackupInformationResponse
     >
   >;

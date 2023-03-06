@@ -425,6 +425,16 @@ export interface DatabaseAccountConnectionString {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly description?: string;
+  /**
+   * Kind of the connection string
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keyKind?: KeyKind;
+  /**
+   * Type of the connection string
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: KeyKind;
 }
 
 /** Cosmos DB region to online or offline. */
@@ -3892,6 +3902,32 @@ export type CreatedByType = string;
 /** Known values of {@link KeyKind} that the service accepts. */
 export enum KnownKeyKind {
   /** Primary */
+  Primary = "Primary",
+  /** Secondary */
+  Secondary = "Secondary",
+  /** PrimaryReadonly */
+  PrimaryReadonly = "PrimaryReadonly",
+  /** SecondaryReadonly */
+  SecondaryReadonly = "SecondaryReadonly",
+  /** Sql */
+  Sql = "Sql",
+  /** Table */
+  Table = "Table",
+  /** MongoDB */
+  MongoDB = "MongoDB",
+  /** Cassandra */
+  Cassandra = "Cassandra",
+  /** CassandraConnectorMetadata */
+  CassandraConnectorMetadata = "CassandraConnectorMetadata",
+  /** Gremlin */
+  Gremlin = "Gremlin",
+  /** SqlDedicatedGateway */
+  SqlDedicatedGateway = "SqlDedicatedGateway",
+  /** GremlinV2 */
+  GremlinV2 = "GremlinV2",
+  /** Undefined */
+  Undefined = "Undefined",
+  /** Primary */
   Primary = "primary",
   /** Secondary */
   Secondary = "secondary",
@@ -3906,6 +3942,19 @@ export enum KnownKeyKind {
  * {@link KnownKeyKind} can be used interchangeably with KeyKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Primary** \
+ * **Secondary** \
+ * **PrimaryReadonly** \
+ * **SecondaryReadonly** \
+ * **Sql** \
+ * **Table** \
+ * **MongoDB** \
+ * **Cassandra** \
+ * **CassandraConnectorMetadata** \
+ * **Gremlin** \
+ * **SqlDedicatedGateway** \
+ * **GremlinV2** \
+ * **Undefined** \
  * **primary** \
  * **secondary** \
  * **primaryReadonly** \

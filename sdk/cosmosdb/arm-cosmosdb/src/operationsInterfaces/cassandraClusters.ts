@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   ClusterResource,
   CassandraClustersListBySubscriptionOptionalParams,
@@ -68,7 +68,7 @@ export interface CassandraClusters {
     resourceGroupName: string,
     clusterName: string,
     options?: CassandraClustersDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a managed Cassandra cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -94,8 +94,8 @@ export interface CassandraClusters {
     body: ClusterResource,
     options?: CassandraClustersCreateUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CassandraClustersCreateUpdateResponse>,
+    PollerLike<
+      PollOperationState<CassandraClustersCreateUpdateResponse>,
       CassandraClustersCreateUpdateResponse
     >
   >;
@@ -126,8 +126,8 @@ export interface CassandraClusters {
     body: ClusterResource,
     options?: CassandraClustersUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CassandraClustersUpdateResponse>,
+    PollerLike<
+      PollOperationState<CassandraClustersUpdateResponse>,
       CassandraClustersUpdateResponse
     >
   >;
@@ -157,8 +157,8 @@ export interface CassandraClusters {
     body: CommandPostBody,
     options?: CassandraClustersInvokeCommandOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CassandraClustersInvokeCommandResponse>,
+    PollerLike<
+      PollOperationState<CassandraClustersInvokeCommandResponse>,
       CassandraClustersInvokeCommandResponse
     >
   >;
@@ -187,7 +187,7 @@ export interface CassandraClusters {
     resourceGroupName: string,
     clusterName: string,
     options?: CassandraClustersDeallocateOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deallocate the Managed Cassandra Cluster and Associated Data Centers. Deallocation will deallocate
    * the host virtual machine of this cluster, and reserved the data disk. This won't do anything on an
@@ -213,7 +213,7 @@ export interface CassandraClusters {
     resourceGroupName: string,
     clusterName: string,
     options?: CassandraClustersStartOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Start the Managed Cassandra Cluster and Associated Data Centers. Start will start the host virtual
    * machine of this cluster with reserved data disk. This won't do anything on an already running
