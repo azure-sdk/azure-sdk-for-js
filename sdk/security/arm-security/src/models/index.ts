@@ -1488,174 +1488,6 @@ export interface AuthenticationDetailsProperties {
   readonly grantedPermissions?: PermissionProperty[];
 }
 
-/** A vulnerability assessment scan record properties. */
-export interface ScanProperties {
-  /** The scan trigger type. */
-  triggerType?: ScanTriggerType;
-  /** The scan status. */
-  state?: ScanState;
-  /** The server name. */
-  server?: string;
-  /** The database name. */
-  database?: string;
-  /** The SQL version. */
-  sqlVersion?: string;
-  /** The scan start time (UTC). */
-  startTime?: Date;
-  /** Scan results are valid until end time (UTC). */
-  endTime?: Date;
-  /** The number of failed rules with high severity. */
-  highSeverityFailedRulesCount?: number;
-  /** The number of failed rules with medium severity. */
-  mediumSeverityFailedRulesCount?: number;
-  /** The number of failed rules with low severity. */
-  lowSeverityFailedRulesCount?: number;
-  /** The number of total passed rules. */
-  totalPassedRulesCount?: number;
-  /** The number of total failed rules. */
-  totalFailedRulesCount?: number;
-  /** The number of total rules assessed. */
-  totalRulesCount?: number;
-  /** Baseline created for this database, and has one or more rules. */
-  isBaselineApplied?: boolean;
-}
-
-/** A list of vulnerability assessment scan records. */
-export interface Scans {
-  /** List of vulnerability assessment scan records. */
-  value?: Scan[];
-}
-
-/** A vulnerability assessment scan result properties for a single rule. */
-export interface ScanResultProperties {
-  /** The rule Id. */
-  ruleId?: string;
-  /** The rule result status. */
-  status?: RuleStatus;
-  /** Indicated whether the results specified here are trimmed. */
-  isTrimmed?: boolean;
-  /** The results of the query that was run. */
-  queryResults?: string[][];
-  /** Remediation details. */
-  remediation?: Remediation;
-  /** The rule result adjusted with baseline. */
-  baselineAdjustedResult?: BaselineAdjustedResult;
-  /** vulnerability assessment rule metadata details. */
-  ruleMetadata?: VaRule;
-}
-
-/** Remediation details. */
-export interface Remediation {
-  /** Remediation description. */
-  description?: string;
-  /** Remediation script. */
-  scripts?: string[];
-  /** Is remediation automated. */
-  automated?: boolean;
-  /** Optional link to remediate in Azure Portal. */
-  portalLink?: string;
-}
-
-/** The rule result adjusted with baseline. */
-export interface BaselineAdjustedResult {
-  /** Baseline details. */
-  baseline?: Baseline;
-  /** The rule result status. */
-  status?: RuleStatus;
-  /** Results the are not in baseline. */
-  resultsNotInBaseline?: string[][];
-  /** Results the are in baseline. */
-  resultsOnlyInBaseline?: string[][];
-}
-
-/** Baseline details. */
-export interface Baseline {
-  /** Expected results. */
-  expectedResults?: string[][];
-  /** Baseline update time (UTC). */
-  updatedTime?: Date;
-}
-
-/** vulnerability assessment rule metadata details. */
-export interface VaRule {
-  /** The rule Id. */
-  ruleId?: string;
-  /** The rule severity. */
-  severity?: RuleSeverity;
-  /** The rule category. */
-  category?: string;
-  /** The rule type. */
-  ruleType?: RuleType;
-  /** The rule title. */
-  title?: string;
-  /** The rule description. */
-  description?: string;
-  /** The rule rationale. */
-  rationale?: string;
-  /** The rule query details. */
-  queryCheck?: QueryCheck;
-  /** The benchmark references. */
-  benchmarkReferences?: BenchmarkReference[];
-}
-
-/** The rule query details. */
-export interface QueryCheck {
-  /** The rule query. */
-  query?: string;
-  /** Expected result. */
-  expectedResult?: string[][];
-  /** Column names of expected result. */
-  columnNames?: string[];
-}
-
-/** The benchmark references. */
-export interface BenchmarkReference {
-  /** The benchmark name. */
-  benchmark?: string;
-  /** The benchmark reference. */
-  reference?: string;
-}
-
-/** A list of vulnerability assessment scan results. */
-export interface ScanResults {
-  /** List of vulnerability assessment scan results. */
-  value?: ScanResult[];
-}
-
-/** Rule results input. */
-export interface RuleResultsInput {
-  /** Take results from latest scan. */
-  latestScan?: boolean;
-  /**
-   * Expected results to be inserted into the baseline.
-   * Leave this field empty it LatestScan == true.
-   */
-  results?: string[][];
-}
-
-/** Rule results properties. */
-export interface RuleResultsProperties {
-  /** Expected results in the baseline. */
-  results?: string[][];
-}
-
-/** A list of rules results. */
-export interface RulesResults {
-  /** List of rule results. */
-  value?: RuleResults[];
-}
-
-/** Rules results input. */
-export interface RulesResultsInput {
-  /** Take results from latest scan. */
-  latestScan?: boolean;
-  /**
-   * Expected results to be inserted into the baseline.
-   * Leave this field empty it LatestScan == true.
-   */
-  results?: { [propertyName: string]: string[][] };
-}
-
 /** List of security alerts */
 export interface AlertList {
   /** describes security alert properties. */
@@ -1820,10 +1652,10 @@ export interface EnvironmentData {
     | "AzureDevOpsScope";
 }
 
-/** Page of a security governanceRules list */
+/** Page of a governance rules list */
 export interface GovernanceRuleList {
   /**
-   * Collection of governanceRules in this page
+   * Collection of governance rules in this page
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: GovernanceRule[];
@@ -1842,12 +1674,36 @@ export interface GovernanceRuleOwnerSource {
   value?: string;
 }
 
-/** The governance email weekly notification configuration. */
+/** The governance email weekly notification configuration */
 export interface GovernanceRuleEmailNotification {
-  /** Defines whether manager email notifications are disabled. */
+  /** Defines whether manager email notifications are disabled */
   disableManagerEmailNotification?: boolean;
-  /** Defines whether owner email notifications are disabled. */
+  /** Defines whether owner email notifications are disabled */
   disableOwnerEmailNotification?: boolean;
+}
+
+/** The governance rule metadata */
+export interface GovernanceRuleMetadata {
+  /**
+   * Governance rule Created by object id (GUID)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdBy?: string;
+  /**
+   * Governance rule creation date
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdOn?: Date;
+  /**
+   * Governance rule last updated by object id (GUID)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedBy?: string;
+  /**
+   * Governance rule last update date
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedOn?: Date;
 }
 
 /** Governance rule execution parameters */
@@ -1856,16 +1712,16 @@ export interface ExecuteGovernanceRuleParams {
   override?: boolean;
 }
 
-/** Execute status of Security GovernanceRule over a given scope */
-export interface ExecuteRuleStatus {
+/** Long run operation status of governance rule over a given scope */
+export interface OperationResultAutoGenerated {
   /**
-   * Unique key for the execution of GovernanceRule
+   * The status of the long run operation result of governance rule
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly operationId?: string;
+  readonly status?: OperationResult;
 }
 
-/** Page of a security governance assignments list */
+/** Page of a governance assignments list */
 export interface GovernanceAssignmentsList {
   /**
    * Collection of governance assignments in this page
@@ -1895,13 +1751,13 @@ export interface GovernanceEmailNotification {
   disableOwnerEmailNotification?: boolean;
 }
 
-/** Describe the additional data of GovernanceAssignment - optional */
+/** Describe the additional data of governance assignment - optional */
 export interface GovernanceAssignmentAdditionalData {
-  /** Ticket number associated with this GovernanceAssignment */
+  /** Ticket number associated with this governance assignment */
   ticketNumber?: number;
-  /** Ticket link associated with this GovernanceAssignment - for example: https://snow.com */
+  /** Ticket link associated with this governance assignment - for example: https://snow.com */
   ticketLink?: string;
-  /** The ticket status associated with this GovernanceAssignment - for example: Active */
+  /** The ticket status associated with this governance assignment - for example: Active */
   ticketStatus?: string;
 }
 
@@ -1966,6 +1822,176 @@ export interface ErrorDetail {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** A vulnerability assessment scan record properties. */
+export interface ScanProperties {
+  /** The scan trigger type. */
+  triggerType?: ScanTriggerType;
+  /** The scan status. */
+  state?: ScanState;
+  /** The server name. */
+  server?: string;
+  /** The database name. */
+  database?: string;
+  /** The SQL version. */
+  sqlVersion?: string;
+  /** The scan start time (UTC). */
+  startTime?: Date;
+  /** Scan results are valid until end time (UTC). */
+  endTime?: Date;
+  /** The number of failed rules with high severity. */
+  highSeverityFailedRulesCount?: number;
+  /** The number of failed rules with medium severity. */
+  mediumSeverityFailedRulesCount?: number;
+  /** The number of failed rules with low severity. */
+  lowSeverityFailedRulesCount?: number;
+  /** The number of total passed rules. */
+  totalPassedRulesCount?: number;
+  /** The number of total failed rules. */
+  totalFailedRulesCount?: number;
+  /** The number of total rules assessed. */
+  totalRulesCount?: number;
+  /** Baseline created for this database, and has one or more rules. */
+  isBaselineApplied?: boolean;
+  /** Last scan time. */
+  lastScanTime?: Date;
+}
+
+/** A list of vulnerability assessment scan records. */
+export interface Scans {
+  /** List of vulnerability assessment scan records. */
+  value?: Scan[];
+}
+
+/** A vulnerability assessment scan result properties for a single rule. */
+export interface ScanResultProperties {
+  /** The rule Id. */
+  ruleId?: string;
+  /** The rule result status. */
+  status?: RuleStatus;
+  /** Indicated whether the results specified here are trimmed. */
+  isTrimmed?: boolean;
+  /** The results of the query that was run. */
+  queryResults?: string[][];
+  /** Remediation details. */
+  remediation?: Remediation;
+  /** The rule result adjusted with baseline. */
+  baselineAdjustedResult?: BaselineAdjustedResult;
+  /** vulnerability assessment rule metadata details. */
+  ruleMetadata?: VaRule;
+}
+
+/** Remediation details. */
+export interface Remediation {
+  /** Remediation description. */
+  description?: string;
+  /** Remediation script. */
+  scripts?: string[];
+  /** Is remediation automated. */
+  automated?: boolean;
+  /** Optional link to remediate in Azure Portal. */
+  portalLink?: string;
+}
+
+/** The rule result adjusted with baseline. */
+export interface BaselineAdjustedResult {
+  /** Baseline details. */
+  baseline?: Baseline;
+  /** The rule result status. */
+  status?: RuleStatus;
+  /** Results the are not in baseline. */
+  resultsNotInBaseline?: string[][];
+  /** Results the are in baseline. */
+  resultsOnlyInBaseline?: string[][];
+}
+
+/** Baseline details. */
+export interface Baseline {
+  /** Expected results. */
+  expectedResults?: string[][];
+  /** Baseline update time (UTC). */
+  updatedTime?: Date;
+}
+
+/** vulnerability assessment rule metadata details. */
+export interface VaRule {
+  /** The rule Id. */
+  ruleId?: string;
+  /** The rule severity. */
+  severity?: RuleSeverity;
+  /** The rule category. */
+  category?: string;
+  /** The rule type. */
+  ruleType?: RuleType;
+  /** The rule title. */
+  title?: string;
+  /** The rule description. */
+  description?: string;
+  /** The rule rationale. */
+  rationale?: string;
+  /** The rule query details. */
+  queryCheck?: QueryCheck;
+  /** The benchmark references. */
+  benchmarkReferences?: BenchmarkReference[];
+}
+
+/** The rule query details. */
+export interface QueryCheck {
+  /** The rule query. */
+  query?: string;
+  /** Expected result. */
+  expectedResult?: string[][];
+  /** Column names of expected result. */
+  columnNames?: string[];
+}
+
+/** The benchmark references. */
+export interface BenchmarkReference {
+  /** The benchmark name. */
+  benchmark?: string;
+  /** The benchmark reference. */
+  reference?: string;
+}
+
+/** A list of vulnerability assessment scan results. */
+export interface ScanResults {
+  /** List of vulnerability assessment scan results. */
+  value?: ScanResult[];
+}
+
+/** Rule results input. */
+export interface RuleResultsInput {
+  /** Take results from latest scan. */
+  latestScan?: boolean;
+  /**
+   * Expected results to be inserted into the baseline.
+   * Leave this field empty it LatestScan == true.
+   */
+  results?: string[][];
+}
+
+/** Rule results properties. */
+export interface RuleResultsProperties {
+  /** Expected results in the baseline. */
+  results?: string[][];
+}
+
+/** A list of rules results. */
+export interface RulesResults {
+  /** List of rule results. */
+  value?: RuleResults[];
+}
+
+/** Rules results input. */
+export interface RulesResultsInput {
+  /** Take results from latest scan. */
+  latestScan?: boolean;
+  /**
+   * Expected results to be inserted into the baseline.
+   * Leave this field empty it LatestScan == true.
+   */
+  results?: { [propertyName: string]: string[][] };
 }
 
 /** CVSS details */
@@ -3192,24 +3218,6 @@ export interface ConnectorSetting extends Resource {
   authenticationDetails?: AuthenticationDetailsPropertiesUnion;
 }
 
-/** A vulnerability assessment scan record. */
-export interface Scan extends Resource {
-  /** A vulnerability assessment scan record properties. */
-  properties?: ScanProperties;
-}
-
-/** A vulnerability assessment scan result for a single rule. */
-export interface ScanResult extends Resource {
-  /** A vulnerability assessment scan result properties for a single rule. */
-  properties?: ScanResultProperties;
-}
-
-/** Rule results. */
-export interface RuleResults extends Resource {
-  /** Rule results properties. */
-  properties?: RuleResultsProperties;
-}
-
 /** Security alert */
 export interface Alert extends Resource {
   /**
@@ -3377,17 +3385,22 @@ export interface Software extends Resource {
   firstSeenAt?: string;
 }
 
-/** Security GovernanceRule over a given scope */
+/** Governance rule over a given scope */
 export interface GovernanceRule extends Resource {
-  /** display name of the governanceRule */
+  /**
+   * The tenantId (GUID)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Display name of the governance rule */
   displayName?: string;
-  /** description of the governanceRule */
+  /** Description of the governance rule */
   description?: string;
   /** Governance rule remediation timeframe - this is the time that will affect on the grace-period duration e.g. 7.00:00:00 - means 7 days */
   remediationTimeframe?: string;
   /** Defines whether there is a grace period on the governance rule */
   isGracePeriod?: boolean;
-  /** The governance rule priority, priority to the lower number. Rules with the same priority on the same subscription will not be allowed */
+  /** The governance rule priority, priority to the lower number. Rules with the same priority on the same scope will not be allowed */
   rulePriority?: number;
   /** Defines whether the rule is active/inactive */
   isDisabled?: boolean;
@@ -3395,15 +3408,21 @@ export interface GovernanceRule extends Resource {
   ruleType?: GovernanceRuleType;
   /** The governance rule source, what the rule affects, e.g. Assessments */
   sourceResourceType?: GovernanceRuleSourceResourceType;
+  /** Excluded scopes, filter out the descendants of the scope (on management scopes) */
+  excludedScopes?: string[];
   /** The governance rule conditionSets - see examples */
   conditionSets?: Record<string, unknown>[];
-  /** The Owner source for the governance rule - e.g. Manually by user@contoso.com - see example */
+  /** Defines whether the rule is management scope rule (master connector as a single scope or management scope) */
+  includeMemberScopes?: boolean;
+  /** The owner source for the governance rule - e.g. Manually by user@contoso.com - see example */
   ownerSource?: GovernanceRuleOwnerSource;
   /** The email notifications settings for the governance rule, states whether to disable notifications for mangers and owners */
   governanceEmailNotification?: GovernanceRuleEmailNotification;
+  /** The governance rule metadata */
+  metadata?: GovernanceRuleMetadata;
 }
 
-/** Security GovernanceAssignment over a given scope */
+/** Governance assignment over a given scope */
 export interface GovernanceAssignment extends Resource {
   /** The Owner for the governance assignment - e.g. user@contoso.com - see example */
   owner?: string;
@@ -3437,6 +3456,24 @@ export interface ApiCollectionResponse extends Resource {
   displayName?: string;
   /** Additional data regarding the API collection. */
   additionalData?: { [propertyName: string]: string };
+}
+
+/** A vulnerability assessment scan record. */
+export interface Scan extends Resource {
+  /** A vulnerability assessment scan record properties. */
+  properties?: ScanProperties;
+}
+
+/** A vulnerability assessment scan result for a single rule. */
+export interface ScanResult extends Resource {
+  /** A vulnerability assessment scan result properties for a single rule. */
+  properties?: ScanResultProperties;
+}
+
+/** Rule results. */
+export interface RuleResults extends Resource {
+  /** Rule results properties. */
+  properties?: RuleResultsProperties;
 }
 
 /** Security assessment metadata */
@@ -4331,26 +4368,20 @@ export interface ProcessNotAllowed extends AllowlistCustomAlertRule {
   ruleType: "ProcessNotAllowed";
 }
 
-/** Defines headers for GovernanceRules_ruleIdExecuteSingleSubscription operation. */
-export interface GovernanceRulesRuleIdExecuteSingleSubscriptionHeaders {
+/** Defines headers for GovernanceRules_delete operation. */
+export interface GovernanceRulesDeleteHeaders {
+  /** Location URL for the deletion status */
+  location?: string;
+}
+
+/** Defines headers for GovernanceRules_execute operation. */
+export interface GovernanceRulesExecuteHeaders {
   /** Location URL for the execution status */
   location?: string;
 }
 
-/** Defines headers for GovernanceRules_ruleIdExecuteSingleSecurityConnector operation. */
-export interface GovernanceRulesRuleIdExecuteSingleSecurityConnectorHeaders {
-  /** Location URL for the execution status */
-  location?: string;
-}
-
-/** Defines headers for SubscriptionGovernanceRulesExecuteStatus_get operation. */
-export interface SubscriptionGovernanceRulesExecuteStatusGetHeaders {
-  /** Location URL for the execution status */
-  location?: string;
-}
-
-/** Defines headers for SecurityConnectorGovernanceRulesExecuteStatus_get operation. */
-export interface SecurityConnectorGovernanceRulesExecuteStatusGetHeaders {
+/** Defines headers for GovernanceRules_operationResults operation. */
+export interface GovernanceRulesOperationResultsHeaders {
   /** Location URL for the execution status */
   location?: string;
 }
@@ -6101,120 +6132,6 @@ export enum KnownAuthenticationType {
  */
 export type AuthenticationType = string;
 
-/** Known values of {@link ScanTriggerType} that the service accepts. */
-export enum KnownScanTriggerType {
-  /** OnDemand */
-  OnDemand = "OnDemand",
-  /** Recurring */
-  Recurring = "Recurring"
-}
-
-/**
- * Defines values for ScanTriggerType. \
- * {@link KnownScanTriggerType} can be used interchangeably with ScanTriggerType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **OnDemand**: OnDemand \
- * **Recurring**: Recurring
- */
-export type ScanTriggerType = string;
-
-/** Known values of {@link ScanState} that the service accepts. */
-export enum KnownScanState {
-  /** Failed */
-  Failed = "Failed",
-  /** FailedToRun */
-  FailedToRun = "FailedToRun",
-  /** InProgress */
-  InProgress = "InProgress",
-  /** Passed */
-  Passed = "Passed"
-}
-
-/**
- * Defines values for ScanState. \
- * {@link KnownScanState} can be used interchangeably with ScanState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Failed**: Failed \
- * **FailedToRun**: FailedToRun \
- * **InProgress**: InProgress \
- * **Passed**: Passed
- */
-export type ScanState = string;
-
-/** Known values of {@link RuleStatus} that the service accepts. */
-export enum KnownRuleStatus {
-  /** NonFinding */
-  NonFinding = "NonFinding",
-  /** Finding */
-  Finding = "Finding",
-  /** InternalError */
-  InternalError = "InternalError"
-}
-
-/**
- * Defines values for RuleStatus. \
- * {@link KnownRuleStatus} can be used interchangeably with RuleStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NonFinding**: NonFinding \
- * **Finding**: Finding \
- * **InternalError**: InternalError
- */
-export type RuleStatus = string;
-
-/** Known values of {@link RuleSeverity} that the service accepts. */
-export enum KnownRuleSeverity {
-  /** High */
-  High = "High",
-  /** Medium */
-  Medium = "Medium",
-  /** Low */
-  Low = "Low",
-  /** Informational */
-  Informational = "Informational",
-  /** Obsolete */
-  Obsolete = "Obsolete"
-}
-
-/**
- * Defines values for RuleSeverity. \
- * {@link KnownRuleSeverity} can be used interchangeably with RuleSeverity,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **High**: High \
- * **Medium**: Medium \
- * **Low**: Low \
- * **Informational**: Informational \
- * **Obsolete**: Obsolete
- */
-export type RuleSeverity = string;
-
-/** Known values of {@link RuleType} that the service accepts. */
-export enum KnownRuleType {
-  /** Binary */
-  Binary = "Binary",
-  /** BaselineExpected */
-  BaselineExpected = "BaselineExpected",
-  /** PositiveList */
-  PositiveList = "PositiveList",
-  /** NegativeList */
-  NegativeList = "NegativeList"
-}
-
-/**
- * Defines values for RuleType. \
- * {@link KnownRuleType} can be used interchangeably with RuleType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Binary**: Binary \
- * **BaselineExpected**: BaselineExpected \
- * **PositiveList**: PositiveList \
- * **NegativeList**: NegativeList
- */
-export type RuleType = string;
-
 /** Known values of {@link AlertSeverity} that the service accepts. */
 export enum KnownAlertSeverity {
   /** Informational */
@@ -6590,6 +6507,27 @@ export enum KnownGovernanceRuleOwnerSourceType {
  */
 export type GovernanceRuleOwnerSourceType = string;
 
+/** Known values of {@link OperationResult} that the service accepts. */
+export enum KnownOperationResult {
+  /** The operation succeeded */
+  Succeeded = "Succeeded",
+  /** The operation failed */
+  Failed = "Failed",
+  /** The operation canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for OperationResult. \
+ * {@link KnownOperationResult} can be used interchangeably with OperationResult,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: The operation succeeded \
+ * **Failed**: The operation failed \
+ * **Canceled**: The operation canceled
+ */
+export type OperationResult = string;
+
 /** Known values of {@link ApplicationSourceResourceType} that the service accepts. */
 export enum KnownApplicationSourceResourceType {
   /** The source of the application is assessments */
@@ -6604,6 +6542,120 @@ export enum KnownApplicationSourceResourceType {
  * **Assessments**: The source of the application is assessments
  */
 export type ApplicationSourceResourceType = string;
+
+/** Known values of {@link ScanTriggerType} that the service accepts. */
+export enum KnownScanTriggerType {
+  /** OnDemand */
+  OnDemand = "OnDemand",
+  /** Recurring */
+  Recurring = "Recurring"
+}
+
+/**
+ * Defines values for ScanTriggerType. \
+ * {@link KnownScanTriggerType} can be used interchangeably with ScanTriggerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **OnDemand**: OnDemand \
+ * **Recurring**: Recurring
+ */
+export type ScanTriggerType = string;
+
+/** Known values of {@link ScanState} that the service accepts. */
+export enum KnownScanState {
+  /** Failed */
+  Failed = "Failed",
+  /** FailedToRun */
+  FailedToRun = "FailedToRun",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Passed */
+  Passed = "Passed"
+}
+
+/**
+ * Defines values for ScanState. \
+ * {@link KnownScanState} can be used interchangeably with ScanState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Failed**: Failed \
+ * **FailedToRun**: FailedToRun \
+ * **InProgress**: InProgress \
+ * **Passed**: Passed
+ */
+export type ScanState = string;
+
+/** Known values of {@link RuleStatus} that the service accepts. */
+export enum KnownRuleStatus {
+  /** NonFinding */
+  NonFinding = "NonFinding",
+  /** Finding */
+  Finding = "Finding",
+  /** InternalError */
+  InternalError = "InternalError"
+}
+
+/**
+ * Defines values for RuleStatus. \
+ * {@link KnownRuleStatus} can be used interchangeably with RuleStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NonFinding**: NonFinding \
+ * **Finding**: Finding \
+ * **InternalError**: InternalError
+ */
+export type RuleStatus = string;
+
+/** Known values of {@link RuleSeverity} that the service accepts. */
+export enum KnownRuleSeverity {
+  /** High */
+  High = "High",
+  /** Medium */
+  Medium = "Medium",
+  /** Low */
+  Low = "Low",
+  /** Informational */
+  Informational = "Informational",
+  /** Obsolete */
+  Obsolete = "Obsolete"
+}
+
+/**
+ * Defines values for RuleSeverity. \
+ * {@link KnownRuleSeverity} can be used interchangeably with RuleSeverity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **High**: High \
+ * **Medium**: Medium \
+ * **Low**: Low \
+ * **Informational**: Informational \
+ * **Obsolete**: Obsolete
+ */
+export type RuleSeverity = string;
+
+/** Known values of {@link RuleType} that the service accepts. */
+export enum KnownRuleType {
+  /** Binary */
+  Binary = "Binary",
+  /** BaselineExpected */
+  BaselineExpected = "BaselineExpected",
+  /** PositiveList */
+  PositiveList = "PositiveList",
+  /** NegativeList */
+  NegativeList = "NegativeList"
+}
+
+/**
+ * Defines values for RuleType. \
+ * {@link KnownRuleType} can be used interchangeably with RuleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Binary**: Binary \
+ * **BaselineExpected**: BaselineExpected \
+ * **PositiveList**: PositiveList \
+ * **NegativeList**: NegativeList
+ */
+export type RuleType = string;
 
 /** Known values of {@link AadConnectivityState} that the service accepts. */
 export enum KnownAadConnectivityState {
@@ -7018,20 +7070,14 @@ export interface IotSecuritySolutionDeleteOptionalParams
 
 /** Optional parameters. */
 export interface IotSecuritySolutionListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filter the IoT Security solution with OData syntax. Supports filtering by iotHubs. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type IotSecuritySolutionListBySubscriptionNextResponse = IoTSecuritySolutionsList;
 
 /** Optional parameters. */
 export interface IotSecuritySolutionListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filter the IoT Security solution with OData syntax. Supports filtering by iotHubs. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type IotSecuritySolutionListByResourceGroupNextResponse = IoTSecuritySolutionsList;
@@ -7073,10 +7119,7 @@ export interface IotSecuritySolutionsAnalyticsAggregatedAlertDismissOptionalPara
 
 /** Optional parameters. */
 export interface IotSecuritySolutionsAnalyticsAggregatedAlertListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Number of results to retrieve. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type IotSecuritySolutionsAnalyticsAggregatedAlertListNextResponse = IoTSecurityAggregatedAlertList;
@@ -7100,10 +7143,7 @@ export type IotSecuritySolutionsAnalyticsRecommendationListResponse = IoTSecurit
 
 /** Optional parameters. */
 export interface IotSecuritySolutionsAnalyticsRecommendationListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Number of results to retrieve. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type IotSecuritySolutionsAnalyticsRecommendationListNextResponse = IoTSecurityAggregatedRecommendationList;
@@ -7196,30 +7236,21 @@ export interface TasksUpdateResourceGroupLevelTaskStateOptionalParams
 
 /** Optional parameters. */
 export interface TasksListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter. Optional. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type TasksListNextResponse = SecurityTaskList;
 
 /** Optional parameters. */
 export interface TasksListByHomeRegionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter. Optional. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByHomeRegionNext operation. */
 export type TasksListByHomeRegionNextResponse = SecurityTaskList;
 
 /** Optional parameters. */
 export interface TasksListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter. Optional. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type TasksListByResourceGroupNextResponse = SecurityTaskList;
@@ -7391,10 +7422,7 @@ export type RegulatoryComplianceStandardsGetResponse = RegulatoryComplianceStand
 
 /** Optional parameters. */
 export interface RegulatoryComplianceStandardsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter. Optional. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RegulatoryComplianceStandardsListNextResponse = RegulatoryComplianceStandardList;
@@ -7418,10 +7446,7 @@ export type RegulatoryComplianceControlsGetResponse = RegulatoryComplianceContro
 
 /** Optional parameters. */
 export interface RegulatoryComplianceControlsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter. Optional. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RegulatoryComplianceControlsListNextResponse = RegulatoryComplianceControlList;
@@ -7445,10 +7470,7 @@ export type RegulatoryComplianceAssessmentsGetResponse = RegulatoryComplianceAss
 
 /** Optional parameters. */
 export interface RegulatoryComplianceAssessmentsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter. Optional. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RegulatoryComplianceAssessmentsListNextResponse = RegulatoryComplianceAssessmentList;
@@ -7571,10 +7593,7 @@ export interface AlertsSuppressionRulesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface AlertsSuppressionRulesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Type of the alert to get rules for */
-  alertType?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AlertsSuppressionRulesListNextResponse = AlertsSuppressionRulesList;
@@ -8035,20 +8054,14 @@ export type SecureScoreControlsListResponse = SecureScoreControlList;
 
 /** Optional parameters. */
 export interface SecureScoreControlsListBySecureScoreNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData expand. Optional. */
-  expand?: ExpandControlsEnum;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySecureScoreNext operation. */
 export type SecureScoreControlsListBySecureScoreNextResponse = SecureScoreControlList;
 
 /** Optional parameters. */
 export interface SecureScoreControlsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData expand. Optional. */
-  expand?: ExpandControlsEnum;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SecureScoreControlsListNextResponse = SecureScoreControlList;
@@ -8133,72 +8146,6 @@ export interface ConnectorsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type ConnectorsListNextResponse = ConnectorSettingList;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentScansGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SqlVulnerabilityAssessmentScansGetResponse = Scan;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentScansListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SqlVulnerabilityAssessmentScansListResponse = Scans;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentScanResultsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SqlVulnerabilityAssessmentScanResultsGetResponse = ScanResult;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentScanResultsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SqlVulnerabilityAssessmentScanResultsListResponse = ScanResults;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentBaselineRulesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The baseline results for this rule. */
-  body?: RuleResultsInput;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type SqlVulnerabilityAssessmentBaselineRulesCreateOrUpdateResponse = RuleResults;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentBaselineRulesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SqlVulnerabilityAssessmentBaselineRulesGetResponse = RuleResults;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentBaselineRulesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentBaselineRulesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SqlVulnerabilityAssessmentBaselineRulesListResponse = RulesResults;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentBaselineRulesAddOptionalParams
-  extends coreClient.OperationOptions {
-  /** The baseline rules. */
-  body?: RulesResultsInput;
-}
-
-/** Contains response data for the add operation. */
-export type SqlVulnerabilityAssessmentBaselineRulesAddResponse = RulesResults;
 
 /** Optional parameters. */
 export interface AlertsListOptionalParams extends coreClient.OperationOptions {}
@@ -8473,18 +8420,11 @@ export interface SecurityConnectorsListByResourceGroupNextOptionalParams
 export type SecurityConnectorsListByResourceGroupNextResponse = SecurityConnectorsList;
 
 /** Optional parameters. */
-export interface GovernanceRuleListOptionalParams
+export interface GovernanceRulesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type GovernanceRuleListResponse = GovernanceRuleList;
-
-/** Optional parameters. */
-export interface GovernanceRuleListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type GovernanceRuleListNextResponse = GovernanceRuleList;
+export type GovernanceRulesListResponse = GovernanceRuleList;
 
 /** Optional parameters. */
 export interface GovernanceRulesGetOptionalParams
@@ -8502,12 +8442,17 @@ export type GovernanceRulesCreateOrUpdateResponse = GovernanceRule;
 
 /** Optional parameters. */
 export interface GovernanceRulesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
-export interface GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams
+export interface GovernanceRulesExecuteOptionalParams
   extends coreClient.OperationOptions {
-  /** GovernanceRule over a subscription scope */
+  /** Execute governance rule over a given scope */
   executeGovernanceRuleParams?: ExecuteGovernanceRuleParams;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -8515,78 +8460,22 @@ export interface GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams
   resumeFrom?: string;
 }
 
-/** Contains response data for the ruleIdExecuteSingleSubscription operation. */
-export type GovernanceRulesRuleIdExecuteSingleSubscriptionResponse = GovernanceRulesRuleIdExecuteSingleSubscriptionHeaders;
+/** Contains response data for the execute operation. */
+export type GovernanceRulesExecuteResponse = GovernanceRulesExecuteHeaders;
 
 /** Optional parameters. */
-export interface GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams
-  extends coreClient.OperationOptions {
-  /** GovernanceRule over a subscription scope */
-  executeGovernanceRuleParams?: ExecuteGovernanceRuleParams;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the ruleIdExecuteSingleSecurityConnector operation. */
-export type GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse = GovernanceRulesRuleIdExecuteSingleSecurityConnectorHeaders;
-
-/** Optional parameters. */
-export interface SecurityConnectorGovernanceRuleListOptionalParams
+export interface GovernanceRulesOperationResultsOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the list operation. */
-export type SecurityConnectorGovernanceRuleListResponse = GovernanceRuleList;
+/** Contains response data for the operationResults operation. */
+export type GovernanceRulesOperationResultsResponse = OperationResultAutoGenerated;
 
 /** Optional parameters. */
-export interface SecurityConnectorGovernanceRuleListNextOptionalParams
+export interface GovernanceRulesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type SecurityConnectorGovernanceRuleListNextResponse = GovernanceRuleList;
-
-/** Optional parameters. */
-export interface SecurityConnectorGovernanceRulesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SecurityConnectorGovernanceRulesGetResponse = GovernanceRule;
-
-/** Optional parameters. */
-export interface SecurityConnectorGovernanceRulesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type SecurityConnectorGovernanceRulesCreateOrUpdateResponse = GovernanceRule;
-
-/** Optional parameters. */
-export interface SecurityConnectorGovernanceRulesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface SubscriptionGovernanceRulesExecuteStatusGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the get operation. */
-export type SubscriptionGovernanceRulesExecuteStatusGetResponse = ExecuteRuleStatus;
-
-/** Optional parameters. */
-export interface SecurityConnectorGovernanceRulesExecuteStatusGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the get operation. */
-export type SecurityConnectorGovernanceRulesExecuteStatusGetResponse = ExecuteRuleStatus;
+export type GovernanceRulesListNextResponse = GovernanceRuleList;
 
 /** Optional parameters. */
 export interface GovernanceAssignmentsListOptionalParams
@@ -8715,6 +8604,72 @@ export type APICollectionOnboardingCreateResponse = ApiCollectionResponse;
 /** Optional parameters. */
 export interface APICollectionOffboardingDeleteOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentScansGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SqlVulnerabilityAssessmentScansGetResponse = Scan;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentScansListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SqlVulnerabilityAssessmentScansListResponse = Scans;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentScanResultsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SqlVulnerabilityAssessmentScanResultsGetResponse = ScanResult;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentScanResultsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SqlVulnerabilityAssessmentScanResultsListResponse = ScanResults;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentBaselineRulesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The baseline results for this rule. */
+  body?: RuleResultsInput;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SqlVulnerabilityAssessmentBaselineRulesCreateOrUpdateResponse = RuleResults;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentBaselineRulesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SqlVulnerabilityAssessmentBaselineRulesGetResponse = RuleResults;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentBaselineRulesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentBaselineRulesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SqlVulnerabilityAssessmentBaselineRulesListResponse = RulesResults;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentBaselineRulesAddOptionalParams
+  extends coreClient.OperationOptions {
+  /** The baseline rules. */
+  body?: RulesResultsInput;
+}
+
+/** Contains response data for the add operation. */
+export type SqlVulnerabilityAssessmentBaselineRulesAddResponse = RulesResults;
 
 /** Optional parameters. */
 export interface SecurityCenterOptionalParams
