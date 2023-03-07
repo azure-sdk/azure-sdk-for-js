@@ -101,6 +101,9 @@ import {
   WebAppsListTriggeredWebJobHistoryOptionalParams,
   WebAppsListUsagesOptionalParams,
   WebAppsListWebJobsOptionalParams,
+  WorkflowEnvelope,
+  WebAppsListInstanceWorkflowsSlotOptionalParams,
+  WebAppsListWorkflowsOptionalParams,
   WebAppsGetOptionalParams,
   WebAppsGetResponse,
   WebAppsCreateOrUpdateOptionalParams,
@@ -712,7 +715,17 @@ import {
   WebAppsUpdateVnetConnectionGatewayOptionalParams,
   WebAppsUpdateVnetConnectionGatewayResponse,
   WebAppsGetWebJobOptionalParams,
-  WebAppsGetWebJobResponse
+  WebAppsGetWebJobResponse,
+  WebAppsDeployWorkflowArtifactsOptionalParams,
+  WebAppsDeployWorkflowArtifactsSlotOptionalParams,
+  WebAppsGetInstanceWorkflowSlotOptionalParams,
+  WebAppsGetInstanceWorkflowSlotResponse,
+  WebAppsListWorkflowsConnectionsSlotOptionalParams,
+  WebAppsListWorkflowsConnectionsSlotResponse,
+  WebAppsGetWorkflowOptionalParams,
+  WebAppsGetWorkflowResponse,
+  WebAppsListWorkflowsConnectionsOptionalParams,
+  WebAppsListWorkflowsConnectionsResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -1568,6 +1581,30 @@ export interface WebApps {
     name: string,
     options?: WebAppsListWebJobsOptionalParams
   ): PagedAsyncIterableIterator<WebJob>;
+  /**
+   * List the workflows for a web site, or a deployment slot.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Site name.
+   * @param slot Name of the deployment slot.
+   * @param options The options parameters.
+   */
+  listInstanceWorkflowsSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsListInstanceWorkflowsSlotOptionalParams
+  ): PagedAsyncIterableIterator<WorkflowEnvelope>;
+  /**
+   * List the workflows for a web site, or a deployment slot.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Site name.
+   * @param options The options parameters.
+   */
+  listWorkflows(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsListWorkflowsOptionalParams
+  ): PagedAsyncIterableIterator<WorkflowEnvelope>;
   /**
    * Description for Gets the details of a web, mobile, or API app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -7041,4 +7078,80 @@ export interface WebApps {
     webJobName: string,
     options?: WebAppsGetWebJobOptionalParams
   ): Promise<WebAppsGetWebJobResponse>;
+  /**
+   * Description for Creates the artifacts for web site, or a deployment slot.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Site name.
+   * @param options The options parameters.
+   */
+  deployWorkflowArtifacts(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsDeployWorkflowArtifactsOptionalParams
+  ): Promise<void>;
+  /**
+   * Description for Creates the artifacts for web site, or a deployment slot.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Site name.
+   * @param slot Name of the deployment slot.
+   * @param options The options parameters.
+   */
+  deployWorkflowArtifactsSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsDeployWorkflowArtifactsSlotOptionalParams
+  ): Promise<void>;
+  /**
+   * Get workflow information by its ID for web site, or a deployment slot.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Site name.
+   * @param slot Name of the deployment slot.
+   * @param workflowName Workflow name.
+   * @param options The options parameters.
+   */
+  getInstanceWorkflowSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    workflowName: string,
+    options?: WebAppsGetInstanceWorkflowSlotOptionalParams
+  ): Promise<WebAppsGetInstanceWorkflowSlotResponse>;
+  /**
+   * Lists logic app's connections for web site, or a deployment slot.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Site name.
+   * @param slot Name of the deployment slot.
+   * @param options The options parameters.
+   */
+  listWorkflowsConnectionsSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsListWorkflowsConnectionsSlotOptionalParams
+  ): Promise<WebAppsListWorkflowsConnectionsSlotResponse>;
+  /**
+   * Get workflow information by its ID for web site, or a deployment slot.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Site name.
+   * @param workflowName Workflow name.
+   * @param options The options parameters.
+   */
+  getWorkflow(
+    resourceGroupName: string,
+    name: string,
+    workflowName: string,
+    options?: WebAppsGetWorkflowOptionalParams
+  ): Promise<WebAppsGetWorkflowResponse>;
+  /**
+   * Lists logic app's connections for web site, or a deployment slot.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Site name.
+   * @param options The options parameters.
+   */
+  listWorkflowsConnections(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsListWorkflowsConnectionsOptionalParams
+  ): Promise<WebAppsListWorkflowsConnectionsResponse>;
 }
