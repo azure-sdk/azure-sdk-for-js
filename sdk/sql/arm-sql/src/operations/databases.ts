@@ -16,12 +16,6 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  Metric,
-  DatabasesListMetricsOptionalParams,
-  DatabasesListMetricsResponse,
-  MetricDefinition,
-  DatabasesListMetricDefinitionsOptionalParams,
-  DatabasesListMetricDefinitionsResponse,
   Database,
   DatabasesListByServerNextOptionalParams,
   DatabasesListByServerOptionalParams,
@@ -40,20 +34,20 @@ import {
   DatabaseUpdate,
   DatabasesUpdateOptionalParams,
   DatabasesUpdateResponse,
+  ExportDatabaseDefinition,
+  DatabasesExportOptionalParams,
+  DatabasesExportResponse,
   DatabasesFailoverOptionalParams,
+  ImportExistingDatabaseDefinition,
+  DatabasesImportOptionalParams,
+  DatabasesImportResponse,
+  ResourceMoveDefinition,
+  DatabasesRenameOptionalParams,
   DatabasesPauseOptionalParams,
   DatabasesPauseResponse,
   DatabasesResumeOptionalParams,
   DatabasesResumeResponse,
   DatabasesUpgradeDataWarehouseOptionalParams,
-  ResourceMoveDefinition,
-  DatabasesRenameOptionalParams,
-  ImportExistingDatabaseDefinition,
-  DatabasesImportOptionalParams,
-  DatabasesImportResponse,
-  ExportDatabaseDefinition,
-  DatabasesExportOptionalParams,
-  DatabasesExportResponse,
   DatabasesListByServerNextResponse,
   DatabasesListByElasticPoolNextResponse,
   DatabasesListInaccessibleByServerNextResponse
@@ -70,164 +64,6 @@ export class DatabasesImpl implements Databases {
    */
   constructor(client: SqlManagementClient) {
     this.client = client;
-  }
-
-  /**
-   * Returns database metrics.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param filter An OData filter expression that describes a subset of metrics to return.
-   * @param options The options parameters.
-   */
-  public listMetrics(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    filter: string,
-    options?: DatabasesListMetricsOptionalParams
-  ): PagedAsyncIterableIterator<Metric> {
-    const iter = this.listMetricsPagingAll(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      filter,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listMetricsPagingPage(
-          resourceGroupName,
-          serverName,
-          databaseName,
-          filter,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listMetricsPagingPage(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    filter: string,
-    options?: DatabasesListMetricsOptionalParams,
-    _settings?: PageSettings
-  ): AsyncIterableIterator<Metric[]> {
-    let result: DatabasesListMetricsResponse;
-    result = await this._listMetrics(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      filter,
-      options
-    );
-    yield result.value || [];
-  }
-
-  private async *listMetricsPagingAll(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    filter: string,
-    options?: DatabasesListMetricsOptionalParams
-  ): AsyncIterableIterator<Metric> {
-    for await (const page of this.listMetricsPagingPage(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      filter,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Returns database metric definitions.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param options The options parameters.
-   */
-  public listMetricDefinitions(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    options?: DatabasesListMetricDefinitionsOptionalParams
-  ): PagedAsyncIterableIterator<MetricDefinition> {
-    const iter = this.listMetricDefinitionsPagingAll(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listMetricDefinitionsPagingPage(
-          resourceGroupName,
-          serverName,
-          databaseName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listMetricDefinitionsPagingPage(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    options?: DatabasesListMetricDefinitionsOptionalParams,
-    _settings?: PageSettings
-  ): AsyncIterableIterator<MetricDefinition[]> {
-    let result: DatabasesListMetricDefinitionsResponse;
-    result = await this._listMetricDefinitions(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options
-    );
-    yield result.value || [];
-  }
-
-  private async *listMetricDefinitionsPagingAll(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    options?: DatabasesListMetricDefinitionsOptionalParams
-  ): AsyncIterableIterator<MetricDefinition> {
-    for await (const page of this.listMetricDefinitionsPagingPage(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options
-    )) {
-      yield* page;
-    }
   }
 
   /**
@@ -491,48 +327,6 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Returns database metrics.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param filter An OData filter expression that describes a subset of metrics to return.
-   * @param options The options parameters.
-   */
-  private _listMetrics(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    filter: string,
-    options?: DatabasesListMetricsOptionalParams
-  ): Promise<DatabasesListMetricsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, filter, options },
-      listMetricsOperationSpec
-    );
-  }
-
-  /**
-   * Returns database metric definitions.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param options The options parameters.
-   */
-  private _listMetricDefinitions(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    options?: DatabasesListMetricDefinitionsOptionalParams
-  ): Promise<DatabasesListMetricDefinitionsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, options },
-      listMetricDefinitionsOperationSpec
-    );
-  }
-
-  /**
    * Gets a list of databases.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -637,7 +431,8 @@ export class DatabasesImpl implements Databases {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -729,7 +524,8 @@ export class DatabasesImpl implements Databases {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -825,7 +621,8 @@ export class DatabasesImpl implements Databases {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -858,23 +655,102 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Gets a list of databases in an elastic pool.
+   * Exports a database.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param elasticPoolName The name of the elastic pool.
+   * @param databaseName The name of the database.
+   * @param parameters The database export request parameters.
    * @param options The options parameters.
    */
-  private _listByElasticPool(
+  async beginExport(
     resourceGroupName: string,
     serverName: string,
-    elasticPoolName: string,
-    options?: DatabasesListByElasticPoolOptionalParams
-  ): Promise<DatabasesListByElasticPoolResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, elasticPoolName, options },
-      listByElasticPoolOperationSpec
+    databaseName: string,
+    parameters: ExportDatabaseDefinition,
+    options?: DatabasesExportOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<DatabasesExportResponse>,
+      DatabasesExportResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<DatabasesExportResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, serverName, databaseName, parameters, options },
+      exportOperationSpec
     );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Exports a database.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param parameters The database export request parameters.
+   * @param options The options parameters.
+   */
+  async beginExportAndWait(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: ExportDatabaseDefinition,
+    options?: DatabasesExportOptionalParams
+  ): Promise<DatabasesExportResponse> {
+    const poller = await this.beginExport(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -967,20 +843,123 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Gets a list of inaccessible databases in a logical server
+   * Imports a bacpac into a new database.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param parameters The database import request parameters.
    * @param options The options parameters.
    */
-  private _listInaccessibleByServer(
+  async beginImport(
     resourceGroupName: string,
     serverName: string,
-    options?: DatabasesListInaccessibleByServerOptionalParams
-  ): Promise<DatabasesListInaccessibleByServerResponse> {
+    databaseName: string,
+    parameters: ImportExistingDatabaseDefinition,
+    options?: DatabasesImportOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<DatabasesImportResponse>,
+      DatabasesImportResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<DatabasesImportResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, serverName, databaseName, parameters, options },
+      importOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Imports a bacpac into a new database.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param parameters The database import request parameters.
+   * @param options The options parameters.
+   */
+  async beginImportAndWait(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: ImportExistingDatabaseDefinition,
+    options?: DatabasesImportOptionalParams
+  ): Promise<DatabasesImportResponse> {
+    const poller = await this.beginImport(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Renames a database.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database to rename.
+   * @param parameters The resource move definition for renaming this database.
+   * @param options The options parameters.
+   */
+  rename(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: ResourceMoveDefinition,
+    options?: DatabasesRenameOptionalParams
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, options },
-      listInaccessibleByServerOperationSpec
+      { resourceGroupName, serverName, databaseName, parameters, options },
+      renameOperationSpec
     );
   }
 
@@ -1262,223 +1241,41 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Renames a database.
+   * Gets a list of databases in an elastic pool.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database to rename.
-   * @param parameters The resource move definition for renaming this database.
+   * @param elasticPoolName The name of the elastic pool.
    * @param options The options parameters.
    */
-  rename(
+  private _listByElasticPool(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    parameters: ResourceMoveDefinition,
-    options?: DatabasesRenameOptionalParams
-  ): Promise<void> {
+    elasticPoolName: string,
+    options?: DatabasesListByElasticPoolOptionalParams
+  ): Promise<DatabasesListByElasticPoolResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, parameters, options },
-      renameOperationSpec
+      { resourceGroupName, serverName, elasticPoolName, options },
+      listByElasticPoolOperationSpec
     );
   }
 
   /**
-   * Imports a bacpac into a new database.
+   * Gets a list of inaccessible databases in a logical server
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param parameters The database import request parameters.
    * @param options The options parameters.
    */
-  async beginImport(
+  private _listInaccessibleByServer(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    parameters: ImportExistingDatabaseDefinition,
-    options?: DatabasesImportOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<DatabasesImportResponse>,
-      DatabasesImportResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<DatabasesImportResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serverName, databaseName, parameters, options },
-      importOperationSpec
+    options?: DatabasesListInaccessibleByServerOptionalParams
+  ): Promise<DatabasesListInaccessibleByServerResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, options },
+      listInaccessibleByServerOperationSpec
     );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Imports a bacpac into a new database.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param parameters The database import request parameters.
-   * @param options The options parameters.
-   */
-  async beginImportAndWait(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    parameters: ImportExistingDatabaseDefinition,
-    options?: DatabasesImportOptionalParams
-  ): Promise<DatabasesImportResponse> {
-    const poller = await this.beginImport(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      parameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Exports a database.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param parameters The database export request parameters.
-   * @param options The options parameters.
-   */
-  async beginExport(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    parameters: ExportDatabaseDefinition,
-    options?: DatabasesExportOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<DatabasesExportResponse>,
-      DatabasesExportResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<DatabasesExportResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serverName, databaseName, parameters, options },
-      exportOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Exports a database.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param parameters The database export request parameters.
-   * @param options The options parameters.
-   */
-  async beginExportAndWait(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    parameters: ExportDatabaseDefinition,
-    options?: DatabasesExportOptionalParams
-  ): Promise<DatabasesExportResponse> {
-    const poller = await this.beginExport(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      parameters,
-      options
-    );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -1547,46 +1344,6 @@ export class DatabasesImpl implements Databases {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listMetricsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/metrics",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MetricListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listMetricDefinitionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/metricDefinitions",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MetricDefinitionListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listByServerOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases",
@@ -1597,12 +1354,12 @@ const listByServerOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.skipToken, Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1617,13 +1374,17 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.expand,
+    Parameters.filter
+  ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1647,14 +1408,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters17,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1665,13 +1426,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.subscriptionId
   ],
   serializer
 };
@@ -1694,195 +1455,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters18,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listByElasticPoolOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/databases",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DatabaseListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.elasticPoolName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const failoverOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/failover",
-  httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion1, Parameters.replicaType],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName
-  ],
-  serializer
-};
-const listInaccessibleByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/inaccessibleDatabases",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DatabaseListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const pauseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/pause",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Database
-    },
-    201: {
-      bodyMapper: Mappers.Database
-    },
-    202: {
-      bodyMapper: Mappers.Database
-    },
-    204: {
-      bodyMapper: Mappers.Database
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const resumeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/resume",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Database
-    },
-    201: {
-      bodyMapper: Mappers.Database
-    },
-    202: {
-      bodyMapper: Mappers.Database
-    },
-    204: {
-      bodyMapper: Mappers.Database
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const upgradeDataWarehouseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/upgradeDataWarehouse",
-  httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName
-  ],
-  serializer
-};
-const renameOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/move",
-  httpMethod: "POST",
-  responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters5,
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const importOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/import",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ImportExportOperationResult
-    },
-    201: {
-      bodyMapper: Mappers.ImportExportOperationResult
-    },
-    202: {
-      bodyMapper: Mappers.ImportExportOperationResult
-    },
-    204: {
-      bodyMapper: Mappers.ImportExportOperationResult
-    },
-    default: {}
-  },
-  requestBody: Parameters.parameters6,
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1907,17 +1487,198 @@ const exportOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters7,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters19,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const failoverOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/failover",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  queryParameters: [Parameters.apiVersion, Parameters.replicaType],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.subscriptionId
+  ],
+  serializer
+};
+const importOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/import",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImportExportOperationResult
+    },
+    201: {
+      bodyMapper: Mappers.ImportExportOperationResult
+    },
+    202: {
+      bodyMapper: Mappers.ImportExportOperationResult
+    },
+    204: {
+      bodyMapper: Mappers.ImportExportOperationResult
+    },
+    default: {}
+  },
+  requestBody: Parameters.parameters20,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const renameOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/move",
+  httpMethod: "POST",
+  responses: { 200: {}, default: {} },
+  requestBody: Parameters.parameters21,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const pauseOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/pause",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Database
+    },
+    201: {
+      bodyMapper: Mappers.Database
+    },
+    202: {
+      bodyMapper: Mappers.Database
+    },
+    204: {
+      bodyMapper: Mappers.Database
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const resumeOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/resume",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Database
+    },
+    201: {
+      bodyMapper: Mappers.Database
+    },
+    202: {
+      bodyMapper: Mappers.Database
+    },
+    204: {
+      bodyMapper: Mappers.Database
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const upgradeDataWarehouseOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/upgradeDataWarehouse",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.subscriptionId
+  ],
+  serializer
+};
+const listByElasticPoolOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/databases",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.subscriptionId,
+    Parameters.elasticPoolName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listInaccessibleByServerOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/inaccessibleDatabases",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
@@ -1931,9 +1692,9 @@ const listByServerNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
@@ -1950,11 +1711,11 @@ const listByElasticPoolNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.elasticPoolName,
-    Parameters.nextLink
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.elasticPoolName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1970,9 +1731,9 @@ const listInaccessibleByServerNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

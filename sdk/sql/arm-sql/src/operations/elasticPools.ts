@@ -16,12 +16,6 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  Metric,
-  ElasticPoolsListMetricsOptionalParams,
-  ElasticPoolsListMetricsResponse,
-  MetricDefinition,
-  ElasticPoolsListMetricDefinitionsOptionalParams,
-  ElasticPoolsListMetricDefinitionsResponse,
   ElasticPool,
   ElasticPoolsListByServerNextOptionalParams,
   ElasticPoolsListByServerOptionalParams,
@@ -49,164 +43,6 @@ export class ElasticPoolsImpl implements ElasticPools {
    */
   constructor(client: SqlManagementClient) {
     this.client = client;
-  }
-
-  /**
-   * Returns elastic pool  metrics.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param elasticPoolName The name of the elastic pool.
-   * @param filter An OData filter expression that describes a subset of metrics to return.
-   * @param options The options parameters.
-   */
-  public listMetrics(
-    resourceGroupName: string,
-    serverName: string,
-    elasticPoolName: string,
-    filter: string,
-    options?: ElasticPoolsListMetricsOptionalParams
-  ): PagedAsyncIterableIterator<Metric> {
-    const iter = this.listMetricsPagingAll(
-      resourceGroupName,
-      serverName,
-      elasticPoolName,
-      filter,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listMetricsPagingPage(
-          resourceGroupName,
-          serverName,
-          elasticPoolName,
-          filter,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listMetricsPagingPage(
-    resourceGroupName: string,
-    serverName: string,
-    elasticPoolName: string,
-    filter: string,
-    options?: ElasticPoolsListMetricsOptionalParams,
-    _settings?: PageSettings
-  ): AsyncIterableIterator<Metric[]> {
-    let result: ElasticPoolsListMetricsResponse;
-    result = await this._listMetrics(
-      resourceGroupName,
-      serverName,
-      elasticPoolName,
-      filter,
-      options
-    );
-    yield result.value || [];
-  }
-
-  private async *listMetricsPagingAll(
-    resourceGroupName: string,
-    serverName: string,
-    elasticPoolName: string,
-    filter: string,
-    options?: ElasticPoolsListMetricsOptionalParams
-  ): AsyncIterableIterator<Metric> {
-    for await (const page of this.listMetricsPagingPage(
-      resourceGroupName,
-      serverName,
-      elasticPoolName,
-      filter,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Returns elastic pool metric definitions.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param elasticPoolName The name of the elastic pool.
-   * @param options The options parameters.
-   */
-  public listMetricDefinitions(
-    resourceGroupName: string,
-    serverName: string,
-    elasticPoolName: string,
-    options?: ElasticPoolsListMetricDefinitionsOptionalParams
-  ): PagedAsyncIterableIterator<MetricDefinition> {
-    const iter = this.listMetricDefinitionsPagingAll(
-      resourceGroupName,
-      serverName,
-      elasticPoolName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listMetricDefinitionsPagingPage(
-          resourceGroupName,
-          serverName,
-          elasticPoolName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listMetricDefinitionsPagingPage(
-    resourceGroupName: string,
-    serverName: string,
-    elasticPoolName: string,
-    options?: ElasticPoolsListMetricDefinitionsOptionalParams,
-    _settings?: PageSettings
-  ): AsyncIterableIterator<MetricDefinition[]> {
-    let result: ElasticPoolsListMetricDefinitionsResponse;
-    result = await this._listMetricDefinitions(
-      resourceGroupName,
-      serverName,
-      elasticPoolName,
-      options
-    );
-    yield result.value || [];
-  }
-
-  private async *listMetricDefinitionsPagingAll(
-    resourceGroupName: string,
-    serverName: string,
-    elasticPoolName: string,
-    options?: ElasticPoolsListMetricDefinitionsOptionalParams
-  ): AsyncIterableIterator<MetricDefinition> {
-    for await (const page of this.listMetricDefinitionsPagingPage(
-      resourceGroupName,
-      serverName,
-      elasticPoolName,
-      options
-    )) {
-      yield* page;
-    }
   }
 
   /**
@@ -288,48 +124,6 @@ export class ElasticPoolsImpl implements ElasticPools {
     )) {
       yield* page;
     }
-  }
-
-  /**
-   * Returns elastic pool  metrics.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param elasticPoolName The name of the elastic pool.
-   * @param filter An OData filter expression that describes a subset of metrics to return.
-   * @param options The options parameters.
-   */
-  private _listMetrics(
-    resourceGroupName: string,
-    serverName: string,
-    elasticPoolName: string,
-    filter: string,
-    options?: ElasticPoolsListMetricsOptionalParams
-  ): Promise<ElasticPoolsListMetricsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, elasticPoolName, filter, options },
-      listMetricsOperationSpec
-    );
-  }
-
-  /**
-   * Returns elastic pool metric definitions.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param elasticPoolName The name of the elastic pool.
-   * @param options The options parameters.
-   */
-  private _listMetricDefinitions(
-    resourceGroupName: string,
-    serverName: string,
-    elasticPoolName: string,
-    options?: ElasticPoolsListMetricDefinitionsOptionalParams
-  ): Promise<ElasticPoolsListMetricDefinitionsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, elasticPoolName, options },
-      listMetricDefinitionsOperationSpec
-    );
   }
 
   /**
@@ -437,7 +231,8 @@ export class ElasticPoolsImpl implements ElasticPools {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -529,7 +324,8 @@ export class ElasticPoolsImpl implements ElasticPools {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -625,7 +421,8 @@ export class ElasticPoolsImpl implements ElasticPools {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -769,46 +566,6 @@ export class ElasticPoolsImpl implements ElasticPools {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listMetricsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/metrics",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MetricListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.elasticPoolName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listMetricDefinitionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/metricDefinitions",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MetricDefinitionListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.elasticPoolName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listByServerOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools",
@@ -819,12 +576,12 @@ const listByServerOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.skip, Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion, Parameters.skip],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -839,12 +596,12 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.elasticPoolName
   ],
   headerParameters: [Parameters.accept],
@@ -869,13 +626,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters8,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters24,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.elasticPoolName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -887,12 +644,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.elasticPoolName
   ],
   serializer
@@ -916,13 +673,13 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters9,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters25,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.elasticPoolName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -934,12 +691,12 @@ const failoverOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/failover",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.elasticPoolName
   ],
   serializer
@@ -955,9 +712,9 @@ const listByServerNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
