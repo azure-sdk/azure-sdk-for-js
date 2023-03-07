@@ -3526,6 +3526,7 @@ export enum KnownSnapshotStorageAccountTypes {
 export enum KnownStorageAccountType {
     PremiumLRS = "Premium_LRS",
     StandardLRS = "Standard_LRS",
+    StandardSSDLRS = "StandardSSD_LRS",
     StandardZRS = "Standard_ZRS"
 }
 
@@ -6534,7 +6535,7 @@ export interface VirtualMachineScaleSetInstanceViewStatusesSummary {
 }
 
 // @public
-export interface VirtualMachineScaleSetIPConfiguration extends SubResource {
+export interface VirtualMachineScaleSetIPConfiguration {
     applicationGatewayBackendAddressPools?: SubResource[];
     applicationSecurityGroups?: SubResource[];
     loadBalancerBackendAddressPools?: SubResource[];
@@ -6584,7 +6585,7 @@ export interface VirtualMachineScaleSetManagedDiskParameters {
 }
 
 // @public
-export interface VirtualMachineScaleSetNetworkConfiguration extends SubResource {
+export interface VirtualMachineScaleSetNetworkConfiguration {
     deleteOption?: DeleteOptions;
     disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
@@ -6709,6 +6710,8 @@ export interface VirtualMachineScaleSets {
     beginPerformMaintenanceAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPerformMaintenanceOptionalParams): Promise<void>;
     beginPowerOff(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPowerOffOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginPowerOffAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPowerOffOptionalParams): Promise<void>;
+    beginReapply(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReapplyOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginReapplyAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReapplyOptionalParams): Promise<void>;
     beginRedeploy(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsRedeployOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginRedeployAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsRedeployOptionalParams): Promise<void>;
     beginReimage(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReimageOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
@@ -6898,6 +6901,18 @@ export interface VirtualMachineScaleSetsPowerOffOptionalParams extends coreClien
     skipShutdown?: boolean;
     updateIntervalInMs?: number;
     vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+}
+
+// @public
+export interface VirtualMachineScaleSetsReapplyHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VirtualMachineScaleSetsReapplyOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -7205,9 +7220,13 @@ export interface VirtualMachineScaleSetVMInstanceRequiredIDs {
 export interface VirtualMachineScaleSetVMInstanceView {
     readonly assignedHost?: string;
     bootDiagnostics?: BootDiagnosticsInstanceView;
+    computerName?: string;
     disks?: DiskInstanceView[];
     extensions?: VirtualMachineExtensionInstanceView[];
+    hyperVGeneration?: HyperVGeneration;
     maintenanceRedeployStatus?: MaintenanceRedeployStatus;
+    osName?: string;
+    osVersion?: string;
     placementGroupId?: string;
     platformFaultDomain?: number;
     platformUpdateDomain?: number;

@@ -33,6 +33,7 @@ import {
   VirtualMachineScaleSetsPowerOffOptionalParams,
   VirtualMachineScaleSetsRestartOptionalParams,
   VirtualMachineScaleSetsStartOptionalParams,
+  VirtualMachineScaleSetsReapplyOptionalParams,
   VirtualMachineScaleSetsRedeployOptionalParams,
   VirtualMachineScaleSetsPerformMaintenanceOptionalParams,
   VirtualMachineScaleSetsUpdateInstancesOptionalParams,
@@ -326,6 +327,28 @@ export interface VirtualMachineScaleSets {
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetsStartOptionalParams
+  ): Promise<void>;
+  /**
+   * Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param options The options parameters.
+   */
+  beginReapply(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: VirtualMachineScaleSetsReapplyOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param options The options parameters.
+   */
+  beginReapplyAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: VirtualMachineScaleSetsReapplyOptionalParams
   ): Promise<void>;
   /**
    * Shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and

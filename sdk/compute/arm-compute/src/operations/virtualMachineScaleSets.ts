@@ -50,6 +50,7 @@ import {
   VirtualMachineScaleSetsPowerOffOptionalParams,
   VirtualMachineScaleSetsRestartOptionalParams,
   VirtualMachineScaleSetsStartOptionalParams,
+  VirtualMachineScaleSetsReapplyOptionalParams,
   VirtualMachineScaleSetsRedeployOptionalParams,
   VirtualMachineScaleSetsPerformMaintenanceOptionalParams,
   VirtualMachineScaleSetsUpdateInstancesOptionalParams,
@@ -1227,6 +1228,89 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
   }
 
   /**
+   * Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param options The options parameters.
+   */
+  async beginReapply(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: VirtualMachineScaleSetsReapplyOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, vmScaleSetName, options },
+      reapplyOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param options The options parameters.
+   */
+  async beginReapplyAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: VirtualMachineScaleSetsReapplyOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginReapply(
+      resourceGroupName,
+      vmScaleSetName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and
    * powers them back on.
    * @param resourceGroupName The name of the resource group.
@@ -2232,6 +2316,29 @@ const startOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const reapplyOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reapply",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmScaleSetName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const redeployOperationSpec: coreClient.OperationSpec = {
