@@ -380,7 +380,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -413,7 +413,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters9,
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -438,7 +438,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -461,7 +461,7 @@ const listByPrivateLinkScopeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
