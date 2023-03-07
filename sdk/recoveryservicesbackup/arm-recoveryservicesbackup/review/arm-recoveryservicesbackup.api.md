@@ -1280,6 +1280,7 @@ export interface BMSRefreshContainersQueryObject {
 export interface BmsrpQueryObject {
     endDate?: Date;
     extendedInfo?: boolean;
+    includeSoftDeletedRP?: boolean;
     moveReadyRPOnly?: boolean;
     restorePointQueryType?: RestorePointQueryType;
     startDate?: Date;
@@ -1595,6 +1596,12 @@ export interface ExportJobsOperationResultsGetOptionalParams extends coreClient.
 export type ExportJobsOperationResultsGetResponse = OperationResultInfoBaseResource;
 
 // @public
+export interface ExtendedLocation {
+    name?: string;
+    type?: string;
+}
+
+// @public
 export interface ExtendedProperties {
     diskExclusionProperties?: DiskExclusionProperties;
     linuxVmApplicationName?: string;
@@ -1745,6 +1752,7 @@ export type IaaSVMProtectableItemUnion = IaaSVMProtectableItem | AzureIaaSClassi
 export interface IaasVMRecoveryPoint extends RecoveryPoint {
     isInstantIlrSessionActive?: boolean;
     isManagedVirtualMachine?: boolean;
+    isPrivateAccessEnabledOnAnyDisk?: boolean;
     isSourceVMEncrypted?: boolean;
     keyAndSecret?: KeyAndSecretDetails;
     objectType: "IaasVMRecoveryPoint";
@@ -1759,6 +1767,7 @@ export interface IaasVMRecoveryPoint extends RecoveryPoint {
     recoveryPointTierDetails?: RecoveryPointTierInformationV2[];
     recoveryPointTime?: Date;
     recoveryPointType?: string;
+    securityType?: string;
     sourceVMStorageType?: string;
     virtualMachineSize?: string;
     zones?: string[];
@@ -1770,6 +1779,7 @@ export interface IaasVMRestoreRequest extends RestoreRequest {
     createNewCloudService?: boolean;
     diskEncryptionSetId?: string;
     encryptionDetails?: EncryptionDetails;
+    extendedLocation?: ExtendedLocation;
     identityBasedRestoreDetails?: IdentityBasedRestoreDetails;
     identityInfo?: IdentityInfo;
     objectType: "IaasVMRestoreRequest" | "IaasVMRestoreWithRehydrationRequest";
@@ -1779,9 +1789,11 @@ export interface IaasVMRestoreRequest extends RestoreRequest {
     region?: string;
     restoreDiskLunList?: number[];
     restoreWithManagedDisks?: boolean;
+    securedVMDetails?: SecuredVMDetails;
     sourceResourceId?: string;
     storageAccountId?: string;
     subnetId?: string;
+    targetDiskNetworkAccessSettings?: TargetDiskNetworkAccessSettings;
     targetDomainNameId?: string;
     targetResourceGroupId?: string;
     targetVirtualMachineId?: string;
@@ -3363,6 +3375,7 @@ export interface RecoveryPointMoveReadinessInfo {
 // @public
 export interface RecoveryPointProperties {
     expiryTime?: string;
+    isSoftDeleted?: boolean;
     ruleName?: string;
 }
 
@@ -3763,6 +3776,11 @@ export type SchedulePolicyUnion = SchedulePolicy | LogSchedulePolicy | LongTermS
 export type ScheduleRunType = string;
 
 // @public
+export interface SecuredVMDetails {
+    securedVMOsDiskEncryptionSetId?: string;
+}
+
+// @public
 export interface SecurityPinBase {
     resourceGuardOperationRequests?: string[];
 }
@@ -3856,6 +3874,15 @@ export type SupportStatus = string;
 export interface TargetAFSRestoreInfo {
     name?: string;
     targetResourceId?: string;
+}
+
+// @public
+export type TargetDiskNetworkAccessOption = "SameAsOnSourceDisks" | "EnablePrivateAccessForAllDisks" | "EnablePublicAccessForAllDisks";
+
+// @public
+export interface TargetDiskNetworkAccessSettings {
+    targetDiskAccessId?: string;
+    targetDiskNetworkAccessOption?: TargetDiskNetworkAccessOption;
 }
 
 // @public
