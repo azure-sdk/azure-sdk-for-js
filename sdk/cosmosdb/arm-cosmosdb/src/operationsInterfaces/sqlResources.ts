@@ -7,14 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   SqlDatabaseGetResults,
   SqlResourcesListSqlDatabasesOptionalParams,
-  SqlContainerGetResults,
-  SqlResourcesListSqlContainersOptionalParams,
   ClientEncryptionKeyGetResults,
   SqlResourcesListClientEncryptionKeysOptionalParams,
+  SqlContainerGetResults,
+  SqlResourcesListSqlContainersOptionalParams,
   SqlStoredProcedureGetResults,
   SqlResourcesListSqlStoredProceduresOptionalParams,
   SqlUserDefinedFunctionGetResults,
@@ -41,6 +41,11 @@ import {
   SqlResourcesMigrateSqlDatabaseToAutoscaleResponse,
   SqlResourcesMigrateSqlDatabaseToManualThroughputOptionalParams,
   SqlResourcesMigrateSqlDatabaseToManualThroughputResponse,
+  SqlResourcesGetClientEncryptionKeyOptionalParams,
+  SqlResourcesGetClientEncryptionKeyResponse,
+  ClientEncryptionKeyCreateUpdateParameters,
+  SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams,
+  SqlResourcesCreateUpdateClientEncryptionKeyResponse,
   SqlResourcesGetSqlContainerOptionalParams,
   SqlResourcesGetSqlContainerResponse,
   SqlContainerCreateUpdateParameters,
@@ -48,6 +53,9 @@ import {
   SqlResourcesCreateUpdateSqlContainerResponse,
   SqlResourcesDeleteSqlContainerOptionalParams,
   SqlResourcesDeleteSqlContainerResponse,
+  MergeParameters,
+  SqlResourcesListSqlContainerPartitionMergeOptionalParams,
+  SqlResourcesListSqlContainerPartitionMergeResponse,
   SqlResourcesGetSqlContainerThroughputOptionalParams,
   SqlResourcesGetSqlContainerThroughputResponse,
   SqlResourcesUpdateSqlContainerThroughputOptionalParams,
@@ -56,11 +64,16 @@ import {
   SqlResourcesMigrateSqlContainerToAutoscaleResponse,
   SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams,
   SqlResourcesMigrateSqlContainerToManualThroughputResponse,
-  SqlResourcesGetClientEncryptionKeyOptionalParams,
-  SqlResourcesGetClientEncryptionKeyResponse,
-  ClientEncryptionKeyCreateUpdateParameters,
-  SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams,
-  SqlResourcesCreateUpdateClientEncryptionKeyResponse,
+  RetrieveThroughputParameters,
+  SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams,
+  SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse,
+  RedistributeThroughputParameters,
+  SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams,
+  SqlResourcesSqlDatabaseRedistributeThroughputResponse,
+  SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams,
+  SqlResourcesSqlContainerRetrieveThroughputDistributionResponse,
+  SqlResourcesSqlContainerRedistributeThroughputOptionalParams,
+  SqlResourcesSqlContainerRedistributeThroughputResponse,
   SqlResourcesGetSqlStoredProcedureOptionalParams,
   SqlResourcesGetSqlStoredProcedureResponse,
   SqlStoredProcedureCreateUpdateParameters,
@@ -114,19 +127,6 @@ export interface SqlResources {
     options?: SqlResourcesListSqlDatabasesOptionalParams
   ): PagedAsyncIterableIterator<SqlDatabaseGetResults>;
   /**
-   * Lists the SQL container under an existing Azure Cosmos DB database account.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param options The options parameters.
-   */
-  listSqlContainers(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?: SqlResourcesListSqlContainersOptionalParams
-  ): PagedAsyncIterableIterator<SqlContainerGetResults>;
-  /**
    * Lists the ClientEncryptionKeys under an existing Azure Cosmos DB SQL database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -139,6 +139,19 @@ export interface SqlResources {
     databaseName: string,
     options?: SqlResourcesListClientEncryptionKeysOptionalParams
   ): PagedAsyncIterableIterator<ClientEncryptionKeyGetResults>;
+  /**
+   * Lists the SQL container under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param options The options parameters.
+   */
+  listSqlContainers(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: SqlResourcesListSqlContainersOptionalParams
+  ): PagedAsyncIterableIterator<SqlContainerGetResults>;
   /**
    * Lists the SQL storedProcedure under an existing Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -234,8 +247,8 @@ export interface SqlResources {
     createUpdateSqlDatabaseParameters: SqlDatabaseCreateUpdateParameters,
     options?: SqlResourcesCreateUpdateSqlDatabaseOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesCreateUpdateSqlDatabaseResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesCreateUpdateSqlDatabaseResponse>,
       SqlResourcesCreateUpdateSqlDatabaseResponse
     >
   >;
@@ -267,8 +280,8 @@ export interface SqlResources {
     databaseName: string,
     options?: SqlResourcesDeleteSqlDatabaseOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesDeleteSqlDatabaseResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesDeleteSqlDatabaseResponse>,
       SqlResourcesDeleteSqlDatabaseResponse
     >
   >;
@@ -315,8 +328,8 @@ export interface SqlResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: SqlResourcesUpdateSqlDatabaseThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesUpdateSqlDatabaseThroughputResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesUpdateSqlDatabaseThroughputResponse>,
       SqlResourcesUpdateSqlDatabaseThroughputResponse
     >
   >;
@@ -349,8 +362,8 @@ export interface SqlResources {
     databaseName: string,
     options?: SqlResourcesMigrateSqlDatabaseToAutoscaleOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesMigrateSqlDatabaseToAutoscaleResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesMigrateSqlDatabaseToAutoscaleResponse>,
       SqlResourcesMigrateSqlDatabaseToAutoscaleResponse
     >
   >;
@@ -380,8 +393,10 @@ export interface SqlResources {
     databaseName: string,
     options?: SqlResourcesMigrateSqlDatabaseToManualThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesMigrateSqlDatabaseToManualThroughputResponse>,
+    PollerLike<
+      PollOperationState<
+        SqlResourcesMigrateSqlDatabaseToManualThroughputResponse
+      >,
       SqlResourcesMigrateSqlDatabaseToManualThroughputResponse
     >
   >;
@@ -398,6 +413,64 @@ export interface SqlResources {
     databaseName: string,
     options?: SqlResourcesMigrateSqlDatabaseToManualThroughputOptionalParams
   ): Promise<SqlResourcesMigrateSqlDatabaseToManualThroughputResponse>;
+  /**
+   * Gets the ClientEncryptionKey under an existing Azure Cosmos DB SQL database.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param clientEncryptionKeyName Cosmos DB ClientEncryptionKey name.
+   * @param options The options parameters.
+   */
+  getClientEncryptionKey(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    clientEncryptionKeyName: string,
+    options?: SqlResourcesGetClientEncryptionKeyOptionalParams
+  ): Promise<SqlResourcesGetClientEncryptionKeyResponse>;
+  /**
+   * Create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure
+   * Powershell (instead of directly).
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param clientEncryptionKeyName Cosmos DB ClientEncryptionKey name.
+   * @param createUpdateClientEncryptionKeyParameters The parameters to provide for the client encryption
+   *                                                  key.
+   * @param options The options parameters.
+   */
+  beginCreateUpdateClientEncryptionKey(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    clientEncryptionKeyName: string,
+    createUpdateClientEncryptionKeyParameters: ClientEncryptionKeyCreateUpdateParameters,
+    options?: SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SqlResourcesCreateUpdateClientEncryptionKeyResponse>,
+      SqlResourcesCreateUpdateClientEncryptionKeyResponse
+    >
+  >;
+  /**
+   * Create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure
+   * Powershell (instead of directly).
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param clientEncryptionKeyName Cosmos DB ClientEncryptionKey name.
+   * @param createUpdateClientEncryptionKeyParameters The parameters to provide for the client encryption
+   *                                                  key.
+   * @param options The options parameters.
+   */
+  beginCreateUpdateClientEncryptionKeyAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    clientEncryptionKeyName: string,
+    createUpdateClientEncryptionKeyParameters: ClientEncryptionKeyCreateUpdateParameters,
+    options?: SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
+  ): Promise<SqlResourcesCreateUpdateClientEncryptionKeyResponse>;
   /**
    * Gets the SQL container under an existing Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -430,8 +503,8 @@ export interface SqlResources {
     createUpdateSqlContainerParameters: SqlContainerCreateUpdateParameters,
     options?: SqlResourcesCreateUpdateSqlContainerOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesCreateUpdateSqlContainerResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesCreateUpdateSqlContainerResponse>,
       SqlResourcesCreateUpdateSqlContainerResponse
     >
   >;
@@ -467,8 +540,8 @@ export interface SqlResources {
     containerName: string,
     options?: SqlResourcesDeleteSqlContainerOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesDeleteSqlContainerResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesDeleteSqlContainerResponse>,
       SqlResourcesDeleteSqlContainerResponse
     >
   >;
@@ -487,6 +560,45 @@ export interface SqlResources {
     containerName: string,
     options?: SqlResourcesDeleteSqlContainerOptionalParams
   ): Promise<SqlResourcesDeleteSqlContainerResponse>;
+  /**
+   * Merges the partitions of a SQL Container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  beginListSqlContainerPartitionMerge(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    containerName: string,
+    mergeParameters: MergeParameters,
+    options?: SqlResourcesListSqlContainerPartitionMergeOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SqlResourcesListSqlContainerPartitionMergeResponse>,
+      SqlResourcesListSqlContainerPartitionMergeResponse
+    >
+  >;
+  /**
+   * Merges the partitions of a SQL Container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  beginListSqlContainerPartitionMergeAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    containerName: string,
+    mergeParameters: MergeParameters,
+    options?: SqlResourcesListSqlContainerPartitionMergeOptionalParams
+  ): Promise<SqlResourcesListSqlContainerPartitionMergeResponse>;
   /**
    * Gets the RUs per second of the SQL container under an existing Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -520,8 +632,8 @@ export interface SqlResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: SqlResourcesUpdateSqlContainerThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesUpdateSqlContainerThroughputResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesUpdateSqlContainerThroughputResponse>,
       SqlResourcesUpdateSqlContainerThroughputResponse
     >
   >;
@@ -558,8 +670,8 @@ export interface SqlResources {
     containerName: string,
     options?: SqlResourcesMigrateSqlContainerToAutoscaleOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesMigrateSqlContainerToAutoscaleResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesMigrateSqlContainerToAutoscaleResponse>,
       SqlResourcesMigrateSqlContainerToAutoscaleResponse
     >
   >;
@@ -593,8 +705,10 @@ export interface SqlResources {
     containerName: string,
     options?: SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesMigrateSqlContainerToManualThroughputResponse>,
+    PollerLike<
+      PollOperationState<
+        SqlResourcesMigrateSqlContainerToManualThroughputResponse
+      >,
       SqlResourcesMigrateSqlContainerToManualThroughputResponse
     >
   >;
@@ -614,63 +728,167 @@ export interface SqlResources {
     options?: SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams
   ): Promise<SqlResourcesMigrateSqlContainerToManualThroughputResponse>;
   /**
-   * Gets the ClientEncryptionKey under an existing Azure Cosmos DB SQL database.
+   * Retrieve throughput distribution for an Azure Cosmos DB SQL database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
-   * @param clientEncryptionKeyName Cosmos DB ClientEncryptionKey name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current SQL database.
    * @param options The options parameters.
    */
-  getClientEncryptionKey(
+  beginSqlDatabaseRetrieveThroughputDistribution(
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    clientEncryptionKeyName: string,
-    options?: SqlResourcesGetClientEncryptionKeyOptionalParams
-  ): Promise<SqlResourcesGetClientEncryptionKeyResponse>;
-  /**
-   * Create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure
-   * Powershell (instead of directly).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param clientEncryptionKeyName Cosmos DB ClientEncryptionKey name.
-   * @param createUpdateClientEncryptionKeyParameters The parameters to provide for the client encryption
-   *                                                  key.
-   * @param options The options parameters.
-   */
-  beginCreateUpdateClientEncryptionKey(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    clientEncryptionKeyName: string,
-    createUpdateClientEncryptionKeyParameters: ClientEncryptionKeyCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesCreateUpdateClientEncryptionKeyResponse>,
-      SqlResourcesCreateUpdateClientEncryptionKeyResponse
+    PollerLike<
+      PollOperationState<
+        SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse
+      >,
+      SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse
     >
   >;
   /**
-   * Create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure
-   * Powershell (instead of directly).
+   * Retrieve throughput distribution for an Azure Cosmos DB SQL database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
-   * @param clientEncryptionKeyName Cosmos DB ClientEncryptionKey name.
-   * @param createUpdateClientEncryptionKeyParameters The parameters to provide for the client encryption
-   *                                                  key.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current SQL database.
    * @param options The options parameters.
    */
-  beginCreateUpdateClientEncryptionKeyAndWait(
+  beginSqlDatabaseRetrieveThroughputDistributionAndWait(
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    clientEncryptionKeyName: string,
-    createUpdateClientEncryptionKeyParameters: ClientEncryptionKeyCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
-  ): Promise<SqlResourcesCreateUpdateClientEncryptionKeyResponse>;
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams
+  ): Promise<SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse>;
+  /**
+   * Redistribute throughput for an Azure Cosmos DB SQL database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current SQL database.
+   * @param options The options parameters.
+   */
+  beginSqlDatabaseRedistributeThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SqlResourcesSqlDatabaseRedistributeThroughputResponse>,
+      SqlResourcesSqlDatabaseRedistributeThroughputResponse
+    >
+  >;
+  /**
+   * Redistribute throughput for an Azure Cosmos DB SQL database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current SQL database.
+   * @param options The options parameters.
+   */
+  beginSqlDatabaseRedistributeThroughputAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams
+  ): Promise<SqlResourcesSqlDatabaseRedistributeThroughputResponse>;
+  /**
+   * Retrieve throughput distribution for an Azure Cosmos DB SQL container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current SQL container.
+   * @param options The options parameters.
+   */
+  beginSqlContainerRetrieveThroughputDistribution(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    containerName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        SqlResourcesSqlContainerRetrieveThroughputDistributionResponse
+      >,
+      SqlResourcesSqlContainerRetrieveThroughputDistributionResponse
+    >
+  >;
+  /**
+   * Retrieve throughput distribution for an Azure Cosmos DB SQL container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current SQL container.
+   * @param options The options parameters.
+   */
+  beginSqlContainerRetrieveThroughputDistributionAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    containerName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams
+  ): Promise<SqlResourcesSqlContainerRetrieveThroughputDistributionResponse>;
+  /**
+   * Redistribute throughput for an Azure Cosmos DB SQL container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current SQL container.
+   * @param options The options parameters.
+   */
+  beginSqlContainerRedistributeThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    containerName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: SqlResourcesSqlContainerRedistributeThroughputOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        SqlResourcesSqlContainerRedistributeThroughputResponse
+      >,
+      SqlResourcesSqlContainerRedistributeThroughputResponse
+    >
+  >;
+  /**
+   * Redistribute throughput for an Azure Cosmos DB SQL container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current SQL container.
+   * @param options The options parameters.
+   */
+  beginSqlContainerRedistributeThroughputAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    containerName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: SqlResourcesSqlContainerRedistributeThroughputOptionalParams
+  ): Promise<SqlResourcesSqlContainerRedistributeThroughputResponse>;
   /**
    * Gets the SQL storedProcedure under an existing Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -708,8 +926,8 @@ export interface SqlResources {
     createUpdateSqlStoredProcedureParameters: SqlStoredProcedureCreateUpdateParameters,
     options?: SqlResourcesCreateUpdateSqlStoredProcedureOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesCreateUpdateSqlStoredProcedureResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesCreateUpdateSqlStoredProcedureResponse>,
       SqlResourcesCreateUpdateSqlStoredProcedureResponse
     >
   >;
@@ -750,8 +968,8 @@ export interface SqlResources {
     storedProcedureName: string,
     options?: SqlResourcesDeleteSqlStoredProcedureOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesDeleteSqlStoredProcedureResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesDeleteSqlStoredProcedureResponse>,
       SqlResourcesDeleteSqlStoredProcedureResponse
     >
   >;
@@ -809,8 +1027,10 @@ export interface SqlResources {
     createUpdateSqlUserDefinedFunctionParameters: SqlUserDefinedFunctionCreateUpdateParameters,
     options?: SqlResourcesCreateUpdateSqlUserDefinedFunctionOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse>,
+    PollerLike<
+      PollOperationState<
+        SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse
+      >,
       SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse
     >
   >;
@@ -851,8 +1071,8 @@ export interface SqlResources {
     userDefinedFunctionName: string,
     options?: SqlResourcesDeleteSqlUserDefinedFunctionOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesDeleteSqlUserDefinedFunctionResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesDeleteSqlUserDefinedFunctionResponse>,
       SqlResourcesDeleteSqlUserDefinedFunctionResponse
     >
   >;
@@ -909,8 +1129,8 @@ export interface SqlResources {
     createUpdateSqlTriggerParameters: SqlTriggerCreateUpdateParameters,
     options?: SqlResourcesCreateUpdateSqlTriggerOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesCreateUpdateSqlTriggerResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesCreateUpdateSqlTriggerResponse>,
       SqlResourcesCreateUpdateSqlTriggerResponse
     >
   >;
@@ -950,8 +1170,8 @@ export interface SqlResources {
     triggerName: string,
     options?: SqlResourcesDeleteSqlTriggerOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesDeleteSqlTriggerResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesDeleteSqlTriggerResponse>,
       SqlResourcesDeleteSqlTriggerResponse
     >
   >;
@@ -1001,8 +1221,8 @@ export interface SqlResources {
     createUpdateSqlRoleDefinitionParameters: SqlRoleDefinitionCreateUpdateParameters,
     options?: SqlResourcesCreateUpdateSqlRoleDefinitionOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesCreateUpdateSqlRoleDefinitionResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesCreateUpdateSqlRoleDefinitionResponse>,
       SqlResourcesCreateUpdateSqlRoleDefinitionResponse
     >
   >;
@@ -1034,7 +1254,7 @@ export interface SqlResources {
     resourceGroupName: string,
     accountName: string,
     options?: SqlResourcesDeleteSqlRoleDefinitionOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes an existing Azure Cosmos DB SQL Role Definition.
    * @param roleDefinitionId The GUID for the Role Definition.
@@ -1077,8 +1297,8 @@ export interface SqlResources {
     createUpdateSqlRoleAssignmentParameters: SqlRoleAssignmentCreateUpdateParameters,
     options?: SqlResourcesCreateUpdateSqlRoleAssignmentOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesCreateUpdateSqlRoleAssignmentResponse>,
+    PollerLike<
+      PollOperationState<SqlResourcesCreateUpdateSqlRoleAssignmentResponse>,
       SqlResourcesCreateUpdateSqlRoleAssignmentResponse
     >
   >;
@@ -1110,7 +1330,7 @@ export interface SqlResources {
     resourceGroupName: string,
     accountName: string,
     options?: SqlResourcesDeleteSqlRoleAssignmentOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes an existing Azure Cosmos DB SQL Role Assignment.
    * @param roleAssignmentId The GUID for the Role Assignment.
@@ -1141,8 +1361,10 @@ export interface SqlResources {
     location: ContinuousBackupRestoreLocation,
     options?: SqlResourcesRetrieveContinuousBackupInformationOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<SqlResourcesRetrieveContinuousBackupInformationResponse>,
+    PollerLike<
+      PollOperationState<
+        SqlResourcesRetrieveContinuousBackupInformationResponse
+      >,
       SqlResourcesRetrieveContinuousBackupInformationResponse
     >
   >;

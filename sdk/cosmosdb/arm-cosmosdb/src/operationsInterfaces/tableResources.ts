@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   TableGetResults,
   TableResourcesListTablesOptionalParams,
@@ -74,8 +74,8 @@ export interface TableResources {
     createUpdateTableParameters: TableCreateUpdateParameters,
     options?: TableResourcesCreateUpdateTableOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<TableResourcesCreateUpdateTableResponse>,
+    PollerLike<
+      PollOperationState<TableResourcesCreateUpdateTableResponse>,
       TableResourcesCreateUpdateTableResponse
     >
   >;
@@ -107,8 +107,8 @@ export interface TableResources {
     tableName: string,
     options?: TableResourcesDeleteTableOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<TableResourcesDeleteTableResponse>,
+    PollerLike<
+      PollOperationState<TableResourcesDeleteTableResponse>,
       TableResourcesDeleteTableResponse
     >
   >;
@@ -155,8 +155,8 @@ export interface TableResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: TableResourcesUpdateTableThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<TableResourcesUpdateTableThroughputResponse>,
+    PollerLike<
+      PollOperationState<TableResourcesUpdateTableThroughputResponse>,
       TableResourcesUpdateTableThroughputResponse
     >
   >;
@@ -189,8 +189,8 @@ export interface TableResources {
     tableName: string,
     options?: TableResourcesMigrateTableToAutoscaleOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<TableResourcesMigrateTableToAutoscaleResponse>,
+    PollerLike<
+      PollOperationState<TableResourcesMigrateTableToAutoscaleResponse>,
       TableResourcesMigrateTableToAutoscaleResponse
     >
   >;
@@ -220,8 +220,8 @@ export interface TableResources {
     tableName: string,
     options?: TableResourcesMigrateTableToManualThroughputOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<TableResourcesMigrateTableToManualThroughputResponse>,
+    PollerLike<
+      PollOperationState<TableResourcesMigrateTableToManualThroughputResponse>,
       TableResourcesMigrateTableToManualThroughputResponse
     >
   >;
@@ -253,8 +253,10 @@ export interface TableResources {
     location: ContinuousBackupRestoreLocation,
     options?: TableResourcesRetrieveContinuousBackupInformationOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<TableResourcesRetrieveContinuousBackupInformationResponse>,
+    PollerLike<
+      PollOperationState<
+        TableResourcesRetrieveContinuousBackupInformationResponse
+      >,
       TableResourcesRetrieveContinuousBackupInformationResponse
     >
   >;

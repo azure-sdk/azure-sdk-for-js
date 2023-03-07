@@ -7,101 +7,101 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  ServiceResource,
-  ServiceListOptionalParams,
-  ServiceResourceCreateUpdateParameters,
-  ServiceCreateOptionalParams,
-  ServiceCreateResponse,
-  ServiceGetOptionalParams,
-  ServiceGetResponse,
-  ServiceDeleteOptionalParams
+  DataTransferJobGetResults,
+  DataTransferJobsListByDatabaseAccountOptionalParams,
+  CreateJobRequest,
+  DataTransferJobsCreateOptionalParams,
+  DataTransferJobsCreateResponse,
+  DataTransferJobsGetOptionalParams,
+  DataTransferJobsGetResponse,
+  DataTransferJobsPauseOptionalParams,
+  DataTransferJobsPauseResponse,
+  DataTransferJobsResumeOptionalParams,
+  DataTransferJobsResumeResponse,
+  DataTransferJobsCancelOptionalParams,
+  DataTransferJobsCancelResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Service. */
-export interface Service {
+/** Interface representing a DataTransferJobs. */
+export interface DataTransferJobs {
   /**
-   * Gets the status of service.
+   * Get a list of Data Transfer jobs.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The options parameters.
    */
-  list(
+  listByDatabaseAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: ServiceListOptionalParams
-  ): PagedAsyncIterableIterator<ServiceResource>;
+    options?: DataTransferJobsListByDatabaseAccountOptionalParams
+  ): PagedAsyncIterableIterator<DataTransferJobGetResults>;
   /**
-   * Creates a service.
+   * Creates a Data Transfer Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
-   * @param serviceName Cosmos DB service name.
-   * @param createUpdateParameters The Service resource parameters.
+   * @param jobName Name of the Data Transfer Job
+   * @param jobCreateParameters Parameters to create Data Transfer Job
    * @param options The options parameters.
    */
-  beginCreate(
+  create(
     resourceGroupName: string,
     accountName: string,
-    serviceName: string,
-    createUpdateParameters: ServiceResourceCreateUpdateParameters,
-    options?: ServiceCreateOptionalParams
-  ): Promise<
-    PollerLike<PollOperationState<ServiceCreateResponse>, ServiceCreateResponse>
-  >;
+    jobName: string,
+    jobCreateParameters: CreateJobRequest,
+    options?: DataTransferJobsCreateOptionalParams
+  ): Promise<DataTransferJobsCreateResponse>;
   /**
-   * Creates a service.
+   * Get a Data Transfer Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
-   * @param serviceName Cosmos DB service name.
-   * @param createUpdateParameters The Service resource parameters.
-   * @param options The options parameters.
-   */
-  beginCreateAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    serviceName: string,
-    createUpdateParameters: ServiceResourceCreateUpdateParameters,
-    options?: ServiceCreateOptionalParams
-  ): Promise<ServiceCreateResponse>;
-  /**
-   * Gets the status of service.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param serviceName Cosmos DB service name.
+   * @param jobName Name of the Data Transfer Job
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     accountName: string,
-    serviceName: string,
-    options?: ServiceGetOptionalParams
-  ): Promise<ServiceGetResponse>;
+    jobName: string,
+    options?: DataTransferJobsGetOptionalParams
+  ): Promise<DataTransferJobsGetResponse>;
   /**
-   * Deletes service with the given serviceName.
+   * Pause a Data Transfer Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
-   * @param serviceName Cosmos DB service name.
+   * @param jobName Name of the Data Transfer Job
    * @param options The options parameters.
    */
-  beginDelete(
+  pause(
     resourceGroupName: string,
     accountName: string,
-    serviceName: string,
-    options?: ServiceDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    jobName: string,
+    options?: DataTransferJobsPauseOptionalParams
+  ): Promise<DataTransferJobsPauseResponse>;
   /**
-   * Deletes service with the given serviceName.
+   * Resumes a Data Transfer Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
-   * @param serviceName Cosmos DB service name.
+   * @param jobName Name of the Data Transfer Job
    * @param options The options parameters.
    */
-  beginDeleteAndWait(
+  resume(
     resourceGroupName: string,
     accountName: string,
-    serviceName: string,
-    options?: ServiceDeleteOptionalParams
-  ): Promise<void>;
+    jobName: string,
+    options?: DataTransferJobsResumeOptionalParams
+  ): Promise<DataTransferJobsResumeResponse>;
+  /**
+   * Cancels a Data Transfer Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param jobName Name of the Data Transfer Job
+   * @param options The options parameters.
+   */
+  cancel(
+    resourceGroupName: string,
+    accountName: string,
+    jobName: string,
+    options?: DataTransferJobsCancelOptionalParams
+  ): Promise<DataTransferJobsCancelResponse>;
 }

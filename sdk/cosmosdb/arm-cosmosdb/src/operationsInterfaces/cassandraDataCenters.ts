@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   DataCenterResource,
   CassandraDataCentersListOptionalParams,
@@ -59,7 +59,7 @@ export interface CassandraDataCenters {
     clusterName: string,
     dataCenterName: string,
     options?: CassandraDataCentersDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Delete a managed Cassandra data center.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -89,8 +89,8 @@ export interface CassandraDataCenters {
     body: DataCenterResource,
     options?: CassandraDataCentersCreateUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CassandraDataCentersCreateUpdateResponse>,
+    PollerLike<
+      PollOperationState<CassandraDataCentersCreateUpdateResponse>,
       CassandraDataCentersCreateUpdateResponse
     >
   >;
@@ -125,8 +125,8 @@ export interface CassandraDataCenters {
     body: DataCenterResource,
     options?: CassandraDataCentersUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<CassandraDataCentersUpdateResponse>,
+    PollerLike<
+      PollOperationState<CassandraDataCentersUpdateResponse>,
       CassandraDataCentersUpdateResponse
     >
   >;
