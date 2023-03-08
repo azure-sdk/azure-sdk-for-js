@@ -7,31 +7,39 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ServerCommunicationLinks } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper";
+import { ServerAdvancedThreatProtectionSettings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
 import {
-  ServerCommunicationLink,
-  ServerCommunicationLinksListByServerOptionalParams,
-  ServerCommunicationLinksListByServerResponse,
-  ServerCommunicationLinksDeleteOptionalParams,
-  ServerCommunicationLinksGetOptionalParams,
-  ServerCommunicationLinksGetResponse,
-  ServerCommunicationLinksCreateOrUpdateOptionalParams,
-  ServerCommunicationLinksCreateOrUpdateResponse
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
+  ServerAdvancedThreatProtection,
+  ServerAdvancedThreatProtectionSettingsListByServerNextOptionalParams,
+  ServerAdvancedThreatProtectionSettingsListByServerOptionalParams,
+  ServerAdvancedThreatProtectionSettingsListByServerResponse,
+  AdvancedThreatProtectionName,
+  ServerAdvancedThreatProtectionSettingsGetOptionalParams,
+  ServerAdvancedThreatProtectionSettingsGetResponse,
+  ServerAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams,
+  ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse,
+  ServerAdvancedThreatProtectionSettingsListByServerNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ServerCommunicationLinks operations. */
-export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
+/** Class containing ServerAdvancedThreatProtectionSettings operations. */
+export class ServerAdvancedThreatProtectionSettingsImpl
+  implements ServerAdvancedThreatProtectionSettings {
   private readonly client: SqlManagementClient;
 
   /**
-   * Initialize a new instance of the class ServerCommunicationLinks class.
+   * Initialize a new instance of the class ServerAdvancedThreatProtectionSettings class.
    * @param client Reference to the service client
    */
   constructor(client: SqlManagementClient) {
@@ -39,7 +47,7 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
   }
 
   /**
-   * Gets a list of server communication links.
+   * Get a list of the server's Advanced Threat Protection states.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -48,8 +56,8 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerCommunicationLinksListByServerOptionalParams
-  ): PagedAsyncIterableIterator<ServerCommunicationLink> {
+    options?: ServerAdvancedThreatProtectionSettingsListByServerOptionalParams
+  ): PagedAsyncIterableIterator<ServerAdvancedThreatProtection> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
@@ -79,19 +87,37 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
   private async *listByServerPagingPage(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerCommunicationLinksListByServerOptionalParams,
-    _settings?: PageSettings
-  ): AsyncIterableIterator<ServerCommunicationLink[]> {
-    let result: ServerCommunicationLinksListByServerResponse;
-    result = await this._listByServer(resourceGroupName, serverName, options);
-    yield result.value || [];
+    options?: ServerAdvancedThreatProtectionSettingsListByServerOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<ServerAdvancedThreatProtection[]> {
+    let result: ServerAdvancedThreatProtectionSettingsListByServerResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByServer(resourceGroupName, serverName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByServerNext(
+        resourceGroupName,
+        serverName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerCommunicationLinksListByServerOptionalParams
-  ): AsyncIterableIterator<ServerCommunicationLink> {
+    options?: ServerAdvancedThreatProtectionSettingsListByServerOptionalParams
+  ): AsyncIterableIterator<ServerAdvancedThreatProtection> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
@@ -102,73 +128,73 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
   }
 
   /**
-   * Deletes a server communication link.
+   * Get a list of the server's Advanced Threat Protection states.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param communicationLinkName The name of the server communication link.
    * @param options The options parameters.
    */
-  delete(
+  private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    communicationLinkName: string,
-    options?: ServerCommunicationLinksDeleteOptionalParams
-  ): Promise<void> {
+    options?: ServerAdvancedThreatProtectionSettingsListByServerOptionalParams
+  ): Promise<ServerAdvancedThreatProtectionSettingsListByServerResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, communicationLinkName, options },
-      deleteOperationSpec
+      { resourceGroupName, serverName, options },
+      listByServerOperationSpec
     );
   }
 
   /**
-   * Returns a server communication link.
+   * Get a server's Advanced Threat Protection state.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param communicationLinkName The name of the server communication link.
+   * @param advancedThreatProtectionName The name of the Advanced Threat Protection state.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serverName: string,
-    communicationLinkName: string,
-    options?: ServerCommunicationLinksGetOptionalParams
-  ): Promise<ServerCommunicationLinksGetResponse> {
+    advancedThreatProtectionName: AdvancedThreatProtectionName,
+    options?: ServerAdvancedThreatProtectionSettingsGetOptionalParams
+  ): Promise<ServerAdvancedThreatProtectionSettingsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, communicationLinkName, options },
+      { resourceGroupName, serverName, advancedThreatProtectionName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates a server communication link.
+   * Creates or updates an Advanced Threat Protection state.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param communicationLinkName The name of the server communication link.
-   * @param parameters The required parameters for creating a server communication link.
+   * @param advancedThreatProtectionName The name of the Advanced Threat Protection state.
+   * @param parameters The server Advanced Threat Protection state.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     serverName: string,
-    communicationLinkName: string,
-    parameters: ServerCommunicationLink,
-    options?: ServerCommunicationLinksCreateOrUpdateOptionalParams
+    advancedThreatProtectionName: AdvancedThreatProtectionName,
+    parameters: ServerAdvancedThreatProtection,
+    options?: ServerAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerCommunicationLinksCreateOrUpdateResponse>,
-      ServerCommunicationLinksCreateOrUpdateResponse
+    SimplePollerLike<
+      OperationState<
+        ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse
+      >,
+      ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ServerCommunicationLinksCreateOrUpdateResponse> => {
+    ): Promise<ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -201,19 +227,24 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
-        communicationLinkName,
+        advancedThreatProtectionName,
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse,
+      OperationState<
+        ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -221,25 +252,25 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
   }
 
   /**
-   * Creates a server communication link.
+   * Creates or updates an Advanced Threat Protection state.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param communicationLinkName The name of the server communication link.
-   * @param parameters The required parameters for creating a server communication link.
+   * @param advancedThreatProtectionName The name of the Advanced Threat Protection state.
+   * @param parameters The server Advanced Threat Protection state.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serverName: string,
-    communicationLinkName: string,
-    parameters: ServerCommunicationLink,
-    options?: ServerCommunicationLinksCreateOrUpdateOptionalParams
-  ): Promise<ServerCommunicationLinksCreateOrUpdateResponse> {
+    advancedThreatProtectionName: AdvancedThreatProtectionName,
+    parameters: ServerAdvancedThreatProtection,
+    options?: ServerAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams
+  ): Promise<ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serverName,
-      communicationLinkName,
+      advancedThreatProtectionName,
       parameters,
       options
     );
@@ -247,107 +278,116 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
   }
 
   /**
-   * Gets a list of server communication links.
+   * ListByServerNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
+   * @param nextLink The nextLink from the previous successful call to the ListByServer method.
    * @param options The options parameters.
    */
-  private _listByServer(
+  private _listByServerNext(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerCommunicationLinksListByServerOptionalParams
-  ): Promise<ServerCommunicationLinksListByServerResponse> {
+    nextLink: string,
+    options?: ServerAdvancedThreatProtectionSettingsListByServerNextOptionalParams
+  ): Promise<ServerAdvancedThreatProtectionSettingsListByServerNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      { resourceGroupName, serverName, nextLink, options },
+      listByServerNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const deleteOperationSpec: coreClient.OperationSpec = {
+const listByServerOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
-  httpMethod: "DELETE",
-  responses: { 200: {} },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.communicationLinkName
-  ],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/advancedThreatProtectionSettings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerCommunicationLink
-    }
+      bodyMapper: Mappers.LogicalServerAdvancedThreatProtectionListResult
+    },
+    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.communicationLinkName
+    Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/advancedThreatProtectionSettings/{advancedThreatProtectionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ServerAdvancedThreatProtection
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.subscriptionId,
+    Parameters.advancedThreatProtectionName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/advancedThreatProtectionSettings/{advancedThreatProtectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerCommunicationLink
+      bodyMapper: Mappers.ServerAdvancedThreatProtection
     },
     201: {
-      bodyMapper: Mappers.ServerCommunicationLink
+      bodyMapper: Mappers.ServerAdvancedThreatProtection
     },
     202: {
-      bodyMapper: Mappers.ServerCommunicationLink
+      bodyMapper: Mappers.ServerAdvancedThreatProtection
     },
     204: {
-      bodyMapper: Mappers.ServerCommunicationLink
-    }
+      bodyMapper: Mappers.ServerAdvancedThreatProtection
+    },
+    default: {}
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters77,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.communicationLinkName
+    Parameters.subscriptionId,
+    Parameters.advancedThreatProtectionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks",
+const listByServerNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerCommunicationLinkListResult
-    }
+      bodyMapper: Mappers.LogicalServerAdvancedThreatProtectionListResult
+    },
+    default: {}
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
+    Parameters.subscriptionId,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

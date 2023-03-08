@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ServerConnectionPolicy,
   ServerConnectionPoliciesListByServerNextOptionalParams,
@@ -123,6 +127,24 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
   }
 
   /**
+   * Lists connection policy
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param options The options parameters.
+   */
+  private _listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: ServerConnectionPoliciesListByServerOptionalParams
+  ): Promise<ServerConnectionPoliciesListByServerResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, options },
+      listByServerOperationSpec
+    );
+  }
+
+  /**
    * Gets a server connection policy
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -158,8 +180,8 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
     parameters: ServerConnectionPolicy,
     options?: ServerConnectionPoliciesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerConnectionPoliciesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServerConnectionPoliciesCreateOrUpdateResponse>,
       ServerConnectionPoliciesCreateOrUpdateResponse
     >
   > {
@@ -169,7 +191,7 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
     ): Promise<ServerConnectionPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -202,19 +224,22 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         connectionPolicyName,
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ServerConnectionPoliciesCreateOrUpdateResponse,
+      OperationState<ServerConnectionPoliciesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -248,24 +273,6 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
   }
 
   /**
-   * Lists connection policy
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param options The options parameters.
-   */
-  private _listByServer(
-    resourceGroupName: string,
-    serverName: string,
-    options?: ServerConnectionPoliciesListByServerOptionalParams
-  ): Promise<ServerConnectionPoliciesListByServerResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, options },
-      listByServerOperationSpec
-    );
-  }
-
-  /**
    * ListByServerNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -288,6 +295,26 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByServerOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/connectionPolicies",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ServerConnectionPolicyListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/connectionPolicies/{connectionPolicyName}",
@@ -298,12 +325,12 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.connectionPolicyName
   ],
   headerParameters: [Parameters.accept],
@@ -328,37 +355,17 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters88,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters82,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.connectionPolicyName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/connectionPolicies",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ServerConnectionPolicyListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
@@ -372,9 +379,9 @@ const listByServerNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

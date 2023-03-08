@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   LedgerDigestUploads,
   LedgerDigestUploadsListByDatabaseNextOptionalParams,
@@ -139,6 +143,26 @@ export class LedgerDigestUploadsOperationsImpl
   }
 
   /**
+   * Gets all ledger digest upload settings on a database.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param options The options parameters.
+   */
+  private _listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: LedgerDigestUploadsListByDatabaseOptionalParams
+  ): Promise<LedgerDigestUploadsListByDatabaseResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, databaseName, options },
+      listByDatabaseOperationSpec
+    );
+  }
+
+  /**
    * Gets the current ledger digest upload configuration for a database.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -184,8 +208,8 @@ export class LedgerDigestUploadsOperationsImpl
     parameters: LedgerDigestUploads,
     options?: LedgerDigestUploadsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LedgerDigestUploadsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LedgerDigestUploadsCreateOrUpdateResponse>,
       LedgerDigestUploadsCreateOrUpdateResponse
     >
   > {
@@ -195,7 +219,7 @@ export class LedgerDigestUploadsOperationsImpl
     ): Promise<LedgerDigestUploadsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -228,9 +252,9 @@ export class LedgerDigestUploadsOperationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         databaseName,
@@ -238,10 +262,13 @@ export class LedgerDigestUploadsOperationsImpl
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LedgerDigestUploadsCreateOrUpdateResponse,
+      OperationState<LedgerDigestUploadsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -278,26 +305,6 @@ export class LedgerDigestUploadsOperationsImpl
   }
 
   /**
-   * Gets all ledger digest upload settings on a database.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param options The options parameters.
-   */
-  private _listByDatabase(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    options?: LedgerDigestUploadsListByDatabaseOptionalParams
-  ): Promise<LedgerDigestUploadsListByDatabaseResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, options },
-      listByDatabaseOperationSpec
-    );
-  }
-
-  /**
    * Disables uploading ledger digests to an Azure Storage account or an Azure Confidential Ledger
    * instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -314,8 +321,8 @@ export class LedgerDigestUploadsOperationsImpl
     ledgerDigestUploads: LedgerDigestUploadsName,
     options?: LedgerDigestUploadsDisableOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LedgerDigestUploadsDisableResponse>,
+    SimplePollerLike<
+      OperationState<LedgerDigestUploadsDisableResponse>,
       LedgerDigestUploadsDisableResponse
     >
   > {
@@ -325,7 +332,7 @@ export class LedgerDigestUploadsOperationsImpl
     ): Promise<LedgerDigestUploadsDisableResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -358,19 +365,22 @@ export class LedgerDigestUploadsOperationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         databaseName,
         ledgerDigestUploads,
         options
       },
-      disableOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: disableOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LedgerDigestUploadsDisableResponse,
+      OperationState<LedgerDigestUploadsDisableResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -429,6 +439,27 @@ export class LedgerDigestUploadsOperationsImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByDatabaseOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/ledgerDigestUploads",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LedgerDigestUploadsListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}",
@@ -439,13 +470,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.ledgerDigestUploads
   ],
   headerParameters: [Parameters.accept],
@@ -470,39 +501,18 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters78,
-  queryParameters: [Parameters.apiVersion3],
+  requestBody: Parameters.parameters42,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.ledgerDigestUploads
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/ledgerDigestUploads",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LedgerDigestUploadsListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const disableOperationSpec: coreClient.OperationSpec = {
@@ -524,13 +534,13 @@ const disableOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.ledgerDigestUploads
   ],
   headerParameters: [Parameters.accept],
@@ -547,10 +557,10 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

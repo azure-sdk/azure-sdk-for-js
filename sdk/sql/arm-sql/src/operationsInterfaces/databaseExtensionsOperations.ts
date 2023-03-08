@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ImportExportExtensionsOperationResult,
   DatabaseExtensionsListByDatabaseOptionalParams,
@@ -51,7 +51,7 @@ export interface DatabaseExtensionsOperations {
     options?: DatabaseExtensionsGetOptionalParams
   ): Promise<void>;
   /**
-   * Perform a database extension operation, like polybase import
+   * Perform a database extension operation, like database import, database export, or polybase import
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -68,13 +68,13 @@ export interface DatabaseExtensionsOperations {
     parameters: DatabaseExtensions,
     options?: DatabaseExtensionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DatabaseExtensionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DatabaseExtensionsCreateOrUpdateResponse>,
       DatabaseExtensionsCreateOrUpdateResponse
     >
   >;
   /**
-   * Perform a database extension operation, like polybase import
+   * Perform a database extension operation, like database import, database export, or polybase import
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
