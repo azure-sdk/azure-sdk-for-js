@@ -9,10 +9,10 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Product,
+  ProductsListByInvoiceSectionOptionalParams,
+  ProductsListByBillingProfileOptionalParams,
   ProductsListByCustomerOptionalParams,
   ProductsListByBillingAccountOptionalParams,
-  ProductsListByBillingProfileOptionalParams,
-  ProductsListByInvoiceSectionOptionalParams,
   ProductsGetOptionalParams,
   ProductsGetResponse,
   ProductsUpdateOptionalParams,
@@ -27,6 +27,33 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Products. */
 export interface Products {
+  /**
+   * Lists the products for an invoice section. These don't include products billed based on usage. The
+   * operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param options The options parameters.
+   */
+  listByInvoiceSection(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    options?: ProductsListByInvoiceSectionOptionalParams
+  ): PagedAsyncIterableIterator<Product>;
+  /**
+   * Lists the products for a billing profile. These don't include products billed based on usage. The
+   * operation is supported for billing accounts with agreement type Microsoft Customer Agreement or
+   * Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param options The options parameters.
+   */
+  listByBillingProfile(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: ProductsListByBillingProfileOptionalParams
+  ): PagedAsyncIterableIterator<Product>;
   /**
    * Lists the products for a customer. These don't include products billed based on usage.The operation
    * is supported only for billing accounts with agreement type Microsoft Partner Agreement.
@@ -49,33 +76,6 @@ export interface Products {
   listByBillingAccount(
     billingAccountName: string,
     options?: ProductsListByBillingAccountOptionalParams
-  ): PagedAsyncIterableIterator<Product>;
-  /**
-   * Lists the products for a billing profile. These don't include products billed based on usage. The
-   * operation is supported for billing accounts with agreement type Microsoft Customer Agreement or
-   * Microsoft Partner Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param options The options parameters.
-   */
-  listByBillingProfile(
-    billingAccountName: string,
-    billingProfileName: string,
-    options?: ProductsListByBillingProfileOptionalParams
-  ): PagedAsyncIterableIterator<Product>;
-  /**
-   * Lists the products for an invoice section. These don't include products billed based on usage. The
-   * operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
-   * @param options The options parameters.
-   */
-  listByInvoiceSection(
-    billingAccountName: string,
-    billingProfileName: string,
-    invoiceSectionName: string,
-    options?: ProductsListByInvoiceSectionOptionalParams
   ): PagedAsyncIterableIterator<Product>;
   /**
    * Gets a product by ID. The operation is supported only for billing accounts with agreement type

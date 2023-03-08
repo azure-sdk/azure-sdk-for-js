@@ -7,13 +7,13 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BillingSubscription,
-  BillingSubscriptionsListByCustomerOptionalParams,
-  BillingSubscriptionsListByBillingAccountOptionalParams,
   BillingSubscriptionsListByBillingProfileOptionalParams,
   BillingSubscriptionsListByInvoiceSectionOptionalParams,
+  BillingSubscriptionsListByBillingAccountOptionalParams,
+  BillingSubscriptionsListByCustomerOptionalParams,
   BillingSubscriptionsGetOptionalParams,
   BillingSubscriptionsGetResponse,
   BillingSubscriptionsUpdateOptionalParams,
@@ -28,28 +28,6 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BillingSubscriptions. */
 export interface BillingSubscriptions {
-  /**
-   * Lists the subscriptions for a customer. The operation is supported only for billing accounts with
-   * agreement type Microsoft Partner Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param customerName The ID that uniquely identifies a customer.
-   * @param options The options parameters.
-   */
-  listByCustomer(
-    billingAccountName: string,
-    customerName: string,
-    options?: BillingSubscriptionsListByCustomerOptionalParams
-  ): PagedAsyncIterableIterator<BillingSubscription>;
-  /**
-   * Lists the subscriptions for a billing account. The operation is supported for billing accounts with
-   * agreement type Microsoft Customer Agreement or Microsoft Partner Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param options The options parameters.
-   */
-  listByBillingAccount(
-    billingAccountName: string,
-    options?: BillingSubscriptionsListByBillingAccountOptionalParams
-  ): PagedAsyncIterableIterator<BillingSubscription>;
   /**
    * Lists the subscriptions that are billed to a billing profile. The operation is supported for billing
    * accounts with agreement type Microsoft Customer Agreement or Microsoft Partner Agreement.
@@ -75,6 +53,28 @@ export interface BillingSubscriptions {
     billingProfileName: string,
     invoiceSectionName: string,
     options?: BillingSubscriptionsListByInvoiceSectionOptionalParams
+  ): PagedAsyncIterableIterator<BillingSubscription>;
+  /**
+   * Lists the subscriptions for a billing account. The operation is supported for billing accounts with
+   * agreement type Microsoft Customer Agreement or Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param options The options parameters.
+   */
+  listByBillingAccount(
+    billingAccountName: string,
+    options?: BillingSubscriptionsListByBillingAccountOptionalParams
+  ): PagedAsyncIterableIterator<BillingSubscription>;
+  /**
+   * Lists the subscriptions for a customer. The operation is supported only for billing accounts with
+   * agreement type Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param options The options parameters.
+   */
+  listByCustomer(
+    billingAccountName: string,
+    customerName: string,
+    options?: BillingSubscriptionsListByCustomerOptionalParams
   ): PagedAsyncIterableIterator<BillingSubscription>;
   /**
    * Gets a subscription by its ID. The operation is supported for billing accounts with agreement type
@@ -111,8 +111,8 @@ export interface BillingSubscriptions {
     parameters: TransferBillingSubscriptionRequestProperties,
     options?: BillingSubscriptionsMoveOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BillingSubscriptionsMoveResponse>,
+    SimplePollerLike<
+      OperationState<BillingSubscriptionsMoveResponse>,
       BillingSubscriptionsMoveResponse
     >
   >;

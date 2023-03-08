@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BillingAccount,
   BillingAccountsListOptionalParams,
@@ -61,8 +61,8 @@ export interface BillingAccounts {
     parameters: BillingAccountUpdateRequest,
     options?: BillingAccountsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BillingAccountsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BillingAccountsUpdateResponse>,
       BillingAccountsUpdateResponse
     >
   >;
