@@ -9992,10 +9992,11 @@ packages:
     dev: false
 
   file:projects/arm-appcontainers.tgz:
-    resolution: {integrity: sha512-IYNJde9wPxRg9Nkfu3/H19N6iK5xLgO6Bw1Zau6hDNuAUL7ZSWRLprgzsGxUSfB9LoYqg9CUA84A+JgVIt8qLw==, tarball: file:projects/arm-appcontainers.tgz}
+    resolution: {integrity: sha512-6kVFQoKnooopuPtRnEZ6D8h8akmbg3j9SxoXzDChP4lfRkyN8TH+WQLv6R4z0HTEMCvoXtbgJETyCPbl/F+pvQ==, tarball: file:projects/arm-appcontainers.tgz}
     name: '@rush-temp/arm-appcontainers'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-recorder': 2.0.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.37
       '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
@@ -10006,7 +10007,8 @@ packages:
       '@types/node': 14.18.37
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -10015,6 +10017,7 @@ packages:
       typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - encoding
       - supports-color
     dev: false
 
