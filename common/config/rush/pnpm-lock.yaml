@@ -14,6 +14,7 @@ specifiers:
   '@rush-temp/api-management-custom-widgets-scaffolder': file:./projects/api-management-custom-widgets-scaffolder.tgz
   '@rush-temp/api-management-custom-widgets-tools': file:./projects/api-management-custom-widgets-tools.tgz
   '@rush-temp/app-configuration': file:./projects/app-configuration.tgz
+  '@rush-temp/arm-PaloAltoNetworks.Cloudngfw': file:./projects/arm-PaloAltoNetworks.Cloudngfw.tgz
   '@rush-temp/arm-advisor': file:./projects/arm-advisor.tgz
   '@rush-temp/arm-agrifood': file:./projects/arm-agrifood.tgz
   '@rush-temp/arm-analysisservices': file:./projects/arm-analysisservices.tgz
@@ -345,6 +346,7 @@ dependencies:
   '@rush-temp/api-management-custom-widgets-scaffolder': file:projects/api-management-custom-widgets-scaffolder.tgz
   '@rush-temp/api-management-custom-widgets-tools': file:projects/api-management-custom-widgets-tools.tgz
   '@rush-temp/app-configuration': file:projects/app-configuration.tgz
+  '@rush-temp/arm-PaloAltoNetworks.Cloudngfw': file:projects/arm-PaloAltoNetworks.Cloudngfw.tgz
   '@rush-temp/arm-advisor': file:projects/arm-advisor.tgz
   '@rush-temp/arm-agrifood': file:projects/arm-agrifood.tgz
   '@rush-temp/arm-analysisservices': file:projects/arm-analysisservices.tgz
@@ -3942,7 +3944,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230306
+      typescript: 5.1.0-dev.20230308
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8659,8 +8661,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230306:
-    resolution: {integrity: sha512-CqMT7nhnVNKfaT1giN+UjFUSqN2gBI17K8JoT+I1LgPU/G9oYypuG+91pz8Kjk/GW/BG685khZ0YfFrADj+KPQ==}
+  /typescript/5.1.0-dev.20230308:
+    resolution: {integrity: sha512-CSITPpBYNdPYujl36d9VhNNCLE+isuwm/ArFbYgPsWsLniLCcfBl+NcaOkVqyjV0XEjP+uN1yywiglCkEzed1w==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9786,6 +9788,36 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/arm-PaloAltoNetworks.Cloudngfw.tgz:
+    resolution: {integrity: sha512-P0vDR2NfZNOz2XttbehMPrV+EpSQNViJXbBDa68YqApF0rQ6ad6mZqanhQmakNuNKW/I51H7qj8GQrTMs6WXAg==, tarball: file:projects/arm-PaloAltoNetworks.Cloudngfw.tgz}
+    name: '@rush-temp/arm-PaloAltoNetworks.Cloudngfw'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 2.0.0
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.37
+      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.37
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_uvqxrz6xmh6o32kxhfeqlqrt5q
+      tslib: 2.5.0
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
     dev: false
 
   file:projects/arm-advisor.tgz:
@@ -15210,7 +15242,7 @@ packages:
     dev: false
 
   file:projects/arm-voiceservices.tgz:
-    resolution: {integrity: sha512-UQzVM3QGOoF41oeKg9b+AVss67zUot4pmOyomomv5c8+fdG1UARwvbx2XHwgVrAMj9NtbvXrj/MDVkWcXZxYVQ==, tarball: file:projects/arm-voiceservices.tgz}
+    resolution: {integrity: sha512-DgQPVXmJi5u5/OroRBeaCgyimbuLN3qv2jxV6vLk3nYsPcGR6EYm/UgNrOTogjpMWyA+UOa7ZAi2KjMKld0NYA==, tarball: file:projects/arm-voiceservices.tgz}
     name: '@rush-temp/arm-voiceservices'
     version: 0.0.0
     dependencies:
@@ -15235,7 +15267,6 @@ packages:
       typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - encoding
       - supports-color
     dev: false
 
