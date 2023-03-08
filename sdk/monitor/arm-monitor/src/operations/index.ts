@@ -15,6 +15,7 @@ export * from "./logProfiles";
 export * from "./diagnosticSettings";
 export * from "./diagnosticSettingsCategory";
 export * from "./actionGroups";
+export * from "./tenantActionGroups";
 export * from "./activityLogs";
 export * from "./eventCategories";
 export * from "./tenantActivityLogs";
