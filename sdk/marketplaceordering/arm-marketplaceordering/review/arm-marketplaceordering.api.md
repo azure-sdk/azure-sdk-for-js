@@ -53,6 +53,12 @@ export enum KnownOfferType {
 }
 
 // @public
+export enum KnownState {
+    Active = "Active",
+    Canceled = "Canceled"
+}
+
+// @public
 export interface MarketplaceAgreements {
     cancel(publisherId: string, offerId: string, planId: string, options?: MarketplaceAgreementsCancelOptionalParams): Promise<MarketplaceAgreementsCancelResponse>;
     create(offerType: OfferType, publisherId: string, offerId: string, planId: string, parameters: AgreementTerms, options?: MarketplaceAgreementsCreateOptionalParams): Promise<MarketplaceAgreementsCreateResponse>;
@@ -67,7 +73,7 @@ export interface MarketplaceAgreementsCancelOptionalParams extends coreClient.Op
 }
 
 // @public
-export type MarketplaceAgreementsCancelResponse = AgreementTerms;
+export type MarketplaceAgreementsCancelResponse = OldAgreementTerms;
 
 // @public
 export interface MarketplaceAgreementsCreateOptionalParams extends coreClient.OperationOptions {
@@ -81,7 +87,7 @@ export interface MarketplaceAgreementsGetAgreementOptionalParams extends coreCli
 }
 
 // @public
-export type MarketplaceAgreementsGetAgreementResponse = AgreementTerms;
+export type MarketplaceAgreementsGetAgreementResponse = OldAgreementTerms;
 
 // @public
 export interface MarketplaceAgreementsGetOptionalParams extends coreClient.OperationOptions {
@@ -95,14 +101,14 @@ export interface MarketplaceAgreementsListOptionalParams extends coreClient.Oper
 }
 
 // @public
-export type MarketplaceAgreementsListResponse = AgreementTerms[];
+export type MarketplaceAgreementsListResponse = OldAgreementTermsList;
 
 // @public
 export interface MarketplaceAgreementsSignOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type MarketplaceAgreementsSignResponse = AgreementTerms;
+export type MarketplaceAgreementsSignResponse = OldAgreementTerms;
 
 // @public (undocumented)
 export class MarketplaceOrderingAgreements extends coreClient.ServiceClient {
@@ -128,6 +134,22 @@ export interface MarketplaceOrderingAgreementsOptionalParams extends coreClient.
 
 // @public
 export type OfferType = string;
+
+// @public
+export interface OldAgreementTerms extends Resource {
+    cancelDate?: Date;
+    idPropertiesId?: string;
+    offer?: string;
+    publisher?: string;
+    signDate?: Date;
+    state?: State;
+}
+
+// @public
+export interface OldAgreementTermsList {
+    // (undocumented)
+    value?: OldAgreementTerms[];
+}
 
 // @public
 export interface Operation {
@@ -174,6 +196,9 @@ export interface Resource {
     readonly name?: string;
     readonly type?: string;
 }
+
+// @public
+export type State = string;
 
 // @public
 export interface SystemData {

@@ -210,7 +210,7 @@ const signOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AgreementTerms
+      bodyMapper: Mappers.OldAgreementTerms
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -233,7 +233,7 @@ const cancelOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AgreementTerms
+      bodyMapper: Mappers.OldAgreementTerms
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -256,7 +256,7 @@ const getAgreementOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AgreementTerms
+      bodyMapper: Mappers.OldAgreementTerms
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -279,12 +279,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "AgreementTerms" } }
-        }
-      }
+      bodyMapper: Mappers.OldAgreementTermsList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
