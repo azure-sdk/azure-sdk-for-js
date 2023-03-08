@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DeletedServer,
   DeletedServersListNextOptionalParams,
@@ -174,6 +178,21 @@ export class DeletedServersImpl implements DeletedServers {
   }
 
   /**
+   * Gets a list of deleted servers for a location.
+   * @param locationName The name of the region where the resource is located.
+   * @param options The options parameters.
+   */
+  private _listByLocation(
+    locationName: string,
+    options?: DeletedServersListByLocationOptionalParams
+  ): Promise<DeletedServersListByLocationResponse> {
+    return this.client.sendOperationRequest(
+      { locationName, options },
+      listByLocationOperationSpec
+    );
+  }
+
+  /**
    * Gets a deleted server.
    * @param locationName The name of the region where the resource is located.
    * @param deletedServerName The name of the deleted server.
@@ -191,21 +210,6 @@ export class DeletedServersImpl implements DeletedServers {
   }
 
   /**
-   * Gets a list of deleted servers for a location.
-   * @param locationName The name of the region where the resource is located.
-   * @param options The options parameters.
-   */
-  private _listByLocation(
-    locationName: string,
-    options?: DeletedServersListByLocationOptionalParams
-  ): Promise<DeletedServersListByLocationResponse> {
-    return this.client.sendOperationRequest(
-      { locationName, options },
-      listByLocationOperationSpec
-    );
-  }
-
-  /**
    * Recovers a deleted server.
    * @param locationName The name of the region where the resource is located.
    * @param deletedServerName The name of the deleted server.
@@ -216,8 +220,8 @@ export class DeletedServersImpl implements DeletedServers {
     deletedServerName: string,
     options?: DeletedServersRecoverOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeletedServersRecoverResponse>,
+    SimplePollerLike<
+      OperationState<DeletedServersRecoverResponse>,
       DeletedServersRecoverResponse
     >
   > {
@@ -227,7 +231,7 @@ export class DeletedServersImpl implements DeletedServers {
     ): Promise<DeletedServersRecoverResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -260,13 +264,16 @@ export class DeletedServersImpl implements DeletedServers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { locationName, deletedServerName, options },
-      recoverOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { locationName, deletedServerName, options },
+      spec: recoverOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DeletedServersRecoverResponse,
+      OperationState<DeletedServersRecoverResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -337,28 +344,8 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/deletedServers/{deletedServerName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeletedServer
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationName,
-    Parameters.deletedServerName
-  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -372,11 +359,31 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.locationName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/deletedServers/{deletedServerName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeletedServer
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.locationName,
+    Parameters.deletedServerName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -400,7 +407,7 @@ const recoverOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

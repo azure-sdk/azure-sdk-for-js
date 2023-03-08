@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ManagedBackupShortTermRetentionPolicy,
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseNextOptionalParams,
@@ -139,6 +143,33 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
   }
 
   /**
+   * Gets a dropped database's short term retention policy list.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param restorableDroppedDatabaseId
+   * @param options The options parameters.
+   */
+  private _listByRestorableDroppedDatabase(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    restorableDroppedDatabaseId: string,
+    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseOptionalParams
+  ): Promise<
+    ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseResponse
+  > {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        managedInstanceName,
+        restorableDroppedDatabaseId,
+        options
+      },
+      listByRestorableDroppedDatabaseOperationSpec
+    );
+  }
+
+  /**
    * Gets a dropped database's short term retention policy.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -186,8 +217,8 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
     parameters: ManagedBackupShortTermRetentionPolicy,
     options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse
       >,
       ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse
@@ -199,7 +230,7 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
     ): Promise<ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -232,9 +263,9 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         managedInstanceName,
         restorableDroppedDatabaseId,
@@ -242,10 +273,15 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse,
+      OperationState<
+        ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -301,8 +337,8 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
     parameters: ManagedBackupShortTermRetentionPolicy,
     options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse
       >,
       ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse
@@ -314,7 +350,7 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
     ): Promise<ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -347,9 +383,9 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         managedInstanceName,
         restorableDroppedDatabaseId,
@@ -357,10 +393,15 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
         parameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse,
+      OperationState<
+        ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -399,33 +440,6 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
   }
 
   /**
-   * Gets a dropped database's short term retention policy list.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
-   * @param restorableDroppedDatabaseId
-   * @param options The options parameters.
-   */
-  private _listByRestorableDroppedDatabase(
-    resourceGroupName: string,
-    managedInstanceName: string,
-    restorableDroppedDatabaseId: string,
-    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseOptionalParams
-  ): Promise<
-    ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseResponse
-  > {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        managedInstanceName,
-        restorableDroppedDatabaseId,
-        options
-      },
-      listByRestorableDroppedDatabaseOperationSpec
-    );
-  }
-
-  /**
    * ListByRestorableDroppedDatabaseNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -459,6 +473,27 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByRestorableDroppedDatabaseOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicyListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.managedInstanceName,
+    Parameters.restorableDroppedDatabaseId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies/{policyName}",
@@ -469,13 +504,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.managedInstanceName,
-    Parameters.policyName1,
+    Parameters.policyName2,
     Parameters.restorableDroppedDatabaseId
   ],
   headerParameters: [Parameters.accept],
@@ -500,14 +535,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters38,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters47,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.managedInstanceName,
-    Parameters.policyName1,
+    Parameters.policyName2,
     Parameters.restorableDroppedDatabaseId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -533,39 +568,18 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters38,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters47,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.managedInstanceName,
-    Parameters.policyName1,
+    Parameters.policyName2,
     Parameters.restorableDroppedDatabaseId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const listByRestorableDroppedDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicyListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managedInstanceName,
-    Parameters.restorableDroppedDatabaseId
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listByRestorableDroppedDatabaseNextOperationSpec: coreClient.OperationSpec = {
@@ -579,8 +593,8 @@ const listByRestorableDroppedDatabaseNextOperationSpec: coreClient.OperationSpec
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.managedInstanceName,
     Parameters.restorableDroppedDatabaseId

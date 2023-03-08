@@ -7,15 +7,15 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ManagedInstanceLongTermRetentionBackup,
+  LongTermRetentionManagedInstanceBackupsListByLocationOptionalParams,
   LongTermRetentionManagedInstanceBackupsListByDatabaseOptionalParams,
   LongTermRetentionManagedInstanceBackupsListByInstanceOptionalParams,
-  LongTermRetentionManagedInstanceBackupsListByLocationOptionalParams,
+  LongTermRetentionManagedInstanceBackupsListByResourceGroupLocationOptionalParams,
   LongTermRetentionManagedInstanceBackupsListByResourceGroupDatabaseOptionalParams,
   LongTermRetentionManagedInstanceBackupsListByResourceGroupInstanceOptionalParams,
-  LongTermRetentionManagedInstanceBackupsListByResourceGroupLocationOptionalParams,
   LongTermRetentionManagedInstanceBackupsGetOptionalParams,
   LongTermRetentionManagedInstanceBackupsGetResponse,
   LongTermRetentionManagedInstanceBackupsDeleteOptionalParams,
@@ -27,6 +27,15 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LongTermRetentionManagedInstanceBackups. */
 export interface LongTermRetentionManagedInstanceBackups {
+  /**
+   * Lists the long term retention backups for managed databases in a given location.
+   * @param locationName The location of the database.
+   * @param options The options parameters.
+   */
+  listByLocation(
+    locationName: string,
+    options?: LongTermRetentionManagedInstanceBackupsListByLocationOptionalParams
+  ): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionBackup>;
   /**
    * Lists all long term retention backups for a managed database.
    * @param locationName The location of the database.
@@ -53,12 +62,15 @@ export interface LongTermRetentionManagedInstanceBackups {
   ): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionBackup>;
   /**
    * Lists the long term retention backups for managed databases in a given location.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
    * @param locationName The location of the database.
    * @param options The options parameters.
    */
-  listByLocation(
+  listByResourceGroupLocation(
+    resourceGroupName: string,
     locationName: string,
-    options?: LongTermRetentionManagedInstanceBackupsListByLocationOptionalParams
+    options?: LongTermRetentionManagedInstanceBackupsListByResourceGroupLocationOptionalParams
   ): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionBackup>;
   /**
    * Lists all long term retention backups for a managed database.
@@ -91,18 +103,6 @@ export interface LongTermRetentionManagedInstanceBackups {
     options?: LongTermRetentionManagedInstanceBackupsListByResourceGroupInstanceOptionalParams
   ): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionBackup>;
   /**
-   * Lists the long term retention backups for managed databases in a given location.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param locationName The location of the database.
-   * @param options The options parameters.
-   */
-  listByResourceGroupLocation(
-    resourceGroupName: string,
-    locationName: string,
-    options?: LongTermRetentionManagedInstanceBackupsListByResourceGroupLocationOptionalParams
-  ): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionBackup>;
-  /**
    * Gets a long term retention backup for a managed database.
    * @param locationName The location of the database.
    * @param managedInstanceName The name of the managed instance.
@@ -131,7 +131,7 @@ export interface LongTermRetentionManagedInstanceBackups {
     databaseName: string,
     backupName: string,
     options?: LongTermRetentionManagedInstanceBackupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a long term retention backup.
    * @param locationName The location of the database.
@@ -182,7 +182,7 @@ export interface LongTermRetentionManagedInstanceBackups {
     databaseName: string,
     backupName: string,
     options?: LongTermRetentionManagedInstanceBackupsDeleteByResourceGroupOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a long term retention backup.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
