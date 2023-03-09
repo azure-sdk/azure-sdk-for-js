@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { VolumeGroups } from "../operationsInterfaces";
+import { Snapshots } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,28 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  VolumeGroup,
-  VolumeGroupsListByElasticSanNextOptionalParams,
-  VolumeGroupsListByElasticSanOptionalParams,
-  VolumeGroupsListByElasticSanResponse,
-  VolumeGroupsCreateOptionalParams,
-  VolumeGroupsCreateResponse,
-  VolumeGroupUpdate,
-  VolumeGroupsUpdateOptionalParams,
-  VolumeGroupsUpdateResponse,
-  VolumeGroupsDeleteOptionalParams,
-  VolumeGroupsGetOptionalParams,
-  VolumeGroupsGetResponse,
-  VolumeGroupsListByElasticSanNextResponse
+  Snapshot,
+  SnapshotsListByVolumeGroupNextOptionalParams,
+  SnapshotsListByVolumeGroupOptionalParams,
+  SnapshotsListByVolumeGroupResponse,
+  SnapshotCreateParameter,
+  SnapshotsCreateOptionalParams,
+  SnapshotsCreateResponse,
+  SnapshotUpdate,
+  SnapshotsUpdateOptionalParams,
+  SnapshotsUpdateResponse,
+  SnapshotsDeleteOptionalParams,
+  SnapshotsGetOptionalParams,
+  SnapshotsGetResponse,
+  SnapshotsListByVolumeGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing VolumeGroups operations. */
-export class VolumeGroupsImpl implements VolumeGroups {
+/** Class containing Snapshots operations. */
+export class SnapshotsImpl implements Snapshots {
   private readonly client: ElasticSanManagement;
 
   /**
-   * Initialize a new instance of the class VolumeGroups class.
+   * Initialize a new instance of the class Snapshots class.
    * @param client Reference to the service client
    */
   constructor(client: ElasticSanManagement) {
@@ -49,19 +50,22 @@ export class VolumeGroupsImpl implements VolumeGroups {
   }
 
   /**
-   * List VolumeGroups.
+   * List Snapshots in a VolumeGroup or List Snapshots by Volume (name) in a VolumeGroup using filter
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
    * @param options The options parameters.
    */
-  public listByElasticSan(
+  public listByVolumeGroup(
     resourceGroupName: string,
     elasticSanName: string,
-    options?: VolumeGroupsListByElasticSanOptionalParams
-  ): PagedAsyncIterableIterator<VolumeGroup> {
-    const iter = this.listByElasticSanPagingAll(
+    volumeGroupName: string,
+    options?: SnapshotsListByVolumeGroupOptionalParams
+  ): PagedAsyncIterableIterator<Snapshot> {
+    const iter = this.listByVolumeGroupPagingAll(
       resourceGroupName,
       elasticSanName,
+      volumeGroupName,
       options
     );
     return {
@@ -75,9 +79,10 @@ export class VolumeGroupsImpl implements VolumeGroups {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByElasticSanPagingPage(
+        return this.listByVolumeGroupPagingPage(
           resourceGroupName,
           elasticSanName,
+          volumeGroupName,
           options,
           settings
         );
@@ -85,18 +90,20 @@ export class VolumeGroupsImpl implements VolumeGroups {
     };
   }
 
-  private async *listByElasticSanPagingPage(
+  private async *listByVolumeGroupPagingPage(
     resourceGroupName: string,
     elasticSanName: string,
-    options?: VolumeGroupsListByElasticSanOptionalParams,
+    volumeGroupName: string,
+    options?: SnapshotsListByVolumeGroupOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<VolumeGroup[]> {
-    let result: VolumeGroupsListByElasticSanResponse;
+  ): AsyncIterableIterator<Snapshot[]> {
+    let result: SnapshotsListByVolumeGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByElasticSan(
+      result = await this._listByVolumeGroup(
         resourceGroupName,
         elasticSanName,
+        volumeGroupName,
         options
       );
       let page = result.value || [];
@@ -105,9 +112,10 @@ export class VolumeGroupsImpl implements VolumeGroups {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByElasticSanNext(
+      result = await this._listByVolumeGroupNext(
         resourceGroupName,
         elasticSanName,
+        volumeGroupName,
         continuationToken,
         options
       );
@@ -118,14 +126,16 @@ export class VolumeGroupsImpl implements VolumeGroups {
     }
   }
 
-  private async *listByElasticSanPagingAll(
+  private async *listByVolumeGroupPagingAll(
     resourceGroupName: string,
     elasticSanName: string,
-    options?: VolumeGroupsListByElasticSanOptionalParams
-  ): AsyncIterableIterator<VolumeGroup> {
-    for await (const page of this.listByElasticSanPagingPage(
+    volumeGroupName: string,
+    options?: SnapshotsListByVolumeGroupOptionalParams
+  ): AsyncIterableIterator<Snapshot> {
+    for await (const page of this.listByVolumeGroupPagingPage(
       resourceGroupName,
       elasticSanName,
+      volumeGroupName,
       options
     )) {
       yield* page;
@@ -133,46 +143,50 @@ export class VolumeGroupsImpl implements VolumeGroups {
   }
 
   /**
-   * List VolumeGroups.
+   * List Snapshots in a VolumeGroup or List Snapshots by Volume (name) in a VolumeGroup using filter
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
    * @param options The options parameters.
    */
-  private _listByElasticSan(
+  private _listByVolumeGroup(
     resourceGroupName: string,
     elasticSanName: string,
-    options?: VolumeGroupsListByElasticSanOptionalParams
-  ): Promise<VolumeGroupsListByElasticSanResponse> {
+    volumeGroupName: string,
+    options?: SnapshotsListByVolumeGroupOptionalParams
+  ): Promise<SnapshotsListByVolumeGroupResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, elasticSanName, options },
-      listByElasticSanOperationSpec
+      { resourceGroupName, elasticSanName, volumeGroupName, options },
+      listByVolumeGroupOperationSpec
     );
   }
 
   /**
-   * Create a Volume Group.
+   * Create a Volume Snapshot.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
    * @param volumeGroupName The name of the VolumeGroup.
-   * @param parameters Volume Group object.
+   * @param snapshotName The name of the volume snapshot within the given volume group.
+   * @param parameters Snapshot object.
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    parameters: VolumeGroup,
-    options?: VolumeGroupsCreateOptionalParams
+    snapshotName: string,
+    parameters: SnapshotCreateParameter,
+    options?: SnapshotsCreateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<VolumeGroupsCreateResponse>,
-      VolumeGroupsCreateResponse
+      OperationState<SnapshotsCreateResponse>,
+      SnapshotsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<VolumeGroupsCreateResponse> => {
+    ): Promise<SnapshotsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -214,14 +228,15 @@ export class VolumeGroupsImpl implements VolumeGroups {
         resourceGroupName,
         elasticSanName,
         volumeGroupName,
+        snapshotName,
         parameters,
         options
       },
       spec: createOperationSpec
     });
     const poller = await createHttpPoller<
-      VolumeGroupsCreateResponse,
-      OperationState<VolumeGroupsCreateResponse>
+      SnapshotsCreateResponse,
+      OperationState<SnapshotsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -232,24 +247,27 @@ export class VolumeGroupsImpl implements VolumeGroups {
   }
 
   /**
-   * Create a Volume Group.
+   * Create a Volume Snapshot.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
    * @param volumeGroupName The name of the VolumeGroup.
-   * @param parameters Volume Group object.
+   * @param snapshotName The name of the volume snapshot within the given volume group.
+   * @param parameters Snapshot object.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    parameters: VolumeGroup,
-    options?: VolumeGroupsCreateOptionalParams
-  ): Promise<VolumeGroupsCreateResponse> {
+    snapshotName: string,
+    parameters: SnapshotCreateParameter,
+    options?: SnapshotsCreateOptionalParams
+  ): Promise<SnapshotsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       elasticSanName,
       volumeGroupName,
+      snapshotName,
       parameters,
       options
     );
@@ -257,124 +275,49 @@ export class VolumeGroupsImpl implements VolumeGroups {
   }
 
   /**
-   * Update an VolumeGroup.
+   * Update a Volume Snapshot.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
    * @param volumeGroupName The name of the VolumeGroup.
-   * @param parameters Volume Group object.
+   * @param snapshotName The name of the volume snapshot within the given volume group.
+   * @param parameters Snapshot object.
    * @param options The options parameters.
    */
-  async beginUpdate(
+  update(
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    parameters: VolumeGroupUpdate,
-    options?: VolumeGroupsUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VolumeGroupsUpdateResponse>,
-      VolumeGroupsUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<VolumeGroupsUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    snapshotName: string,
+    parameters: SnapshotUpdate,
+    options?: SnapshotsUpdateOptionalParams
+  ): Promise<SnapshotsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
         resourceGroupName,
         elasticSanName,
         volumeGroupName,
+        snapshotName,
         parameters,
         options
       },
-      spec: updateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      VolumeGroupsUpdateResponse,
-      OperationState<VolumeGroupsUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Update an VolumeGroup.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param elasticSanName The name of the ElasticSan.
-   * @param volumeGroupName The name of the VolumeGroup.
-   * @param parameters Volume Group object.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    elasticSanName: string,
-    volumeGroupName: string,
-    parameters: VolumeGroupUpdate,
-    options?: VolumeGroupsUpdateOptionalParams
-  ): Promise<VolumeGroupsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      elasticSanName,
-      volumeGroupName,
-      parameters,
-      options
+      updateOperationSpec
     );
-    return poller.pollUntilDone();
   }
 
   /**
-   * Delete an VolumeGroup.
+   * Delete a Volume Snapshot.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
    * @param volumeGroupName The name of the VolumeGroup.
+   * @param snapshotName The name of the volume snapshot within the given volume group.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    options?: VolumeGroupsDeleteOptionalParams
+    snapshotName: string,
+    options?: SnapshotsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -417,7 +360,13 @@ export class VolumeGroupsImpl implements VolumeGroups {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, elasticSanName, volumeGroupName, options },
+      args: {
+        resourceGroupName,
+        elasticSanName,
+        volumeGroupName,
+        snapshotName,
+        options
+      },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -430,119 +379,134 @@ export class VolumeGroupsImpl implements VolumeGroups {
   }
 
   /**
-   * Delete an VolumeGroup.
+   * Delete a Volume Snapshot.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
    * @param volumeGroupName The name of the VolumeGroup.
+   * @param snapshotName The name of the volume snapshot within the given volume group.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    options?: VolumeGroupsDeleteOptionalParams
+    snapshotName: string,
+    options?: SnapshotsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       elasticSanName,
       volumeGroupName,
+      snapshotName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Get an VolumeGroups.
+   * Get a Volume Snapshot.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
    * @param volumeGroupName The name of the VolumeGroup.
+   * @param snapshotName The name of the volume snapshot within the given volume group.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    options?: VolumeGroupsGetOptionalParams
-  ): Promise<VolumeGroupsGetResponse> {
+    snapshotName: string,
+    options?: SnapshotsGetOptionalParams
+  ): Promise<SnapshotsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, elasticSanName, volumeGroupName, options },
+      {
+        resourceGroupName,
+        elasticSanName,
+        volumeGroupName,
+        snapshotName,
+        options
+      },
       getOperationSpec
     );
   }
 
   /**
-   * ListByElasticSanNext
+   * ListByVolumeGroupNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
-   * @param nextLink The nextLink from the previous successful call to the ListByElasticSan method.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param nextLink The nextLink from the previous successful call to the ListByVolumeGroup method.
    * @param options The options parameters.
    */
-  private _listByElasticSanNext(
+  private _listByVolumeGroupNext(
     resourceGroupName: string,
     elasticSanName: string,
+    volumeGroupName: string,
     nextLink: string,
-    options?: VolumeGroupsListByElasticSanNextOptionalParams
-  ): Promise<VolumeGroupsListByElasticSanNextResponse> {
+    options?: SnapshotsListByVolumeGroupNextOptionalParams
+  ): Promise<SnapshotsListByVolumeGroupNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, elasticSanName, nextLink, options },
-      listByElasticSanNextOperationSpec
+      { resourceGroupName, elasticSanName, volumeGroupName, nextLink, options },
+      listByVolumeGroupNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByElasticSanOperationSpec: coreClient.OperationSpec = {
+const listByVolumeGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumeGroups",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/snapshots",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VolumeGroupList
+      bodyMapper: Mappers.SnapshotList
     },
     default: {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.elasticSanName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VolumeGroup
-    },
-    201: {
-      bodyMapper: Mappers.VolumeGroup
-    },
-    202: {
-      bodyMapper: Mappers.VolumeGroup
-    },
-    204: {
-      bodyMapper: Mappers.VolumeGroup
-    },
-    default: {
-      bodyMapper: Mappers.ErrorModel
-    }
-  },
-  requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.elasticSanName,
     Parameters.volumeGroupName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/snapshots/{snapshotName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Snapshot
+    },
+    201: {
+      bodyMapper: Mappers.Snapshot
+    },
+    202: {
+      bodyMapper: Mappers.Snapshot
+    },
+    204: {
+      bodyMapper: Mappers.Snapshot
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  requestBody: Parameters.parameters6,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.elasticSanName,
+    Parameters.volumeGroupName,
+    Parameters.snapshotName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -550,33 +514,25 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/snapshots/{snapshotName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.VolumeGroup
-    },
-    201: {
-      bodyMapper: Mappers.VolumeGroup
-    },
-    202: {
-      bodyMapper: Mappers.VolumeGroup
-    },
-    204: {
-      bodyMapper: Mappers.VolumeGroup
+      bodyMapper: Mappers.Snapshot
     },
     default: {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.elasticSanName,
-    Parameters.volumeGroupName
+    Parameters.volumeGroupName,
+    Parameters.snapshotName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -584,7 +540,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/snapshots/{snapshotName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -601,18 +557,19 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.elasticSanName,
-    Parameters.volumeGroupName
+    Parameters.volumeGroupName,
+    Parameters.snapshotName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/snapshots/{snapshotName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VolumeGroup
+      bodyMapper: Mappers.Snapshot
     },
     default: {
       bodyMapper: Mappers.ErrorModel
@@ -624,17 +581,18 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.elasticSanName,
-    Parameters.volumeGroupName
+    Parameters.volumeGroupName,
+    Parameters.snapshotName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByElasticSanNextOperationSpec: coreClient.OperationSpec = {
+const listByVolumeGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VolumeGroupList
+      bodyMapper: Mappers.SnapshotList
     },
     default: {
       bodyMapper: Mappers.ErrorModel
@@ -645,7 +603,8 @@ const listByElasticSanNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.elasticSanName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.volumeGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer

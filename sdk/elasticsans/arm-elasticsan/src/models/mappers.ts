@@ -346,7 +346,6 @@ export const ElasticSanList: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
-        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -507,7 +506,6 @@ export const VolumeGroupList: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
-        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -629,11 +627,17 @@ export const SourceCreationData: coreClient.CompositeMapper = {
     className: "SourceCreationData",
     modelProperties: {
       createSource: {
-        defaultValue: "None",
-        isConstant: true,
         serializedName: "createSource",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "None",
+            "VolumeSnapshot",
+            "DiskSnapshot",
+            "Disk",
+            "DiskRestorePoint",
+            "Export"
+          ]
         }
       },
       sourceUri: {
@@ -718,7 +722,6 @@ export const VolumeList: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
-        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -734,6 +737,66 @@ export const VolumeList: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SnapshotList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SnapshotList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Snapshot"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SnapshotCreationData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SnapshotCreationData",
+    modelProperties: {
+      sourceUri: {
+        serializedName: "sourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SnapshotUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SnapshotUpdate",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -799,6 +862,51 @@ export const VolumeGroup: coreClient.CompositeMapper = {
   }
 };
 
+export const VolumeCreateParameter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumeCreateParameter",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      volumeId: {
+        serializedName: "properties.volumeId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      creationData: {
+        serializedName: "properties.creationData",
+        type: {
+          name: "Composite",
+          className: "SourceCreationData"
+        }
+      },
+      sizeGiB: {
+        serializedName: "properties.sizeGiB",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      storageTarget: {
+        serializedName: "properties.storageTarget",
+        type: {
+          name: "Composite",
+          className: "IscsiTargetInfo"
+        }
+      }
+    }
+  }
+};
+
 export const Volume: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -843,10 +951,175 @@ export const Volume: coreClient.CompositeMapper = {
   }
 };
 
+export const Snapshot: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Snapshot",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      creationData: {
+        serializedName: "properties.creationData",
+        type: {
+          name: "Composite",
+          className: "SnapshotCreationData"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      sourceVolumeSizeGiB: {
+        serializedName: "properties.sourceVolumeSizeGiB",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SnapshotCreateParameter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SnapshotCreateParameter",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      creationData: {
+        serializedName: "properties.creationData",
+        type: {
+          name: "Composite",
+          className: "SnapshotCreationData"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      sourceVolumeSizeGiB: {
+        serializedName: "properties.sourceVolumeSizeGiB",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const ElasticSan: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ElasticSan",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      sku: {
+        serializedName: "properties.sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      },
+      availabilityZones: {
+        serializedName: "properties.availabilityZones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      baseSizeTiB: {
+        serializedName: "properties.baseSizeTiB",
+        type: {
+          name: "Number"
+        }
+      },
+      extendedCapacitySizeTiB: {
+        serializedName: "properties.extendedCapacitySizeTiB",
+        type: {
+          name: "Number"
+        }
+      },
+      totalVolumeSizeGiB: {
+        serializedName: "properties.totalVolumeSizeGiB",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      volumeGroupCount: {
+        serializedName: "properties.volumeGroupCount",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      totalIops: {
+        serializedName: "properties.totalIops",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      totalMBps: {
+        serializedName: "properties.totalMBps",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      totalSizeTiB: {
+        serializedName: "properties.totalSizeTiB",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ElasticSanCreateParameter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ElasticSanCreateParameter",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
       systemData: {

@@ -9,24 +9,24 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  Volume,
-  VolumesListByVolumeGroupOptionalParams,
-  VolumeCreateParameter,
-  VolumesCreateOptionalParams,
-  VolumesCreateResponse,
-  VolumeUpdate,
-  VolumesUpdateOptionalParams,
-  VolumesUpdateResponse,
-  VolumesDeleteOptionalParams,
-  VolumesGetOptionalParams,
-  VolumesGetResponse
+  Snapshot,
+  SnapshotsListByVolumeGroupOptionalParams,
+  SnapshotCreateParameter,
+  SnapshotsCreateOptionalParams,
+  SnapshotsCreateResponse,
+  SnapshotUpdate,
+  SnapshotsUpdateOptionalParams,
+  SnapshotsUpdateResponse,
+  SnapshotsDeleteOptionalParams,
+  SnapshotsGetOptionalParams,
+  SnapshotsGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Volumes. */
-export interface Volumes {
+/** Interface representing a Snapshots. */
+export interface Snapshots {
   /**
-   * List Volumes in a VolumeGroup.
+   * List Snapshots in a VolumeGroup or List Snapshots by Volume (name) in a VolumeGroup using filter
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
    * @param volumeGroupName The name of the VolumeGroup.
@@ -36,129 +36,107 @@ export interface Volumes {
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    options?: VolumesListByVolumeGroupOptionalParams
-  ): PagedAsyncIterableIterator<Volume>;
+    options?: SnapshotsListByVolumeGroupOptionalParams
+  ): PagedAsyncIterableIterator<Snapshot>;
   /**
-   * Create a Volume.
+   * Create a Volume Snapshot.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
    * @param volumeGroupName The name of the VolumeGroup.
-   * @param volumeName The name of the Volume.
-   * @param parameters Volume object.
+   * @param snapshotName The name of the volume snapshot within the given volume group.
+   * @param parameters Snapshot object.
    * @param options The options parameters.
    */
   beginCreate(
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    volumeName: string,
-    parameters: VolumeCreateParameter,
-    options?: VolumesCreateOptionalParams
+    snapshotName: string,
+    parameters: SnapshotCreateParameter,
+    options?: SnapshotsCreateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<VolumesCreateResponse>,
-      VolumesCreateResponse
+      OperationState<SnapshotsCreateResponse>,
+      SnapshotsCreateResponse
     >
   >;
   /**
-   * Create a Volume.
+   * Create a Volume Snapshot.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
    * @param volumeGroupName The name of the VolumeGroup.
-   * @param volumeName The name of the Volume.
-   * @param parameters Volume object.
+   * @param snapshotName The name of the volume snapshot within the given volume group.
+   * @param parameters Snapshot object.
    * @param options The options parameters.
    */
   beginCreateAndWait(
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    volumeName: string,
-    parameters: VolumeCreateParameter,
-    options?: VolumesCreateOptionalParams
-  ): Promise<VolumesCreateResponse>;
+    snapshotName: string,
+    parameters: SnapshotCreateParameter,
+    options?: SnapshotsCreateOptionalParams
+  ): Promise<SnapshotsCreateResponse>;
   /**
-   * Update an Volume.
+   * Update a Volume Snapshot.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
    * @param volumeGroupName The name of the VolumeGroup.
-   * @param volumeName The name of the Volume.
-   * @param parameters Volume object.
+   * @param snapshotName The name of the volume snapshot within the given volume group.
+   * @param parameters Snapshot object.
    * @param options The options parameters.
    */
-  beginUpdate(
+  update(
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    volumeName: string,
-    parameters: VolumeUpdate,
-    options?: VolumesUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VolumesUpdateResponse>,
-      VolumesUpdateResponse
-    >
-  >;
+    snapshotName: string,
+    parameters: SnapshotUpdate,
+    options?: SnapshotsUpdateOptionalParams
+  ): Promise<SnapshotsUpdateResponse>;
   /**
-   * Update an Volume.
+   * Delete a Volume Snapshot.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
    * @param volumeGroupName The name of the VolumeGroup.
-   * @param volumeName The name of the Volume.
-   * @param parameters Volume object.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
-    resourceGroupName: string,
-    elasticSanName: string,
-    volumeGroupName: string,
-    volumeName: string,
-    parameters: VolumeUpdate,
-    options?: VolumesUpdateOptionalParams
-  ): Promise<VolumesUpdateResponse>;
-  /**
-   * Delete an Volume.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param elasticSanName The name of the ElasticSan.
-   * @param volumeGroupName The name of the VolumeGroup.
-   * @param volumeName The name of the Volume.
+   * @param snapshotName The name of the volume snapshot within the given volume group.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    volumeName: string,
-    options?: VolumesDeleteOptionalParams
+    snapshotName: string,
+    options?: SnapshotsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Delete an Volume.
+   * Delete a Volume Snapshot.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
    * @param volumeGroupName The name of the VolumeGroup.
-   * @param volumeName The name of the Volume.
+   * @param snapshotName The name of the volume snapshot within the given volume group.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    volumeName: string,
-    options?: VolumesDeleteOptionalParams
+    snapshotName: string,
+    options?: SnapshotsDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Get an Volume.
+   * Get a Volume Snapshot.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
    * @param volumeGroupName The name of the VolumeGroup.
-   * @param volumeName The name of the Volume.
+   * @param snapshotName The name of the volume snapshot within the given volume group.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    volumeName: string,
-    options?: VolumesGetOptionalParams
-  ): Promise<VolumesGetResponse>;
+    snapshotName: string,
+    options?: SnapshotsGetOptionalParams
+  ): Promise<SnapshotsGetResponse>;
 }
