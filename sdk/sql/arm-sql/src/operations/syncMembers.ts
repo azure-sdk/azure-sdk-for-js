@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SyncMember,
   SyncMembersListBySyncGroupNextOptionalParams,
@@ -265,6 +269,28 @@ export class SyncMembersImpl implements SyncMembers {
   }
 
   /**
+   * Lists sync members in the given sync group.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database on which the sync group is hosted.
+   * @param syncGroupName The name of the sync group.
+   * @param options The options parameters.
+   */
+  private _listBySyncGroup(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options?: SyncMembersListBySyncGroupOptionalParams
+  ): Promise<SyncMembersListBySyncGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, databaseName, syncGroupName, options },
+      listBySyncGroupOperationSpec
+    );
+  }
+
+  /**
    * Gets a sync member.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -315,8 +341,8 @@ export class SyncMembersImpl implements SyncMembers {
     parameters: SyncMember,
     options?: SyncMembersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SyncMembersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SyncMembersCreateOrUpdateResponse>,
       SyncMembersCreateOrUpdateResponse
     >
   > {
@@ -326,7 +352,7 @@ export class SyncMembersImpl implements SyncMembers {
     ): Promise<SyncMembersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -359,9 +385,9 @@ export class SyncMembersImpl implements SyncMembers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         databaseName,
@@ -370,10 +396,13 @@ export class SyncMembersImpl implements SyncMembers {
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SyncMembersCreateOrUpdateResponse,
+      OperationState<SyncMembersCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -429,14 +458,14 @@ export class SyncMembersImpl implements SyncMembers {
     syncGroupName: string,
     syncMemberName: string,
     options?: SyncMembersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -469,9 +498,9 @@ export class SyncMembersImpl implements SyncMembers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         databaseName,
@@ -479,10 +508,10 @@ export class SyncMembersImpl implements SyncMembers {
         syncMemberName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -538,8 +567,8 @@ export class SyncMembersImpl implements SyncMembers {
     parameters: SyncMember,
     options?: SyncMembersUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SyncMembersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SyncMembersUpdateResponse>,
       SyncMembersUpdateResponse
     >
   > {
@@ -549,7 +578,7 @@ export class SyncMembersImpl implements SyncMembers {
     ): Promise<SyncMembersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -582,9 +611,9 @@ export class SyncMembersImpl implements SyncMembers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         databaseName,
@@ -593,10 +622,13 @@ export class SyncMembersImpl implements SyncMembers {
         parameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SyncMembersUpdateResponse,
+      OperationState<SyncMembersUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -636,59 +668,6 @@ export class SyncMembersImpl implements SyncMembers {
   }
 
   /**
-   * Lists sync members in the given sync group.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database on which the sync group is hosted.
-   * @param syncGroupName The name of the sync group.
-   * @param options The options parameters.
-   */
-  private _listBySyncGroup(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    syncGroupName: string,
-    options?: SyncMembersListBySyncGroupOptionalParams
-  ): Promise<SyncMembersListBySyncGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, syncGroupName, options },
-      listBySyncGroupOperationSpec
-    );
-  }
-
-  /**
-   * Gets a sync member database schema.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database on which the sync group is hosted.
-   * @param syncGroupName The name of the sync group on which the sync member is hosted.
-   * @param syncMemberName The name of the sync member.
-   * @param options The options parameters.
-   */
-  private _listMemberSchemas(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    syncGroupName: string,
-    syncMemberName: string,
-    options?: SyncMembersListMemberSchemasOptionalParams
-  ): Promise<SyncMembersListMemberSchemasResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serverName,
-        databaseName,
-        syncGroupName,
-        syncMemberName,
-        options
-      },
-      listMemberSchemasOperationSpec
-    );
-  }
-
-  /**
    * Refreshes a sync member database schema.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -705,14 +684,14 @@ export class SyncMembersImpl implements SyncMembers {
     syncGroupName: string,
     syncMemberName: string,
     options?: SyncMembersRefreshMemberSchemaOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -745,9 +724,9 @@ export class SyncMembersImpl implements SyncMembers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         databaseName,
@@ -755,10 +734,10 @@ export class SyncMembersImpl implements SyncMembers {
         syncMemberName,
         options
       },
-      refreshMemberSchemaOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: refreshMemberSchemaOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -792,6 +771,37 @@ export class SyncMembersImpl implements SyncMembers {
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets a sync member database schema.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database on which the sync group is hosted.
+   * @param syncGroupName The name of the sync group on which the sync member is hosted.
+   * @param syncMemberName The name of the sync member.
+   * @param options The options parameters.
+   */
+  private _listMemberSchemas(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    syncMemberName: string,
+    options?: SyncMembersListMemberSchemasOptionalParams
+  ): Promise<SyncMembersListMemberSchemasResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serverName,
+        databaseName,
+        syncGroupName,
+        syncMemberName,
+        options
+      },
+      listMemberSchemasOperationSpec
+    );
   }
 
   /**
@@ -862,6 +872,28 @@ export class SyncMembersImpl implements SyncMembers {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listBySyncGroupOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/syncMembers",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SyncMemberListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.subscriptionId,
+    Parameters.syncGroupName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/syncMembers/{syncMemberName}",
@@ -872,13 +904,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.syncGroupName,
     Parameters.syncMemberName
   ],
@@ -904,14 +936,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters70,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters99,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.syncGroupName,
     Parameters.syncMemberName
   ],
@@ -924,13 +956,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/syncMembers/{syncMemberName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.syncGroupName,
     Parameters.syncMemberName
   ],
@@ -955,14 +987,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters70,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters99,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.syncGroupName,
     Parameters.syncMemberName
   ],
@@ -970,26 +1002,21 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listBySyncGroupOperationSpec: coreClient.OperationSpec = {
+const refreshMemberSchemaOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/syncMembers",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SyncMemberListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion2],
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/syncMembers/{syncMemberName}/refreshSchema",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.syncGroupName
+    Parameters.subscriptionId,
+    Parameters.syncGroupName,
+    Parameters.syncMemberName
   ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listMemberSchemasOperationSpec: coreClient.OperationSpec = {
@@ -1002,34 +1029,17 @@ const listMemberSchemasOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.syncGroupName,
     Parameters.syncMemberName
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const refreshMemberSchemaOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/syncMembers/{syncMemberName}/refreshSchema",
-  httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.syncGroupName,
-    Parameters.syncMemberName
-  ],
   serializer
 };
 const listBySyncGroupNextOperationSpec: coreClient.OperationSpec = {
@@ -1043,10 +1053,10 @@ const listBySyncGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.syncGroupName
   ],
@@ -1064,10 +1074,10 @@ const listMemberSchemasNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.syncGroupName,
     Parameters.syncMemberName
