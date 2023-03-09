@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   JobExecution,
   JobExecutionsListByAgentNextOptionalParams,
@@ -23,13 +27,13 @@ import {
   JobExecutionsListByJobNextOptionalParams,
   JobExecutionsListByJobOptionalParams,
   JobExecutionsListByJobResponse,
-  JobExecutionsCancelOptionalParams,
-  JobExecutionsCreateOptionalParams,
-  JobExecutionsCreateResponse,
   JobExecutionsGetOptionalParams,
   JobExecutionsGetResponse,
   JobExecutionsCreateOrUpdateOptionalParams,
   JobExecutionsCreateOrUpdateResponse,
+  JobExecutionsCancelOptionalParams,
+  JobExecutionsCreateOptionalParams,
+  JobExecutionsCreateResponse,
   JobExecutionsListByAgentNextResponse,
   JobExecutionsListByJobNextResponse
 } from "../models";
@@ -265,136 +269,6 @@ export class JobExecutionsImpl implements JobExecutions {
   }
 
   /**
-   * Requests cancellation of a job execution.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param jobAgentName The name of the job agent.
-   * @param jobName The name of the job.
-   * @param jobExecutionId The id of the job execution to cancel.
-   * @param options The options parameters.
-   */
-  cancel(
-    resourceGroupName: string,
-    serverName: string,
-    jobAgentName: string,
-    jobName: string,
-    jobExecutionId: string,
-    options?: JobExecutionsCancelOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serverName,
-        jobAgentName,
-        jobName,
-        jobExecutionId,
-        options
-      },
-      cancelOperationSpec
-    );
-  }
-
-  /**
-   * Starts an elastic job execution.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param jobAgentName The name of the job agent.
-   * @param jobName The name of the job to get.
-   * @param options The options parameters.
-   */
-  async beginCreate(
-    resourceGroupName: string,
-    serverName: string,
-    jobAgentName: string,
-    jobName: string,
-    options?: JobExecutionsCreateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<JobExecutionsCreateResponse>,
-      JobExecutionsCreateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<JobExecutionsCreateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serverName, jobAgentName, jobName, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Starts an elastic job execution.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param jobAgentName The name of the job agent.
-   * @param jobName The name of the job to get.
-   * @param options The options parameters.
-   */
-  async beginCreateAndWait(
-    resourceGroupName: string,
-    serverName: string,
-    jobAgentName: string,
-    jobName: string,
-    options?: JobExecutionsCreateOptionalParams
-  ): Promise<JobExecutionsCreateResponse> {
-    const poller = await this.beginCreate(
-      resourceGroupName,
-      serverName,
-      jobAgentName,
-      jobName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * Lists a job's executions.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -465,8 +339,8 @@ export class JobExecutionsImpl implements JobExecutions {
     jobExecutionId: string,
     options?: JobExecutionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<JobExecutionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<JobExecutionsCreateOrUpdateResponse>,
       JobExecutionsCreateOrUpdateResponse
     >
   > {
@@ -476,7 +350,7 @@ export class JobExecutionsImpl implements JobExecutions {
     ): Promise<JobExecutionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -509,9 +383,9 @@ export class JobExecutionsImpl implements JobExecutions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         jobAgentName,
@@ -519,10 +393,13 @@ export class JobExecutionsImpl implements JobExecutions {
         jobExecutionId,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      JobExecutionsCreateOrUpdateResponse,
+      OperationState<JobExecutionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -553,6 +430,139 @@ export class JobExecutionsImpl implements JobExecutions {
       jobAgentName,
       jobName,
       jobExecutionId,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Requests cancellation of a job execution.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
+   * @param jobName The name of the job.
+   * @param jobExecutionId The id of the job execution to cancel.
+   * @param options The options parameters.
+   */
+  cancel(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobExecutionId: string,
+    options?: JobExecutionsCancelOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serverName,
+        jobAgentName,
+        jobName,
+        jobExecutionId,
+        options
+      },
+      cancelOperationSpec
+    );
+  }
+
+  /**
+   * Starts an elastic job execution.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
+   * @param jobName The name of the job to get.
+   * @param options The options parameters.
+   */
+  async beginCreate(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    options?: JobExecutionsCreateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<JobExecutionsCreateResponse>,
+      JobExecutionsCreateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<JobExecutionsCreateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serverName, jobAgentName, jobName, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      JobExecutionsCreateResponse,
+      OperationState<JobExecutionsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Starts an elastic job execution.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
+   * @param jobName The name of the job to get.
+   * @param options The options parameters.
+   */
+  async beginCreateAndWait(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    options?: JobExecutionsCreateOptionalParams
+  ): Promise<JobExecutionsCreateResponse> {
+    const poller = await this.beginCreate(
+      resourceGroupName,
+      serverName,
+      jobAgentName,
+      jobName,
       options
     );
     return poller.pollUntilDone();
@@ -625,8 +635,8 @@ const listByAgentOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.skip,
-    Parameters.apiVersion2,
     Parameters.createTimeMin,
     Parameters.createTimeMax,
     Parameters.endTimeMin,
@@ -636,58 +646,10 @@ const listByAgentOperationSpec: coreClient.OperationSpec = {
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.jobAgentName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const cancelOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}/cancel",
-  httpMethod: "POST",
-  responses: { 200: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.jobAgentName,
-    Parameters.jobName,
-    Parameters.jobExecutionId
-  ],
-  serializer
-};
-const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/start",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JobExecution
-    },
-    201: {
-      bodyMapper: Mappers.JobExecution
-    },
-    202: {
-      bodyMapper: Mappers.JobExecution
-    },
-    204: {
-      bodyMapper: Mappers.JobExecution
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.jobAgentName,
-    Parameters.jobName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -703,8 +665,8 @@ const listByJobOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.skip,
-    Parameters.apiVersion2,
     Parameters.createTimeMin,
     Parameters.createTimeMax,
     Parameters.endTimeMin,
@@ -714,9 +676,9 @@ const listByJobOperationSpec: coreClient.OperationSpec = {
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.jobAgentName,
     Parameters.jobName
   ],
@@ -733,12 +695,12 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.jobAgentName,
     Parameters.jobName,
     Parameters.jobExecutionId
@@ -765,15 +727,63 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.jobAgentName,
     Parameters.jobName,
     Parameters.jobExecutionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const cancelOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}/cancel",
+  httpMethod: "POST",
+  responses: { 200: {}, default: {} },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.subscriptionId,
+    Parameters.jobAgentName,
+    Parameters.jobName,
+    Parameters.jobExecutionId
+  ],
+  serializer
+};
+const createOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/start",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobExecution
+    },
+    201: {
+      bodyMapper: Mappers.JobExecution
+    },
+    202: {
+      bodyMapper: Mappers.JobExecution
+    },
+    204: {
+      bodyMapper: Mappers.JobExecution
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.subscriptionId,
+    Parameters.jobAgentName,
+    Parameters.jobName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -789,9 +799,9 @@ const listByAgentNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.jobAgentName
   ],
@@ -809,9 +819,9 @@ const listByJobNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.jobAgentName,
     Parameters.jobName

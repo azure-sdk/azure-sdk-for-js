@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   JobAgent,
   JobAgentsListByServerNextOptionalParams,
@@ -179,8 +183,8 @@ export class JobAgentsImpl implements JobAgents {
     parameters: JobAgent,
     options?: JobAgentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<JobAgentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<JobAgentsCreateOrUpdateResponse>,
       JobAgentsCreateOrUpdateResponse
     >
   > {
@@ -190,7 +194,7 @@ export class JobAgentsImpl implements JobAgents {
     ): Promise<JobAgentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -223,13 +227,22 @@ export class JobAgentsImpl implements JobAgents {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serverName, jobAgentName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serverName,
+        jobAgentName,
+        parameters,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      JobAgentsCreateOrUpdateResponse,
+      OperationState<JobAgentsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -275,14 +288,14 @@ export class JobAgentsImpl implements JobAgents {
     serverName: string,
     jobAgentName: string,
     options?: JobAgentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -315,13 +328,13 @@ export class JobAgentsImpl implements JobAgents {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serverName, jobAgentName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serverName, jobAgentName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -367,8 +380,8 @@ export class JobAgentsImpl implements JobAgents {
     parameters: JobAgentUpdate,
     options?: JobAgentsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<JobAgentsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<JobAgentsUpdateResponse>,
       JobAgentsUpdateResponse
     >
   > {
@@ -378,7 +391,7 @@ export class JobAgentsImpl implements JobAgents {
     ): Promise<JobAgentsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -411,13 +424,22 @@ export class JobAgentsImpl implements JobAgents {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serverName, jobAgentName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serverName,
+        jobAgentName,
+        parameters,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      JobAgentsUpdateResponse,
+      OperationState<JobAgentsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -483,12 +505,12 @@ const listByServerOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -503,12 +525,12 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.jobAgentName
   ],
   headerParameters: [Parameters.accept],
@@ -533,13 +555,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters30,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters36,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.jobAgentName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -551,12 +573,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.jobAgentName
   ],
   serializer
@@ -580,13 +602,13 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters31,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters37,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.jobAgentName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -604,9 +626,9 @@ const listByServerNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
