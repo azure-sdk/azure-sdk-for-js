@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type CreatedByType = string;
@@ -85,11 +85,11 @@ export interface ElasticSanRPOperation {
 
 // @public
 export interface ElasticSans {
-    beginCreate(resourceGroupName: string, elasticSanName: string, parameters: ElasticSan, options?: ElasticSansCreateOptionalParams): Promise<PollerLike<PollOperationState<ElasticSansCreateResponse>, ElasticSansCreateResponse>>;
+    beginCreate(resourceGroupName: string, elasticSanName: string, parameters: ElasticSan, options?: ElasticSansCreateOptionalParams): Promise<SimplePollerLike<OperationState<ElasticSansCreateResponse>, ElasticSansCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, elasticSanName: string, parameters: ElasticSan, options?: ElasticSansCreateOptionalParams): Promise<ElasticSansCreateResponse>;
-    beginDelete(resourceGroupName: string, elasticSanName: string, options?: ElasticSansDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, elasticSanName: string, options?: ElasticSansDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, elasticSanName: string, options?: ElasticSansDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, elasticSanName: string, parameters: ElasticSanUpdate, options?: ElasticSansUpdateOptionalParams): Promise<PollerLike<PollOperationState<ElasticSansUpdateResponse>, ElasticSansUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, elasticSanName: string, parameters: ElasticSanUpdate, options?: ElasticSansUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ElasticSansUpdateResponse>, ElasticSansUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, elasticSanName: string, parameters: ElasticSanUpdate, options?: ElasticSansUpdateOptionalParams): Promise<ElasticSansUpdateResponse>;
     get(resourceGroupName: string, elasticSanName: string, options?: ElasticSansGetOptionalParams): Promise<ElasticSansGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ElasticSansListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ElasticSan>;
@@ -398,11 +398,11 @@ export interface VolumeGroupList {
 
 // @public
 export interface VolumeGroups {
-    beginCreate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroup, options?: VolumeGroupsCreateOptionalParams): Promise<PollerLike<PollOperationState<VolumeGroupsCreateResponse>, VolumeGroupsCreateResponse>>;
+    beginCreate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroup, options?: VolumeGroupsCreateOptionalParams): Promise<SimplePollerLike<OperationState<VolumeGroupsCreateResponse>, VolumeGroupsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroup, options?: VolumeGroupsCreateOptionalParams): Promise<VolumeGroupsCreateResponse>;
-    beginDelete(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeGroupsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeGroupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeGroupsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroupUpdate, options?: VolumeGroupsUpdateOptionalParams): Promise<PollerLike<PollOperationState<VolumeGroupsUpdateResponse>, VolumeGroupsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroupUpdate, options?: VolumeGroupsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VolumeGroupsUpdateResponse>, VolumeGroupsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroupUpdate, options?: VolumeGroupsUpdateOptionalParams): Promise<VolumeGroupsUpdateResponse>;
     get(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeGroupsGetOptionalParams): Promise<VolumeGroupsGetResponse>;
     listByElasticSan(resourceGroupName: string, elasticSanName: string, options?: VolumeGroupsListByElasticSanOptionalParams): PagedAsyncIterableIterator<VolumeGroup>;
@@ -471,11 +471,11 @@ export interface VolumeList {
 
 // @public
 export interface Volumes {
-    beginCreate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: Volume, options?: VolumesCreateOptionalParams): Promise<PollerLike<PollOperationState<VolumesCreateResponse>, VolumesCreateResponse>>;
+    beginCreate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: Volume, options?: VolumesCreateOptionalParams): Promise<SimplePollerLike<OperationState<VolumesCreateResponse>, VolumesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: Volume, options?: VolumesCreateOptionalParams): Promise<VolumesCreateResponse>;
-    beginDelete(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: VolumeUpdate, options?: VolumesUpdateOptionalParams): Promise<PollerLike<PollOperationState<VolumesUpdateResponse>, VolumesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: VolumeUpdate, options?: VolumesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VolumesUpdateResponse>, VolumesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: VolumeUpdate, options?: VolumesUpdateOptionalParams): Promise<VolumesUpdateResponse>;
     get(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: VolumesGetOptionalParams): Promise<VolumesGetResponse>;
     listByVolumeGroup(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumesListByVolumeGroupOptionalParams): PagedAsyncIterableIterator<Volume>;
