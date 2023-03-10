@@ -8,25 +8,25 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  ElasticPoolDatabaseActivity,
-  ElasticPoolDatabaseActivitiesListByElasticPoolOptionalParams
+  SynapseLinkWorkspace,
+  SynapseLinkWorkspacesListByDatabaseOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a ElasticPoolDatabaseActivities. */
-export interface ElasticPoolDatabaseActivities {
+/** Interface representing a SynapseLinkWorkspaces. */
+export interface SynapseLinkWorkspaces {
   /**
-   * Returns activity on databases inside of an elastic pool.
+   * Gets all synapselink workspaces for a database.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param elasticPoolName The name of the elastic pool.
+   * @param databaseName The name of the database.
    * @param options The options parameters.
    */
-  listByElasticPool(
+  listByDatabase(
     resourceGroupName: string,
     serverName: string,
-    elasticPoolName: string,
-    options?: ElasticPoolDatabaseActivitiesListByElasticPoolOptionalParams
-  ): PagedAsyncIterableIterator<ElasticPoolDatabaseActivity>;
+    databaseName: string,
+    options?: SynapseLinkWorkspacesListByDatabaseOptionalParams
+  ): PagedAsyncIterableIterator<SynapseLinkWorkspace>;
 }

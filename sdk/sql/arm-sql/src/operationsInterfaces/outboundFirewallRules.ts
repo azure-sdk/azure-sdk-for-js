@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   OutboundFirewallRule,
   OutboundFirewallRulesListByServerOptionalParams,
@@ -53,18 +53,16 @@ export interface OutboundFirewallRules {
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param outboundRuleFqdn
-   * @param parameters An Azure SQL DB Server Outbound Firewall Rule.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     serverName: string,
     outboundRuleFqdn: string,
-    parameters: OutboundFirewallRule,
     options?: OutboundFirewallRulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<OutboundFirewallRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OutboundFirewallRulesCreateOrUpdateResponse>,
       OutboundFirewallRulesCreateOrUpdateResponse
     >
   >;
@@ -74,14 +72,12 @@ export interface OutboundFirewallRules {
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param outboundRuleFqdn
-   * @param parameters An Azure SQL DB Server Outbound Firewall Rule.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serverName: string,
     outboundRuleFqdn: string,
-    parameters: OutboundFirewallRule,
     options?: OutboundFirewallRulesCreateOrUpdateOptionalParams
   ): Promise<OutboundFirewallRulesCreateOrUpdateResponse>;
   /**
@@ -97,7 +93,7 @@ export interface OutboundFirewallRules {
     serverName: string,
     outboundRuleFqdn: string,
     options?: OutboundFirewallRulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a outbound firewall rule with a given name.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

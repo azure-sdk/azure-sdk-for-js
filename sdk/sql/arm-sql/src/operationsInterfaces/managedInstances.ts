@@ -7,12 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ManagedInstance,
-  ManagedInstancesListByInstancePoolOptionalParams,
   ManagedInstancesListOptionalParams,
+  ManagedInstancesListByInstancePoolOptionalParams,
   ManagedInstancesListByResourceGroupOptionalParams,
+  OutboundEnvironmentEndpoint,
+  ManagedInstancesListOutboundNetworkDependenciesByManagedInstanceOptionalParams,
   TopQueries,
   ManagedInstancesListByManagedInstanceOptionalParams,
   ManagedInstancesGetOptionalParams,
@@ -23,12 +25,23 @@ import {
   ManagedInstanceUpdate,
   ManagedInstancesUpdateOptionalParams,
   ManagedInstancesUpdateResponse,
-  ManagedInstancesFailoverOptionalParams
+  ManagedInstancesFailoverOptionalParams,
+  ManagedInstancesStartOptionalParams,
+  ManagedInstancesStartResponse,
+  ManagedInstancesStopOptionalParams,
+  ManagedInstancesStopResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedInstances. */
 export interface ManagedInstances {
+  /**
+   * Gets a list of all managed instances in the subscription.
+   * @param options The options parameters.
+   */
+  list(
+    options?: ManagedInstancesListOptionalParams
+  ): PagedAsyncIterableIterator<ManagedInstance>;
   /**
    * Gets a list of all managed instances in an instance pool.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -42,13 +55,6 @@ export interface ManagedInstances {
     options?: ManagedInstancesListByInstancePoolOptionalParams
   ): PagedAsyncIterableIterator<ManagedInstance>;
   /**
-   * Gets a list of all managed instances in the subscription.
-   * @param options The options parameters.
-   */
-  list(
-    options?: ManagedInstancesListOptionalParams
-  ): PagedAsyncIterableIterator<ManagedInstance>;
-  /**
    * Gets a list of managed instances in a resource group.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -58,6 +64,18 @@ export interface ManagedInstances {
     resourceGroupName: string,
     options?: ManagedInstancesListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<ManagedInstance>;
+  /**
+   * Gets the collection of outbound network dependencies for the given managed instance.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param options The options parameters.
+   */
+  listOutboundNetworkDependenciesByManagedInstance(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?: ManagedInstancesListOutboundNetworkDependenciesByManagedInstanceOptionalParams
+  ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
   /**
    * Get top resource consuming queries of a managed instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -96,8 +114,8 @@ export interface ManagedInstances {
     parameters: ManagedInstance,
     options?: ManagedInstancesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedInstancesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ManagedInstancesCreateOrUpdateResponse>,
       ManagedInstancesCreateOrUpdateResponse
     >
   >;
@@ -126,7 +144,7 @@ export interface ManagedInstances {
     resourceGroupName: string,
     managedInstanceName: string,
     options?: ManagedInstancesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a managed instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -153,8 +171,8 @@ export interface ManagedInstances {
     parameters: ManagedInstanceUpdate,
     options?: ManagedInstancesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedInstancesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ManagedInstancesUpdateResponse>,
       ManagedInstancesUpdateResponse
     >
   >;
@@ -183,7 +201,7 @@ export interface ManagedInstances {
     resourceGroupName: string,
     managedInstanceName: string,
     options?: ManagedInstancesFailoverOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Failovers a managed instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -196,4 +214,62 @@ export interface ManagedInstances {
     managedInstanceName: string,
     options?: ManagedInstancesFailoverOptionalParams
   ): Promise<void>;
+  /**
+   * Starts the managed instance.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param options The options parameters.
+   */
+  beginStart(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?: ManagedInstancesStartOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedInstancesStartResponse>,
+      ManagedInstancesStartResponse
+    >
+  >;
+  /**
+   * Starts the managed instance.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param options The options parameters.
+   */
+  beginStartAndWait(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?: ManagedInstancesStartOptionalParams
+  ): Promise<ManagedInstancesStartResponse>;
+  /**
+   * Stops the managed instance.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param options The options parameters.
+   */
+  beginStop(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?: ManagedInstancesStopOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedInstancesStopResponse>,
+      ManagedInstancesStopResponse
+    >
+  >;
+  /**
+   * Stops the managed instance.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param options The options parameters.
+   */
+  beginStopAndWait(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?: ManagedInstancesStopOptionalParams
+  ): Promise<ManagedInstancesStopResponse>;
 }
