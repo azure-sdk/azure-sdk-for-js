@@ -401,13 +401,15 @@ export interface AzureBlobFSLinkedService extends LinkedService {
     azureCloudType?: any;
     credential?: CredentialReference;
     encryptedCredential?: any;
+    sasToken?: SecretBaseUnion;
+    sasUri?: any;
     servicePrincipalCredential?: SecretBaseUnion;
     servicePrincipalCredentialType?: any;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
     type: "AzureBlobFS";
-    url: any;
+    url?: any;
 }
 
 // @public
@@ -3796,7 +3798,7 @@ export interface IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse 
 }
 
 // @public
-export interface IntegrationRuntimeReference {
+export interface IntegrationRuntimeReference extends Reference {
     parameters?: {
         [propertyName: string]: any;
     };
@@ -4871,11 +4873,6 @@ export enum KnownTumblingWindowFrequency {
 }
 
 // @public
-export enum KnownType {
-    LinkedServiceReference = "LinkedServiceReference"
-}
-
-// @public
 export enum KnownVariableType {
     Array = "Array",
     Bool = "Bool",
@@ -4967,12 +4964,12 @@ export interface LinkedServiceListResponse {
 }
 
 // @public
-export interface LinkedServiceReference {
+export interface LinkedServiceReference extends Reference {
     parameters?: {
         [propertyName: string]: any;
     };
     referenceName: string;
-    type: Type;
+    type: "LinkedServiceReference";
 }
 
 // @public
@@ -6397,6 +6394,14 @@ export interface RedshiftUnloadSettings {
     bucketName: any;
     s3LinkedServiceName: LinkedServiceReference;
 }
+
+// @public
+export interface Reference {
+    type: "IntegrationRuntimeReference" | "LinkedServiceReference";
+}
+
+// @public (undocumented)
+export type ReferenceUnion = Reference | IntegrationRuntimeReference | LinkedServiceReference;
 
 // @public
 export interface RelationalSource extends CopySource {
@@ -8145,9 +8150,6 @@ export interface TwilioLinkedService extends LinkedService {
     type: "Twilio";
     userName: any;
 }
-
-// @public
-export type Type = string;
 
 // @public
 export interface TypeConversionSettings {

@@ -1,5 +1,20 @@
 # Release History
     
+## 12.0.0 (2023-03-10)
+    
+**Features**
+
+  - Added Interface Reference
+  - Added Type Alias ReferenceUnion
+  - Interface AzureBlobFSLinkedService has a new optional parameter sasToken
+  - Interface AzureBlobFSLinkedService has a new optional parameter sasUri
+
+**Breaking Changes**
+
+  - Type of parameter type of interface LinkedServiceReference is changed from Type to "LinkedServiceReference"
+  - Removed Enum KnownType
+    
+    
 ## 11.0.0 (2023-02-10)
     
 **Features**

@@ -141,6 +141,10 @@ export type LinkedServiceUnion =
   | SnowflakeLinkedService
   | SharePointOnlineListLinkedService
   | AzureSynapseArtifactsLinkedService;
+export type ReferenceUnion =
+  | Reference
+  | IntegrationRuntimeReference
+  | LinkedServiceReference;
 export type DatasetUnion =
   | Dataset
   | AmazonS3Dataset
@@ -1372,14 +1376,10 @@ export interface LinkedService {
   annotations?: any[];
 }
 
-/** Integration runtime reference type. */
-export interface IntegrationRuntimeReference {
-  /** Type of integration runtime. */
-  type: "IntegrationRuntimeReference";
-  /** Reference integration runtime name. */
-  referenceName: string;
-  /** Arguments for integration runtime. */
-  parameters?: { [propertyName: string]: any };
+/** Base reference type. */
+export interface Reference {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "IntegrationRuntimeReference" | "LinkedServiceReference";
 }
 
 /** Definition of a single parameter for an entity. */
@@ -1514,16 +1514,6 @@ export interface Dataset {
   annotations?: any[];
   /** The folder that this Dataset is in. If not specified, Dataset will appear at the root level. */
   folder?: DatasetFolder;
-}
-
-/** Linked service reference type. */
-export interface LinkedServiceReference {
-  /** Linked service reference type. */
-  type: Type;
-  /** Reference LinkedService name. */
-  referenceName: string;
-  /** Arguments for LinkedService. */
-  parameters?: { [propertyName: string]: any };
 }
 
 /** The folder that this Dataset is in. If not specified, Dataset will appear at the root level. */
@@ -4883,7 +4873,7 @@ export interface AzureBlobFSLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobFS";
   /** Endpoint for the Azure Data Lake Storage Gen2 service. Type: string (or Expression with resultType string). */
-  url: any;
+  url?: any;
   /** Account key for the Azure Data Lake Storage Gen2 service. Type: string (or Expression with resultType string). */
   accountKey?: any;
   /** The ID of the application used to authenticate against the Azure Data Lake Storage Gen2 account. Type: string (or Expression with resultType string). */
@@ -4902,6 +4892,10 @@ export interface AzureBlobFSLinkedService extends LinkedService {
   servicePrincipalCredentialType?: any;
   /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
   servicePrincipalCredential?: SecretBaseUnion;
+  /** SAS URI of the Azure Data Lake Storage Gen2 service. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  sasUri?: any;
+  /** The Azure key vault secret reference of sasToken in sas uri. */
+  sasToken?: SecretBaseUnion;
 }
 
 /** Office365 linked service. */
@@ -6379,6 +6373,26 @@ export interface AzureSynapseArtifactsLinkedService extends LinkedService {
   authentication?: any;
   /** The resource ID of the Synapse workspace. The format should be: /subscriptions/{subscriptionID}/resourceGroups/{resourceGroup}/providers/Microsoft.Synapse/workspaces/{workspaceName}. Type: string (or Expression with resultType string). */
   workspaceResourceId?: any;
+}
+
+/** Integration runtime reference type. */
+export interface IntegrationRuntimeReference extends Reference {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "IntegrationRuntimeReference";
+  /** Reference integration runtime name. */
+  referenceName: string;
+  /** Arguments for integration runtime. */
+  parameters?: { [propertyName: string]: any };
+}
+
+/** Linked service reference type. */
+export interface LinkedServiceReference extends Reference {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "LinkedServiceReference";
+  /** Reference LinkedService name. */
+  referenceName: string;
+  /** Arguments for LinkedService. */
+  parameters?: { [propertyName: string]: any };
 }
 
 /** A single Amazon Simple Storage Service (S3) object or a set of S3 objects. */
@@ -11028,21 +11042,6 @@ export enum KnownParameterType {
  * **SecureString**
  */
 export type ParameterType = string;
-
-/** Known values of {@link Type} that the service accepts. */
-export enum KnownType {
-  /** LinkedServiceReference */
-  LinkedServiceReference = "LinkedServiceReference"
-}
-
-/**
- * Defines values for Type. \
- * {@link KnownType} can be used interchangeably with Type,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **LinkedServiceReference**
- */
-export type Type = string;
 
 /** Known values of {@link DependencyCondition} that the service accepts. */
 export enum KnownDependencyCondition {

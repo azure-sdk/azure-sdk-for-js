@@ -1742,31 +1742,21 @@ export const LinkedService: coreClient.CompositeMapper = {
   }
 };
 
-export const IntegrationRuntimeReference: coreClient.CompositeMapper = {
+export const Reference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "IntegrationRuntimeReference",
+    className: "Reference",
+    uberParent: "Reference",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
     modelProperties: {
       type: {
-        defaultValue: "IntegrationRuntimeReference",
-        isConstant: true,
         serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      referenceName: {
-        serializedName: "referenceName",
         required: true,
         type: {
           name: "String"
-        }
-      },
-      parameters: {
-        serializedName: "parameters",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
         }
       }
     }
@@ -1892,36 +1882,6 @@ export const Dataset: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DatasetFolder"
-        }
-      }
-    }
-  }
-};
-
-export const LinkedServiceReference: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LinkedServiceReference",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      referenceName: {
-        serializedName: "referenceName",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      parameters: {
-        serializedName: "parameters",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
         }
       }
     }
@@ -10399,7 +10359,6 @@ export const AzureBlobFSLinkedService: coreClient.CompositeMapper = {
       ...LinkedService.type.modelProperties,
       url: {
         serializedName: "typeProperties.url",
-        required: true,
         type: {
           name: "any"
         }
@@ -10456,6 +10415,19 @@ export const AzureBlobFSLinkedService: coreClient.CompositeMapper = {
       },
       servicePrincipalCredential: {
         serializedName: "typeProperties.servicePrincipalCredential",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      sasUri: {
+        serializedName: "typeProperties.sasUri",
+        type: {
+          name: "any"
+        }
+      },
+      sasToken: {
+        serializedName: "typeProperties.sasToken",
         type: {
           name: "Composite",
           className: "SecretBase"
@@ -14800,6 +14772,60 @@ export const AzureSynapseArtifactsLinkedService: coreClient.CompositeMapper = {
         serializedName: "typeProperties.workspaceResourceId",
         type: {
           name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const IntegrationRuntimeReference: coreClient.CompositeMapper = {
+  serializedName: "IntegrationRuntimeReference",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeReference",
+    uberParent: "Reference",
+    polymorphicDiscriminator: Reference.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Reference.type.modelProperties,
+      referenceName: {
+        serializedName: "referenceName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const LinkedServiceReference: coreClient.CompositeMapper = {
+  serializedName: "LinkedServiceReference",
+  type: {
+    name: "Composite",
+    className: "LinkedServiceReference",
+    uberParent: "Reference",
+    polymorphicDiscriminator: Reference.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Reference.type.modelProperties,
+      referenceName: {
+        serializedName: "referenceName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -26773,6 +26799,7 @@ export let discriminators = {
   IntegrationRuntimeStatus: IntegrationRuntimeStatus,
   SsisObjectMetadata: SsisObjectMetadata,
   LinkedService: LinkedService,
+  Reference: Reference,
   Dataset: Dataset,
   Activity: Activity,
   Trigger: Trigger,
@@ -26918,6 +26945,8 @@ export let discriminators = {
   "LinkedService.Snowflake": SnowflakeLinkedService,
   "LinkedService.SharePointOnlineList": SharePointOnlineListLinkedService,
   "LinkedService.AzureSynapseArtifacts": AzureSynapseArtifactsLinkedService,
+  "Reference.IntegrationRuntimeReference": IntegrationRuntimeReference,
+  "Reference.LinkedServiceReference": LinkedServiceReference,
   "Dataset.AmazonS3Object": AmazonS3Dataset,
   "Dataset.Avro": AvroDataset,
   "Dataset.Excel": ExcelDataset,
