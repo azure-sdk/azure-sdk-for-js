@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ConnectedEnvironments } from "../operationsInterfaces";
+import { Jobs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,34 +20,30 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  ConnectedEnvironment,
-  ConnectedEnvironmentsListBySubscriptionNextOptionalParams,
-  ConnectedEnvironmentsListBySubscriptionOptionalParams,
-  ConnectedEnvironmentsListBySubscriptionResponse,
-  ConnectedEnvironmentsListByResourceGroupNextOptionalParams,
-  ConnectedEnvironmentsListByResourceGroupOptionalParams,
-  ConnectedEnvironmentsListByResourceGroupResponse,
-  ConnectedEnvironmentsGetOptionalParams,
-  ConnectedEnvironmentsGetResponse,
-  ConnectedEnvironmentsCreateOrUpdateOptionalParams,
-  ConnectedEnvironmentsCreateOrUpdateResponse,
-  ConnectedEnvironmentsDeleteOptionalParams,
-  ConnectedEnvironmentsUpdateOptionalParams,
-  ConnectedEnvironmentsUpdateResponse,
-  CheckNameAvailabilityRequest,
-  ConnectedEnvironmentsCheckNameAvailabilityOptionalParams,
-  ConnectedEnvironmentsCheckNameAvailabilityResponse,
-  ConnectedEnvironmentsListBySubscriptionNextResponse,
-  ConnectedEnvironmentsListByResourceGroupNextResponse
+  Job,
+  JobsListBySubscriptionNextOptionalParams,
+  JobsListBySubscriptionOptionalParams,
+  JobsListBySubscriptionResponse,
+  JobsListByResourceGroupNextOptionalParams,
+  JobsListByResourceGroupOptionalParams,
+  JobsListByResourceGroupResponse,
+  JobsStopExecutionOptionalParams,
+  JobExecutionNamesCollection,
+  JobsStopMultipleExecutionsOptionalParams,
+  JobsStopMultipleExecutionsResponse,
+  JobsListSecretsOptionalParams,
+  JobsListSecretsResponse,
+  JobsListBySubscriptionNextResponse,
+  JobsListByResourceGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ConnectedEnvironments operations. */
-export class ConnectedEnvironmentsImpl implements ConnectedEnvironments {
+/** Class containing Jobs operations. */
+export class JobsImpl implements Jobs {
   private readonly client: ContainerAppsAPIClient;
 
   /**
-   * Initialize a new instance of the class ConnectedEnvironments class.
+   * Initialize a new instance of the class Jobs class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerAppsAPIClient) {
@@ -55,12 +51,12 @@ export class ConnectedEnvironmentsImpl implements ConnectedEnvironments {
   }
 
   /**
-   * Get all connectedEnvironments for a subscription.
+   * Get the Container Apps Jobs in a given subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: ConnectedEnvironmentsListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<ConnectedEnvironment> {
+    options?: JobsListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<Job> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -79,10 +75,10 @@ export class ConnectedEnvironmentsImpl implements ConnectedEnvironments {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: ConnectedEnvironmentsListBySubscriptionOptionalParams,
+    options?: JobsListBySubscriptionOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<ConnectedEnvironment[]> {
-    let result: ConnectedEnvironmentsListBySubscriptionResponse;
+  ): AsyncIterableIterator<Job[]> {
+    let result: JobsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -101,22 +97,22 @@ export class ConnectedEnvironmentsImpl implements ConnectedEnvironments {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: ConnectedEnvironmentsListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<ConnectedEnvironment> {
+    options?: JobsListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<Job> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Get all connectedEnvironments in a resource group.
+   * Get the Container Apps Jobs in a given resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ConnectedEnvironmentsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<ConnectedEnvironment> {
+    options?: JobsListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<Job> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -140,10 +136,10 @@ export class ConnectedEnvironmentsImpl implements ConnectedEnvironments {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ConnectedEnvironmentsListByResourceGroupOptionalParams,
+    options?: JobsListByResourceGroupOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<ConnectedEnvironment[]> {
-    let result: ConnectedEnvironmentsListByResourceGroupResponse;
+  ): AsyncIterableIterator<Job[]> {
+    let result: JobsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -167,8 +163,8 @@ export class ConnectedEnvironmentsImpl implements ConnectedEnvironments {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ConnectedEnvironmentsListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<ConnectedEnvironment> {
+    options?: JobsListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<Job> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options
@@ -178,12 +174,12 @@ export class ConnectedEnvironmentsImpl implements ConnectedEnvironments {
   }
 
   /**
-   * Get all connectedEnvironments for a subscription.
+   * Get the Container Apps Jobs in a given subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: ConnectedEnvironmentsListBySubscriptionOptionalParams
-  ): Promise<ConnectedEnvironmentsListBySubscriptionResponse> {
+    options?: JobsListBySubscriptionOptionalParams
+  ): Promise<JobsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec
@@ -191,14 +187,14 @@ export class ConnectedEnvironmentsImpl implements ConnectedEnvironments {
   }
 
   /**
-   * Get all connectedEnvironments in a resource group.
+   * Get the Container Apps Jobs in a given resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: ConnectedEnvironmentsListByResourceGroupOptionalParams
-  ): Promise<ConnectedEnvironmentsListByResourceGroupResponse> {
+    options?: JobsListByResourceGroupOptionalParams
+  ): Promise<JobsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
@@ -206,132 +202,17 @@ export class ConnectedEnvironmentsImpl implements ConnectedEnvironments {
   }
 
   /**
-   * Get the properties of an connectedEnvironment.
+   * Terminates execution of a running container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectedEnvironmentName Name of the connectedEnvironment.
+   * @param jobName Name of the Container Apps Job.
+   * @param jobExecutionName Job execution name.
    * @param options The options parameters.
    */
-  get(
+  async beginStopExecution(
     resourceGroupName: string,
-    connectedEnvironmentName: string,
-    options?: ConnectedEnvironmentsGetOptionalParams
-  ): Promise<ConnectedEnvironmentsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, connectedEnvironmentName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * Creates or updates an connectedEnvironment.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectedEnvironmentName Name of the connectedEnvironment.
-   * @param environmentEnvelope Configuration details of the connectedEnvironment.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdate(
-    resourceGroupName: string,
-    connectedEnvironmentName: string,
-    environmentEnvelope: ConnectedEnvironment,
-    options?: ConnectedEnvironmentsCreateOrUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ConnectedEnvironmentsCreateOrUpdateResponse>,
-      ConnectedEnvironmentsCreateOrUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ConnectedEnvironmentsCreateOrUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        connectedEnvironmentName,
-        environmentEnvelope,
-        options
-      },
-      spec: createOrUpdateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ConnectedEnvironmentsCreateOrUpdateResponse,
-      OperationState<ConnectedEnvironmentsCreateOrUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Creates or updates an connectedEnvironment.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectedEnvironmentName Name of the connectedEnvironment.
-   * @param environmentEnvelope Configuration details of the connectedEnvironment.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    connectedEnvironmentName: string,
-    environmentEnvelope: ConnectedEnvironment,
-    options?: ConnectedEnvironmentsCreateOrUpdateOptionalParams
-  ): Promise<ConnectedEnvironmentsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      connectedEnvironmentName,
-      environmentEnvelope,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Delete an connectedEnvironment.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectedEnvironmentName Name of the connectedEnvironment.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    connectedEnvironmentName: string,
-    options?: ConnectedEnvironmentsDeleteOptionalParams
+    jobName: string,
+    jobExecutionName: string,
+    options?: JobsStopExecutionOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -374,74 +255,150 @@ export class ConnectedEnvironmentsImpl implements ConnectedEnvironments {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, connectedEnvironmentName, options },
-      spec: deleteOperationSpec
+      args: { resourceGroupName, jobName, jobExecutionName, options },
+      spec: stopExecutionOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete an connectedEnvironment.
+   * Terminates execution of a running container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectedEnvironmentName Name of the connectedEnvironment.
+   * @param jobName Name of the Container Apps Job.
+   * @param jobExecutionName Job execution name.
    * @param options The options parameters.
    */
-  async beginDeleteAndWait(
+  async beginStopExecutionAndWait(
     resourceGroupName: string,
-    connectedEnvironmentName: string,
-    options?: ConnectedEnvironmentsDeleteOptionalParams
+    jobName: string,
+    jobExecutionName: string,
+    options?: JobsStopExecutionOptionalParams
   ): Promise<void> {
-    const poller = await this.beginDelete(
+    const poller = await this.beginStopExecution(
       resourceGroupName,
-      connectedEnvironmentName,
+      jobName,
+      jobExecutionName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Patches a Managed Environment. Only patching of tags is supported currently
+   * Terminates execution of a running container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectedEnvironmentName Name of the connectedEnvironment.
+   * @param jobName Name of the Container Apps Job.
+   * @param jobExecutionName List of all job executions that should be stopped.
    * @param options The options parameters.
    */
-  update(
+  async beginStopMultipleExecutions(
     resourceGroupName: string,
-    connectedEnvironmentName: string,
-    options?: ConnectedEnvironmentsUpdateOptionalParams
-  ): Promise<ConnectedEnvironmentsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, connectedEnvironmentName, options },
-      updateOperationSpec
-    );
+    jobName: string,
+    jobExecutionName: JobExecutionNamesCollection,
+    options?: JobsStopMultipleExecutionsOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<JobsStopMultipleExecutionsResponse>,
+      JobsStopMultipleExecutionsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<JobsStopMultipleExecutionsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, jobName, jobExecutionName, options },
+      spec: stopMultipleExecutionsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      JobsStopMultipleExecutionsResponse,
+      OperationState<JobsStopMultipleExecutionsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Checks if resource connectedEnvironmentName is available.
+   * Terminates execution of a running container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectedEnvironmentName Name of the Managed Environment.
-   * @param checkNameAvailabilityRequest The check connectedEnvironmentName availability request.
+   * @param jobName Name of the Container Apps Job.
+   * @param jobExecutionName List of all job executions that should be stopped.
    * @param options The options parameters.
    */
-  checkNameAvailability(
+  async beginStopMultipleExecutionsAndWait(
     resourceGroupName: string,
-    connectedEnvironmentName: string,
-    checkNameAvailabilityRequest: CheckNameAvailabilityRequest,
-    options?: ConnectedEnvironmentsCheckNameAvailabilityOptionalParams
-  ): Promise<ConnectedEnvironmentsCheckNameAvailabilityResponse> {
+    jobName: string,
+    jobExecutionName: JobExecutionNamesCollection,
+    options?: JobsStopMultipleExecutionsOptionalParams
+  ): Promise<JobsStopMultipleExecutionsResponse> {
+    const poller = await this.beginStopMultipleExecutions(
+      resourceGroupName,
+      jobName,
+      jobExecutionName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * List secrets for a container apps job
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Name of the Container Apps Job.
+   * @param options The options parameters.
+   */
+  listSecrets(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsListSecretsOptionalParams
+  ): Promise<JobsListSecretsResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        connectedEnvironmentName,
-        checkNameAvailabilityRequest,
-        options
-      },
-      checkNameAvailabilityOperationSpec
+      { resourceGroupName, jobName, options },
+      listSecretsOperationSpec
     );
   }
 
@@ -452,8 +409,8 @@ export class ConnectedEnvironmentsImpl implements ConnectedEnvironments {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: ConnectedEnvironmentsListBySubscriptionNextOptionalParams
-  ): Promise<ConnectedEnvironmentsListBySubscriptionNextResponse> {
+    options?: JobsListBySubscriptionNextOptionalParams
+  ): Promise<JobsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec
@@ -469,8 +426,8 @@ export class ConnectedEnvironmentsImpl implements ConnectedEnvironments {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ConnectedEnvironmentsListByResourceGroupNextOptionalParams
-  ): Promise<ConnectedEnvironmentsListByResourceGroupNextResponse> {
+    options?: JobsListByResourceGroupNextOptionalParams
+  ): Promise<JobsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
@@ -481,12 +438,11 @@ export class ConnectedEnvironmentsImpl implements ConnectedEnvironments {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.App/connectedEnvironments",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.App/jobs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectedEnvironmentCollection
+      bodyMapper: Mappers.JobsCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -499,11 +455,11 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectedEnvironmentCollection
+      bodyMapper: Mappers.JobsCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -518,65 +474,10 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getOperationSpec: coreClient.OperationSpec = {
+const stopExecutionOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ConnectedEnvironment
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.connectedEnvironmentName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ConnectedEnvironment
-    },
-    201: {
-      bodyMapper: Mappers.ConnectedEnvironment
-    },
-    202: {
-      bodyMapper: Mappers.ConnectedEnvironment
-    },
-    204: {
-      bodyMapper: Mappers.ConnectedEnvironment
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  requestBody: Parameters.environmentEnvelope,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.connectedEnvironmentName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}",
-  httpMethod: "DELETE",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/executions/{jobExecutionName}/stop",
+  httpMethod: "POST",
   responses: {
     200: {},
     201: {},
@@ -591,55 +492,65 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.connectedEnvironmentName
+    Parameters.jobName,
+    Parameters.jobExecutionName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateOperationSpec: coreClient.OperationSpec = {
+const stopMultipleExecutionsOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ConnectedEnvironment
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.connectedEnvironmentName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/checkNameAvailability",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/stop",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResponse
+      bodyMapper: Mappers.ContainerAppJobExecutions
+    },
+    201: {
+      bodyMapper: Mappers.ContainerAppJobExecutions
+    },
+    202: {
+      bodyMapper: Mappers.ContainerAppJobExecutions
+    },
+    204: {
+      bodyMapper: Mappers.ContainerAppJobExecutions
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.checkNameAvailabilityRequest,
+  requestBody: Parameters.jobExecutionName1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.connectedEnvironmentName
+    Parameters.jobName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const listSecretsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/listSecrets",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobSecretsCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.jobName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
@@ -647,7 +558,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectedEnvironmentCollection
+      bodyMapper: Mappers.JobsCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -666,7 +577,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectedEnvironmentCollection
+      bodyMapper: Mappers.JobsCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
