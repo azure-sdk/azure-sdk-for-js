@@ -1,15 +1,26 @@
 # Release History
+    
+## 5.1.0 (2023-03-10)
+    
+**Features**
 
-## 5.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface A2AFabricSpecificLocationDetails
+  - Added Interface VMwareCbtSecurityProfileProperties
+  - Added Type Alias SecurityType
+  - Interface AzureFabricSpecificDetails has a new optional parameter locationDetails
+  - Interface FabricQueryParameter has a new optional parameter extendedLocationMappings
+  - Interface FabricQueryParameter has a new optional parameter locationDetails
+  - Interface VMwareCbtEnableMigrationInput has a new optional parameter confidentialVmKeyVaultId
+  - Interface VMwareCbtEnableMigrationInput has a new optional parameter targetVmSecurityProfile
+  - Interface VMwareCbtMigrateInput has a new optional parameter osUpgradeVersion
+  - Interface VMwareCbtMigrationDetails has a new optional parameter confidentialVmKeyVaultId
+  - Interface VMwareCbtMigrationDetails has a new optional parameter osName
+  - Interface VMwareCbtMigrationDetails has a new optional parameter supportedOSVersions
+  - Interface VMwareCbtMigrationDetails has a new optional parameter targetVmSecurityProfile
+  - Interface VMwareCbtProtectionContainerMappingDetails has a new optional parameter excludedSkus
+  - Interface VMwareCbtTestMigrateInput has a new optional parameter osUpgradeVersion
+  - Added Enum KnownSecurityType
+    
 ## 5.0.1 (2023-01-05)
 
 **Migration Guide**
