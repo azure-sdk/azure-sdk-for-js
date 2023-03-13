@@ -50,7 +50,7 @@ export class TokensImpl implements Tokens {
 
   /**
    * Lists all the tokens for the specified container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -126,7 +126,7 @@ export class TokensImpl implements Tokens {
 
   /**
    * Lists all the tokens for the specified container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -143,7 +143,7 @@ export class TokensImpl implements Tokens {
 
   /**
    * Gets the properties of the specified token.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param tokenName The name of the token.
    * @param options The options parameters.
@@ -162,7 +162,7 @@ export class TokensImpl implements Tokens {
 
   /**
    * Creates a token for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param tokenName The name of the token.
    * @param tokenCreateParameters The parameters for creating a token.
@@ -232,8 +232,7 @@ export class TokensImpl implements Tokens {
       OperationState<TokensCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -241,7 +240,7 @@ export class TokensImpl implements Tokens {
 
   /**
    * Creates a token for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param tokenName The name of the token.
    * @param tokenCreateParameters The parameters for creating a token.
@@ -266,7 +265,7 @@ export class TokensImpl implements Tokens {
 
   /**
    * Deletes a token from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param tokenName The name of the token.
    * @param options The options parameters.
@@ -323,8 +322,7 @@ export class TokensImpl implements Tokens {
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -332,7 +330,7 @@ export class TokensImpl implements Tokens {
 
   /**
    * Deletes a token from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param tokenName The name of the token.
    * @param options The options parameters.
@@ -354,7 +352,7 @@ export class TokensImpl implements Tokens {
 
   /**
    * Updates a token with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param tokenName The name of the token.
    * @param tokenUpdateParameters The parameters for updating a token.
@@ -424,8 +422,7 @@ export class TokensImpl implements Tokens {
       OperationState<TokensUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -433,7 +430,7 @@ export class TokensImpl implements Tokens {
 
   /**
    * Updates a token with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param tokenName The name of the token.
    * @param tokenUpdateParameters The parameters for updating a token.
@@ -458,7 +455,7 @@ export class TokensImpl implements Tokens {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.

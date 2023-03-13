@@ -12,12 +12,8 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
-  CacheRule as CacheRuleMapper,
-  CacheRuleUpdateParameters as CacheRuleUpdateParametersMapper,
   ConnectedRegistry as ConnectedRegistryMapper,
   ConnectedRegistryUpdateParameters as ConnectedRegistryUpdateParametersMapper,
-  CredentialSet as CredentialSetMapper,
-  CredentialSetUpdateParameters as CredentialSetUpdateParametersMapper,
   ExportPipeline as ExportPipelineMapper,
   ImportImageParameters as ImportImageParametersMapper,
   RegistryNameCheckRequest as RegistryNameCheckRequestMapper,
@@ -73,7 +69,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-01-01-preview",
+    defaultValue: "2022-02-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -88,7 +84,7 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "Uuid"
+      name: "String"
     }
   }
 };
@@ -97,7 +93,6 @@ export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     constraints: {
-      MaxLength: 90,
       MinLength: 1
     },
     serializedName: "resourceGroupName",
@@ -122,56 +117,6 @@ export const registryName: OperationURLParameter = {
       name: "String"
     }
   }
-};
-
-export const cacheRuleName: OperationURLParameter = {
-  parameterPath: "cacheRuleName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
-      MaxLength: 50,
-      MinLength: 5
-    },
-    serializedName: "cacheRuleName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const cacheRuleCreateParameters: OperationParameter = {
-  parameterPath: "cacheRuleCreateParameters",
-  mapper: CacheRuleMapper
-};
-
-export const cacheRuleUpdateParameters: OperationParameter = {
-  parameterPath: "cacheRuleUpdateParameters",
-  mapper: CacheRuleUpdateParametersMapper
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
 };
 
 export const filter: OperationQueryParameter = {
@@ -200,6 +145,18 @@ export const connectedRegistryName: OperationURLParameter = {
   }
 };
 
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const connectedRegistryCreateParameters: OperationParameter = {
   parameterPath: "connectedRegistryCreateParameters",
   mapper: ConnectedRegistryMapper
@@ -210,30 +167,16 @@ export const connectedRegistryUpdateParameters: OperationParameter = {
   mapper: ConnectedRegistryUpdateParametersMapper
 };
 
-export const credentialSetName: OperationURLParameter = {
-  parameterPath: "credentialSetName",
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
   mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
-      MaxLength: 50,
-      MinLength: 5
-    },
-    serializedName: "credentialSetName",
+    serializedName: "nextLink",
     required: true,
     type: {
       name: "String"
     }
-  }
-};
-
-export const credentialSetCreateParameters: OperationParameter = {
-  parameterPath: "credentialSetCreateParameters",
-  mapper: CredentialSetMapper
-};
-
-export const credentialSetUpdateParameters: OperationParameter = {
-  parameterPath: "credentialSetUpdateParameters",
-  mapper: CredentialSetUpdateParametersMapper
+  },
+  skipEncoding: true
 };
 
 export const exportPipelineName: OperationURLParameter = {
@@ -301,20 +244,6 @@ export const generateCredentialsParameters: OperationParameter = {
 export const runRequest: OperationParameter = {
   parameterPath: "runRequest",
   mapper: RunRequestMapper
-};
-
-export const resourceGroupName1: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      MinLength: 1
-    },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const apiVersion1: OperationQueryParameter = {

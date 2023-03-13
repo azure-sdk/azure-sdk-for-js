@@ -26,7 +26,7 @@ import {
 export interface ScopeMaps {
   /**
    * Lists all the scope maps for the specified container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -37,7 +37,7 @@ export interface ScopeMaps {
   ): PagedAsyncIterableIterator<ScopeMap>;
   /**
    * Gets the properties of the specified scope map.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param scopeMapName The name of the scope map.
    * @param options The options parameters.
@@ -50,7 +50,7 @@ export interface ScopeMaps {
   ): Promise<ScopeMapsGetResponse>;
   /**
    * Creates a scope map for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param scopeMapName The name of the scope map.
    * @param scopeMapCreateParameters The parameters for creating a scope map.
@@ -70,7 +70,7 @@ export interface ScopeMaps {
   >;
   /**
    * Creates a scope map for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param scopeMapName The name of the scope map.
    * @param scopeMapCreateParameters The parameters for creating a scope map.
@@ -85,7 +85,7 @@ export interface ScopeMaps {
   ): Promise<ScopeMapsCreateResponse>;
   /**
    * Deletes a scope map from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param scopeMapName The name of the scope map.
    * @param options The options parameters.
@@ -98,7 +98,7 @@ export interface ScopeMaps {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a scope map from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param scopeMapName The name of the scope map.
    * @param options The options parameters.
@@ -111,7 +111,7 @@ export interface ScopeMaps {
   ): Promise<void>;
   /**
    * Updates a scope map with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param scopeMapName The name of the scope map.
    * @param scopeMapUpdateParameters The parameters for updating a scope map.
@@ -131,7 +131,7 @@ export interface ScopeMaps {
   >;
   /**
    * Updates a scope map with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param scopeMapName The name of the scope map.
    * @param scopeMapUpdateParameters The parameters for updating a scope map.

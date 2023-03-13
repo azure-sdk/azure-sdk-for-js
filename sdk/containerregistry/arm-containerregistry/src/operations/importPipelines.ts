@@ -47,7 +47,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
 
   /**
    * Lists all import pipelines for the specified container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -123,7 +123,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
 
   /**
    * Lists all import pipelines for the specified container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -140,7 +140,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
 
   /**
    * Gets the properties of the import pipeline.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param importPipelineName The name of the import pipeline.
    * @param options The options parameters.
@@ -159,7 +159,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
 
   /**
    * Creates an import pipeline for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param importPipelineName The name of the import pipeline.
    * @param importPipelineCreateParameters The parameters for creating an import pipeline.
@@ -232,8 +232,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
       OperationState<ImportPipelinesCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -241,7 +240,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
 
   /**
    * Creates an import pipeline for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param importPipelineName The name of the import pipeline.
    * @param importPipelineCreateParameters The parameters for creating an import pipeline.
@@ -266,7 +265,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
 
   /**
    * Deletes an import pipeline from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param importPipelineName The name of the import pipeline.
    * @param options The options parameters.
@@ -323,8 +322,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -332,7 +330,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
 
   /**
    * Deletes an import pipeline from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param importPipelineName The name of the import pipeline.
    * @param options The options parameters.
@@ -354,7 +352,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.

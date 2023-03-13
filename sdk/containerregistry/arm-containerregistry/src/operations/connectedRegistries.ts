@@ -51,7 +51,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Lists all connected registries for the specified container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -127,7 +127,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Lists all connected registries for the specified container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -144,7 +144,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Gets the properties of the connected registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param options The options parameters.
@@ -163,7 +163,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Creates a connected registry for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param connectedRegistryCreateParameters The parameters for creating a connectedRegistry.
@@ -236,8 +236,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
       OperationState<ConnectedRegistriesCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -245,7 +244,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Creates a connected registry for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param connectedRegistryCreateParameters The parameters for creating a connectedRegistry.
@@ -270,7 +269,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Deletes a connected registry from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param options The options parameters.
@@ -327,8 +326,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -336,7 +334,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Deletes a connected registry from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param options The options parameters.
@@ -358,7 +356,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Updates a connected registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param connectedRegistryUpdateParameters The parameters for updating a connectedRegistry.
@@ -431,8 +429,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
       OperationState<ConnectedRegistriesUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -440,7 +437,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Updates a connected registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param connectedRegistryUpdateParameters The parameters for updating a connectedRegistry.
@@ -465,7 +462,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Deactivates the connected registry instance.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param options The options parameters.
@@ -522,8 +519,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -531,7 +527,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Deactivates the connected registry instance.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param options The options parameters.
@@ -553,7 +549,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.

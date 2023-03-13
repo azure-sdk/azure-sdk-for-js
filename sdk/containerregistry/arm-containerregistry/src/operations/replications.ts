@@ -50,7 +50,7 @@ export class ReplicationsImpl implements Replications {
 
   /**
    * Lists all the replications for the specified container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -126,7 +126,7 @@ export class ReplicationsImpl implements Replications {
 
   /**
    * Lists all the replications for the specified container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -143,7 +143,7 @@ export class ReplicationsImpl implements Replications {
 
   /**
    * Gets the properties of the specified replication.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param options The options parameters.
@@ -162,7 +162,7 @@ export class ReplicationsImpl implements Replications {
 
   /**
    * Creates a replication for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param replication The parameters for creating a replication.
@@ -235,8 +235,7 @@ export class ReplicationsImpl implements Replications {
       OperationState<ReplicationsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -244,7 +243,7 @@ export class ReplicationsImpl implements Replications {
 
   /**
    * Creates a replication for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param replication The parameters for creating a replication.
@@ -269,7 +268,7 @@ export class ReplicationsImpl implements Replications {
 
   /**
    * Deletes a replication from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param options The options parameters.
@@ -326,8 +325,7 @@ export class ReplicationsImpl implements Replications {
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -335,7 +333,7 @@ export class ReplicationsImpl implements Replications {
 
   /**
    * Deletes a replication from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param options The options parameters.
@@ -357,7 +355,7 @@ export class ReplicationsImpl implements Replications {
 
   /**
    * Updates a replication for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param replicationUpdateParameters The parameters for updating a replication.
@@ -430,8 +428,7 @@ export class ReplicationsImpl implements Replications {
       OperationState<ReplicationsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -439,7 +436,7 @@ export class ReplicationsImpl implements Replications {
 
   /**
    * Updates a replication for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param replicationUpdateParameters The parameters for updating a replication.
@@ -464,7 +461,7 @@ export class ReplicationsImpl implements Replications {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.

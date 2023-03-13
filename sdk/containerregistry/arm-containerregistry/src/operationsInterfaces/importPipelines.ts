@@ -23,7 +23,7 @@ import {
 export interface ImportPipelines {
   /**
    * Lists all import pipelines for the specified container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -34,7 +34,7 @@ export interface ImportPipelines {
   ): PagedAsyncIterableIterator<ImportPipeline>;
   /**
    * Gets the properties of the import pipeline.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param importPipelineName The name of the import pipeline.
    * @param options The options parameters.
@@ -47,7 +47,7 @@ export interface ImportPipelines {
   ): Promise<ImportPipelinesGetResponse>;
   /**
    * Creates an import pipeline for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param importPipelineName The name of the import pipeline.
    * @param importPipelineCreateParameters The parameters for creating an import pipeline.
@@ -67,7 +67,7 @@ export interface ImportPipelines {
   >;
   /**
    * Creates an import pipeline for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param importPipelineName The name of the import pipeline.
    * @param importPipelineCreateParameters The parameters for creating an import pipeline.
@@ -82,7 +82,7 @@ export interface ImportPipelines {
   ): Promise<ImportPipelinesCreateResponse>;
   /**
    * Deletes an import pipeline from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param importPipelineName The name of the import pipeline.
    * @param options The options parameters.
@@ -95,7 +95,7 @@ export interface ImportPipelines {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an import pipeline from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param importPipelineName The name of the import pipeline.
    * @param options The options parameters.
