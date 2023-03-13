@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   GatewayResource,
   GatewaysListNextOptionalParams,
@@ -25,8 +29,6 @@ import {
   GatewaysCreateOrUpdateOptionalParams,
   GatewaysCreateOrUpdateResponse,
   GatewaysDeleteOptionalParams,
-  GatewaysListEnvSecretsOptionalParams,
-  GatewaysListEnvSecretsResponse,
   CustomDomainValidatePayload,
   GatewaysValidateDomainOptionalParams,
   GatewaysValidateDomainResponse,
@@ -159,8 +161,8 @@ export class GatewaysImpl implements Gateways {
     gatewayResource: GatewayResource,
     options?: GatewaysCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<GatewaysCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<GatewaysCreateOrUpdateResponse>,
       GatewaysCreateOrUpdateResponse
     >
   > {
@@ -170,7 +172,7 @@ export class GatewaysImpl implements Gateways {
     ): Promise<GatewaysCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -203,13 +205,22 @@ export class GatewaysImpl implements Gateways {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serviceName, gatewayName, gatewayResource, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serviceName,
+        gatewayName,
+        gatewayResource,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      GatewaysCreateOrUpdateResponse,
+      OperationState<GatewaysCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -255,14 +266,14 @@ export class GatewaysImpl implements Gateways {
     serviceName: string,
     gatewayName: string,
     options?: GatewaysDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -295,13 +306,13 @@ export class GatewaysImpl implements Gateways {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serviceName, gatewayName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serviceName, gatewayName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -329,26 +340,6 @@ export class GatewaysImpl implements Gateways {
       options
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * List sensitive environment variables of Spring Cloud Gateway.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param gatewayName The name of Spring Cloud Gateway.
-   * @param options The options parameters.
-   */
-  listEnvSecrets(
-    resourceGroupName: string,
-    serviceName: string,
-    gatewayName: string,
-    options?: GatewaysListEnvSecretsOptionalParams
-  ): Promise<GatewaysListEnvSecretsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, gatewayName, options },
-      listEnvSecretsOperationSpec
-    );
   }
 
   /**
@@ -480,31 +471,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     201: {},
     202: {},
     204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.gatewayName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listEnvSecretsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/listEnvSecrets",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "String" } } }
-      }
-    },
     default: {
       bodyMapper: Mappers.CloudError
     }
