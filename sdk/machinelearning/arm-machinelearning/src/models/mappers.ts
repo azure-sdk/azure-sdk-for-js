@@ -4846,14 +4846,14 @@ export const ComputeStartStopSchedule: coreClient.CompositeMapper = {
         serializedName: "recurrence",
         type: {
           name: "Composite",
-          className: "RecurrenceTrigger"
+          className: "Recurrence"
         }
       },
       cron: {
         serializedName: "cron",
         type: {
           name: "Composite",
-          className: "CronTrigger"
+          className: "Cron"
         }
       },
       schedule: {
@@ -4861,6 +4861,48 @@ export const ComputeStartStopSchedule: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ScheduleBase"
+        }
+      }
+    }
+  }
+};
+
+export const Recurrence: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Recurrence",
+    modelProperties: {
+      frequency: {
+        serializedName: "frequency",
+        type: {
+          name: "String"
+        }
+      },
+      interval: {
+        serializedName: "interval",
+        type: {
+          name: "Number"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      timeZone: {
+        defaultValue: "UTC",
+        serializedName: "timeZone",
+        type: {
+          name: "String"
+        }
+      },
+      schedule: {
+        serializedName: "schedule",
+        type: {
+          name: "Composite",
+          className: "RecurrenceSchedule"
         }
       }
     }
@@ -4918,6 +4960,35 @@ export const RecurrenceSchedule: coreClient.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const Cron: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Cron",
+    modelProperties: {
+      startTime: {
+        serializedName: "startTime",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      timeZone: {
+        defaultValue: "UTC",
+        serializedName: "timeZone",
+        type: {
+          name: "String"
+        }
+      },
+      expression: {
+        serializedName: "expression",
+        type: {
+          name: "String"
         }
       }
     }
@@ -8991,6 +9062,29 @@ export const JobScheduleAction: coreClient.CompositeMapper = {
   }
 };
 
+export const CronTrigger: coreClient.CompositeMapper = {
+  serializedName: "Cron",
+  type: {
+    name: "Composite",
+    className: "CronTrigger",
+    uberParent: "TriggerBase",
+    polymorphicDiscriminator: TriggerBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...TriggerBase.type.modelProperties,
+      expression: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]")
+        },
+        serializedName: "expression",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const RecurrenceTrigger: coreClient.CompositeMapper = {
   serializedName: "Recurrence",
   type: {
@@ -9019,29 +9113,6 @@ export const RecurrenceTrigger: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "RecurrenceSchedule"
-        }
-      }
-    }
-  }
-};
-
-export const CronTrigger: coreClient.CompositeMapper = {
-  serializedName: "Cron",
-  type: {
-    name: "Composite",
-    className: "CronTrigger",
-    uberParent: "TriggerBase",
-    polymorphicDiscriminator: TriggerBase.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...TriggerBase.type.modelProperties,
-      expression: {
-        constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
-        },
-        serializedName: "expression",
-        required: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -11888,8 +11959,8 @@ export let discriminators = {
   "OnlineScaleSettings.TargetUtilization": TargetUtilizationScaleSettings,
   "ScheduleActionBase.InvokeBatchEndpoint": EndpointScheduleAction,
   "ScheduleActionBase.CreateJob": JobScheduleAction,
-  "TriggerBase.Recurrence": RecurrenceTrigger,
   "TriggerBase.Cron": CronTrigger,
+  "TriggerBase.Recurrence": RecurrenceTrigger,
   "AssetJobInput.mltable": MLTableJobInput,
   "AssetJobInput.custom_model": CustomModelJobInput,
   "AssetJobInput.mlflow_model": MLFlowModelJobInput,
