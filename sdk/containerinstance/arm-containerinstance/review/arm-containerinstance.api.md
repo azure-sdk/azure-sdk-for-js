@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AzureFileVolume {
@@ -181,13 +181,13 @@ export type ContainerGroupRestartPolicy = string;
 
 // @public
 export interface ContainerGroups {
-    beginCreateOrUpdate(resourceGroupName: string, containerGroupName: string, containerGroup: ContainerGroup, options?: ContainerGroupsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ContainerGroupsCreateOrUpdateResponse>, ContainerGroupsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, containerGroupName: string, containerGroup: ContainerGroup, options?: ContainerGroupsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerGroupsCreateOrUpdateResponse>, ContainerGroupsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, containerGroupName: string, containerGroup: ContainerGroup, options?: ContainerGroupsCreateOrUpdateOptionalParams): Promise<ContainerGroupsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsDeleteOptionalParams): Promise<PollerLike<PollOperationState<ContainerGroupsDeleteResponse>, ContainerGroupsDeleteResponse>>;
+    beginDelete(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ContainerGroupsDeleteResponse>, ContainerGroupsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsDeleteOptionalParams): Promise<ContainerGroupsDeleteResponse>;
-    beginRestart(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsRestartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRestart(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRestartAndWait(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsRestartOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStart(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsStartOptionalParams): Promise<void>;
     get(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsGetOptionalParams): Promise<ContainerGroupsGetResponse>;
     getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsGetOutboundNetworkDependenciesEndpointsOptionalParams): Promise<ContainerGroupsGetOutboundNetworkDependenciesEndpointsResponse>;
@@ -734,7 +734,7 @@ export type Scheme = string;
 
 // @public
 export interface SubnetServiceAssociationLink {
-    beginDelete(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: SubnetServiceAssociationLinkDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: SubnetServiceAssociationLinkDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: SubnetServiceAssociationLinkDeleteOptionalParams): Promise<void>;
 }
 

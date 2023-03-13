@@ -1,16 +1,6 @@
 # Release History
-
-## 9.1.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 9.1.0-beta.1 (2023-01-13)
+    
+## 9.1.0-beta.2 (2023-03-13)
     
 **Features**
 
