@@ -124,7 +124,7 @@ const getByBillingProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Policy
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -145,10 +145,10 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Policy
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -168,7 +168,7 @@ const getByCustomerOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CustomerPolicy
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -189,10 +189,10 @@ const updateCustomerOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CustomerPolicy
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

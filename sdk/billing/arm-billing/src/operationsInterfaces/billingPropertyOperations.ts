@@ -9,7 +9,6 @@
 import {
   BillingPropertyGetOptionalParams,
   BillingPropertyGetResponse,
-  BillingProperty,
   BillingPropertyUpdateOptionalParams,
   BillingPropertyUpdateResponse
 } from "../models";
@@ -17,21 +16,22 @@ import {
 /** Interface representing a BillingPropertyOperations. */
 export interface BillingPropertyOperations {
   /**
-   * Get the billing properties for a subscription. This operation is not supported for billing accounts
-   * with agreement type Enterprise Agreement.
+   * Gets the billing properties for a subscription
+   * @param subscriptionId The ID that uniquely identifies a billing subscription.
    * @param options The options parameters.
    */
   get(
+    subscriptionId: string,
     options?: BillingPropertyGetOptionalParams
   ): Promise<BillingPropertyGetResponse>;
   /**
-   * Updates the billing property of a subscription. Currently, cost center can be updated. The operation
-   * is supported only for billing accounts with agreement type Microsoft Customer Agreement.
-   * @param parameters Request parameters that are provided to the update billing property operation.
+   * Updates the billing property of a subscription. Currently, only cost center can be updated for
+   * billing accounts with agreement type Microsoft Customer Agreement.
+   * @param subscriptionId The ID that uniquely identifies a billing subscription.
    * @param options The options parameters.
    */
   update(
-    parameters: BillingProperty,
+    subscriptionId: string,
     options?: BillingPropertyUpdateOptionalParams
   ): Promise<BillingPropertyUpdateResponse>;
 }

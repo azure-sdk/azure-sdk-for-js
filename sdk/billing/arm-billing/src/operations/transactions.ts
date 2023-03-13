@@ -168,7 +168,7 @@ const listByInvoiceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TransactionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -188,10 +188,9 @@ const listByInvoiceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TransactionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,

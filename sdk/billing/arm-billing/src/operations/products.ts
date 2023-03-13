@@ -15,18 +15,18 @@ import * as Parameters from "../models/parameters";
 import { BillingManagementClient } from "../billingManagementClient";
 import {
   Product,
+  ProductsListByInvoiceSectionNextOptionalParams,
+  ProductsListByInvoiceSectionOptionalParams,
+  ProductsListByInvoiceSectionResponse,
+  ProductsListByBillingProfileNextOptionalParams,
+  ProductsListByBillingProfileOptionalParams,
+  ProductsListByBillingProfileResponse,
   ProductsListByCustomerNextOptionalParams,
   ProductsListByCustomerOptionalParams,
   ProductsListByCustomerResponse,
   ProductsListByBillingAccountNextOptionalParams,
   ProductsListByBillingAccountOptionalParams,
   ProductsListByBillingAccountResponse,
-  ProductsListByBillingProfileNextOptionalParams,
-  ProductsListByBillingProfileOptionalParams,
-  ProductsListByBillingProfileResponse,
-  ProductsListByInvoiceSectionNextOptionalParams,
-  ProductsListByInvoiceSectionOptionalParams,
-  ProductsListByInvoiceSectionResponse,
   ProductsGetOptionalParams,
   ProductsGetResponse,
   ProductsUpdateOptionalParams,
@@ -36,10 +36,10 @@ import {
   ProductsMoveResponse,
   ProductsValidateMoveOptionalParams,
   ProductsValidateMoveResponse,
-  ProductsListByCustomerNextResponse,
-  ProductsListByBillingAccountNextResponse,
+  ProductsListByInvoiceSectionNextResponse,
   ProductsListByBillingProfileNextResponse,
-  ProductsListByInvoiceSectionNextResponse
+  ProductsListByCustomerNextResponse,
+  ProductsListByBillingAccountNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,6 +53,186 @@ export class ProductsImpl implements Products {
    */
   constructor(client: BillingManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * Lists the products for an invoice section. These don't include products billed based on usage. The
+   * operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param options The options parameters.
+   */
+  public listByInvoiceSection(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    options?: ProductsListByInvoiceSectionOptionalParams
+  ): PagedAsyncIterableIterator<Product> {
+    const iter = this.listByInvoiceSectionPagingAll(
+      billingAccountName,
+      billingProfileName,
+      invoiceSectionName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByInvoiceSectionPagingPage(
+          billingAccountName,
+          billingProfileName,
+          invoiceSectionName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listByInvoiceSectionPagingPage(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    options?: ProductsListByInvoiceSectionOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<Product[]> {
+    let result: ProductsListByInvoiceSectionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByInvoiceSection(
+        billingAccountName,
+        billingProfileName,
+        invoiceSectionName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByInvoiceSectionNext(
+        billingAccountName,
+        billingProfileName,
+        invoiceSectionName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByInvoiceSectionPagingAll(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    options?: ProductsListByInvoiceSectionOptionalParams
+  ): AsyncIterableIterator<Product> {
+    for await (const page of this.listByInvoiceSectionPagingPage(
+      billingAccountName,
+      billingProfileName,
+      invoiceSectionName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the products for a billing profile. These don't include products billed based on usage. The
+   * operation is supported for billing accounts with agreement type Microsoft Customer Agreement or
+   * Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param options The options parameters.
+   */
+  public listByBillingProfile(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: ProductsListByBillingProfileOptionalParams
+  ): PagedAsyncIterableIterator<Product> {
+    const iter = this.listByBillingProfilePagingAll(
+      billingAccountName,
+      billingProfileName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByBillingProfilePagingPage(
+          billingAccountName,
+          billingProfileName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listByBillingProfilePagingPage(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: ProductsListByBillingProfileOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<Product[]> {
+    let result: ProductsListByBillingProfileResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByBillingProfile(
+        billingAccountName,
+        billingProfileName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByBillingProfileNext(
+        billingAccountName,
+        billingProfileName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByBillingProfilePagingAll(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: ProductsListByBillingProfileOptionalParams
+  ): AsyncIterableIterator<Product> {
+    for await (const page of this.listByBillingProfilePagingPage(
+      billingAccountName,
+      billingProfileName,
+      options
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -215,92 +395,6 @@ export class ProductsImpl implements Products {
   }
 
   /**
-   * Lists the products for a billing profile. These don't include products billed based on usage. The
-   * operation is supported for billing accounts with agreement type Microsoft Customer Agreement or
-   * Microsoft Partner Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param options The options parameters.
-   */
-  public listByBillingProfile(
-    billingAccountName: string,
-    billingProfileName: string,
-    options?: ProductsListByBillingProfileOptionalParams
-  ): PagedAsyncIterableIterator<Product> {
-    const iter = this.listByBillingProfilePagingAll(
-      billingAccountName,
-      billingProfileName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByBillingProfilePagingPage(
-          billingAccountName,
-          billingProfileName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listByBillingProfilePagingPage(
-    billingAccountName: string,
-    billingProfileName: string,
-    options?: ProductsListByBillingProfileOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<Product[]> {
-    let result: ProductsListByBillingProfileResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByBillingProfile(
-        billingAccountName,
-        billingProfileName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByBillingProfileNext(
-        billingAccountName,
-        billingProfileName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listByBillingProfilePagingAll(
-    billingAccountName: string,
-    billingProfileName: string,
-    options?: ProductsListByBillingProfileOptionalParams
-  ): AsyncIterableIterator<Product> {
-    for await (const page of this.listByBillingProfilePagingPage(
-      billingAccountName,
-      billingProfileName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
    * Lists the products for an invoice section. These don't include products billed based on usage. The
    * operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
@@ -308,90 +402,35 @@ export class ProductsImpl implements Products {
    * @param invoiceSectionName The ID that uniquely identifies an invoice section.
    * @param options The options parameters.
    */
-  public listByInvoiceSection(
+  private _listByInvoiceSection(
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
     options?: ProductsListByInvoiceSectionOptionalParams
-  ): PagedAsyncIterableIterator<Product> {
-    const iter = this.listByInvoiceSectionPagingAll(
-      billingAccountName,
-      billingProfileName,
-      invoiceSectionName,
-      options
+  ): Promise<ProductsListByInvoiceSectionResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, billingProfileName, invoiceSectionName, options },
+      listByInvoiceSectionOperationSpec
     );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByInvoiceSectionPagingPage(
-          billingAccountName,
-          billingProfileName,
-          invoiceSectionName,
-          options,
-          settings
-        );
-      }
-    };
   }
 
-  private async *listByInvoiceSectionPagingPage(
+  /**
+   * Lists the products for a billing profile. These don't include products billed based on usage. The
+   * operation is supported for billing accounts with agreement type Microsoft Customer Agreement or
+   * Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param options The options parameters.
+   */
+  private _listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    invoiceSectionName: string,
-    options?: ProductsListByInvoiceSectionOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<Product[]> {
-    let result: ProductsListByInvoiceSectionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByInvoiceSection(
-        billingAccountName,
-        billingProfileName,
-        invoiceSectionName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByInvoiceSectionNext(
-        billingAccountName,
-        billingProfileName,
-        invoiceSectionName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listByInvoiceSectionPagingAll(
-    billingAccountName: string,
-    billingProfileName: string,
-    invoiceSectionName: string,
-    options?: ProductsListByInvoiceSectionOptionalParams
-  ): AsyncIterableIterator<Product> {
-    for await (const page of this.listByInvoiceSectionPagingPage(
-      billingAccountName,
-      billingProfileName,
-      invoiceSectionName,
-      options
-    )) {
-      yield* page;
-    }
+    options?: ProductsListByBillingProfileOptionalParams
+  ): Promise<ProductsListByBillingProfileResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, billingProfileName, options },
+      listByBillingProfileOperationSpec
+    );
   }
 
   /**
@@ -426,45 +465,6 @@ export class ProductsImpl implements Products {
     return this.client.sendOperationRequest(
       { billingAccountName, options },
       listByBillingAccountOperationSpec
-    );
-  }
-
-  /**
-   * Lists the products for a billing profile. These don't include products billed based on usage. The
-   * operation is supported for billing accounts with agreement type Microsoft Customer Agreement or
-   * Microsoft Partner Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param options The options parameters.
-   */
-  private _listByBillingProfile(
-    billingAccountName: string,
-    billingProfileName: string,
-    options?: ProductsListByBillingProfileOptionalParams
-  ): Promise<ProductsListByBillingProfileResponse> {
-    return this.client.sendOperationRequest(
-      { billingAccountName, billingProfileName, options },
-      listByBillingProfileOperationSpec
-    );
-  }
-
-  /**
-   * Lists the products for an invoice section. These don't include products billed based on usage. The
-   * operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
-   * @param options The options parameters.
-   */
-  private _listByInvoiceSection(
-    billingAccountName: string,
-    billingProfileName: string,
-    invoiceSectionName: string,
-    options?: ProductsListByInvoiceSectionOptionalParams
-  ): Promise<ProductsListByInvoiceSectionResponse> {
-    return this.client.sendOperationRequest(
-      { billingAccountName, billingProfileName, invoiceSectionName, options },
-      listByInvoiceSectionOperationSpec
     );
   }
 
@@ -550,6 +550,52 @@ export class ProductsImpl implements Products {
   }
 
   /**
+   * ListByInvoiceSectionNext
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param nextLink The nextLink from the previous successful call to the ListByInvoiceSection method.
+   * @param options The options parameters.
+   */
+  private _listByInvoiceSectionNext(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    nextLink: string,
+    options?: ProductsListByInvoiceSectionNextOptionalParams
+  ): Promise<ProductsListByInvoiceSectionNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        billingAccountName,
+        billingProfileName,
+        invoiceSectionName,
+        nextLink,
+        options
+      },
+      listByInvoiceSectionNextOperationSpec
+    );
+  }
+
+  /**
+   * ListByBillingProfileNext
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param nextLink The nextLink from the previous successful call to the ListByBillingProfile method.
+   * @param options The options parameters.
+   */
+  private _listByBillingProfileNext(
+    billingAccountName: string,
+    billingProfileName: string,
+    nextLink: string,
+    options?: ProductsListByBillingProfileNextOptionalParams
+  ): Promise<ProductsListByBillingProfileNextResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, billingProfileName, nextLink, options },
+      listByBillingProfileNextOperationSpec
+    );
+  }
+
+  /**
    * ListByCustomerNext
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param customerName The ID that uniquely identifies a customer.
@@ -584,56 +630,53 @@ export class ProductsImpl implements Products {
       listByBillingAccountNextOperationSpec
     );
   }
-
-  /**
-   * ListByBillingProfileNext
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param nextLink The nextLink from the previous successful call to the ListByBillingProfile method.
-   * @param options The options parameters.
-   */
-  private _listByBillingProfileNext(
-    billingAccountName: string,
-    billingProfileName: string,
-    nextLink: string,
-    options?: ProductsListByBillingProfileNextOptionalParams
-  ): Promise<ProductsListByBillingProfileNextResponse> {
-    return this.client.sendOperationRequest(
-      { billingAccountName, billingProfileName, nextLink, options },
-      listByBillingProfileNextOperationSpec
-    );
-  }
-
-  /**
-   * ListByInvoiceSectionNext
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
-   * @param nextLink The nextLink from the previous successful call to the ListByInvoiceSection method.
-   * @param options The options parameters.
-   */
-  private _listByInvoiceSectionNext(
-    billingAccountName: string,
-    billingProfileName: string,
-    invoiceSectionName: string,
-    nextLink: string,
-    options?: ProductsListByInvoiceSectionNextOptionalParams
-  ): Promise<ProductsListByInvoiceSectionNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        billingAccountName,
-        billingProfileName,
-        invoiceSectionName,
-        nextLink,
-        options
-      },
-      listByInvoiceSectionNextOperationSpec
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByInvoiceSectionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/products",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProductsListResult
+    },
+    default: {
+      bodyMapper: Mappers.ArmError
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.filter1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
+    Parameters.invoiceSectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/products",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProductsListResult
+    },
+    default: {
+      bodyMapper: Mappers.ArmError
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.filter1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listByCustomerOperationSpec: coreClient.OperationSpec = {
   path:
     "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/products",
@@ -643,7 +686,7 @@ const listByCustomerOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ProductsListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -664,54 +707,11 @@ const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ProductsListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  queryParameters: [Parameters.apiVersion, Parameters.filter1],
   urlParameters: [Parameters.$host, Parameters.billingAccountName],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/products",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProductsListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByInvoiceSectionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/products",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProductsListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName,
-    Parameters.invoiceSectionName
-  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -724,7 +724,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Product
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -745,7 +745,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Product
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   requestBody: Parameters.parameters6,
@@ -771,7 +771,7 @@ const moveOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.ProductsMoveHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   requestBody: Parameters.parameters7,
@@ -794,7 +794,7 @@ const validateMoveOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ValidateProductTransferEligibilityResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   requestBody: Parameters.parameters7,
@@ -808,6 +808,47 @@ const validateMoveOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
+const listByInvoiceSectionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProductsListResult
+    },
+    default: {
+      bodyMapper: Mappers.ArmError
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.nextLink,
+    Parameters.billingProfileName,
+    Parameters.invoiceSectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProductsListResult
+    },
+    default: {
+      bodyMapper: Mappers.ArmError
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.nextLink,
+    Parameters.billingProfileName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listByCustomerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -816,10 +857,9 @@ const listByCustomerNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ProductsListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
@@ -837,57 +877,13 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ProductsListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProductsListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.nextLink,
-    Parameters.billingProfileName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByInvoiceSectionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProductsListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.nextLink,
-    Parameters.billingProfileName,
-    Parameters.invoiceSectionName
   ],
   headerParameters: [Parameters.accept],
   serializer

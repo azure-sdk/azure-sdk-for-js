@@ -7,18 +7,21 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BillingSubscription,
-  BillingSubscriptionsListByCustomerOptionalParams,
-  BillingSubscriptionsListByBillingAccountOptionalParams,
   BillingSubscriptionsListByBillingProfileOptionalParams,
   BillingSubscriptionsListByInvoiceSectionOptionalParams,
+  BillingSubscriptionsListByBillingAccountOptionalParams,
+  BillingSubscriptionsListByCustomerOptionalParams,
+  BillingSubscriptionsListByEnrollmentAccountOptionalParams,
+  BillingSubscriptionsDeleteOptionalParams,
+  BillingSubscriptionsDeleteResponse,
   BillingSubscriptionsGetOptionalParams,
   BillingSubscriptionsGetResponse,
   BillingSubscriptionsUpdateOptionalParams,
   BillingSubscriptionsUpdateResponse,
-  TransferBillingSubscriptionRequestProperties,
+  BillingSubscriptionsCancelOptionalParams,
   BillingSubscriptionsMoveOptionalParams,
   BillingSubscriptionsMoveResponse,
   BillingSubscriptionsValidateMoveOptionalParams,
@@ -28,28 +31,6 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BillingSubscriptions. */
 export interface BillingSubscriptions {
-  /**
-   * Lists the subscriptions for a customer. The operation is supported only for billing accounts with
-   * agreement type Microsoft Partner Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param customerName The ID that uniquely identifies a customer.
-   * @param options The options parameters.
-   */
-  listByCustomer(
-    billingAccountName: string,
-    customerName: string,
-    options?: BillingSubscriptionsListByCustomerOptionalParams
-  ): PagedAsyncIterableIterator<BillingSubscription>;
-  /**
-   * Lists the subscriptions for a billing account. The operation is supported for billing accounts with
-   * agreement type Microsoft Customer Agreement or Microsoft Partner Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param options The options parameters.
-   */
-  listByBillingAccount(
-    billingAccountName: string,
-    options?: BillingSubscriptionsListByBillingAccountOptionalParams
-  ): PagedAsyncIterableIterator<BillingSubscription>;
   /**
    * Lists the subscriptions that are billed to a billing profile. The operation is supported for billing
    * accounts with agreement type Microsoft Customer Agreement or Microsoft Partner Agreement.
@@ -77,42 +58,146 @@ export interface BillingSubscriptions {
     options?: BillingSubscriptionsListByInvoiceSectionOptionalParams
   ): PagedAsyncIterableIterator<BillingSubscription>;
   /**
+   * Lists the subscriptions for a billing account. The operation is supported for billing accounts with
+   * agreement type Microsoft Customer Agreement, Microsoft Partner Agreement or Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param options The options parameters.
+   */
+  listByBillingAccount(
+    billingAccountName: string,
+    options?: BillingSubscriptionsListByBillingAccountOptionalParams
+  ): PagedAsyncIterableIterator<BillingSubscription>;
+  /**
+   * Lists the subscriptions for a customer. The operation is supported only for billing accounts with
+   * agreement type Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param options The options parameters.
+   */
+  listByCustomer(
+    billingAccountName: string,
+    customerName: string,
+    options?: BillingSubscriptionsListByCustomerOptionalParams
+  ): PagedAsyncIterableIterator<BillingSubscription>;
+  /**
+   * Lists the subscriptions for an enrollment account. The operation is supported for billing accounts
+   * with agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param enrollmentAccountName The ID that uniquely identifies an enrollment account
+   * @param options The options parameters.
+   */
+  listByEnrollmentAccount(
+    billingAccountName: string,
+    enrollmentAccountName: string,
+    options?: BillingSubscriptionsListByEnrollmentAccountOptionalParams
+  ): PagedAsyncIterableIterator<BillingSubscription>;
+  /**
+   * Cancels a billing subscription.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a billing subscription.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    billingAccountName: string,
+    billingSubscriptionName: string,
+    options?: BillingSubscriptionsDeleteOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingSubscriptionsDeleteResponse>,
+      BillingSubscriptionsDeleteResponse
+    >
+  >;
+  /**
+   * Cancels a billing subscription.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a billing subscription.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    billingAccountName: string,
+    billingSubscriptionName: string,
+    options?: BillingSubscriptionsDeleteOptionalParams
+  ): Promise<BillingSubscriptionsDeleteResponse>;
+  /**
    * Gets a subscription by its ID. The operation is supported for billing accounts with agreement type
    * Microsoft Customer Agreement and Microsoft Partner Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a billing subscription.
    * @param options The options parameters.
    */
   get(
     billingAccountName: string,
+    billingSubscriptionName: string,
     options?: BillingSubscriptionsGetOptionalParams
   ): Promise<BillingSubscriptionsGetResponse>;
   /**
-   * Updates the properties of a billing subscription. Currently, cost center can be updated. The
-   * operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+   * Updates the properties of a billing subscription. Cost center can only be updated for billing
+   * accounts with agreement type Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param parameters Request parameters that are provided to the update billing subscription operation.
+   * @param billingSubscriptionName The ID that uniquely identifies a billing subscription.
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
     billingAccountName: string,
-    parameters: BillingSubscription,
+    billingSubscriptionName: string,
+    options?: BillingSubscriptionsUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingSubscriptionsUpdateResponse>,
+      BillingSubscriptionsUpdateResponse
+    >
+  >;
+  /**
+   * Updates the properties of a billing subscription. Cost center can only be updated for billing
+   * accounts with agreement type Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a billing subscription.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    billingAccountName: string,
+    billingSubscriptionName: string,
     options?: BillingSubscriptionsUpdateOptionalParams
   ): Promise<BillingSubscriptionsUpdateResponse>;
+  /**
+   * Cancels a usage-based subscription. This operation is supported only for billing accounts of type
+   * Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a billing subscription.
+   * @param options The options parameters.
+   */
+  beginCancel(
+    billingAccountName: string,
+    billingSubscriptionName: string,
+    options?: BillingSubscriptionsCancelOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Cancels a usage-based subscription. This operation is supported only for billing accounts of type
+   * Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a billing subscription.
+   * @param options The options parameters.
+   */
+  beginCancelAndWait(
+    billingAccountName: string,
+    billingSubscriptionName: string,
+    options?: BillingSubscriptionsCancelOptionalParams
+  ): Promise<void>;
   /**
    * Moves a subscription's charges to a new invoice section. The new invoice section must belong to the
    * same billing profile as the existing invoice section. This operation is supported for billing
    * accounts with agreement type Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param parameters Request parameters that are provided to the move subscription operation.
+   * @param billingSubscriptionName The ID that uniquely identifies a billing subscription.
    * @param options The options parameters.
    */
   beginMove(
     billingAccountName: string,
-    parameters: TransferBillingSubscriptionRequestProperties,
+    billingSubscriptionName: string,
     options?: BillingSubscriptionsMoveOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BillingSubscriptionsMoveResponse>,
+    SimplePollerLike<
+      OperationState<BillingSubscriptionsMoveResponse>,
       BillingSubscriptionsMoveResponse
     >
   >;
@@ -121,24 +206,24 @@ export interface BillingSubscriptions {
    * same billing profile as the existing invoice section. This operation is supported for billing
    * accounts with agreement type Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param parameters Request parameters that are provided to the move subscription operation.
+   * @param billingSubscriptionName The ID that uniquely identifies a billing subscription.
    * @param options The options parameters.
    */
   beginMoveAndWait(
     billingAccountName: string,
-    parameters: TransferBillingSubscriptionRequestProperties,
+    billingSubscriptionName: string,
     options?: BillingSubscriptionsMoveOptionalParams
   ): Promise<BillingSubscriptionsMoveResponse>;
   /**
    * Validates if a subscription's charges can be moved to a new invoice section. This operation is
    * supported for billing accounts with agreement type Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param parameters Request parameters that are provided to the validate move eligibility operation.
+   * @param billingSubscriptionName The ID that uniquely identifies a billing subscription.
    * @param options The options parameters.
    */
   validateMove(
     billingAccountName: string,
-    parameters: TransferBillingSubscriptionRequestProperties,
+    billingSubscriptionName: string,
     options?: BillingSubscriptionsValidateMoveOptionalParams
   ): Promise<BillingSubscriptionsValidateMoveResponse>;
 }

@@ -14,7 +14,6 @@ import { BillingManagementClient } from "../billingManagementClient";
 import {
   BillingPropertyGetOptionalParams,
   BillingPropertyGetResponse,
-  BillingProperty,
   BillingPropertyUpdateOptionalParams,
   BillingPropertyUpdateResponse
 } from "../models";
@@ -33,28 +32,32 @@ export class BillingPropertyOperationsImpl
   }
 
   /**
-   * Get the billing properties for a subscription. This operation is not supported for billing accounts
-   * with agreement type Enterprise Agreement.
+   * Gets the billing properties for a subscription
+   * @param subscriptionId The ID that uniquely identifies a billing subscription.
    * @param options The options parameters.
    */
   get(
+    subscriptionId: string,
     options?: BillingPropertyGetOptionalParams
   ): Promise<BillingPropertyGetResponse> {
-    return this.client.sendOperationRequest({ options }, getOperationSpec);
+    return this.client.sendOperationRequest(
+      { subscriptionId, options },
+      getOperationSpec
+    );
   }
 
   /**
-   * Updates the billing property of a subscription. Currently, cost center can be updated. The operation
-   * is supported only for billing accounts with agreement type Microsoft Customer Agreement.
-   * @param parameters Request parameters that are provided to the update billing property operation.
+   * Updates the billing property of a subscription. Currently, only cost center can be updated for
+   * billing accounts with agreement type Microsoft Customer Agreement.
+   * @param subscriptionId The ID that uniquely identifies a billing subscription.
    * @param options The options parameters.
    */
   update(
-    parameters: BillingProperty,
+    subscriptionId: string,
     options?: BillingPropertyUpdateOptionalParams
   ): Promise<BillingPropertyUpdateResponse> {
     return this.client.sendOperationRequest(
-      { parameters, options },
+      { subscriptionId, options },
       updateOperationSpec
     );
   }
@@ -71,10 +74,14 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BillingProperty
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.includeBillingCountry,
+    Parameters.includeTransitionStatus
+  ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -88,10 +95,10 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BillingProperty
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmErrorResponse
     }
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],

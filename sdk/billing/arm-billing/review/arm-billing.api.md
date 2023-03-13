@@ -6,15 +6,18 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AcceptanceMode = string;
 
 // @public
 export type AccountStatus = string;
+
+// @public
+export type AccountSubType = string;
 
 // @public
 export type AccountType = string;
@@ -35,6 +38,7 @@ export interface AddressDetails {
     district?: string;
     email?: string;
     firstName?: string;
+    isValidAddress?: boolean;
     lastName?: string;
     middleName?: string;
     phoneNumber?: string;
@@ -53,9 +57,10 @@ export type AddressValidateResponse = ValidateAddressResponse;
 export type AddressValidationStatus = string;
 
 // @public
-export interface Agreement extends Resource {
+export interface Agreement extends ArmResource {
     readonly acceptanceMode?: AcceptanceMode;
     readonly agreementLink?: string;
+    readonly billingProfileInfo?: BillingProfileInfo;
     readonly category?: Category;
     readonly effectiveDate?: Date;
     readonly expirationDate?: Date;
@@ -85,7 +90,6 @@ export type AgreementsGetResponse = Agreement;
 
 // @public
 export interface AgreementsListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -109,10 +113,42 @@ export interface Amount {
 }
 
 // @public
+export interface ArmError {
+    readonly additionalInfo?: ArmErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ArmError[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ArmErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ArmErrorResponse {
+    error?: ArmErrorResponseError;
+}
+
+// @public
+export interface ArmErrorResponseError extends ArmError {
+}
+
+// @public
+export interface ArmResource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
+
+// @public
 export type AutoRenew = string;
 
 // @public
-export interface AvailableBalance extends Resource {
+export interface AvailableBalance extends ArmResource {
     readonly amount?: Amount;
 }
 
@@ -130,12 +166,18 @@ export type AvailableBalancesGetResponse = AvailableBalance;
 
 // @public
 export interface AzurePlan {
-    readonly skuDescription?: string;
-    skuId?: string;
+    skuDescription?: string;
+    readonly skuId?: string;
 }
 
 // @public
-export interface BillingAccount extends Resource {
+export interface Beneficiary {
+    objectId?: string;
+    tenantId?: string;
+}
+
+// @public
+export interface BillingAccount extends ArmResource {
     readonly accountStatus?: AccountStatus;
     readonly accountType?: AccountType;
     readonly agreementType?: AgreementType;
@@ -157,7 +199,7 @@ export interface BillingAccountListResult {
 
 // @public
 export interface BillingAccounts {
-    beginUpdate(billingAccountName: string, parameters: BillingAccountUpdateRequest, options?: BillingAccountsUpdateOptionalParams): Promise<PollerLike<PollOperationState<BillingAccountsUpdateResponse>, BillingAccountsUpdateResponse>>;
+    beginUpdate(billingAccountName: string, parameters: BillingAccountUpdateRequest, options?: BillingAccountsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BillingAccountsUpdateResponse>, BillingAccountsUpdateResponse>>;
     beginUpdateAndWait(billingAccountName: string, parameters: BillingAccountUpdateRequest, options?: BillingAccountsUpdateOptionalParams): Promise<BillingAccountsUpdateResponse>;
     get(billingAccountName: string, options?: BillingAccountsGetOptionalParams): Promise<BillingAccountsGetResponse>;
     list(options?: BillingAccountsListOptionalParams): PagedAsyncIterableIterator<BillingAccount>;
@@ -188,7 +230,6 @@ export type BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionResp
 
 // @public
 export interface BillingAccountsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -201,6 +242,18 @@ export interface BillingAccountsListOptionalParams extends coreClient.OperationO
 
 // @public
 export type BillingAccountsListResponse = BillingAccountListResult;
+
+// @public
+export type BillingAccountStatus = string;
+
+// @public
+export type BillingAccountStatusReasonCode = string;
+
+// @public
+export interface BillingAccountsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface BillingAccountsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -233,17 +286,17 @@ export type BillingFrequency = string;
 export class BillingManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: BillingManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: BillingManagementClientOptionalParams);
     // (undocumented)
     address: Address;
     // (undocumented)
     agreements: Agreements;
     // (undocumented)
+    apiVersion: string;
+    // (undocumented)
     availableBalances: AvailableBalances;
     // (undocumented)
     billingAccounts: BillingAccounts;
-    // (undocumented)
-    billingPeriods: BillingPeriods;
     // (undocumented)
     billingPermissions: BillingPermissions;
     // (undocumented)
@@ -259,8 +312,6 @@ export class BillingManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     customers: Customers;
     // (undocumented)
-    enrollmentAccounts: EnrollmentAccounts;
-    // (undocumented)
     instructions: Instructions;
     // (undocumented)
     invoices: Invoices;
@@ -269,13 +320,13 @@ export class BillingManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     operations: Operations;
     // (undocumented)
+    paymentMethods: PaymentMethods;
+    // (undocumented)
     policies: Policies;
     // (undocumented)
     products: Products;
     // (undocumented)
     reservations: Reservations;
-    // (undocumented)
-    subscriptionId: string;
     // (undocumented)
     transactions: Transactions;
 }
@@ -283,53 +334,8 @@ export class BillingManagementClient extends coreClient.ServiceClient {
 // @public
 export interface BillingManagementClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
+    apiVersion?: string;
     endpoint?: string;
-}
-
-// @public
-export interface BillingPeriod extends Resource {
-    readonly billingPeriodEndDate?: Date;
-    readonly billingPeriodStartDate?: Date;
-    readonly invoiceIds?: string[];
-}
-
-// @public
-export interface BillingPeriods {
-    get(billingPeriodName: string, options?: BillingPeriodsGetOptionalParams): Promise<BillingPeriodsGetResponse>;
-    list(options?: BillingPeriodsListOptionalParams): PagedAsyncIterableIterator<BillingPeriod>;
-}
-
-// @public
-export interface BillingPeriodsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BillingPeriodsGetResponse = BillingPeriod;
-
-// @public
-export interface BillingPeriodsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skiptoken?: string;
-    top?: number;
-}
-
-// @public
-export type BillingPeriodsListNextResponse = BillingPeriodsListResult;
-
-// @public
-export interface BillingPeriodsListOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skiptoken?: string;
-    top?: number;
-}
-
-// @public
-export type BillingPeriodsListResponse = BillingPeriodsListResult;
-
-// @public
-export interface BillingPeriodsListResult {
-    readonly nextLink?: string;
-    readonly value?: BillingPeriod[];
 }
 
 // @public
@@ -409,7 +415,7 @@ export interface BillingPermissionsProperties {
 }
 
 // @public
-export interface BillingProfile extends Resource {
+export interface BillingProfile extends ArmResource {
     readonly billingRelationshipType?: BillingRelationshipType;
     billTo?: AddressDetails;
     readonly currency?: string;
@@ -432,6 +438,29 @@ export interface BillingProfile extends Resource {
 }
 
 // @public
+export interface BillingProfileAutoGenerated extends ArmResource {
+    readonly billingRelationshipType?: BillingRelationshipType;
+    billTo?: AddressDetails;
+    readonly currency?: string;
+    displayName?: string;
+    enabledAzurePlans?: AzurePlan[];
+    readonly hasReadAccess?: boolean;
+    readonly indirectRelationshipInfo?: IndirectRelationshipInfo;
+    readonly invoiceDay?: number;
+    invoiceEmailOptIn?: boolean;
+    invoiceSections?: InvoiceSectionsOnExpandAutoGenerated;
+    poNumber?: string;
+    readonly spendingLimit?: SpendingLimit;
+    readonly status?: BillingProfileStatus;
+    readonly statusReasonCode?: StatusReasonCode;
+    readonly systemId?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    readonly targetClouds?: TargetCloud[];
+}
+
+// @public
 export interface BillingProfileCreationRequest {
     billTo?: AddressDetails;
     displayName?: string;
@@ -441,17 +470,25 @@ export interface BillingProfileCreationRequest {
 }
 
 // @public
+export interface BillingProfileInfo {
+    billingProfileDisplayName?: string;
+    billingProfileId?: string;
+    indirectRelationshipOrganizationName?: string;
+}
+
+// @public
 export interface BillingProfileListResult {
     readonly nextLink?: string;
-    readonly value?: BillingProfile[];
+    readonly totalCount?: number;
+    readonly value?: BillingProfileAutoGenerated[];
 }
 
 // @public
 export interface BillingProfiles {
-    beginCreateOrUpdate(billingAccountName: string, billingProfileName: string, parameters: BillingProfile, options?: BillingProfilesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<BillingProfilesCreateOrUpdateResponse>, BillingProfilesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(billingAccountName: string, billingProfileName: string, parameters: BillingProfile, options?: BillingProfilesCreateOrUpdateOptionalParams): Promise<BillingProfilesCreateOrUpdateResponse>;
+    beginCreateOrUpdate(billingAccountName: string, billingProfileName: string, parameters: BillingProfileAutoGenerated, options?: BillingProfilesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BillingProfilesCreateOrUpdateResponse>, BillingProfilesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(billingAccountName: string, billingProfileName: string, parameters: BillingProfileAutoGenerated, options?: BillingProfilesCreateOrUpdateOptionalParams): Promise<BillingProfilesCreateOrUpdateResponse>;
     get(billingAccountName: string, billingProfileName: string, options?: BillingProfilesGetOptionalParams): Promise<BillingProfilesGetResponse>;
-    listByBillingAccount(billingAccountName: string, options?: BillingProfilesListByBillingAccountOptionalParams): PagedAsyncIterableIterator<BillingProfile>;
+    listByBillingAccount(billingAccountName: string, options?: BillingProfilesListByBillingAccountOptionalParams): PagedAsyncIterableIterator<BillingProfileAutoGenerated>;
 }
 
 // @public
@@ -467,7 +504,7 @@ export interface BillingProfilesCreateOrUpdateOptionalParams extends coreClient.
 }
 
 // @public
-export type BillingProfilesCreateOrUpdateResponse = BillingProfile;
+export type BillingProfilesCreateOrUpdateResponse = BillingProfileAutoGenerated;
 
 // @public
 export interface BillingProfilesGetOptionalParams extends coreClient.OperationOptions {
@@ -475,11 +512,10 @@ export interface BillingProfilesGetOptionalParams extends coreClient.OperationOp
 }
 
 // @public
-export type BillingProfilesGetResponse = BillingProfile;
+export type BillingProfilesGetResponse = BillingProfileAutoGenerated;
 
 // @public
 export interface BillingProfilesListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -500,37 +536,53 @@ export interface BillingProfilesOnExpand {
 }
 
 // @public
-export type BillingProfileSpendingLimit = string;
-
-// @public
 export type BillingProfileStatus = string;
 
 // @public
 export type BillingProfileStatusReasonCode = string;
 
 // @public
-export interface BillingProperty extends Resource {
-    readonly accountAdminNotificationEmailAddress?: string;
+export interface BillingProperty extends ArmResource {
+    readonly billingAccountAgreementType?: AgreementType;
     readonly billingAccountDisplayName?: string;
     readonly billingAccountId?: string;
+    readonly billingAccountNotificationEmailAddress?: string;
+    readonly billingAccountSoldToCountry?: string;
+    readonly billingAccountStatus?: BillingAccountStatus;
+    readonly billingAccountStatusReasonCode?: BillingAccountStatusReasonCode;
+    readonly billingAccountSubType?: AccountSubType;
+    readonly billingAccountType?: AccountType;
+    readonly billingCurrency?: string;
     readonly billingProfileDisplayName?: string;
     readonly billingProfileId?: string;
-    readonly billingProfileSpendingLimit?: BillingProfileSpendingLimit;
+    readonly billingProfilePaymentMethodType?: PaymentMethodType;
+    readonly billingProfileSpendingLimit?: SpendingLimit;
+    readonly billingProfileSpendingLimitDetails?: SpendingLimitDetails[];
     readonly billingProfileStatus?: BillingProfileStatus;
     readonly billingProfileStatusReasonCode?: BillingProfileStatusReasonCode;
-    readonly billingTenantId?: string;
     costCenter?: string;
+    readonly customerDisplayName?: string;
+    readonly customerId?: string;
+    enrollmentDetails?: BillingPropertyPropertiesEnrollmentDetails;
     readonly invoiceSectionDisplayName?: string;
     readonly invoiceSectionId?: string;
-    readonly isAccountAdmin?: boolean;
-    readonly productId?: string;
-    readonly productName?: string;
+    readonly invoiceSectionStatus?: InvoiceSectionStatus;
+    readonly invoiceSectionStatusReasonCode?: InvoiceSectionStatusReasonCode;
+    readonly isTransitionedBillingAccount?: boolean;
+    readonly primaryBillingTenantId?: string;
     readonly skuDescription?: string;
     readonly skuId?: string;
+    readonly subscriptionBillingStatus?: BillingSubscriptionStatus;
+    readonly subscriptionBillingStatusDetails?: BillingSubscriptionStatusDetails[];
+    readonly subscriptionBillingType?: SubscriptionBillingType;
+    subscriptionServiceUsageAddress?: BillingPropertyPropertiesSubscriptionServiceUsageAddress;
+    readonly subscriptionWorkloadType?: SubscriptionWorkloadType;
 }
 
 // @public
 export interface BillingPropertyGetOptionalParams extends coreClient.OperationOptions {
+    includeBillingCountry?: boolean;
+    includeTransitionStatus?: boolean;
 }
 
 // @public
@@ -538,12 +590,63 @@ export type BillingPropertyGetResponse = BillingProperty;
 
 // @public
 export interface BillingPropertyOperations {
-    get(options?: BillingPropertyGetOptionalParams): Promise<BillingPropertyGetResponse>;
-    update(parameters: BillingProperty, options?: BillingPropertyUpdateOptionalParams): Promise<BillingPropertyUpdateResponse>;
+    get(subscriptionId: string, options?: BillingPropertyGetOptionalParams): Promise<BillingPropertyGetResponse>;
+    update(subscriptionId: string, options?: BillingPropertyUpdateOptionalParams): Promise<BillingPropertyUpdateResponse>;
+}
+
+// @public
+export interface BillingPropertyProperties extends BillingPropertyPropertiesAutoGenerated {
+}
+
+// @public
+export interface BillingPropertyPropertiesAutoGenerated {
+    readonly billingAccountAgreementType?: AgreementType;
+    readonly billingAccountDisplayName?: string;
+    readonly billingAccountId?: string;
+    readonly billingAccountNotificationEmailAddress?: string;
+    readonly billingAccountSoldToCountry?: string;
+    readonly billingAccountStatus?: BillingAccountStatus;
+    readonly billingAccountStatusReasonCode?: BillingAccountStatusReasonCode;
+    readonly billingAccountSubType?: AccountSubType;
+    readonly billingAccountType?: AccountType;
+    readonly billingCurrency?: string;
+    readonly billingProfileDisplayName?: string;
+    readonly billingProfileId?: string;
+    readonly billingProfilePaymentMethodType?: PaymentMethodType;
+    readonly billingProfileSpendingLimit?: SpendingLimit;
+    readonly billingProfileSpendingLimitDetails?: SpendingLimitDetails[];
+    readonly billingProfileStatus?: BillingProfileStatus;
+    readonly billingProfileStatusReasonCode?: BillingProfileStatusReasonCode;
+    costCenter?: string;
+    readonly customerDisplayName?: string;
+    readonly customerId?: string;
+    enrollmentDetails?: BillingPropertyPropertiesEnrollmentDetails;
+    readonly invoiceSectionDisplayName?: string;
+    readonly invoiceSectionId?: string;
+    readonly invoiceSectionStatus?: InvoiceSectionStatus;
+    readonly invoiceSectionStatusReasonCode?: InvoiceSectionStatusReasonCode;
+    readonly isTransitionedBillingAccount?: boolean;
+    readonly primaryBillingTenantId?: string;
+    readonly skuDescription?: string;
+    readonly skuId?: string;
+    readonly subscriptionBillingStatus?: BillingSubscriptionStatus;
+    readonly subscriptionBillingStatusDetails?: BillingSubscriptionStatusDetails[];
+    readonly subscriptionBillingType?: SubscriptionBillingType;
+    subscriptionServiceUsageAddress?: BillingPropertyPropertiesSubscriptionServiceUsageAddress;
+    readonly subscriptionWorkloadType?: SubscriptionWorkloadType;
+}
+
+// @public
+export interface BillingPropertyPropertiesEnrollmentDetails extends SubscriptionEnrollmentDetails {
+}
+
+// @public
+export interface BillingPropertyPropertiesSubscriptionServiceUsageAddress extends AddressDetails {
 }
 
 // @public
 export interface BillingPropertyUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: BillingProperty;
 }
 
 // @public
@@ -553,7 +656,7 @@ export type BillingPropertyUpdateResponse = BillingProperty;
 export type BillingRelationshipType = string;
 
 // @public
-export interface BillingRoleAssignment extends Resource {
+export interface BillingRoleAssignment extends ArmResource {
     readonly createdByPrincipalId?: string;
     readonly createdByPrincipalTenantId?: string;
     readonly createdByUserEmailAddress?: string;
@@ -670,7 +773,7 @@ export interface BillingRoleAssignmentsListByInvoiceSectionOptionalParams extend
 export type BillingRoleAssignmentsListByInvoiceSectionResponse = BillingRoleAssignmentListResult;
 
 // @public
-export interface BillingRoleDefinition extends Resource {
+export interface BillingRoleDefinition extends ArmResource {
     readonly description?: string;
     permissions?: BillingPermissionsProperties[];
     readonly roleName?: string;
@@ -756,40 +859,226 @@ export interface BillingRoleDefinitionsListByInvoiceSectionOptionalParams extend
 export type BillingRoleDefinitionsListByInvoiceSectionResponse = BillingRoleDefinitionListResult;
 
 // @public
-export interface BillingSubscription extends Resource {
+export interface BillingSubscription extends ArmResource {
+    readonly autoRenew?: AutoRenew;
+    beneficiary?: BillingSubscriptionPropertiesBeneficiary;
+    billingFrequency?: string;
     readonly billingProfileDisplayName?: string;
-    readonly billingProfileId?: string;
-    costCenter?: string;
+    billingProfileId?: string;
+    readonly billingProfileName?: string;
+    consumptionCostCenter?: string;
     readonly customerDisplayName?: string;
-    readonly customerId?: string;
-    readonly displayName?: string;
+    customerId?: string;
+    readonly customerName?: string;
+    displayName?: string;
+    readonly enrollmentAccountDisplayName?: string;
+    readonly enrollmentAccountId?: string;
+    enrollmentAccountSubscriptionDetails?: BillingSubscriptionPropertiesEnrollmentAccountSubscriptionDetails;
     readonly invoiceSectionDisplayName?: string;
     readonly invoiceSectionId?: string;
-    readonly lastMonthCharges?: Amount;
-    readonly monthToDateCharges?: Amount;
-    readonly reseller?: Reseller;
+    readonly invoiceSectionName?: string;
+    nextBillingCycleDetails?: BillingSubscriptionPropertiesNextBillingCycleDetails;
+    readonly offerId?: string;
+    readonly productCategory?: BillingSubscriptionCategory;
+    readonly productType?: string;
+    readonly productTypeId?: string;
+    provisioningTenantId?: string;
+    readonly purchaseDate?: Date;
+    quantity?: number;
+    renewalTermDetails?: BillingSubscriptionPropertiesRenewalTermDetails;
+    reseller?: BillingSubscriptionPropertiesReseller;
     readonly skuDescription?: string;
     skuId?: string;
-    subscriptionBillingStatus?: BillingSubscriptionStatusType;
+    readonly status?: BillingSubscriptionStatus;
     readonly subscriptionId?: string;
-    readonly suspensionReasons?: string[];
+    readonly suspensionReasonDetails?: BillingSubscriptionStatusDetails[];
+    readonly suspensionReasons?: SubscriptionStatusReason[];
+    systemOverrides?: BillingSubscriptionPropertiesSystemOverrides;
+    termDuration?: string;
+    termEndDate?: Date;
+    readonly termStartDate?: Date;
+}
+
+// @public
+export type BillingSubscriptionCategory = string;
+
+// @public
+export type BillingSubscriptionEnrollmentAccountStatus = string;
+
+// @public
+export type BillingSubscriptionErrorCodes = string;
+
+// @public
+export interface BillingSubscriptionListResult {
+    readonly nextLink?: string;
+    readonly value?: BillingSubscription[];
+}
+
+// @public
+export interface BillingSubscriptionPatch {
+    readonly autoRenew?: AutoRenew;
+    beneficiary?: BillingSubscriptionPropertiesBeneficiary;
+    billingFrequency?: string;
+    readonly billingProfileDisplayName?: string;
+    billingProfileId?: string;
+    readonly billingProfileName?: string;
+    consumptionCostCenter?: string;
+    readonly customerDisplayName?: string;
+    customerId?: string;
+    readonly customerName?: string;
+    displayName?: string;
+    readonly enrollmentAccountDisplayName?: string;
+    readonly enrollmentAccountId?: string;
+    enrollmentAccountSubscriptionDetails?: BillingSubscriptionPropertiesEnrollmentAccountSubscriptionDetails;
+    readonly invoiceSectionDisplayName?: string;
+    readonly invoiceSectionId?: string;
+    readonly invoiceSectionName?: string;
+    nextBillingCycleDetails?: BillingSubscriptionPropertiesNextBillingCycleDetails;
+    readonly offerId?: string;
+    readonly productCategory?: BillingSubscriptionCategory;
+    readonly productType?: string;
+    readonly productTypeId?: string;
+    provisioningTenantId?: string;
+    readonly purchaseDate?: Date;
+    quantity?: number;
+    renewalTermDetails?: BillingSubscriptionPropertiesRenewalTermDetails;
+    reseller?: BillingSubscriptionPropertiesReseller;
+    readonly skuDescription?: string;
+    skuId?: string;
+    readonly status?: BillingSubscriptionStatus;
+    readonly subscriptionId?: string;
+    readonly suspensionReasonDetails?: BillingSubscriptionStatusDetails[];
+    readonly suspensionReasons?: SubscriptionStatusReason[];
+    systemOverrides?: BillingSubscriptionPropertiesSystemOverrides;
+    termDuration?: string;
+    termEndDate?: Date;
+    readonly termStartDate?: Date;
+}
+
+// @public
+export interface BillingSubscriptionPatchProperties extends BillingSubscriptionPropertiesAutoGenerated {
+}
+
+// @public
+export interface BillingSubscriptionProperties extends BillingSubscriptionPropertiesAutoGenerated {
+}
+
+// @public
+export interface BillingSubscriptionPropertiesAutoGenerated {
+    readonly autoRenew?: AutoRenew;
+    beneficiary?: BillingSubscriptionPropertiesBeneficiary;
+    billingFrequency?: string;
+    readonly billingProfileDisplayName?: string;
+    billingProfileId?: string;
+    readonly billingProfileName?: string;
+    consumptionCostCenter?: string;
+    readonly customerDisplayName?: string;
+    customerId?: string;
+    readonly customerName?: string;
+    displayName?: string;
+    readonly enrollmentAccountDisplayName?: string;
+    readonly enrollmentAccountId?: string;
+    enrollmentAccountSubscriptionDetails?: BillingSubscriptionPropertiesEnrollmentAccountSubscriptionDetails;
+    readonly invoiceSectionDisplayName?: string;
+    readonly invoiceSectionId?: string;
+    readonly invoiceSectionName?: string;
+    nextBillingCycleDetails?: BillingSubscriptionPropertiesNextBillingCycleDetails;
+    readonly offerId?: string;
+    readonly productCategory?: BillingSubscriptionCategory;
+    readonly productType?: string;
+    readonly productTypeId?: string;
+    provisioningTenantId?: string;
+    readonly purchaseDate?: Date;
+    quantity?: number;
+    renewalTermDetails?: BillingSubscriptionPropertiesRenewalTermDetails;
+    reseller?: BillingSubscriptionPropertiesReseller;
+    readonly skuDescription?: string;
+    skuId?: string;
+    readonly status?: BillingSubscriptionStatus;
+    readonly subscriptionId?: string;
+    readonly suspensionReasonDetails?: BillingSubscriptionStatusDetails[];
+    readonly suspensionReasons?: SubscriptionStatusReason[];
+    systemOverrides?: BillingSubscriptionPropertiesSystemOverrides;
+    termDuration?: string;
+    termEndDate?: Date;
+    readonly termStartDate?: Date;
+}
+
+// @public
+export interface BillingSubscriptionPropertiesBeneficiary extends Beneficiary {
+}
+
+// @public
+export interface BillingSubscriptionPropertiesEnrollmentAccountSubscriptionDetails extends EnrollmentAccountSubscriptionDetails {
+}
+
+// @public
+export interface BillingSubscriptionPropertiesNextBillingCycleDetails extends NextBillingCycleDetails {
+}
+
+// @public
+export interface BillingSubscriptionPropertiesRenewalTermDetails extends RenewalTermDetails {
+}
+
+// @public
+export interface BillingSubscriptionPropertiesReseller extends Reseller {
+}
+
+// @public
+export interface BillingSubscriptionPropertiesSystemOverrides extends SystemOverrides {
 }
 
 // @public
 export interface BillingSubscriptions {
-    beginMove(billingAccountName: string, parameters: TransferBillingSubscriptionRequestProperties, options?: BillingSubscriptionsMoveOptionalParams): Promise<PollerLike<PollOperationState<BillingSubscriptionsMoveResponse>, BillingSubscriptionsMoveResponse>>;
-    beginMoveAndWait(billingAccountName: string, parameters: TransferBillingSubscriptionRequestProperties, options?: BillingSubscriptionsMoveOptionalParams): Promise<BillingSubscriptionsMoveResponse>;
-    get(billingAccountName: string, options?: BillingSubscriptionsGetOptionalParams): Promise<BillingSubscriptionsGetResponse>;
+    beginCancel(billingAccountName: string, billingSubscriptionName: string, options?: BillingSubscriptionsCancelOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginCancelAndWait(billingAccountName: string, billingSubscriptionName: string, options?: BillingSubscriptionsCancelOptionalParams): Promise<void>;
+    beginDelete(billingAccountName: string, billingSubscriptionName: string, options?: BillingSubscriptionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<BillingSubscriptionsDeleteResponse>, BillingSubscriptionsDeleteResponse>>;
+    beginDeleteAndWait(billingAccountName: string, billingSubscriptionName: string, options?: BillingSubscriptionsDeleteOptionalParams): Promise<BillingSubscriptionsDeleteResponse>;
+    beginMove(billingAccountName: string, billingSubscriptionName: string, options?: BillingSubscriptionsMoveOptionalParams): Promise<SimplePollerLike<OperationState<BillingSubscriptionsMoveResponse>, BillingSubscriptionsMoveResponse>>;
+    beginMoveAndWait(billingAccountName: string, billingSubscriptionName: string, options?: BillingSubscriptionsMoveOptionalParams): Promise<BillingSubscriptionsMoveResponse>;
+    beginUpdate(billingAccountName: string, billingSubscriptionName: string, options?: BillingSubscriptionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BillingSubscriptionsUpdateResponse>, BillingSubscriptionsUpdateResponse>>;
+    beginUpdateAndWait(billingAccountName: string, billingSubscriptionName: string, options?: BillingSubscriptionsUpdateOptionalParams): Promise<BillingSubscriptionsUpdateResponse>;
+    get(billingAccountName: string, billingSubscriptionName: string, options?: BillingSubscriptionsGetOptionalParams): Promise<BillingSubscriptionsGetResponse>;
     listByBillingAccount(billingAccountName: string, options?: BillingSubscriptionsListByBillingAccountOptionalParams): PagedAsyncIterableIterator<BillingSubscription>;
     listByBillingProfile(billingAccountName: string, billingProfileName: string, options?: BillingSubscriptionsListByBillingProfileOptionalParams): PagedAsyncIterableIterator<BillingSubscription>;
     listByCustomer(billingAccountName: string, customerName: string, options?: BillingSubscriptionsListByCustomerOptionalParams): PagedAsyncIterableIterator<BillingSubscription>;
+    listByEnrollmentAccount(billingAccountName: string, enrollmentAccountName: string, options?: BillingSubscriptionsListByEnrollmentAccountOptionalParams): PagedAsyncIterableIterator<BillingSubscription>;
     listByInvoiceSection(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, options?: BillingSubscriptionsListByInvoiceSectionOptionalParams): PagedAsyncIterableIterator<BillingSubscription>;
-    update(billingAccountName: string, parameters: BillingSubscription, options?: BillingSubscriptionsUpdateOptionalParams): Promise<BillingSubscriptionsUpdateResponse>;
-    validateMove(billingAccountName: string, parameters: TransferBillingSubscriptionRequestProperties, options?: BillingSubscriptionsValidateMoveOptionalParams): Promise<BillingSubscriptionsValidateMoveResponse>;
+    validateMove(billingAccountName: string, billingSubscriptionName: string, options?: BillingSubscriptionsValidateMoveOptionalParams): Promise<BillingSubscriptionsValidateMoveResponse>;
 }
 
 // @public
+export interface BillingSubscriptionsCancelHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface BillingSubscriptionsCancelOptionalParams extends coreClient.OperationOptions {
+    body?: CancelAzureSubscriptionRequest;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BillingSubscriptionsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface BillingSubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BillingSubscriptionsDeleteResponse = BillingSubscription;
+
+// @public
 export interface BillingSubscriptionsGetOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+    includeDeleted?: boolean;
 }
 
 // @public
@@ -800,72 +1089,115 @@ export interface BillingSubscriptionsListByBillingAccountNextOptionalParams exte
 }
 
 // @public
-export type BillingSubscriptionsListByBillingAccountNextResponse = BillingSubscriptionsListResult;
+export type BillingSubscriptionsListByBillingAccountNextResponse = BillingSubscriptionListResult;
 
 // @public
 export interface BillingSubscriptionsListByBillingAccountOptionalParams extends coreClient.OperationOptions {
+    count?: boolean;
+    filter?: string;
+    includeDeleted?: boolean;
+    includeTenantSubscriptions?: boolean;
+    orderBy?: string;
+    search?: string;
+    skip?: number;
+    top?: number;
 }
 
 // @public
-export type BillingSubscriptionsListByBillingAccountResponse = BillingSubscriptionsListResult;
+export type BillingSubscriptionsListByBillingAccountResponse = BillingSubscriptionListResult;
 
 // @public
 export interface BillingSubscriptionsListByBillingProfileNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type BillingSubscriptionsListByBillingProfileNextResponse = BillingSubscriptionsListResult;
+export type BillingSubscriptionsListByBillingProfileNextResponse = BillingSubscriptionListResult;
 
 // @public
 export interface BillingSubscriptionsListByBillingProfileOptionalParams extends coreClient.OperationOptions {
+    count?: boolean;
+    filter?: string;
+    includeDeleted?: boolean;
+    orderBy?: string;
+    search?: string;
+    skip?: number;
+    top?: number;
 }
 
 // @public
-export type BillingSubscriptionsListByBillingProfileResponse = BillingSubscriptionsListResult;
+export type BillingSubscriptionsListByBillingProfileResponse = BillingSubscriptionListResult;
 
 // @public
 export interface BillingSubscriptionsListByCustomerNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type BillingSubscriptionsListByCustomerNextResponse = BillingSubscriptionsListResult;
+export type BillingSubscriptionsListByCustomerNextResponse = BillingSubscriptionListResult;
 
 // @public
 export interface BillingSubscriptionsListByCustomerOptionalParams extends coreClient.OperationOptions {
+    count?: boolean;
+    filter?: string;
+    includeDeleted?: boolean;
+    orderBy?: string;
+    search?: string;
+    skip?: number;
+    top?: number;
 }
 
 // @public
-export type BillingSubscriptionsListByCustomerResponse = BillingSubscriptionsListResult;
+export type BillingSubscriptionsListByCustomerResponse = BillingSubscriptionListResult;
+
+// @public
+export interface BillingSubscriptionsListByEnrollmentAccountNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BillingSubscriptionsListByEnrollmentAccountNextResponse = BillingSubscriptionListResult;
+
+// @public
+export interface BillingSubscriptionsListByEnrollmentAccountOptionalParams extends coreClient.OperationOptions {
+    count?: boolean;
+    filter?: string;
+    orderBy?: string;
+    search?: string;
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export type BillingSubscriptionsListByEnrollmentAccountResponse = BillingSubscriptionListResult;
 
 // @public
 export interface BillingSubscriptionsListByInvoiceSectionNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type BillingSubscriptionsListByInvoiceSectionNextResponse = BillingSubscriptionsListResult;
+export type BillingSubscriptionsListByInvoiceSectionNextResponse = BillingSubscriptionListResult;
 
 // @public
 export interface BillingSubscriptionsListByInvoiceSectionOptionalParams extends coreClient.OperationOptions {
+    count?: boolean;
+    filter?: string;
+    includeDeleted?: boolean;
+    orderBy?: string;
+    search?: string;
+    skip?: number;
+    top?: number;
 }
 
 // @public
-export type BillingSubscriptionsListByInvoiceSectionResponse = BillingSubscriptionsListResult;
-
-// @public
-export interface BillingSubscriptionsListResult {
-    readonly nextLink?: string;
-    readonly totalCount?: number;
-    readonly value?: BillingSubscription[];
-}
+export type BillingSubscriptionsListByInvoiceSectionResponse = BillingSubscriptionListResult;
 
 // @public
 export interface BillingSubscriptionsMoveHeaders {
+    // (undocumented)
     location?: string;
-    retryAfter?: number;
 }
 
 // @public
 export interface BillingSubscriptionsMoveOptionalParams extends coreClient.OperationOptions {
+    body?: MoveBillingSubscriptionRequest;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -874,10 +1206,25 @@ export interface BillingSubscriptionsMoveOptionalParams extends coreClient.Opera
 export type BillingSubscriptionsMoveResponse = BillingSubscription;
 
 // @public
-export type BillingSubscriptionStatusType = string;
+export type BillingSubscriptionStatus = string;
+
+// @public
+export interface BillingSubscriptionStatusDetails {
+    readonly effectiveDate?: string;
+    readonly reason?: SubscriptionStatusReason;
+}
+
+// @public
+export interface BillingSubscriptionsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface BillingSubscriptionsUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: BillingSubscriptionPatch;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -885,21 +1232,37 @@ export type BillingSubscriptionsUpdateResponse = BillingSubscription;
 
 // @public
 export interface BillingSubscriptionsValidateMoveOptionalParams extends coreClient.OperationOptions {
+    body?: MoveBillingSubscriptionRequest;
 }
 
 // @public
-export type BillingSubscriptionsValidateMoveResponse = ValidateSubscriptionTransferEligibilityResult;
+export type BillingSubscriptionsValidateMoveResponse = MoveEligibilityResult;
+
+// @public
+export interface CancelAzureSubscriptionRequest {
+    cancellationReason: CancellationReason;
+    customerId?: string;
+}
+
+// @public
+export type Cancellation = string;
+
+// @public
+export type CancellationReason = string;
 
 // @public
 export type Category = string;
 
 // @public
-export interface Customer extends Resource {
+export type CreatedByType = string;
+
+// @public
+export interface Customer extends ArmResource {
     readonly billingProfileDisplayName?: string;
     readonly billingProfileId?: string;
     displayName?: string;
     enabledAzurePlans?: AzurePlan[];
-    resellers?: Reseller[];
+    resellers?: ResellerAutoGenerated[];
 }
 
 // @public
@@ -910,7 +1273,7 @@ export interface CustomerListResult {
 }
 
 // @public
-export interface CustomerPolicy extends Resource {
+export interface CustomerPolicy extends ArmResource {
     viewCharges?: ViewCharges;
 }
 
@@ -931,8 +1294,6 @@ export type CustomersGetResponse = Customer;
 
 // @public
 export interface CustomersListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    search?: string;
 }
 
 // @public
@@ -949,8 +1310,6 @@ export type CustomersListByBillingAccountResponse = CustomerListResult;
 
 // @public
 export interface CustomersListByBillingProfileNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    search?: string;
 }
 
 // @public
@@ -966,7 +1325,7 @@ export interface CustomersListByBillingProfileOptionalParams extends coreClient.
 export type CustomersListByBillingProfileResponse = CustomerListResult;
 
 // @public
-export interface Department extends Resource {
+export interface Department extends ArmResource {
     costCenter?: string;
     departmentName?: string;
     enrollmentAccounts?: EnrollmentAccount[];
@@ -1008,7 +1367,7 @@ export interface Enrollment {
 }
 
 // @public
-export interface EnrollmentAccount extends Resource {
+export interface EnrollmentAccount extends ArmResource {
     accountName?: string;
     accountOwner?: string;
     accountOwnerEmail?: string;
@@ -1020,49 +1379,9 @@ export interface EnrollmentAccount extends Resource {
 }
 
 // @public
-export interface EnrollmentAccountContext {
-    costCenter?: string;
-    endDate?: Date;
-    enrollmentAccountName?: string;
-    startDate?: Date;
-}
-
-// @public
-export interface EnrollmentAccountListResult {
-    readonly nextLink?: string;
-    readonly value?: EnrollmentAccountSummary[];
-}
-
-// @public
-export interface EnrollmentAccounts {
-    get(name: string, options?: EnrollmentAccountsGetOptionalParams): Promise<EnrollmentAccountsGetResponse>;
-    list(options?: EnrollmentAccountsListOptionalParams): PagedAsyncIterableIterator<EnrollmentAccountSummary>;
-}
-
-// @public
-export interface EnrollmentAccountsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EnrollmentAccountsGetResponse = EnrollmentAccountSummary;
-
-// @public
-export interface EnrollmentAccountsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EnrollmentAccountsListNextResponse = EnrollmentAccountListResult;
-
-// @public
-export interface EnrollmentAccountsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EnrollmentAccountsListResponse = EnrollmentAccountListResult;
-
-// @public
-export interface EnrollmentAccountSummary extends Resource {
-    readonly principalName?: string;
+export interface EnrollmentAccountSubscriptionDetails {
+    readonly enrollmentAccountStartDate?: string;
+    readonly subscriptionEnrollmentAccountStatus?: BillingSubscriptionEnrollmentAccountStatus;
 }
 
 // @public
@@ -1071,26 +1390,6 @@ export interface EnrollmentPolicies {
     readonly departmentAdminViewCharges?: boolean;
     readonly marketplaceEnabled?: boolean;
     readonly reservedInstancesEnabled?: boolean;
-}
-
-// @public
-export interface ErrorDetails {
-    readonly code?: string;
-    readonly details?: ErrorSubDetailsItem[];
-    readonly message?: string;
-    readonly target?: string;
-}
-
-// @public
-export interface ErrorResponse {
-    error?: ErrorDetails;
-}
-
-// @public (undocumented)
-export interface ErrorSubDetailsItem {
-    readonly code?: string;
-    readonly message?: string;
-    readonly target?: string;
 }
 
 // @public
@@ -1104,7 +1403,7 @@ export interface IndirectRelationshipInfo {
 }
 
 // @public
-export interface Instruction extends Resource {
+export interface Instruction extends ArmResource {
     amount?: number;
     creationDate?: Date;
     endDate?: Date;
@@ -1153,7 +1452,7 @@ export interface InstructionsPutOptionalParams extends coreClient.OperationOptio
 export type InstructionsPutResponse = Instruction;
 
 // @public
-export interface Invoice extends Resource {
+export interface Invoice extends ArmResource {
     readonly amountDue?: Amount;
     readonly azurePrepaymentApplied?: Amount;
     readonly billedAmount?: Amount;
@@ -1195,20 +1494,20 @@ export interface InvoiceListResult {
 
 // @public
 export interface Invoices {
-    beginDownloadBillingSubscriptionInvoice(invoiceName: string, downloadToken: string, options?: InvoicesDownloadBillingSubscriptionInvoiceOptionalParams): Promise<PollerLike<PollOperationState<InvoicesDownloadBillingSubscriptionInvoiceResponse>, InvoicesDownloadBillingSubscriptionInvoiceResponse>>;
-    beginDownloadBillingSubscriptionInvoiceAndWait(invoiceName: string, downloadToken: string, options?: InvoicesDownloadBillingSubscriptionInvoiceOptionalParams): Promise<InvoicesDownloadBillingSubscriptionInvoiceResponse>;
-    beginDownloadInvoice(billingAccountName: string, invoiceName: string, downloadToken: string, options?: InvoicesDownloadInvoiceOptionalParams): Promise<PollerLike<PollOperationState<InvoicesDownloadInvoiceResponse>, InvoicesDownloadInvoiceResponse>>;
+    beginDownloadBillingSubscriptionInvoice(subscriptionId: string, invoiceName: string, downloadToken: string, options?: InvoicesDownloadBillingSubscriptionInvoiceOptionalParams): Promise<SimplePollerLike<OperationState<InvoicesDownloadBillingSubscriptionInvoiceResponse>, InvoicesDownloadBillingSubscriptionInvoiceResponse>>;
+    beginDownloadBillingSubscriptionInvoiceAndWait(subscriptionId: string, invoiceName: string, downloadToken: string, options?: InvoicesDownloadBillingSubscriptionInvoiceOptionalParams): Promise<InvoicesDownloadBillingSubscriptionInvoiceResponse>;
+    beginDownloadInvoice(billingAccountName: string, invoiceName: string, downloadToken: string, options?: InvoicesDownloadInvoiceOptionalParams): Promise<SimplePollerLike<OperationState<InvoicesDownloadInvoiceResponse>, InvoicesDownloadInvoiceResponse>>;
     beginDownloadInvoiceAndWait(billingAccountName: string, invoiceName: string, downloadToken: string, options?: InvoicesDownloadInvoiceOptionalParams): Promise<InvoicesDownloadInvoiceResponse>;
-    beginDownloadMultipleBillingProfileInvoices(billingAccountName: string, downloadUrls: string[], options?: InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams): Promise<PollerLike<PollOperationState<InvoicesDownloadMultipleBillingProfileInvoicesResponse>, InvoicesDownloadMultipleBillingProfileInvoicesResponse>>;
+    beginDownloadMultipleBillingProfileInvoices(billingAccountName: string, downloadUrls: string[], options?: InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams): Promise<SimplePollerLike<OperationState<InvoicesDownloadMultipleBillingProfileInvoicesResponse>, InvoicesDownloadMultipleBillingProfileInvoicesResponse>>;
     beginDownloadMultipleBillingProfileInvoicesAndWait(billingAccountName: string, downloadUrls: string[], options?: InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams): Promise<InvoicesDownloadMultipleBillingProfileInvoicesResponse>;
-    beginDownloadMultipleBillingSubscriptionInvoices(downloadUrls: string[], options?: InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams): Promise<PollerLike<PollOperationState<InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse>, InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse>>;
-    beginDownloadMultipleBillingSubscriptionInvoicesAndWait(downloadUrls: string[], options?: InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams): Promise<InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse>;
+    beginDownloadMultipleBillingSubscriptionInvoices(subscriptionId: string, downloadUrls: string[], options?: InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams): Promise<SimplePollerLike<OperationState<InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse>, InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse>>;
+    beginDownloadMultipleBillingSubscriptionInvoicesAndWait(subscriptionId: string, downloadUrls: string[], options?: InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams): Promise<InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse>;
     get(billingAccountName: string, invoiceName: string, options?: InvoicesGetOptionalParams): Promise<InvoicesGetResponse>;
     getById(invoiceName: string, options?: InvoicesGetByIdOptionalParams): Promise<InvoicesGetByIdResponse>;
-    getBySubscriptionAndInvoiceId(invoiceName: string, options?: InvoicesGetBySubscriptionAndInvoiceIdOptionalParams): Promise<InvoicesGetBySubscriptionAndInvoiceIdResponse>;
+    getBySubscriptionAndInvoiceId(subscriptionId: string, invoiceName: string, options?: InvoicesGetBySubscriptionAndInvoiceIdOptionalParams): Promise<InvoicesGetBySubscriptionAndInvoiceIdResponse>;
     listByBillingAccount(billingAccountName: string, periodStartDate: string, periodEndDate: string, options?: InvoicesListByBillingAccountOptionalParams): PagedAsyncIterableIterator<Invoice>;
     listByBillingProfile(billingAccountName: string, billingProfileName: string, periodStartDate: string, periodEndDate: string, options?: InvoicesListByBillingProfileOptionalParams): PagedAsyncIterableIterator<Invoice>;
-    listByBillingSubscription(periodStartDate: string, periodEndDate: string, options?: InvoicesListByBillingSubscriptionOptionalParams): PagedAsyncIterableIterator<Invoice>;
+    listByBillingSubscription(subscriptionId: string, periodStartDate: string, periodEndDate: string, options?: InvoicesListByBillingSubscriptionOptionalParams): PagedAsyncIterableIterator<Invoice>;
 }
 
 // @public
@@ -1272,7 +1571,7 @@ export interface InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalPara
 export type InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse = DownloadUrl;
 
 // @public
-export interface InvoiceSection extends Resource {
+export interface InvoiceSection extends ArmResource {
     displayName?: string;
     labels?: {
         [propertyName: string]: string;
@@ -1305,7 +1604,7 @@ export interface InvoiceSectionListWithCreateSubPermissionResult {
 
 // @public
 export interface InvoiceSections {
-    beginCreateOrUpdate(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, parameters: InvoiceSection, options?: InvoiceSectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<InvoiceSectionsCreateOrUpdateResponse>, InvoiceSectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, parameters: InvoiceSection, options?: InvoiceSectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<InvoiceSectionsCreateOrUpdateResponse>, InvoiceSectionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, parameters: InvoiceSection, options?: InvoiceSectionsCreateOrUpdateOptionalParams): Promise<InvoiceSectionsCreateOrUpdateResponse>;
     get(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, options?: InvoiceSectionsGetOptionalParams): Promise<InvoiceSectionsGetResponse>;
     listByBillingProfile(billingAccountName: string, billingProfileName: string, options?: InvoiceSectionsListByBillingProfileOptionalParams): PagedAsyncIterableIterator<InvoiceSection>;
@@ -1354,7 +1653,19 @@ export interface InvoiceSectionsOnExpand {
 }
 
 // @public
+export interface InvoiceSectionsOnExpandAutoGenerated {
+    readonly hasMoreResults?: boolean;
+    value?: InvoiceSection[];
+}
+
+// @public
 export type InvoiceSectionState = string;
+
+// @public
+export type InvoiceSectionStatus = string;
+
+// @public
+export type InvoiceSectionStatusReasonCode = string;
 
 // @public
 export interface InvoiceSectionWithCreateSubPermission {
@@ -1458,10 +1769,25 @@ export enum KnownAccountStatus {
 }
 
 // @public
+export enum KnownAccountSubType {
+    Individual = "Individual",
+    None = "None",
+    Premier = "Premier",
+    Standard = "Standard",
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownAccountType {
+    Business = "Business",
+    ClassicPartner = "ClassicPartner",
     Enterprise = "Enterprise",
     Individual = "Individual",
-    Partner = "Partner"
+    Internal = "Internal",
+    Partner = "Partner",
+    Reseller = "Reseller",
+    Tenant = "Tenant",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -1475,13 +1801,35 @@ export enum KnownAgreementType {
     EnterpriseAgreement = "EnterpriseAgreement",
     MicrosoftCustomerAgreement = "MicrosoftCustomerAgreement",
     MicrosoftOnlineServicesProgram = "MicrosoftOnlineServicesProgram",
-    MicrosoftPartnerAgreement = "MicrosoftPartnerAgreement"
+    MicrosoftPartnerAgreement = "MicrosoftPartnerAgreement",
+    Unknown = "Unknown"
 }
 
 // @public
 export enum KnownAutoRenew {
     Off = "Off",
     On = "On"
+}
+
+// @public
+export enum KnownBillingAccountStatus {
+    Active = "Active",
+    Deleted = "Deleted",
+    Disabled = "Disabled",
+    Extended = "Extended",
+    New = "New",
+    Pending = "Pending",
+    UnderReview = "UnderReview",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownBillingAccountStatusReasonCode {
+    Expired = "Expired",
+    ManuallyTerminated = "ManuallyTerminated",
+    TerminateProcessing = "TerminateProcessing",
+    Transferred = "Transferred",
+    UnusualActivity = "UnusualActivity"
 }
 
 // @public
@@ -1492,15 +1840,12 @@ export enum KnownBillingFrequency {
 }
 
 // @public
-export enum KnownBillingProfileSpendingLimit {
-    Off = "Off",
-    On = "On"
-}
-
-// @public
 export enum KnownBillingProfileStatus {
     Active = "Active",
+    Deleted = "Deleted",
     Disabled = "Disabled",
+    UnderReview = "UnderReview",
+    Unknown = "Unknown",
     Warned = "Warned"
 }
 
@@ -1508,7 +1853,8 @@ export enum KnownBillingProfileStatus {
 export enum KnownBillingProfileStatusReasonCode {
     PastDue = "PastDue",
     SpendingLimitExpired = "SpendingLimitExpired",
-    SpendingLimitReached = "SpendingLimitReached"
+    SpendingLimitReached = "SpendingLimitReached",
+    UnusualActivity = "UnusualActivity"
 }
 
 // @public
@@ -1520,12 +1866,85 @@ export enum KnownBillingRelationshipType {
 }
 
 // @public
-export enum KnownBillingSubscriptionStatusType {
-    Abandoned = "Abandoned",
+export enum KnownBillingSubscriptionCategory {
+    AzureSupport = "AzureSupport",
+    Hardware = "Hardware",
+    Other = "Other",
+    ReservationOrder = "ReservationOrder",
+    SaaS = "SaaS",
+    SavingsPlanOrder = "SavingsPlanOrder",
+    SeatBased = "SeatBased",
+    Software = "Software",
+    UsageBased = "UsageBased"
+}
+
+// @public
+export enum KnownBillingSubscriptionEnrollmentAccountStatus {
     Active = "Active",
+    Cancelled = "Cancelled",
     Deleted = "Deleted",
+    Expired = "Expired",
     Inactive = "Inactive",
-    Warning = "Warning"
+    TransferredOut = "TransferredOut",
+    Transferring = "Transferring"
+}
+
+// @public
+export enum KnownBillingSubscriptionErrorCodes {
+    AccountIsLocked = "AccountIsLocked",
+    AssetHasCap = "AssetHasCap",
+    AssetNotActive = "AssetNotActive",
+    BillingAccountInactive = "BillingAccountInactive",
+    BillingProfilePastDue = "BillingProfilePastDue",
+    CrossBillingAccountNotAllowed = "CrossBillingAccountNotAllowed",
+    DestinationBillingProfileInactive = "DestinationBillingProfileInactive",
+    DestinationBillingProfileNotFound = "DestinationBillingProfileNotFound",
+    DestinationBillingProfilePastDue = "DestinationBillingProfilePastDue",
+    DestinationInvoiceSectionInactive = "DestinationInvoiceSectionInactive",
+    DestinationInvoiceSectionNotFound = "DestinationInvoiceSectionNotFound",
+    InsufficientPermissionOnDestination = "InsufficientPermissionOnDestination",
+    InsufficientPermissionOnSource = "InsufficientPermissionOnSource",
+    InvalidDestination = "InvalidDestination",
+    InvalidSource = "InvalidSource",
+    InvoiceSectionIsRestricted = "InvoiceSectionIsRestricted",
+    MarketplaceNotEnabledOnDestination = "MarketplaceNotEnabledOnDestination",
+    NoActiveAzurePlan = "NoActiveAzurePlan",
+    None = "None",
+    ProductInactive = "ProductInactive",
+    ProductNotFound = "ProductNotFound",
+    ProductTypeNotSupported = "ProductTypeNotSupported",
+    SourceBillingProfilePastDue = "SourceBillingProfilePastDue",
+    SourceInvoiceSectionInactive = "SourceInvoiceSectionInactive",
+    SubscriptionHasReservations = "SubscriptionHasReservations",
+    SubscriptionNotActive = "SubscriptionNotActive",
+    SubscriptionTypeNotSupported = "SubscriptionTypeNotSupported"
+}
+
+// @public
+export enum KnownBillingSubscriptionStatus {
+    Active = "Active",
+    AutoRenew = "AutoRenew",
+    Cancelled = "Cancelled",
+    Deleted = "Deleted",
+    Disabled = "Disabled",
+    Expired = "Expired",
+    Expiring = "Expiring",
+    Suspended = "Suspended",
+    Unknown = "Unknown",
+    Warned = "Warned"
+}
+
+// @public
+export enum KnownCancellation {
+    Allowed = "Allowed",
+    NotAllowed = "NotAllowed"
+}
+
+// @public
+export enum KnownCancellationReason {
+    Compromise = "Compromise",
+    Dispute = "Dispute",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -1533,6 +1952,14 @@ export enum KnownCategory {
     AffiliatePurchaseTerms = "AffiliatePurchaseTerms",
     MicrosoftCustomerAgreement = "MicrosoftCustomerAgreement",
     Other = "Other"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
@@ -1562,6 +1989,23 @@ export enum KnownInvoiceSectionState {
 }
 
 // @public
+export enum KnownInvoiceSectionStatus {
+    Active = "Active",
+    Deleted = "Deleted",
+    Disabled = "Disabled",
+    Restricted = "Restricted",
+    UnderReview = "UnderReview",
+    Unknown = "Unknown",
+    Warned = "Warned"
+}
+
+// @public
+export enum KnownInvoiceSectionStatusReasonCode {
+    PastDue = "PastDue",
+    UnusualActivity = "UnusualActivity"
+}
+
+// @public
 export enum KnownInvoiceStatus {
     Due = "Due",
     OverDue = "OverDue",
@@ -1588,7 +2032,23 @@ export enum KnownPaymentMethodFamily {
     CheckWire = "CheckWire",
     CreditCard = "CreditCard",
     Credits = "Credits",
-    None = "None"
+    None = "None",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownPaymentMethodStatus {
+    Active = "Active",
+    Inactive = "Inactive",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownPaymentMethodType {
+    Checkwire = "Checkwire",
+    Creditcard = "Creditcard",
+    Credits = "Credits",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -1641,6 +2101,35 @@ export enum KnownSpendingLimitForBillingProfile {
 }
 
 // @public
+export enum KnownSpendingLimitStatus {
+    Active = "Active",
+    Expired = "Expired",
+    LimitReached = "LimitReached",
+    LimitRemoved = "LimitRemoved",
+    None = "None",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownSpendingLimitType {
+    AcademicSponsorship = "AcademicSponsorship",
+    AzureConsumptionCredit = "AzureConsumptionCredit",
+    AzureForStudents = "AzureForStudents",
+    AzureForStudentsStarter = "AzureForStudentsStarter",
+    AzurePassSponsorship = "AzurePassSponsorship",
+    FreeAccount = "FreeAccount",
+    MpnSponsorship = "MpnSponsorship",
+    Msdn = "MSDN",
+    None = "None",
+    NonProfitSponsorship = "NonProfitSponsorship",
+    Sandbox = "Sandbox",
+    Sponsorship = "Sponsorship",
+    StartupSponsorship = "StartupSponsorship",
+    Unknown = "Unknown",
+    VisualStudio = "VisualStudio"
+}
+
+// @public
 export enum KnownStatusReasonCode {
     PastDue = "PastDue",
     SpendingLimitExpired = "SpendingLimitExpired",
@@ -1655,27 +2144,33 @@ export enum KnownStatusReasonCodeForBillingProfile {
 }
 
 // @public
-export enum KnownSubscriptionTransferValidationErrorCode {
-    BillingAccountInactive = "BillingAccountInactive",
-    CrossBillingAccountNotAllowed = "CrossBillingAccountNotAllowed",
-    DestinationBillingProfileInactive = "DestinationBillingProfileInactive",
-    DestinationBillingProfileNotFound = "DestinationBillingProfileNotFound",
-    DestinationBillingProfilePastDue = "DestinationBillingProfilePastDue",
-    DestinationInvoiceSectionInactive = "DestinationInvoiceSectionInactive",
-    DestinationInvoiceSectionNotFound = "DestinationInvoiceSectionNotFound",
-    InsufficientPermissionOnDestination = "InsufficientPermissionOnDestination",
-    InsufficientPermissionOnSource = "InsufficientPermissionOnSource",
-    InvalidDestination = "InvalidDestination",
-    InvalidSource = "InvalidSource",
-    MarketplaceNotEnabledOnDestination = "MarketplaceNotEnabledOnDestination",
-    NotAvailableForDestinationMarket = "NotAvailableForDestinationMarket",
-    ProductInactive = "ProductInactive",
-    ProductNotFound = "ProductNotFound",
-    ProductTypeNotSupported = "ProductTypeNotSupported",
-    SourceBillingProfilePastDue = "SourceBillingProfilePastDue",
-    SourceInvoiceSectionInactive = "SourceInvoiceSectionInactive",
-    SubscriptionNotActive = "SubscriptionNotActive",
-    SubscriptionTypeNotSupported = "SubscriptionTypeNotSupported"
+export enum KnownSubscriptionBillingType {
+    Benefit = "Benefit",
+    Free = "Free",
+    None = "None",
+    Paid = "Paid",
+    PrePaid = "PrePaid"
+}
+
+// @public
+export enum KnownSubscriptionStatusReason {
+    Cancelled = "Cancelled",
+    Expired = "Expired",
+    None = "None",
+    Other = "Other",
+    PastDue = "PastDue",
+    PolicyViolation = "PolicyViolation",
+    SpendingLimitReached = "SpendingLimitReached",
+    SuspiciousActivity = "SuspiciousActivity",
+    Transferred = "Transferred"
+}
+
+// @public
+export enum KnownSubscriptionWorkloadType {
+    DevTest = "DevTest",
+    Internal = "Internal",
+    None = "None",
+    Production = "Production"
 }
 
 // @public
@@ -1707,6 +2202,33 @@ export enum KnownViewChargesPolicy {
 export type MarketplacePurchasesPolicy = string;
 
 // @public
+export interface MoveBillingSubscriptionErrorDetails {
+    code?: BillingSubscriptionErrorCodes;
+    details?: string;
+    message?: string;
+}
+
+// @public
+export interface MoveBillingSubscriptionRequest {
+    destinationInvoiceSectionId: string;
+}
+
+// @public
+export interface MoveEligibilityResult {
+    errorDetails?: MoveEligibilityResultErrorDetails;
+    isMoveEligible?: boolean;
+}
+
+// @public
+export interface MoveEligibilityResultErrorDetails extends MoveBillingSubscriptionErrorDetails {
+}
+
+// @public
+export interface NextBillingCycleDetails {
+    readonly billingFrequency?: string;
+}
+
+// @public
 export interface Operation {
     display?: OperationDisplay;
     readonly isDataAction?: boolean;
@@ -1733,6 +2255,18 @@ export interface Operations {
 }
 
 // @public
+export interface OperationsErrorDetails {
+    readonly code?: string;
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface OperationsErrorResponse {
+    error?: OperationsErrorDetails;
+}
+
+// @public
 export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -1754,7 +2288,139 @@ export interface Participants {
 }
 
 // @public
+export interface PaymentMethod extends ArmResource {
+    readonly accountHolderName?: string;
+    readonly displayName?: string;
+    readonly expiration?: string;
+    family?: PaymentMethodFamily;
+    readonly lastFourDigits?: string;
+    logos?: PaymentMethodLogo[];
+    status?: PaymentMethodStatus;
+    readonly typePropertiesType?: string;
+}
+
+// @public
 export type PaymentMethodFamily = string;
+
+// @public
+export interface PaymentMethodLink extends ArmResource {
+    paymentMethod?: PaymentMethodProjectionProperties;
+}
+
+// @public
+export interface PaymentMethodLinksListResult {
+    readonly nextLink?: string;
+    readonly value?: PaymentMethodLink[];
+}
+
+// @public
+export interface PaymentMethodLogo {
+    readonly mimeType?: string;
+    readonly url?: string;
+}
+
+// @public
+export interface PaymentMethodProjectionProperties {
+    readonly accountHolderName?: string;
+    readonly displayName?: string;
+    readonly expiration?: string;
+    family?: PaymentMethodFamily;
+    readonly id?: string;
+    readonly lastFourDigits?: string;
+    logos?: PaymentMethodLogo[];
+    status?: PaymentMethodStatus;
+    readonly type?: string;
+}
+
+// @public
+export interface PaymentMethods {
+    deleteByUser(paymentMethodName: string, options?: PaymentMethodsDeleteByUserOptionalParams): Promise<void>;
+    getByBillingAccount(billingAccountName: string, paymentMethodName: string, options?: PaymentMethodsGetByBillingAccountOptionalParams): Promise<PaymentMethodsGetByBillingAccountResponse>;
+    getByBillingProfile(billingAccountName: string, billingProfileName: string, paymentMethodName: string, options?: PaymentMethodsGetByBillingProfileOptionalParams): Promise<PaymentMethodsGetByBillingProfileResponse>;
+    getByUser(paymentMethodName: string, options?: PaymentMethodsGetByUserOptionalParams): Promise<PaymentMethodsGetByUserResponse>;
+    listByBillingAccount(billingAccountName: string, options?: PaymentMethodsListByBillingAccountOptionalParams): PagedAsyncIterableIterator<PaymentMethod>;
+    listByBillingProfile(billingAccountName: string, billingProfileName: string, options?: PaymentMethodsListByBillingProfileOptionalParams): PagedAsyncIterableIterator<PaymentMethodLink>;
+    listByUser(options?: PaymentMethodsListByUserOptionalParams): PagedAsyncIterableIterator<PaymentMethod>;
+}
+
+// @public
+export interface PaymentMethodsDeleteByUserOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface PaymentMethodsGetByBillingAccountOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PaymentMethodsGetByBillingAccountResponse = PaymentMethod;
+
+// @public
+export interface PaymentMethodsGetByBillingProfileOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PaymentMethodsGetByBillingProfileResponse = PaymentMethodLink;
+
+// @public
+export interface PaymentMethodsGetByUserOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PaymentMethodsGetByUserResponse = PaymentMethod;
+
+// @public
+export interface PaymentMethodsListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PaymentMethodsListByBillingAccountNextResponse = PaymentMethodsListResult;
+
+// @public
+export interface PaymentMethodsListByBillingAccountOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PaymentMethodsListByBillingAccountResponse = PaymentMethodsListResult;
+
+// @public
+export interface PaymentMethodsListByBillingProfileNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PaymentMethodsListByBillingProfileNextResponse = PaymentMethodLinksListResult;
+
+// @public
+export interface PaymentMethodsListByBillingProfileOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PaymentMethodsListByBillingProfileResponse = PaymentMethodLinksListResult;
+
+// @public
+export interface PaymentMethodsListByUserNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PaymentMethodsListByUserNextResponse = PaymentMethodsListResult;
+
+// @public
+export interface PaymentMethodsListByUserOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PaymentMethodsListByUserResponse = PaymentMethodsListResult;
+
+// @public
+export interface PaymentMethodsListResult {
+    readonly nextLink?: string;
+    readonly value?: PaymentMethod[];
+}
+
+// @public
+export type PaymentMethodStatus = string;
+
+// @public
+export type PaymentMethodType = string;
 
 // @public
 export interface PaymentProperties {
@@ -1802,14 +2468,14 @@ export interface PoliciesUpdateOptionalParams extends coreClient.OperationOption
 export type PoliciesUpdateResponse = Policy;
 
 // @public
-export interface Policy extends Resource {
+export interface Policy extends ArmResource {
     marketplacePurchases?: MarketplacePurchasesPolicy;
     reservationPurchases?: ReservationPurchasesPolicy;
     viewCharges?: ViewChargesPolicy;
 }
 
 // @public
-export interface Product extends Resource {
+export interface Product extends ArmResource {
     autoRenew?: AutoRenew;
     readonly availabilityId?: string;
     billingFrequency?: BillingFrequency;
@@ -1827,7 +2493,7 @@ export interface Product extends Resource {
     readonly productTypeId?: string;
     readonly purchaseDate?: Date;
     readonly quantity?: number;
-    readonly reseller?: Reseller;
+    readonly reseller?: ResellerAutoGenerated;
     readonly skuDescription?: string;
     readonly skuId?: string;
     status?: ProductStatusType;
@@ -1855,7 +2521,6 @@ export type ProductsGetResponse = Product;
 
 // @public
 export interface ProductsListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1871,7 +2536,6 @@ export type ProductsListByBillingAccountResponse = ProductsListResult;
 
 // @public
 export interface ProductsListByBillingProfileNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1901,7 +2565,6 @@ export type ProductsListByCustomerResponse = ProductsListResult;
 
 // @public
 export interface ProductsListByInvoiceSectionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1965,7 +2628,23 @@ export interface RebillDetails {
 }
 
 // @public
+export interface RenewalTermDetails {
+    billingFrequency?: string;
+    productId?: string;
+    quantity?: number;
+    skuId?: string;
+    termDuration?: string;
+    termEndDate?: string;
+}
+
+// @public
 export interface Reseller {
+    readonly description?: string;
+    readonly resellerId?: string;
+}
+
+// @public
+export interface ResellerAutoGenerated {
     readonly description?: string;
     readonly resellerId?: string;
 }
@@ -2018,10 +2697,6 @@ export interface ReservationSkuProperty {
 
 // @public
 export interface ReservationsListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    refreshSummary?: string;
-    selectedState?: string;
 }
 
 // @public
@@ -2040,10 +2715,6 @@ export type ReservationsListByBillingAccountResponse = ReservationsListResult;
 
 // @public
 export interface ReservationsListByBillingProfileNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    refreshSummary?: string;
-    selectedState?: string;
 }
 
 // @public
@@ -2089,17 +2760,26 @@ export interface ReservationUtilizationAggregates {
 }
 
 // @public
-export interface Resource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly type?: string;
-}
-
-// @public
 export type SpendingLimit = string;
 
 // @public
+export interface SpendingLimitDetails {
+    amount?: number;
+    currency?: string;
+    endDate?: Date;
+    startDate?: Date;
+    status?: SpendingLimitStatus;
+    type?: SpendingLimitType;
+}
+
+// @public
 export type SpendingLimitForBillingProfile = string;
+
+// @public
+export type SpendingLimitStatus = string;
+
+// @public
+export type SpendingLimitType = string;
 
 // @public
 export type StatusReasonCode = string;
@@ -2108,13 +2788,44 @@ export type StatusReasonCode = string;
 export type StatusReasonCodeForBillingProfile = string;
 
 // @public
-export type SubscriptionTransferValidationErrorCode = string;
+export type SubscriptionBillingType = string;
+
+// @public
+export interface SubscriptionEnrollmentDetails {
+    departmentDisplayName?: string;
+    departmentId?: string;
+    enrollmentAccountDisplayName?: string;
+    enrollmentAccountId?: string;
+    enrollmentAccountStatus?: string;
+}
+
+// @public
+export type SubscriptionStatusReason = string;
+
+// @public
+export type SubscriptionWorkloadType = string;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface SystemOverrides {
+    readonly cancellation?: Cancellation;
+    readonly cancellationAllowedEndDate?: Date;
+}
 
 // @public
 export type TargetCloud = string;
 
 // @public
-export interface Transaction extends Resource {
+export interface Transaction extends ArmResource {
     readonly azureCreditApplied?: Amount;
     readonly azurePlan?: string;
     readonly billingCurrency?: string;
@@ -2183,11 +2894,6 @@ export type TransactionsListByInvoiceResponse = TransactionListResult;
 export type TransactionTypeKind = string;
 
 // @public
-export interface TransferBillingSubscriptionRequestProperties {
-    destinationInvoiceSectionId: string;
-}
-
-// @public
 export interface TransferProductRequestProperties {
     destinationInvoiceSectionId?: string;
 }
@@ -2209,19 +2915,6 @@ export interface ValidateProductTransferEligibilityError {
 // @public
 export interface ValidateProductTransferEligibilityResult {
     errorDetails?: ValidateProductTransferEligibilityError;
-    readonly isMoveEligible?: boolean;
-}
-
-// @public
-export interface ValidateSubscriptionTransferEligibilityError {
-    code?: SubscriptionTransferValidationErrorCode;
-    details?: string;
-    message?: string;
-}
-
-// @public
-export interface ValidateSubscriptionTransferEligibilityResult {
-    errorDetails?: ValidateSubscriptionTransferEligibilityError;
     readonly isMoveEligible?: boolean;
 }
 
