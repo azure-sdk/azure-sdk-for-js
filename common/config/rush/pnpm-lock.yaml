@@ -1951,22 +1951,6 @@ packages:
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
     dev: false
 
-  /@rollup/plugin-commonjs/21.1.0_rollup@2.79.1:
-    resolution: {integrity: sha512-6ZtHx3VHIp2ReNNDxHjuUml6ur+WcQ28N1yHgCQwsbNkQg2suhxGMDQGJOn/KuDxKtd1xuZP5xSTwBA4GQ8hbA==}
-    engines: {node: '>= 8.0.0'}
-    peerDependencies:
-      rollup: ^2.38.3
-    dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.79.1
-      commondir: 1.0.1
-      estree-walker: 2.0.2
-      glob: 7.2.3
-      is-reference: 1.2.1
-      magic-string: 0.25.9
-      resolve: 1.22.1
-      rollup: 2.79.1
-    dev: false
-
   /@rollup/plugin-commonjs/24.0.1_rollup@2.79.1:
     resolution: {integrity: sha512-15LsiWRZk4eOGqvrJyu3z3DaBu5BhXIMeWnijSRvd8irrrg9SHpQ1pH+BUK4H6Z9wL9yOxZJMTLU+Au86XHxow==}
     engines: {node: '>=14.0.0'}
@@ -2000,15 +1984,6 @@ packages:
       rollup: 2.79.1
     dev: false
 
-  /@rollup/plugin-json/4.1.0_rollup@2.79.1:
-    resolution: {integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==}
-    peerDependencies:
-      rollup: ^1.20.0 || ^2.0.0
-    dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.79.1
-      rollup: 2.79.1
-    dev: false
-
   /@rollup/plugin-json/6.0.0_rollup@2.79.1:
     resolution: {integrity: sha512-i/4C5Jrdr1XUarRhVu27EEwjt4GObltD7c+MkCIpO2QIbojw8MUs+CCTqOphQi3Qtg1FLmYt+l+6YeoIf51J7w==}
     engines: {node: '>=14.0.0'}
@@ -2019,17 +1994,6 @@ packages:
         optional: true
     dependencies:
       '@rollup/pluginutils': 5.0.2_rollup@2.79.1
-      rollup: 2.79.1
-    dev: false
-
-  /@rollup/plugin-multi-entry/4.1.0_rollup@2.79.1:
-    resolution: {integrity: sha512-nellK5pr50W0JA2+bDJbG8F79GBP802J40YRoC0wyfpTAeAn5mJ4eaFiB/MN+YoX9hgb/6RJoZl9leDjZnUFKw==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0 || ^2.0.0
-    dependencies:
-      '@rollup/plugin-virtual': 2.1.0_rollup@2.79.1
-      matched: 5.0.1
       rollup: 2.79.1
     dev: false
 
@@ -2094,15 +2058,6 @@ packages:
       rollup: 2.79.1
       tslib: 2.5.0
       typescript: 4.8.4
-    dev: false
-
-  /@rollup/plugin-virtual/2.1.0_rollup@2.79.1:
-    resolution: {integrity: sha512-CPPAtlKT53HFqC8jFHb/V5WErpU8Hrq2TyCR0A7kPQMlF2wNUf0o1xuAc+Qxj8NCZM0Z3Yvl+FbUXfJjVWqDwA==}
-    engines: {node: '>=8.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0
-    dependencies:
-      rollup: 2.79.1
     dev: false
 
   /@rollup/plugin-virtual/3.0.1_rollup@2.79.1:
@@ -4047,7 +4002,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230312
+      typescript: 5.1.0-dev.20230313
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -6477,12 +6432,6 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /magic-string/0.25.9:
-    resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}
-    dependencies:
-      sourcemap-codec: 1.4.8
-    dev: false
-
   /magic-string/0.27.0:
     resolution: {integrity: sha512-8UnnX2PeRAPZuN12svgR9j7M1uWMovg/CEnIwIG0LFkXSJJe4PdfUGiTGl8V9bsBHFUtfVINcSyYxd7q+kx9fA==}
     engines: {node: '>=12'}
@@ -8346,11 +8295,6 @@ packages:
     engines: {node: '>= 8'}
     dev: false
 
-  /sourcemap-codec/1.4.8:
-    resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
-    deprecated: Please use @jridgewell/sourcemap-codec instead
-    dev: false
-
   /spawn-command/0.0.2-1:
     resolution: {integrity: sha512-n98l9E2RMSJ9ON1AKisHzz7V42VDiBQGY6PB1BwRglz99wpVsSuGzQ+jOi6lFXBGVTCrRpltvjm+/XA+tpeJrg==}
     dev: false
@@ -8972,8 +8916,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230312:
-    resolution: {integrity: sha512-BgRjQo+gKHSDuo3JJpCydBfDqFbOxmDNmuTl7H/A3TZWdNiWuOHI4tgI9w6QRrvJ9CplHe5EQE2+2dqGXqxTvA==}
+  /typescript/5.1.0-dev.20230313:
+    resolution: {integrity: sha512-vveGdy/uNUyKJ/JbXsJTSP8Z8gfCRsiXdHBMbvJ2XzuzHsDQC3mR+ZPvIGrXoTWMn5XNbyJ8ufYuqGiCGTi6tg==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -12912,7 +12856,7 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-W5aETs4NM2G8FSw0CRAjDfBpASZQT+/Oa5t+55OCUif5vEvOKhMy9nPcSeIFJu73VYCSEtw9SficRyF+qnkhqw==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-26SWjFDxIPrUdFx3K0ucgmf7M14K3Bl2p00pt0X+FF9TzI6sOjTNdKMZKJj/VXaYwGDnTW4Opq4FFs2+F65NRw==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
@@ -13437,17 +13381,18 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-+kZIZf57UFBgwXnvVzcfdy4T/7PaWYW5y7CDPvZDRlR/zzXN/040MHiissaJwQ41X+wf3puS0fdAIbl+Q2U7Kw==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-CCs4v4f+Dbf5S6DqLejCJIWfOuG209CDsKcUCyRs76SAQrYR9ld+ufkUeXQcUzx9l/dgiFqCNeaI+a7ybmsu2g==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-recorder': 2.0.0
       '@azure/arm-operationalinsights': 8.0.1
       '@azure/arm-storage': 17.2.1
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.37
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.37
@@ -13463,6 +13408,7 @@ packages:
       typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - encoding
       - supports-color
     dev: false
 
@@ -14557,7 +14503,7 @@ packages:
     dev: false
 
   file:projects/arm-resources.tgz:
-    resolution: {integrity: sha512-YNuCHLv8/GhExTAmiA5nn/VfiQ5Z8YnVchnJmJ93wJAuKONoUDR65t9IAdVshOq53uNKF92mFceKVsOd68M1Yg==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-0y8WayrHdYUed906Fq63aGCIphsC4f1FZna1WSTO0OwJdAmraQWbb1IAHOYHt3vg1BxqZZAMvoSMMTNbj5aieA==, tarball: file:projects/arm-resources.tgz}
     name: '@rush-temp/arm-resources'
     version: 0.0.0
     dependencies:
@@ -14582,7 +14528,6 @@ packages:
       typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - encoding
       - supports-color
     dev: false
 
