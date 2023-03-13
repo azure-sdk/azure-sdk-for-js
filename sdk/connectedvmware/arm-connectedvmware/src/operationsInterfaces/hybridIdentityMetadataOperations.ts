@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   HybridIdentityMetadata,
-  HybridIdentityMetadataListByVmOptionalParams,
+  HybridIdentityMetadataListOptionalParams,
   HybridIdentityMetadataCreateOptionalParams,
   HybridIdentityMetadataCreateResponse,
   HybridIdentityMetadataGetOptionalParams,
@@ -26,10 +26,10 @@ export interface HybridIdentityMetadataOperations {
    * @param virtualMachineName Name of the vm.
    * @param options The options parameters.
    */
-  listByVm(
+  list(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: HybridIdentityMetadataListByVmOptionalParams
+    options?: HybridIdentityMetadataListOptionalParams
   ): PagedAsyncIterableIterator<HybridIdentityMetadata>;
   /**
    * Create Or Update HybridIdentityMetadata.

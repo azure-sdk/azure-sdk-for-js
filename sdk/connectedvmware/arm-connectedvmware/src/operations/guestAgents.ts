@@ -13,19 +13,23 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureArcVMwareManagementServiceAPI } from "../azureArcVMwareManagementServiceAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   GuestAgent,
-  GuestAgentsListByVmNextOptionalParams,
-  GuestAgentsListByVmOptionalParams,
-  GuestAgentsListByVmResponse,
+  GuestAgentsListNextOptionalParams,
+  GuestAgentsListOptionalParams,
+  GuestAgentsListResponse,
   GuestAgentsCreateOptionalParams,
   GuestAgentsCreateResponse,
   GuestAgentsGetOptionalParams,
   GuestAgentsGetResponse,
   GuestAgentsDeleteOptionalParams,
-  GuestAgentsListByVmNextResponse
+  GuestAgentsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,12 +51,12 @@ export class GuestAgentsImpl implements GuestAgents {
    * @param virtualMachineName Name of the vm.
    * @param options The options parameters.
    */
-  public listByVm(
+  public list(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: GuestAgentsListByVmOptionalParams
+    options?: GuestAgentsListOptionalParams
   ): PagedAsyncIterableIterator<GuestAgent> {
-    const iter = this.listByVmPagingAll(
+    const iter = this.listPagingAll(
       resourceGroupName,
       virtualMachineName,
       options
@@ -68,7 +72,7 @@ export class GuestAgentsImpl implements GuestAgents {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByVmPagingPage(
+        return this.listPagingPage(
           resourceGroupName,
           virtualMachineName,
           options,
@@ -78,27 +82,23 @@ export class GuestAgentsImpl implements GuestAgents {
     };
   }
 
-  private async *listByVmPagingPage(
+  private async *listPagingPage(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: GuestAgentsListByVmOptionalParams,
+    options?: GuestAgentsListOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<GuestAgent[]> {
-    let result: GuestAgentsListByVmResponse;
+    let result: GuestAgentsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByVm(
-        resourceGroupName,
-        virtualMachineName,
-        options
-      );
+      result = await this._list(resourceGroupName, virtualMachineName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByVmNext(
+      result = await this._listNext(
         resourceGroupName,
         virtualMachineName,
         continuationToken,
@@ -111,12 +111,12 @@ export class GuestAgentsImpl implements GuestAgents {
     }
   }
 
-  private async *listByVmPagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: GuestAgentsListByVmOptionalParams
+    options?: GuestAgentsListOptionalParams
   ): AsyncIterableIterator<GuestAgent> {
-    for await (const page of this.listByVmPagingPage(
+    for await (const page of this.listPagingPage(
       resourceGroupName,
       virtualMachineName,
       options
@@ -138,8 +138,8 @@ export class GuestAgentsImpl implements GuestAgents {
     name: string,
     options?: GuestAgentsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<GuestAgentsCreateResponse>,
+    SimplePollerLike<
+      OperationState<GuestAgentsCreateResponse>,
       GuestAgentsCreateResponse
     >
   > {
@@ -149,7 +149,7 @@ export class GuestAgentsImpl implements GuestAgents {
     ): Promise<GuestAgentsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -182,15 +182,18 @@ export class GuestAgentsImpl implements GuestAgents {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualMachineName, name, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualMachineName, name, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      GuestAgentsCreateResponse,
+      OperationState<GuestAgentsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -249,14 +252,14 @@ export class GuestAgentsImpl implements GuestAgents {
     virtualMachineName: string,
     name: string,
     options?: GuestAgentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -289,13 +292,13 @@ export class GuestAgentsImpl implements GuestAgents {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualMachineName, name, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualMachineName, name, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -330,33 +333,33 @@ export class GuestAgentsImpl implements GuestAgents {
    * @param virtualMachineName Name of the vm.
    * @param options The options parameters.
    */
-  private _listByVm(
+  private _list(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: GuestAgentsListByVmOptionalParams
-  ): Promise<GuestAgentsListByVmResponse> {
+    options?: GuestAgentsListOptionalParams
+  ): Promise<GuestAgentsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualMachineName, options },
-      listByVmOperationSpec
+      listOperationSpec
     );
   }
 
   /**
-   * ListByVmNext
+   * ListNext
    * @param resourceGroupName The Resource Group Name.
    * @param virtualMachineName Name of the vm.
-   * @param nextLink The nextLink from the previous successful call to the ListByVm method.
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  private _listByVmNext(
+  private _listNext(
     resourceGroupName: string,
     virtualMachineName: string,
     nextLink: string,
-    options?: GuestAgentsListByVmNextOptionalParams
-  ): Promise<GuestAgentsListByVmNextResponse> {
+    options?: GuestAgentsListNextOptionalParams
+  ): Promise<GuestAgentsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualMachineName, nextLink, options },
-      listByVmNextOperationSpec
+      listNextOperationSpec
     );
   }
 }
@@ -390,8 +393,8 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.virtualMachineName
+    Parameters.virtualMachineName,
+    Parameters.name
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -414,8 +417,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.virtualMachineName
+    Parameters.virtualMachineName,
+    Parameters.name
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -438,13 +441,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.virtualMachineName
+    Parameters.virtualMachineName,
+    Parameters.name
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByVmOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}/guestAgents",
   httpMethod: "GET",
@@ -466,7 +469,7 @@ const listByVmOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByVmNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

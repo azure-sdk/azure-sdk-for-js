@@ -28,6 +28,7 @@ import {
   HybridIdentityMetadata as HybridIdentityMetadataMapper,
   MachineExtension as MachineExtensionMapper,
   MachineExtensionUpdate as MachineExtensionUpdateMapper,
+  MachineExtensionUpgrade as MachineExtensionUpgradeMapper,
   GuestAgent as GuestAgentMapper
 } from "../models/mappers";
 
@@ -58,7 +59,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-01-10-preview",
+    defaultValue: "2022-07-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -101,10 +102,10 @@ export const resourceGroupName: OperationURLParameter = {
   }
 };
 
-export const name: OperationURLParameter = {
-  parameterPath: "name",
+export const virtualMachineName: OperationURLParameter = {
+  parameterPath: "virtualMachineName",
   mapper: {
-    serializedName: "name",
+    serializedName: "virtualMachineName",
     required: true,
     type: {
       name: "String"
@@ -134,36 +135,25 @@ export const body: OperationParameter = {
   mapper: VirtualMachineMapper
 };
 
-export const virtualMachineName: OperationURLParameter = {
-  parameterPath: "virtualMachineName",
-  mapper: {
-    serializedName: "virtualMachineName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const body1: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: VirtualMachineUpdateMapper
-};
-
-export const force: OperationQueryParameter = {
-  parameterPath: ["options", "force"],
-  mapper: {
-    serializedName: "force",
-    type: {
-      name: "Boolean"
-    }
-  }
 };
 
 export const retain: OperationQueryParameter = {
   parameterPath: ["options", "retain"],
   mapper: {
     serializedName: "retain",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const force: OperationQueryParameter = {
+  parameterPath: ["options", "force"],
+  mapper: {
+    serializedName: "force",
     type: {
       name: "Boolean"
     }
@@ -355,7 +345,23 @@ export const expand: OperationQueryParameter = {
   }
 };
 
+export const extensionUpgradeParameters: OperationParameter = {
+  parameterPath: "extensionUpgradeParameters",
+  mapper: MachineExtensionUpgradeMapper
+};
+
 export const body13: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: GuestAgentMapper
+};
+
+export const name: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    serializedName: "name",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };

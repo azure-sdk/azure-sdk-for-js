@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureArcVMwareManagementServiceAPI } from "../azureArcVMwareManagementServiceAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   MachineExtension,
   MachineExtensionsListNextOptionalParams,
@@ -47,15 +51,19 @@ export class MachineExtensionsImpl implements MachineExtensions {
   /**
    * The operation to get all extensions of a non-Azure machine
    * @param resourceGroupName The Resource Group Name.
-   * @param name The name of the machine containing the extension.
+   * @param virtualMachineName The name of the machine containing the extension.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
-    name: string,
+    virtualMachineName: string,
     options?: MachineExtensionsListOptionalParams
   ): PagedAsyncIterableIterator<MachineExtension> {
-    const iter = this.listPagingAll(resourceGroupName, name, options);
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      virtualMachineName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -67,21 +75,26 @@ export class MachineExtensionsImpl implements MachineExtensions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(resourceGroupName, name, options, settings);
+        return this.listPagingPage(
+          resourceGroupName,
+          virtualMachineName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    name: string,
+    virtualMachineName: string,
     options?: MachineExtensionsListOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<MachineExtension[]> {
     let result: MachineExtensionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, name, options);
+      result = await this._list(resourceGroupName, virtualMachineName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -90,7 +103,7 @@ export class MachineExtensionsImpl implements MachineExtensions {
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
-        name,
+        virtualMachineName,
         continuationToken,
         options
       );
@@ -103,12 +116,12 @@ export class MachineExtensionsImpl implements MachineExtensions {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    name: string,
+    virtualMachineName: string,
     options?: MachineExtensionsListOptionalParams
   ): AsyncIterableIterator<MachineExtension> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
-      name,
+      virtualMachineName,
       options
     )) {
       yield* page;
@@ -118,20 +131,20 @@ export class MachineExtensionsImpl implements MachineExtensions {
   /**
    * The operation to create or update the extension.
    * @param resourceGroupName The Resource Group Name.
-   * @param name The name of the machine where the extension should be created or updated.
+   * @param virtualMachineName The name of the machine where the extension should be created or updated.
    * @param extensionName The name of the machine extension.
    * @param extensionParameters Parameters supplied to the Create Machine Extension operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    name: string,
+    virtualMachineName: string,
     extensionName: string,
     extensionParameters: MachineExtension,
     options?: MachineExtensionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MachineExtensionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<MachineExtensionsCreateOrUpdateResponse>,
       MachineExtensionsCreateOrUpdateResponse
     >
   > {
@@ -141,7 +154,7 @@ export class MachineExtensionsImpl implements MachineExtensions {
     ): Promise<MachineExtensionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -174,15 +187,24 @@ export class MachineExtensionsImpl implements MachineExtensions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, extensionName, extensionParameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        virtualMachineName,
+        extensionName,
+        extensionParameters,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MachineExtensionsCreateOrUpdateResponse,
+      OperationState<MachineExtensionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -191,21 +213,21 @@ export class MachineExtensionsImpl implements MachineExtensions {
   /**
    * The operation to create or update the extension.
    * @param resourceGroupName The Resource Group Name.
-   * @param name The name of the machine where the extension should be created or updated.
+   * @param virtualMachineName The name of the machine where the extension should be created or updated.
    * @param extensionName The name of the machine extension.
    * @param extensionParameters Parameters supplied to the Create Machine Extension operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    name: string,
+    virtualMachineName: string,
     extensionName: string,
     extensionParameters: MachineExtension,
     options?: MachineExtensionsCreateOrUpdateOptionalParams
   ): Promise<MachineExtensionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      name,
+      virtualMachineName,
       extensionName,
       extensionParameters,
       options
@@ -216,20 +238,20 @@ export class MachineExtensionsImpl implements MachineExtensions {
   /**
    * The operation to update the extension.
    * @param resourceGroupName The Resource Group Name.
-   * @param name The name of the machine where the extension should be created or updated.
+   * @param virtualMachineName The name of the machine where the extension should be created or updated.
    * @param extensionName The name of the machine extension.
    * @param extensionParameters Parameters supplied to the Create Machine Extension operation.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    name: string,
+    virtualMachineName: string,
     extensionName: string,
     extensionParameters: MachineExtensionUpdate,
     options?: MachineExtensionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MachineExtensionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<MachineExtensionsUpdateResponse>,
       MachineExtensionsUpdateResponse
     >
   > {
@@ -239,7 +261,7 @@ export class MachineExtensionsImpl implements MachineExtensions {
     ): Promise<MachineExtensionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -272,13 +294,22 @@ export class MachineExtensionsImpl implements MachineExtensions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, extensionName, extensionParameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        virtualMachineName,
+        extensionName,
+        extensionParameters,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MachineExtensionsUpdateResponse,
+      OperationState<MachineExtensionsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -288,21 +319,21 @@ export class MachineExtensionsImpl implements MachineExtensions {
   /**
    * The operation to update the extension.
    * @param resourceGroupName The Resource Group Name.
-   * @param name The name of the machine where the extension should be created or updated.
+   * @param virtualMachineName The name of the machine where the extension should be created or updated.
    * @param extensionName The name of the machine extension.
    * @param extensionParameters Parameters supplied to the Create Machine Extension operation.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    name: string,
+    virtualMachineName: string,
     extensionName: string,
     extensionParameters: MachineExtensionUpdate,
     options?: MachineExtensionsUpdateOptionalParams
   ): Promise<MachineExtensionsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      name,
+      virtualMachineName,
       extensionName,
       extensionParameters,
       options
@@ -313,23 +344,23 @@ export class MachineExtensionsImpl implements MachineExtensions {
   /**
    * The operation to delete the extension.
    * @param resourceGroupName The Resource Group Name.
-   * @param name The name of the machine where the extension should be deleted.
+   * @param virtualMachineName The name of the machine where the extension should be deleted.
    * @param extensionName The name of the machine extension.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    name: string,
+    virtualMachineName: string,
     extensionName: string,
     options?: MachineExtensionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -362,13 +393,13 @@ export class MachineExtensionsImpl implements MachineExtensions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, extensionName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualMachineName, extensionName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -378,19 +409,19 @@ export class MachineExtensionsImpl implements MachineExtensions {
   /**
    * The operation to delete the extension.
    * @param resourceGroupName The Resource Group Name.
-   * @param name The name of the machine where the extension should be deleted.
+   * @param virtualMachineName The name of the machine where the extension should be deleted.
    * @param extensionName The name of the machine extension.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    name: string,
+    virtualMachineName: string,
     extensionName: string,
     options?: MachineExtensionsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      name,
+      virtualMachineName,
       extensionName,
       options
     );
@@ -400,18 +431,18 @@ export class MachineExtensionsImpl implements MachineExtensions {
   /**
    * The operation to get the extension.
    * @param resourceGroupName The Resource Group Name.
-   * @param name The name of the machine containing the extension.
+   * @param virtualMachineName The name of the machine containing the extension.
    * @param extensionName The name of the machine extension.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    name: string,
+    virtualMachineName: string,
     extensionName: string,
     options?: MachineExtensionsGetOptionalParams
   ): Promise<MachineExtensionsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, name, extensionName, options },
+      { resourceGroupName, virtualMachineName, extensionName, options },
       getOperationSpec
     );
   }
@@ -419,16 +450,16 @@ export class MachineExtensionsImpl implements MachineExtensions {
   /**
    * The operation to get all extensions of a non-Azure machine
    * @param resourceGroupName The Resource Group Name.
-   * @param name The name of the machine containing the extension.
+   * @param virtualMachineName The name of the machine containing the extension.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
-    name: string,
+    virtualMachineName: string,
     options?: MachineExtensionsListOptionalParams
   ): Promise<MachineExtensionsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, name, options },
+      { resourceGroupName, virtualMachineName, options },
       listOperationSpec
     );
   }
@@ -436,18 +467,18 @@ export class MachineExtensionsImpl implements MachineExtensions {
   /**
    * ListNext
    * @param resourceGroupName The Resource Group Name.
-   * @param name The name of the machine containing the extension.
+   * @param virtualMachineName The name of the machine containing the extension.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
-    name: string,
+    virtualMachineName: string,
     nextLink: string,
     options?: MachineExtensionsListNextOptionalParams
   ): Promise<MachineExtensionsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, name, nextLink, options },
+      { resourceGroupName, virtualMachineName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -457,7 +488,7 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{name}/extensions/{extensionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}/extensions/{extensionName}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -482,7 +513,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
+    Parameters.virtualMachineName,
     Parameters.extensionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -491,7 +522,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{name}/extensions/{extensionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}/extensions/{extensionName}",
   httpMethod: "PATCH",
   responses: {
     200: {
@@ -516,7 +547,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
+    Parameters.virtualMachineName,
     Parameters.extensionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -525,7 +556,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{name}/extensions/{extensionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}/extensions/{extensionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -541,7 +572,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
+    Parameters.virtualMachineName,
     Parameters.extensionName
   ],
   headerParameters: [Parameters.accept],
@@ -549,7 +580,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{name}/extensions/{extensionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}/extensions/{extensionName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -564,7 +595,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
+    Parameters.virtualMachineName,
     Parameters.extensionName
   ],
   headerParameters: [Parameters.accept],
@@ -572,7 +603,7 @@ const getOperationSpec: coreClient.OperationSpec = {
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{name}/extensions",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}/extensions",
   httpMethod: "GET",
   responses: {
     200: {
@@ -587,7 +618,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.virtualMachineName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -608,7 +639,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.virtualMachineName
   ],
   headerParameters: [Parameters.accept],
   serializer
