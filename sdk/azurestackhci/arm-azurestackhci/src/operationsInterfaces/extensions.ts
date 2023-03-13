@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Extension,
   ExtensionsListByArcSettingOptionalParams,
@@ -68,8 +68,8 @@ export interface Extensions {
     extension: Extension,
     options?: ExtensionsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExtensionsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ExtensionsCreateResponse>,
       ExtensionsCreateResponse
     >
   >;
@@ -107,8 +107,8 @@ export interface Extensions {
     extension: Extension,
     options?: ExtensionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExtensionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ExtensionsUpdateResponse>,
       ExtensionsUpdateResponse
     >
   >;
@@ -143,7 +143,7 @@ export interface Extensions {
     arcSettingName: string,
     extensionName: string,
     options?: ExtensionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete particular Arc Extension of HCI Cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

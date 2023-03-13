@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ArcSetting,
   ArcSettingsListByClusterOptionalParams,
@@ -94,7 +94,7 @@ export interface ArcSettings {
     clusterName: string,
     arcSettingName: string,
     options?: ArcSettingsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete ArcSetting resource details of HCI Cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -134,8 +134,8 @@ export interface ArcSettings {
     arcSettingName: string,
     options?: ArcSettingsCreateIdentityOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ArcSettingsCreateIdentityResponse>,
+    SimplePollerLike<
+      OperationState<ArcSettingsCreateIdentityResponse>,
       ArcSettingsCreateIdentityResponse
     >
   >;
