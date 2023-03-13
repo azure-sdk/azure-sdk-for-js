@@ -40,7 +40,10 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
   }
 
   /**
-   * List of transactions for reserved instances on billing account scope
+   * List of transactions for reserved instances on billing account scope. Note: The refund transactions
+   * are posted along with its purchase transaction (i.e. in the purchase billing month). For example,
+   * The refund is requested in May 2021. This refund transaction will have event date as May 2021 but
+   * the billing month as April 2020 when the reservation purchase was made.
    * @param billingAccountId BillingAccount ID
    * @param options The options parameters.
    */
@@ -102,7 +105,10 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
   }
 
   /**
-   * List of transactions for reserved instances on billing account scope
+   * List of transactions for reserved instances on billing profile scope. The refund transactions are
+   * posted along with its purchase transaction (i.e. in the purchase billing month). For example, The
+   * refund is requested in May 2021. This refund transaction will have event date as May 2021 but the
+   * billing month as April 2020 when the reservation purchase was made.
    * @param billingAccountId BillingAccount ID
    * @param billingProfileId Azure Billing Profile ID.
    * @param options The options parameters.
@@ -186,7 +192,10 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
   }
 
   /**
-   * List of transactions for reserved instances on billing account scope
+   * List of transactions for reserved instances on billing account scope. Note: The refund transactions
+   * are posted along with its purchase transaction (i.e. in the purchase billing month). For example,
+   * The refund is requested in May 2021. This refund transaction will have event date as May 2021 but
+   * the billing month as April 2020 when the reservation purchase was made.
    * @param billingAccountId BillingAccount ID
    * @param options The options parameters.
    */
@@ -201,7 +210,10 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
   }
 
   /**
-   * List of transactions for reserved instances on billing account scope
+   * List of transactions for reserved instances on billing profile scope. The refund transactions are
+   * posted along with its purchase transaction (i.e. in the purchase billing month). For example, The
+   * refund is requested in May 2021. This refund transaction will have event date as May 2021 but the
+   * billing month as April 2020 when the reservation purchase was made.
    * @param billingAccountId BillingAccount ID
    * @param billingProfileId Azure Billing Profile ID.
    * @param options The options parameters.
