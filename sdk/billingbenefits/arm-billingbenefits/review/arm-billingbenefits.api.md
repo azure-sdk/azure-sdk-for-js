@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
@@ -33,6 +33,8 @@ export class BillingBenefitsRP extends coreClient.ServiceClient {
     // (undocumented)
     apiVersion: string;
     // (undocumented)
+    expand?: string;
+    // (undocumented)
     operations: Operations;
     // (undocumented)
     reservationOrderAlias: ReservationOrderAlias;
@@ -50,6 +52,7 @@ export interface BillingBenefitsRPOptionalParams extends coreClient.ServiceClien
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
+    expand?: string;
 }
 
 // @public
@@ -329,7 +332,7 @@ export interface RenewProperties {
 
 // @public
 export interface ReservationOrderAlias {
-    beginCreate(reservationOrderAliasName: string, body: ReservationOrderAliasRequest, options?: ReservationOrderAliasCreateOptionalParams): Promise<PollerLike<PollOperationState<ReservationOrderAliasCreateResponse>, ReservationOrderAliasCreateResponse>>;
+    beginCreate(reservationOrderAliasName: string, body: ReservationOrderAliasRequest, options?: ReservationOrderAliasCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReservationOrderAliasCreateResponse>, ReservationOrderAliasCreateResponse>>;
     beginCreateAndWait(reservationOrderAliasName: string, body: ReservationOrderAliasRequest, options?: ReservationOrderAliasCreateOptionalParams): Promise<ReservationOrderAliasCreateResponse>;
     get(reservationOrderAliasName: string, options?: ReservationOrderAliasGetOptionalParams): Promise<ReservationOrderAliasGetResponse>;
 }
@@ -433,7 +436,6 @@ export interface SavingsPlan {
 
 // @public
 export interface SavingsPlanGetOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -492,10 +494,8 @@ export interface SavingsPlanModel extends Resource {
     readonly provisioningState?: ProvisioningState;
     readonly purchaseDateTime?: Date;
     renew?: boolean;
-    renewDestination?: string;
     // (undocumented)
-    renewProperties?: RenewProperties;
-    renewSource?: string;
+    renewProperties?: SavingsPlanModelPropertiesRenewProperties;
     sku: Sku;
     term?: Term;
     readonly userFriendlyAppliedScopeType?: string;
@@ -516,6 +516,12 @@ export interface SavingsPlanModelListResult {
     readonly value?: SavingsPlanModel[];
 }
 
+// @public (undocumented)
+export interface SavingsPlanModelPropertiesRenewProperties {
+    // (undocumented)
+    purchaseProperties?: PurchaseRequest;
+}
+
 // @public
 export interface SavingsPlanOrder {
     elevate(savingsPlanOrderId: string, options?: SavingsPlanOrderElevateOptionalParams): Promise<SavingsPlanOrderElevateResponse>;
@@ -525,7 +531,7 @@ export interface SavingsPlanOrder {
 
 // @public
 export interface SavingsPlanOrderAlias {
-    beginCreate(savingsPlanOrderAliasName: string, body: SavingsPlanOrderAliasModel, options?: SavingsPlanOrderAliasCreateOptionalParams): Promise<PollerLike<PollOperationState<SavingsPlanOrderAliasCreateResponse>, SavingsPlanOrderAliasCreateResponse>>;
+    beginCreate(savingsPlanOrderAliasName: string, body: SavingsPlanOrderAliasModel, options?: SavingsPlanOrderAliasCreateOptionalParams): Promise<SimplePollerLike<OperationState<SavingsPlanOrderAliasCreateResponse>, SavingsPlanOrderAliasCreateResponse>>;
     beginCreateAndWait(savingsPlanOrderAliasName: string, body: SavingsPlanOrderAliasModel, options?: SavingsPlanOrderAliasCreateOptionalParams): Promise<SavingsPlanOrderAliasCreateResponse>;
     get(savingsPlanOrderAliasName: string, options?: SavingsPlanOrderAliasGetOptionalParams): Promise<SavingsPlanOrderAliasGetResponse>;
 }
@@ -576,7 +582,6 @@ export type SavingsPlanOrderElevateResponse = RoleAssignmentEntity;
 
 // @public
 export interface SavingsPlanOrderGetOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public

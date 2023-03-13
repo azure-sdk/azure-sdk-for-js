@@ -284,7 +284,7 @@ export interface UtilizationAggregates {
   readonly valueUnit?: string;
 }
 
-export interface RenewProperties {
+export interface SavingsPlanModelPropertiesRenewProperties {
   purchaseProperties?: PurchaseRequest;
 }
 
@@ -409,6 +409,10 @@ export interface SavingsPlanUpdateRequestProperties {
   /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
   renew?: boolean;
   renewProperties?: RenewProperties;
+}
+
+export interface RenewProperties {
+  purchaseProperties?: PurchaseRequest;
 }
 
 export interface SavingsPlanUpdateValidateRequest {
@@ -625,11 +629,7 @@ export interface SavingsPlanModel extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly utilization?: Utilization;
-  /** SavingsPlan Id of the SavingsPlan from which this SavingsPlan is renewed. */
-  renewSource?: string;
-  /** SavingsPlan Id of the SavingsPlan which is purchased because of renew. */
-  renewDestination?: string;
-  renewProperties?: RenewProperties;
+  renewProperties?: SavingsPlanModelPropertiesRenewProperties;
 }
 
 /** Reservation order alias */
@@ -1079,10 +1079,7 @@ export type SavingsPlanOrderAliasGetResponse = SavingsPlanOrderAliasModel;
 
 /** Optional parameters. */
 export interface SavingsPlanOrderGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to expand the detail information of some properties. */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SavingsPlanOrderGetResponse = SavingsPlanOrderModel;
@@ -1137,10 +1134,7 @@ export type SavingsPlanListAllResponse = SavingsPlanModelListResult;
 
 /** Optional parameters. */
 export interface SavingsPlanGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to expand the detail information of some properties. */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SavingsPlanGetResponse = SavingsPlanModel;
@@ -1206,6 +1200,8 @@ export interface BillingBenefitsRPOptionalParams
   $host?: string;
   /** Api Version */
   apiVersion?: string;
+  /** May be used to expand the detail information of some properties. */
+  expand?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

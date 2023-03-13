@@ -40,6 +40,7 @@ import {
 export class BillingBenefitsRP extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
+  expand?: string;
 
   /**
    * Initializes a new instance of the BillingBenefitsRP class.
@@ -63,7 +64,7 @@ export class BillingBenefitsRP extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-billingbenefits/1.0.1`;
+    const packageDetails = `azsdk-js-arm-billingbenefits/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

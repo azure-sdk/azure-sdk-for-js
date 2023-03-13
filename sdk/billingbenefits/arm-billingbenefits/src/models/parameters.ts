@@ -110,7 +110,7 @@ export const savingsPlanOrderId: OperationURLParameter = {
 };
 
 export const expand: OperationQueryParameter = {
-  parameterPath: ["options", "expand"],
+  parameterPath: "expand",
   mapper: {
     serializedName: "$expand",
     type: {
