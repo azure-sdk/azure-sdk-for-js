@@ -57,6 +57,8 @@ export interface OperationResult {
   origin?: string;
   /** The URL to use for getting the next set of results. */
   nextLink?: string;
+  /** Properties of the operation */
+  properties?: AvailableOperationDescriptionProperties;
 }
 
 /** An operation available at the listed Azure resource provider. */
@@ -69,6 +71,64 @@ export interface AvailableOperationDisplay {
   operation?: string;
   /** Description of the available operation. */
   description?: string;
+}
+
+/** Properties available for a Microsoft.Web resource provider operation. */
+export interface AvailableOperationDescriptionProperties {
+  /** Resource metrics service provided by Microsoft.Insights resource provider. */
+  serviceSpecification?: ServiceSpecification;
+}
+
+/** Resource metrics service provided by Microsoft.Insights resource provider. */
+export interface ServiceSpecification {
+  metricSpecifications?: MetricSpecification[];
+  logSpecifications?: LogSpecification[];
+}
+
+/** Definition of a single resource metric. */
+export interface MetricSpecification {
+  name?: string;
+  displayName?: string;
+  displayDescription?: string;
+  unit?: string;
+  aggregationType?: string;
+  supportsInstanceLevelAggregation?: boolean;
+  enableRegionalMdmAccount?: boolean;
+  sourceMdmAccount?: string;
+  sourceMdmNamespace?: string;
+  metricFilterPattern?: string;
+  fillGapWithZero?: boolean;
+  isInternal?: boolean;
+  dimensions?: Dimension[];
+  category?: string;
+  availabilities?: MetricAvailability[];
+  supportedTimeGrainTypes?: string[];
+  supportedAggregationTypes?: string[];
+}
+
+/**
+ * Dimension of a resource metric. For e.g. instance specific HTTP requests for a web app,
+ * where instance name is dimension of the metric HTTP request
+ */
+export interface Dimension {
+  name?: string;
+  displayName?: string;
+  internalName?: string;
+  toBeExportedForShoebox?: boolean;
+}
+
+/** Retention policy of a resource metric. */
+export interface MetricAvailability {
+  timeGrain?: string;
+  blobDuration?: string;
+}
+
+/** Log Definition of a single resource metric. */
+export interface LogSpecification {
+  name?: string;
+  displayName?: string;
+  blobDuration?: string;
+  logFilterPattern?: string;
 }
 
 /** The error details. */
