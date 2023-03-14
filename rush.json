@@ -1942,6 +1942,11 @@
       "packageName": "@azure/web-pubsub-client-protobuf",
       "projectFolder": "sdk/web-pubsub/web-pubsub-client-protobuf",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-networkcloud",
+      "projectFolder": "sdk/networkcloud/arm-networkcloud",
+      "versionPolicyName": "management"
     }
   ]
 }
