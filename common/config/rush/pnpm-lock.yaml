@@ -704,6 +704,19 @@ packages:
       - supports-color
     dev: false
 
+  /@azure-tools/test-recorder/2.0.0:
+    resolution: {integrity: sha512-OTic1OwOk25B8ecdMQ4wgyDaUNMMw0qzO4/0sy9ScPXWLmUFGMlkS0+BOQ2K9t8WCksM/wU+NjUZo/5T4zaG6A==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.4.0
+      '@azure/core-http': 2.3.1
+      '@azure/core-rest-pipeline': 1.10.2
+      '@azure/core-util': 1.2.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /@azure/abort-controller/1.1.0:
     resolution: {integrity: sha512-TrRLIoSQVzfAJX9H1JeFjzAoDGcoK1IYX1UImfceTZpsyYfWr09Ss1aHW1y5TrrR3iq6RZLBwJ3E24uwPhwahw==}
     engines: {node: '>=12.0.0'}
@@ -14365,10 +14378,11 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-V55N84XbBtRWgZBTkfN27VBaLK8glA2Wo+dvG39pwHiCYotoHN9jYBKdz2Ud2nza2WJaZFPxQwSxZYDMc4mhIA==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-mkoBisAIjslZ+KPxn8xFcleRMutD3w5CDd4Q3U9law+H2BKj4/UPuJpcQgc6RJmDBfrF3kleQ9sFMCu1SUwsHQ==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-recorder': 2.0.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.37
       '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
@@ -14379,7 +14393,8 @@ packages:
       '@types/node': 14.18.37
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -14388,6 +14403,7 @@ packages:
       typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - encoding
       - supports-color
     dev: false
 
