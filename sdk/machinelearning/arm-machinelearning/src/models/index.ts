@@ -6892,9 +6892,9 @@ export enum KnownBlockedTransformers {
   CatTargetEncoder = "CatTargetEncoder",
   /** Tf-Idf stands for, term-frequency times inverse document-frequency. This is a common term weighting scheme for identifying information from documents. */
   TfIdf = "TfIdf",
-  /** Weight of Evidence encoding is a technique used to encode categorical variables. It uses the natural log of the P(1)/P(0) to create weights. */
+  /** Weight of Evidence encoding is a technique used to encode categorical variables. It uses the natural log of the P(1)\/P(0) to create weights. */
   WoETargetEncoder = "WoETargetEncoder",
-  /** Label encoder converts labels/categorical variables in a numerical form. */
+  /** Label encoder converts labels\/categorical variables in a numerical form. */
   LabelEncoder = "LabelEncoder",
   /** Word embedding helps represents words or phrases as a vector, or a series of numbers. */
   WordEmbedding = "WordEmbedding",
@@ -7004,7 +7004,7 @@ export type FeatureLags = string;
 
 /** Known values of {@link ShortSeriesHandlingConfiguration} that the service accepts. */
 export enum KnownShortSeriesHandlingConfiguration {
-  /** Represents no/null value. */
+  /** Represents no\/null value. */
   None = "None",
   /** Short series will be padded if there are no long series, otherwise short series will be dropped. */
   Auto = "Auto",
@@ -7121,11 +7121,11 @@ export enum KnownForecastingModels {
   /** Exponential smoothing is a time series forecasting method for univariate data that can be extended to support data with a systematic trend or seasonal component. */
   ExponentialSmoothing = "ExponentialSmoothing",
   /**
-   * An Autoregressive Integrated Moving Average with Explanatory Variable (ARIMAX) model can be viewed as a multiple regression model with one or more autoregressive (AR) terms and/or one or more moving average (MA) terms.
-   * This method is suitable for forecasting when data is stationary/non stationary, and multivariate with any type of data pattern, i.e., level/trend /seasonality/cyclicity.
+   * An Autoregressive Integrated Moving Average with Explanatory Variable (ARIMAX) model can be viewed as a multiple regression model with one or more autoregressive (AR) terms and\/or one or more moving average (MA) terms.
+   * This method is suitable for forecasting when data is stationary\/non stationary, and multivariate with any type of data pattern, i.e., level\/trend \/seasonality\/cyclicity.
    */
   Arimax = "Arimax",
-  /** TCNForecaster: Temporal Convolutional Networks Forecaster. //TODO: Ask forecasting team for brief intro. */
+  /** TCNForecaster: Temporal Convolutional Networks Forecaster. \//TODO: Ask forecasting team for brief intro. */
   TCNForecaster = "TCNForecaster",
   /** Elastic net is a popular type of regularized linear regression that combines two popular penalties, specifically the L1 and L2 penalty functions. */
   ElasticNet = "ElasticNet",
@@ -7640,20 +7640,14 @@ export type WorkspacesListOutboundNetworkDependenciesEndpointsResponse = Externa
 
 /** Optional parameters. */
 export interface WorkspacesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type WorkspacesListByResourceGroupNextResponse = WorkspaceListResult;
 
 /** Optional parameters. */
 export interface WorkspacesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type WorkspacesListBySubscriptionNextResponse = WorkspaceListResult;
@@ -7788,10 +7782,7 @@ export interface ComputeRestartOptionalParams
 
 /** Optional parameters. */
 export interface ComputeListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ComputeListNextResponse = PaginatedComputeResourcesList;
@@ -7867,12 +7858,7 @@ export type WorkspaceConnectionsListResponse = WorkspaceConnectionPropertiesV2Ba
 
 /** Optional parameters. */
 export interface WorkspaceConnectionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Target of the workspace connection. */
-  target?: string;
-  /** Category of the workspace connection. */
-  category?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WorkspaceConnectionsListNextResponse = WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult;
@@ -7938,12 +7924,7 @@ export type BatchEndpointsListKeysResponse = EndpointAuthKeys;
 
 /** Optional parameters. */
 export interface BatchEndpointsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Number of endpoints to be retrieved in a page of results. */
-  count?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BatchEndpointsListNextResponse = BatchEndpointTrackedResourceArmPaginatedResult;
@@ -8004,14 +7985,7 @@ export type BatchDeploymentsCreateOrUpdateResponse = BatchDeployment;
 
 /** Optional parameters. */
 export interface BatchDeploymentsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Ordering of list. */
-  orderBy?: string;
-  /** Top of list. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BatchDeploymentsListNextResponse = BatchDeploymentTrackedResourceArmPaginatedResult;
@@ -8046,10 +8020,7 @@ export type CodeContainersCreateOrUpdateResponse = CodeContainer;
 
 /** Optional parameters. */
 export interface CodeContainersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CodeContainersListNextResponse = CodeContainerResourceArmPaginatedResult;
@@ -8088,14 +8059,7 @@ export type CodeVersionsCreateOrUpdateResponse = CodeVersion;
 
 /** Optional parameters. */
 export interface CodeVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Ordering of list. */
-  orderBy?: string;
-  /** Maximum number of records to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CodeVersionsListNextResponse = CodeVersionResourceArmPaginatedResult;
@@ -8132,12 +8096,7 @@ export type ComponentContainersCreateOrUpdateResponse = ComponentContainer;
 
 /** Optional parameters. */
 export interface ComponentContainersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ComponentContainersListNextResponse = ComponentContainerResourceArmPaginatedResult;
@@ -8178,16 +8137,7 @@ export type ComponentVersionsCreateOrUpdateResponse = ComponentVersion;
 
 /** Optional parameters. */
 export interface ComponentVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Ordering of list. */
-  orderBy?: string;
-  /** Maximum number of records to return. */
-  top?: number;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ComponentVersionsListNextResponse = ComponentVersionResourceArmPaginatedResult;
@@ -8224,12 +8174,7 @@ export type DataContainersCreateOrUpdateResponse = DataContainer;
 
 /** Optional parameters. */
 export interface DataContainersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DataContainersListNextResponse = DataContainerResourceArmPaginatedResult;
@@ -8275,21 +8220,7 @@ export type DataVersionsCreateOrUpdateResponse = DataVersionBase;
 
 /** Optional parameters. */
 export interface DataVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Please choose OrderBy value from ['createdtime', 'modifiedtime'] */
-  orderBy?: string;
-  /**
-   * Top count of results, top count cannot be greater than the page size.
-   *                               If topCount > page size, results with be default page size count will be returned
-   */
-  top?: number;
-  /** [ListViewType.ActiveOnly, ListViewType.ArchivedOnly, ListViewType.All]View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-  /** Comma-separated list of tag names (and optionally values). Example: tag1,tag2=value2 */
-  tags?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DataVersionsListNextResponse = DataVersionBaseResourceArmPaginatedResult;
@@ -8346,22 +8277,7 @@ export type DatastoresListSecretsResponse = DatastoreSecretsUnion;
 
 /** Optional parameters. */
 export interface DatastoresListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Maximum number of results to return. */
-  count?: number;
-  /** Filter down to the workspace default datastore. */
-  isDefault?: boolean;
-  /** Names of datastores to return. */
-  names?: string[];
-  /** Text to search for in the datastore names. */
-  searchText?: string;
-  /** Order by property (createdtime | modifiedtime | name). */
-  orderBy?: string;
-  /** Order by property in ascending order. */
-  orderByAsc?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DatastoresListNextResponse = DatastoreResourceArmPaginatedResult;
@@ -8398,12 +8314,7 @@ export type EnvironmentContainersCreateOrUpdateResponse = EnvironmentContainer;
 
 /** Optional parameters. */
 export interface EnvironmentContainersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type EnvironmentContainersListNextResponse = EnvironmentContainerResourceArmPaginatedResult;
@@ -8444,16 +8355,7 @@ export type EnvironmentVersionsCreateOrUpdateResponse = EnvironmentVersion;
 
 /** Optional parameters. */
 export interface EnvironmentVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Ordering of list. */
-  orderBy?: string;
-  /** Maximum number of records to return. */
-  top?: number;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type EnvironmentVersionsListNextResponse = EnvironmentVersionResourceArmPaginatedResult;
@@ -8504,16 +8406,7 @@ export interface JobsCancelOptionalParams extends coreClient.OperationOptions {
 
 /** Optional parameters. */
 export interface JobsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-  /** Type of job to be returned. */
-  jobType?: string;
-  /** Jobs returned will have this tag key. */
-  tag?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type JobsListNextResponse = JobBaseResourceArmPaginatedResult;
@@ -8552,14 +8445,7 @@ export type ModelContainersCreateOrUpdateResponse = ModelContainer;
 
 /** Optional parameters. */
 export interface ModelContainersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Maximum number of results to return. */
-  count?: number;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ModelContainersListNextResponse = ModelContainerResourceArmPaginatedResult;
@@ -8612,28 +8498,7 @@ export type ModelVersionsCreateOrUpdateResponse = ModelVersion;
 
 /** Optional parameters. */
 export interface ModelVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Ordering of list. */
-  orderBy?: string;
-  /** Maximum number of records to return. */
-  top?: number;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-  /** Model version. */
-  version?: string;
-  /** Model description. */
-  description?: string;
-  /** Number of initial results to skip. */
-  offset?: number;
-  /** Comma-separated list of tag names (and optionally values). Example: tag1,tag2=value2 */
-  tags?: string;
-  /** Comma-separated list of property names (and optionally values). Example: prop1,prop2=value2 */
-  properties?: string;
-  /** Name of the feed. */
-  feed?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ModelVersionsListNextResponse = ModelVersionResourceArmPaginatedResult;
@@ -8725,22 +8590,7 @@ export type OnlineEndpointsGetTokenResponse = EndpointAuthToken;
 
 /** Optional parameters. */
 export interface OnlineEndpointsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Number of endpoints to be retrieved in a page of results. */
-  count?: number;
-  /** A set of tags with which to filter the returned models. It is a comma separated string of tags key or tags key=value. Example: tagKey1,tagKey2,tagKey3=value3 . */
-  tags?: string;
-  /** A set of properties with which to filter the returned models. It is a comma separated string of properties key and/or properties key=value Example: propKey1,propKey2,propKey3=value3 . */
-  properties?: string;
-  /** Name of the endpoint. */
-  name?: string;
-  /** EndpointComputeType to be filtered by. */
-  computeType?: EndpointComputeType;
-  /** The option to order the response. */
-  orderBy?: OrderString;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OnlineEndpointsListNextResponse = OnlineEndpointTrackedResourceArmPaginatedResult;
@@ -8820,26 +8670,14 @@ export type OnlineDeploymentsListSkusResponse = SkuResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface OnlineDeploymentsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Ordering of list. */
-  orderBy?: string;
-  /** Top of list. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OnlineDeploymentsListNextResponse = OnlineDeploymentTrackedResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface OnlineDeploymentsListSkusNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Number of Skus to be retrieved in a page of results. */
-  count?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSkusNext operation. */
 export type OnlineDeploymentsListSkusNextResponse = SkuResourceArmPaginatedResult;
@@ -8886,12 +8724,7 @@ export type SchedulesCreateOrUpdateResponse = Schedule;
 
 /** Optional parameters. */
 export interface SchedulesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Status filter for schedule. */
-  listViewType?: ScheduleListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SchedulesListNextResponse = ScheduleResourceArmPaginatedResult;
