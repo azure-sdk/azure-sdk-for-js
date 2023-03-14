@@ -18,16 +18,11 @@ import {
   IncidentsListNextOptionalParams,
   IncidentsListOptionalParams,
   IncidentsListResponse,
-  IncidentsRunPlaybookOptionalParams,
-  IncidentsRunPlaybookResponse,
   IncidentsGetOptionalParams,
   IncidentsGetResponse,
   IncidentsCreateOrUpdateOptionalParams,
   IncidentsCreateOrUpdateResponse,
   IncidentsDeleteOptionalParams,
-  TeamProperties,
-  IncidentsCreateTeamOptionalParams,
-  IncidentsCreateTeamResponse,
   IncidentsListAlertsOptionalParams,
   IncidentsListAlertsResponse,
   IncidentsListBookmarksOptionalParams,
@@ -127,25 +122,6 @@ export class IncidentsImpl implements Incidents {
   }
 
   /**
-   * Triggers playbook on a specific incident
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param incidentIdentifier
-   * @param options The options parameters.
-   */
-  runPlaybook(
-    resourceGroupName: string,
-    workspaceName: string,
-    incidentIdentifier: string,
-    options?: IncidentsRunPlaybookOptionalParams
-  ): Promise<IncidentsRunPlaybookResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, incidentIdentifier, options },
-      runPlaybookOperationSpec
-    );
-  }
-
-  /**
    * Gets all incidents.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -163,7 +139,7 @@ export class IncidentsImpl implements Incidents {
   }
 
   /**
-   * Gets an incident.
+   * Gets a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -182,7 +158,7 @@ export class IncidentsImpl implements Incidents {
   }
 
   /**
-   * Creates or updates the incident.
+   * Creates or updates an incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -203,7 +179,7 @@ export class IncidentsImpl implements Incidents {
   }
 
   /**
-   * Delete the incident.
+   * Deletes a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -222,29 +198,7 @@ export class IncidentsImpl implements Incidents {
   }
 
   /**
-   * Creates a Microsoft team to investigate the incident by sharing information and insights between
-   * participants.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param incidentId Incident ID
-   * @param teamProperties Team properties
-   * @param options The options parameters.
-   */
-  createTeam(
-    resourceGroupName: string,
-    workspaceName: string,
-    incidentId: string,
-    teamProperties: TeamProperties,
-    options?: IncidentsCreateTeamOptionalParams
-  ): Promise<IncidentsCreateTeamResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, incidentId, teamProperties, options },
-      createTeamOperationSpec
-    );
-  }
-
-  /**
-   * Gets all incident alerts.
+   * Gets all alerts for an incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -263,7 +217,7 @@ export class IncidentsImpl implements Incidents {
   }
 
   /**
-   * Gets all incident bookmarks.
+   * Gets all bookmarks for an incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -282,7 +236,7 @@ export class IncidentsImpl implements Incidents {
   }
 
   /**
-   * Gets all incident related entities.
+   * Gets all entities for an incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -322,33 +276,6 @@ export class IncidentsImpl implements Incidents {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const runPlaybookOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentIdentifier}/runPlaybook",
-  httpMethod: "POST",
-  responses: {
-    204: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.requestBody,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.incidentIdentifier
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
 const listOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents",
@@ -448,31 +375,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.incidentId
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const createTeamOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/createTeam",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TeamInformation
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.teamProperties,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.incidentId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };
 const listAlertsOperationSpec: coreClient.OperationSpec = {

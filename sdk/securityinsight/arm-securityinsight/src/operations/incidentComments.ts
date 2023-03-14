@@ -40,7 +40,7 @@ export class IncidentCommentsImpl implements IncidentComments {
   }
 
   /**
-   * Gets all incident comments.
+   * Gets all comments for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -133,7 +133,7 @@ export class IncidentCommentsImpl implements IncidentComments {
   }
 
   /**
-   * Gets all incident comments.
+   * Gets all comments for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -152,7 +152,7 @@ export class IncidentCommentsImpl implements IncidentComments {
   }
 
   /**
-   * Gets an incident comment.
+   * Gets a comment for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -179,7 +179,7 @@ export class IncidentCommentsImpl implements IncidentComments {
   }
 
   /**
-   * Creates or updates the incident comment.
+   * Creates or updates a comment for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -209,7 +209,7 @@ export class IncidentCommentsImpl implements IncidentComments {
   }
 
   /**
-   * Delete the incident comment.
+   * Deletes a comment for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID

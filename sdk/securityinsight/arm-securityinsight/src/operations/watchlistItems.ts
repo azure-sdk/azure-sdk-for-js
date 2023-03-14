@@ -40,10 +40,10 @@ export class WatchlistItemsImpl implements WatchlistItems {
   }
 
   /**
-   * Gets all watchlist Items.
+   * Get all watchlist Items.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
+   * @param watchlistAlias The watchlist alias
    * @param options The options parameters.
    */
   public list(
@@ -133,10 +133,10 @@ export class WatchlistItemsImpl implements WatchlistItems {
   }
 
   /**
-   * Gets all watchlist Items.
+   * Get all watchlist Items.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
+   * @param watchlistAlias The watchlist alias
    * @param options The options parameters.
    */
   private _list(
@@ -152,11 +152,11 @@ export class WatchlistItemsImpl implements WatchlistItems {
   }
 
   /**
-   * Gets a watchlist, without its watchlist items.
+   * Get a watchlist item.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
-   * @param watchlistItemId Watchlist Item Id (GUID)
+   * @param watchlistAlias The watchlist alias
+   * @param watchlistItemId The watchlist item id (GUID)
    * @param options The options parameters.
    */
   get(
@@ -182,8 +182,8 @@ export class WatchlistItemsImpl implements WatchlistItems {
    * Delete a watchlist item.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
-   * @param watchlistItemId Watchlist Item Id (GUID)
+   * @param watchlistAlias The watchlist alias
+   * @param watchlistItemId The watchlist item id (GUID)
    * @param options The options parameters.
    */
   delete(
@@ -206,11 +206,11 @@ export class WatchlistItemsImpl implements WatchlistItems {
   }
 
   /**
-   * Creates or updates a watchlist item.
+   * Create or update a watchlist item.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
-   * @param watchlistItemId Watchlist Item Id (GUID)
+   * @param watchlistAlias The watchlist alias
+   * @param watchlistItemId The watchlist item id (GUID)
    * @param watchlistItem The watchlist item
    * @param options The options parameters.
    */
@@ -239,7 +239,7 @@ export class WatchlistItemsImpl implements WatchlistItems {
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
+   * @param watchlistAlias The watchlist alias
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
