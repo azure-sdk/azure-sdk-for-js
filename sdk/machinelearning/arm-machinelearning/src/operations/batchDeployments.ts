@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   BatchDeployment,
   BatchDeploymentsListNextOptionalParams,
@@ -170,14 +174,14 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     endpointName: string,
     deploymentName: string,
     options?: BatchDeploymentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -210,19 +214,19 @@ export class BatchDeploymentsImpl implements BatchDeployments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         endpointName,
         deploymentName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -298,8 +302,8 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     body: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties,
     options?: BatchDeploymentsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BatchDeploymentsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BatchDeploymentsUpdateResponse>,
       BatchDeploymentsUpdateResponse
     >
   > {
@@ -309,7 +313,7 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     ): Promise<BatchDeploymentsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -342,9 +346,9 @@ export class BatchDeploymentsImpl implements BatchDeployments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         endpointName,
@@ -352,10 +356,13 @@ export class BatchDeploymentsImpl implements BatchDeployments {
         body,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BatchDeploymentsUpdateResponse,
+      OperationState<BatchDeploymentsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -407,8 +414,8 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     body: BatchDeployment,
     options?: BatchDeploymentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BatchDeploymentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BatchDeploymentsCreateOrUpdateResponse>,
       BatchDeploymentsCreateOrUpdateResponse
     >
   > {
@@ -418,7 +425,7 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     ): Promise<BatchDeploymentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -451,9 +458,9 @@ export class BatchDeploymentsImpl implements BatchDeployments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         endpointName,
@@ -461,10 +468,13 @@ export class BatchDeploymentsImpl implements BatchDeployments {
         body,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BatchDeploymentsCreateOrUpdateResponse,
+      OperationState<BatchDeploymentsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -681,12 +691,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.orderBy,
-    Parameters.top
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
