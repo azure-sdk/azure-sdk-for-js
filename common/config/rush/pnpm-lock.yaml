@@ -704,6 +704,19 @@ packages:
       - supports-color
     dev: false
 
+  /@azure-tools/test-recorder/2.0.0:
+    resolution: {integrity: sha512-OTic1OwOk25B8ecdMQ4wgyDaUNMMw0qzO4/0sy9ScPXWLmUFGMlkS0+BOQ2K9t8WCksM/wU+NjUZo/5T4zaG6A==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.4.0
+      '@azure/core-http': 2.3.1
+      '@azure/core-rest-pipeline': 1.10.2
+      '@azure/core-util': 1.2.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /@azure/abort-controller/1.1.0:
     resolution: {integrity: sha512-TrRLIoSQVzfAJX9H1JeFjzAoDGcoK1IYX1UImfceTZpsyYfWr09Ss1aHW1y5TrrR3iq6RZLBwJ3E24uwPhwahw==}
     engines: {node: '>=12.0.0'}
@@ -3871,7 +3884,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230313
+      typescript: 5.1.0-dev.20230315
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8727,8 +8740,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230313:
-    resolution: {integrity: sha512-vveGdy/uNUyKJ/JbXsJTSP8Z8gfCRsiXdHBMbvJ2XzuzHsDQC3mR+ZPvIGrXoTWMn5XNbyJ8ufYuqGiCGTi6tg==}
+  /typescript/5.1.0-dev.20230315:
+    resolution: {integrity: sha512-lHUjpyLQRGRdkxHROCqNyAeoq8ytzxFqAY2nCOTiI/sSygZsAsTyUS521ldoNcjym/DiR+rmaNG6mpt29enm9g==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -10793,10 +10806,11 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-Wo7QcOadvBoR5vbeXSNYdwkIDmtRMlbeJLc+VM/gTSeju8z7NQ0/01SpkeOb/SHHejAyuDkHXtl9vrMT6mKnsQ==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-kPwfiqHl2OShPblzrdmESAnlv0/9Wc8gDlXce1JRWLU0RRTvO3/CRrLucqDP1OqsnyCJwXX6bX0CuU+WnFKnvw==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-recorder': 2.0.0
       '@azure/arm-network': 26.0.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.37
@@ -10809,7 +10823,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -10818,6 +10832,7 @@ packages:
       typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - encoding
       - supports-color
     dev: false
 
@@ -13309,7 +13324,7 @@ packages:
     dev: false
 
   file:projects/arm-network-1.tgz:
-    resolution: {integrity: sha512-h69TQy3Jv3Sq4nOUUoQ1PqUMQ5vPWhMxTAhPG2D0ci1lXMpmDgg0eLov6oGX5/Q1uzaa4yXyc4OToGLF7p3BBA==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-HP4VbHNAjhBlsVcszfjybzzFd7MlgIBwbEnYhkPOk+uNySUPuU1whPAIPsgcbAkwf90ulTjitwCRSmBdf91Zhg==, tarball: file:projects/arm-network-1.tgz}
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
@@ -13334,7 +13349,6 @@ packages:
       typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - encoding
       - supports-color
     dev: false
 
@@ -15296,7 +15310,7 @@ packages:
     dev: false
 
   file:projects/arm-webpubsub.tgz:
-    resolution: {integrity: sha512-EjFMfROIleuK8B/I2xiUMpXg9aBaxGkT+2uR4P51hS5oe+lmBVqnCJ8dlkGKbauBdwBqjt6jxeouvPWmCHBbjA==, tarball: file:projects/arm-webpubsub.tgz}
+    resolution: {integrity: sha512-p2yKPQQABjap5rsdwWPO/pDmLhwsEZfsd5KjA7TU/rb+kwJu3OG6ZCfBsJj6OIT5+0ZuVabpLVOQgZCJzTVxRw==, tarball: file:projects/arm-webpubsub.tgz}
     name: '@rush-temp/arm-webpubsub'
     version: 0.0.0
     dependencies:
@@ -15321,7 +15335,6 @@ packages:
       typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - encoding
       - supports-color
     dev: false
 
@@ -16861,7 +16874,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-19yBgs9YYynzl6fcHlrWVHrqz+5BQlzWhXk8R3s70JGbf7ZvQRCznNpM6n7MHUZU/n1OnqPB4Bw0tt+ADqxtQg==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-5TzCX3EbyrKQTJlA9IvX6pwajWdeU/5wOtqYoq6r/1DGoI87ffCek+ws57UkSExMwKw0gg6E1wDG0uFUMpzcPQ==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -19006,7 +19019,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-capTfQmTOxtimRb9xqcMuZE6wAVbDx1EK+GllnqYjLm3+sMfyB71R9JLbhN0ncmTeweJVv5/RnKxTbAsJUNSEw==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-WsequaezjWAVEEDEhVWOq+MwN7tcmgtiCPZS4o7B4HuT2u9JW90z0k2uJTkQzhwozGU/G1GFai8EJw5xIAoxZA==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
