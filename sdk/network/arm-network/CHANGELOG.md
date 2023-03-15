@@ -1,14 +1,23 @@
 # Release History
     
-## 30.2.0 (2023-03-07)
+## 31.0.0 (2023-03-15)
     
 **Features**
 
+  - Added Interface GroupByUserSession
+  - Added Interface GroupByVariable
+  - Added Type Alias ApplicationGatewayFirewallRateLimitDuration
+  - Added Type Alias ApplicationGatewayFirewallUserSessionVariable
   - Added Type Alias WebApplicationFirewallState
   - Interface ExpressRouteCircuit has a new optional parameter authorizationStatus
   - Interface VirtualNetwork has a new optional parameter flowLogs
   - Interface VpnGatewaysResetOptionalParams has a new optional parameter ipConfigurationId
+  - Interface WebApplicationFirewallCustomRule has a new optional parameter groupByUserSession
+  - Interface WebApplicationFirewallCustomRule has a new optional parameter rateLimitDuration
+  - Interface WebApplicationFirewallCustomRule has a new optional parameter rateLimitThreshold
   - Interface WebApplicationFirewallCustomRule has a new optional parameter state
+  - Added Enum KnownApplicationGatewayFirewallRateLimitDuration
+  - Added Enum KnownApplicationGatewayFirewallUserSessionVariable
   - Added Enum KnownWebApplicationFirewallState
   - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus400
   - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus404
@@ -18,6 +27,10 @@
   - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus500
   - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus503
   - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus504
+  - Enum KnownWebApplicationFirewallRuleType has a new value RateLimitRule
+
+**Breaking Changes**
+
   - Interface AdminRuleCollectionsListNextOptionalParams no longer has parameter skipToken
   - Interface AdminRuleCollectionsListNextOptionalParams no longer has parameter top
   - Interface AdminRulesListNextOptionalParams no longer has parameter skipToken

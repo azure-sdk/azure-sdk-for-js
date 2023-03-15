@@ -468,6 +468,9 @@ export interface ApplicationGatewayFirewallManifestRuleSet {
 export type ApplicationGatewayFirewallMode = string;
 
 // @public
+export type ApplicationGatewayFirewallRateLimitDuration = string;
+
+// @public
 export interface ApplicationGatewayFirewallRule {
     action?: ApplicationGatewayWafRuleActionTypes;
     description?: string;
@@ -491,6 +494,9 @@ export interface ApplicationGatewayFirewallRuleSet extends Resource {
     ruleSetVersion?: string;
     tiers?: ApplicationGatewayTierTypes[];
 }
+
+// @public
+export type ApplicationGatewayFirewallUserSessionVariable = string;
 
 // @public
 export interface ApplicationGatewayFrontendIPConfiguration extends SubResource {
@@ -5231,6 +5237,16 @@ export interface GetVpnSitesConfigurationRequest {
 }
 
 // @public
+export interface GroupByUserSession {
+    groupByVariables: GroupByVariable[];
+}
+
+// @public
+export interface GroupByVariable {
+    variableName: ApplicationGatewayFirewallUserSessionVariable;
+}
+
+// @public
 export type GroupConnectivity = string;
 
 // @public
@@ -5916,6 +5932,19 @@ export enum KnownApplicationGatewayCustomErrorStatusCode {
 export enum KnownApplicationGatewayFirewallMode {
     Detection = "Detection",
     Prevention = "Prevention"
+}
+
+// @public
+export enum KnownApplicationGatewayFirewallRateLimitDuration {
+    FiveMins = "FiveMins",
+    OneMin = "OneMin"
+}
+
+// @public
+export enum KnownApplicationGatewayFirewallUserSessionVariable {
+    ClientAddr = "ClientAddr",
+    GeoLocation = "GeoLocation",
+    None = "None"
 }
 
 // @public
@@ -7355,7 +7384,8 @@ export enum KnownWebApplicationFirewallPolicyResourceState {
 // @public
 export enum KnownWebApplicationFirewallRuleType {
     Invalid = "Invalid",
-    MatchRule = "MatchRule"
+    MatchRule = "MatchRule",
+    RateLimitRule = "RateLimitRule"
 }
 
 // @public
@@ -15294,9 +15324,12 @@ export type WebApplicationFirewallAction = string;
 export interface WebApplicationFirewallCustomRule {
     action: WebApplicationFirewallAction;
     readonly etag?: string;
+    groupByUserSession?: GroupByUserSession[];
     matchConditions: MatchCondition[];
     name?: string;
     priority: number;
+    rateLimitDuration?: ApplicationGatewayFirewallRateLimitDuration;
+    rateLimitThreshold?: number;
     ruleType: WebApplicationFirewallRuleType;
     state?: WebApplicationFirewallState;
 }
