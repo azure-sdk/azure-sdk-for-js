@@ -1,6 +1,6 @@
 # Release History
     
-## 30.2.0 (2023-03-07)
+## 31.0.0 (2023-03-15)
     
 **Features**
 
@@ -18,6 +18,9 @@
   - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus500
   - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus503
   - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus504
+
+**Breaking Changes**
+
   - Interface AdminRuleCollectionsListNextOptionalParams no longer has parameter skipToken
   - Interface AdminRuleCollectionsListNextOptionalParams no longer has parameter top
   - Interface AdminRulesListNextOptionalParams no longer has parameter skipToken
@@ -45,6 +48,7 @@
   - Interface SubscriptionNetworkManagerConnectionsListNextOptionalParams no longer has parameter top
   - Interface VirtualNetworksListDdosProtectionStatusNextOptionalParams no longer has parameter skipToken
   - Interface VirtualNetworksListDdosProtectionStatusNextOptionalParams no longer has parameter top
+  - Enum KnownLoadBalancerBackendAddressAdminState no longer has value Drain
     
     
 ## 30.1.0 (2022-12-13)

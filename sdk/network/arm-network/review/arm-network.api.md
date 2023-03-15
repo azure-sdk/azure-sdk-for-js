@@ -6681,7 +6681,6 @@ export enum KnownIsWorkloadProtected {
 // @public
 export enum KnownLoadBalancerBackendAddressAdminState {
     Down = "Down",
-    Drain = "Drain",
     None = "None",
     Up = "Up"
 }

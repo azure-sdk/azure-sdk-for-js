@@ -12115,9 +12115,7 @@ export enum KnownLoadBalancerBackendAddressAdminState {
   /** Up */
   Up = "Up",
   /** Down */
-  Down = "Down",
-  /** Drain */
-  Drain = "Drain"
+  Down = "Down"
 }
 
 /**
@@ -12127,8 +12125,7 @@ export enum KnownLoadBalancerBackendAddressAdminState {
  * ### Known values supported by the service
  * **None** \
  * **Up** \
- * **Down** \
- * **Drain**
+ * **Down**
  */
 export type LoadBalancerBackendAddressAdminState = string;
 
