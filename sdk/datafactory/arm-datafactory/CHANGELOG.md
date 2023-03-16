@@ -1,11 +1,13 @@
 # Release History
     
-## 11.1.0 (2023-03-02)
+## 11.1.0 (2023-03-16)
     
 **Features**
 
+  - Added Interface IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem
   - Interface AzureBlobFSLinkedService has a new optional parameter sasToken
   - Interface AzureBlobFSLinkedService has a new optional parameter sasUri
+  - Interface IntegrationRuntimeDataFlowProperties has a new optional parameter customProperties
     
     
 ## 11.0.0 (2023-02-10)
