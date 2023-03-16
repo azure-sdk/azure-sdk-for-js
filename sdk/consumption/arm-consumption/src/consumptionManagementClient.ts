@@ -86,7 +86,7 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-consumption/9.2.1`;
+    const packageDetails = `azsdk-js-arm-consumption/10.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -139,7 +139,7 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-10-01";
+    this.apiVersion = options.apiVersion || "2022-09-01";
     this.usageDetails = new UsageDetailsImpl(this);
     this.marketplaces = new MarketplacesImpl(this);
     this.budgets = new BudgetsImpl(this);
