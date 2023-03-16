@@ -954,7 +954,7 @@ const deallocateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.xMsForceDeallocate],
   serializer
 };
 const startOperationSpec: coreClient.OperationSpec = {
