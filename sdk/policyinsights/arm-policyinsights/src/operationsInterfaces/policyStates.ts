@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PolicyState,
   PolicyStatesResource,
@@ -221,7 +221,7 @@ export interface PolicyStates {
   beginTriggerSubscriptionEvaluation(
     subscriptionId: string,
     options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Triggers a policy evaluation scan for all the resources under the subscription
    * @param subscriptionId Microsoft Azure subscription ID.
@@ -241,7 +241,7 @@ export interface PolicyStates {
     subscriptionId: string,
     resourceGroupName: string,
     options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Triggers a policy evaluation scan for all the resources under the resource group.
    * @param subscriptionId Microsoft Azure subscription ID.

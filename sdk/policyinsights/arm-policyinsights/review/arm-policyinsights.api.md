@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface Attestation extends Resource {
@@ -40,11 +40,11 @@ export interface AttestationListResult {
 
 // @public
 export interface Attestations {
-    beginCreateOrUpdateAtResource(resourceId: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceOptionalParams): Promise<PollerLike<PollOperationState<AttestationsCreateOrUpdateAtResourceResponse>, AttestationsCreateOrUpdateAtResourceResponse>>;
+    beginCreateOrUpdateAtResource(resourceId: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceOptionalParams): Promise<SimplePollerLike<OperationState<AttestationsCreateOrUpdateAtResourceResponse>, AttestationsCreateOrUpdateAtResourceResponse>>;
     beginCreateOrUpdateAtResourceAndWait(resourceId: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceOptionalParams): Promise<AttestationsCreateOrUpdateAtResourceResponse>;
-    beginCreateOrUpdateAtResourceGroup(resourceGroupName: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams): Promise<PollerLike<PollOperationState<AttestationsCreateOrUpdateAtResourceGroupResponse>, AttestationsCreateOrUpdateAtResourceGroupResponse>>;
+    beginCreateOrUpdateAtResourceGroup(resourceGroupName: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams): Promise<SimplePollerLike<OperationState<AttestationsCreateOrUpdateAtResourceGroupResponse>, AttestationsCreateOrUpdateAtResourceGroupResponse>>;
     beginCreateOrUpdateAtResourceGroupAndWait(resourceGroupName: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams): Promise<AttestationsCreateOrUpdateAtResourceGroupResponse>;
-    beginCreateOrUpdateAtSubscription(attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams): Promise<PollerLike<PollOperationState<AttestationsCreateOrUpdateAtSubscriptionResponse>, AttestationsCreateOrUpdateAtSubscriptionResponse>>;
+    beginCreateOrUpdateAtSubscription(attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams): Promise<SimplePollerLike<OperationState<AttestationsCreateOrUpdateAtSubscriptionResponse>, AttestationsCreateOrUpdateAtSubscriptionResponse>>;
     beginCreateOrUpdateAtSubscriptionAndWait(attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams): Promise<AttestationsCreateOrUpdateAtSubscriptionResponse>;
     deleteAtResource(resourceId: string, attestationName: string, options?: AttestationsDeleteAtResourceOptionalParams): Promise<void>;
     deleteAtResourceGroup(resourceGroupName: string, attestationName: string, options?: AttestationsDeleteAtResourceGroupOptionalParams): Promise<void>;
@@ -958,9 +958,9 @@ export interface PolicyState {
 
 // @public
 export interface PolicyStates {
-    beginTriggerResourceGroupEvaluation(subscriptionId: string, resourceGroupName: string, options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginTriggerResourceGroupEvaluation(subscriptionId: string, resourceGroupName: string, options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginTriggerResourceGroupEvaluationAndWait(subscriptionId: string, resourceGroupName: string, options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams): Promise<void>;
-    beginTriggerSubscriptionEvaluation(subscriptionId: string, options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginTriggerSubscriptionEvaluation(subscriptionId: string, options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginTriggerSubscriptionEvaluationAndWait(subscriptionId: string, options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams): Promise<void>;
     listQueryResultsForManagementGroup(policyStatesResource: PolicyStatesResource, managementGroupName: string, options?: PolicyStatesListQueryResultsForManagementGroupOptionalParams): PagedAsyncIterableIterator<PolicyState>;
     listQueryResultsForPolicyDefinition(policyStatesResource: PolicyStatesResource, subscriptionId: string, policyDefinitionName: string, options?: PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams): PagedAsyncIterableIterator<PolicyState>;

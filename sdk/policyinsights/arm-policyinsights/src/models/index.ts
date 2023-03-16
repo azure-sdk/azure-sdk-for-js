@@ -255,7 +255,7 @@ export interface Remediation {
   /** The way resources to remediate are discovered. Defaults to ExistingNonCompliant if not specified. */
   resourceDiscoveryMode?: ResourceDiscoveryMode;
   /**
-   * The status of the remediation.
+   * The status of the remediation. This refers to the entire remediation task, not individual deployments. Allowed values are Evaluating, Canceled, Cancelling, Failed, Complete, or Succeeded.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
@@ -1514,11 +1514,11 @@ export type PolicyStatesSummaryResourceType = string;
 
 /** Known values of {@link FieldRestrictionResult} that the service accepts. */
 export enum KnownFieldRestrictionResult {
-  /** The field and/or values are required by policy. */
+  /** The field and\/or values are required by policy. */
   Required = "Required",
   /** The field will be removed by policy. */
   Removed = "Removed",
-  /** The field and/or values will be denied by policy. */
+  /** The field and\/or values will be denied by policy. */
   Deny = "Deny"
 }
 

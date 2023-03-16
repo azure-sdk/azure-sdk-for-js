@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Attestation,
   AttestationsListForSubscriptionOptionalParams,
@@ -69,8 +69,8 @@ export interface Attestations {
     parameters: Attestation,
     options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AttestationsCreateOrUpdateAtSubscriptionResponse>,
+    SimplePollerLike<
+      OperationState<AttestationsCreateOrUpdateAtSubscriptionResponse>,
       AttestationsCreateOrUpdateAtSubscriptionResponse
     >
   >;
@@ -116,8 +116,8 @@ export interface Attestations {
     parameters: Attestation,
     options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AttestationsCreateOrUpdateAtResourceGroupResponse>,
+    SimplePollerLike<
+      OperationState<AttestationsCreateOrUpdateAtResourceGroupResponse>,
       AttestationsCreateOrUpdateAtResourceGroupResponse
     >
   >;
@@ -169,8 +169,8 @@ export interface Attestations {
     parameters: Attestation,
     options?: AttestationsCreateOrUpdateAtResourceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AttestationsCreateOrUpdateAtResourceResponse>,
+    SimplePollerLike<
+      OperationState<AttestationsCreateOrUpdateAtResourceResponse>,
       AttestationsCreateOrUpdateAtResourceResponse
     >
   >;

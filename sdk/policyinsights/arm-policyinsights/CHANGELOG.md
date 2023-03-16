@@ -1,16 +1,6 @@
 # Release History
-
-## 6.0.0-beta.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 6.0.0-beta.3 (2023-01-30)
+    
+## 6.0.0-beta.4 (2023-03-16)
     
 **Features**
 
@@ -47,6 +37,29 @@
   - Added Enum KnownPolicyStatesSummaryResourceType
   - Added Enum KnownPolicyTrackedResourcesResourceType
   - Added function getContinuationToken
+
+**Breaking Changes**
+
+  - Operation PolicyEvents.listQueryResultsForManagementGroup has a new signature
+  - Operation PolicyEvents.listQueryResultsForPolicyDefinition has a new signature
+  - Operation PolicyEvents.listQueryResultsForPolicySetDefinition has a new signature
+  - Operation PolicyEvents.listQueryResultsForResource has a new signature
+  - Operation PolicyEvents.listQueryResultsForResourceGroup has a new signature
+  - Operation PolicyEvents.listQueryResultsForResourceGroupLevelPolicyAssignment has a new signature
+  - Operation PolicyEvents.listQueryResultsForSubscription has a new signature
+  - Operation PolicyEvents.listQueryResultsForSubscriptionLevelPolicyAssignment has a new signature
+  - Operation PolicyStates.summarizeForManagementGroup has a new signature
+  - Operation PolicyStates.summarizeForPolicyDefinition has a new signature
+  - Operation PolicyStates.summarizeForPolicySetDefinition has a new signature
+  - Operation PolicyStates.summarizeForResource has a new signature
+  - Operation PolicyStates.summarizeForResourceGroup has a new signature
+  - Operation PolicyStates.summarizeForResourceGroupLevelPolicyAssignment has a new signature
+  - Operation PolicyStates.summarizeForSubscription has a new signature
+  - Operation PolicyStates.summarizeForSubscriptionLevelPolicyAssignment has a new signature
+  - Operation PolicyTrackedResources.listQueryResultsForManagementGroup has a new signature
+  - Operation PolicyTrackedResources.listQueryResultsForResource has a new signature
+  - Operation PolicyTrackedResources.listQueryResultsForResourceGroup has a new signature
+  - Operation PolicyTrackedResources.listQueryResultsForSubscription has a new signature
   - Interface AttestationsListForResourceGroupNextOptionalParams no longer has parameter queryOptions
   - Interface AttestationsListForResourceNextOptionalParams no longer has parameter queryOptions
   - Interface AttestationsListForSubscriptionNextOptionalParams no longer has parameter queryOptions
@@ -79,29 +92,6 @@
   - Interface RemediationsListForResourceGroupNextOptionalParams no longer has parameter queryOptions
   - Interface RemediationsListForResourceNextOptionalParams no longer has parameter queryOptions
   - Interface RemediationsListForSubscriptionNextOptionalParams no longer has parameter queryOptions
-
-**Breaking Changes**
-
-  - Operation PolicyEvents.listQueryResultsForManagementGroup has a new signature
-  - Operation PolicyEvents.listQueryResultsForPolicyDefinition has a new signature
-  - Operation PolicyEvents.listQueryResultsForPolicySetDefinition has a new signature
-  - Operation PolicyEvents.listQueryResultsForResource has a new signature
-  - Operation PolicyEvents.listQueryResultsForResourceGroup has a new signature
-  - Operation PolicyEvents.listQueryResultsForResourceGroupLevelPolicyAssignment has a new signature
-  - Operation PolicyEvents.listQueryResultsForSubscription has a new signature
-  - Operation PolicyEvents.listQueryResultsForSubscriptionLevelPolicyAssignment has a new signature
-  - Operation PolicyStates.summarizeForManagementGroup has a new signature
-  - Operation PolicyStates.summarizeForPolicyDefinition has a new signature
-  - Operation PolicyStates.summarizeForPolicySetDefinition has a new signature
-  - Operation PolicyStates.summarizeForResource has a new signature
-  - Operation PolicyStates.summarizeForResourceGroup has a new signature
-  - Operation PolicyStates.summarizeForResourceGroupLevelPolicyAssignment has a new signature
-  - Operation PolicyStates.summarizeForSubscription has a new signature
-  - Operation PolicyStates.summarizeForSubscriptionLevelPolicyAssignment has a new signature
-  - Operation PolicyTrackedResources.listQueryResultsForManagementGroup has a new signature
-  - Operation PolicyTrackedResources.listQueryResultsForResource has a new signature
-  - Operation PolicyTrackedResources.listQueryResultsForResourceGroup has a new signature
-  - Operation PolicyTrackedResources.listQueryResultsForSubscription has a new signature
     
     
 ## 5.0.0 (2022-01-24)
