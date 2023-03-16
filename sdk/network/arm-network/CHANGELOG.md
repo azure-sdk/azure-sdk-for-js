@@ -1,14 +1,29 @@
 # Release History
     
-## 30.2.0 (2023-03-07)
+## 31.0.0 (2023-03-16)
     
 **Features**
 
+  - Added Type Alias AnalysisModes
+  - Added Type Alias DestinationPortStatus
+  - Added Type Alias SourcePortStatus
   - Added Type Alias WebApplicationFirewallState
+  - Interface ConnectivityInformation has a new optional parameter destinationPortStatus
+  - Interface ConnectivityInformation has a new optional parameter destinationSecurityRuleAnalysis
+  - Interface ConnectivityInformation has a new optional parameter nextHopAnalysis
+  - Interface ConnectivityInformation has a new optional parameter sourcePortStatus
+  - Interface ConnectivityInformation has a new optional parameter sourceSecurityRuleAnalysis
+  - Interface ConnectivityParameters has a new optional parameter analysisModes
+  - Interface ConnectivitySource has a new optional parameter address
+  - Interface ConnectivitySource has a new optional parameter vmssIndex
+  - Interface DdosProtectionPlan has a new optional parameter publicIPAddresses
   - Interface ExpressRouteCircuit has a new optional parameter authorizationStatus
   - Interface VirtualNetwork has a new optional parameter flowLogs
   - Interface VpnGatewaysResetOptionalParams has a new optional parameter ipConfigurationId
   - Interface WebApplicationFirewallCustomRule has a new optional parameter state
+  - Added Enum KnownAnalysisModes
+  - Added Enum KnownDestinationPortStatus
+  - Added Enum KnownSourcePortStatus
   - Added Enum KnownWebApplicationFirewallState
   - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus400
   - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus404
@@ -18,12 +33,16 @@
   - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus500
   - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus503
   - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus504
+
+**Breaking Changes**
+
   - Interface AdminRuleCollectionsListNextOptionalParams no longer has parameter skipToken
   - Interface AdminRuleCollectionsListNextOptionalParams no longer has parameter top
   - Interface AdminRulesListNextOptionalParams no longer has parameter skipToken
   - Interface AdminRulesListNextOptionalParams no longer has parameter top
   - Interface ConnectivityConfigurationsListNextOptionalParams no longer has parameter skipToken
   - Interface ConnectivityConfigurationsListNextOptionalParams no longer has parameter top
+  - Interface DdosProtectionPlan no longer has parameter publicIpAddresses
   - Interface ManagementGroupNetworkManagerConnectionsListNextOptionalParams no longer has parameter skipToken
   - Interface ManagementGroupNetworkManagerConnectionsListNextOptionalParams no longer has parameter top
   - Interface NetworkGroupsListNextOptionalParams no longer has parameter skipToken

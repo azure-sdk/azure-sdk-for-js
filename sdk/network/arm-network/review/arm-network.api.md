@@ -254,6 +254,9 @@ export interface AdminRulesListOptionalParams extends coreClient.OperationOption
 export type AdminRulesListResponse = AdminRuleListResult;
 
 // @public
+export type AnalysisModes = string;
+
+// @public
 export interface ApplicationGateway extends Resource {
     authenticationCertificates?: ApplicationGatewayAuthenticationCertificate[];
     autoscaleConfiguration?: ApplicationGatewayAutoscaleConfiguration;
@@ -2662,11 +2665,16 @@ export interface ConnectivityHop {
 export interface ConnectivityInformation {
     readonly avgLatencyInMs?: number;
     readonly connectionStatus?: ConnectionStatus;
+    destinationPortStatus?: DestinationPortStatus;
+    destinationSecurityRuleAnalysis?: NetworkConfigurationDiagnosticResponse;
     readonly hops?: ConnectivityHop[];
     readonly maxLatencyInMs?: number;
     readonly minLatencyInMs?: number;
+    nextHopAnalysis?: NextHopResult;
     readonly probesFailed?: number;
     readonly probesSent?: number;
+    sourcePortStatus?: SourcePortStatus;
+    sourceSecurityRuleAnalysis?: NetworkConfigurationDiagnosticResponse;
 }
 
 // @public
@@ -2681,6 +2689,7 @@ export interface ConnectivityIssue {
 
 // @public
 export interface ConnectivityParameters {
+    analysisModes?: AnalysisModes;
     destination: ConnectivityDestination;
     preferredIPVersion?: IPVersion;
     protocol?: Protocol;
@@ -2690,8 +2699,10 @@ export interface ConnectivityParameters {
 
 // @public
 export interface ConnectivitySource {
+    address?: string;
     port?: number;
     resourceId: string;
+    vmssIndex?: string;
 }
 
 // @public
@@ -2911,7 +2922,7 @@ export interface DdosProtectionPlan {
     location?: string;
     readonly name?: string;
     readonly provisioningState?: ProvisioningState;
-    readonly publicIpAddresses?: SubResource[];
+    readonly publicIPAddresses?: SubResource[];
     readonly resourceGuid?: string;
     tags?: {
         [propertyName: string]: string;
@@ -3085,6 +3096,9 @@ export type DeploymentStatus = string;
 
 // @public
 export type DestinationPortBehavior = string;
+
+// @public
+export type DestinationPortStatus = string;
 
 // @public
 export interface DeviceProperties {
@@ -5878,6 +5892,14 @@ export enum KnownAdminRuleKind {
 }
 
 // @public
+export enum KnownAnalysisModes {
+    Default = "Default",
+    NCD = "NCD",
+    NextHop = "NextHop",
+    PortScan = "PortScan"
+}
+
+// @public
 export enum KnownApplicationGatewayBackendHealthServerHealth {
     Down = "Down",
     Draining = "Draining",
@@ -6285,6 +6307,15 @@ export enum KnownDeploymentStatus {
 export enum KnownDestinationPortBehavior {
     ListenIfAvailable = "ListenIfAvailable",
     None = "None"
+}
+
+// @public
+export enum KnownDestinationPortStatus {
+    NoConnection = "NoConnection",
+    Reachable = "Reachable",
+    Timeout = "Timeout",
+    Unknown = "Unknown",
+    Unstable = "Unstable"
 }
 
 // @public
@@ -7065,6 +7096,15 @@ export enum KnownServiceProviderProvisioningState {
 export enum KnownSeverity {
     Error = "Error",
     Warning = "Warning"
+}
+
+// @public
+export enum KnownSourcePortStatus {
+    NoConnection = "NoConnection",
+    Reachable = "Reachable",
+    Timeout = "Timeout",
+    Unknown = "Unknown",
+    Unstable = "Unstable"
 }
 
 // @public
@@ -12365,6 +12405,9 @@ export interface Sku {
 
 // @public
 export type SlotType = "Production" | "Staging";
+
+// @public
+export type SourcePortStatus = string;
 
 // @public
 export interface StaticMember extends ChildResource {
