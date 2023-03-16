@@ -15,34 +15,123 @@ export type ActionUnion =
   | ContinuousAction;
 export type FilterUnion = Filter | SimpleFilter;
 
-/** Model that represents a list of Capability resources and a link for pagination. */
-export interface CapabilityListResult {
+/** Model that represents a list of Application resources and a link for pagination. */
+export interface ApplicationListResult {
   /**
-   * List of Capability resources.
+   * List of Application resources.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: Capability[];
+  readonly value?: Application[];
   /**
-   * URL to retrieve the next page of Capability resources.
+   * URL to retrieve the next page of Application resources.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
+/** User assigned managed identity assigned to the platform on which application is deployed */
+export interface UserAssignedManagedIdentityProperties {
+  /** client id of the managed identity */
+  clientId: string;
+  /** active directory tenant id in which managed identity is provisioned */
+  tenantId: string;
+  /** type of managed identity i.e AzureManagedIdentity */
+  type: string;
+}
+
+/** Platform on which application is/will be deployed */
+export interface PlatformProperties {
+  /** ARM id of the platform resource on which application is deployed */
+  resourceId: string;
+}
+
+export interface Metadata {
+  /** Containing function which includes the call to faultable function */
+  containingFunction?: ContainingFunctionProperties;
+  /** function in which fault is injected */
+  faultableFunction?: FaultableFunctionProperties;
+  /** defines the location of the code in the class */
+  source?: SourceProperties;
+}
+
+/** Defines the signature of the function calling the faultable function */
+export interface ContainingFunctionProperties {
+  /** Method signature of the containing function */
+  signature: SignatureProperties;
+}
+
+/** Defines the attributes of the function signature. */
+export interface SignatureProperties {
+  /** Namespace in which the function is defined */
+  functionNamespace: string;
+  /** ClassName in which the function is defined */
+  type: string;
+  /** Name of a function */
+  name: string;
+  /** Types defined if Class is a generic class */
+  genericTypes?: string[];
+  /** Number of types defined in a generic */
+  genericCount?: number;
+  /** List of arguments of a function */
+  arguments?: FunctionArguments[];
+  archive?: SignaturePropertiesArchive;
+}
+
+export interface FunctionArguments {
+  /** Type of a function argument */
+  type?: string;
+  /** Name of a function argument */
+  name?: string;
+}
+
+export interface SignaturePropertiesArchive {
+  /** name of an archive which defines the function */
+  name?: string;
+  /** version of an archive */
+  version?: string;
+  /** culture of an archive */
+  culture?: string;
+  /** public key token of an archive */
+  publicKeyToken?: string;
+  /** defines the type of an archive */
+  type?: string;
+}
+
+/** Application function in which fault can be injected */
+export interface FaultableFunctionProperties {
+  /** Method Signature of the faultable function */
+  signature: SignatureProperties;
+  /** SDK or Custom library in which fault is injected */
+  category?: string;
+  /** faults supported by torch for the function */
+  faultCapabilities?: FaultCapabilityProperties[];
+}
+
+/** Capabilities supported by the faults */
+export interface FaultCapabilityProperties {
+  /** URN for fault capability */
+  faultUrn?: string;
+  /** Input Parameters supported by a fault */
+  parameters?: FaultParameter[];
+}
+
+export interface FaultParameter {
+  /** name of a fault parameter */
+  name?: string;
+}
+
+/** defines the function code path and location in the class */
+export interface SourceProperties {
+  /** code path where function is defined */
+  codePath?: string;
+  /** line in the code where function starts */
+  startLine?: number;
+  /** column in the code where function starts */
+  startColumn?: number;
+  /** line in the code where function ends */
+  endLine?: number;
+  /** column in the code where function ends */
+  endColumn?: number;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -62,6 +151,27 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -111,6 +221,80 @@ export interface ErrorAdditionalInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly info?: Record<string, unknown>;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponseAutoGenerated {
+  /** The error object. */
+  error?: ErrorDetailAutoGenerated;
+}
+
+/** The error detail. */
+export interface ErrorDetailAutoGenerated {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetailAutoGenerated[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** An update to an application. */
+export interface ApplicationUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** Model that represents a list of Capability resources and a link for pagination. */
+export interface CapabilityListResult {
+  /**
+   * List of Capability resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Capability[];
+  /**
+   * URL to retrieve the next page of Capability resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface ResourceAutoGenerated {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
 }
 
 /** Model that represents a list of Capability Type resources and a link for pagination. */
@@ -605,8 +789,16 @@ export interface SimpleFilterParameters {
   zones?: string[];
 }
 
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
 /** Model that represents a Capability resource. */
-export interface Capability extends Resource {
+export interface Capability extends ResourceAutoGenerated {
   /**
    * The standard system metadata of a resource type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -640,7 +832,7 @@ export interface Capability extends Resource {
 }
 
 /** Model that represents a Capability Type resource. */
-export interface CapabilityType extends Resource {
+export interface CapabilityType extends ResourceAutoGenerated {
   /**
    * The system metadata properties of the capability type resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -688,7 +880,7 @@ export interface CapabilityType extends Resource {
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
+export interface TrackedResourceAutoGenerated extends ResourceAutoGenerated {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
@@ -696,7 +888,7 @@ export interface TrackedResource extends Resource {
 }
 
 /** Model that represents a Target Type resource. */
-export interface TargetType extends Resource {
+export interface TargetType extends ResourceAutoGenerated {
   /**
    * The system metadata properties of the target type resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -727,7 +919,7 @@ export interface TargetType extends Resource {
 }
 
 /** Model that represents a Target resource. */
-export interface Target extends Resource {
+export interface Target extends ResourceAutoGenerated {
   /**
    * The system metadata of the target resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -777,8 +969,25 @@ export interface SimpleFilter extends Filter {
   parameters?: SimpleFilterParameters;
 }
 
+/** Application tracked resource. */
+export interface Application extends TrackedResource {
+  /** list of User assigned managed identities used by application */
+  identities: UserAssignedManagedIdentityProperties[];
+  /** Platform on which application will be deployed */
+  deployedPlatform?: PlatformProperties;
+  /** Chaos Studio profile id of an application resource. */
+  profileId?: string;
+  /** List of fault metadata of an application resource */
+  faultMetadata?: Metadata[];
+  /**
+   * The status of the last operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
 /** Model that represents a Experiment resource. */
-export interface Experiment extends TrackedResource {
+export interface Experiment extends TrackedResourceAutoGenerated {
   /**
    * The system metadata of the experiment resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -793,6 +1002,39 @@ export interface Experiment extends TrackedResource {
   /** A boolean value that indicates if experiment should be started on creation or not. */
   startOnCreation?: boolean;
 }
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Provisioning */
+  Provisioning = "Provisioning",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Accepted */
+  Accepted = "Accepted"
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Provisioning** \
+ * **Updating** \
+ * **Deleting** \
+ * **Accepted**
+ */
+export type ProvisioningState = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -872,6 +1114,65 @@ export type ActionType = string;
 export type ResourceIdentityType = "None" | "SystemAssigned";
 /** Defines values for SelectorType. */
 export type SelectorType = "Percent" | "Random" | "Tag" | "List";
+
+/** Optional parameters. */
+export interface ApplicationsListAllOptionalParams
+  extends coreClient.OperationOptions {
+  /** String that sets the continuation token. */
+  continuationToken?: string;
+}
+
+/** Contains response data for the listAll operation. */
+export type ApplicationsListAllResponse = ApplicationListResult;
+
+/** Optional parameters. */
+export interface ApplicationsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** String that sets the continuation token. */
+  continuationToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ApplicationsListResponse = ApplicationListResult;
+
+/** Optional parameters. */
+export interface ApplicationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ApplicationsGetResponse = Application;
+
+/** Optional parameters. */
+export interface ApplicationsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type ApplicationsUpdateResponse = Application;
+
+/** Optional parameters. */
+export interface ApplicationsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ApplicationsCreateOrUpdateResponse = Application;
+
+/** Optional parameters. */
+export interface ApplicationsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ApplicationsListAllNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllNext operation. */
+export type ApplicationsListAllNextResponse = ApplicationListResult;
+
+/** Optional parameters. */
+export interface ApplicationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ApplicationsListNextResponse = ApplicationListResult;
 
 /** Optional parameters. */
 export interface CapabilitiesListOptionalParams

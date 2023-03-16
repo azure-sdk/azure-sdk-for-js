@@ -437,11 +437,11 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.nextLink,
     Parameters.parentProviderNamespace,
     Parameters.parentResourceType,
     Parameters.parentResourceName,
-    Parameters.targetName,
-    Parameters.nextLink
+    Parameters.targetName
   ],
   headerParameters: [Parameters.accept],
   serializer

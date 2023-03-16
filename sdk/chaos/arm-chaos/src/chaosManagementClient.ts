@@ -15,6 +15,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  ApplicationsImpl,
   CapabilitiesImpl,
   CapabilityTypesImpl,
   ExperimentsImpl,
@@ -23,6 +24,7 @@ import {
   TargetsImpl
 } from "./operations";
 import {
+  Applications,
   Capabilities,
   CapabilityTypes,
   Experiments,
@@ -117,7 +119,8 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-10-01-preview";
+    this.apiVersion = options.apiVersion || "2023-01-31-preview";
+    this.applications = new ApplicationsImpl(this);
     this.capabilities = new CapabilitiesImpl(this);
     this.capabilityTypes = new CapabilityTypesImpl(this);
     this.experiments = new ExperimentsImpl(this);
@@ -155,6 +158,7 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  applications: Applications;
   capabilities: Capabilities;
   capabilityTypes: CapabilityTypes;
   experiments: Experiments;

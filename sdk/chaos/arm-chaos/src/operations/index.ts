@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./applications";
 export * from "./capabilities";
 export * from "./capabilityTypes";
 export * from "./experiments";

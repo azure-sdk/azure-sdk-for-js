@@ -12,6 +12,8 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  ApplicationUpdate as ApplicationUpdateMapper,
+  Application as ApplicationMapper,
   Capability as CapabilityMapper,
   Experiment as ExperimentMapper,
   Target as TargetMapper
@@ -44,7 +46,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-10-01-preview",
+    defaultValue: "2023-01-31-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -69,6 +71,16 @@ export const subscriptionId: OperationURLParameter = {
   }
 };
 
+export const continuationToken: OperationQueryParameter = {
+  parameterPath: ["options", "continuationToken"],
+  mapper: {
+    serializedName: "continuationToken",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -81,6 +93,55 @@ export const resourceGroupName: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const applicationName: OperationURLParameter = {
+  parameterPath: "applicationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^<>%&:?#/\\\\]+$"),
+      MinLength: 1
+    },
+    serializedName: "applicationName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ApplicationUpdateMapper
+};
+
+export const application: OperationParameter = {
+  parameterPath: "application",
+  mapper: ApplicationMapper
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 
 export const parentProviderNamespace: OperationURLParameter = {
@@ -139,16 +200,6 @@ export const targetName: OperationURLParameter = {
   }
 };
 
-export const continuationToken: OperationQueryParameter = {
-  parameterPath: ["options", "continuationToken"],
-  mapper: {
-    serializedName: "continuationToken",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const capabilityName: OperationURLParameter = {
   parameterPath: "capabilityName",
   mapper: {
@@ -163,33 +214,9 @@ export const capabilityName: OperationURLParameter = {
   }
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const capability: OperationParameter = {
   parameterPath: "capability",
   mapper: CapabilityMapper
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
 };
 
 export const locationName: OperationURLParameter = {
