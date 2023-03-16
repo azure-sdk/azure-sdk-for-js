@@ -1774,13 +1774,13 @@ export type ColumnTypeEnum = string;
 
 /** Known values of {@link ColumnDataTypeHintEnum} that the service accepts. */
 export enum KnownColumnDataTypeHintEnum {
-  /** A string that matches the pattern of a URI, for example, scheme://username:password@host:1234/this/is/a/path?k1=v1&k2=v2#fragment */
+  /** A string that matches the pattern of a URI, for example, scheme:\//username:password@host:1234\/this\/is\/a\/path?k1=v1&k2=v2#fragment */
   Uri = "uri",
   /** A standard 128-bit GUID following the standard shape, xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx */
   Guid = "guid",
-  /** An Azure Resource Model (ARM) path: /subscriptions/{...}/resourceGroups/{...}/providers/Microsoft.{...}/{...}/{...}/{...}... */
+  /** An Azure Resource Model (ARM) path: \/subscriptions\/{...}\/resourceGroups\/{...}\/providers\/Microsoft.{...}\/{...}\/{...}\/{...}... */
   ArmPath = "armPath",
-  /** A standard V4/V6 ip address following the standard shape, x.x.x.x/y:y:y:y:y:y:y:y */
+  /** A standard V4\/V6 ip address following the standard shape, x.x.x.x\/y:y:y:y:y:y:y:y */
   Ip = "ip"
 }
 
@@ -1866,7 +1866,9 @@ export enum KnownProvisioningStateEnum {
   /** Table schema is stable and without changes, table data is being updated. */
   InProgress = "InProgress",
   /** Table state is stable and without changes, table is unlocked and open for new updates. */
-  Succeeded = "Succeeded"
+  Succeeded = "Succeeded",
+  /** Table state is deleting. */
+  Deleting = "Deleting"
 }
 
 /**
@@ -1876,7 +1878,8 @@ export enum KnownProvisioningStateEnum {
  * ### Known values supported by the service
  * **Updating**: Table schema is still being built and updated, table is currently locked for any changes till the procedure is done. \
  * **InProgress**: Table schema is stable and without changes, table data is being updated. \
- * **Succeeded**: Table state is stable and without changes, table is unlocked and open for new updates.
+ * **Succeeded**: Table state is stable and without changes, table is unlocked and open for new updates. \
+ * **Deleting**: Table state is deleting.
  */
 export type ProvisioningStateEnum = string;
 /** Defines values for DataSourceType. */
