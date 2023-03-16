@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SubscriptionClient } from "../subscriptionClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   PutAliasRequest,
   AliasCreateOptionalParams,
@@ -49,7 +53,7 @@ export class AliasImpl implements Alias {
     body: PutAliasRequest,
     options?: AliasCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<AliasCreateResponse>, AliasCreateResponse>
+    SimplePollerLike<OperationState<AliasCreateResponse>, AliasCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -57,7 +61,7 @@ export class AliasImpl implements Alias {
     ): Promise<AliasCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -90,13 +94,16 @@ export class AliasImpl implements Alias {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { aliasName, body, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { aliasName, body, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AliasCreateResponse,
+      OperationState<AliasCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -186,7 +193,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.body2,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.aliasName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -203,7 +210,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseBody
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.aliasName],
   headerParameters: [Parameters.accept],
   serializer
@@ -218,7 +225,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseBody
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.aliasName],
   headerParameters: [Parameters.accept],
   serializer
@@ -234,7 +241,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseBody
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer

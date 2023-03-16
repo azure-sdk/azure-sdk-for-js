@@ -8,20 +8,21 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  SubscriptionsImpl,
-  TenantsImpl,
-  SubscriptionOperationsImpl,
+  SubscriptionImpl,
   OperationsImpl,
   AliasImpl,
   SubscriptionPolicyImpl,
   BillingAccountImpl
 } from "./operations";
 import {
-  Subscriptions,
-  Tenants,
-  SubscriptionOperations,
+  Subscription,
   Operations,
   Alias,
   SubscriptionPolicy,
@@ -31,6 +32,7 @@ import { SubscriptionClientOptionalParams } from "./models";
 
 export class SubscriptionClient extends coreClient.ServiceClient {
   $host: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the SubscriptionClient class.
@@ -54,7 +56,7 @@ export class SubscriptionClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-subscriptions/5.1.1`;
+    const packageDetails = `azsdk-js-arm-subscriptions/6.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -105,18 +107,44 @@ export class SubscriptionClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.subscriptions = new SubscriptionsImpl(this);
-    this.tenants = new TenantsImpl(this);
-    this.subscriptionOperations = new SubscriptionOperationsImpl(this);
+    this.apiVersion = options.apiVersion || "2021-10-01-preview";
+    this.subscription = new SubscriptionImpl(this);
     this.operations = new OperationsImpl(this);
     this.alias = new AliasImpl(this);
     this.subscriptionPolicy = new SubscriptionPolicyImpl(this);
     this.billingAccount = new BillingAccountImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
-  subscriptions: Subscriptions;
-  tenants: Tenants;
-  subscriptionOperations: SubscriptionOperations;
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
+  }
+
+  subscription: Subscription;
   operations: Operations;
   alias: Alias;
   subscriptionPolicy: SubscriptionPolicy;

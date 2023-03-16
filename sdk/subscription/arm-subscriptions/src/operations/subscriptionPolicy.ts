@@ -164,7 +164,7 @@ const addUpdatePolicyForTenantOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.body3,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -181,7 +181,7 @@ const getPolicyForTenantOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseBody
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer
@@ -197,7 +197,7 @@ const listPolicyForTenantOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseBody
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer
@@ -213,7 +213,6 @@ const listPolicyForTenantNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseBody
     }
   },
-  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

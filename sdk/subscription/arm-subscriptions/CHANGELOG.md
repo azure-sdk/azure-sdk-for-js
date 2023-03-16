@@ -1,15 +1,22 @@
 # Release History
+    
+## 6.0.0-beta.1 (2023-03-16)
+    
+**Features**
 
-## 5.1.1 (Unreleased)
+  - Added operation group Subscription
+  - Interface SubscriptionClientOptionalParams has a new optional parameter apiVersion
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group SubscriptionOperations
+  - Removed operation group Subscriptions
+  - Removed operation group Tenants
+  - Class SubscriptionClient no longer has parameter subscriptionOperations
+  - Class SubscriptionClient no longer has parameter subscriptions
+  - Class SubscriptionClient no longer has parameter tenants
+    
+    
 ## 5.1.0 (2022-11-11)
     
 **Features**

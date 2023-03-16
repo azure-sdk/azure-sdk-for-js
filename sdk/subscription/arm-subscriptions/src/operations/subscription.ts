@@ -6,13 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SubscriptionOperations } from "../operationsInterfaces";
+import { Subscription } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SubscriptionClient } from "../subscriptionClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SubscriptionCancelOptionalParams,
   SubscriptionCancelResponse,
@@ -28,12 +32,12 @@ import {
   SubscriptionAcceptOwnershipStatusResponse
 } from "../models";
 
-/** Class containing SubscriptionOperations operations. */
-export class SubscriptionOperationsImpl implements SubscriptionOperations {
+/** Class containing Subscription operations. */
+export class SubscriptionImpl implements Subscription {
   private readonly client: SubscriptionClient;
 
   /**
-   * Initialize a new instance of the class SubscriptionOperations class.
+   * Initialize a new instance of the class Subscription class.
    * @param client Reference to the service client
    */
   constructor(client: SubscriptionClient) {
@@ -98,8 +102,8 @@ export class SubscriptionOperationsImpl implements SubscriptionOperations {
     body: AcceptOwnershipRequest,
     options?: SubscriptionAcceptOwnershipOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SubscriptionAcceptOwnershipResponse>,
+    SimplePollerLike<
+      OperationState<SubscriptionAcceptOwnershipResponse>,
       SubscriptionAcceptOwnershipResponse
     >
   > {
@@ -109,7 +113,7 @@ export class SubscriptionOperationsImpl implements SubscriptionOperations {
     ): Promise<SubscriptionAcceptOwnershipResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -142,13 +146,16 @@ export class SubscriptionOperationsImpl implements SubscriptionOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { subscriptionId, body, options },
-      acceptOwnershipOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { subscriptionId, body, options },
+      spec: acceptOwnershipOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SubscriptionAcceptOwnershipResponse,
+      OperationState<SubscriptionAcceptOwnershipResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -204,7 +211,7 @@ const cancelOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseBody
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -222,7 +229,7 @@ const renameOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.body,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -240,7 +247,7 @@ const enableOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseBody
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -267,7 +274,7 @@ const acceptOwnershipOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.body1,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -285,7 +292,7 @@ const acceptOwnershipStatusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseBody
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
