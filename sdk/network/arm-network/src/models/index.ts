@@ -3070,6 +3070,8 @@ export interface ConnectivityParameters {
   destination: ConnectivityDestination;
   /** Network protocol. */
   protocol?: Protocol;
+  /** Analysis Modes. */
+  analysisModes?: AnalysisModes;
   /** Configuration of the protocol. */
   protocolConfiguration?: ProtocolConfiguration;
   /** Preferred IP version of the connection. */
@@ -3082,6 +3084,10 @@ export interface ConnectivitySource {
   resourceId: string;
   /** The source port from which a connectivity check will be performed. */
   port?: number;
+  /** The IP address of the NIC chosen. */
+  address?: string;
+  /** The vmss index from which a connectivity check will be performed. */
+  vmssIndex?: string;
 }
 
 /** Parameters that define destination of connection. */
@@ -3155,6 +3161,16 @@ export interface ConnectivityInformation {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly probesFailed?: number;
+  /** The NextHop Details from the source. */
+  nextHopAnalysis?: NextHopResult;
+  /** SecurityAnalysis results at the source endpoint. */
+  sourceSecurityRuleAnalysis?: NetworkConfigurationDiagnosticResponse;
+  /** SecurityAnalysis results at the destination endpoint. */
+  destinationSecurityRuleAnalysis?: NetworkConfigurationDiagnosticResponse;
+  /** Port Status at the Source. */
+  sourcePortStatus?: SourcePortStatus;
+  /** Port Status at the Destination. */
+  destinationPortStatus?: DestinationPortStatus;
 }
 
 /** Information about a hop between the source and the destination. */
@@ -3274,6 +3290,87 @@ export interface ConnectivityIssue {
   readonly context?: { [propertyName: string]: string }[];
 }
 
+/** Results of network configuration diagnostic on the target resource. */
+export interface NetworkConfigurationDiagnosticResponse {
+  /**
+   * List of network configuration diagnostic results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly results?: NetworkConfigurationDiagnosticResult[];
+}
+
+/** Network configuration diagnostic result corresponded to provided traffic query. */
+export interface NetworkConfigurationDiagnosticResult {
+  /** Network configuration diagnostic profile. */
+  profile?: NetworkConfigurationDiagnosticProfile;
+  /** Network security group result. */
+  networkSecurityGroupResult?: NetworkSecurityGroupResult;
+}
+
+/** Parameters to compare with network configuration. */
+export interface NetworkConfigurationDiagnosticProfile {
+  /** The direction of the traffic. */
+  direction: Direction;
+  /** Protocol to be verified on. Accepted values are '*', TCP, UDP. */
+  protocol: string;
+  /** Traffic source. Accepted values are '*', IP Address/CIDR, Service Tag. */
+  source: string;
+  /** Traffic destination. Accepted values are: '*', IP Address/CIDR, Service Tag. */
+  destination: string;
+  /** Traffic destination port. Accepted values are '*' and a single port in the range (0 - 65535). */
+  destinationPort: string;
+}
+
+/** Network configuration diagnostic result corresponded provided traffic query. */
+export interface NetworkSecurityGroupResult {
+  /** The network traffic is allowed or denied. */
+  securityRuleAccessResult?: SecurityRuleAccess;
+  /**
+   * List of results network security groups diagnostic.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly evaluatedNetworkSecurityGroups?: EvaluatedNetworkSecurityGroup[];
+}
+
+/** Results of network security group evaluation. */
+export interface EvaluatedNetworkSecurityGroup {
+  /** Network security group ID. */
+  networkSecurityGroupId?: string;
+  /** Resource ID of nic or subnet to which network security group is applied. */
+  appliedTo?: string;
+  /** Matched network security rule. */
+  matchedRule?: MatchedRule;
+  /**
+   * List of network security rules evaluation results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rulesEvaluationResult?: NetworkSecurityRulesEvaluationResult[];
+}
+
+/** Matched rule. */
+export interface MatchedRule {
+  /** Name of the matched network security rule. */
+  ruleName?: string;
+  /** The network traffic is allowed or denied. Possible values are 'Allow' and 'Deny'. */
+  action?: string;
+}
+
+/** Network security rules evaluation result. */
+export interface NetworkSecurityRulesEvaluationResult {
+  /** Name of the network security rule. */
+  name?: string;
+  /** Value indicating whether protocol is matched. */
+  protocolMatched?: boolean;
+  /** Value indicating whether source is matched. */
+  sourceMatched?: boolean;
+  /** Value indicating whether source port is matched. */
+  sourcePortMatched?: boolean;
+  /** Value indicating whether destination is matched. */
+  destinationMatched?: boolean;
+  /** Value indicating whether destination port is matched. */
+  destinationPortMatched?: boolean;
+}
+
 /** Geographic and time constraints for Azure reachability report. */
 export interface AzureReachabilityReportParameters {
   /** Parameters that define a geographic location. */
@@ -3380,87 +3477,6 @@ export interface NetworkConfigurationDiagnosticParameters {
   verbosityLevel?: VerbosityLevel;
   /** List of network configuration diagnostic profiles. */
   profiles: NetworkConfigurationDiagnosticProfile[];
-}
-
-/** Parameters to compare with network configuration. */
-export interface NetworkConfigurationDiagnosticProfile {
-  /** The direction of the traffic. */
-  direction: Direction;
-  /** Protocol to be verified on. Accepted values are '*', TCP, UDP. */
-  protocol: string;
-  /** Traffic source. Accepted values are '*', IP Address/CIDR, Service Tag. */
-  source: string;
-  /** Traffic destination. Accepted values are: '*', IP Address/CIDR, Service Tag. */
-  destination: string;
-  /** Traffic destination port. Accepted values are '*' and a single port in the range (0 - 65535). */
-  destinationPort: string;
-}
-
-/** Results of network configuration diagnostic on the target resource. */
-export interface NetworkConfigurationDiagnosticResponse {
-  /**
-   * List of network configuration diagnostic results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly results?: NetworkConfigurationDiagnosticResult[];
-}
-
-/** Network configuration diagnostic result corresponded to provided traffic query. */
-export interface NetworkConfigurationDiagnosticResult {
-  /** Network configuration diagnostic profile. */
-  profile?: NetworkConfigurationDiagnosticProfile;
-  /** Network security group result. */
-  networkSecurityGroupResult?: NetworkSecurityGroupResult;
-}
-
-/** Network configuration diagnostic result corresponded provided traffic query. */
-export interface NetworkSecurityGroupResult {
-  /** The network traffic is allowed or denied. */
-  securityRuleAccessResult?: SecurityRuleAccess;
-  /**
-   * List of results network security groups diagnostic.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly evaluatedNetworkSecurityGroups?: EvaluatedNetworkSecurityGroup[];
-}
-
-/** Results of network security group evaluation. */
-export interface EvaluatedNetworkSecurityGroup {
-  /** Network security group ID. */
-  networkSecurityGroupId?: string;
-  /** Resource ID of nic or subnet to which network security group is applied. */
-  appliedTo?: string;
-  /** Matched network security rule. */
-  matchedRule?: MatchedRule;
-  /**
-   * List of network security rules evaluation results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rulesEvaluationResult?: NetworkSecurityRulesEvaluationResult[];
-}
-
-/** Matched rule. */
-export interface MatchedRule {
-  /** Name of the matched network security rule. */
-  ruleName?: string;
-  /** The network traffic is allowed or denied. Possible values are 'Allow' and 'Deny'. */
-  action?: string;
-}
-
-/** Network security rules evaluation result. */
-export interface NetworkSecurityRulesEvaluationResult {
-  /** Name of the network security rule. */
-  name?: string;
-  /** Value indicating whether protocol is matched. */
-  protocolMatched?: boolean;
-  /** Value indicating whether source is matched. */
-  sourceMatched?: boolean;
-  /** Value indicating whether source port is matched. */
-  sourcePortMatched?: boolean;
-  /** Value indicating whether destination is matched. */
-  destinationMatched?: boolean;
-  /** Value indicating whether destination port is matched. */
-  destinationPortMatched?: boolean;
 }
 
 /** Parameters that define the operation to create a connection monitor. */
@@ -6416,7 +6432,7 @@ export interface Subnet extends SubResource {
   /** Enable or Disable apply network policies on private link service in the subnet. */
   privateLinkServiceNetworkPolicies?: VirtualNetworkPrivateLinkServiceNetworkPolicies;
   /** Application gateway IP configurations of virtual network resource. */
-  applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
+  applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
 }
 
 /** Frontend IP address of the load balancer. */
@@ -13824,6 +13840,30 @@ export enum KnownProtocol {
  */
 export type Protocol = string;
 
+/** Known values of {@link AnalysisModes} that the service accepts. */
+export enum KnownAnalysisModes {
+  /** NextHop */
+  NextHop = "NextHop",
+  /** NCD */
+  NCD = "NCD",
+  /** PortScan */
+  PortScan = "PortScan",
+  /** Default */
+  Default = "Default"
+}
+
+/**
+ * Defines values for AnalysisModes. \
+ * {@link KnownAnalysisModes} can be used interchangeably with AnalysisModes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NextHop** \
+ * **NCD** \
+ * **PortScan** \
+ * **Default**
+ */
+export type AnalysisModes = string;
+
 /** Known values of {@link HttpMethod} that the service accepts. */
 export enum KnownHttpMethod {
   /** Get */
@@ -13940,6 +13980,60 @@ export enum KnownConnectionStatus {
  * **Degraded**
  */
 export type ConnectionStatus = string;
+
+/** Known values of {@link SourcePortStatus} that the service accepts. */
+export enum KnownSourcePortStatus {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Reachable */
+  Reachable = "Reachable",
+  /** Unstable */
+  Unstable = "Unstable",
+  /** NoConnection */
+  NoConnection = "NoConnection",
+  /** Timeout */
+  Timeout = "Timeout"
+}
+
+/**
+ * Defines values for SourcePortStatus. \
+ * {@link KnownSourcePortStatus} can be used interchangeably with SourcePortStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Reachable** \
+ * **Unstable** \
+ * **NoConnection** \
+ * **Timeout**
+ */
+export type SourcePortStatus = string;
+
+/** Known values of {@link DestinationPortStatus} that the service accepts. */
+export enum KnownDestinationPortStatus {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Reachable */
+  Reachable = "Reachable",
+  /** Unstable */
+  Unstable = "Unstable",
+  /** NoConnection */
+  NoConnection = "NoConnection",
+  /** Timeout */
+  Timeout = "Timeout"
+}
+
+/**
+ * Defines values for DestinationPortStatus. \
+ * {@link KnownDestinationPortStatus} can be used interchangeably with DestinationPortStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Reachable** \
+ * **Unstable** \
+ * **NoConnection** \
+ * **Timeout**
+ */
+export type DestinationPortStatus = string;
 
 /** Known values of {@link VerbosityLevel} that the service accepts. */
 export enum KnownVerbosityLevel {
