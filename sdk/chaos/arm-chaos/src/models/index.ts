@@ -13,7 +13,6 @@ export type ActionUnion =
   | DelayAction
   | DiscreteAction
   | ContinuousAction;
-export type FilterUnion = Filter | SimpleFilter;
 
 /** Model that represents a list of Capability resources and a link for pagination. */
 export interface CapabilityListResult {
@@ -150,10 +149,14 @@ export interface ExperimentListResult {
   readonly nextLink?: string;
 }
 
-/** The managed identity of a resource. */
+/** The identity of a resource. */
 export interface ResourceIdentity {
   /** String of the resource identity type. */
   type: ResourceIdentityType;
+  /** The list of user identities associated with the experiment. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: {
+    [propertyName: string]: ComponentsEwb5TmSchemasUserassignedidentitiesAdditionalproperties;
+  };
   /**
    * GUID that represents the principal ID of this resource identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -164,6 +167,20 @@ export interface ResourceIdentity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
+}
+
+/** The list of user identities associated with the experiment. */
+export interface ComponentsEwb5TmSchemasUserassignedidentitiesAdditionalproperties {
+  /**
+   * The principal id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 /** Model that represents a step in the Experiment resource. */
@@ -198,8 +215,6 @@ export interface Selector {
   id: string;
   /** List of Target references. */
   targets: TargetReference[];
-  /** Model that represents available filter types that can be applied to a targets list. */
-  filter?: FilterUnion;
 }
 
 /** Model that represents a reference to a Target in the selector. */
@@ -210,10 +225,10 @@ export interface TargetReference {
   id: string;
 }
 
-/** Model that represents available filter types that can be applied to a targets list. */
-export interface Filter {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Simple";
+/** Describes an experiment update. */
+export interface ExperimentUpdate {
+  /** The identity of the experiment resource. */
+  identity?: ResourceIdentity;
 }
 
 /** Model that represents the result of a cancel Experiment operation. */
@@ -599,12 +614,6 @@ export interface KeyValuePair {
   value: string;
 }
 
-/** Model that represents the Simple filter parameters. */
-export interface SimpleFilterParameters {
-  /** List of Azure availability zones to filter targets by. */
-  zones?: string[];
-}
-
 /** Model that represents a Capability resource. */
 export interface Capability extends Resource {
   /**
@@ -769,14 +778,6 @@ export interface ContinuousAction extends Action {
   selectorId: string;
 }
 
-/** Model that represents a simple target filter. */
-export interface SimpleFilter extends Filter {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Simple";
-  /** Model that represents the Simple filter parameters. */
-  parameters?: SimpleFilterParameters;
-}
-
 /** Model that represents a Experiment resource. */
 export interface Experiment extends TrackedResource {
   /**
@@ -792,6 +793,16 @@ export interface Experiment extends TrackedResource {
   selectors: Selector[];
   /** A boolean value that indicates if experiment should be started on creation or not. */
   startOnCreation?: boolean;
+}
+
+/** Defines headers for Experiments_cancel operation. */
+export interface ExperimentsCancelHeaders {
+  location?: string;
+}
+
+/** Defines headers for Experiments_start operation. */
+export interface ExperimentsStartHeaders {
+  location?: string;
 }
 
 /** Known values of {@link CreatedByType} that the service accepts. */
@@ -817,21 +828,6 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
-
-/** Known values of {@link FilterType} that the service accepts. */
-export enum KnownFilterType {
-  /** Simple */
-  Simple = "Simple"
-}
-
-/**
- * Defines values for FilterType. \
- * {@link KnownFilterType} can be used interchangeably with FilterType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Simple**
- */
-export type FilterType = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
@@ -869,7 +865,7 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 /** Defines values for ResourceIdentityType. */
-export type ResourceIdentityType = "None" | "SystemAssigned";
+export type ResourceIdentityType = "None" | "SystemAssigned" | "UserAssigned";
 /** Defines values for SelectorType. */
 export type SelectorType = "Percent" | "Random" | "Tag" | "List";
 
@@ -969,24 +965,48 @@ export type ExperimentsGetResponse = Experiment;
 
 /** Optional parameters. */
 export interface ExperimentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ExperimentsCreateOrUpdateResponse = Experiment;
 
 /** Optional parameters. */
-export interface ExperimentsCancelOptionalParams
+export interface ExperimentsUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
+/** Contains response data for the update operation. */
+export type ExperimentsUpdateResponse = Experiment;
+
+/** Optional parameters. */
+export interface ExperimentsCancelOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
 /** Contains response data for the cancel operation. */
-export type ExperimentsCancelResponse = ExperimentCancelOperationResult;
+export type ExperimentsCancelResponse = ExperimentsCancelHeaders &
+  ExperimentCancelOperationResult;
 
 /** Optional parameters. */
 export interface ExperimentsStartOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the start operation. */
-export type ExperimentsStartResponse = ExperimentStartOperationResult;
+export type ExperimentsStartResponse = ExperimentsStartHeaders &
+  ExperimentStartOperationResult;
 
 /** Optional parameters. */
 export interface ExperimentsListAllStatusesOptionalParams

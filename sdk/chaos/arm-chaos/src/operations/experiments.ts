@@ -14,6 +14,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ChaosManagementClient } from "../chaosManagementClient";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   Experiment,
   ExperimentsListAllNextOptionalParams,
   ExperimentsListAllOptionalParams,
@@ -34,6 +40,9 @@ import {
   ExperimentsGetResponse,
   ExperimentsCreateOrUpdateOptionalParams,
   ExperimentsCreateOrUpdateResponse,
+  ExperimentUpdate,
+  ExperimentsUpdateOptionalParams,
+  ExperimentsUpdateResponse,
   ExperimentsCancelOptionalParams,
   ExperimentsCancelResponse,
   ExperimentsStartOptionalParams,
@@ -411,15 +420,111 @@ export class ExperimentsImpl implements Experiments {
    * @param experiment Experiment resource to be created or updated.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
+    resourceGroupName: string,
+    experimentName: string,
+    experiment: Experiment,
+    options?: ExperimentsCreateOrUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ExperimentsCreateOrUpdateResponse>,
+      ExperimentsCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ExperimentsCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, experimentName, experiment, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ExperimentsCreateOrUpdateResponse,
+      OperationState<ExperimentsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create or update a Experiment resource.
+   * @param resourceGroupName String that represents an Azure resource group.
+   * @param experimentName String that represents a Experiment resource name.
+   * @param experiment Experiment resource to be created or updated.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     experimentName: string,
     experiment: Experiment,
     options?: ExperimentsCreateOrUpdateOptionalParams
   ): Promise<ExperimentsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      experimentName,
+      experiment,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * The operation to update an experiment.
+   * @param resourceGroupName String that represents an Azure resource group.
+   * @param experimentName String that represents a Experiment resource name.
+   * @param experiment Parameters supplied to the Update experiment operation.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    experimentName: string,
+    experiment: ExperimentUpdate,
+    options?: ExperimentsUpdateOptionalParams
+  ): Promise<ExperimentsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, experimentName, experiment, options },
-      createOrUpdateOperationSpec
+      updateOperationSpec
     );
   }
 
@@ -429,15 +534,89 @@ export class ExperimentsImpl implements Experiments {
    * @param experimentName String that represents a Experiment resource name.
    * @param options The options parameters.
    */
-  cancel(
+  async beginCancel(
+    resourceGroupName: string,
+    experimentName: string,
+    options?: ExperimentsCancelOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ExperimentsCancelResponse>,
+      ExperimentsCancelResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ExperimentsCancelResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, experimentName, options },
+      spec: cancelOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ExperimentsCancelResponse,
+      OperationState<ExperimentsCancelResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Cancel a running Experiment resource.
+   * @param resourceGroupName String that represents an Azure resource group.
+   * @param experimentName String that represents a Experiment resource name.
+   * @param options The options parameters.
+   */
+  async beginCancelAndWait(
     resourceGroupName: string,
     experimentName: string,
     options?: ExperimentsCancelOptionalParams
   ): Promise<ExperimentsCancelResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, experimentName, options },
-      cancelOperationSpec
+    const poller = await this.beginCancel(
+      resourceGroupName,
+      experimentName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -446,15 +625,89 @@ export class ExperimentsImpl implements Experiments {
    * @param experimentName String that represents a Experiment resource name.
    * @param options The options parameters.
    */
-  start(
+  async beginStart(
+    resourceGroupName: string,
+    experimentName: string,
+    options?: ExperimentsStartOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ExperimentsStartResponse>,
+      ExperimentsStartResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ExperimentsStartResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, experimentName, options },
+      spec: startOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ExperimentsStartResponse,
+      OperationState<ExperimentsStartResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Start a Experiment resource.
+   * @param resourceGroupName String that represents an Azure resource group.
+   * @param experimentName String that represents a Experiment resource name.
+   * @param options The options parameters.
+   */
+  async beginStartAndWait(
     resourceGroupName: string,
     experimentName: string,
     options?: ExperimentsStartOptionalParams
   ): Promise<ExperimentsStartResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, experimentName, options },
-      startOperationSpec
+    const poller = await this.beginStart(
+      resourceGroupName,
+      experimentName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -698,6 +951,15 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.Experiment
     },
+    201: {
+      bodyMapper: Mappers.Experiment
+    },
+    202: {
+      bodyMapper: Mappers.Experiment
+    },
+    204: {
+      bodyMapper: Mappers.Experiment
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -714,13 +976,50 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Experiment
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.experiment1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.experimentName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const cancelOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/cancel",
   httpMethod: "POST",
   responses: {
+    200: {
+      bodyMapper: Mappers.ExperimentCancelOperationResult,
+      headersMapper: Mappers.ExperimentsCancelHeaders
+    },
+    201: {
+      bodyMapper: Mappers.ExperimentCancelOperationResult,
+      headersMapper: Mappers.ExperimentsCancelHeaders
+    },
     202: {
-      bodyMapper: Mappers.ExperimentCancelOperationResult
+      bodyMapper: Mappers.ExperimentCancelOperationResult,
+      headersMapper: Mappers.ExperimentsCancelHeaders
+    },
+    204: {
+      bodyMapper: Mappers.ExperimentCancelOperationResult,
+      headersMapper: Mappers.ExperimentsCancelHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -741,8 +1040,21 @@ const startOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/start",
   httpMethod: "POST",
   responses: {
+    200: {
+      bodyMapper: Mappers.ExperimentStartOperationResult,
+      headersMapper: Mappers.ExperimentsStartHeaders
+    },
+    201: {
+      bodyMapper: Mappers.ExperimentStartOperationResult,
+      headersMapper: Mappers.ExperimentsStartHeaders
+    },
     202: {
-      bodyMapper: Mappers.ExperimentStartOperationResult
+      bodyMapper: Mappers.ExperimentStartOperationResult,
+      headersMapper: Mappers.ExperimentsStartHeaders
+    },
+    204: {
+      bodyMapper: Mappers.ExperimentStartOperationResult,
+      headersMapper: Mappers.ExperimentsStartHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

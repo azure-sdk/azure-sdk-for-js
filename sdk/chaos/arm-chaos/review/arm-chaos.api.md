@@ -6,7 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface Action {
@@ -185,6 +187,12 @@ export interface ChaosManagementClientOptionalParams extends coreClient.ServiceC
 }
 
 // @public
+export interface ComponentsEwb5TmSchemasUserassignedidentitiesAdditionalproperties {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
 export interface ContinuousAction extends Action {
     duration: string;
     parameters: KeyValuePair[];
@@ -292,8 +300,12 @@ export interface ExperimentListResult {
 
 // @public
 export interface Experiments {
-    cancel(resourceGroupName: string, experimentName: string, options?: ExperimentsCancelOptionalParams): Promise<ExperimentsCancelResponse>;
-    createOrUpdate(resourceGroupName: string, experimentName: string, experiment: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<ExperimentsCreateOrUpdateResponse>;
+    beginCancel(resourceGroupName: string, experimentName: string, options?: ExperimentsCancelOptionalParams): Promise<SimplePollerLike<OperationState<ExperimentsCancelResponse>, ExperimentsCancelResponse>>;
+    beginCancelAndWait(resourceGroupName: string, experimentName: string, options?: ExperimentsCancelOptionalParams): Promise<ExperimentsCancelResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, experimentName: string, experiment: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExperimentsCreateOrUpdateResponse>, ExperimentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, experimentName: string, experiment: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<ExperimentsCreateOrUpdateResponse>;
+    beginStart(resourceGroupName: string, experimentName: string, options?: ExperimentsStartOptionalParams): Promise<SimplePollerLike<OperationState<ExperimentsStartResponse>, ExperimentsStartResponse>>;
+    beginStartAndWait(resourceGroupName: string, experimentName: string, options?: ExperimentsStartOptionalParams): Promise<ExperimentsStartResponse>;
     delete(resourceGroupName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, experimentName: string, options?: ExperimentsGetOptionalParams): Promise<ExperimentsGetResponse>;
     getExecutionDetails(resourceGroupName: string, experimentName: string, executionDetailsId: string, options?: ExperimentsGetExecutionDetailsOptionalParams): Promise<ExperimentsGetExecutionDetailsResponse>;
@@ -302,18 +314,28 @@ export interface Experiments {
     listAll(options?: ExperimentsListAllOptionalParams): PagedAsyncIterableIterator<Experiment>;
     listAllStatuses(resourceGroupName: string, experimentName: string, options?: ExperimentsListAllStatusesOptionalParams): PagedAsyncIterableIterator<ExperimentStatus>;
     listExecutionDetails(resourceGroupName: string, experimentName: string, options?: ExperimentsListExecutionDetailsOptionalParams): PagedAsyncIterableIterator<ExperimentExecutionDetails>;
-    start(resourceGroupName: string, experimentName: string, options?: ExperimentsStartOptionalParams): Promise<ExperimentsStartResponse>;
+    update(resourceGroupName: string, experimentName: string, experiment: ExperimentUpdate, options?: ExperimentsUpdateOptionalParams): Promise<ExperimentsUpdateResponse>;
+}
+
+// @public
+export interface ExperimentsCancelHeaders {
+    // (undocumented)
+    location?: string;
 }
 
 // @public
 export interface ExperimentsCancelOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type ExperimentsCancelResponse = ExperimentCancelOperationResult;
+export type ExperimentsCancelResponse = ExperimentsCancelHeaders & ExperimentCancelOperationResult;
 
 // @public
 export interface ExperimentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -405,11 +427,19 @@ export interface ExperimentsListOptionalParams extends coreClient.OperationOptio
 export type ExperimentsListResponse = ExperimentListResult;
 
 // @public
-export interface ExperimentsStartOptionalParams extends coreClient.OperationOptions {
+export interface ExperimentsStartHeaders {
+    // (undocumented)
+    location?: string;
 }
 
 // @public
-export type ExperimentsStartResponse = ExperimentStartOperationResult;
+export interface ExperimentsStartOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ExperimentsStartResponse = ExperimentsStartHeaders & ExperimentStartOperationResult;
 
 // @public
 export interface ExperimentStartOperationResult {
@@ -434,15 +464,16 @@ export interface ExperimentStatusListResult {
 }
 
 // @public
-export interface Filter {
-    type: "Simple";
+export interface ExperimentsUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type FilterType = string;
+export type ExperimentsUpdateResponse = Experiment;
 
-// @public (undocumented)
-export type FilterUnion = Filter | SimpleFilter;
+// @public
+export interface ExperimentUpdate {
+    identity?: ResourceIdentity;
+}
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
@@ -464,11 +495,6 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
-}
-
-// @public
-export enum KnownFilterType {
-    Simple = "Simple"
 }
 
 // @public
@@ -535,14 +561,16 @@ export interface ResourceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ResourceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: ComponentsEwb5TmSchemasUserassignedidentitiesAdditionalproperties;
+    };
 }
 
 // @public
-export type ResourceIdentityType = "None" | "SystemAssigned";
+export type ResourceIdentityType = "None" | "SystemAssigned" | "UserAssigned";
 
 // @public
 export interface Selector {
-    filter?: FilterUnion;
     id: string;
     targets: TargetReference[];
     type: SelectorType;
@@ -550,17 +578,6 @@ export interface Selector {
 
 // @public
 export type SelectorType = "Percent" | "Random" | "Tag" | "List";
-
-// @public
-export interface SimpleFilter extends Filter {
-    parameters?: SimpleFilterParameters;
-    type: "Simple";
-}
-
-// @public
-export interface SimpleFilterParameters {
-    zones?: string[];
-}
 
 // @public
 export interface Step {

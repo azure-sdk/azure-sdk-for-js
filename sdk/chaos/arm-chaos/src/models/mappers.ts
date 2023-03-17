@@ -304,7 +304,20 @@ export const ResourceIdentity: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Enum",
-          allowedValues: ["None", "SystemAssigned"]
+          allowedValues: ["None", "SystemAssigned", "UserAssigned"]
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className:
+                "ComponentsEwb5TmSchemasUserassignedidentitiesAdditionalproperties"
+            }
+          }
         }
       },
       principalId: {
@@ -326,6 +339,30 @@ export const ResourceIdentity: coreClient.CompositeMapper = {
           )
         },
         serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ComponentsEwb5TmSchemasUserassignedidentitiesAdditionalproperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "ComponentsEwb5TmSchemasUserassignedidentitiesAdditionalproperties",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
         readOnly: true,
         type: {
           name: "String"
@@ -474,13 +511,6 @@ export const Selector: coreClient.CompositeMapper = {
             }
           }
         }
-      },
-      filter: {
-        serializedName: "filter",
-        type: {
-          name: "Composite",
-          className: "Filter"
-        }
       }
     }
   }
@@ -515,21 +545,16 @@ export const TargetReference: coreClient.CompositeMapper = {
   }
 };
 
-export const Filter: coreClient.CompositeMapper = {
+export const ExperimentUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Filter",
-    uberParent: "Filter",
-    polymorphicDiscriminator: {
-      serializedName: "type",
-      clientName: "type"
-    },
+    className: "ExperimentUpdate",
     modelProperties: {
-      type: {
-        serializedName: "type",
-        required: true,
+      identity: {
+        serializedName: "identity",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "ResourceIdentity"
         }
       }
     }
@@ -1231,26 +1256,6 @@ export const KeyValuePair: coreClient.CompositeMapper = {
   }
 };
 
-export const SimpleFilterParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SimpleFilterParameters",
-    modelProperties: {
-      zones: {
-        serializedName: "zones",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const Capability: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1617,26 +1622,6 @@ export const ContinuousAction: coreClient.CompositeMapper = {
   }
 };
 
-export const SimpleFilter: coreClient.CompositeMapper = {
-  serializedName: "Simple",
-  type: {
-    name: "Composite",
-    className: "SimpleFilter",
-    uberParent: "Filter",
-    polymorphicDiscriminator: Filter.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...Filter.type.modelProperties,
-      parameters: {
-        serializedName: "parameters",
-        type: {
-          name: "Composite",
-          className: "SimpleFilterParameters"
-        }
-      }
-    }
-  }
-};
-
 export const Experiment: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1700,11 +1685,39 @@ export const Experiment: coreClient.CompositeMapper = {
   }
 };
 
+export const ExperimentsCancelHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExperimentsCancelHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExperimentsStartHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExperimentsStartHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export let discriminators = {
   Action: Action,
-  Filter: Filter,
   "Action.delay": DelayAction,
   "Action.discrete": DiscreteAction,
-  "Action.continuous": ContinuousAction,
-  "Filter.Simple": SimpleFilter
+  "Action.continuous": ContinuousAction
 };
