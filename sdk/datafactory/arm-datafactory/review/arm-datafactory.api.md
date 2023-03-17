@@ -3661,7 +3661,14 @@ export interface IntegrationRuntimeDataFlowProperties {
     cleanup?: boolean;
     computeType?: DataFlowComputeType;
     coreCount?: number;
+    customProperties?: IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem[];
     timeToLive?: number;
+}
+
+// @public (undocumented)
+export interface IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem {
+    name?: string;
+    value?: string;
 }
 
 // @public

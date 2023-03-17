@@ -2550,6 +2550,15 @@ export interface IntegrationRuntimeDataFlowProperties {
   timeToLive?: number;
   /** Cluster will not be recycled and it will be used in next data flow activity run until TTL (time to live) is reached if this is set as false. Default is true. */
   cleanup?: boolean;
+  /** Custom properties are used to tune the data flow runtime performance. */
+  customProperties?: IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem[];
+}
+
+export interface IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem {
+  /** Name of custom property. */
+  name?: string;
+  /** Value of custom property. */
+  value?: string;
 }
 
 /** VNet properties for managed integration runtime. */
