@@ -7349,6 +7349,91 @@ export const A2AExtendedLocationDetails: coreClient.CompositeMapper = {
   }
 };
 
+export const A2AFabricSpecificLocationDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "A2AFabricSpecificLocationDetails",
+    modelProperties: {
+      initialPrimaryZone: {
+        serializedName: "initialPrimaryZone",
+        type: {
+          name: "String"
+        }
+      },
+      initialRecoveryZone: {
+        serializedName: "initialRecoveryZone",
+        type: {
+          name: "String"
+        }
+      },
+      initialPrimaryExtendedLocation: {
+        serializedName: "initialPrimaryExtendedLocation",
+        type: {
+          name: "Composite",
+          className: "ExtendedLocation"
+        }
+      },
+      initialRecoveryExtendedLocation: {
+        serializedName: "initialRecoveryExtendedLocation",
+        type: {
+          name: "Composite",
+          className: "ExtendedLocation"
+        }
+      },
+      initialPrimaryFabricLocation: {
+        serializedName: "initialPrimaryFabricLocation",
+        type: {
+          name: "String"
+        }
+      },
+      initialRecoveryFabricLocation: {
+        serializedName: "initialRecoveryFabricLocation",
+        type: {
+          name: "String"
+        }
+      },
+      primaryZone: {
+        serializedName: "primaryZone",
+        type: {
+          name: "String"
+        }
+      },
+      recoveryZone: {
+        serializedName: "recoveryZone",
+        type: {
+          name: "String"
+        }
+      },
+      primaryExtendedLocation: {
+        serializedName: "primaryExtendedLocation",
+        type: {
+          name: "Composite",
+          className: "ExtendedLocation"
+        }
+      },
+      recoveryExtendedLocation: {
+        serializedName: "recoveryExtendedLocation",
+        type: {
+          name: "Composite",
+          className: "ExtendedLocation"
+        }
+      },
+      primaryFabricLocation: {
+        serializedName: "primaryFabricLocation",
+        type: {
+          name: "String"
+        }
+      },
+      recoveryFabricLocation: {
+        serializedName: "recoveryFabricLocation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const A2AProtectedDiskDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -8528,6 +8613,18 @@ export const FabricQueryParameter: coreClient.CompositeMapper = {
     modelProperties: {
       zoneToZoneMappings: {
         serializedName: "zoneToZoneMappings",
+        type: {
+          name: "String"
+        }
+      },
+      extendedLocationMappings: {
+        serializedName: "extendedLocationMappings",
+        type: {
+          name: "String"
+        }
+      },
+      locationDetails: {
+        serializedName: "locationDetails",
         type: {
           name: "String"
         }
@@ -12045,6 +12142,45 @@ export const VMwareCbtDiskInput: coreClient.CompositeMapper = {
   }
 };
 
+export const VMwareCbtSecurityProfileProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VMwareCbtSecurityProfileProperties",
+    modelProperties: {
+      targetVmSecurityType: {
+        serializedName: "targetVmSecurityType",
+        type: {
+          name: "String"
+        }
+      },
+      isTargetVmSecureBootEnabled: {
+        serializedName: "isTargetVmSecureBootEnabled",
+        type: {
+          name: "String"
+        }
+      },
+      isTargetVmTpmEnabled: {
+        serializedName: "isTargetVmTpmEnabled",
+        type: {
+          name: "String"
+        }
+      },
+      isTargetVmIntegrityMonitoringEnabled: {
+        serializedName: "isTargetVmIntegrityMonitoringEnabled",
+        type: {
+          name: "String"
+        }
+      },
+      isTargetVmConfidentialEncryptionEnabled: {
+        serializedName: "isTargetVmConfidentialEncryptionEnabled",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const VMwareCbtProtectedDiskDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -13249,6 +13385,18 @@ export const AzureFabricSpecificDetails: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      locationDetails: {
+        serializedName: "locationDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "A2AFabricSpecificLocationDetails"
+            }
+          }
+        }
       }
     }
   }
@@ -14082,6 +14230,13 @@ export const VMwareCbtMigrationDetails: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      osName: {
+        serializedName: "osName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       firmwareType: {
         serializedName: "firmwareType",
         readOnly: true,
@@ -14170,6 +14325,19 @@ export const VMwareCbtMigrationDetails: coreClient.CompositeMapper = {
         serializedName: "targetProximityPlacementGroupId",
         type: {
           name: "String"
+        }
+      },
+      confidentialVmKeyVaultId: {
+        serializedName: "confidentialVmKeyVaultId",
+        type: {
+          name: "String"
+        }
+      },
+      targetVmSecurityProfile: {
+        serializedName: "targetVmSecurityProfile",
+        type: {
+          name: "Composite",
+          className: "VMwareCbtSecurityProfileProperties"
         }
       },
       targetBootDiagnosticsStorageAccountId: {
@@ -14331,6 +14499,17 @@ export const VMwareCbtMigrationDetails: coreClient.CompositeMapper = {
           name: "Dictionary",
           value: { type: { name: "String" } }
         }
+      },
+      supportedOSVersions: {
+        serializedName: "supportedOSVersions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -14458,6 +14637,19 @@ export const VMwareCbtEnableMigrationInput: coreClient.CompositeMapper = {
         serializedName: "targetProximityPlacementGroupId",
         type: {
           name: "String"
+        }
+      },
+      confidentialVmKeyVaultId: {
+        serializedName: "confidentialVmKeyVaultId",
+        type: {
+          name: "String"
+        }
+      },
+      targetVmSecurityProfile: {
+        serializedName: "targetVmSecurityProfile",
+        type: {
+          name: "Composite",
+          className: "VMwareCbtSecurityProfileProperties"
         }
       },
       targetBootDiagnosticsStorageAccountId: {
@@ -14651,6 +14843,12 @@ export const VMwareCbtMigrateInput: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      osUpgradeVersion: {
+        serializedName: "osUpgradeVersion",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -14731,6 +14929,12 @@ export const VMwareCbtTestMigrateInput: coreClient.CompositeMapper = {
               className: "VMwareCbtNicInput"
             }
           }
+        }
+      },
+      osUpgradeVersion: {
+        serializedName: "osUpgradeVersion",
+        type: {
+          name: "String"
         }
       }
     }
@@ -19321,6 +19525,17 @@ export const VMwareCbtProtectionContainerMappingDetails: coreClient.CompositeMap
         type: {
           name: "Dictionary",
           value: { type: { name: "Number" } }
+        }
+      },
+      excludedSkus: {
+        serializedName: "excludedSkus",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
