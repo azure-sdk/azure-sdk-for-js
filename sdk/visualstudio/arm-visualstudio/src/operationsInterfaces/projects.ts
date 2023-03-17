@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ProjectsListByResourceGroupOptionalParams,
   ProjectsListByResourceGroupResponse,
@@ -55,8 +55,8 @@ export interface Projects {
     body: ProjectResource,
     options?: ProjectsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ProjectsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ProjectsCreateResponse>,
       ProjectsCreateResponse
     >
   >;

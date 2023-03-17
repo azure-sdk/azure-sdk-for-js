@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { VisualStudioResourceProviderClient } from "../visualStudioResourceProviderClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ProjectsListByResourceGroupOptionalParams,
   ProjectsListByResourceGroupResponse,
@@ -77,8 +81,8 @@ export class ProjectsImpl implements Projects {
     body: ProjectResource,
     options?: ProjectsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ProjectsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ProjectsCreateResponse>,
       ProjectsCreateResponse
     >
   > {
@@ -88,7 +92,7 @@ export class ProjectsImpl implements Projects {
     ): Promise<ProjectsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -121,13 +125,22 @@ export class ProjectsImpl implements Projects {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, rootResourceName, resourceName, body, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        rootResourceName,
+        resourceName,
+        body,
+        options
+      },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ProjectsCreateResponse,
+      OperationState<ProjectsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

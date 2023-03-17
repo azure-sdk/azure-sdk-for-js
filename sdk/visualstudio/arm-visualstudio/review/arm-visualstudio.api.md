@@ -6,8 +6,8 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { OperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AccountResource extends Resource {
@@ -225,7 +225,7 @@ export interface ProjectResourceListResult {
 
 // @public
 export interface Projects {
-    beginCreate(resourceGroupName: string, rootResourceName: string, resourceName: string, body: ProjectResource, options?: ProjectsCreateOptionalParams): Promise<PollerLike<PollOperationState<ProjectsCreateResponse>, ProjectsCreateResponse>>;
+    beginCreate(resourceGroupName: string, rootResourceName: string, resourceName: string, body: ProjectResource, options?: ProjectsCreateOptionalParams): Promise<SimplePollerLike<OperationState<ProjectsCreateResponse>, ProjectsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, rootResourceName: string, resourceName: string, body: ProjectResource, options?: ProjectsCreateOptionalParams): Promise<ProjectsCreateResponse>;
     get(resourceGroupName: string, rootResourceName: string, resourceName: string, options?: ProjectsGetOptionalParams): Promise<ProjectsGetResponse>;
     getJobStatus(resourceGroupName: string, rootResourceName: string, resourceName: string, subContainerName: string, operation: string, options?: ProjectsGetJobStatusOptionalParams): Promise<ProjectsGetJobStatusResponse>;
