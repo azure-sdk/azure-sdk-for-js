@@ -1,11 +1,12 @@
 # Release History
     
-## 1.1.0 (2023-03-09)
+## 1.1.0-beta.2 (2023-03-17)
     
 **Features**
 
   - Added operation group WebPubSubCustomCertificates
   - Added operation group WebPubSubCustomDomains
+  - Added operation group WebPubSubReplicas
   - Added Interface CustomCertificate
   - Added Interface CustomCertificateList
   - Added Interface CustomDomain
@@ -19,6 +20,8 @@
   - Added Interface PrivateEndpointConnection
   - Added Interface PrivateLinkResource
   - Added Interface ProxyResource
+  - Added Interface Replica
+  - Added Interface ReplicaList
   - Added Interface ResourceReference
   - Added Interface SharedPrivateLinkResource
   - Added Interface TrackedResource
@@ -33,7 +36,19 @@
   - Added Interface WebPubSubCustomDomainsListNextOptionalParams
   - Added Interface WebPubSubCustomDomainsListOptionalParams
   - Added Interface WebPubSubHub
+  - Added Interface WebPubSubRegenerateKeyHeaders
+  - Added Interface WebPubSubReplicasCreateOrUpdateOptionalParams
+  - Added Interface WebPubSubReplicasDeleteOptionalParams
+  - Added Interface WebPubSubReplicasGetOptionalParams
+  - Added Interface WebPubSubReplicasListNextOptionalParams
+  - Added Interface WebPubSubReplicasListOptionalParams
+  - Added Interface WebPubSubReplicasRestartHeaders
+  - Added Interface WebPubSubReplicasRestartOptionalParams
+  - Added Interface WebPubSubReplicasUpdateHeaders
+  - Added Interface WebPubSubReplicasUpdateOptionalParams
   - Added Interface WebPubSubResource
+  - Added Interface WebPubSubRestartHeaders
+  - Added Interface WebPubSubUpdateHeaders
   - Added Type Alias EventListenerEndpointDiscriminator
   - Added Type Alias EventListenerEndpointUnion
   - Added Type Alias EventListenerFilterDiscriminator
@@ -46,6 +61,14 @@
   - Added Type Alias WebPubSubCustomDomainsGetResponse
   - Added Type Alias WebPubSubCustomDomainsListNextResponse
   - Added Type Alias WebPubSubCustomDomainsListResponse
+  - Added Type Alias WebPubSubReplicasCreateOrUpdateResponse
+  - Added Type Alias WebPubSubReplicasGetResponse
+  - Added Type Alias WebPubSubReplicasListNextResponse
+  - Added Type Alias WebPubSubReplicasListResponse
+  - Added Type Alias WebPubSubReplicasRestartResponse
+  - Added Type Alias WebPubSubReplicasUpdateResponse
+  - Added Type Alias WebPubSubRestartResponse
+  - Interface Resource has a new optional parameter systemData
   - Interface WebPubSubHubProperties has a new optional parameter eventListeners
   - Added Enum KnownEventListenerEndpointDiscriminator
   - Added Enum KnownEventListenerFilterDiscriminator

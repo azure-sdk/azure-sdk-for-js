@@ -43,6 +43,7 @@ import {
   WebPubSubRegenerateKeyOptionalParams,
   WebPubSubRegenerateKeyResponse,
   WebPubSubRestartOptionalParams,
+  WebPubSubRestartResponse,
   WebPubSubListSkusOptionalParams,
   WebPubSubListSkusResponse,
   WebPubSubListBySubscriptionNextResponse,
@@ -118,8 +119,7 @@ export class WebPubSubImpl implements WebPubSub {
 
   /**
    * Handles requests to list all resources in a resource group.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -218,8 +218,7 @@ export class WebPubSubImpl implements WebPubSub {
 
   /**
    * Handles requests to list all resources in a resource group.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -234,8 +233,7 @@ export class WebPubSubImpl implements WebPubSub {
 
   /**
    * Get the resource and its properties.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -252,8 +250,7 @@ export class WebPubSubImpl implements WebPubSub {
 
   /**
    * Create or update a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameters for the create or update operation
    * @param options The options parameters.
@@ -318,7 +315,8 @@ export class WebPubSubImpl implements WebPubSub {
       OperationState<WebPubSubCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -326,8 +324,7 @@ export class WebPubSubImpl implements WebPubSub {
 
   /**
    * Create or update a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameters for the create or update operation
    * @param options The options parameters.
@@ -349,8 +346,7 @@ export class WebPubSubImpl implements WebPubSub {
 
   /**
    * Operation to delete a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -414,8 +410,7 @@ export class WebPubSubImpl implements WebPubSub {
 
   /**
    * Operation to delete a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -434,8 +429,7 @@ export class WebPubSubImpl implements WebPubSub {
 
   /**
    * Operation to update an exiting resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameters for the update operation
    * @param options The options parameters.
@@ -500,7 +494,8 @@ export class WebPubSubImpl implements WebPubSub {
       OperationState<WebPubSubUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -508,8 +503,7 @@ export class WebPubSubImpl implements WebPubSub {
 
   /**
    * Operation to update an exiting resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameters for the update operation
    * @param options The options parameters.
@@ -531,8 +525,7 @@ export class WebPubSubImpl implements WebPubSub {
 
   /**
    * Get the access keys of the resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -550,8 +543,7 @@ export class WebPubSubImpl implements WebPubSub {
   /**
    * Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the
    * same time.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameter that describes the Regenerate Key Operation.
    * @param options The options parameters.
@@ -617,7 +609,7 @@ export class WebPubSubImpl implements WebPubSub {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -626,8 +618,7 @@ export class WebPubSubImpl implements WebPubSub {
   /**
    * Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the
    * same time.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameter that describes the Regenerate Key Operation.
    * @param options The options parameters.
@@ -649,8 +640,7 @@ export class WebPubSubImpl implements WebPubSub {
 
   /**
    * Operation to restart a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -658,11 +648,16 @@ export class WebPubSubImpl implements WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     options?: WebPubSubRestartOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WebPubSubRestartResponse>,
+      WebPubSubRestartResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<WebPubSubRestartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -703,10 +698,13 @@ export class WebPubSubImpl implements WebPubSub {
       args: { resourceGroupName, resourceName, options },
       spec: restartOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      WebPubSubRestartResponse,
+      OperationState<WebPubSubRestartResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -714,8 +712,7 @@ export class WebPubSubImpl implements WebPubSub {
 
   /**
    * Operation to restart a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -723,7 +720,7 @@ export class WebPubSubImpl implements WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     options?: WebPubSubRestartOptionalParams
-  ): Promise<void> {
+  ): Promise<WebPubSubRestartResponse> {
     const poller = await this.beginRestart(
       resourceGroupName,
       resourceName,
@@ -734,8 +731,7 @@ export class WebPubSubImpl implements WebPubSub {
 
   /**
    * List all available skus of the resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -767,8 +763,7 @@ export class WebPubSubImpl implements WebPubSub {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -1018,10 +1013,18 @@ const restartOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/restart",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.WebPubSubRestartHeaders
+    },
+    201: {
+      headersMapper: Mappers.WebPubSubRestartHeaders
+    },
+    202: {
+      headersMapper: Mappers.WebPubSubRestartHeaders
+    },
+    204: {
+      headersMapper: Mappers.WebPubSubRestartHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
