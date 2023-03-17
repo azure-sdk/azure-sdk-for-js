@@ -15,8 +15,8 @@ import * as Parameters from "../models/parameters";
 import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient";
 import {
   Workbook,
-  CategoryType,
   WorkbooksListBySubscriptionNextOptionalParams,
+  CategoryType,
   WorkbooksListBySubscriptionOptionalParams,
   WorkbooksListBySubscriptionResponse,
   WorkbooksListByResourceGroupNextOptionalParams,
@@ -93,11 +93,7 @@ export class WorkbooksImpl implements Workbooks {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listBySubscriptionNext(
-        category,
-        continuationToken,
-        options
-      );
+      result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -176,7 +172,6 @@ export class WorkbooksImpl implements Workbooks {
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
-        category,
         continuationToken,
         options
       );
@@ -425,17 +420,15 @@ export class WorkbooksImpl implements Workbooks {
 
   /**
    * ListBySubscriptionNext
-   * @param category Category of workbook to return.
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
    */
   private _listBySubscriptionNext(
-    category: CategoryType,
     nextLink: string,
     options?: WorkbooksListBySubscriptionNextOptionalParams
   ): Promise<WorkbooksListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
-      { category, nextLink, options },
+      { nextLink, options },
       listBySubscriptionNextOperationSpec
     );
   }
@@ -443,18 +436,16 @@ export class WorkbooksImpl implements Workbooks {
   /**
    * ListByResourceGroupNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param category Category of workbook to return.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
   private _listByResourceGroupNext(
     resourceGroupName: string,
-    category: CategoryType,
     nextLink: string,
     options?: WorkbooksListByResourceGroupNextOptionalParams
   ): Promise<WorkbooksListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, category, nextLink, options },
+      { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
     );
   }
@@ -497,7 +488,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
     Parameters.canFetchContent,
     Parameters.tags,
     Parameters.category,
-    Parameters.apiVersion3
+    Parameters.apiVersion5
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
@@ -520,12 +511,12 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.tags,
     Parameters.category,
     Parameters.sourceId,
-    Parameters.apiVersion3
+    Parameters.apiVersion5
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -542,11 +533,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkbookError
     }
   },
-  queryParameters: [Parameters.canFetchContent, Parameters.apiVersion3],
+  queryParameters: [Parameters.canFetchContent, Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
@@ -563,11 +554,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkbookError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
@@ -589,11 +580,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.workbookProperties1,
-  queryParameters: [Parameters.sourceId, Parameters.apiVersion3],
+  queryParameters: [Parameters.sourceId, Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -605,6 +596,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/workbooks/{resourceName}",
   httpMethod: "PATCH",
   responses: {
+    200: {
+      bodyMapper: Mappers.Workbook
+    },
     201: {
       bodyMapper: Mappers.Workbook
     },
@@ -613,11 +607,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.workbookUpdateParameters,
-  queryParameters: [Parameters.sourceId, Parameters.apiVersion3],
+  queryParameters: [Parameters.sourceId, Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -636,11 +630,11 @@ const revisionsListOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkbookError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
@@ -658,11 +652,11 @@ const revisionGetOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkbookError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.revisionId
   ],
@@ -680,12 +674,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkbookError
     }
   },
-  queryParameters: [
-    Parameters.canFetchContent,
-    Parameters.tags,
-    Parameters.category,
-    Parameters.apiVersion3
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -705,17 +693,10 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkbookError
     }
   },
-  queryParameters: [
-    Parameters.canFetchContent,
-    Parameters.tags,
-    Parameters.category,
-    Parameters.sourceId,
-    Parameters.apiVersion3
-  ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
@@ -732,11 +713,10 @@ const revisionsListNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkbookError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.nextLink
   ],
