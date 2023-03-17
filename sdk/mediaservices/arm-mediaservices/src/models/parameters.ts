@@ -95,7 +95,7 @@ export const accountName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-08-01",
+    defaultValue: "2023-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -142,18 +142,6 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
-};
-
-export const apiVersion1: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-11-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const parameters1: OperationParameter = {
@@ -307,7 +295,7 @@ export const parameters11: OperationParameter = {
   mapper: ContentKeyPolicyMapper
 };
 
-export const apiVersion2: OperationQueryParameter = {
+export const apiVersion1: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-07-01",
@@ -381,6 +369,18 @@ export const streamingLocatorName: OperationURLParameter = {
 export const parameters15: OperationParameter = {
   parameterPath: "parameters",
   mapper: StreamingLocatorMapper
+};
+
+export const apiVersion2: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-11-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const liveEventName: OperationURLParameter = {
