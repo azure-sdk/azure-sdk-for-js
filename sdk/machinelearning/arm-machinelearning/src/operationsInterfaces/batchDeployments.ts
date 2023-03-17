@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BatchDeployment,
   BatchDeploymentsListOptionalParams,
@@ -51,7 +51,7 @@ export interface BatchDeployments {
     endpointName: string,
     deploymentName: string,
     options?: BatchDeploymentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete Batch Inference deployment (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -99,8 +99,8 @@ export interface BatchDeployments {
     body: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties,
     options?: BatchDeploymentsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BatchDeploymentsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BatchDeploymentsUpdateResponse>,
       BatchDeploymentsUpdateResponse
     >
   >;
@@ -138,8 +138,8 @@ export interface BatchDeployments {
     body: BatchDeployment,
     options?: BatchDeploymentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BatchDeploymentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BatchDeploymentsCreateOrUpdateResponse>,
       BatchDeploymentsCreateOrUpdateResponse
     >
   >;
