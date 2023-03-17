@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { SignalRSharedPrivateLinkResources } from "../operationsInterfaces";
+import { SignalRReplicas } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,26 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  SharedPrivateLinkResource,
-  SignalRSharedPrivateLinkResourcesListNextOptionalParams,
-  SignalRSharedPrivateLinkResourcesListOptionalParams,
-  SignalRSharedPrivateLinkResourcesListResponse,
-  SignalRSharedPrivateLinkResourcesGetOptionalParams,
-  SignalRSharedPrivateLinkResourcesGetResponse,
-  SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
-  SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse,
-  SignalRSharedPrivateLinkResourcesDeleteOptionalParams,
-  SignalRSharedPrivateLinkResourcesListNextResponse
+  Replica,
+  SignalRReplicasListNextOptionalParams,
+  SignalRReplicasListOptionalParams,
+  SignalRReplicasListResponse,
+  SignalRReplicasGetOptionalParams,
+  SignalRReplicasGetResponse,
+  SignalRReplicasCreateOrUpdateOptionalParams,
+  SignalRReplicasCreateOrUpdateResponse,
+  SignalRReplicasDeleteOptionalParams,
+  SignalRReplicasUpdateOptionalParams,
+  SignalRReplicasUpdateResponse,
+  SignalRReplicasRestartOptionalParams,
+  SignalRReplicasRestartResponse,
+  SignalRReplicasListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SignalRSharedPrivateLinkResources operations. */
-export class SignalRSharedPrivateLinkResourcesImpl
-  implements SignalRSharedPrivateLinkResources {
+/** Class containing SignalRReplicas operations. */
+export class SignalRReplicasImpl implements SignalRReplicas {
   private readonly client: SignalRManagementClient;
 
   /**
-   * Initialize a new instance of the class SignalRSharedPrivateLinkResources class.
+   * Initialize a new instance of the class SignalRReplicas class.
    * @param client Reference to the service client
    */
   constructor(client: SignalRManagementClient) {
@@ -47,7 +50,7 @@ export class SignalRSharedPrivateLinkResourcesImpl
   }
 
   /**
-   * List shared private link resources
+   * List all replicas belong to this resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
@@ -55,8 +58,8 @@ export class SignalRSharedPrivateLinkResourcesImpl
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRSharedPrivateLinkResourcesListOptionalParams
-  ): PagedAsyncIterableIterator<SharedPrivateLinkResource> {
+    options?: SignalRReplicasListOptionalParams
+  ): PagedAsyncIterableIterator<Replica> {
     const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
       next() {
@@ -82,10 +85,10 @@ export class SignalRSharedPrivateLinkResourcesImpl
   private async *listPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRSharedPrivateLinkResourcesListOptionalParams,
+    options?: SignalRReplicasListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<SharedPrivateLinkResource[]> {
-    let result: SignalRSharedPrivateLinkResourcesListResponse;
+  ): AsyncIterableIterator<Replica[]> {
+    let result: SignalRReplicasListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, resourceName, options);
@@ -111,8 +114,8 @@ export class SignalRSharedPrivateLinkResourcesImpl
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRSharedPrivateLinkResourcesListOptionalParams
-  ): AsyncIterableIterator<SharedPrivateLinkResource> {
+    options?: SignalRReplicasListOptionalParams
+  ): AsyncIterableIterator<Replica> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
@@ -123,7 +126,7 @@ export class SignalRSharedPrivateLinkResourcesImpl
   }
 
   /**
-   * List shared private link resources
+   * List all replicas belong to this resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
@@ -131,8 +134,8 @@ export class SignalRSharedPrivateLinkResourcesImpl
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRSharedPrivateLinkResourcesListOptionalParams
-  ): Promise<SignalRSharedPrivateLinkResourcesListResponse> {
+    options?: SignalRReplicasListOptionalParams
+  ): Promise<SignalRReplicasListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
       listOperationSpec
@@ -140,53 +143,48 @@ export class SignalRSharedPrivateLinkResourcesImpl
   }
 
   /**
-   * Get the specified shared private link resource
-   * @param sharedPrivateLinkResourceName The name of the shared private link resource
+   * Get the replica and its properties.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
+   * @param replicaName The name of the replica.
    * @param options The options parameters.
    */
   get(
-    sharedPrivateLinkResourceName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRSharedPrivateLinkResourcesGetOptionalParams
-  ): Promise<SignalRSharedPrivateLinkResourcesGetResponse> {
+    replicaName: string,
+    options?: SignalRReplicasGetOptionalParams
+  ): Promise<SignalRReplicasGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        sharedPrivateLinkResourceName,
-        resourceGroupName,
-        resourceName,
-        options
-      },
+      { resourceGroupName, resourceName, replicaName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or update a shared private link resource
-   * @param sharedPrivateLinkResourceName The name of the shared private link resource
+   * Create or update a replica.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
-   * @param parameters The shared private link resource
+   * @param replicaName The name of the replica.
+   * @param parameters Parameters for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
-    sharedPrivateLinkResourceName: string,
     resourceGroupName: string,
     resourceName: string,
-    parameters: SharedPrivateLinkResource,
-    options?: SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams
+    replicaName: string,
+    parameters: Replica,
+    options?: SignalRReplicasCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse>,
-      SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse
+      OperationState<SignalRReplicasCreateOrUpdateResponse>,
+      SignalRReplicasCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse> => {
+    ): Promise<SignalRReplicasCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -225,17 +223,17 @@ export class SignalRSharedPrivateLinkResourcesImpl
     const lro = createLroSpec({
       sendOperationFn,
       args: {
-        sharedPrivateLinkResourceName,
         resourceGroupName,
         resourceName,
+        replicaName,
         parameters,
         options
       },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse,
-      OperationState<SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse>
+      SignalRReplicasCreateOrUpdateResponse,
+      OperationState<SignalRReplicasCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -246,24 +244,24 @@ export class SignalRSharedPrivateLinkResourcesImpl
   }
 
   /**
-   * Create or update a shared private link resource
-   * @param sharedPrivateLinkResourceName The name of the shared private link resource
+   * Create or update a replica.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
-   * @param parameters The shared private link resource
+   * @param replicaName The name of the replica.
+   * @param parameters Parameters for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
-    sharedPrivateLinkResourceName: string,
     resourceGroupName: string,
     resourceName: string,
-    parameters: SharedPrivateLinkResource,
-    options?: SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams
-  ): Promise<SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse> {
+    replicaName: string,
+    parameters: Replica,
+    options?: SignalRReplicasCreateOrUpdateOptionalParams
+  ): Promise<SignalRReplicasCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
-      sharedPrivateLinkResourceName,
       resourceGroupName,
       resourceName,
+      replicaName,
       parameters,
       options
     );
@@ -271,22 +269,48 @@ export class SignalRSharedPrivateLinkResourcesImpl
   }
 
   /**
-   * Delete the specified shared private link resource
-   * @param sharedPrivateLinkResourceName The name of the shared private link resource
+   * Operation to delete a replica.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
+   * @param replicaName The name of the replica.
    * @param options The options parameters.
    */
-  async beginDelete(
-    sharedPrivateLinkResourceName: string,
+  delete(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRSharedPrivateLinkResourcesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    replicaName: string,
+    options?: SignalRReplicasDeleteOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, resourceName, replicaName, options },
+      deleteOperationSpec
+    );
+  }
+
+  /**
+   * Operation to update an exiting replica.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the resource.
+   * @param replicaName The name of the replica.
+   * @param parameters Parameters for the update operation
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    replicaName: string,
+    parameters: Replica,
+    options?: SignalRReplicasUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SignalRReplicasUpdateResponse>,
+      SignalRReplicasUpdateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<SignalRReplicasUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -325,14 +349,18 @@ export class SignalRSharedPrivateLinkResourcesImpl
     const lro = createLroSpec({
       sendOperationFn,
       args: {
-        sharedPrivateLinkResourceName,
         resourceGroupName,
         resourceName,
+        replicaName,
+        parameters,
         options
       },
-      spec: deleteOperationSpec
+      spec: updateOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      SignalRReplicasUpdateResponse,
+      OperationState<SignalRReplicasUpdateResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -342,22 +370,121 @@ export class SignalRSharedPrivateLinkResourcesImpl
   }
 
   /**
-   * Delete the specified shared private link resource
-   * @param sharedPrivateLinkResourceName The name of the shared private link resource
+   * Operation to update an exiting replica.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
+   * @param replicaName The name of the replica.
+   * @param parameters Parameters for the update operation
    * @param options The options parameters.
    */
-  async beginDeleteAndWait(
-    sharedPrivateLinkResourceName: string,
+  async beginUpdateAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRSharedPrivateLinkResourcesDeleteOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginDelete(
-      sharedPrivateLinkResourceName,
+    replicaName: string,
+    parameters: Replica,
+    options?: SignalRReplicasUpdateOptionalParams
+  ): Promise<SignalRReplicasUpdateResponse> {
+    const poller = await this.beginUpdate(
       resourceGroupName,
       resourceName,
+      replicaName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Operation to restart a replica.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the resource.
+   * @param replicaName The name of the replica.
+   * @param options The options parameters.
+   */
+  async beginRestart(
+    resourceGroupName: string,
+    resourceName: string,
+    replicaName: string,
+    options?: SignalRReplicasRestartOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SignalRReplicasRestartResponse>,
+      SignalRReplicasRestartResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<SignalRReplicasRestartResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, replicaName, options },
+      spec: restartOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SignalRReplicasRestartResponse,
+      OperationState<SignalRReplicasRestartResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Operation to restart a replica.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the resource.
+   * @param replicaName The name of the replica.
+   * @param options The options parameters.
+   */
+  async beginRestartAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    replicaName: string,
+    options?: SignalRReplicasRestartOptionalParams
+  ): Promise<SignalRReplicasRestartResponse> {
+    const poller = await this.beginRestart(
+      resourceGroupName,
+      resourceName,
+      replicaName,
       options
     );
     return poller.pollUntilDone();
@@ -374,8 +501,8 @@ export class SignalRSharedPrivateLinkResourcesImpl
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: SignalRSharedPrivateLinkResourcesListNextOptionalParams
-  ): Promise<SignalRSharedPrivateLinkResourcesListNextResponse> {
+    options?: SignalRReplicasListNextOptionalParams
+  ): Promise<SignalRReplicasListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
       listNextOperationSpec
@@ -387,11 +514,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedPrivateLinkResourceList
+      bodyMapper: Mappers.ReplicaList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -409,11 +536,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedPrivateLinkResource
+      bodyMapper: Mappers.Replica
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -425,40 +552,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.sharedPrivateLinkResourceName
+    Parameters.replicaName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedPrivateLinkResource
+      bodyMapper: Mappers.Replica
     },
     201: {
-      bodyMapper: Mappers.SharedPrivateLinkResource
+      bodyMapper: Mappers.Replica
     },
     202: {
-      bodyMapper: Mappers.SharedPrivateLinkResource
+      bodyMapper: Mappers.Replica
     },
     204: {
-      bodyMapper: Mappers.SharedPrivateLinkResource
+      bodyMapper: Mappers.Replica
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.sharedPrivateLinkResourceName
+    Parameters.replicaName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -466,12 +593,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
-    201: {},
-    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -483,7 +608,73 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.sharedPrivateLinkResourceName
+    Parameters.replicaName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Replica
+    },
+    201: {
+      bodyMapper: Mappers.Replica
+    },
+    202: {
+      bodyMapper: Mappers.Replica
+    },
+    204: {
+      bodyMapper: Mappers.Replica
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters6,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.replicaName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const restartOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}/restart",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.SignalRReplicasRestartHeaders
+    },
+    201: {
+      headersMapper: Mappers.SignalRReplicasRestartHeaders
+    },
+    202: {
+      headersMapper: Mappers.SignalRReplicasRestartHeaders
+    },
+    204: {
+      headersMapper: Mappers.SignalRReplicasRestartHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.replicaName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -493,7 +684,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedPrivateLinkResourceList
+      bodyMapper: Mappers.ReplicaList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

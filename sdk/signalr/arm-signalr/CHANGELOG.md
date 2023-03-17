@@ -1,19 +1,42 @@
 # Release History
     
-## 5.2.0 (2023-03-08)
+## 5.2.0-beta.2 (2023-03-17)
     
 **Features**
 
+  - Added operation group SignalRReplicas
   - Added Interface CustomCertificate
   - Added Interface CustomDomain
   - Added Interface PrivateEndpointACL
   - Added Interface PrivateEndpointConnection
   - Added Interface PrivateLinkResource
   - Added Interface ProxyResource
+  - Added Interface Replica
+  - Added Interface ReplicaList
   - Added Interface ServerlessSettings
   - Added Interface SharedPrivateLinkResource
+  - Added Interface SignalRRegenerateKeyHeaders
+  - Added Interface SignalRReplicasCreateOrUpdateOptionalParams
+  - Added Interface SignalRReplicasDeleteOptionalParams
+  - Added Interface SignalRReplicasGetOptionalParams
+  - Added Interface SignalRReplicasListNextOptionalParams
+  - Added Interface SignalRReplicasListOptionalParams
+  - Added Interface SignalRReplicasRestartHeaders
+  - Added Interface SignalRReplicasRestartOptionalParams
+  - Added Interface SignalRReplicasUpdateHeaders
+  - Added Interface SignalRReplicasUpdateOptionalParams
   - Added Interface SignalRResource
+  - Added Interface SignalRRestartHeaders
+  - Added Interface SignalRUpdateHeaders
   - Added Interface TrackedResource
+  - Added Type Alias SignalRReplicasCreateOrUpdateResponse
+  - Added Type Alias SignalRReplicasGetResponse
+  - Added Type Alias SignalRReplicasListNextResponse
+  - Added Type Alias SignalRReplicasListResponse
+  - Added Type Alias SignalRReplicasRestartResponse
+  - Added Type Alias SignalRReplicasUpdateResponse
+  - Added Type Alias SignalRRestartResponse
+  - Interface Resource has a new optional parameter systemData
   - Added function getContinuationToken
     
     
