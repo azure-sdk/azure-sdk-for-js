@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ResourceSyncRule,
   ResourceSyncRulesListByCustomLocationIDOptionalParams,
@@ -65,8 +65,8 @@ export interface ResourceSyncRules {
     parameters: ResourceSyncRule,
     options?: ResourceSyncRulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ResourceSyncRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ResourceSyncRulesCreateOrUpdateResponse>,
       ResourceSyncRulesCreateOrUpdateResponse
     >
   >;
@@ -114,8 +114,8 @@ export interface ResourceSyncRules {
     childResourceName: string,
     options?: ResourceSyncRulesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ResourceSyncRulesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ResourceSyncRulesUpdateResponse>,
       ResourceSyncRulesUpdateResponse
     >
   >;

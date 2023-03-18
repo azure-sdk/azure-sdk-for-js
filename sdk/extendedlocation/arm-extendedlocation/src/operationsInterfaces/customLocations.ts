@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CustomLocationOperation,
   CustomLocationsListOperationsOptionalParams,
@@ -91,8 +91,8 @@ export interface CustomLocations {
     parameters: CustomLocation,
     options?: CustomLocationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CustomLocationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CustomLocationsCreateOrUpdateResponse>,
       CustomLocationsCreateOrUpdateResponse
     >
   >;
@@ -119,7 +119,7 @@ export interface CustomLocations {
     resourceGroupName: string,
     resourceName: string,
     options?: CustomLocationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the Custom Location with the specified Resource Name, Resource Group, and Subscription Id.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

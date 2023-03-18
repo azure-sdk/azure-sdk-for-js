@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CustomLocationsManagementClient } from "../customLocationsManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ResourceSyncRule,
   ResourceSyncRulesListByCustomLocationIDNextOptionalParams,
@@ -182,8 +186,8 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
     parameters: ResourceSyncRule,
     options?: ResourceSyncRulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ResourceSyncRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ResourceSyncRulesCreateOrUpdateResponse>,
       ResourceSyncRulesCreateOrUpdateResponse
     >
   > {
@@ -193,7 +197,7 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
     ): Promise<ResourceSyncRulesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -226,21 +230,24 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         resourceName,
         childResourceName,
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ResourceSyncRulesCreateOrUpdateResponse,
+      OperationState<ResourceSyncRulesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -306,8 +313,8 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
     childResourceName: string,
     options?: ResourceSyncRulesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ResourceSyncRulesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ResourceSyncRulesUpdateResponse>,
       ResourceSyncRulesUpdateResponse
     >
   > {
@@ -317,7 +324,7 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
     ): Promise<ResourceSyncRulesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -350,15 +357,18 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, childResourceName, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, childResourceName, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ResourceSyncRulesUpdateResponse,
+      OperationState<ResourceSyncRulesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
