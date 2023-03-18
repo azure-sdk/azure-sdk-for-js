@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { BillingManagementClient } from "../billingManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   BillingProfile,
   BillingProfilesListByBillingAccountNextOptionalParams,
@@ -161,8 +165,8 @@ export class BillingProfilesImpl implements BillingProfiles {
     parameters: BillingProfile,
     options?: BillingProfilesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BillingProfilesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BillingProfilesCreateOrUpdateResponse>,
       BillingProfilesCreateOrUpdateResponse
     >
   > {
@@ -172,7 +176,7 @@ export class BillingProfilesImpl implements BillingProfiles {
     ): Promise<BillingProfilesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -205,13 +209,16 @@ export class BillingProfilesImpl implements BillingProfiles {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { billingAccountName, billingProfileName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { billingAccountName, billingProfileName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BillingProfilesCreateOrUpdateResponse,
+      OperationState<BillingProfilesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -342,7 +349,6 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,

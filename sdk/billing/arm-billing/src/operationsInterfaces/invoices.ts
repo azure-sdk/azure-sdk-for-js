@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Invoice,
   InvoicesListByBillingAccountOptionalParams,
@@ -115,8 +115,8 @@ export interface Invoices {
     downloadToken: string,
     options?: InvoicesDownloadInvoiceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<InvoicesDownloadInvoiceResponse>,
+    SimplePollerLike<
+      OperationState<InvoicesDownloadInvoiceResponse>,
       InvoicesDownloadInvoiceResponse
     >
   >;
@@ -147,10 +147,8 @@ export interface Invoices {
     downloadUrls: string[],
     options?: InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        InvoicesDownloadMultipleBillingProfileInvoicesResponse
-      >,
+    SimplePollerLike<
+      OperationState<InvoicesDownloadMultipleBillingProfileInvoicesResponse>,
       InvoicesDownloadMultipleBillingProfileInvoicesResponse
     >
   >;
@@ -187,8 +185,8 @@ export interface Invoices {
     downloadToken: string,
     options?: InvoicesDownloadBillingSubscriptionInvoiceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<InvoicesDownloadBillingSubscriptionInvoiceResponse>,
+    SimplePollerLike<
+      OperationState<InvoicesDownloadBillingSubscriptionInvoiceResponse>,
       InvoicesDownloadBillingSubscriptionInvoiceResponse
     >
   >;
@@ -213,8 +211,8 @@ export interface Invoices {
     downloadUrls: string[],
     options?: InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse
       >,
       InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse
