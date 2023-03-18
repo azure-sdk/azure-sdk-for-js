@@ -8,38 +8,35 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { IotSecuritySolution } from "../operationsInterfaces";
+import { Standards } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenter } from "../securityCenter";
 import {
-  IoTSecuritySolutionModel,
-  IotSecuritySolutionListBySubscriptionNextOptionalParams,
-  IotSecuritySolutionListBySubscriptionOptionalParams,
-  IotSecuritySolutionListBySubscriptionResponse,
-  IotSecuritySolutionListByResourceGroupNextOptionalParams,
-  IotSecuritySolutionListByResourceGroupOptionalParams,
-  IotSecuritySolutionListByResourceGroupResponse,
-  IotSecuritySolutionGetOptionalParams,
-  IotSecuritySolutionGetResponse,
-  IotSecuritySolutionCreateOrUpdateOptionalParams,
-  IotSecuritySolutionCreateOrUpdateResponse,
-  UpdateIotSecuritySolutionData,
-  IotSecuritySolutionUpdateOptionalParams,
-  IotSecuritySolutionUpdateResponse,
-  IotSecuritySolutionDeleteOptionalParams,
-  IotSecuritySolutionListBySubscriptionNextResponse,
-  IotSecuritySolutionListByResourceGroupNextResponse
+  Standard,
+  StandardsListBySubscriptionNextOptionalParams,
+  StandardsListBySubscriptionOptionalParams,
+  StandardsListBySubscriptionResponse,
+  StandardsListNextOptionalParams,
+  StandardsListOptionalParams,
+  StandardsListResponse,
+  StandardsGetOptionalParams,
+  StandardsGetResponse,
+  StandardsCreateOrUpdateOptionalParams,
+  StandardsCreateOrUpdateResponse,
+  StandardsDeleteOptionalParams,
+  StandardsListBySubscriptionNextResponse,
+  StandardsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing IotSecuritySolution operations. */
-export class IotSecuritySolutionImpl implements IotSecuritySolution {
+/** Class containing Standards operations. */
+export class StandardsImpl implements Standards {
   private readonly client: SecurityCenter;
 
   /**
-   * Initialize a new instance of the class IotSecuritySolution class.
+   * Initialize a new instance of the class Standards class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityCenter) {
@@ -47,12 +44,12 @@ export class IotSecuritySolutionImpl implements IotSecuritySolution {
   }
 
   /**
-   * Use this method to get the list of IoT Security solutions by subscription.
+   * Get a list of all relevant security standards over a subscription level scope.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: IotSecuritySolutionListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<IoTSecuritySolutionModel> {
+    options?: StandardsListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<Standard> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -71,10 +68,10 @@ export class IotSecuritySolutionImpl implements IotSecuritySolution {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: IotSecuritySolutionListBySubscriptionOptionalParams,
+    options?: StandardsListBySubscriptionOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<IoTSecuritySolutionModel[]> {
-    let result: IotSecuritySolutionListBySubscriptionResponse;
+  ): AsyncIterableIterator<Standard[]> {
+    let result: StandardsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -93,24 +90,24 @@ export class IotSecuritySolutionImpl implements IotSecuritySolution {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: IotSecuritySolutionListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<IoTSecuritySolutionModel> {
+    options?: StandardsListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<Standard> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Use this method to get the list IoT Security solutions organized by resource group.
+   * Get security standards on all your resources inside a scope
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param options The options parameters.
    */
-  public listByResourceGroup(
+  public list(
     resourceGroupName: string,
-    options?: IotSecuritySolutionListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<IoTSecuritySolutionModel> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+    options?: StandardsListOptionalParams
+  ): PagedAsyncIterableIterator<Standard> {
+    const iter = this.listPagingAll(resourceGroupName, options);
     return {
       next() {
         return iter.next();
@@ -122,31 +119,27 @@ export class IotSecuritySolutionImpl implements IotSecuritySolution {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
-  private async *listByResourceGroupPagingPage(
+  private async *listPagingPage(
     resourceGroupName: string,
-    options?: IotSecuritySolutionListByResourceGroupOptionalParams,
+    options?: StandardsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<IoTSecuritySolutionModel[]> {
-    let result: IotSecuritySolutionListByResourceGroupResponse;
+  ): AsyncIterableIterator<Standard[]> {
+    let result: StandardsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
+      result = await this._list(resourceGroupName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
+      result = await this._listNext(
         resourceGroupName,
         continuationToken,
         options
@@ -158,25 +151,22 @@ export class IotSecuritySolutionImpl implements IotSecuritySolution {
     }
   }
 
-  private async *listByResourceGroupPagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
-    options?: IotSecuritySolutionListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<IoTSecuritySolutionModel> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options
-    )) {
+    options?: StandardsListOptionalParams
+  ): AsyncIterableIterator<Standard> {
+    for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
 
   /**
-   * Use this method to get the list of IoT Security solutions by subscription.
+   * Get a list of all relevant security standards over a subscription level scope.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: IotSecuritySolutionListBySubscriptionOptionalParams
-  ): Promise<IotSecuritySolutionListBySubscriptionResponse> {
+    options?: StandardsListBySubscriptionOptionalParams
+  ): Promise<StandardsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec
@@ -184,99 +174,74 @@ export class IotSecuritySolutionImpl implements IotSecuritySolution {
   }
 
   /**
-   * Use this method to get the list IoT Security solutions organized by resource group.
+   * Get security standards on all your resources inside a scope
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
+  private _list(
     resourceGroupName: string,
-    options?: IotSecuritySolutionListByResourceGroupOptionalParams
-  ): Promise<IotSecuritySolutionListByResourceGroupResponse> {
+    options?: StandardsListOptionalParams
+  ): Promise<StandardsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listOperationSpec
     );
   }
 
   /**
-   * User this method to get details of a specific IoT Security solution based on solution name
+   * Get a specific security standard for the requested scope
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
-   * @param solutionName The name of the IoT Security solution.
+   * @param standardId The Security Standard key - unique key for the standard type
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    solutionName: string,
-    options?: IotSecuritySolutionGetOptionalParams
-  ): Promise<IotSecuritySolutionGetResponse> {
+    standardId: string,
+    options?: StandardsGetOptionalParams
+  ): Promise<StandardsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, solutionName, options },
+      { resourceGroupName, standardId, options },
       getOperationSpec
     );
   }
 
   /**
-   * Use this method to create or update yours IoT Security solution
+   * Create a security standard on the given scope.  Available only for custom standards.  Will
+   * create/update the required standard definitions.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
-   * @param solutionName The name of the IoT Security solution.
-   * @param iotSecuritySolutionData The security solution data
+   * @param standardId The Security Standard key - unique key for the standard type
+   * @param standard Custom security standard over a pre-defined scope
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
-    solutionName: string,
-    iotSecuritySolutionData: IoTSecuritySolutionModel,
-    options?: IotSecuritySolutionCreateOrUpdateOptionalParams
-  ): Promise<IotSecuritySolutionCreateOrUpdateResponse> {
+    standardId: string,
+    standard: Standard,
+    options?: StandardsCreateOrUpdateOptionalParams
+  ): Promise<StandardsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, solutionName, iotSecuritySolutionData, options },
+      { resourceGroupName, standardId, standard, options },
       createOrUpdateOperationSpec
     );
   }
 
   /**
-   * Use this method to update existing IoT Security solution tags or user defined resources. To update
-   * other fields use the CreateOrUpdate method.
+   * Delete a security standard on a scope.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
-   * @param solutionName The name of the IoT Security solution.
-   * @param updateIotSecuritySolutionData The security solution data
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    solutionName: string,
-    updateIotSecuritySolutionData: UpdateIotSecuritySolutionData,
-    options?: IotSecuritySolutionUpdateOptionalParams
-  ): Promise<IotSecuritySolutionUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        solutionName,
-        updateIotSecuritySolutionData,
-        options
-      },
-      updateOperationSpec
-    );
-  }
-
-  /**
-   * Use this method to delete yours IoT Security solution
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param solutionName The name of the IoT Security solution.
+   * @param standardId The Security Standard key - unique key for the standard type
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
-    solutionName: string,
-    options?: IotSecuritySolutionDeleteOptionalParams
+    standardId: string,
+    options?: StandardsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, solutionName, options },
+      { resourceGroupName, standardId, options },
       deleteOperationSpec
     );
   }
@@ -288,8 +253,8 @@ export class IotSecuritySolutionImpl implements IotSecuritySolution {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: IotSecuritySolutionListBySubscriptionNextOptionalParams
-  ): Promise<IotSecuritySolutionListBySubscriptionNextResponse> {
+    options?: StandardsListBySubscriptionNextOptionalParams
+  ): Promise<StandardsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec
@@ -297,20 +262,20 @@ export class IotSecuritySolutionImpl implements IotSecuritySolution {
   }
 
   /**
-   * ListByResourceGroupNext
+   * ListNext
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  private _listByResourceGroupNext(
+  private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: IotSecuritySolutionListByResourceGroupNextOptionalParams
-  ): Promise<IotSecuritySolutionListByResourceGroupNextResponse> {
+    options?: StandardsListNextOptionalParams
+  ): Promise<StandardsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listNextOperationSpec
     );
   }
 }
@@ -319,34 +284,34 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/iotSecuritySolutions",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/standards",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IoTSecuritySolutionsList
+      bodyMapper: Mappers.StandardList
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion5, Parameters.filter],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/standards",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IoTSecuritySolutionsList
+      bodyMapper: Mappers.StandardList
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion5, Parameters.filter],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -357,72 +322,48 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/standards/{standardId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IoTSecuritySolutionModel
+      bodyMapper: Mappers.Standard
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.solutionName
+    Parameters.standardId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/standards/{standardId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IoTSecuritySolutionModel
+      bodyMapper: Mappers.Standard
     },
     201: {
-      bodyMapper: Mappers.IoTSecuritySolutionModel
+      bodyMapper: Mappers.Standard
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.iotSecuritySolutionData,
-  queryParameters: [Parameters.apiVersion5],
+  requestBody: Parameters.standard,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.solutionName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.IoTSecuritySolutionModel
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.updateIotSecuritySolutionData,
-  queryParameters: [Parameters.apiVersion5],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.solutionName
+    Parameters.standardId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -430,7 +371,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/standards/{standardId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -439,12 +380,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.solutionName
+    Parameters.standardId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -454,13 +395,12 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IoTSecuritySolutionsList
+      bodyMapper: Mappers.StandardList
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion5, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -469,18 +409,17 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IoTSecuritySolutionsList
+      bodyMapper: Mappers.StandardList
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion5, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
