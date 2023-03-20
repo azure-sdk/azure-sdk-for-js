@@ -11,3 +11,4 @@ export * from "./skus";
 export * from "./elasticSans";
 export * from "./volumeGroups";
 export * from "./volumes";
+export * from "./snapshots";

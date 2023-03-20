@@ -19,14 +19,16 @@ import {
   SkusImpl,
   ElasticSansImpl,
   VolumeGroupsImpl,
-  VolumesImpl
+  VolumesImpl,
+  SnapshotsImpl
 } from "./operations";
 import {
   Operations,
   Skus,
   ElasticSans,
   VolumeGroups,
-  Volumes
+  Volumes,
+  Snapshots
 } from "./operationsInterfaces";
 import { ElasticSanManagementOptionalParams } from "./models";
 
@@ -38,7 +40,7 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the ElasticSanManagement class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -62,7 +64,7 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-elasticsan/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-elasticsan/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -115,12 +117,13 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-11-20-preview";
+    this.apiVersion = options.apiVersion || "2023-01-01";
     this.operations = new OperationsImpl(this);
     this.skus = new SkusImpl(this);
     this.elasticSans = new ElasticSansImpl(this);
     this.volumeGroups = new VolumeGroupsImpl(this);
     this.volumes = new VolumesImpl(this);
+    this.snapshots = new SnapshotsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -157,4 +160,5 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
   elasticSans: ElasticSans;
   volumeGroups: VolumeGroups;
   volumes: Volumes;
+  snapshots: Snapshots;
 }

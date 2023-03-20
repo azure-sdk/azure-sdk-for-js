@@ -12,12 +12,14 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
-  ElasticSan as ElasticSanMapper,
+  ElasticSanCreateParameter as ElasticSanCreateParameterMapper,
   ElasticSanUpdate as ElasticSanUpdateMapper,
   VolumeGroup as VolumeGroupMapper,
   VolumeGroupUpdate as VolumeGroupUpdateMapper,
-  Volume as VolumeMapper,
-  VolumeUpdate as VolumeUpdateMapper
+  VolumeCreateParameter as VolumeCreateParameterMapper,
+  VolumeUpdate as VolumeUpdateMapper,
+  SnapshotCreateParameter as SnapshotCreateParameterMapper,
+  SnapshotUpdate as SnapshotUpdateMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -47,7 +49,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-11-20-preview",
+    defaultValue: "2023-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -59,13 +61,10 @@ export const apiVersion: OperationQueryParameter = {
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };
@@ -84,7 +83,6 @@ export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[-\\w\\._]*[0-9A-Za-z]$"),
       MaxLength: 90,
       MinLength: 1
     },
@@ -110,7 +108,7 @@ export const contentType: OperationParameter = {
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ElasticSanMapper
+  mapper: ElasticSanCreateParameterMapper
 };
 
 export const elasticSanName: OperationURLParameter = {
@@ -174,7 +172,7 @@ export const parameters3: OperationParameter = {
 
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
-  mapper: VolumeMapper
+  mapper: VolumeCreateParameterMapper
 };
 
 export const volumeName: OperationURLParameter = {
@@ -196,4 +194,30 @@ export const volumeName: OperationURLParameter = {
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
   mapper: VolumeUpdateMapper
+};
+
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SnapshotCreateParameterMapper
+};
+
+export const snapshotName: OperationURLParameter = {
+  parameterPath: "snapshotName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z0-9]+(?:[._-][a-z0-9]+)*$"),
+      MaxLength: 80,
+      MinLength: 1
+    },
+    serializedName: "snapshotName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters7: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SnapshotUpdateMapper
 };

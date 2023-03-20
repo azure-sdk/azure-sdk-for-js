@@ -44,14 +44,14 @@ export interface ElasticSanOperationDisplay {
   description: string;
 }
 
-/** The resource management error response. */
-export interface ErrorModel {
-  /** RP error response. */
-  error?: ErrorResponse;
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
 }
 
-/** The resource management error response. */
-export interface ErrorResponse {
+/** The error detail. */
+export interface ErrorDetail {
   /**
    * The error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -71,7 +71,7 @@ export interface ErrorResponse {
    * The error details.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: ErrorResponse[];
+  readonly details?: ErrorDetail[];
   /**
    * The error additional info.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -161,7 +161,7 @@ export interface SKUCapability {
 /** List of Elastic Sans */
 export interface ElasticSanList {
   /** An array of Elastic San objects. */
-  value: ElasticSan[];
+  value?: ElasticSan[];
   /**
    * URI to fetch the next section of the paginated response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -227,7 +227,7 @@ export interface ElasticSanUpdate {
 /** List of Volume Groups */
 export interface VolumeGroupList {
   /** An array of Volume Groups objects. */
-  value: VolumeGroup[];
+  value?: VolumeGroup[];
   /**
    * URI to fetch the next section of the paginated response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -311,12 +311,35 @@ export interface VolumeUpdate {
 /** List of Volumes */
 export interface VolumeList {
   /** An array of Volume objects. */
-  value: Volume[];
+  value?: Volume[];
   /**
    * URI to fetch the next section of the paginated response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** List of Snapshots */
+export interface SnapshotList {
+  /** An array of Snapshot objects. */
+  value?: Snapshot[];
+  /**
+   * URI to fetch the next section of the paginated response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Data used when creating a volume snapshot. */
+export interface SnapshotCreationData {
+  /** If createOption is Copy, this is the ARM id of the source snapshot or disk. If createOption is Restore, this is the ARM-like id of the source disk restore point. */
+  sourceUri: string;
+}
+
+/** Snapshot request. */
+export interface SnapshotUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
 }
 
 /** The resource model definition for a ARM tracked top level resource. */
@@ -368,6 +391,32 @@ export interface Volume extends Resource {
   readonly storageTarget?: IscsiTargetInfo;
 }
 
+/** Response for Volume Snapshot request. */
+export interface Snapshot extends Resource {
+  /**
+   * Resource metadata required by ARM RPC
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Data used when creating a volume snapshot. */
+  creationData?: SnapshotCreationData;
+  /**
+   * State of the operation on the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStates;
+  /**
+   * Size of Source Volume
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceVolumeSizeGiB?: number;
+  /**
+   * Source Volume Name of a snapshot
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly volumeName?: string;
+}
+
 /** Response for ElasticSan request. */
 export interface ElasticSan extends TrackedResource {
   /**
@@ -376,7 +425,7 @@ export interface ElasticSan extends TrackedResource {
    */
   readonly systemData?: SystemData;
   /** resource sku */
-  sku: Sku;
+  sku?: Sku;
   /** Logical zone for Elastic San resource; example: ["1"]. */
   availabilityZones?: string[];
   /**
@@ -385,9 +434,9 @@ export interface ElasticSan extends TrackedResource {
    */
   readonly provisioningState?: ProvisioningStates;
   /** Base size of the Elastic San appliance in TiB. */
-  baseSizeTiB: number;
+  baseSizeTiB?: number;
   /** Extended size of the Elastic San appliance in TiB. */
-  extendedCapacitySizeTiB: number;
+  extendedCapacitySizeTiB?: number;
   /**
    * Total size of the provisioned Volumes in GiB.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -413,6 +462,50 @@ export interface ElasticSan extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly totalSizeTiB?: number;
+}
+
+/** Response for Volume request. */
+export interface VolumeCreateParameter extends Volume {}
+
+/** Response for Volume Snapshot request. */
+export interface SnapshotCreateParameter extends Snapshot {}
+
+/** Response for ElasticSan request. */
+export interface ElasticSanCreateParameter extends ElasticSan {}
+
+/** Defines headers for ElasticSans_update operation. */
+export interface ElasticSansUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for ElasticSans_delete operation. */
+export interface ElasticSansDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for VolumeGroups_update operation. */
+export interface VolumeGroupsUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for VolumeGroups_delete operation. */
+export interface VolumeGroupsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for Volumes_update operation. */
+export interface VolumesUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for Volumes_delete operation. */
+export interface VolumesDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for Snapshots_delete operation. */
+export interface SnapshotsDeleteHeaders {
+  location?: string;
 }
 
 /** Known values of {@link SkuName} that the service accepts. */
@@ -774,6 +867,58 @@ export interface VolumesListByVolumeGroupNextOptionalParams
 
 /** Contains response data for the listByVolumeGroupNext operation. */
 export type VolumesListByVolumeGroupNextResponse = VolumeList;
+
+/** Optional parameters. */
+export interface SnapshotsListByVolumeGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Specify $filter='volumeName eq <volume name>' to filter on volume. */
+  filter?: string;
+}
+
+/** Contains response data for the listByVolumeGroup operation. */
+export type SnapshotsListByVolumeGroupResponse = SnapshotList;
+
+/** Optional parameters. */
+export interface SnapshotsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type SnapshotsCreateResponse = Snapshot;
+
+/** Optional parameters. */
+export interface SnapshotsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type SnapshotsUpdateResponse = Snapshot;
+
+/** Optional parameters. */
+export interface SnapshotsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface SnapshotsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SnapshotsGetResponse = Snapshot;
+
+/** Optional parameters. */
+export interface SnapshotsListByVolumeGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByVolumeGroupNext operation. */
+export type SnapshotsListByVolumeGroupNextResponse = SnapshotList;
 
 /** Optional parameters. */
 export interface ElasticSanManagementOptionalParams
