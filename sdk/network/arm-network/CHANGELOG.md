@@ -1,15 +1,16 @@
 # Release History
+    
+## 31.0.0 (2023-03-20)
+    
+**Features**
 
-## 30.2.1 (Unreleased)
+  - Interface Subnet has a new optional parameter applicationGatewayIPConfigurations
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface Subnet no longer has parameter applicationGatewayIpConfigurations
+    
+    
 ## 30.2.0 (2023-03-07)
     
 **Features**
