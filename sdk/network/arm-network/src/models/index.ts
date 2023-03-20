@@ -910,6 +910,22 @@ export interface IPPrefixesList {
   ipPrefixes?: string[];
 }
 
+/** Properties of the AzureFirewallRCAction. */
+export interface AzureFirewallPacketCaptureFlags {
+  /** Flags to capture */
+  type?: AzureFirewallPacketCaptureFlagsType;
+}
+
+/** Group of src/dest ips and ports to be captured. */
+export interface AzureFirewallPacketCaptureRule {
+  /** List of source IP addresses/subnets to be captured. */
+  sources?: string[];
+  /** List of destination IP addresses/subnets to be captured. */
+  destinations?: string[];
+  /** List of ports to be captured. */
+  destinationPorts?: string[];
+}
+
 /** Response for ListAzureFirewallFqdnTags API service call. */
 export interface AzureFirewallFqdnTagListResult {
   /** List of Azure Firewall FQDN Tags in a resource group. */
@@ -7289,6 +7305,24 @@ export interface AzureFirewallIPConfiguration extends SubResource {
   readonly provisioningState?: ProvisioningState;
 }
 
+/** Azure Firewall Packet Capture Parameters resource. */
+export interface FirewallPacketCaptureParameters extends SubResource {
+  /** Duration of packet capture in seconds. */
+  durationInSeconds?: number;
+  /** Number of packets to be captured. */
+  numberOfPacketsToCapture?: number;
+  /** Upload capture location */
+  sasUrl?: string;
+  /** Name of file to be uploaded to sasURL */
+  fileName?: string;
+  /** The protocol of packets to capture */
+  protocol?: AzureFirewallNetworkRuleProtocol;
+  /** The tcp-flag type to be captured. Used with protocol TCP */
+  flags?: AzureFirewallPacketCaptureFlags[];
+  /** Rules to filter packet captures. */
+  filters?: AzureFirewallPacketCaptureRule[];
+}
+
 /** IP configuration of an Bastion Host. */
 export interface BastionHostIPConfiguration extends SubResource {
   /** Name of the resource that is unique within a resource group. This name can be used to access the resource. */
@@ -11325,6 +11359,11 @@ export interface DefaultAdminRule extends BaseAdminRule {
   readonly provisioningState?: ProvisioningState;
 }
 
+/** Defines headers for AzureFirewalls_packetCapture operation. */
+export interface AzureFirewallsPacketCaptureHeaders {
+  location?: string;
+}
+
 /** Defines headers for PublicIPAddresses_delete operation. */
 export interface PublicIPAddressesDeleteHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
@@ -12572,6 +12611,36 @@ export enum KnownAzureFirewallSkuTier {
  * **Basic**
  */
 export type AzureFirewallSkuTier = string;
+
+/** Known values of {@link AzureFirewallPacketCaptureFlagsType} that the service accepts. */
+export enum KnownAzureFirewallPacketCaptureFlagsType {
+  /** Fin */
+  Fin = "fin",
+  /** Syn */
+  Syn = "syn",
+  /** Rst */
+  Rst = "rst",
+  /** Push */
+  Push = "push",
+  /** Ack */
+  Ack = "ack",
+  /** Urg */
+  Urg = "urg"
+}
+
+/**
+ * Defines values for AzureFirewallPacketCaptureFlagsType. \
+ * {@link KnownAzureFirewallPacketCaptureFlagsType} can be used interchangeably with AzureFirewallPacketCaptureFlagsType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **fin** \
+ * **syn** \
+ * **rst** \
+ * **push** \
+ * **ack** \
+ * **urg**
+ */
+export type AzureFirewallPacketCaptureFlagsType = string;
 
 /** Known values of {@link BastionHostSkuName} that the service accepts. */
 export enum KnownBastionHostSkuName {
@@ -16414,6 +16483,18 @@ export interface AzureFirewallsListLearnedPrefixesOptionalParams
 
 /** Contains response data for the listLearnedPrefixes operation. */
 export type AzureFirewallsListLearnedPrefixesResponse = IPPrefixesList;
+
+/** Optional parameters. */
+export interface AzureFirewallsPacketCaptureOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the packetCapture operation. */
+export type AzureFirewallsPacketCaptureResponse = AzureFirewallsPacketCaptureHeaders;
 
 /** Optional parameters. */
 export interface AzureFirewallsListNextOptionalParams

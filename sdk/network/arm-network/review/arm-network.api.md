@@ -1715,6 +1715,21 @@ export interface AzureFirewallNetworkRuleCollection extends SubResource {
 export type AzureFirewallNetworkRuleProtocol = string;
 
 // @public
+export interface AzureFirewallPacketCaptureFlags {
+    type?: AzureFirewallPacketCaptureFlagsType;
+}
+
+// @public
+export type AzureFirewallPacketCaptureFlagsType = string;
+
+// @public
+export interface AzureFirewallPacketCaptureRule {
+    destinationPorts?: string[];
+    destinations?: string[];
+    sources?: string[];
+}
+
+// @public
 export interface AzureFirewallPublicIPAddress {
     address?: string;
 }
@@ -1735,6 +1750,8 @@ export interface AzureFirewalls {
     beginDeleteAndWait(resourceGroupName: string, azureFirewallName: string, options?: AzureFirewallsDeleteOptionalParams): Promise<void>;
     beginListLearnedPrefixes(resourceGroupName: string, azureFirewallName: string, options?: AzureFirewallsListLearnedPrefixesOptionalParams): Promise<SimplePollerLike<OperationState<AzureFirewallsListLearnedPrefixesResponse>, AzureFirewallsListLearnedPrefixesResponse>>;
     beginListLearnedPrefixesAndWait(resourceGroupName: string, azureFirewallName: string, options?: AzureFirewallsListLearnedPrefixesOptionalParams): Promise<AzureFirewallsListLearnedPrefixesResponse>;
+    beginPacketCapture(resourceGroupName: string, azureFirewallName: string, parameters: FirewallPacketCaptureParameters, options?: AzureFirewallsPacketCaptureOptionalParams): Promise<SimplePollerLike<OperationState<AzureFirewallsPacketCaptureResponse>, AzureFirewallsPacketCaptureResponse>>;
+    beginPacketCaptureAndWait(resourceGroupName: string, azureFirewallName: string, parameters: FirewallPacketCaptureParameters, options?: AzureFirewallsPacketCaptureOptionalParams): Promise<AzureFirewallsPacketCaptureResponse>;
     beginUpdateTags(resourceGroupName: string, azureFirewallName: string, parameters: TagsObject, options?: AzureFirewallsUpdateTagsOptionalParams): Promise<SimplePollerLike<OperationState<AzureFirewallsUpdateTagsResponse>, AzureFirewallsUpdateTagsResponse>>;
     beginUpdateTagsAndWait(resourceGroupName: string, azureFirewallName: string, parameters: TagsObject, options?: AzureFirewallsUpdateTagsOptionalParams): Promise<AzureFirewallsUpdateTagsResponse>;
     get(resourceGroupName: string, azureFirewallName: string, options?: AzureFirewallsGetOptionalParams): Promise<AzureFirewallsGetResponse>;
@@ -1812,6 +1829,21 @@ export interface AzureFirewallsListOptionalParams extends coreClient.OperationOp
 
 // @public
 export type AzureFirewallsListResponse = AzureFirewallListResult;
+
+// @public
+export interface AzureFirewallsPacketCaptureHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface AzureFirewallsPacketCaptureOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AzureFirewallsPacketCaptureResponse = AzureFirewallsPacketCaptureHeaders;
 
 // @public
 export interface AzureFirewallsUpdateTagsOptionalParams extends coreClient.OperationOptions {
@@ -4614,6 +4646,17 @@ export interface FilterItems {
 }
 
 // @public
+export interface FirewallPacketCaptureParameters extends SubResource {
+    durationInSeconds?: number;
+    fileName?: string;
+    filters?: AzureFirewallPacketCaptureRule[];
+    flags?: AzureFirewallPacketCaptureFlags[];
+    numberOfPacketsToCapture?: number;
+    protocol?: AzureFirewallNetworkRuleProtocol;
+    sasUrl?: string;
+}
+
+// @public
 export interface FirewallPolicies {
     beginCreateOrUpdate(resourceGroupName: string, firewallPolicyName: string, parameters: FirewallPolicy, options?: FirewallPoliciesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FirewallPoliciesCreateOrUpdateResponse>, FirewallPoliciesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, firewallPolicyName: string, parameters: FirewallPolicy, options?: FirewallPoliciesCreateOrUpdateOptionalParams): Promise<FirewallPoliciesCreateOrUpdateResponse>;
@@ -6104,6 +6147,16 @@ export enum KnownAzureFirewallNetworkRuleProtocol {
     Icmp = "ICMP",
     TCP = "TCP",
     UDP = "UDP"
+}
+
+// @public
+export enum KnownAzureFirewallPacketCaptureFlagsType {
+    Ack = "ack",
+    Fin = "fin",
+    Push = "push",
+    Rst = "rst",
+    Syn = "syn",
+    Urg = "urg"
 }
 
 // @public

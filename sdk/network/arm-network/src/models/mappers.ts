@@ -2601,6 +2601,63 @@ export const IPPrefixesList: coreClient.CompositeMapper = {
   }
 };
 
+export const AzureFirewallPacketCaptureFlags: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureFirewallPacketCaptureFlags",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureFirewallPacketCaptureRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureFirewallPacketCaptureRule",
+    modelProperties: {
+      sources: {
+        serializedName: "sources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      destinations: {
+        serializedName: "destinations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      destinationPorts: {
+        serializedName: "destinationPorts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const AzureFirewallFqdnTagListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -19978,6 +20035,78 @@ export const AzureFirewallIPConfiguration: coreClient.CompositeMapper = {
   }
 };
 
+export const FirewallPacketCaptureParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FirewallPacketCaptureParameters",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      durationInSeconds: {
+        constraints: {
+          InclusiveMaximum: 1800,
+          InclusiveMinimum: 30
+        },
+        serializedName: "properties.durationInSeconds",
+        type: {
+          name: "Number"
+        }
+      },
+      numberOfPacketsToCapture: {
+        constraints: {
+          InclusiveMaximum: 90000,
+          InclusiveMinimum: 100
+        },
+        serializedName: "properties.numberOfPacketsToCapture",
+        type: {
+          name: "Number"
+        }
+      },
+      sasUrl: {
+        serializedName: "properties.sasUrl",
+        type: {
+          name: "String"
+        }
+      },
+      fileName: {
+        serializedName: "properties.fileName",
+        type: {
+          name: "String"
+        }
+      },
+      protocol: {
+        serializedName: "properties.protocol",
+        type: {
+          name: "String"
+        }
+      },
+      flags: {
+        serializedName: "properties.flags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzureFirewallPacketCaptureFlags"
+            }
+          }
+        }
+      },
+      filters: {
+        serializedName: "properties.filters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzureFirewallPacketCaptureRule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const BastionHostIPConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -30092,6 +30221,21 @@ export const DefaultAdminRule: coreClient.CompositeMapper = {
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureFirewallsPacketCaptureHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureFirewallsPacketCaptureHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
         type: {
           name: "String"
         }

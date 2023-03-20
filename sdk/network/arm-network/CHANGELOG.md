@@ -1,5 +1,21 @@
 # Release History
     
+## 30.3.0 (2023-03-20)
+    
+**Features**
+
+  - Added operation AzureFirewalls.beginPacketCapture
+  - Added operation AzureFirewalls.beginPacketCaptureAndWait
+  - Added Interface AzureFirewallPacketCaptureFlags
+  - Added Interface AzureFirewallPacketCaptureRule
+  - Added Interface AzureFirewallsPacketCaptureHeaders
+  - Added Interface AzureFirewallsPacketCaptureOptionalParams
+  - Added Interface FirewallPacketCaptureParameters
+  - Added Type Alias AzureFirewallPacketCaptureFlagsType
+  - Added Type Alias AzureFirewallsPacketCaptureResponse
+  - Added Enum KnownAzureFirewallPacketCaptureFlagsType
+    
+    
 ## 30.2.0 (2023-03-07)
     
 **Features**
