@@ -1,15 +1,13 @@
 # Release History
+    
+## 3.0.0 (2023-03-20)
+    
+**Breaking Changes**
 
-## 2.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Enum KnownBillingSku no longer has value G3
+  - Enum KnownBillingSku no longer has value G4
+    
+    
 ## 2.0.0 (2023-01-06)
     
 **Features**

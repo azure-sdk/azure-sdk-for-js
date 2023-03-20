@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PacketCoreControlPlane,
   PacketCoreControlPlanesListBySubscriptionOptionalParams,
@@ -58,7 +58,7 @@ export interface PacketCoreControlPlanes {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     options?: PacketCoreControlPlanesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified packet core control plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -94,8 +94,8 @@ export interface PacketCoreControlPlanes {
     parameters: PacketCoreControlPlane,
     options?: PacketCoreControlPlanesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PacketCoreControlPlanesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PacketCoreControlPlanesCreateOrUpdateResponse>,
       PacketCoreControlPlanesCreateOrUpdateResponse
     >
   >;
@@ -137,8 +137,8 @@ export interface PacketCoreControlPlanes {
     packetCoreControlPlaneName: string,
     options?: PacketCoreControlPlanesRollbackOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PacketCoreControlPlanesRollbackResponse>,
+    SimplePollerLike<
+      OperationState<PacketCoreControlPlanesRollbackResponse>,
       PacketCoreControlPlanesRollbackResponse
     >
   >;
@@ -166,8 +166,8 @@ export interface PacketCoreControlPlanes {
     packetCoreControlPlaneName: string,
     options?: PacketCoreControlPlanesReinstallOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PacketCoreControlPlanesReinstallResponse>,
+    SimplePollerLike<
+      OperationState<PacketCoreControlPlanesReinstallResponse>,
       PacketCoreControlPlanesReinstallResponse
     >
   >;
@@ -198,10 +198,8 @@ export interface PacketCoreControlPlanes {
     parameters: PacketCoreControlPlaneCollectDiagnosticsPackage,
     options?: PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        PacketCoreControlPlanesCollectDiagnosticsPackageResponse
-      >,
+    SimplePollerLike<
+      OperationState<PacketCoreControlPlanesCollectDiagnosticsPackageResponse>,
       PacketCoreControlPlanesCollectDiagnosticsPackageResponse
     >
   >;

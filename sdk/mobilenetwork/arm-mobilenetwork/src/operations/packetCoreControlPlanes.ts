@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MobileNetworkManagementClient } from "../mobileNetworkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   PacketCoreControlPlane,
   PacketCoreControlPlanesListBySubscriptionNextOptionalParams,
@@ -188,14 +192,14 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     options?: PacketCoreControlPlanesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -228,15 +232,15 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, packetCoreControlPlaneName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, packetCoreControlPlaneName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -291,8 +295,8 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
     parameters: PacketCoreControlPlane,
     options?: PacketCoreControlPlanesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PacketCoreControlPlanesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PacketCoreControlPlanesCreateOrUpdateResponse>,
       PacketCoreControlPlanesCreateOrUpdateResponse
     >
   > {
@@ -302,7 +306,7 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
     ): Promise<PacketCoreControlPlanesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -335,15 +339,23 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, packetCoreControlPlaneName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        packetCoreControlPlaneName,
+        parameters,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PacketCoreControlPlanesCreateOrUpdateResponse,
+      OperationState<PacketCoreControlPlanesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -430,8 +442,8 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
     packetCoreControlPlaneName: string,
     options?: PacketCoreControlPlanesRollbackOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PacketCoreControlPlanesRollbackResponse>,
+    SimplePollerLike<
+      OperationState<PacketCoreControlPlanesRollbackResponse>,
       PacketCoreControlPlanesRollbackResponse
     >
   > {
@@ -441,7 +453,7 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
     ): Promise<PacketCoreControlPlanesRollbackResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -474,15 +486,18 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, packetCoreControlPlaneName, options },
-      rollbackOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, packetCoreControlPlaneName, options },
+      spec: rollbackOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PacketCoreControlPlanesRollbackResponse,
+      OperationState<PacketCoreControlPlanesRollbackResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -520,8 +535,8 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
     packetCoreControlPlaneName: string,
     options?: PacketCoreControlPlanesReinstallOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PacketCoreControlPlanesReinstallResponse>,
+    SimplePollerLike<
+      OperationState<PacketCoreControlPlanesReinstallResponse>,
       PacketCoreControlPlanesReinstallResponse
     >
   > {
@@ -531,7 +546,7 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
     ): Promise<PacketCoreControlPlanesReinstallResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -564,15 +579,18 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, packetCoreControlPlaneName, options },
-      reinstallOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, packetCoreControlPlaneName, options },
+      spec: reinstallOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PacketCoreControlPlanesReinstallResponse,
+      OperationState<PacketCoreControlPlanesReinstallResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -613,10 +631,8 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
     parameters: PacketCoreControlPlaneCollectDiagnosticsPackage,
     options?: PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        PacketCoreControlPlanesCollectDiagnosticsPackageResponse
-      >,
+    SimplePollerLike<
+      OperationState<PacketCoreControlPlanesCollectDiagnosticsPackageResponse>,
       PacketCoreControlPlanesCollectDiagnosticsPackageResponse
     >
   > {
@@ -626,7 +642,7 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
     ): Promise<PacketCoreControlPlanesCollectDiagnosticsPackageResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -659,15 +675,23 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, packetCoreControlPlaneName, parameters, options },
-      collectDiagnosticsPackageOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        packetCoreControlPlaneName,
+        parameters,
+        options
+      },
+      spec: collectDiagnosticsPackageOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PacketCoreControlPlanesCollectDiagnosticsPackageResponse,
+      OperationState<PacketCoreControlPlanesCollectDiagnosticsPackageResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;

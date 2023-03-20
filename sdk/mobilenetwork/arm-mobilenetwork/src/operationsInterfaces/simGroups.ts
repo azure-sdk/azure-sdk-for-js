@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SimGroup,
   SimGroupsListBySubscriptionOptionalParams,
@@ -51,7 +51,7 @@ export interface SimGroups {
     resourceGroupName: string,
     simGroupName: string,
     options?: SimGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified SIM group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -87,8 +87,8 @@ export interface SimGroups {
     parameters: SimGroup,
     options?: SimGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SimGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SimGroupsCreateOrUpdateResponse>,
       SimGroupsCreateOrUpdateResponse
     >
   >;

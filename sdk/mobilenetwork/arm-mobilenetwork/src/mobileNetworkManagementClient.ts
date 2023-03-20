@@ -78,7 +78,7 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-mobilenetwork/2.0.1`;
+    const packageDetails = `azsdk-js-arm-mobilenetwork/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

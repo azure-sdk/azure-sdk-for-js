@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Site,
   SitesListByMobileNetworkOptionalParams,
@@ -48,7 +48,7 @@ export interface Sites {
     mobileNetworkName: string,
     siteName: string,
     options?: SitesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified mobile network site. This will also delete any network functions that are a
    * part of this site.
@@ -92,8 +92,8 @@ export interface Sites {
     parameters: Site,
     options?: SitesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SitesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SitesCreateOrUpdateResponse>,
       SitesCreateOrUpdateResponse
     >
   >;
