@@ -1,15 +1,80 @@
 # Release History
+    
+## 1.0.0-beta.5 (2023-03-21)
+    
+**Features**
 
-## 1.0.0-beta.5 (Unreleased)
+  - Added operation NetworkConnections.listOutboundNetworkDependenciesEndpoints
+  - Added operation Pools.beginRunHealthChecks
+  - Added operation Pools.beginRunHealthChecksAndWait
+  - Added Interface EndpointDependency
+  - Added Interface EndpointDetail
+  - Added Interface HealthStatusDetail
+  - Added Interface NetworkConnectionsListOutboundNetworkDependenciesEndpointsNextOptionalParams
+  - Added Interface NetworkConnectionsListOutboundNetworkDependenciesEndpointsOptionalParams
+  - Added Interface OutboundEnvironmentEndpoint
+  - Added Interface OutboundEnvironmentEndpointCollection
+  - Added Interface PoolsRunHealthChecksOptionalParams
+  - Added Interface StopOnDisconnectConfiguration
+  - Added Type Alias EnvironmentTypeEnableStatus
+  - Added Type Alias HealthStatus
+  - Added Type Alias NetworkConnectionsListOutboundNetworkDependenciesEndpointsNextResponse
+  - Added Type Alias NetworkConnectionsListOutboundNetworkDependenciesEndpointsResponse
+  - Added Type Alias ScheduleEnableStatus
+  - Added Type Alias StopOnDisconnectEnableStatus
+  - Interface Image_2 has a new optional parameter hibernateSupport
+  - Interface Pool has a new optional parameter healthStatus
+  - Interface Pool has a new optional parameter healthStatusDetails
+  - Interface Pool has a new optional parameter stopOnDisconnect
+  - Interface PoolProperties has a new optional parameter healthStatus
+  - Interface PoolProperties has a new optional parameter healthStatusDetails
+  - Interface PoolUpdate has a new optional parameter stopOnDisconnect
+  - Interface PoolUpdateProperties has a new optional parameter stopOnDisconnect
+  - Interface Project has a new optional parameter maxDevBoxesPerUser
+  - Interface ProjectUpdate has a new optional parameter maxDevBoxesPerUser
+  - Interface ProjectUpdateProperties has a new optional parameter maxDevBoxesPerUser
+  - Added Enum KnownEnvironmentTypeEnableStatus
+  - Added Enum KnownHealthStatus
+  - Added Enum KnownScheduleEnableStatus
+  - Added Enum KnownStopOnDisconnectEnableStatus
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group Usages
+  - Interface AttachedNetworksListByDevCenterNextOptionalParams no longer has parameter top
+  - Interface AttachedNetworksListByProjectNextOptionalParams no longer has parameter top
+  - Interface CatalogsListByDevCenterNextOptionalParams no longer has parameter top
+  - Interface DevBoxDefinitionsListByDevCenterNextOptionalParams no longer has parameter top
+  - Interface DevBoxDefinitionsListByProjectNextOptionalParams no longer has parameter top
+  - Interface DevCentersListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface DevCentersListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface EnvironmentTypesListByDevCenterNextOptionalParams no longer has parameter top
+  - Interface GalleriesListByDevCenterNextOptionalParams no longer has parameter top
+  - Interface ImageReference no longer has parameter offer
+  - Interface ImageReference no longer has parameter publisher
+  - Interface ImageReference no longer has parameter sku
+  - Interface ImagesListByDevCenterNextOptionalParams no longer has parameter top
+  - Interface ImagesListByGalleryNextOptionalParams no longer has parameter top
+  - Interface NetworkConnectionsListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface NetworkConnectionsListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface NetworkConnectionsListHealthDetailsNextOptionalParams no longer has parameter top
+  - Interface PoolsListByProjectNextOptionalParams no longer has parameter top
+  - Interface ProjectAllowedEnvironmentTypesListNextOptionalParams no longer has parameter top
+  - Interface ProjectEnvironmentTypesListNextOptionalParams no longer has parameter top
+  - Interface ProjectsListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface ProjectsListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface SchedulesListByPoolNextOptionalParams no longer has parameter top
+  - Interface SkusListBySubscriptionNextOptionalParams no longer has parameter top
+  - Type of parameter status of interface ProjectEnvironmentType is changed from EnableStatus to EnvironmentTypeEnableStatus
+  - Type of parameter status of interface ProjectEnvironmentTypeUpdate is changed from EnableStatus to EnvironmentTypeEnableStatus
+  - Type of parameter status of interface ProjectEnvironmentTypeUpdateProperties is changed from EnableStatus to EnvironmentTypeEnableStatus
+  - Type of parameter state of interface Schedule is changed from EnableStatus to ScheduleEnableStatus
+  - Type of parameter state of interface ScheduleUpdate is changed from EnableStatus to ScheduleEnableStatus
+  - Type of parameter state of interface ScheduleUpdateProperties is changed from EnableStatus to ScheduleEnableStatus
+  - Class DevCenterClient no longer has parameter usages
+  - Removed Enum KnownEnableStatus
+    
+    
 ## 1.0.0-beta.4 (2022-11-23)
     
 **Features**

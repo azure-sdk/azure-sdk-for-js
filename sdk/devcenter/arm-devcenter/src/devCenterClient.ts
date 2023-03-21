@@ -28,7 +28,6 @@ import {
   DevBoxDefinitionsImpl,
   OperationsImpl,
   OperationStatusesImpl,
-  UsagesImpl,
   CheckNameAvailabilityImpl,
   SkusImpl,
   PoolsImpl,
@@ -49,7 +48,6 @@ import {
   DevBoxDefinitions,
   Operations,
   OperationStatuses,
-  Usages,
   CheckNameAvailability,
   Skus,
   Pools,
@@ -143,7 +141,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-11-11-preview";
+    this.apiVersion = options.apiVersion || "2023-01-01-preview";
     this.devCenters = new DevCentersImpl(this);
     this.projects = new ProjectsImpl(this);
     this.attachedNetworks = new AttachedNetworksImpl(this);
@@ -159,7 +157,6 @@ export class DevCenterClient extends coreClient.ServiceClient {
     this.devBoxDefinitions = new DevBoxDefinitionsImpl(this);
     this.operations = new OperationsImpl(this);
     this.operationStatuses = new OperationStatusesImpl(this);
-    this.usages = new UsagesImpl(this);
     this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
     this.skus = new SkusImpl(this);
     this.pools = new PoolsImpl(this);
@@ -209,7 +206,6 @@ export class DevCenterClient extends coreClient.ServiceClient {
   devBoxDefinitions: DevBoxDefinitions;
   operations: Operations;
   operationStatuses: OperationStatuses;
-  usages: Usages;
   checkNameAvailability: CheckNameAvailability;
   skus: Skus;
   pools: Pools;
