@@ -205,6 +205,27 @@ export const OperationDisplay: coreClient.CompositeMapper = {
   }
 };
 
+export const OldAgreementTermsList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OldAgreementTermsList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OldAgreementTerms"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const AgreementTerms: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -270,6 +291,52 @@ export const AgreementTerms: coreClient.CompositeMapper = {
         serializedName: "properties.accepted",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const OldAgreementTerms: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OldAgreementTerms",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      idPropertiesId: {
+        serializedName: "properties.id",
+        type: {
+          name: "String"
+        }
+      },
+      publisher: {
+        serializedName: "properties.publisher",
+        type: {
+          name: "String"
+        }
+      },
+      offer: {
+        serializedName: "properties.offer",
+        type: {
+          name: "String"
+        }
+      },
+      signDate: {
+        serializedName: "properties.signDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      cancelDate: {
+        serializedName: "properties.cancelDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      state: {
+        serializedName: "properties.state",
+        type: {
+          name: "String"
         }
       }
     }
