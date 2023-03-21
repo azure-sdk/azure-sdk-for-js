@@ -15900,14 +15900,12 @@ export const OwaspCrsExclusionEntry: coreClient.CompositeMapper = {
       },
       selectorMatchOperator: {
         serializedName: "selectorMatchOperator",
-        required: true,
         type: {
           name: "String"
         }
       },
       selector: {
         serializedName: "selector",
-        required: true,
         type: {
           name: "String"
         }

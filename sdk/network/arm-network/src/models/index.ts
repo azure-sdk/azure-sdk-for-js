@@ -5628,9 +5628,9 @@ export interface OwaspCrsExclusionEntry {
   /** The variable to be excluded. */
   matchVariable: OwaspCrsExclusionEntryMatchVariable;
   /** When matchVariable is a collection, operate on the selector to specify which elements in the collection this exclusion applies to. */
-  selectorMatchOperator: OwaspCrsExclusionEntrySelectorMatchOperator;
+  selectorMatchOperator?: OwaspCrsExclusionEntrySelectorMatchOperator;
   /** When matchVariable is a collection, operator used to specify which elements in the collection this exclusion applies to. */
-  selector: string;
+  selector?: string;
   /** The managed rule sets that are associated with the exclusion. */
   exclusionManagedRuleSets?: ExclusionManagedRuleSet[];
 }

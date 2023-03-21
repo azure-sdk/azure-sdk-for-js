@@ -9891,8 +9891,8 @@ export type OutputType = string;
 export interface OwaspCrsExclusionEntry {
     exclusionManagedRuleSets?: ExclusionManagedRuleSet[];
     matchVariable: OwaspCrsExclusionEntryMatchVariable;
-    selector: string;
-    selectorMatchOperator: OwaspCrsExclusionEntrySelectorMatchOperator;
+    selector?: string;
+    selectorMatchOperator?: OwaspCrsExclusionEntrySelectorMatchOperator;
 }
 
 // @public
