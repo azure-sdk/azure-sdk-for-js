@@ -322,6 +322,12 @@
   - Enum KnownOfferingType has a new value DefenderForServersGcp
   - Enum KnownSettingName has a new value WdatpUnifiedSolution
   - Added function getContinuationToken
+
+**Breaking Changes**
+
+  - Removed operation Alerts.simulate
+  - Removed operation SecurityContacts.update
+  - Operation AllowedConnections.get has a new signature
   - Interface AlertsSuppressionRulesListNextOptionalParams no longer has parameter alertType
   - Interface DefenderForServersAwsOfferingArcAutoProvisioning no longer has parameter servicePrincipalSecretMetadata
   - Interface IotSecuritySolutionListByResourceGroupNextOptionalParams no longer has parameter filter
@@ -336,12 +342,6 @@
   - Interface TasksListByHomeRegionNextOptionalParams no longer has parameter filter
   - Interface TasksListByResourceGroupNextOptionalParams no longer has parameter filter
   - Interface TasksListNextOptionalParams no longer has parameter filter
-
-**Breaking Changes**
-
-  - Removed operation Alerts.simulate
-  - Removed operation SecurityContacts.update
-  - Operation AllowedConnections.get has a new signature
   - Type of parameter value of interface ExternalSecuritySolutionList is changed from ExternalSecuritySolutionUnion[] to ExternalSecuritySolution[]
   - Removed Enum KnownAlertNotifications
   - Removed Enum KnownAlertsToAdmins
