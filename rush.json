@@ -1952,6 +1952,11 @@
       "packageName": "@azure/arm-graphservices",
       "projectFolder": "sdk/graphservices/arm-graphservices",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-networkcloud",
+      "projectFolder": "sdk/networkcloud/arm-networkcloud",
+      "versionPolicyName": "management"
     }
   ]
 }
