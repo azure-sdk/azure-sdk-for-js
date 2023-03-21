@@ -5717,6 +5717,14 @@ export interface FirewallPolicyRuleApplicationProtocol {
   port?: number;
 }
 
+/** name and value of HTTP/S header to insert */
+export interface FirewallPolicyHttpHeaderToInsert {
+  /** Contains the name of the header */
+  headerName?: string;
+  /** Contains the value of the header */
+  headerValue?: string;
+}
+
 /** The response body contains the status of the specified asynchronous operation, indicating whether it has succeeded, is in progress, or has failed. Note that this status is distinct from the HTTP status code returned for the Get Operation Status operation itself. If the asynchronous operation succeeded, the response body includes the HTTP status code for the successful request. If the asynchronous operation failed, the response body includes the HTTP status code for the failed request and error information regarding the failure. */
 export interface AzureAsyncOperationResult {
   /** Status of the Azure async operation. */
@@ -6416,7 +6424,7 @@ export interface Subnet extends SubResource {
   /** Enable or Disable apply network policies on private link service in the subnet. */
   privateLinkServiceNetworkPolicies?: VirtualNetworkPrivateLinkServiceNetworkPolicies;
   /** Application gateway IP configurations of virtual network resource. */
-  applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
+  applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
 }
 
 /** Frontend IP address of the load balancer. */
@@ -11194,6 +11202,8 @@ export interface ApplicationRule extends FirewallPolicyRule {
   terminateTLS?: boolean;
   /** List of destination azure web categories. */
   webCategories?: string[];
+  /** List of HTTP/S headers to insert. */
+  httpHeadersToInsert?: FirewallPolicyHttpHeaderToInsert[];
 }
 
 /** Rule of type nat. */

@@ -16186,6 +16186,27 @@ export const FirewallPolicyRuleApplicationProtocol: coreClient.CompositeMapper =
   }
 };
 
+export const FirewallPolicyHttpHeaderToInsert: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FirewallPolicyHttpHeaderToInsert",
+    modelProperties: {
+      headerName: {
+        serializedName: "headerName",
+        type: {
+          name: "String"
+        }
+      },
+      headerValue: {
+        serializedName: "headerValue",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AzureAsyncOperationResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -17810,8 +17831,8 @@ export const Subnet: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      applicationGatewayIpConfigurations: {
-        serializedName: "properties.applicationGatewayIpConfigurations",
+      applicationGatewayIPConfigurations: {
+        serializedName: "properties.applicationGatewayIPConfigurations",
         type: {
           name: "Sequence",
           element: {
@@ -29705,6 +29726,18 @@ export const ApplicationRule: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "String"
+            }
+          }
+        }
+      },
+      httpHeadersToInsert: {
+        serializedName: "httpHeadersToInsert",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FirewallPolicyHttpHeaderToInsert"
             }
           }
         }

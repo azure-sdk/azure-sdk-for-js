@@ -1214,6 +1214,7 @@ export interface ApplicationGatewayWebApplicationFirewallConfiguration {
 export interface ApplicationRule extends FirewallPolicyRule {
     destinationAddresses?: string[];
     fqdnTags?: string[];
+    httpHeadersToInsert?: FirewallPolicyHttpHeaderToInsert[];
     protocols?: FirewallPolicyRuleApplicationProtocol[];
     ruleType: "ApplicationRule";
     sourceAddresses?: string[];
@@ -4724,6 +4725,12 @@ export interface FirewallPolicyFilterRuleCollectionAction {
 
 // @public
 export type FirewallPolicyFilterRuleCollectionActionType = string;
+
+// @public
+export interface FirewallPolicyHttpHeaderToInsert {
+    headerName?: string;
+    headerValue?: string;
+}
 
 // @public
 export type FirewallPolicyIdpsQuerySortOrder = string;
@@ -12439,7 +12446,7 @@ export interface StaticRoutesConfig {
 export interface Subnet extends SubResource {
     addressPrefix?: string;
     addressPrefixes?: string[];
-    applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
+    applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
     delegations?: Delegation[];
     readonly etag?: string;
     ipAllocations?: SubResource[];
