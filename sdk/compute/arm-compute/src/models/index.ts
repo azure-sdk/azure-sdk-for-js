@@ -513,10 +513,56 @@ export interface ApiEntityReference {
   id?: string;
 }
 
+/** Describes a virtual machine scale set network profile's network configurations. */
+export interface VirtualMachineScaleSetNetworkConfiguration {
+  /** The network configuration name. */
+  name: string;
+  /** Specifies the primary network interface in case the virtual machine has more than 1 network interface. */
+  primary?: boolean;
+  /** Specifies whether the network interface is accelerated networking-enabled. */
+  enableAcceleratedNetworking?: boolean;
+  /** Specifies whether the network interface is disabled for tcp state tracking. */
+  disableTcpStateTracking?: boolean;
+  /** Specifies whether the network interface is FPGA networking-enabled. */
+  enableFpga?: boolean;
+  /** The network security group. */
+  networkSecurityGroup?: SubResource;
+  /** The dns settings to be applied on the network interfaces. */
+  dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
+  /** Specifies the IP configurations of the network interface. */
+  ipConfigurations?: VirtualMachineScaleSetIPConfiguration[];
+  /** Whether IP forwarding enabled on this NIC. */
+  enableIPForwarding?: boolean;
+  /** Specify what happens to the network interface when the VM is deleted */
+  deleteOption?: DeleteOptions;
+}
+
 /** Describes a virtual machines scale sets network configuration's DNS settings. */
 export interface VirtualMachineScaleSetNetworkConfigurationDnsSettings {
   /** List of DNS servers IP addresses */
   dnsServers?: string[];
+}
+
+/** Describes a virtual machine scale set network profile's IP configuration. */
+export interface VirtualMachineScaleSetIPConfiguration {
+  /** The IP configuration name. */
+  name: string;
+  /** Specifies the identifier of the subnet. */
+  subnet?: ApiEntityReference;
+  /** Specifies the primary network interface in case the virtual machine has more than 1 network interface. */
+  primary?: boolean;
+  /** The publicIPAddressConfiguration. */
+  publicIPAddressConfiguration?: VirtualMachineScaleSetPublicIPAddressConfiguration;
+  /** Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'. */
+  privateIPAddressVersion?: IPVersion;
+  /** Specifies an array of references to backend address pools of application gateways. A scale set can reference backend address pools of multiple application gateways. Multiple scale sets cannot use the same application gateway. */
+  applicationGatewayBackendAddressPools?: SubResource[];
+  /** Specifies an array of references to application security group. */
+  applicationSecurityGroups?: SubResource[];
+  /** Specifies an array of references to backend address pools of load balancers. A scale set can reference backend address pools of one public and one internal load balancer. Multiple scale sets cannot use the same basic sku load balancer. */
+  loadBalancerBackendAddressPools?: SubResource[];
+  /** Specifies an array of references to inbound Nat pools of the load balancers. A scale set can reference inbound nat pools of one public and one internal load balancer. Multiple scale sets cannot use the same basic sku load balancer. */
+  loadBalancerInboundNatPools?: SubResource[];
 }
 
 /** Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration */
@@ -638,7 +684,7 @@ export interface TerminateNotificationProfile {
 }
 
 export interface OSImageNotificationProfile {
-  /** Length of time a Virtual Machine being reimaged or having its OS upgraded will have to potentially approve the OS Image Scheduled Event before the event is auto approved (timed out). The configuration is specified in ISO 8601 format, with the value set to 15 minutes (PT15M) */
+  /** Length of time a Virtual Machine being reimaged or having its OS upgraded will have to potentially approve the OS Image Scheduled Event before the event is auto approved (timed out). The configuration is specified in ISO 8601 format, and the value must be 15 minutes (PT15M) */
   notBeforeTimeout?: string;
   /** Specifies whether the OS Image Scheduled event is enabled or disabled. */
   enable?: boolean;
@@ -1294,6 +1340,14 @@ export interface VirtualMachineScaleSetVMInstanceView {
   readonly assignedHost?: string;
   /** The placement group in which the VM is running. If the VM is deallocated it will not have a placementGroupId. */
   placementGroupId?: string;
+  /** Specifies the host OS name of the virtual machine. <br><br> This name cannot be updated after the VM is created. <br><br> **Max-length (Windows):** 15 characters <br><br> **Max-length (Linux):** 64 characters. <br><br> For naming conventions and restrictions see [Azure infrastructure services implementation guidelines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-infrastructure-subscription-accounts-guidelines?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#1-naming-conventions). */
+  computerName?: string;
+  /** The Operating System running on the hybrid machine. */
+  osName?: string;
+  /** The version of Operating System running on the hybrid machine. */
+  osVersion?: string;
+  /** The hypervisor generation of the Virtual Machine [V1, V2] */
+  hyperVGeneration?: HyperVGeneration;
 }
 
 /** The instance view of the VM Agent running on the virtual machine. */
@@ -4469,53 +4523,6 @@ export interface ImageReference extends SubResource {
 /** Describes the parameter of customer managed disk encryption set resource id that can be specified for disk. <br><br> NOTE: The disk encryption set resource id can only be specified for managed disk. Please refer https://aka.ms/mdssewithcmkoverview for more details. */
 export interface DiskEncryptionSetParameters extends SubResource {}
 
-/** Describes a virtual machine scale set network profile's IP configuration. */
-export interface VirtualMachineScaleSetIPConfiguration extends SubResource {
-  /** The IP configuration name. */
-  name: string;
-  /** Specifies the identifier of the subnet. */
-  subnet?: ApiEntityReference;
-  /** Specifies the primary network interface in case the virtual machine has more than 1 network interface. */
-  primary?: boolean;
-  /** The publicIPAddressConfiguration. */
-  publicIPAddressConfiguration?: VirtualMachineScaleSetPublicIPAddressConfiguration;
-  /** Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'. */
-  privateIPAddressVersion?: IPVersion;
-  /** Specifies an array of references to backend address pools of application gateways. A scale set can reference backend address pools of multiple application gateways. Multiple scale sets cannot use the same application gateway. */
-  applicationGatewayBackendAddressPools?: SubResource[];
-  /** Specifies an array of references to application security group. */
-  applicationSecurityGroups?: SubResource[];
-  /** Specifies an array of references to backend address pools of load balancers. A scale set can reference backend address pools of one public and one internal load balancer. Multiple scale sets cannot use the same basic sku load balancer. */
-  loadBalancerBackendAddressPools?: SubResource[];
-  /** Specifies an array of references to inbound Nat pools of the load balancers. A scale set can reference inbound nat pools of one public and one internal load balancer. Multiple scale sets cannot use the same basic sku load balancer. */
-  loadBalancerInboundNatPools?: SubResource[];
-}
-
-/** Describes a virtual machine scale set network profile's network configurations. */
-export interface VirtualMachineScaleSetNetworkConfiguration
-  extends SubResource {
-  /** The network configuration name. */
-  name: string;
-  /** Specifies the primary network interface in case the virtual machine has more than 1 network interface. */
-  primary?: boolean;
-  /** Specifies whether the network interface is accelerated networking-enabled. */
-  enableAcceleratedNetworking?: boolean;
-  /** Specifies whether the network interface is disabled for tcp state tracking. */
-  disableTcpStateTracking?: boolean;
-  /** Specifies whether the network interface is FPGA networking-enabled. */
-  enableFpga?: boolean;
-  /** The network security group. */
-  networkSecurityGroup?: SubResource;
-  /** The dns settings to be applied on the network interfaces. */
-  dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
-  /** Specifies the IP configurations of the network interface. */
-  ipConfigurations?: VirtualMachineScaleSetIPConfiguration[];
-  /** Whether IP forwarding enabled on this NIC. */
-  enableIPForwarding?: boolean;
-  /** Specify what happens to the network interface when the VM is deleted */
-  deleteOption?: DeleteOptions;
-}
-
 /** Describes a virtual machine scale set network profile's IP configuration. NOTE: The subnet of a scale set may be modified as long as the original subnet and the new subnet are in the same virtual network */
 export interface VirtualMachineScaleSetUpdateIPConfiguration
   extends SubResource {
@@ -4742,6 +4749,8 @@ export interface VirtualMachineScaleSetVMExtension extends SubResourceReadOnly {
   suppressFailures?: boolean;
   /** The extensions protected settings that are passed by reference, and consumed from key vault */
   protectedSettingsFromKeyVault?: KeyVaultSecretReference;
+  /** The list of extension names after the extension needs to be provisioned. */
+  provisionAfterExtensions?: string[];
 }
 
 /** Describes a VMSS VM Extension. */
@@ -6016,6 +6025,8 @@ export interface VirtualMachineExtension extends ResourceWithOptionalLocation {
   suppressFailures?: boolean;
   /** The extensions protected settings that are passed by reference, and consumed from key vault */
   protectedSettingsFromKeyVault?: KeyVaultSecretReference;
+  /** The list of extension names after the extension needs to be provisioned. */
+  provisionAfterExtensions?: string[];
 }
 
 /** The instance view of a dedicated host that includes the name of the dedicated host. It is used for the response to the instance view of a dedicated host group. */
@@ -7014,6 +7025,24 @@ export enum KnownOrchestrationServiceStateAction {
  * **Suspend**
  */
 export type OrchestrationServiceStateAction = string;
+
+/** Known values of {@link HyperVGeneration} that the service accepts. */
+export enum KnownHyperVGeneration {
+  /** V1 */
+  V1 = "V1",
+  /** V2 */
+  V2 = "V2"
+}
+
+/**
+ * Defines values for HyperVGeneration. \
+ * {@link KnownHyperVGeneration} can be used interchangeably with HyperVGeneration,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **V1** \
+ * **V2**
+ */
+export type HyperVGeneration = string;
 
 /** Known values of {@link VirtualMachineSizeTypes} that the service accepts. */
 export enum KnownVirtualMachineSizeTypes {
@@ -8089,13 +8118,13 @@ export enum KnownDiskStorageAccountTypes {
   StandardLRS = "Standard_LRS",
   /** Premium SSD locally redundant storage. Best for production and performance sensitive workloads. */
   PremiumLRS = "Premium_LRS",
-  /** Standard SSD locally redundant storage. Best for web servers, lightly used enterprise applications and dev/test. */
+  /** Standard SSD locally redundant storage. Best for web servers, lightly used enterprise applications and dev\/test. */
   StandardSSDLRS = "StandardSSD_LRS",
   /** Ultra SSD locally redundant storage. Best for IO-intensive workloads such as SAP HANA, top tier databases (for example, SQL, Oracle), and other transaction-heavy workloads. */
   UltraSSDLRS = "UltraSSD_LRS",
   /** Premium SSD zone redundant storage. Best for the production workloads that need storage resiliency against zone failures. */
   PremiumZRS = "Premium_ZRS",
-  /** Standard SSD zone redundant storage. Best for web servers, lightly used enterprise applications and dev/test that need storage resiliency against zone failures. */
+  /** Standard SSD zone redundant storage. Best for web servers, lightly used enterprise applications and dev\/test that need storage resiliency against zone failures. */
   StandardSSDZRS = "StandardSSD_ZRS",
   /** Premium SSD v2 locally redundant storage. Best for production and performance-sensitive workloads that consistently require low latency and high IOPS and throughput. */
   PremiumV2LRS = "PremiumV2_LRS"
@@ -8115,24 +8144,6 @@ export enum KnownDiskStorageAccountTypes {
  * **PremiumV2_LRS**: Premium SSD v2 locally redundant storage. Best for production and performance-sensitive workloads that consistently require low latency and high IOPS and throughput.
  */
 export type DiskStorageAccountTypes = string;
-
-/** Known values of {@link HyperVGeneration} that the service accepts. */
-export enum KnownHyperVGeneration {
-  /** V1 */
-  V1 = "V1",
-  /** V2 */
-  V2 = "V2"
-}
-
-/**
- * Defines values for HyperVGeneration. \
- * {@link KnownHyperVGeneration} can be used interchangeably with HyperVGeneration,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **V1** \
- * **V2**
- */
-export type HyperVGeneration = string;
 
 /** Known values of {@link Architecture} that the service accepts. */
 export enum KnownArchitecture {
@@ -8316,9 +8327,9 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link DataAccessAuthMode} that the service accepts. */
 export enum KnownDataAccessAuthMode {
-  /** When export/upload URL is used, the system checks if the user has an identity in Azure Active Directory and has necessary permissions to export/upload the data. Please refer to aka.ms/DisksAzureADAuth. */
+  /** When export\/upload URL is used, the system checks if the user has an identity in Azure Active Directory and has necessary permissions to export\/upload the data. Please refer to aka.ms\/DisksAzureADAuth. */
   AzureActiveDirectory = "AzureActiveDirectory",
-  /** No additional authentication would be performed when accessing export/upload URL. */
+  /** No additional authentication would be performed when accessing export\/upload URL. */
   None = "None"
 }
 
@@ -8624,7 +8635,9 @@ export enum KnownStorageAccountType {
   /** StandardZRS */
   StandardZRS = "Standard_ZRS",
   /** PremiumLRS */
-  PremiumLRS = "Premium_LRS"
+  PremiumLRS = "Premium_LRS",
+  /** StandardSSDLRS */
+  StandardSSDLRS = "StandardSSD_LRS"
 }
 
 /**
@@ -8634,7 +8647,8 @@ export enum KnownStorageAccountType {
  * ### Known values supported by the service
  * **Standard_LRS** \
  * **Standard_ZRS** \
- * **Premium_LRS**
+ * **Premium_LRS** \
+ * **StandardSSD_LRS**
  */
 export type StorageAccountType = string;
 
