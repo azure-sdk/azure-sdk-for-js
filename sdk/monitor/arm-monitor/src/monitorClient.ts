@@ -19,6 +19,7 @@ import {
   DiagnosticSettingsImpl,
   DiagnosticSettingsCategoryImpl,
   ActionGroupsImpl,
+  TenantActionGroupsImpl,
   ActivityLogsImpl,
   EventCategoriesImpl,
   TenantActivityLogsImpl,
@@ -52,6 +53,7 @@ import {
   DiagnosticSettings,
   DiagnosticSettingsCategory,
   ActionGroups,
+  TenantActionGroups,
   ActivityLogs,
   EventCategories,
   TenantActivityLogs,
@@ -170,6 +172,7 @@ export class MonitorClient extends coreClient.ServiceClient {
     this.diagnosticSettings = new DiagnosticSettingsImpl(this);
     this.diagnosticSettingsCategory = new DiagnosticSettingsCategoryImpl(this);
     this.actionGroups = new ActionGroupsImpl(this);
+    this.tenantActionGroups = new TenantActionGroupsImpl(this);
     this.activityLogs = new ActivityLogsImpl(this);
     this.eventCategories = new EventCategoriesImpl(this);
     this.tenantActivityLogs = new TenantActivityLogsImpl(this);
@@ -207,6 +210,7 @@ export class MonitorClient extends coreClient.ServiceClient {
   diagnosticSettings: DiagnosticSettings;
   diagnosticSettingsCategory: DiagnosticSettingsCategory;
   actionGroups: ActionGroups;
+  tenantActionGroups: TenantActionGroups;
   activityLogs: ActivityLogs;
   eventCategories: EventCategories;
   tenantActivityLogs: TenantActivityLogs;
