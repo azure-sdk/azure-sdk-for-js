@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   OnlineEndpoint,
   OnlineEndpointsListOptionalParams,
@@ -53,7 +53,7 @@ export interface OnlineEndpoints {
     workspaceName: string,
     endpointName: string,
     options?: OnlineEndpointsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete Online Endpoint (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -95,8 +95,8 @@ export interface OnlineEndpoints {
     body: PartialMinimalTrackedResourceWithIdentity,
     options?: OnlineEndpointsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<OnlineEndpointsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OnlineEndpointsUpdateResponse>,
       OnlineEndpointsUpdateResponse
     >
   >;
@@ -130,8 +130,8 @@ export interface OnlineEndpoints {
     body: OnlineEndpoint,
     options?: OnlineEndpointsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<OnlineEndpointsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OnlineEndpointsCreateOrUpdateResponse>,
       OnlineEndpointsCreateOrUpdateResponse
     >
   >;
@@ -177,7 +177,7 @@ export interface OnlineEndpoints {
     endpointName: string,
     body: RegenerateEndpointKeysRequest,
     options?: OnlineEndpointsRegenerateKeysOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Regenerate EndpointAuthKeys for an Endpoint using Key-based authentication (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
