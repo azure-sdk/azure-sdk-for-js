@@ -1,15 +1,29 @@
 # Release History
+    
+## 18.0.0 (2023-03-22)
+    
+**Features**
 
-## 17.4.1 (Unreleased)
+  - Added Interface ManagedClusterSecurityProfileImageCleaner
+  - Added Interface ManagedClusterSecurityProfileWorkloadIdentity
+  - Added Type Alias NetworkDataplane
+  - Added Type Alias NetworkPluginMode
+  - Interface ContainerServiceNetworkProfile has a new optional parameter networkDataplane
+  - Interface ContainerServiceNetworkProfile has a new optional parameter networkPluginMode
+  - Interface ManagedClusterSecurityProfile has a new optional parameter imageCleaner
+  - Interface ManagedClusterSecurityProfile has a new optional parameter workloadIdentity
+  - Added Enum KnownNetworkDataplane
+  - Added Enum KnownNetworkPluginMode
+  - Enum KnownNetworkPolicy has a new value Cilium
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed Enum KnownContainerServiceStorageProfileTypes
+  - Removed Enum KnownContainerServiceVMSizeTypes
+  - Enum KnownManagedClusterSKUName no longer has value Basic
+  - Enum KnownManagedClusterSKUTier no longer has value Paid
+    
+    
 ## 17.4.0 (2023-03-09)
     
 **Features**
