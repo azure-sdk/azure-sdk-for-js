@@ -731,6 +731,7 @@ packages:
   /@azure/ai-form-recognizer/3.1.0-beta.3:
     resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
     engines: {node: '>=8.0.0'}
+    deprecated: Please migrate to a supported (non-beta) version of this package
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 1.2.6
@@ -15170,7 +15171,7 @@ packages:
     dev: false
 
   file:projects/arm-synapse.tgz:
-    resolution: {integrity: sha512-asg6cso3chMg8ZK+Qi5XQcp63xwVGp4dS8BO9WQAmau5v9uoEI369j+wsSWnS6A+mm5cx2mV9XpXuxb3HAtHbw==, tarball: file:projects/arm-synapse.tgz}
+    resolution: {integrity: sha512-ppWTeZMWs77kKt2VLw3nlikZR9KsfXuTWXFUygnL+UfudokrWmu5kzhnuO6v3DnictH5UM5bsh2WsuJrBoAr1w==, tarball: file:projects/arm-synapse.tgz}
     name: '@rush-temp/arm-synapse'
     version: 0.0.0
     dependencies:
@@ -15184,8 +15185,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
