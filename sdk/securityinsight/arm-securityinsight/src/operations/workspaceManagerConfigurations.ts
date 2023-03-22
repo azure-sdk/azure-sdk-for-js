@@ -8,38 +8,32 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { FileImports } from "../operationsInterfaces";
+import { WorkspaceManagerConfigurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
-import {
-  FileImport,
-  FileImportsListNextOptionalParams,
-  FileImportsListOptionalParams,
-  FileImportsListResponse,
-  FileImportsGetOptionalParams,
-  FileImportsGetResponse,
-  FileImportsCreateOptionalParams,
-  FileImportsCreateResponse,
-  FileImportsDeleteOptionalParams,
-  FileImportsDeleteResponse,
-  FileImportsListNextResponse
+  WorkspaceManagerConfiguration,
+  WorkspaceManagerConfigurationsListNextOptionalParams,
+  WorkspaceManagerConfigurationsListOptionalParams,
+  WorkspaceManagerConfigurationsListResponse,
+  WorkspaceManagerConfigurationsGetOptionalParams,
+  WorkspaceManagerConfigurationsGetResponse,
+  WorkspaceManagerConfigurationsDeleteOptionalParams,
+  WorkspaceManagerConfigurationsCreateOrUpdateOptionalParams,
+  WorkspaceManagerConfigurationsCreateOrUpdateResponse,
+  WorkspaceManagerConfigurationsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing FileImports operations. */
-export class FileImportsImpl implements FileImports {
+/** Class containing WorkspaceManagerConfigurations operations. */
+export class WorkspaceManagerConfigurationsImpl
+  implements WorkspaceManagerConfigurations {
   private readonly client: SecurityInsights;
 
   /**
-   * Initialize a new instance of the class FileImports class.
+   * Initialize a new instance of the class WorkspaceManagerConfigurations class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityInsights) {
@@ -47,7 +41,7 @@ export class FileImportsImpl implements FileImports {
   }
 
   /**
-   * Gets all file imports.
+   * Gets all workspace manager configurations for a Sentinel workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -55,8 +49,8 @@ export class FileImportsImpl implements FileImports {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FileImportsListOptionalParams
-  ): PagedAsyncIterableIterator<FileImport> {
+    options?: WorkspaceManagerConfigurationsListOptionalParams
+  ): PagedAsyncIterableIterator<WorkspaceManagerConfiguration> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
       next() {
@@ -82,10 +76,10 @@ export class FileImportsImpl implements FileImports {
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FileImportsListOptionalParams,
+    options?: WorkspaceManagerConfigurationsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<FileImport[]> {
-    let result: FileImportsListResponse;
+  ): AsyncIterableIterator<WorkspaceManagerConfiguration[]> {
+    let result: WorkspaceManagerConfigurationsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, workspaceName, options);
@@ -111,8 +105,8 @@ export class FileImportsImpl implements FileImports {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FileImportsListOptionalParams
-  ): AsyncIterableIterator<FileImport> {
+    options?: WorkspaceManagerConfigurationsListOptionalParams
+  ): AsyncIterableIterator<WorkspaceManagerConfiguration> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
@@ -123,7 +117,7 @@ export class FileImportsImpl implements FileImports {
   }
 
   /**
-   * Gets all file imports.
+   * Gets all workspace manager configurations for a Sentinel workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -131,8 +125,8 @@ export class FileImportsImpl implements FileImports {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FileImportsListOptionalParams
-  ): Promise<FileImportsListResponse> {
+    options?: WorkspaceManagerConfigurationsListOptionalParams
+  ): Promise<WorkspaceManagerConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
       listOperationSpec
@@ -140,139 +134,78 @@ export class FileImportsImpl implements FileImports {
   }
 
   /**
-   * Gets a file import.
+   * Gets a workspace manager configuration
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param fileImportId File import ID
+   * @param workspaceManagerConfigurationName The name of the workspace manager configuration
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
-    fileImportId: string,
-    options?: FileImportsGetOptionalParams
-  ): Promise<FileImportsGetResponse> {
+    workspaceManagerConfigurationName: string,
+    options?: WorkspaceManagerConfigurationsGetOptionalParams
+  ): Promise<WorkspaceManagerConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, fileImportId, options },
+      {
+        resourceGroupName,
+        workspaceName,
+        workspaceManagerConfigurationName,
+        options
+      },
       getOperationSpec
     );
   }
 
   /**
-   * Creates the file import.
+   * Deletes a workspace manager configuration
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param fileImportId File import ID
-   * @param fileImport The file import
+   * @param workspaceManagerConfigurationName The name of the workspace manager configuration
    * @param options The options parameters.
    */
-  create(
+  delete(
     resourceGroupName: string,
     workspaceName: string,
-    fileImportId: string,
-    fileImport: FileImport,
-    options?: FileImportsCreateOptionalParams
-  ): Promise<FileImportsCreateResponse> {
+    workspaceManagerConfigurationName: string,
+    options?: WorkspaceManagerConfigurationsDeleteOptionalParams
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, fileImportId, fileImport, options },
-      createOperationSpec
+      {
+        resourceGroupName,
+        workspaceName,
+        workspaceManagerConfigurationName,
+        options
+      },
+      deleteOperationSpec
     );
   }
 
   /**
-   * Delete the file import.
+   * Creates or updates a workspace manager configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param fileImportId File import ID
+   * @param workspaceManagerConfigurationName The name of the workspace manager configuration
+   * @param workspaceManagerConfiguration The workspace manager configuration
    * @param options The options parameters.
    */
-  async beginDelete(
+  createOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
-    fileImportId: string,
-    options?: FileImportsDeleteOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<FileImportsDeleteResponse>,
-      FileImportsDeleteResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<FileImportsDeleteResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, workspaceName, fileImportId, options },
-      spec: deleteOperationSpec
-    });
-    const poller = await createHttpPoller<
-      FileImportsDeleteResponse,
-      OperationState<FileImportsDeleteResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Delete the file import.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param fileImportId File import ID
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    workspaceName: string,
-    fileImportId: string,
-    options?: FileImportsDeleteOptionalParams
-  ): Promise<FileImportsDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      workspaceName,
-      fileImportId,
-      options
+    workspaceManagerConfigurationName: string,
+    workspaceManagerConfiguration: WorkspaceManagerConfiguration,
+    options?: WorkspaceManagerConfigurationsCreateOrUpdateOptionalParams
+  ): Promise<WorkspaceManagerConfigurationsCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        workspaceManagerConfigurationName,
+        workspaceManagerConfiguration,
+        options
+      },
+      createOrUpdateOperationSpec
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -286,8 +219,8 @@ export class FileImportsImpl implements FileImports {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: FileImportsListNextOptionalParams
-  ): Promise<FileImportsListNextResponse> {
+    options?: WorkspaceManagerConfigurationsListNextOptionalParams
+  ): Promise<WorkspaceManagerConfigurationsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
       listNextOperationSpec
@@ -299,19 +232,18 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/fileImports",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/workspaceManagerConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileImportList
+      bodyMapper: Mappers.WorkspaceManagerConfigurationList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.filter,
     Parameters.orderby,
     Parameters.top,
     Parameters.skipToken
@@ -327,14 +259,14 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/fileImports/{fileImportId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/workspaceManagerConfigurations/{workspaceManagerConfigurationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileImport
+      bodyMapper: Mappers.WorkspaceManagerConfiguration
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -343,55 +275,20 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.fileImportId
+    Parameters.workspaceManagerConfigurationName
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/fileImports/{fileImportId}",
-  httpMethod: "PUT",
-  responses: {
-    201: {
-      bodyMapper: Mappers.FileImport
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.fileImport,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.fileImportId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/fileImports/{fileImportId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/workspaceManagerConfigurations/{workspaceManagerConfigurationName}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      bodyMapper: Mappers.FileImport
-    },
-    201: {
-      bodyMapper: Mappers.FileImport
-    },
-    202: {
-      bodyMapper: Mappers.FileImport
-    },
-    204: {
-      bodyMapper: Mappers.FileImport
-    },
+    200: {},
+    204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -400,9 +297,37 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.fileImportId
+    Parameters.workspaceManagerConfigurationName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/workspaceManagerConfigurations/{workspaceManagerConfigurationName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkspaceManagerConfiguration
+    },
+    201: {
+      bodyMapper: Mappers.WorkspaceManagerConfiguration
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.workspaceManagerConfiguration,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.workspaceManagerConfigurationName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -410,10 +335,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileImportList
+      bodyMapper: Mappers.WorkspaceManagerConfigurationList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [

@@ -6,22 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { EntityRelations } from "../operationsInterfaces";
+import { GetRecommendations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
-  EntityRelationsGetRelationOptionalParams,
-  EntityRelationsGetRelationResponse
+  GetRecommendationsListOptionalParams,
+  GetRecommendationsListResponse
 } from "../models";
 
-/** Class containing EntityRelations operations. */
-export class EntityRelationsImpl implements EntityRelations {
+/** Class containing GetRecommendations operations. */
+export class GetRecommendationsImpl implements GetRecommendations {
   private readonly client: SecurityInsights;
 
   /**
-   * Initialize a new instance of the class EntityRelations class.
+   * Initialize a new instance of the class GetRecommendations class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityInsights) {
@@ -29,36 +29,32 @@ export class EntityRelationsImpl implements EntityRelations {
   }
 
   /**
-   * Gets an entity relation.
+   * Gets a list of all recommendations.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param entityId entity ID
-   * @param relationName Relation Name
    * @param options The options parameters.
    */
-  getRelation(
+  list(
     resourceGroupName: string,
     workspaceName: string,
-    entityId: string,
-    relationName: string,
-    options?: EntityRelationsGetRelationOptionalParams
-  ): Promise<EntityRelationsGetRelationResponse> {
+    options?: GetRecommendationsListOptionalParams
+  ): Promise<GetRecommendationsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, entityId, relationName, options },
-      getRelationOperationSpec
+      { resourceGroupName, workspaceName, options },
+      listOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getRelationOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/relations/{relationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/recommendations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Relation
+      bodyMapper: Mappers.RecommendationList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -69,9 +65,7 @@ const getRelationOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.entityId,
-    Parameters.relationName
+    Parameters.workspaceName
   ],
   headerParameters: [Parameters.accept],
   serializer
