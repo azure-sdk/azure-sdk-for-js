@@ -1,15 +1,312 @@
 # Release History
+    
+## 1.0.0-beta.7 (2023-03-22)
+    
+**Features**
 
-## 1.0.0-beta.7 (Unreleased)
+  - Added operation group AlertRuleOperations
+  - Added operation group Get
+  - Added operation group GetRecommendations
+  - Added operation group GetTriggeredAnalyticsRuleRuns
+  - Added operation group IncidentTasks
+  - Added operation group TriggeredAnalyticsRuleRunOperations
+  - Added operation group Update
+  - Added operation group WorkspaceManagerAssignmentJobs
+  - Added operation group WorkspaceManagerAssignments
+  - Added operation group WorkspaceManagerConfigurations
+  - Added operation group WorkspaceManagerGroups
+  - Added operation group WorkspaceManagerMembers
+  - Added operation Entities.runPlaybook
+  - Added Interface AddIncidentTaskActionProperties
+  - Added Interface AlertPropertyMapping
+  - Added Interface AlertRuleTriggerRuleRunHeaders
+  - Added Interface AlertRuleTriggerRuleRunOptionalParams
+  - Added Interface AnalyticsRuleRunTrigger
+  - Added Interface AssignmentItem
+  - Added Interface AutomationRuleAddIncidentTaskAction
+  - Added Interface AzureEntityResource
+  - Added Interface Content
+  - Added Interface EntitiesRunPlaybookOptionalParams
+  - Added Interface EntityManualTriggerRequestBody
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorModel
+  - Added Interface ErrorResponse
+  - Added Interface GetRecommendationsListOptionalParams
+  - Added Interface GetSingleRecommendationOptionalParams
+  - Added Interface GetTriggeredAnalyticsRuleRunsListNextOptionalParams
+  - Added Interface GetTriggeredAnalyticsRuleRunsListOptionalParams
+  - Added Interface IncidentTask
+  - Added Interface IncidentTaskList
+  - Added Interface IncidentTasksCreateOrUpdateOptionalParams
+  - Added Interface IncidentTasksDeleteOptionalParams
+  - Added Interface IncidentTasksGetOptionalParams
+  - Added Interface IncidentTasksListNextOptionalParams
+  - Added Interface IncidentTasksListOptionalParams
+  - Added Interface Instructions
+  - Added Interface Job
+  - Added Interface JobItem
+  - Added Interface JobList
+  - Added Interface MicrosoftPurviewInformationProtectionCheckRequirements
+  - Added Interface MicrosoftPurviewInformationProtectionCheckRequirementsProperties
+  - Added Interface MicrosoftPurviewInformationProtectionConnectorDataTypes
+  - Added Interface MicrosoftPurviewInformationProtectionConnectorDataTypesLogs
+  - Added Interface MicrosoftPurviewInformationProtectionDataConnector
+  - Added Interface MicrosoftPurviewInformationProtectionDataConnectorProperties
+  - Added Interface MTPDataConnectorDataTypesAlerts
+  - Added Interface MtpFilteredProviders
+  - Added Interface Recommendation
+  - Added Interface RecommendationList
+  - Added Interface RecommendationPatch
+  - Added Interface RecommendedAction
+  - Added Interface SentinelEntityMapping
+  - Added Interface TriggeredAnalyticsRuleRun
+  - Added Interface TriggeredAnalyticsRuleRunGetOptionalParams
+  - Added Interface TriggeredAnalyticsRuleRuns
+  - Added Interface UpdateRecommendationOptionalParams
+  - Added Interface WorkspaceManagerAssignment
+  - Added Interface WorkspaceManagerAssignmentJobsCreateOptionalParams
+  - Added Interface WorkspaceManagerAssignmentJobsDeleteOptionalParams
+  - Added Interface WorkspaceManagerAssignmentJobsGetOptionalParams
+  - Added Interface WorkspaceManagerAssignmentJobsListNextOptionalParams
+  - Added Interface WorkspaceManagerAssignmentJobsListOptionalParams
+  - Added Interface WorkspaceManagerAssignmentList
+  - Added Interface WorkspaceManagerAssignmentsCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceManagerAssignmentsDeleteOptionalParams
+  - Added Interface WorkspaceManagerAssignmentsGetOptionalParams
+  - Added Interface WorkspaceManagerAssignmentsListNextOptionalParams
+  - Added Interface WorkspaceManagerAssignmentsListOptionalParams
+  - Added Interface WorkspaceManagerConfiguration
+  - Added Interface WorkspaceManagerConfigurationList
+  - Added Interface WorkspaceManagerConfigurationsCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceManagerConfigurationsDeleteOptionalParams
+  - Added Interface WorkspaceManagerConfigurationsGetOptionalParams
+  - Added Interface WorkspaceManagerConfigurationsListNextOptionalParams
+  - Added Interface WorkspaceManagerConfigurationsListOptionalParams
+  - Added Interface WorkspaceManagerGroup
+  - Added Interface WorkspaceManagerGroupList
+  - Added Interface WorkspaceManagerGroupsCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceManagerGroupsDeleteOptionalParams
+  - Added Interface WorkspaceManagerGroupsGetOptionalParams
+  - Added Interface WorkspaceManagerGroupsListNextOptionalParams
+  - Added Interface WorkspaceManagerGroupsListOptionalParams
+  - Added Interface WorkspaceManagerMember
+  - Added Interface WorkspaceManagerMembersCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceManagerMembersDeleteOptionalParams
+  - Added Interface WorkspaceManagerMembersGetOptionalParams
+  - Added Interface WorkspaceManagerMembersList
+  - Added Interface WorkspaceManagerMembersListNextOptionalParams
+  - Added Interface WorkspaceManagerMembersListOptionalParams
+  - Added Type Alias AlertProperty
+  - Added Type Alias AlertRuleTriggerRuleRunResponse
+  - Added Type Alias Category
+  - Added Type Alias Context
+  - Added Type Alias EntityKindEnum
+  - Added Type Alias GetRecommendationsListResponse
+  - Added Type Alias GetSingleRecommendationResponse
+  - Added Type Alias GetTriggeredAnalyticsRuleRunsListNextResponse
+  - Added Type Alias GetTriggeredAnalyticsRuleRunsListResponse
+  - Added Type Alias IncidentTasksCreateOrUpdateResponse
+  - Added Type Alias IncidentTasksGetResponse
+  - Added Type Alias IncidentTasksListNextResponse
+  - Added Type Alias IncidentTasksListResponse
+  - Added Type Alias IncidentTaskStatus
+  - Added Type Alias Mode
+  - Added Type Alias MtpProvider
+  - Added Type Alias Priority
+  - Added Type Alias ProvisioningState
+  - Added Type Alias State
+  - Added Type Alias Status
+  - Added Type Alias TriggeredAnalyticsRuleRunGetResponse
+  - Added Type Alias UpdateRecommendationResponse
+  - Added Type Alias WorkspaceManagerAssignmentJobsCreateResponse
+  - Added Type Alias WorkspaceManagerAssignmentJobsGetResponse
+  - Added Type Alias WorkspaceManagerAssignmentJobsListNextResponse
+  - Added Type Alias WorkspaceManagerAssignmentJobsListResponse
+  - Added Type Alias WorkspaceManagerAssignmentsCreateOrUpdateResponse
+  - Added Type Alias WorkspaceManagerAssignmentsGetResponse
+  - Added Type Alias WorkspaceManagerAssignmentsListNextResponse
+  - Added Type Alias WorkspaceManagerAssignmentsListResponse
+  - Added Type Alias WorkspaceManagerConfigurationsCreateOrUpdateResponse
+  - Added Type Alias WorkspaceManagerConfigurationsGetResponse
+  - Added Type Alias WorkspaceManagerConfigurationsListNextResponse
+  - Added Type Alias WorkspaceManagerConfigurationsListResponse
+  - Added Type Alias WorkspaceManagerGroupsCreateOrUpdateResponse
+  - Added Type Alias WorkspaceManagerGroupsGetResponse
+  - Added Type Alias WorkspaceManagerGroupsListNextResponse
+  - Added Type Alias WorkspaceManagerGroupsListResponse
+  - Added Type Alias WorkspaceManagerMembersCreateOrUpdateResponse
+  - Added Type Alias WorkspaceManagerMembersGetResponse
+  - Added Type Alias WorkspaceManagerMembersListNextResponse
+  - Added Type Alias WorkspaceManagerMembersListResponse
+  - Interface AlertDetailsOverride has a new optional parameter alertDynamicProperties
+  - Interface MTPDataConnector has a new optional parameter filteredProviders
+  - Interface MTPDataConnectorDataTypes has a new optional parameter alerts
+  - Interface MTPDataConnectorProperties has a new optional parameter filteredProviders
+  - Interface NrtAlertRule has a new optional parameter sentinelEntitiesMappings
+  - Interface NrtAlertRuleTemplate has a new optional parameter sentinelEntitiesMappings
+  - Interface QueryBasedAlertRuleTemplateProperties has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRule has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRuleCommonProperties has a new optional parameter sentinelEntitiesMappings
+  - Interface ScheduledAlertRuleTemplate has a new optional parameter sentinelEntitiesMappings
+  - Interface SecurityAlertTimelineItem has a new optional parameter intent
+  - Interface SecurityAlertTimelineItem has a new optional parameter techniques
+  - Type of parameter actionType of interface AutomationRuleAction is changed from "ModifyProperties" | "RunPlaybook" to "AddIncidentTask" | "ModifyProperties" | "RunPlaybook"
+  - Type of parameter kind of interface DataConnectorsCheckRequirements is changed from "AzureActiveDirectory" | "AzureAdvancedThreatProtection" | "AzureSecurityCenter" | "AmazonWebServicesCloudTrail" | "AmazonWebServicesS3" | "Dynamics365" | "MicrosoftCloudAppSecurity" | "MicrosoftDefenderAdvancedThreatProtection" | "MicrosoftThreatIntelligence" | "MicrosoftThreatProtection" | "OfficeATP" | "OfficeIRM" | "Office365Project" | "OfficePowerBI" | "ThreatIntelligence" | "ThreatIntelligenceTaxii" | "IOT" to "AzureActiveDirectory" | "AzureAdvancedThreatProtection" | "AzureSecurityCenter" | "AmazonWebServicesCloudTrail" | "AmazonWebServicesS3" | "Dynamics365" | "MicrosoftCloudAppSecurity" | "MicrosoftDefenderAdvancedThreatProtection" | "MicrosoftThreatIntelligence" | "MicrosoftThreatProtection" | "OfficeATP" | "OfficeIRM" | "MicrosoftPurviewInformationProtection" | "Office365Project" | "OfficePowerBI" | "ThreatIntelligence" | "ThreatIntelligenceTaxii" | "IOT"
+  - Added Enum KnownAlertProperty
+  - Added Enum KnownCategory
+  - Added Enum KnownContext
+  - Added Enum KnownEntityKindEnum
+  - Added Enum KnownIncidentTaskStatus
+  - Added Enum KnownMode
+  - Added Enum KnownMtpProvider
+  - Added Enum KnownPriority
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownState
+  - Added Enum KnownStatus
+  - Enum KnownActionType has a new value AddIncidentTask
+  - Enum KnownDataConnectorKind has a new value MicrosoftPurviewInformationProtection
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation Incidents.createTeam has a new signature
+  - Interface MstiDataConnectorDataTypes no longer has parameter bingSafetyPhishingURL
+  - Parameter logicAppResourceId of interface PlaybookActionProperties is now required
+  - Type of parameter additionalData of interface AccountEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface AzureResourceEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface CloudApplicationEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface DnsEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter kind of interface Entity is changed from EntityKind to EntityKindEnum
+  - Type of parameter additionalData of interface EntityCommonProperties is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface EntityEdges is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter entityKind of interface ExpansionResultAggregation is changed from EntityKind to EntityKindEnum
+  - Type of parameter additionalData of interface FileEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface FileHashEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface HostEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface HuntingBookmark is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter entityKind of interface IncidentEntitiesResultsMetadata is changed from EntityKind to EntityKindEnum
+  - Type of parameter additionalData of interface IoTDeviceEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface IpEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface MailboxEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface MailClusterEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface MailMessageEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface MalwareEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter kind of interface MetadataDependencies is changed from Kind to string
+  - Type of parameter kind of interface MetadataModel is changed from Kind to string
+  - Type of parameter kind of interface MetadataPatch is changed from Kind to string
+  - Type of parameter additionalData of interface NicEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface ProcessEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface RegistryKeyEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface RegistryValueEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface SecurityAlert is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface SecurityGroupEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface SubmissionMailEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface ThreatIntelligenceIndicatorModel is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface UrlEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Removed Enum KnownEntityKind
+  - Removed Enum KnownKind
+    
+    
 ## 1.0.0-beta.6 (2023-02-03)
     
 **Features**
