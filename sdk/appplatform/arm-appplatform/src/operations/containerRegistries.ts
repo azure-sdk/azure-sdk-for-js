@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { BuildServiceAgentPool } from "../operationsInterfaces";
+import { ContainerRegistries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,24 +20,24 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  BuildServiceAgentPoolResource,
-  BuildServiceAgentPoolListNextOptionalParams,
-  BuildServiceAgentPoolListOptionalParams,
-  BuildServiceAgentPoolListResponse,
-  BuildServiceAgentPoolGetOptionalParams,
-  BuildServiceAgentPoolGetResponse,
-  BuildServiceAgentPoolUpdatePutOptionalParams,
-  BuildServiceAgentPoolUpdatePutResponse,
-  BuildServiceAgentPoolListNextResponse
+  ContainerRegistryResource,
+  ContainerRegistriesListNextOptionalParams,
+  ContainerRegistriesListOptionalParams,
+  ContainerRegistriesListResponse,
+  ContainerRegistriesGetOptionalParams,
+  ContainerRegistriesGetResponse,
+  ContainerRegistriesCreateOrUpdateOptionalParams,
+  ContainerRegistriesCreateOrUpdateResponse,
+  ContainerRegistriesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing BuildServiceAgentPool operations. */
-export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
+/** Class containing ContainerRegistries operations. */
+export class ContainerRegistriesImpl implements ContainerRegistries {
   private readonly client: AppPlatformManagementClient;
 
   /**
-   * Initialize a new instance of the class BuildServiceAgentPool class.
+   * Initialize a new instance of the class ContainerRegistries class.
    * @param client Reference to the service client
    */
   constructor(client: AppPlatformManagementClient) {
@@ -45,25 +45,18 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
   }
 
   /**
-   * List build service agent pool.
+   * List container registries resource.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    options?: BuildServiceAgentPoolListOptionalParams
-  ): PagedAsyncIterableIterator<BuildServiceAgentPoolResource> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      serviceName,
-      buildServiceName,
-      options
-    );
+    options?: ContainerRegistriesListOptionalParams
+  ): PagedAsyncIterableIterator<ContainerRegistryResource> {
+    const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
         return iter.next();
@@ -78,7 +71,6 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
         return this.listPagingPage(
           resourceGroupName,
           serviceName,
-          buildServiceName,
           options,
           settings
         );
@@ -89,19 +81,13 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
   private async *listPagingPage(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    options?: BuildServiceAgentPoolListOptionalParams,
+    options?: ContainerRegistriesListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<BuildServiceAgentPoolResource[]> {
-    let result: BuildServiceAgentPoolListResponse;
+  ): AsyncIterableIterator<ContainerRegistryResource[]> {
+    let result: ContainerRegistriesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        serviceName,
-        buildServiceName,
-        options
-      );
+      result = await this._list(resourceGroupName, serviceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -111,7 +97,6 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
       result = await this._listNext(
         resourceGroupName,
         serviceName,
-        buildServiceName,
         continuationToken,
         options
       );
@@ -125,13 +110,11 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    options?: BuildServiceAgentPoolListOptionalParams
-  ): AsyncIterableIterator<BuildServiceAgentPoolResource> {
+    options?: ContainerRegistriesListOptionalParams
+  ): AsyncIterableIterator<ContainerRegistryResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
-      buildServiceName,
       options
     )) {
       yield* page;
@@ -139,80 +122,68 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
   }
 
   /**
-   * List build service agent pool.
+   * List container registries resource.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    options?: BuildServiceAgentPoolListOptionalParams
-  ): Promise<BuildServiceAgentPoolListResponse> {
+    options?: ContainerRegistriesListOptionalParams
+  ): Promise<ContainerRegistriesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, buildServiceName, options },
+      { resourceGroupName, serviceName, options },
       listOperationSpec
     );
   }
 
   /**
-   * Get build service agent pool.
+   * Get the container registries resource.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param agentPoolName The name of the build service agent pool resource.
+   * @param containerRegistryName The name of the container registry.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    agentPoolName: string,
-    options?: BuildServiceAgentPoolGetOptionalParams
-  ): Promise<BuildServiceAgentPoolGetResponse> {
+    containerRegistryName: string,
+    options?: ContainerRegistriesGetOptionalParams
+  ): Promise<ContainerRegistriesGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        buildServiceName,
-        agentPoolName,
-        options
-      },
+      { resourceGroupName, serviceName, containerRegistryName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or update build service agent pool.
+   * Create or update container registry resource.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param agentPoolName The name of the build service agent pool resource.
-   * @param agentPoolResource Parameters for the update operation
+   * @param containerRegistryName The name of the container registry.
+   * @param containerRegistryResource Parameters for the create or update operation
    * @param options The options parameters.
    */
-  async beginUpdatePut(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    agentPoolName: string,
-    agentPoolResource: BuildServiceAgentPoolResource,
-    options?: BuildServiceAgentPoolUpdatePutOptionalParams
+    containerRegistryName: string,
+    containerRegistryResource: ContainerRegistryResource,
+    options?: ContainerRegistriesCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<BuildServiceAgentPoolUpdatePutResponse>,
-      BuildServiceAgentPoolUpdatePutResponse
+      OperationState<ContainerRegistriesCreateOrUpdateResponse>,
+      ContainerRegistriesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<BuildServiceAgentPoolUpdatePutResponse> => {
+    ): Promise<ContainerRegistriesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -253,48 +224,45 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
       args: {
         resourceGroupName,
         serviceName,
-        buildServiceName,
-        agentPoolName,
-        agentPoolResource,
+        containerRegistryName,
+        containerRegistryResource,
         options
       },
-      spec: updatePutOperationSpec
+      spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      BuildServiceAgentPoolUpdatePutResponse,
-      OperationState<BuildServiceAgentPoolUpdatePutResponse>
+      ContainerRegistriesCreateOrUpdateResponse,
+      OperationState<ContainerRegistriesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or update build service agent pool.
+   * Create or update container registry resource.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param agentPoolName The name of the build service agent pool resource.
-   * @param agentPoolResource Parameters for the update operation
+   * @param containerRegistryName The name of the container registry.
+   * @param containerRegistryResource Parameters for the create or update operation
    * @param options The options parameters.
    */
-  async beginUpdatePutAndWait(
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    agentPoolName: string,
-    agentPoolResource: BuildServiceAgentPoolResource,
-    options?: BuildServiceAgentPoolUpdatePutOptionalParams
-  ): Promise<BuildServiceAgentPoolUpdatePutResponse> {
-    const poller = await this.beginUpdatePut(
+    containerRegistryName: string,
+    containerRegistryResource: ContainerRegistryResource,
+    options?: ContainerRegistriesCreateOrUpdateOptionalParams
+  ): Promise<ContainerRegistriesCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
-      buildServiceName,
-      agentPoolName,
-      agentPoolResource,
+      containerRegistryName,
+      containerRegistryResource,
       options
     );
     return poller.pollUntilDone();
@@ -305,19 +273,17 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
     nextLink: string,
-    options?: BuildServiceAgentPoolListNextOptionalParams
-  ): Promise<BuildServiceAgentPoolListNextResponse> {
+    options?: ContainerRegistriesListNextOptionalParams
+  ): Promise<ContainerRegistriesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, buildServiceName, nextLink, options },
+      { resourceGroupName, serviceName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -327,11 +293,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/agentPools",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildServiceAgentPoolResourceCollection
+      bodyMapper: Mappers.ContainerRegistryResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -342,19 +308,18 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.buildServiceName
+    Parameters.serviceName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/agentPools/{agentPoolName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries/{containerRegistryName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildServiceAgentPoolResource
+      bodyMapper: Mappers.ContainerRegistryResource
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -366,42 +331,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.buildServiceName,
-    Parameters.agentPoolName
+    Parameters.containerRegistryName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const updatePutOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/agentPools/{agentPoolName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries/{containerRegistryName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildServiceAgentPoolResource
+      bodyMapper: Mappers.ContainerRegistryResource
     },
     201: {
-      bodyMapper: Mappers.BuildServiceAgentPoolResource
+      bodyMapper: Mappers.ContainerRegistryResource
     },
     202: {
-      bodyMapper: Mappers.BuildServiceAgentPoolResource
+      bodyMapper: Mappers.ContainerRegistryResource
     },
     204: {
-      bodyMapper: Mappers.BuildServiceAgentPoolResource
+      bodyMapper: Mappers.ContainerRegistryResource
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.agentPoolResource,
+  requestBody: Parameters.containerRegistryResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.buildServiceName,
-    Parameters.agentPoolName
+    Parameters.containerRegistryName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -412,7 +375,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildServiceAgentPoolResourceCollection
+      bodyMapper: Mappers.ContainerRegistryResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -423,8 +386,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.nextLink,
-    Parameters.buildServiceName
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
