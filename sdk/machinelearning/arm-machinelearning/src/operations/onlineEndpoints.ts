@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   OnlineEndpoint,
   OnlineEndpointsListNextOptionalParams,
@@ -155,14 +159,14 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     workspaceName: string,
     endpointName: string,
     options?: OnlineEndpointsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -195,13 +199,13 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, endpointName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, endpointName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -264,8 +268,8 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     body: PartialMinimalTrackedResourceWithIdentity,
     options?: OnlineEndpointsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<OnlineEndpointsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OnlineEndpointsUpdateResponse>,
       OnlineEndpointsUpdateResponse
     >
   > {
@@ -275,7 +279,7 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     ): Promise<OnlineEndpointsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -308,13 +312,16 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, endpointName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, endpointName, body, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      OnlineEndpointsUpdateResponse,
+      OperationState<OnlineEndpointsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -361,8 +368,8 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     body: OnlineEndpoint,
     options?: OnlineEndpointsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<OnlineEndpointsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OnlineEndpointsCreateOrUpdateResponse>,
       OnlineEndpointsCreateOrUpdateResponse
     >
   > {
@@ -372,7 +379,7 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     ): Promise<OnlineEndpointsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -405,13 +412,16 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, endpointName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, endpointName, body, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      OnlineEndpointsCreateOrUpdateResponse,
+      OperationState<OnlineEndpointsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -476,14 +486,14 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     endpointName: string,
     body: RegenerateEndpointKeysRequest,
     options?: OnlineEndpointsRegenerateKeysOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -516,15 +526,15 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, endpointName, body, options },
-      regenerateKeysOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, endpointName, body, options },
+      spec: regenerateKeysOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -825,16 +835,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.count,
-    Parameters.tags1,
-    Parameters.properties1,
-    Parameters.name2,
-    Parameters.computeType,
-    Parameters.orderBy2
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

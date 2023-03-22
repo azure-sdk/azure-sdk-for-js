@@ -63,7 +63,7 @@ export type ScheduleActionBaseUnion =
   | ScheduleActionBase
   | EndpointScheduleAction
   | JobScheduleAction;
-export type TriggerBaseUnion = TriggerBase | RecurrenceTrigger | CronTrigger;
+export type TriggerBaseUnion = TriggerBase | CronTrigger | RecurrenceTrigger;
 export type ForecastHorizonUnion =
   | ForecastHorizon
   | AutoForecastHorizon
@@ -1474,7 +1474,7 @@ export interface ScheduleActionBase {
 
 export interface TriggerBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  triggerType: "Recurrence" | "Cron";
+  triggerType: "Cron" | "Recurrence";
   /**
    * Specifies end time of schedule in ISO 8601, but without a UTC offset. Refer https://en.wikipedia.org/wiki/ISO_8601.
    * Recommented format would be "2022-06-01T00:00:01"
@@ -1797,11 +1797,8 @@ export interface ComputeInstanceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastOperation?: ComputeInstanceLastOperation;
-  /**
-   * The list of schedules to be applied on the computes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly schedules?: ComputeSchedules;
+  /** The list of schedules to be applied on the computes. */
+  schedules?: ComputeSchedules;
   /** Enable or disable node public IP address provisioning. Possible values are: Possible values are: true - Indicates that the compute nodes will have public IPs provisioned. false - Indicates that the compute nodes will have a private endpoint and no public IPs. */
   enableNodePublicIp?: boolean;
   /**
@@ -1962,11 +1959,28 @@ export interface ComputeStartStopSchedule {
   /** [Required] The schedule trigger type. */
   triggerType?: TriggerType;
   /** Required if triggerType is Recurrence. */
-  recurrence?: RecurrenceTrigger;
+  recurrence?: Recurrence;
   /** Required if triggerType is Cron. */
-  cron?: CronTrigger;
+  cron?: Cron;
   /** [Deprecated] Not used any more. */
   schedule?: ScheduleBase;
+}
+
+/** The workflow trigger recurrence for ComputeStartStop schedule type. */
+export interface Recurrence {
+  /** [Required] The frequency to trigger schedule. */
+  frequency?: RecurrenceFrequency;
+  /** [Required] Specifies schedule interval in conjunction with frequency */
+  interval?: number;
+  /** The start time in yyyy-MM-ddTHH:mm:ss format. */
+  startTime?: string;
+  /**
+   * Specifies time zone in which the schedule runs.
+   * TimeZone should follow Windows time zone format. Refer: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11
+   */
+  timeZone?: string;
+  /** [Required] The recurrence schedule. */
+  schedule?: RecurrenceSchedule;
 }
 
 export interface RecurrenceSchedule {
@@ -1978,6 +1992,22 @@ export interface RecurrenceSchedule {
   monthDays?: number[];
   /** List of days for the schedule. */
   weekDays?: WeekDay[];
+}
+
+/** The workflow trigger cron for ComputeStartStop schedule type. */
+export interface Cron {
+  /** The start time in yyyy-MM-ddTHH:mm:ss format. */
+  startTime?: string;
+  /**
+   * Specifies time zone in which the schedule runs.
+   * TimeZone should follow Windows time zone format. Refer: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11
+   */
+  timeZone?: string;
+  /**
+   * [Required] Specifies cron expression of schedule.
+   * The expression should follow NCronTab format.
+   */
+  expression?: string;
 }
 
 export interface ScheduleBase {
@@ -2185,6 +2215,12 @@ export interface VirtualMachineSecretsSchema {
 export interface DatabricksComputeSecretsProperties {
   /** access token for databricks account. */
   databricksAccessToken?: string;
+}
+
+/** Stops compute instance after user defined period of inactivity. */
+export interface IdleShutdownSetting {
+  /** Time is defined in ISO8601 format. Minimum is 15 min, maximum is 3 days. */
+  idleTimeBeforeShutdown?: string;
 }
 
 export interface WorkspaceConnectionUsernamePassword {
@@ -3527,6 +3563,16 @@ export interface JobScheduleAction extends ScheduleActionBase {
   jobDefinition: JobBasePropertiesUnion;
 }
 
+export interface CronTrigger extends TriggerBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  triggerType: "Cron";
+  /**
+   * [Required] Specifies cron expression of schedule.
+   * The expression should follow NCronTab format.
+   */
+  expression: string;
+}
+
 export interface RecurrenceTrigger extends TriggerBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   triggerType: "Recurrence";
@@ -3536,16 +3582,6 @@ export interface RecurrenceTrigger extends TriggerBase {
   interval: number;
   /** The recurrence schedule. */
   schedule?: RecurrenceSchedule;
-}
-
-export interface CronTrigger extends TriggerBase {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  triggerType: "Cron";
-  /**
-   * [Required] Specifies cron expression of schedule.
-   * The expression should follow NCronTab format.
-   */
-  expression: string;
 }
 
 export interface MLTableJobInput extends AssetJobInput, JobInput {}
@@ -6892,9 +6928,9 @@ export enum KnownBlockedTransformers {
   CatTargetEncoder = "CatTargetEncoder",
   /** Tf-Idf stands for, term-frequency times inverse document-frequency. This is a common term weighting scheme for identifying information from documents. */
   TfIdf = "TfIdf",
-  /** Weight of Evidence encoding is a technique used to encode categorical variables. It uses the natural log of the P(1)/P(0) to create weights. */
+  /** Weight of Evidence encoding is a technique used to encode categorical variables. It uses the natural log of the P(1)\/P(0) to create weights. */
   WoETargetEncoder = "WoETargetEncoder",
-  /** Label encoder converts labels/categorical variables in a numerical form. */
+  /** Label encoder converts labels\/categorical variables in a numerical form. */
   LabelEncoder = "LabelEncoder",
   /** Word embedding helps represents words or phrases as a vector, or a series of numbers. */
   WordEmbedding = "WordEmbedding",
@@ -7004,7 +7040,7 @@ export type FeatureLags = string;
 
 /** Known values of {@link ShortSeriesHandlingConfiguration} that the service accepts. */
 export enum KnownShortSeriesHandlingConfiguration {
-  /** Represents no/null value. */
+  /** Represents no\/null value. */
   None = "None",
   /** Short series will be padded if there are no long series, otherwise short series will be dropped. */
   Auto = "Auto",
@@ -7121,11 +7157,11 @@ export enum KnownForecastingModels {
   /** Exponential smoothing is a time series forecasting method for univariate data that can be extended to support data with a systematic trend or seasonal component. */
   ExponentialSmoothing = "ExponentialSmoothing",
   /**
-   * An Autoregressive Integrated Moving Average with Explanatory Variable (ARIMAX) model can be viewed as a multiple regression model with one or more autoregressive (AR) terms and/or one or more moving average (MA) terms.
-   * This method is suitable for forecasting when data is stationary/non stationary, and multivariate with any type of data pattern, i.e., level/trend /seasonality/cyclicity.
+   * An Autoregressive Integrated Moving Average with Explanatory Variable (ARIMAX) model can be viewed as a multiple regression model with one or more autoregressive (AR) terms and\/or one or more moving average (MA) terms.
+   * This method is suitable for forecasting when data is stationary\/non stationary, and multivariate with any type of data pattern, i.e., level\/trend \/seasonality\/cyclicity.
    */
   Arimax = "Arimax",
-  /** TCNForecaster: Temporal Convolutional Networks Forecaster. //TODO: Ask forecasting team for brief intro. */
+  /** TCNForecaster: Temporal Convolutional Networks Forecaster. \//TODO: Ask forecasting team for brief intro. */
   TCNForecaster = "TCNForecaster",
   /** Elastic net is a popular type of regularized linear regression that combines two popular penalties, specifically the L1 and L2 penalty functions. */
   ElasticNet = "ElasticNet",
@@ -7640,20 +7676,14 @@ export type WorkspacesListOutboundNetworkDependenciesEndpointsResponse = Externa
 
 /** Optional parameters. */
 export interface WorkspacesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type WorkspacesListByResourceGroupNextResponse = WorkspaceListResult;
 
 /** Optional parameters. */
 export interface WorkspacesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type WorkspacesListBySubscriptionNextResponse = WorkspaceListResult;
@@ -7788,10 +7818,7 @@ export interface ComputeRestartOptionalParams
 
 /** Optional parameters. */
 export interface ComputeListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ComputeListNextResponse = PaginatedComputeResourcesList;
@@ -7867,12 +7894,7 @@ export type WorkspaceConnectionsListResponse = WorkspaceConnectionPropertiesV2Ba
 
 /** Optional parameters. */
 export interface WorkspaceConnectionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Target of the workspace connection. */
-  target?: string;
-  /** Category of the workspace connection. */
-  category?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WorkspaceConnectionsListNextResponse = WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult;
@@ -7938,12 +7960,7 @@ export type BatchEndpointsListKeysResponse = EndpointAuthKeys;
 
 /** Optional parameters. */
 export interface BatchEndpointsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Number of endpoints to be retrieved in a page of results. */
-  count?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BatchEndpointsListNextResponse = BatchEndpointTrackedResourceArmPaginatedResult;
@@ -8004,14 +8021,7 @@ export type BatchDeploymentsCreateOrUpdateResponse = BatchDeployment;
 
 /** Optional parameters. */
 export interface BatchDeploymentsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Ordering of list. */
-  orderBy?: string;
-  /** Top of list. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BatchDeploymentsListNextResponse = BatchDeploymentTrackedResourceArmPaginatedResult;
@@ -8046,10 +8056,7 @@ export type CodeContainersCreateOrUpdateResponse = CodeContainer;
 
 /** Optional parameters. */
 export interface CodeContainersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CodeContainersListNextResponse = CodeContainerResourceArmPaginatedResult;
@@ -8088,14 +8095,7 @@ export type CodeVersionsCreateOrUpdateResponse = CodeVersion;
 
 /** Optional parameters. */
 export interface CodeVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Ordering of list. */
-  orderBy?: string;
-  /** Maximum number of records to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CodeVersionsListNextResponse = CodeVersionResourceArmPaginatedResult;
@@ -8132,12 +8132,7 @@ export type ComponentContainersCreateOrUpdateResponse = ComponentContainer;
 
 /** Optional parameters. */
 export interface ComponentContainersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ComponentContainersListNextResponse = ComponentContainerResourceArmPaginatedResult;
@@ -8178,16 +8173,7 @@ export type ComponentVersionsCreateOrUpdateResponse = ComponentVersion;
 
 /** Optional parameters. */
 export interface ComponentVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Ordering of list. */
-  orderBy?: string;
-  /** Maximum number of records to return. */
-  top?: number;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ComponentVersionsListNextResponse = ComponentVersionResourceArmPaginatedResult;
@@ -8224,12 +8210,7 @@ export type DataContainersCreateOrUpdateResponse = DataContainer;
 
 /** Optional parameters. */
 export interface DataContainersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DataContainersListNextResponse = DataContainerResourceArmPaginatedResult;
@@ -8275,21 +8256,7 @@ export type DataVersionsCreateOrUpdateResponse = DataVersionBase;
 
 /** Optional parameters. */
 export interface DataVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Please choose OrderBy value from ['createdtime', 'modifiedtime'] */
-  orderBy?: string;
-  /**
-   * Top count of results, top count cannot be greater than the page size.
-   *                               If topCount > page size, results with be default page size count will be returned
-   */
-  top?: number;
-  /** [ListViewType.ActiveOnly, ListViewType.ArchivedOnly, ListViewType.All]View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-  /** Comma-separated list of tag names (and optionally values). Example: tag1,tag2=value2 */
-  tags?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DataVersionsListNextResponse = DataVersionBaseResourceArmPaginatedResult;
@@ -8346,22 +8313,7 @@ export type DatastoresListSecretsResponse = DatastoreSecretsUnion;
 
 /** Optional parameters. */
 export interface DatastoresListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Maximum number of results to return. */
-  count?: number;
-  /** Filter down to the workspace default datastore. */
-  isDefault?: boolean;
-  /** Names of datastores to return. */
-  names?: string[];
-  /** Text to search for in the datastore names. */
-  searchText?: string;
-  /** Order by property (createdtime | modifiedtime | name). */
-  orderBy?: string;
-  /** Order by property in ascending order. */
-  orderByAsc?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DatastoresListNextResponse = DatastoreResourceArmPaginatedResult;
@@ -8398,12 +8350,7 @@ export type EnvironmentContainersCreateOrUpdateResponse = EnvironmentContainer;
 
 /** Optional parameters. */
 export interface EnvironmentContainersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type EnvironmentContainersListNextResponse = EnvironmentContainerResourceArmPaginatedResult;
@@ -8444,16 +8391,7 @@ export type EnvironmentVersionsCreateOrUpdateResponse = EnvironmentVersion;
 
 /** Optional parameters. */
 export interface EnvironmentVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Ordering of list. */
-  orderBy?: string;
-  /** Maximum number of records to return. */
-  top?: number;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type EnvironmentVersionsListNextResponse = EnvironmentVersionResourceArmPaginatedResult;
@@ -8504,16 +8442,7 @@ export interface JobsCancelOptionalParams extends coreClient.OperationOptions {
 
 /** Optional parameters. */
 export interface JobsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-  /** Type of job to be returned. */
-  jobType?: string;
-  /** Jobs returned will have this tag key. */
-  tag?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type JobsListNextResponse = JobBaseResourceArmPaginatedResult;
@@ -8552,14 +8481,7 @@ export type ModelContainersCreateOrUpdateResponse = ModelContainer;
 
 /** Optional parameters. */
 export interface ModelContainersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Maximum number of results to return. */
-  count?: number;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ModelContainersListNextResponse = ModelContainerResourceArmPaginatedResult;
@@ -8612,28 +8534,7 @@ export type ModelVersionsCreateOrUpdateResponse = ModelVersion;
 
 /** Optional parameters. */
 export interface ModelVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Ordering of list. */
-  orderBy?: string;
-  /** Maximum number of records to return. */
-  top?: number;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-  /** Model version. */
-  version?: string;
-  /** Model description. */
-  description?: string;
-  /** Number of initial results to skip. */
-  offset?: number;
-  /** Comma-separated list of tag names (and optionally values). Example: tag1,tag2=value2 */
-  tags?: string;
-  /** Comma-separated list of property names (and optionally values). Example: prop1,prop2=value2 */
-  properties?: string;
-  /** Name of the feed. */
-  feed?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ModelVersionsListNextResponse = ModelVersionResourceArmPaginatedResult;
@@ -8725,22 +8626,7 @@ export type OnlineEndpointsGetTokenResponse = EndpointAuthToken;
 
 /** Optional parameters. */
 export interface OnlineEndpointsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Number of endpoints to be retrieved in a page of results. */
-  count?: number;
-  /** A set of tags with which to filter the returned models. It is a comma separated string of tags key or tags key=value. Example: tagKey1,tagKey2,tagKey3=value3 . */
-  tags?: string;
-  /** A set of properties with which to filter the returned models. It is a comma separated string of properties key and/or properties key=value Example: propKey1,propKey2,propKey3=value3 . */
-  properties?: string;
-  /** Name of the endpoint. */
-  name?: string;
-  /** EndpointComputeType to be filtered by. */
-  computeType?: EndpointComputeType;
-  /** The option to order the response. */
-  orderBy?: OrderString;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OnlineEndpointsListNextResponse = OnlineEndpointTrackedResourceArmPaginatedResult;
@@ -8820,26 +8706,14 @@ export type OnlineDeploymentsListSkusResponse = SkuResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface OnlineDeploymentsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Ordering of list. */
-  orderBy?: string;
-  /** Top of list. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OnlineDeploymentsListNextResponse = OnlineDeploymentTrackedResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface OnlineDeploymentsListSkusNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Number of Skus to be retrieved in a page of results. */
-  count?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSkusNext operation. */
 export type OnlineDeploymentsListSkusNextResponse = SkuResourceArmPaginatedResult;
@@ -8886,12 +8760,7 @@ export type SchedulesCreateOrUpdateResponse = Schedule;
 
 /** Optional parameters. */
 export interface SchedulesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Status filter for schedule. */
-  listViewType?: ScheduleListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SchedulesListNextResponse = ScheduleResourceArmPaginatedResult;
