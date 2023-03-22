@@ -164,9 +164,9 @@ export interface RedisCreateParameters {
 
 /** SKU parameters supplied to the create Redis operation. */
 export interface Sku {
-  /** The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium) */
+  /** The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium, General Purpose, Memory Optimized) */
   name: SkuName;
-  /** The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium). */
+  /** The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium, G = General Purpose, M = Memory Optimized). */
   family: SkuFamily;
   /** The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for P (Premium) family (1, 2, 3, 4). */
   capacity: number;
@@ -840,7 +840,11 @@ export enum KnownSkuName {
   /** Standard */
   Standard = "Standard",
   /** Premium */
-  Premium = "Premium"
+  Premium = "Premium",
+  /** GeneralPurpose */
+  GeneralPurpose = "GeneralPurpose",
+  /** MemoryOptimized */
+  MemoryOptimized = "MemoryOptimized"
 }
 
 /**
@@ -850,7 +854,9 @@ export enum KnownSkuName {
  * ### Known values supported by the service
  * **Basic** \
  * **Standard** \
- * **Premium**
+ * **Premium** \
+ * **GeneralPurpose** \
+ * **MemoryOptimized**
  */
 export type SkuName = string;
 
@@ -859,7 +865,11 @@ export enum KnownSkuFamily {
   /** C */
   C = "C",
   /** P */
-  P = "P"
+  P = "P",
+  /** G */
+  G = "G",
+  /** M */
+  M = "M"
 }
 
 /**
@@ -868,7 +878,9 @@ export enum KnownSkuFamily {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **C** \
- * **P**
+ * **P** \
+ * **G** \
+ * **M**
  */
 export type SkuFamily = string;
 

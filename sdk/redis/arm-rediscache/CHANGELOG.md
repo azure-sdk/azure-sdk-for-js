@@ -1,15 +1,14 @@
 # Release History
+    
+## 7.2.0-beta.1 (2023-03-22)
+    
+**Features**
 
-## 7.1.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Enum KnownSkuFamily has a new value G
+  - Enum KnownSkuFamily has a new value M
+  - Enum KnownSkuName has a new value GeneralPurpose
+  - Enum KnownSkuName has a new value MemoryOptimized
+    
 ## 7.1.1 (2023-01-31)
 
 **Features**

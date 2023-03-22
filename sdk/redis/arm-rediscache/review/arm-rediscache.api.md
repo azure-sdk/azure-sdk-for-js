@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AsyncOperationStatus {
@@ -183,12 +183,18 @@ export enum KnownSkuFamily {
     // (undocumented)
     C = "C",
     // (undocumented)
+    G = "G",
+    // (undocumented)
+    M = "M",
+    // (undocumented)
     P = "P"
 }
 
 // @public
 export enum KnownSkuName {
     Basic = "Basic",
+    GeneralPurpose = "GeneralPurpose",
+    MemoryOptimized = "MemoryOptimized",
     Premium = "Premium",
     Standard = "Standard"
 }
@@ -202,9 +208,9 @@ export enum KnownTlsVersion {
 
 // @public
 export interface LinkedServer {
-    beginCreate(resourceGroupName: string, name: string, linkedServerName: string, parameters: RedisLinkedServerCreateParameters, options?: LinkedServerCreateOptionalParams): Promise<PollerLike<PollOperationState<LinkedServerCreateResponse>, LinkedServerCreateResponse>>;
+    beginCreate(resourceGroupName: string, name: string, linkedServerName: string, parameters: RedisLinkedServerCreateParameters, options?: LinkedServerCreateOptionalParams): Promise<SimplePollerLike<OperationState<LinkedServerCreateResponse>, LinkedServerCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, name: string, linkedServerName: string, parameters: RedisLinkedServerCreateParameters, options?: LinkedServerCreateOptionalParams): Promise<LinkedServerCreateResponse>;
-    beginDelete(resourceGroupName: string, name: string, linkedServerName: string, options?: LinkedServerDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, name: string, linkedServerName: string, options?: LinkedServerDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, name: string, linkedServerName: string, options?: LinkedServerDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, name: string, linkedServerName: string, options?: LinkedServerGetOptionalParams): Promise<LinkedServerGetResponse>;
     list(resourceGroupName: string, name: string, options?: LinkedServerListOptionalParams): PagedAsyncIterableIterator<RedisLinkedServerWithProperties>;
@@ -385,7 +391,7 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
 export interface PrivateEndpointConnections {
-    beginPut(resourceGroupName: string, cacheName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsPutOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsPutResponse>, PrivateEndpointConnectionsPutResponse>>;
+    beginPut(resourceGroupName: string, cacheName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsPutOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsPutResponse>, PrivateEndpointConnectionsPutResponse>>;
     beginPutAndWait(resourceGroupName: string, cacheName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsPutOptionalParams): Promise<PrivateEndpointConnectionsPutResponse>;
     delete(resourceGroupName: string, cacheName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, cacheName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
@@ -468,15 +474,15 @@ export type RebootType = string;
 
 // @public
 export interface Redis {
-    beginCreate(resourceGroupName: string, name: string, parameters: RedisCreateParameters, options?: RedisCreateOptionalParams): Promise<PollerLike<PollOperationState<RedisCreateResponse>, RedisCreateResponse>>;
+    beginCreate(resourceGroupName: string, name: string, parameters: RedisCreateParameters, options?: RedisCreateOptionalParams): Promise<SimplePollerLike<OperationState<RedisCreateResponse>, RedisCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, name: string, parameters: RedisCreateParameters, options?: RedisCreateOptionalParams): Promise<RedisCreateResponse>;
-    beginDelete(resourceGroupName: string, name: string, options?: RedisDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, name: string, options?: RedisDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, name: string, options?: RedisDeleteOptionalParams): Promise<void>;
-    beginExportData(resourceGroupName: string, name: string, parameters: ExportRDBParameters, options?: RedisExportDataOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginExportData(resourceGroupName: string, name: string, parameters: ExportRDBParameters, options?: RedisExportDataOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginExportDataAndWait(resourceGroupName: string, name: string, parameters: ExportRDBParameters, options?: RedisExportDataOptionalParams): Promise<void>;
-    beginImportData(resourceGroupName: string, name: string, parameters: ImportRDBParameters, options?: RedisImportDataOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginImportData(resourceGroupName: string, name: string, parameters: ImportRDBParameters, options?: RedisImportDataOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginImportDataAndWait(resourceGroupName: string, name: string, parameters: ImportRDBParameters, options?: RedisImportDataOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, name: string, parameters: RedisUpdateParameters, options?: RedisUpdateOptionalParams): Promise<PollerLike<PollOperationState<RedisUpdateResponse>, RedisUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, name: string, parameters: RedisUpdateParameters, options?: RedisUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RedisUpdateResponse>, RedisUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, name: string, parameters: RedisUpdateParameters, options?: RedisUpdateOptionalParams): Promise<RedisUpdateResponse>;
     checkNameAvailability(parameters: CheckNameAvailabilityParameters, options?: RedisCheckNameAvailabilityOptionalParams): Promise<void>;
     forceReboot(resourceGroupName: string, name: string, parameters: RedisRebootParameters, options?: RedisForceRebootOptionalParams): Promise<RedisForceRebootOperationResponse>;
