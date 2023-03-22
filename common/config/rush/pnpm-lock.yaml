@@ -731,6 +731,7 @@ packages:
   /@azure/ai-form-recognizer/3.1.0-beta.3:
     resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
     engines: {node: '>=8.0.0'}
+    deprecated: Please migrate to a supported (non-beta) version of this package
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 1.2.6
@@ -10583,7 +10584,7 @@ packages:
     dev: false
 
   file:projects/arm-cdn.tgz:
-    resolution: {integrity: sha512-LBLhyqM23JAWP7+yZM7ebc0sCHuijXrXhSQtiXL7lEFcsXu+6XzIbjTWglV9S5PtkSIig5KabM8f6w9PYwRo7g==, tarball: file:projects/arm-cdn.tgz}
+    resolution: {integrity: sha512-Eya1CIiOFzZRYJji5v+6hSfrKM9bn81AojuEvmy8Zr36Ckl7PT94RnxGFOxGzMbmeG27m9SXXO0IRO7Pg8gsqg==, tarball: file:projects/arm-cdn.tgz}
     name: '@rush-temp/arm-cdn'
     version: 0.0.0
     dependencies:
@@ -10597,7 +10598,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
