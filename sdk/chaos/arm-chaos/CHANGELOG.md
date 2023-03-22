@@ -1,15 +1,21 @@
 # Release History
+    
+## 1.0.0-beta.4 (2023-03-22)
+    
+**Features**
 
-## 1.0.0-beta.4 (Unreleased)
+  - Added Interface ListSelector
+  - Added Interface QuerySelector
+  - Added Type Alias SelectorUnion
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface Selector no longer has parameter targets
+  - Type of parameter selectors of interface Experiment is changed from Selector[] to SelectorUnion[]
+  - Type of parameter type of interface Selector is changed from SelectorType to "List" | "Query"
+  - Removed Enum KnownFilterType
+    
+    
 ## 1.0.0-beta.3 (2023-01-12)
     
 **Features**

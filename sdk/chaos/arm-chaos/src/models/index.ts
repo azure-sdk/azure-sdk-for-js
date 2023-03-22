@@ -13,6 +13,7 @@ export type ActionUnion =
   | DelayAction
   | DiscreteAction
   | ContinuousAction;
+export type SelectorUnion = Selector | ListSelector | QuerySelector;
 export type FilterUnion = Filter | SimpleFilter;
 
 /** Model that represents a list of Capability resources and a link for pagination. */
@@ -192,22 +193,14 @@ export interface Action {
 
 /** Model that represents a selector in the Experiment resource. */
 export interface Selector {
-  /** Enum of the selector type. */
-  type: SelectorType;
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "List" | "Query";
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
   /** String of the selector ID. */
   id: string;
-  /** List of Target references. */
-  targets: TargetReference[];
   /** Model that represents available filter types that can be applied to a targets list. */
   filter?: FilterUnion;
-}
-
-/** Model that represents a reference to a Target in the selector. */
-export interface TargetReference {
-  /** Enum of the Target reference type. */
-  type: "ChaosTarget";
-  /** String of the resource ID of a Target resource. */
-  id: string;
 }
 
 /** Model that represents available filter types that can be applied to a targets list. */
@@ -599,6 +592,14 @@ export interface KeyValuePair {
   value: string;
 }
 
+/** Model that represents a reference to a Target in the selector. */
+export interface TargetReference {
+  /** Enum of the Target reference type. */
+  type: "ChaosTarget";
+  /** String of the resource ID of a Target resource. */
+  id: string;
+}
+
 /** Model that represents the Simple filter parameters. */
 export interface SimpleFilterParameters {
   /** List of Azure availability zones to filter targets by. */
@@ -769,6 +770,24 @@ export interface ContinuousAction extends Action {
   selectorId: string;
 }
 
+/** Model that represents a list selector. */
+export interface ListSelector extends Selector {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "List";
+  /** List of Target references. */
+  targets: TargetReference[];
+}
+
+/** Model that represents a query selector. */
+export interface QuerySelector extends Selector {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Query";
+  /** Azure Resource Graph (ARG) Query Language query for target resources. */
+  queryString: string;
+  /** Subscription id list to scope resource query. */
+  subscriptionIds: string[];
+}
+
 /** Model that represents a simple target filter. */
 export interface SimpleFilter extends Filter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -789,7 +808,7 @@ export interface Experiment extends TrackedResource {
   /** List of steps. */
   steps: Step[];
   /** List of selectors. */
-  selectors: Selector[];
+  selectors: SelectorUnion[];
   /** A boolean value that indicates if experiment should be started on creation or not. */
   startOnCreation?: boolean;
 }
@@ -817,21 +836,6 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
-
-/** Known values of {@link FilterType} that the service accepts. */
-export enum KnownFilterType {
-  /** Simple */
-  Simple = "Simple"
-}
-
-/**
- * Defines values for FilterType. \
- * {@link KnownFilterType} can be used interchangeably with FilterType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Simple**
- */
-export type FilterType = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
@@ -871,7 +875,7 @@ export type ActionType = string;
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType = "None" | "SystemAssigned";
 /** Defines values for SelectorType. */
-export type SelectorType = "Percent" | "Random" | "Tag" | "List";
+export type SelectorType = "List" | "Query";
 
 /** Optional parameters. */
 export interface CapabilitiesListOptionalParams

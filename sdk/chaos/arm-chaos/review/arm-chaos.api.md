@@ -231,7 +231,7 @@ export interface ErrorResponse {
 // @public
 export interface Experiment extends TrackedResource {
     identity?: ResourceIdentity;
-    selectors: Selector[];
+    selectors: SelectorUnion[];
     startOnCreation?: boolean;
     steps: Step[];
     readonly systemData?: SystemData;
@@ -438,9 +438,6 @@ export interface Filter {
     type: "Simple";
 }
 
-// @public
-export type FilterType = string;
-
 // @public (undocumented)
 export type FilterUnion = Filter | SimpleFilter;
 
@@ -467,15 +464,16 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownFilterType {
-    Simple = "Simple"
-}
-
-// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export interface ListSelector extends Selector {
+    targets: TargetReference[];
+    type: "List";
 }
 
 // @public
@@ -524,6 +522,13 @@ export type OperationsListAllResponse = OperationListResult;
 export type Origin = string;
 
 // @public
+export interface QuerySelector extends Selector {
+    queryString: string;
+    subscriptionIds: string[];
+    type: "Query";
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -542,14 +547,17 @@ export type ResourceIdentityType = "None" | "SystemAssigned";
 
 // @public
 export interface Selector {
+    [property: string]: any;
     filter?: FilterUnion;
     id: string;
-    targets: TargetReference[];
-    type: SelectorType;
+    type: "List" | "Query";
 }
 
 // @public
-export type SelectorType = "Percent" | "Random" | "Tag" | "List";
+export type SelectorType = "List" | "Query";
+
+// @public (undocumented)
+export type SelectorUnion = Selector | ListSelector | QuerySelector;
 
 // @public
 export interface SimpleFilter extends Filter {
