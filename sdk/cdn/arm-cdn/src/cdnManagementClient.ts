@@ -25,7 +25,6 @@ import {
   RulesImpl,
   SecurityPoliciesImpl,
   SecretsImpl,
-  ValidateImpl,
   LogAnalyticsImpl,
   ProfilesImpl,
   EndpointsImpl,
@@ -49,7 +48,6 @@ import {
   Rules,
   SecurityPolicies,
   Secrets,
-  Validate,
   LogAnalytics,
   Profiles,
   Endpoints,
@@ -111,7 +109,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-cdn/8.0.1`;
+    const packageDetails = `azsdk-js-arm-cdn/9.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -164,7 +162,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-06-01";
+    this.apiVersion = options.apiVersion || "2023-02-01-preview";
     this.afdProfiles = new AfdProfilesImpl(this);
     this.afdCustomDomains = new AfdCustomDomainsImpl(this);
     this.afdEndpoints = new AfdEndpointsImpl(this);
@@ -175,7 +173,6 @@ export class CdnManagementClient extends coreClient.ServiceClient {
     this.rules = new RulesImpl(this);
     this.securityPolicies = new SecurityPoliciesImpl(this);
     this.secrets = new SecretsImpl(this);
-    this.validate = new ValidateImpl(this);
     this.logAnalytics = new LogAnalyticsImpl(this);
     this.profiles = new ProfilesImpl(this);
     this.endpoints = new EndpointsImpl(this);
@@ -295,7 +292,6 @@ export class CdnManagementClient extends coreClient.ServiceClient {
   rules: Rules;
   securityPolicies: SecurityPolicies;
   secrets: Secrets;
-  validate: Validate;
   logAnalytics: LogAnalytics;
   profiles: Profiles;
   endpoints: Endpoints;

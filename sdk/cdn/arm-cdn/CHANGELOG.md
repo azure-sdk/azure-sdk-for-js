@@ -1,15 +1,150 @@
 # Release History
+    
+## 9.0.0-beta.1 (2023-03-22)
+    
+**Features**
 
-## 8.0.1 (Unreleased)
+  - Added operation AfdProfiles.beginUpgrade
+  - Added operation AfdProfiles.beginUpgradeAndWait
+  - Added operation AfdProfiles.checkEndpointNameAvailability
+  - Added operation AfdProfiles.validateSecret
+  - Added operation Profiles.beginCanMigrate
+  - Added operation Profiles.beginCanMigrateAndWait
+  - Added operation Profiles.beginMigrate
+  - Added operation Profiles.beginMigrateAndWait
+  - Added operation Profiles.beginMigrationCommit
+  - Added operation Profiles.beginMigrationCommitAndWait
+  - Added Interface AfdCustomDomainsCreateHeaders
+  - Added Interface AfdCustomDomainsDeleteHeaders
+  - Added Interface AfdCustomDomainsRefreshValidationTokenHeaders
+  - Added Interface AfdCustomDomainsUpdateHeaders
+  - Added Interface AfdEndpointsCreateHeaders
+  - Added Interface AfdEndpointsDeleteHeaders
+  - Added Interface AfdEndpointsPurgeContentHeaders
+  - Added Interface AfdEndpointsUpdateHeaders
+  - Added Interface AfdOriginGroupsCreateHeaders
+  - Added Interface AfdOriginGroupsDeleteHeaders
+  - Added Interface AfdOriginGroupsUpdateHeaders
+  - Added Interface AfdOriginsCreateHeaders
+  - Added Interface AfdOriginsDeleteHeaders
+  - Added Interface AfdOriginsUpdateHeaders
+  - Added Interface AfdProfilesCheckEndpointNameAvailabilityOptionalParams
+  - Added Interface AfdProfilesUpgradeHeaders
+  - Added Interface AfdProfilesUpgradeOptionalParams
+  - Added Interface AfdProfilesValidateSecretOptionalParams
+  - Added Interface CanMigrateParameters
+  - Added Interface CanMigrateResult
+  - Added Interface CustomDomainsCreateHeaders
+  - Added Interface CustomDomainsDeleteHeaders
+  - Added Interface CustomDomainsDisableCustomHttpsHeaders
+  - Added Interface CustomDomainsEnableCustomHttpsHeaders
+  - Added Interface CustomErrorPageActionParameters
+  - Added Interface DeliveryRuleCustomErrorPageAction
+  - Added Interface DeliveryRuleOverrideResponseStatusCodeAction
+  - Added Interface DeliveryRuleResponseStatusCodeCondition
+  - Added Interface EndpointsCreateHeaders
+  - Added Interface EndpointsDeleteHeaders
+  - Added Interface EndpointsLoadContentHeaders
+  - Added Interface EndpointsPurgeContentHeaders
+  - Added Interface EndpointsStartHeaders
+  - Added Interface EndpointsStopHeaders
+  - Added Interface EndpointsUpdateHeaders
+  - Added Interface ManagedServiceIdentity
+  - Added Interface MigrateResult
+  - Added Interface MigrationErrorType
+  - Added Interface MigrationParameters
+  - Added Interface MigrationWebApplicationFirewallMapping
+  - Added Interface OriginGroupsCreateHeaders
+  - Added Interface OriginGroupsDeleteHeaders
+  - Added Interface OriginGroupsUpdateHeaders
+  - Added Interface OriginsCreateHeaders
+  - Added Interface OriginsDeleteHeaders
+  - Added Interface OriginsUpdateHeaders
+  - Added Interface OverrideResponseStatusCodeActionParameters
+  - Added Interface PoliciesCreateOrUpdateHeaders
+  - Added Interface PoliciesUpdateHeaders
+  - Added Interface ProfileChangeSkuWafMapping
+  - Added Interface ProfilesCanMigrateHeaders
+  - Added Interface ProfilesCanMigrateOptionalParams
+  - Added Interface ProfilesCreateHeaders
+  - Added Interface ProfilesDeleteHeaders
+  - Added Interface ProfilesMigrateHeaders
+  - Added Interface ProfilesMigrateOptionalParams
+  - Added Interface ProfilesMigrationCommitHeaders
+  - Added Interface ProfilesMigrationCommitOptionalParams
+  - Added Interface ProfilesUpdateHeaders
+  - Added Interface ProfileUpgradeParameters
+  - Added Interface ResponseStatusCodeMatchConditionParameters
+  - Added Interface RoutesCreateHeaders
+  - Added Interface RoutesDeleteHeaders
+  - Added Interface RoutesUpdateHeaders
+  - Added Interface RulesCreateHeaders
+  - Added Interface RulesDeleteHeaders
+  - Added Interface RuleSetsDeleteHeaders
+  - Added Interface RulesUpdateHeaders
+  - Added Interface SecretsCreateHeaders
+  - Added Interface SecretsDeleteHeaders
+  - Added Interface SecurityPoliciesCreateHeaders
+  - Added Interface SecurityPoliciesDeleteHeaders
+  - Added Interface SecurityPoliciesPatchHeaders
+  - Added Interface UserAssignedIdentity
+  - Added Type Alias AfdProfilesCheckEndpointNameAvailabilityResponse
+  - Added Type Alias AfdProfilesUpgradeResponse
+  - Added Type Alias AfdProfilesValidateSecretResponse
+  - Added Type Alias CanMigrateDefaultSku
+  - Added Type Alias DeliveryRuleCustomErrorPageActionParameters
+  - Added Type Alias DeliveryRuleOverrideResponseStatusCodeActionParameters
+  - Added Type Alias DeliveryRuleResponseStatusCodeConditionParameters
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias MetricsGranularity
+  - Added Type Alias MetricsSeriesUnit
+  - Added Type Alias ProfilesCanMigrateResponse
+  - Added Type Alias ProfilesMigrateResponse
+  - Added Type Alias RuleIsNegativeCachingEnabled
+  - Added Type Alias WafMetricsGranularity
+  - Added Type Alias WafMetricsSeriesUnit
+  - Interface AFDDomain has a new optional parameter extendedProperties
+  - Interface AFDDomainProperties has a new optional parameter extendedProperties
+  - Interface CacheConfiguration has a new optional parameter isNegativeCachingEnabled
+  - Interface CdnWebApplicationFirewallPolicy has a new optional parameter extendedProperties
+  - Interface LoadBalancingSettingsParameters has a new optional parameter capacityConsciousThreshold
+  - Interface Profile has a new optional parameter extendedProperties
+  - Interface Profile has a new optional parameter identity
+  - Interface ProfileUpdateParameters has a new optional parameter identity
+  - Type of parameter name of interface DeliveryRuleActionAutoGenerated is changed from "UrlRedirect" | "UrlSigning" | "OriginGroupOverride" | "UrlRewrite" | "ModifyRequestHeader" | "ModifyResponseHeader" | "CacheExpiration" | "CacheKeyQueryString" | "RouteConfigurationOverride" to "UrlRedirect" | "UrlSigning" | "OriginGroupOverride" | "UrlRewrite" | "ModifyRequestHeader" | "ModifyResponseHeader" | "CacheExpiration" | "CacheKeyQueryString" | "RouteConfigurationOverride" | "CustomErrorPageUrl" | "OverrideResponseStatusCode"
+  - Type of parameter name of interface DeliveryRuleCondition is changed from "RemoteAddress" | "RequestMethod" | "QueryString" | "PostArgs" | "RequestUri" | "RequestHeader" | "RequestBody" | "RequestScheme" | "UrlPath" | "UrlFileExtension" | "UrlFileName" | "HttpVersion" | "Cookies" | "IsDevice" | "SocketAddr" | "ClientPort" | "ServerPort" | "HostName" | "SslProtocol" to "RemoteAddress" | "RequestMethod" | "QueryString" | "PostArgs" | "RequestUri" | "RequestHeader" | "RequestBody" | "RequestScheme" | "UrlPath" | "UrlFileExtension" | "UrlFileName" | "HttpVersion" | "Cookies" | "IsDevice" | "SocketAddr" | "ClientPort" | "ServerPort" | "HostName" | "SslProtocol" | "ResponseStatusCode"
+  - Added Enum KnownCanMigrateDefaultSku
+  - Added Enum KnownDeliveryRuleCustomErrorPageActionParameters
+  - Added Enum KnownDeliveryRuleOverrideResponseStatusCodeActionParameters
+  - Added Enum KnownDeliveryRuleResponseStatusCodeConditionParameters
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownMetricsGranularity
+  - Added Enum KnownMetricsSeriesUnit
+  - Added Enum KnownRuleIsNegativeCachingEnabled
+  - Added Enum KnownWafMetricsGranularity
+  - Added Enum KnownWafMetricsSeriesUnit
+  - Enum KnownDeliveryRuleAction has a new value CustomErrorPageUrl
+  - Enum KnownDeliveryRuleAction has a new value OverrideResponseStatusCode
+  - Enum KnownMatchVariable has a new value ResponseStatusCode
+  - Enum KnownProfileResourceState has a new value AbortingMigration
+  - Enum KnownProfileResourceState has a new value CommittingMigration
+  - Enum KnownProfileResourceState has a new value Migrated
+  - Enum KnownProfileResourceState has a new value Migrating
+  - Enum KnownProfileResourceState has a new value PendingMigrationCommit
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group Validate
+  - Type of parameter granularity of interface MetricsResponse is changed from MetricsResponseGranularity to MetricsGranularity
+  - Type of parameter unit of interface MetricsResponseSeriesItem is changed from MetricsResponseSeriesItemUnit to MetricsSeriesUnit
+  - Type of parameter granularity of interface WafMetricsResponse is changed from WafMetricsResponseGranularity to WafMetricsGranularity
+  - Type of parameter unit of interface WafMetricsResponseSeriesItem is changed from "count" to WafMetricsSeriesUnit
+  - Class CdnManagementClient no longer has parameter validate
+  - Removed Enum KnownMetricsResponseGranularity
+  - Removed Enum KnownMetricsResponseSeriesItemUnit
+  - Removed Enum KnownWafMetricsResponseGranularity
+    
+    
 ## 8.0.0 (2022-11-17)
     
 **Features**
