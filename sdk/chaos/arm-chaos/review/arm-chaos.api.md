@@ -108,6 +108,7 @@ export interface CapabilityType extends Resource {
     readonly kind?: string;
     location?: string;
     readonly parametersSchema?: string;
+    readonly permissionsNecessary?: CapabilityTypePropertiesPermissionsNecessary;
     readonly publisher?: string;
     runtimeProperties?: CapabilityTypePropertiesRuntimeProperties;
     readonly systemData?: SystemData;
@@ -119,6 +120,12 @@ export interface CapabilityType extends Resource {
 export interface CapabilityTypeListResult {
     readonly nextLink?: string;
     readonly value?: CapabilityType[];
+}
+
+// @public
+export interface CapabilityTypePropertiesPermissionsNecessary {
+    actions?: string[];
+    dataActions?: string[];
 }
 
 // @public
@@ -182,6 +189,12 @@ export interface ChaosManagementClientOptionalParams extends coreClient.ServiceC
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
+}
+
+// @public
+export interface ComponentsEwb5TmSchemasUserassignedidentitiesAdditionalproperties {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public
@@ -303,6 +316,7 @@ export interface Experiments {
     listAllStatuses(resourceGroupName: string, experimentName: string, options?: ExperimentsListAllStatusesOptionalParams): PagedAsyncIterableIterator<ExperimentStatus>;
     listExecutionDetails(resourceGroupName: string, experimentName: string, options?: ExperimentsListExecutionDetailsOptionalParams): PagedAsyncIterableIterator<ExperimentExecutionDetails>;
     start(resourceGroupName: string, experimentName: string, options?: ExperimentsStartOptionalParams): Promise<ExperimentsStartResponse>;
+    update(resourceGroupName: string, experimentName: string, experiment: ExperimentUpdate, options?: ExperimentsUpdateOptionalParams): Promise<ExperimentsUpdateResponse>;
 }
 
 // @public
@@ -434,6 +448,18 @@ export interface ExperimentStatusListResult {
 }
 
 // @public
+export interface ExperimentsUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExperimentsUpdateResponse = Experiment;
+
+// @public
+export interface ExperimentUpdate {
+    identity?: ResourceIdentity;
+}
+
+// @public
 export interface Filter {
     type: "Simple";
 }
@@ -535,10 +561,13 @@ export interface ResourceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ResourceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: ComponentsEwb5TmSchemasUserassignedidentitiesAdditionalproperties;
+    };
 }
 
 // @public
-export type ResourceIdentityType = "None" | "SystemAssigned";
+export type ResourceIdentityType = "None" | "SystemAssigned" | "UserAssigned";
 
 // @public
 export interface Selector {
