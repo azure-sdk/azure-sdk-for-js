@@ -1,15 +1,16 @@
 # Release History
+    
+## 20.1.0 (2023-03-22)
+    
+**Features**
 
-## 20.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter computerName
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter hyperVGeneration
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter osName
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter osVersion
+  - Enum KnownStorageAccountType has a new value StandardSSDLRS
+    
+    
 ## 20.0.0 (2023-01-05)
     
 **Features**
