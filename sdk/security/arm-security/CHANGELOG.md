@@ -1,16 +1,6 @@
 # Release History
-
-## 6.0.0-beta.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 6.0.0-beta.3 (2023-03-21)
+    
+## 6.0.0-beta.4 (2023-03-23)
     
 **Features**
 
@@ -94,16 +84,21 @@
   - Added Interface CspmMonitorGcpOffering
   - Added Interface CspmMonitorGcpOfferingNativeCloudConnection
   - Added Interface CspmMonitorGithubOffering
+  - Added Interface CspmMonitorGitLabOffering
   - Added Interface CustomAssessmentAutomation
   - Added Interface CustomAssessmentAutomationRequest
   - Added Interface CustomEntityStoreAssignment
   - Added Interface DataExportSettings
   - Added Interface DefenderCspmAwsOffering
+  - Added Interface DefenderCspmAwsOfferingDatabasesDspm
+  - Added Interface DefenderCspmAwsOfferingDataSensitivityDiscovery
   - Added Interface DefenderCspmAwsOfferingVmScanners
   - Added Interface DefenderCspmAwsOfferingVmScannersConfiguration
   - Added Interface DefenderCspmGcpOffering
   - Added Interface DefenderFoDatabasesAwsOffering
   - Added Interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning
+  - Added Interface DefenderFoDatabasesAwsOfferingArcAutoProvisioningConfiguration
+  - Added Interface DefenderFoDatabasesAwsOfferingDatabasesDspm
   - Added Interface DefenderFoDatabasesAwsOfferingRds
   - Added Interface DefenderForContainersAwsOffering
   - Added Interface DefenderForContainersAwsOfferingContainerVulnerabilityAssessment
@@ -113,10 +108,13 @@
   - Added Interface DefenderForContainersGcpOfferingNativeCloudConnection
   - Added Interface DefenderForDatabasesGcpOffering
   - Added Interface DefenderForDatabasesGcpOfferingArcAutoProvisioning
+  - Added Interface DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration
   - Added Interface DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning
   - Added Interface DefenderForDevOpsAzureDevOpsOffering
   - Added Interface DefenderForDevOpsGithubOffering
+  - Added Interface DefenderForDevOpsGitLabOffering
   - Added Interface DefenderForServersAwsOffering
+  - Added Interface DefenderForServersAwsOfferingArcAutoProvisioningConfiguration
   - Added Interface DefenderForServersAwsOfferingMdeAutoProvisioning
   - Added Interface DefenderForServersAwsOfferingSubPlan
   - Added Interface DefenderForServersAwsOfferingVaAutoProvisioning
@@ -125,11 +123,14 @@
   - Added Interface DefenderForServersAwsOfferingVmScannersConfiguration
   - Added Interface DefenderForServersGcpOffering
   - Added Interface DefenderForServersGcpOfferingArcAutoProvisioning
+  - Added Interface DefenderForServersGcpOfferingArcAutoProvisioningConfiguration
   - Added Interface DefenderForServersGcpOfferingDefenderForServers
   - Added Interface DefenderForServersGcpOfferingMdeAutoProvisioning
   - Added Interface DefenderForServersGcpOfferingSubPlan
   - Added Interface DefenderForServersGcpOfferingVaAutoProvisioning
   - Added Interface DefenderForServersGcpOfferingVaAutoProvisioningConfiguration
+  - Added Interface DefenderForServersGcpOfferingVmScanners
+  - Added Interface DefenderForServersGcpOfferingVmScannersConfiguration
   - Added Interface DenylistCustomAlertRule
   - Added Interface DeviceSecurityGroup
   - Added Interface DirectMethodInvokesNotInAllowedRange
@@ -151,6 +152,7 @@
   - Added Interface GcpProjectDetails
   - Added Interface GcpProjectEnvironmentData
   - Added Interface GithubScopeEnvironmentData
+  - Added Interface GitlabScopeEnvironmentData
   - Added Interface GovernanceAssignment
   - Added Interface GovernanceAssignmentAdditionalData
   - Added Interface GovernanceAssignmentsCreateOrUpdateOptionalParams
@@ -298,8 +300,9 @@
   - Interface AlertsSimulateOptionalParams has a new optional parameter resumeFrom
   - Interface AlertsSimulateOptionalParams has a new optional parameter updateIntervalInMs
   - Interface DefenderForServersAwsOfferingArcAutoProvisioning has a new optional parameter cloudRoleArn
+  - Interface DefenderForServersAwsOfferingArcAutoProvisioning has a new optional parameter configuration
   - Interface ScanProperties has a new optional parameter lastScanTime
-  - Type of parameter offeringType of interface CloudOffering is changed from "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAws" | "InformationProtectionAws" to "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAws" | "DefenderForDatabasesAws" | "InformationProtectionAws" | "CspmMonitorGcp" | "DefenderForServersGcp" | "DefenderForDatabasesGcp" | "DefenderForContainersGcp" | "CspmMonitorGithub" | "CspmMonitorAzureDevOps" | "DefenderCspmAws" | "DefenderCspmGcp" | "DefenderForDevOpsGithub" | "DefenderForDevOpsAzureDevOps"
+  - Type of parameter offeringType of interface CloudOffering is changed from "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAws" | "InformationProtectionAws" to "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAws" | "DefenderForDatabasesAws" | "InformationProtectionAws" | "CspmMonitorGcp" | "DefenderForServersGcp" | "DefenderForDatabasesGcp" | "DefenderForContainersGcp" | "CspmMonitorGithub" | "CspmMonitorAzureDevOps" | "DefenderCspmAws" | "DefenderCspmGcp" | "DefenderForDevOpsGithub" | "DefenderForDevOpsAzureDevOps" | "CspmMonitorGitLab" | "DefenderForDevOpsGitLab"
   - Added Enum KnownApplicationConditionOperator
   - Added Enum KnownApplicationSourceResourceType
   - Added Enum KnownEnvironmentType
@@ -319,9 +322,11 @@
   - Enum KnownBundleType has a new value CosmosDbs
   - Enum KnownCloudName has a new value AzureDevOps
   - Enum KnownCloudName has a new value Github
+  - Enum KnownCloudName has a new value GitLab
   - Enum KnownOfferingType has a new value CspmMonitorAzureDevOps
   - Enum KnownOfferingType has a new value CspmMonitorGcp
   - Enum KnownOfferingType has a new value CspmMonitorGithub
+  - Enum KnownOfferingType has a new value CspmMonitorGitLab
   - Enum KnownOfferingType has a new value DefenderCspmAws
   - Enum KnownOfferingType has a new value DefenderCspmGcp
   - Enum KnownOfferingType has a new value DefenderForContainersGcp
@@ -329,9 +334,16 @@
   - Enum KnownOfferingType has a new value DefenderForDatabasesGcp
   - Enum KnownOfferingType has a new value DefenderForDevOpsAzureDevOps
   - Enum KnownOfferingType has a new value DefenderForDevOpsGithub
+  - Enum KnownOfferingType has a new value DefenderForDevOpsGitLab
   - Enum KnownOfferingType has a new value DefenderForServersGcp
   - Enum KnownSettingName has a new value WdatpUnifiedSolution
   - Added function getContinuationToken
+
+**Breaking Changes**
+
+  - Removed operation Alerts.simulate
+  - Removed operation SecurityContacts.update
+  - Operation AllowedConnections.get has a new signature
   - Interface AlertsSuppressionRulesListNextOptionalParams no longer has parameter alertType
   - Interface DefenderForServersAwsOfferingArcAutoProvisioning no longer has parameter servicePrincipalSecretMetadata
   - Interface IotSecuritySolutionListByResourceGroupNextOptionalParams no longer has parameter filter
@@ -346,12 +358,6 @@
   - Interface TasksListByHomeRegionNextOptionalParams no longer has parameter filter
   - Interface TasksListByResourceGroupNextOptionalParams no longer has parameter filter
   - Interface TasksListNextOptionalParams no longer has parameter filter
-
-**Breaking Changes**
-
-  - Removed operation Alerts.simulate
-  - Removed operation SecurityContacts.update
-  - Operation AllowedConnections.get has a new signature
   - Type of parameter value of interface ExternalSecuritySolutionList is changed from ExternalSecuritySolutionUnion[] to ExternalSecuritySolution[]
   - Removed Enum KnownAlertNotifications
   - Removed Enum KnownAlertsToAdmins

@@ -54,13 +54,16 @@ export type CloudOfferingUnion =
   | DefenderCspmAwsOffering
   | DefenderCspmGcpOffering
   | DefenderForDevOpsGithubOffering
-  | DefenderForDevOpsAzureDevOpsOffering;
+  | DefenderForDevOpsAzureDevOpsOffering
+  | CspmMonitorGitLabOffering
+  | DefenderForDevOpsGitLabOffering;
 export type EnvironmentDataUnion =
   | EnvironmentData
   | AwsEnvironmentData
   | GcpProjectEnvironmentData
   | GithubScopeEnvironmentData
-  | AzureDevOpsScopeEnvironmentData;
+  | AzureDevOpsScopeEnvironmentData
+  | GitlabScopeEnvironmentData;
 export type AwsOrganizationalDataUnion =
   | AwsOrganizationalData
   | AwsOrganizationalDataMaster
@@ -1605,53 +1608,6 @@ export interface SoftwaresList {
   readonly nextLink?: string;
 }
 
-/** List of security connectors response. */
-export interface SecurityConnectorsList {
-  /** The list of security connectors under the given scope. */
-  value: SecurityConnector[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The security offering details */
-export interface CloudOffering {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  offeringType:
-    | "CspmMonitorAws"
-    | "DefenderForContainersAws"
-    | "DefenderForServersAws"
-    | "DefenderForDatabasesAws"
-    | "InformationProtectionAws"
-    | "CspmMonitorGcp"
-    | "DefenderForServersGcp"
-    | "DefenderForDatabasesGcp"
-    | "DefenderForContainersGcp"
-    | "CspmMonitorGithub"
-    | "CspmMonitorAzureDevOps"
-    | "DefenderCspmAws"
-    | "DefenderCspmGcp"
-    | "DefenderForDevOpsGithub"
-    | "DefenderForDevOpsAzureDevOps";
-  /**
-   * The offering description.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-}
-
-/** The security connector environment data. */
-export interface EnvironmentData {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  environmentType:
-    | "AwsAccount"
-    | "GcpProject"
-    | "GithubScope"
-    | "AzureDevOpsScope";
-}
-
 /** Page of a governance rules list */
 export interface GovernanceRuleList {
   /**
@@ -2117,6 +2073,56 @@ export interface RulesResultsInput {
   results?: { [propertyName: string]: string[][] };
 }
 
+/** List of security connectors response. */
+export interface SecurityConnectorsList {
+  /** The list of security connectors under the given scope. */
+  value: SecurityConnector[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The security offering details */
+export interface CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType:
+    | "CspmMonitorAws"
+    | "DefenderForContainersAws"
+    | "DefenderForServersAws"
+    | "DefenderForDatabasesAws"
+    | "InformationProtectionAws"
+    | "CspmMonitorGcp"
+    | "DefenderForServersGcp"
+    | "DefenderForDatabasesGcp"
+    | "DefenderForContainersGcp"
+    | "CspmMonitorGithub"
+    | "CspmMonitorAzureDevOps"
+    | "DefenderCspmAws"
+    | "DefenderCspmGcp"
+    | "DefenderForDevOpsGithub"
+    | "DefenderForDevOpsAzureDevOps"
+    | "CspmMonitorGitLab"
+    | "DefenderForDevOpsGitLab";
+  /**
+   * The offering description.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+}
+
+/** The security connector environment data. */
+export interface EnvironmentData {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  environmentType:
+    | "AwsAccount"
+    | "GcpProject"
+    | "GithubScope"
+    | "AzureDevOpsScope"
+    | "GitlabScope";
+}
+
 /** CVSS details */
 export interface Cvss {
   /**
@@ -2195,7 +2201,27 @@ export interface SecureScoreControlScore {
   readonly percentage?: number;
 }
 
-/** The awsOrganization data */
+/** Governance rule's condition */
+export interface Condition {
+  /** The governance rule Condition's Property, e.g. Severity or AssessmentKey, see examples */
+  property?: string;
+  /** The governance rule Condition's Value like severity Low, High or assessments keys, see examples */
+  value?: string;
+  /** The governance rule Condition's Operator, for example Equals for severity or In for list of assessments, see examples */
+  operator?: GovernanceRuleConditionOperator;
+}
+
+/** Application's condition */
+export interface ApplicationCondition {
+  /** The application Condition's Property, e.g. ID, see examples */
+  property?: string;
+  /** The application Condition's Value like IDs that contain some string, see examples */
+  value?: string;
+  /** The application Condition's Operator, for example Contains for id or In for list of possible IDs, see examples */
+  operator?: ApplicationConditionOperator;
+}
+
+/** The AWS organization data */
 export interface AwsOrganizationalData {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   organizationMembershipType: "Organization" | "Member";
@@ -2218,6 +2244,11 @@ export interface GcpProjectDetails {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly workloadIdentityPoolId?: string;
+  /**
+   * GCP project name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly projectName?: string;
 }
 
 /** The native cloud connection configuration */
@@ -2274,6 +2305,16 @@ export interface DefenderForServersAwsOfferingArcAutoProvisioning {
   enabled?: boolean;
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
+  /** Configuration for servers Arc auto provisioning */
+  configuration?: DefenderForServersAwsOfferingArcAutoProvisioningConfiguration;
+}
+
+/** Configuration for servers Arc auto provisioning */
+export interface DefenderForServersAwsOfferingArcAutoProvisioningConfiguration {
+  /** Optional HTTP proxy endpoint to use for the Arc agent */
+  proxy?: string;
+  /** Optional Arc private link scope resource id to link the Arc agent */
+  privateLinkScope?: string;
 }
 
 /** The Vulnerability Assessment autoprovisioning configuration */
@@ -2316,7 +2357,7 @@ export interface DefenderForServersAwsOfferingVmScanners {
 export interface DefenderForServersAwsOfferingVmScannersConfiguration {
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
-  /** The scanning mode for the vm scan. */
+  /** The scanning mode for the VM scan. */
   scanningMode?: ScanningMode;
   /** VM tags that indicates that VM should not be scanned */
   exclusionTags?: { [propertyName: string]: string };
@@ -2328,11 +2369,29 @@ export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning {
   enabled?: boolean;
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
+  /** Configuration for servers Arc auto provisioning */
+  configuration?: DefenderFoDatabasesAwsOfferingArcAutoProvisioningConfiguration;
+}
+
+/** Configuration for servers Arc auto provisioning */
+export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioningConfiguration {
+  /** Optional http proxy endpoint to use for the Arc agent */
+  proxy?: string;
+  /** Optional Arc private link scope resource id to link the Arc agent */
+  privateLinkScope?: string;
 }
 
 /** The RDS configuration */
 export interface DefenderFoDatabasesAwsOfferingRds {
   /** Is RDS protection enabled */
+  enabled?: boolean;
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
+}
+
+/** The databases data security posture management (DSPM) configuration */
+export interface DefenderFoDatabasesAwsOfferingDatabasesDspm {
+  /** Is databases data security posture management (DSPM) protection enabled */
   enabled?: boolean;
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
@@ -2364,6 +2423,16 @@ export interface DefenderForServersGcpOfferingDefenderForServers {
 export interface DefenderForServersGcpOfferingArcAutoProvisioning {
   /** Is arc auto provisioning enabled */
   enabled?: boolean;
+  /** Configuration for servers Arc auto provisioning */
+  configuration?: DefenderForServersGcpOfferingArcAutoProvisioningConfiguration;
+}
+
+/** Configuration for servers Arc auto provisioning */
+export interface DefenderForServersGcpOfferingArcAutoProvisioningConfiguration {
+  /** Optional HTTP proxy endpoint to use for the Arc agent */
+  proxy?: string;
+  /** Optional Arc private link scope resource id to link the Arc agent */
+  privateLinkScope?: string;
 }
 
 /** The Vulnerability Assessment autoprovisioning configuration */
@@ -2394,10 +2463,36 @@ export interface DefenderForServersGcpOfferingSubPlan {
   type?: SubPlan;
 }
 
+/** The Microsoft Defender for Server VM scanning configuration */
+export interface DefenderForServersGcpOfferingVmScanners {
+  /** Is Microsoft Defender for Server VM scanning enabled */
+  enabled?: boolean;
+  /** configuration for Microsoft Defender for Server VM scanning */
+  configuration?: DefenderForServersGcpOfferingVmScannersConfiguration;
+}
+
+/** configuration for Microsoft Defender for Server VM scanning */
+export interface DefenderForServersGcpOfferingVmScannersConfiguration {
+  /** The scanning mode for the VM scan. */
+  scanningMode?: ScanningMode;
+  /** VM tags that indicate that VM should not be scanned */
+  exclusionTags?: { [propertyName: string]: string };
+}
+
 /** The ARC autoprovisioning configuration */
 export interface DefenderForDatabasesGcpOfferingArcAutoProvisioning {
   /** Is arc auto provisioning enabled */
   enabled?: boolean;
+  /** Configuration for servers Arc auto provisioning */
+  configuration?: DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration;
+}
+
+/** Configuration for servers Arc auto provisioning */
+export interface DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration {
+  /** Optional http proxy endpoint to use for the Arc agent */
+  proxy?: string;
+  /** Optional Arc private link scope resource id to link the Arc agent */
+  privateLinkScope?: string;
 }
 
 /** The native cloud connection configuration */
@@ -2436,30 +2531,26 @@ export interface DefenderCspmAwsOfferingVmScanners {
 export interface DefenderCspmAwsOfferingVmScannersConfiguration {
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
-  /** The scanning mode for the vm scan. */
+  /** The scanning mode for the VM scan. */
   scanningMode?: ScanningMode;
   /** VM tags that indicates that VM should not be scanned */
   exclusionTags?: { [propertyName: string]: string };
 }
 
-/** Governance rule's condition */
-export interface Condition {
-  /** The governance rule Condition's Property, e.g. Severity or AssessmentKey, see examples */
-  property?: string;
-  /** The governance rule Condition's Value like severity Low, High or assessments keys, see examples */
-  value?: string;
-  /** The governance rule Condition's Operator, for example Equals for severity or In for list of assessments, see examples */
-  operator?: GovernanceRuleConditionOperator;
+/** The Microsoft Defender Data Sensitivity discovery configuration */
+export interface DefenderCspmAwsOfferingDataSensitivityDiscovery {
+  /** Is Microsoft Defender Data Sensitivity discovery enabled */
+  enabled?: boolean;
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
 }
 
-/** Application's condition */
-export interface ApplicationCondition {
-  /** The application Condition's Property, e.g. ID, see examples */
-  property?: string;
-  /** The application Condition's Value like IDs that contain some string, see examples */
-  value?: string;
-  /** The application Condition's Operator, for example Contains for id or In for list of possible IDs, see examples */
-  operator?: ApplicationConditionOperator;
+/** The databases DSPM configuration */
+export interface DefenderCspmAwsOfferingDatabasesDspm {
+  /** Is databases DSPM protection enabled */
+  enabled?: boolean;
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
 }
 
 /** The resource of the configuration or data needed to onboard the machine to MDE */
@@ -4057,6 +4148,8 @@ export interface DefenderFoDatabasesAwsOffering extends CloudOffering {
   arcAutoProvisioning?: DefenderFoDatabasesAwsOfferingArcAutoProvisioning;
   /** The RDS configuration */
   rds?: DefenderFoDatabasesAwsOfferingRds;
+  /** The databases data security posture management (DSPM) configuration */
+  databasesDspm?: DefenderFoDatabasesAwsOfferingDatabasesDspm;
 }
 
 /** The information protection for AWS offering */
@@ -4089,6 +4182,8 @@ export interface DefenderForServersGcpOffering extends CloudOffering {
   mdeAutoProvisioning?: DefenderForServersGcpOfferingMdeAutoProvisioning;
   /** configuration for the servers offering subPlan */
   subPlan?: DefenderForServersGcpOfferingSubPlan;
+  /** The Microsoft Defender for Server VM scanning configuration */
+  vmScanners?: DefenderForServersGcpOfferingVmScanners;
 }
 
 /** The Defender for Databases GCP offering configurations */
@@ -4129,12 +4224,16 @@ export interface CspmMonitorAzureDevOpsOffering extends CloudOffering {
   offeringType: "CspmMonitorAzureDevOps";
 }
 
-/** The CSPM P1 for Aws offering */
+/** The CSPM P1 for AWS offering */
 export interface DefenderCspmAwsOffering extends CloudOffering {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   offeringType: "DefenderCspmAws";
   /** The Microsoft Defender for Server VM scanning configuration */
   vmScanners?: DefenderCspmAwsOfferingVmScanners;
+  /** The Microsoft Defender Data Sensitivity discovery configuration */
+  dataSensitivityDiscovery?: DefenderCspmAwsOfferingDataSensitivityDiscovery;
+  /** The databases DSPM configuration */
+  databasesDspm?: DefenderCspmAwsOfferingDatabasesDspm;
 }
 
 /** The CSPM P1 for GCP offering */
@@ -4155,12 +4254,31 @@ export interface DefenderForDevOpsAzureDevOpsOffering extends CloudOffering {
   offeringType: "DefenderForDevOpsAzureDevOps";
 }
 
-/** The aws connector environment data */
+/** The CSPM (Cloud security posture management) monitoring for gitlab offering */
+export interface CspmMonitorGitLabOffering extends CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "CspmMonitorGitLab";
+}
+
+/** The Defender for DevOps for Gitlab offering */
+export interface DefenderForDevOpsGitLabOffering extends CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "DefenderForDevOpsGitLab";
+}
+
+/** The AWS connector environment data */
 export interface AwsEnvironmentData extends EnvironmentData {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   environmentType: "AwsAccount";
   /** The AWS account's organizational data */
   organizationalData?: AwsOrganizationalDataUnion;
+  /** list of regions to scan */
+  regions?: string[];
+  /**
+   * The AWS account name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountName?: string;
 }
 
 /** The GCP project connector environment data */
@@ -4185,6 +4303,12 @@ export interface AzureDevOpsScopeEnvironmentData extends EnvironmentData {
   environmentType: "AzureDevOpsScope";
 }
 
+/** The GitLab scope connector's environment data */
+export interface GitlabScopeEnvironmentData extends EnvironmentData {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  environmentType: "GitlabScope";
+}
+
 /** The external security solution properties for CEF solutions */
 export interface CefSolutionProperties
   extends ExternalSecuritySolutionProperties {
@@ -4204,7 +4328,7 @@ export interface AadSolutionProperties
   extends ExternalSecuritySolutionProperties,
     AadConnectivityStateAutoGenerated {}
 
-/** The awsOrganization data for the master account */
+/** The AWS organization data for the master account */
 export interface AwsOrganizationalDataMaster extends AwsOrganizationalData {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   organizationMembershipType: "Organization";
@@ -4214,7 +4338,7 @@ export interface AwsOrganizationalDataMaster extends AwsOrganizationalData {
   excludedAccountIds?: string[];
 }
 
-/** The awsOrganization data for the member account */
+/** The AWS organization data for the member account */
 export interface AwsOrganizationalDataMember extends AwsOrganizationalData {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   organizationMembershipType: "Member";
@@ -4233,6 +4357,11 @@ export interface GcpOrganizationalDataOrganization
   serviceAccountEmailAddress?: string;
   /** The GCP workload identity provider id which represents the permissions required to auto provision security connectors */
   workloadIdentityProviderId?: string;
+  /**
+   * GCP organization name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly organizationName?: string;
 }
 
 /** The gcpOrganization data for the member account */
@@ -6487,114 +6616,6 @@ export enum KnownEndOfSupportStatus {
  */
 export type EndOfSupportStatus = string;
 
-/** Known values of {@link CloudName} that the service accepts. */
-export enum KnownCloudName {
-  /** Azure */
-  Azure = "Azure",
-  /** AWS */
-  AWS = "AWS",
-  /** GCP */
-  GCP = "GCP",
-  /** Github */
-  Github = "Github",
-  /** AzureDevOps */
-  AzureDevOps = "AzureDevOps"
-}
-
-/**
- * Defines values for CloudName. \
- * {@link KnownCloudName} can be used interchangeably with CloudName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Azure** \
- * **AWS** \
- * **GCP** \
- * **Github** \
- * **AzureDevOps**
- */
-export type CloudName = string;
-
-/** Known values of {@link OfferingType} that the service accepts. */
-export enum KnownOfferingType {
-  /** CspmMonitorAws */
-  CspmMonitorAws = "CspmMonitorAws",
-  /** DefenderForContainersAws */
-  DefenderForContainersAws = "DefenderForContainersAws",
-  /** DefenderForServersAws */
-  DefenderForServersAws = "DefenderForServersAws",
-  /** DefenderForDatabasesAws */
-  DefenderForDatabasesAws = "DefenderForDatabasesAws",
-  /** InformationProtectionAws */
-  InformationProtectionAws = "InformationProtectionAws",
-  /** CspmMonitorGcp */
-  CspmMonitorGcp = "CspmMonitorGcp",
-  /** CspmMonitorGithub */
-  CspmMonitorGithub = "CspmMonitorGithub",
-  /** CspmMonitorAzureDevOps */
-  CspmMonitorAzureDevOps = "CspmMonitorAzureDevOps",
-  /** DefenderForServersGcp */
-  DefenderForServersGcp = "DefenderForServersGcp",
-  /** DefenderForContainersGcp */
-  DefenderForContainersGcp = "DefenderForContainersGcp",
-  /** DefenderForDatabasesGcp */
-  DefenderForDatabasesGcp = "DefenderForDatabasesGcp",
-  /** DefenderCspmAws */
-  DefenderCspmAws = "DefenderCspmAws",
-  /** DefenderCspmGcp */
-  DefenderCspmGcp = "DefenderCspmGcp",
-  /** DefenderForDevOpsGithub */
-  DefenderForDevOpsGithub = "DefenderForDevOpsGithub",
-  /** DefenderForDevOpsAzureDevOps */
-  DefenderForDevOpsAzureDevOps = "DefenderForDevOpsAzureDevOps"
-}
-
-/**
- * Defines values for OfferingType. \
- * {@link KnownOfferingType} can be used interchangeably with OfferingType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **CspmMonitorAws** \
- * **DefenderForContainersAws** \
- * **DefenderForServersAws** \
- * **DefenderForDatabasesAws** \
- * **InformationProtectionAws** \
- * **CspmMonitorGcp** \
- * **CspmMonitorGithub** \
- * **CspmMonitorAzureDevOps** \
- * **DefenderForServersGcp** \
- * **DefenderForContainersGcp** \
- * **DefenderForDatabasesGcp** \
- * **DefenderCspmAws** \
- * **DefenderCspmGcp** \
- * **DefenderForDevOpsGithub** \
- * **DefenderForDevOpsAzureDevOps**
- */
-export type OfferingType = string;
-
-/** Known values of {@link EnvironmentType} that the service accepts. */
-export enum KnownEnvironmentType {
-  /** AwsAccount */
-  AwsAccount = "AwsAccount",
-  /** GcpProject */
-  GcpProject = "GcpProject",
-  /** GithubScope */
-  GithubScope = "GithubScope",
-  /** AzureDevOpsScope */
-  AzureDevOpsScope = "AzureDevOpsScope"
-}
-
-/**
- * Defines values for EnvironmentType. \
- * {@link KnownEnvironmentType} can be used interchangeably with EnvironmentType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AwsAccount** \
- * **GcpProject** \
- * **GithubScope** \
- * **AzureDevOpsScope**
- */
-export type EnvironmentType = string;
-
 /** Known values of {@link GovernanceRuleType} that the service accepts. */
 export enum KnownGovernanceRuleType {
   /** The source of the rule type definition is integrated */
@@ -6841,6 +6862,126 @@ export enum KnownRuleType {
  */
 export type RuleType = string;
 
+/** Known values of {@link CloudName} that the service accepts. */
+export enum KnownCloudName {
+  /** Azure */
+  Azure = "Azure",
+  /** AWS */
+  AWS = "AWS",
+  /** GCP */
+  GCP = "GCP",
+  /** Github */
+  Github = "Github",
+  /** AzureDevOps */
+  AzureDevOps = "AzureDevOps",
+  /** GitLab */
+  GitLab = "GitLab"
+}
+
+/**
+ * Defines values for CloudName. \
+ * {@link KnownCloudName} can be used interchangeably with CloudName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Azure** \
+ * **AWS** \
+ * **GCP** \
+ * **Github** \
+ * **AzureDevOps** \
+ * **GitLab**
+ */
+export type CloudName = string;
+
+/** Known values of {@link OfferingType} that the service accepts. */
+export enum KnownOfferingType {
+  /** CspmMonitorAws */
+  CspmMonitorAws = "CspmMonitorAws",
+  /** DefenderForContainersAws */
+  DefenderForContainersAws = "DefenderForContainersAws",
+  /** DefenderForServersAws */
+  DefenderForServersAws = "DefenderForServersAws",
+  /** DefenderForDatabasesAws */
+  DefenderForDatabasesAws = "DefenderForDatabasesAws",
+  /** InformationProtectionAws */
+  InformationProtectionAws = "InformationProtectionAws",
+  /** CspmMonitorGcp */
+  CspmMonitorGcp = "CspmMonitorGcp",
+  /** CspmMonitorGithub */
+  CspmMonitorGithub = "CspmMonitorGithub",
+  /** CspmMonitorAzureDevOps */
+  CspmMonitorAzureDevOps = "CspmMonitorAzureDevOps",
+  /** DefenderForServersGcp */
+  DefenderForServersGcp = "DefenderForServersGcp",
+  /** DefenderForContainersGcp */
+  DefenderForContainersGcp = "DefenderForContainersGcp",
+  /** DefenderForDatabasesGcp */
+  DefenderForDatabasesGcp = "DefenderForDatabasesGcp",
+  /** DefenderCspmAws */
+  DefenderCspmAws = "DefenderCspmAws",
+  /** DefenderCspmGcp */
+  DefenderCspmGcp = "DefenderCspmGcp",
+  /** DefenderForDevOpsGithub */
+  DefenderForDevOpsGithub = "DefenderForDevOpsGithub",
+  /** DefenderForDevOpsAzureDevOps */
+  DefenderForDevOpsAzureDevOps = "DefenderForDevOpsAzureDevOps",
+  /** CspmMonitorGitLab */
+  CspmMonitorGitLab = "CspmMonitorGitLab",
+  /** DefenderForDevOpsGitLab */
+  DefenderForDevOpsGitLab = "DefenderForDevOpsGitLab"
+}
+
+/**
+ * Defines values for OfferingType. \
+ * {@link KnownOfferingType} can be used interchangeably with OfferingType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CspmMonitorAws** \
+ * **DefenderForContainersAws** \
+ * **DefenderForServersAws** \
+ * **DefenderForDatabasesAws** \
+ * **InformationProtectionAws** \
+ * **CspmMonitorGcp** \
+ * **CspmMonitorGithub** \
+ * **CspmMonitorAzureDevOps** \
+ * **DefenderForServersGcp** \
+ * **DefenderForContainersGcp** \
+ * **DefenderForDatabasesGcp** \
+ * **DefenderCspmAws** \
+ * **DefenderCspmGcp** \
+ * **DefenderForDevOpsGithub** \
+ * **DefenderForDevOpsAzureDevOps** \
+ * **CspmMonitorGitLab** \
+ * **DefenderForDevOpsGitLab**
+ */
+export type OfferingType = string;
+
+/** Known values of {@link EnvironmentType} that the service accepts. */
+export enum KnownEnvironmentType {
+  /** AwsAccount */
+  AwsAccount = "AwsAccount",
+  /** GcpProject */
+  GcpProject = "GcpProject",
+  /** GithubScope */
+  GithubScope = "GithubScope",
+  /** AzureDevOpsScope */
+  AzureDevOpsScope = "AzureDevOpsScope",
+  /** GitlabScope */
+  GitlabScope = "GitlabScope"
+}
+
+/**
+ * Defines values for EnvironmentType. \
+ * {@link KnownEnvironmentType} can be used interchangeably with EnvironmentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AwsAccount** \
+ * **GcpProject** \
+ * **GithubScope** \
+ * **AzureDevOpsScope** \
+ * **GitlabScope**
+ */
+export type EnvironmentType = string;
+
 /** Known values of {@link AadConnectivityState} that the service accepts. */
 export enum KnownAadConnectivityState {
   /** Discovered */
@@ -6900,6 +7041,45 @@ export enum KnownBundleType {
  * **CosmosDbs**
  */
 export type BundleType = string;
+
+/** Known values of {@link GovernanceRuleConditionOperator} that the service accepts. */
+export enum KnownGovernanceRuleConditionOperator {
+  /** Checks that the string value of the data defined in Property equals the given value - exact fit */
+  Equals = "Equals",
+  /** Checks that the string value of the data defined in Property equals any of the given values (exact fit) */
+  In = "In"
+}
+
+/**
+ * Defines values for GovernanceRuleConditionOperator. \
+ * {@link KnownGovernanceRuleConditionOperator} can be used interchangeably with GovernanceRuleConditionOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Equals**: Checks that the string value of the data defined in Property equals the given value - exact fit \
+ * **In**: Checks that the string value of the data defined in Property equals any of the given values (exact fit)
+ */
+export type GovernanceRuleConditionOperator = string;
+
+/** Known values of {@link ApplicationConditionOperator} that the service accepts. */
+export enum KnownApplicationConditionOperator {
+  /** Checks that the string value of the data defined in Property contains the given value */
+  Contains = "Contains",
+  /** Checks that the string value of the data defined in Property equals the given value */
+  Equals = "Equals",
+  /** Checks that the string value of the data defined in Property equals any of the given values (exact fit) */
+  In = "In"
+}
+
+/**
+ * Defines values for ApplicationConditionOperator. \
+ * {@link KnownApplicationConditionOperator} can be used interchangeably with ApplicationConditionOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Contains**: Checks that the string value of the data defined in Property contains the given value \
+ * **Equals**: Checks that the string value of the data defined in Property equals the given value \
+ * **In**: Checks that the string value of the data defined in Property equals any of the given values (exact fit)
+ */
+export type ApplicationConditionOperator = string;
 
 /** Known values of {@link OrganizationMembershipType} that the service accepts. */
 export enum KnownOrganizationMembershipType {
@@ -6969,45 +7149,6 @@ export enum KnownScanningMode {
  * **Default**
  */
 export type ScanningMode = string;
-
-/** Known values of {@link GovernanceRuleConditionOperator} that the service accepts. */
-export enum KnownGovernanceRuleConditionOperator {
-  /** Checks that the string value of the data defined in Property equals the given value - exact fit */
-  Equals = "Equals",
-  /** Checks that the string value of the data defined in Property equals any of the given values (exact fit) */
-  In = "In"
-}
-
-/**
- * Defines values for GovernanceRuleConditionOperator. \
- * {@link KnownGovernanceRuleConditionOperator} can be used interchangeably with GovernanceRuleConditionOperator,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Equals**: Checks that the string value of the data defined in Property equals the given value - exact fit \
- * **In**: Checks that the string value of the data defined in Property equals any of the given values (exact fit)
- */
-export type GovernanceRuleConditionOperator = string;
-
-/** Known values of {@link ApplicationConditionOperator} that the service accepts. */
-export enum KnownApplicationConditionOperator {
-  /** Checks that the string value of the data defined in Property contains the given value */
-  Contains = "Contains",
-  /** Checks that the string value of the data defined in Property equals the given value */
-  Equals = "Equals",
-  /** Checks that the string value of the data defined in Property equals any of the given values (exact fit) */
-  In = "In"
-}
-
-/**
- * Defines values for ApplicationConditionOperator. \
- * {@link KnownApplicationConditionOperator} can be used interchangeably with ApplicationConditionOperator,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Contains**: Checks that the string value of the data defined in Property contains the given value \
- * **Equals**: Checks that the string value of the data defined in Property equals the given value \
- * **In**: Checks that the string value of the data defined in Property equals any of the given values (exact fit)
- */
-export type ApplicationConditionOperator = string;
 /** Defines values for Rank. */
 export type Rank = "None" | "Low" | "Medium" | "High" | "Critical";
 /** Defines values for RuleState. */
@@ -8551,59 +8692,6 @@ export interface SoftwareInventoriesListBySubscriptionNextOptionalParams
 export type SoftwareInventoriesListBySubscriptionNextResponse = SoftwaresList;
 
 /** Optional parameters. */
-export interface SecurityConnectorsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SecurityConnectorsListResponse = SecurityConnectorsList;
-
-/** Optional parameters. */
-export interface SecurityConnectorsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type SecurityConnectorsListByResourceGroupResponse = SecurityConnectorsList;
-
-/** Optional parameters. */
-export interface SecurityConnectorsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SecurityConnectorsGetResponse = SecurityConnector;
-
-/** Optional parameters. */
-export interface SecurityConnectorsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type SecurityConnectorsCreateOrUpdateResponse = SecurityConnector;
-
-/** Optional parameters. */
-export interface SecurityConnectorsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type SecurityConnectorsUpdateResponse = SecurityConnector;
-
-/** Optional parameters. */
-export interface SecurityConnectorsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface SecurityConnectorsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type SecurityConnectorsListNextResponse = SecurityConnectorsList;
-
-/** Optional parameters. */
-export interface SecurityConnectorsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type SecurityConnectorsListByResourceGroupNextResponse = SecurityConnectorsList;
-
-/** Optional parameters. */
 export interface GovernanceRulesListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -8875,6 +8963,59 @@ export interface SqlVulnerabilityAssessmentBaselineRulesAddOptionalParams
 
 /** Contains response data for the add operation. */
 export type SqlVulnerabilityAssessmentBaselineRulesAddResponse = RulesResults;
+
+/** Optional parameters. */
+export interface SecurityConnectorsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SecurityConnectorsListResponse = SecurityConnectorsList;
+
+/** Optional parameters. */
+export interface SecurityConnectorsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type SecurityConnectorsListByResourceGroupResponse = SecurityConnectorsList;
+
+/** Optional parameters. */
+export interface SecurityConnectorsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SecurityConnectorsGetResponse = SecurityConnector;
+
+/** Optional parameters. */
+export interface SecurityConnectorsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SecurityConnectorsCreateOrUpdateResponse = SecurityConnector;
+
+/** Optional parameters. */
+export interface SecurityConnectorsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type SecurityConnectorsUpdateResponse = SecurityConnector;
+
+/** Optional parameters. */
+export interface SecurityConnectorsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SecurityConnectorsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SecurityConnectorsListNextResponse = SecurityConnectorsList;
+
+/** Optional parameters. */
+export interface SecurityConnectorsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type SecurityConnectorsListByResourceGroupNextResponse = SecurityConnectorsList;
 
 /** Optional parameters. */
 export interface SecurityCenterOptionalParams

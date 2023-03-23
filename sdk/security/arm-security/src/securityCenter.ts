@@ -55,7 +55,6 @@ import {
   SettingsImpl,
   IngestionSettingsImpl,
   SoftwareInventoriesImpl,
-  SecurityConnectorsImpl,
   GovernanceRulesImpl,
   GovernanceAssignmentsImpl,
   ApplicationsImpl,
@@ -69,7 +68,8 @@ import {
   HealthReportOperationsImpl,
   SqlVulnerabilityAssessmentScansImpl,
   SqlVulnerabilityAssessmentScanResultsImpl,
-  SqlVulnerabilityAssessmentBaselineRulesImpl
+  SqlVulnerabilityAssessmentBaselineRulesImpl,
+  SecurityConnectorsImpl
 } from "./operations";
 import {
   MdeOnboardings,
@@ -117,7 +117,6 @@ import {
   Settings,
   IngestionSettings,
   SoftwareInventories,
-  SecurityConnectors,
   GovernanceRules,
   GovernanceAssignments,
   Applications,
@@ -131,7 +130,8 @@ import {
   HealthReportOperations,
   SqlVulnerabilityAssessmentScans,
   SqlVulnerabilityAssessmentScanResults,
-  SqlVulnerabilityAssessmentBaselineRules
+  SqlVulnerabilityAssessmentBaselineRules,
+  SecurityConnectors
 } from "./operationsInterfaces";
 import { SecurityCenterOptionalParams } from "./models";
 
@@ -292,7 +292,6 @@ export class SecurityCenter extends coreClient.ServiceClient {
     this.settings = new SettingsImpl(this);
     this.ingestionSettings = new IngestionSettingsImpl(this);
     this.softwareInventories = new SoftwareInventoriesImpl(this);
-    this.securityConnectors = new SecurityConnectorsImpl(this);
     this.governanceRules = new GovernanceRulesImpl(this);
     this.governanceAssignments = new GovernanceAssignmentsImpl(this);
     this.applications = new ApplicationsImpl(this);
@@ -317,6 +316,7 @@ export class SecurityCenter extends coreClient.ServiceClient {
     this.sqlVulnerabilityAssessmentBaselineRules = new SqlVulnerabilityAssessmentBaselineRulesImpl(
       this
     );
+    this.securityConnectors = new SecurityConnectorsImpl(this);
   }
 
   mdeOnboardings: MdeOnboardings;
@@ -364,7 +364,6 @@ export class SecurityCenter extends coreClient.ServiceClient {
   settings: Settings;
   ingestionSettings: IngestionSettings;
   softwareInventories: SoftwareInventories;
-  securityConnectors: SecurityConnectors;
   governanceRules: GovernanceRules;
   governanceAssignments: GovernanceAssignments;
   applications: Applications;
@@ -379,4 +378,5 @@ export class SecurityCenter extends coreClient.ServiceClient {
   sqlVulnerabilityAssessmentScans: SqlVulnerabilityAssessmentScans;
   sqlVulnerabilityAssessmentScanResults: SqlVulnerabilityAssessmentScanResults;
   sqlVulnerabilityAssessmentBaselineRules: SqlVulnerabilityAssessmentBaselineRules;
+  securityConnectors: SecurityConnectors;
 }
