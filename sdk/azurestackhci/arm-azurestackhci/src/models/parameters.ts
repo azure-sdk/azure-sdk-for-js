@@ -17,7 +17,12 @@ import {
   Cluster as ClusterMapper,
   ClusterPatch as ClusterPatchMapper,
   UploadCertificateRequest as UploadCertificateRequestMapper,
-  Extension as ExtensionMapper
+  SoftwareAssuranceChangeRequest as SoftwareAssuranceChangeRequestMapper,
+  Extension as ExtensionMapper,
+  ExtensionUpgradeParameters as ExtensionUpgradeParametersMapper,
+  UpdateRun as UpdateRunMapper,
+  UpdateSummaries as UpdateSummariesMapper,
+  Update as UpdateMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -87,7 +92,7 @@ export const clusterName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-05-01",
+    defaultValue: "2023-02-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -156,6 +161,11 @@ export const uploadCertificateRequest: OperationParameter = {
   mapper: UploadCertificateRequestMapper
 };
 
+export const softwareAssuranceChangeRequest: OperationParameter = {
+  parameterPath: "softwareAssuranceChangeRequest",
+  mapper: SoftwareAssuranceChangeRequestMapper
+};
+
 export const extensionName: OperationURLParameter = {
   parameterPath: "extensionName",
   mapper: {
@@ -170,4 +180,89 @@ export const extensionName: OperationURLParameter = {
 export const extension: OperationParameter = {
   parameterPath: "extension",
   mapper: ExtensionMapper
+};
+
+export const extensionUpgradeParameters: OperationParameter = {
+  parameterPath: "extensionUpgradeParameters",
+  mapper: ExtensionUpgradeParametersMapper
+};
+
+export const publisherName: OperationURLParameter = {
+  parameterPath: "publisherName",
+  mapper: {
+    serializedName: "publisherName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const expand: OperationQueryParameter = {
+  parameterPath: ["options", "expand"],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const offerName: OperationURLParameter = {
+  parameterPath: "offerName",
+  mapper: {
+    serializedName: "offerName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const skuName: OperationURLParameter = {
+  parameterPath: "skuName",
+  mapper: {
+    serializedName: "skuName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const updateName: OperationURLParameter = {
+  parameterPath: "updateName",
+  mapper: {
+    serializedName: "updateName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const updateRunName: OperationURLParameter = {
+  parameterPath: "updateRunName",
+  mapper: {
+    serializedName: "updateRunName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const updateRunsProperties: OperationParameter = {
+  parameterPath: "updateRunsProperties",
+  mapper: UpdateRunMapper
+};
+
+export const updateLocationProperties: OperationParameter = {
+  parameterPath: "updateLocationProperties",
+  mapper: UpdateSummariesMapper
+};
+
+export const updateProperties: OperationParameter = {
+  parameterPath: "updateProperties",
+  mapper: UpdateMapper
 };
