@@ -18,19 +18,25 @@ import {
   ExtensionsImpl,
   FarmBeatsExtensionsImpl,
   FarmBeatsModelsImpl,
+  OperationResultsImpl,
   LocationsImpl,
   OperationsImpl,
   PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl
+  PrivateLinkResourcesImpl,
+  SolutionsImpl,
+  SolutionsDiscoverabilityImpl
 } from "./operations";
 import {
   Extensions,
   FarmBeatsExtensions,
   FarmBeatsModels,
+  OperationResults,
   Locations,
   Operations,
   PrivateEndpointConnections,
-  PrivateLinkResources
+  PrivateLinkResources,
+  Solutions,
+  SolutionsDiscoverability
 } from "./operationsInterfaces";
 import { AgriFoodMgmtClientOptionalParams } from "./models";
 
@@ -42,7 +48,7 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the AgriFoodMgmtClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -123,10 +129,13 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
     this.extensions = new ExtensionsImpl(this);
     this.farmBeatsExtensions = new FarmBeatsExtensionsImpl(this);
     this.farmBeatsModels = new FarmBeatsModelsImpl(this);
+    this.operationResults = new OperationResultsImpl(this);
     this.locations = new LocationsImpl(this);
     this.operations = new OperationsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.solutions = new SolutionsImpl(this);
+    this.solutionsDiscoverability = new SolutionsDiscoverabilityImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -161,8 +170,11 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
   extensions: Extensions;
   farmBeatsExtensions: FarmBeatsExtensions;
   farmBeatsModels: FarmBeatsModels;
+  operationResults: OperationResults;
   locations: Locations;
   operations: Operations;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
+  solutions: Solutions;
+  solutionsDiscoverability: SolutionsDiscoverability;
 }
