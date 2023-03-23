@@ -1,15 +1,265 @@
 # Release History
+    
+## 10.0.0 (2023-03-23)
+    
+**Features**
 
-## 9.0.1 (Unreleased)
+  - Added operation group ApiWiki
+  - Added operation group ApiWikis
+  - Added operation group Authorization
+  - Added operation group AuthorizationAccessPolicy
+  - Added operation group AuthorizationLoginLinks
+  - Added operation group AuthorizationProvider
+  - Added operation group Documentation
+  - Added operation group GraphQLApiResolver
+  - Added operation group GraphQLApiResolverPolicy
+  - Added operation group PolicyFragment
+  - Added operation group PortalConfig
+  - Added operation group ProductWiki
+  - Added operation group ProductWikis
+  - Added operation ApiManagementService.beginMigrateToStv2
+  - Added operation ApiManagementService.beginMigrateToStv2AndWait
+  - Added Interface ApiManagementServiceApplyNetworkConfigurationUpdatesHeaders
+  - Added Interface ApiManagementServiceBackupHeaders
+  - Added Interface ApiManagementServiceMigrateToStv2Headers
+  - Added Interface ApiManagementServiceMigrateToStv2OptionalParams
+  - Added Interface ApiManagementServiceRestoreHeaders
+  - Added Interface ApiWikiCreateOrUpdateHeaders
+  - Added Interface ApiWikiCreateOrUpdateOptionalParams
+  - Added Interface ApiWikiDeleteOptionalParams
+  - Added Interface ApiWikiGetEntityTagHeaders
+  - Added Interface ApiWikiGetEntityTagOptionalParams
+  - Added Interface ApiWikiGetHeaders
+  - Added Interface ApiWikiGetOptionalParams
+  - Added Interface ApiWikisListNextOptionalParams
+  - Added Interface ApiWikisListOptionalParams
+  - Added Interface ApiWikiUpdateHeaders
+  - Added Interface ApiWikiUpdateOptionalParams
+  - Added Interface AuthorizationAccessPolicyCollection
+  - Added Interface AuthorizationAccessPolicyContract
+  - Added Interface AuthorizationAccessPolicyCreateOrUpdateHeaders
+  - Added Interface AuthorizationAccessPolicyCreateOrUpdateOptionalParams
+  - Added Interface AuthorizationAccessPolicyDeleteOptionalParams
+  - Added Interface AuthorizationAccessPolicyGetHeaders
+  - Added Interface AuthorizationAccessPolicyGetOptionalParams
+  - Added Interface AuthorizationAccessPolicyListByAuthorizationNextOptionalParams
+  - Added Interface AuthorizationAccessPolicyListByAuthorizationOptionalParams
+  - Added Interface AuthorizationCollection
+  - Added Interface AuthorizationConfirmConsentCodeHeaders
+  - Added Interface AuthorizationConfirmConsentCodeOptionalParams
+  - Added Interface AuthorizationConfirmConsentCodeRequestContract
+  - Added Interface AuthorizationContract
+  - Added Interface AuthorizationCreateOrUpdateHeaders
+  - Added Interface AuthorizationCreateOrUpdateOptionalParams
+  - Added Interface AuthorizationDeleteOptionalParams
+  - Added Interface AuthorizationError
+  - Added Interface AuthorizationGetHeaders
+  - Added Interface AuthorizationGetOptionalParams
+  - Added Interface AuthorizationListByAuthorizationProviderNextOptionalParams
+  - Added Interface AuthorizationListByAuthorizationProviderOptionalParams
+  - Added Interface AuthorizationLoginLinksPostHeaders
+  - Added Interface AuthorizationLoginLinksPostOptionalParams
+  - Added Interface AuthorizationLoginRequestContract
+  - Added Interface AuthorizationLoginResponseContract
+  - Added Interface AuthorizationProviderCollection
+  - Added Interface AuthorizationProviderContract
+  - Added Interface AuthorizationProviderCreateOrUpdateHeaders
+  - Added Interface AuthorizationProviderCreateOrUpdateOptionalParams
+  - Added Interface AuthorizationProviderDeleteOptionalParams
+  - Added Interface AuthorizationProviderGetHeaders
+  - Added Interface AuthorizationProviderGetOptionalParams
+  - Added Interface AuthorizationProviderListByServiceNextOptionalParams
+  - Added Interface AuthorizationProviderListByServiceOptionalParams
+  - Added Interface AuthorizationProviderOAuth2GrantTypes
+  - Added Interface AuthorizationProviderOAuth2Settings
+  - Added Interface DeletedServicesPurgeHeaders
+  - Added Interface DocumentationCollection
+  - Added Interface DocumentationContract
+  - Added Interface DocumentationCreateOrUpdateHeaders
+  - Added Interface DocumentationCreateOrUpdateOptionalParams
+  - Added Interface DocumentationDeleteOptionalParams
+  - Added Interface DocumentationGetEntityTagHeaders
+  - Added Interface DocumentationGetEntityTagOptionalParams
+  - Added Interface DocumentationGetHeaders
+  - Added Interface DocumentationGetOptionalParams
+  - Added Interface DocumentationListByServiceNextOptionalParams
+  - Added Interface DocumentationListByServiceOptionalParams
+  - Added Interface DocumentationUpdateContract
+  - Added Interface DocumentationUpdateHeaders
+  - Added Interface DocumentationUpdateOptionalParams
+  - Added Interface GraphQLApiResolverCreateOrUpdateHeaders
+  - Added Interface GraphQLApiResolverCreateOrUpdateOptionalParams
+  - Added Interface GraphQLApiResolverDeleteOptionalParams
+  - Added Interface GraphQLApiResolverGetEntityTagHeaders
+  - Added Interface GraphQLApiResolverGetEntityTagOptionalParams
+  - Added Interface GraphQLApiResolverGetHeaders
+  - Added Interface GraphQLApiResolverGetOptionalParams
+  - Added Interface GraphQLApiResolverListByApiNextOptionalParams
+  - Added Interface GraphQLApiResolverListByApiOptionalParams
+  - Added Interface GraphQLApiResolverPolicyCreateOrUpdateHeaders
+  - Added Interface GraphQLApiResolverPolicyCreateOrUpdateOptionalParams
+  - Added Interface GraphQLApiResolverPolicyDeleteOptionalParams
+  - Added Interface GraphQLApiResolverPolicyGetEntityTagHeaders
+  - Added Interface GraphQLApiResolverPolicyGetEntityTagOptionalParams
+  - Added Interface GraphQLApiResolverPolicyGetHeaders
+  - Added Interface GraphQLApiResolverPolicyGetOptionalParams
+  - Added Interface GraphQLApiResolverPolicyListByResolverNextOptionalParams
+  - Added Interface GraphQLApiResolverPolicyListByResolverOptionalParams
+  - Added Interface GraphQLApiResolverUpdateHeaders
+  - Added Interface GraphQLApiResolverUpdateOptionalParams
+  - Added Interface PolicyFragmentCollection
+  - Added Interface PolicyFragmentContract
+  - Added Interface PolicyFragmentCreateOrUpdateHeaders
+  - Added Interface PolicyFragmentCreateOrUpdateOptionalParams
+  - Added Interface PolicyFragmentDeleteOptionalParams
+  - Added Interface PolicyFragmentGetEntityTagHeaders
+  - Added Interface PolicyFragmentGetEntityTagOptionalParams
+  - Added Interface PolicyFragmentGetHeaders
+  - Added Interface PolicyFragmentGetOptionalParams
+  - Added Interface PolicyFragmentListByServiceOptionalParams
+  - Added Interface PolicyFragmentListReferencesOptionalParams
+  - Added Interface PortalConfigCollection
+  - Added Interface PortalConfigContract
+  - Added Interface PortalConfigCorsProperties
+  - Added Interface PortalConfigCreateOrUpdateOptionalParams
+  - Added Interface PortalConfigCspProperties
+  - Added Interface PortalConfigDelegationProperties
+  - Added Interface PortalConfigGetEntityTagHeaders
+  - Added Interface PortalConfigGetEntityTagOptionalParams
+  - Added Interface PortalConfigGetHeaders
+  - Added Interface PortalConfigGetOptionalParams
+  - Added Interface PortalConfigListByServiceOptionalParams
+  - Added Interface PortalConfigPropertiesSignin
+  - Added Interface PortalConfigPropertiesSignup
+  - Added Interface PortalConfigTermsOfServiceProperties
+  - Added Interface PortalConfigUpdateOptionalParams
+  - Added Interface ProductWikiCreateOrUpdateHeaders
+  - Added Interface ProductWikiCreateOrUpdateOptionalParams
+  - Added Interface ProductWikiDeleteOptionalParams
+  - Added Interface ProductWikiGetEntityTagHeaders
+  - Added Interface ProductWikiGetEntityTagOptionalParams
+  - Added Interface ProductWikiGetHeaders
+  - Added Interface ProductWikiGetOptionalParams
+  - Added Interface ProductWikisListHeaders
+  - Added Interface ProductWikisListNextHeaders
+  - Added Interface ProductWikisListNextOptionalParams
+  - Added Interface ProductWikisListOptionalParams
+  - Added Interface ProductWikiUpdateHeaders
+  - Added Interface ProductWikiUpdateOptionalParams
+  - Added Interface ProxyResource
+  - Added Interface ResolverCollection
+  - Added Interface ResolverContract
+  - Added Interface ResolverResultContract
+  - Added Interface ResolverResultLogItemContract
+  - Added Interface ResolverUpdateContract
+  - Added Interface ResourceCollection
+  - Added Interface ResourceCollectionValueItem
+  - Added Interface WikiCollection
+  - Added Interface WikiContract
+  - Added Interface WikiDocumentationContract
+  - Added Interface WikiUpdateContract
+  - Added Type Alias ApiManagementServiceMigrateToStv2Response
+  - Added Type Alias ApiWikiCreateOrUpdateResponse
+  - Added Type Alias ApiWikiGetEntityTagResponse
+  - Added Type Alias ApiWikiGetResponse
+  - Added Type Alias ApiWikisListNextResponse
+  - Added Type Alias ApiWikisListResponse
+  - Added Type Alias ApiWikiUpdateResponse
+  - Added Type Alias AsyncResolverStatus
+  - Added Type Alias AuthorizationAccessPolicyCreateOrUpdateResponse
+  - Added Type Alias AuthorizationAccessPolicyGetResponse
+  - Added Type Alias AuthorizationAccessPolicyListByAuthorizationNextResponse
+  - Added Type Alias AuthorizationAccessPolicyListByAuthorizationResponse
+  - Added Type Alias AuthorizationConfirmConsentCodeResponse
+  - Added Type Alias AuthorizationCreateOrUpdateResponse
+  - Added Type Alias AuthorizationGetResponse
+  - Added Type Alias AuthorizationListByAuthorizationProviderNextResponse
+  - Added Type Alias AuthorizationListByAuthorizationProviderResponse
+  - Added Type Alias AuthorizationLoginLinksPostResponse
+  - Added Type Alias AuthorizationProviderCreateOrUpdateResponse
+  - Added Type Alias AuthorizationProviderGetResponse
+  - Added Type Alias AuthorizationProviderListByServiceNextResponse
+  - Added Type Alias AuthorizationProviderListByServiceResponse
+  - Added Type Alias AuthorizationType
+  - Added Type Alias DocumentationCreateOrUpdateResponse
+  - Added Type Alias DocumentationGetEntityTagResponse
+  - Added Type Alias DocumentationGetResponse
+  - Added Type Alias DocumentationListByServiceNextResponse
+  - Added Type Alias DocumentationListByServiceResponse
+  - Added Type Alias DocumentationUpdateResponse
+  - Added Type Alias GraphQLApiResolverCreateOrUpdateResponse
+  - Added Type Alias GraphQLApiResolverGetEntityTagResponse
+  - Added Type Alias GraphQLApiResolverGetResponse
+  - Added Type Alias GraphQLApiResolverListByApiNextResponse
+  - Added Type Alias GraphQLApiResolverListByApiResponse
+  - Added Type Alias GraphQLApiResolverPolicyCreateOrUpdateResponse
+  - Added Type Alias GraphQLApiResolverPolicyGetEntityTagResponse
+  - Added Type Alias GraphQLApiResolverPolicyGetResponse
+  - Added Type Alias GraphQLApiResolverPolicyListByResolverNextResponse
+  - Added Type Alias GraphQLApiResolverPolicyListByResolverResponse
+  - Added Type Alias GraphQLApiResolverUpdateResponse
+  - Added Type Alias NatGatewayState
+  - Added Type Alias OAuth2GrantType
+  - Added Type Alias PolicyFragmentContentFormat
+  - Added Type Alias PolicyFragmentCreateOrUpdateResponse
+  - Added Type Alias PolicyFragmentGetEntityTagResponse
+  - Added Type Alias PolicyFragmentGetResponse
+  - Added Type Alias PolicyFragmentListByServiceResponse
+  - Added Type Alias PolicyFragmentListReferencesResponse
+  - Added Type Alias PortalConfigCreateOrUpdateResponse
+  - Added Type Alias PortalConfigGetEntityTagResponse
+  - Added Type Alias PortalConfigGetResponse
+  - Added Type Alias PortalConfigListByServiceResponse
+  - Added Type Alias PortalConfigUpdateResponse
+  - Added Type Alias PortalSettingsCspMode
+  - Added Type Alias ProductWikiCreateOrUpdateResponse
+  - Added Type Alias ProductWikiGetEntityTagResponse
+  - Added Type Alias ProductWikiGetResponse
+  - Added Type Alias ProductWikisListNextResponse
+  - Added Type Alias ProductWikisListResponse
+  - Added Type Alias ProductWikiUpdateResponse
+  - Added Type Alias TranslateRequiredQueryParametersConduct
+  - Interface AdditionalLocation has a new optional parameter natGatewayState
+  - Interface AdditionalLocation has a new optional parameter outboundPublicIPAddresses
+  - Interface ApiCreateOrUpdateParameter has a new optional parameter translateRequiredQueryParametersConduct
+  - Interface ApiCreateOrUpdateProperties has a new optional parameter translateRequiredQueryParametersConduct
+  - Interface ApiManagementServiceBaseProperties has a new optional parameter natGatewayState
+  - Interface ApiManagementServiceBaseProperties has a new optional parameter outboundPublicIPAddresses
+  - Interface ApiManagementServiceResource has a new optional parameter natGatewayState
+  - Interface ApiManagementServiceResource has a new optional parameter outboundPublicIPAddresses
+  - Interface ApiManagementServiceUpdateParameters has a new optional parameter natGatewayState
+  - Interface ApiManagementServiceUpdateParameters has a new optional parameter outboundPublicIPAddresses
+  - Interface AuthenticationSettingsContract has a new optional parameter oAuth2AuthenticationSettings
+  - Interface AuthenticationSettingsContract has a new optional parameter openidAuthenticationSettings
+  - Interface AuthorizationServerContract has a new optional parameter useInApiDocumentation
+  - Interface AuthorizationServerContract has a new optional parameter useInTestConsole
+  - Interface AuthorizationServerContractProperties has a new optional parameter useInApiDocumentation
+  - Interface AuthorizationServerContractProperties has a new optional parameter useInTestConsole
+  - Interface AuthorizationServerUpdateContract has a new optional parameter useInApiDocumentation
+  - Interface AuthorizationServerUpdateContract has a new optional parameter useInTestConsole
+  - Interface AuthorizationServerUpdateContractProperties has a new optional parameter useInApiDocumentation
+  - Interface AuthorizationServerUpdateContractProperties has a new optional parameter useInTestConsole
+  - Interface IdentityProviderBaseParameters has a new optional parameter clientLibrary
+  - Interface IdentityProviderContract has a new optional parameter clientLibrary
+  - Interface IdentityProviderCreateContract has a new optional parameter clientLibrary
+  - Interface IdentityProviderUpdateParameters has a new optional parameter clientLibrary
+  - Interface OpenidConnectProviderContract has a new optional parameter useInApiDocumentation
+  - Interface OpenidConnectProviderContract has a new optional parameter useInTestConsole
+  - Interface OpenidConnectProviderUpdateContract has a new optional parameter useInApiDocumentation
+  - Interface OpenidConnectProviderUpdateContract has a new optional parameter useInTestConsole
+  - Added Enum KnownAuthorizationType
+  - Added Enum KnownNatGatewayState
+  - Added Enum KnownOAuth2GrantType
+  - Added Enum KnownPolicyFragmentContentFormat
+  - Added Enum KnownPortalSettingsCspMode
+  - Added Enum KnownTranslateRequiredQueryParametersConduct
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter versioningScheme of interface ApiVersionSetContractDetails is changed from ApiVersionSetContractDetailsVersioningScheme to VersioningScheme
+  - Removed Enum KnownApiVersionSetContractDetailsVersioningScheme
+    
+    
 ## 9.0.0 (2023-02-01)
     
 **Features**
