@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ClusterPrincipalAssignment,
   ClusterPrincipalAssignmentsListOptionalParams,
@@ -76,8 +76,8 @@ export interface ClusterPrincipalAssignments {
     parameters: ClusterPrincipalAssignment,
     options?: ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ClusterPrincipalAssignmentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ClusterPrincipalAssignmentsCreateOrUpdateResponse>,
       ClusterPrincipalAssignmentsCreateOrUpdateResponse
     >
   >;
@@ -108,7 +108,7 @@ export interface ClusterPrincipalAssignments {
     clusterName: string,
     principalAssignmentName: string,
     options?: ClusterPrincipalAssignmentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Kusto cluster principalAssignment.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.

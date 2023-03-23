@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DatabaseUnion,
   DatabasesListByClusterOptionalParams,
@@ -98,8 +98,8 @@ export interface Databases {
     parameters: DatabaseUnion,
     options?: DatabasesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DatabasesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DatabasesCreateOrUpdateResponse>,
       DatabasesCreateOrUpdateResponse
     >
   >;
@@ -133,8 +133,8 @@ export interface Databases {
     parameters: DatabaseUnion,
     options?: DatabasesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DatabasesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DatabasesUpdateResponse>,
       DatabasesUpdateResponse
     >
   >;
@@ -165,7 +165,7 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     options?: DatabasesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the database with the given name.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.

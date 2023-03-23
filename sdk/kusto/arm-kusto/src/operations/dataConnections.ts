@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { KustoManagementClient } from "../kustoManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DataConnectionUnion,
   DataConnectionsListByDatabaseOptionalParams,
@@ -154,8 +158,8 @@ export class DataConnectionsImpl implements DataConnections {
     parameters: DataConnectionValidation,
     options?: DataConnectionsDataConnectionValidationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DataConnectionsDataConnectionValidationResponse>,
+    SimplePollerLike<
+      OperationState<DataConnectionsDataConnectionValidationResponse>,
       DataConnectionsDataConnectionValidationResponse
     >
   > {
@@ -165,7 +169,7 @@ export class DataConnectionsImpl implements DataConnections {
     ): Promise<DataConnectionsDataConnectionValidationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -198,15 +202,24 @@ export class DataConnectionsImpl implements DataConnections {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, databaseName, parameters, options },
-      dataConnectionValidationOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        databaseName,
+        parameters,
+        options
+      },
+      spec: dataConnectionValidationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DataConnectionsDataConnectionValidationResponse,
+      OperationState<DataConnectionsDataConnectionValidationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -308,8 +321,8 @@ export class DataConnectionsImpl implements DataConnections {
     parameters: DataConnectionUnion,
     options?: DataConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DataConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DataConnectionsCreateOrUpdateResponse>,
       DataConnectionsCreateOrUpdateResponse
     >
   > {
@@ -319,7 +332,7 @@ export class DataConnectionsImpl implements DataConnections {
     ): Promise<DataConnectionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -352,9 +365,9 @@ export class DataConnectionsImpl implements DataConnections {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         databaseName,
@@ -362,10 +375,13 @@ export class DataConnectionsImpl implements DataConnections {
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DataConnectionsCreateOrUpdateResponse,
+      OperationState<DataConnectionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -417,8 +433,8 @@ export class DataConnectionsImpl implements DataConnections {
     parameters: DataConnectionUnion,
     options?: DataConnectionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DataConnectionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DataConnectionsUpdateResponse>,
       DataConnectionsUpdateResponse
     >
   > {
@@ -428,7 +444,7 @@ export class DataConnectionsImpl implements DataConnections {
     ): Promise<DataConnectionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -461,9 +477,9 @@ export class DataConnectionsImpl implements DataConnections {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         databaseName,
@@ -471,10 +487,13 @@ export class DataConnectionsImpl implements DataConnections {
         parameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DataConnectionsUpdateResponse,
+      OperationState<DataConnectionsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -523,14 +542,14 @@ export class DataConnectionsImpl implements DataConnections {
     databaseName: string,
     dataConnectionName: string,
     options?: DataConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -563,19 +582,19 @@ export class DataConnectionsImpl implements DataConnections {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         databaseName,
         dataConnectionName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
