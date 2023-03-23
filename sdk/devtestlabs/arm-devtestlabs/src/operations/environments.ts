@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevTestLabsClient } from "../devTestLabsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DtlEnvironment,
   EnvironmentsListNextOptionalParams,
@@ -189,8 +193,8 @@ export class EnvironmentsImpl implements Environments {
     dtlEnvironment: DtlEnvironment,
     options?: EnvironmentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<EnvironmentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<EnvironmentsCreateOrUpdateResponse>,
       EnvironmentsCreateOrUpdateResponse
     >
   > {
@@ -200,7 +204,7 @@ export class EnvironmentsImpl implements Environments {
     ): Promise<EnvironmentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -233,14 +237,25 @@ export class EnvironmentsImpl implements Environments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, userName, name, dtlEnvironment, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        labName,
+        userName,
+        name,
+        dtlEnvironment,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      EnvironmentsCreateOrUpdateResponse,
+      OperationState<EnvironmentsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -288,14 +303,14 @@ export class EnvironmentsImpl implements Environments {
     userName: string,
     name: string,
     options?: EnvironmentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -328,14 +343,15 @@ export class EnvironmentsImpl implements Environments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, userName, name, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, userName, name, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -372,7 +388,7 @@ export class EnvironmentsImpl implements Environments {
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the environment.
-   * @param dtlEnvironment An environment, which is essentially an ARM template deployment.
+   * @param dtlEnvironment Allows modifying tags of environments. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
@@ -563,13 +579,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   User,
   UsersListOptionalParams,
@@ -53,18 +53,16 @@ export interface Users {
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the user profile.
-   * @param user Profile of a lab user.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     labName: string,
     name: string,
-    user: User,
     options?: UsersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<UsersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<UsersCreateOrUpdateResponse>,
       UsersCreateOrUpdateResponse
     >
   >;
@@ -73,14 +71,12 @@ export interface Users {
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the user profile.
-   * @param user Profile of a lab user.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     labName: string,
     name: string,
-    user: User,
     options?: UsersCreateOrUpdateOptionalParams
   ): Promise<UsersCreateOrUpdateResponse>;
   /**
@@ -95,7 +91,7 @@ export interface Users {
     labName: string,
     name: string,
     options?: UsersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete user profile. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
@@ -114,7 +110,7 @@ export interface Users {
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the user profile.
-   * @param user Profile of a lab user.
+   * @param user Allows modifying tags of user profiles. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(

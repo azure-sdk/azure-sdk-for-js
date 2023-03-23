@@ -50,7 +50,7 @@ export interface NotificationChannels {
     options?: NotificationChannelsGetOptionalParams
   ): Promise<NotificationChannelsGetResponse>;
   /**
-   * Create or replace an existing notification channel.
+   * Create or replace an existing Notification Channel.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the notification channel.
@@ -82,7 +82,8 @@ export interface NotificationChannels {
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the notification channel.
-   * @param notificationChannel A notification.
+   * @param notificationChannel Allows modifying tags of notification channels. All other properties will
+   *                            be ignored.
    * @param options The options parameters.
    */
   update(

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Schedule,
   VirtualMachineSchedulesListOptionalParams,
@@ -91,7 +91,7 @@ export interface VirtualMachineSchedules {
    * @param labName The name of the lab.
    * @param virtualMachineName The name of the virtual machine.
    * @param name The name of the schedule.
-   * @param schedule A schedule.
+   * @param schedule Allows modifying tags of schedules. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
@@ -116,7 +116,7 @@ export interface VirtualMachineSchedules {
     virtualMachineName: string,
     name: string,
     options?: VirtualMachineSchedulesExecuteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Execute a schedule. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.

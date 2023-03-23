@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Secret,
   SecretsListOptionalParams,
@@ -69,8 +69,8 @@ export interface Secrets {
     secret: Secret,
     options?: SecretsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SecretsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SecretsCreateOrUpdateResponse>,
       SecretsCreateOrUpdateResponse
     >
   >;
@@ -112,7 +112,7 @@ export interface Secrets {
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the secret.
-   * @param secret A secret.
+   * @param secret Allows modifying tags of secrets. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(

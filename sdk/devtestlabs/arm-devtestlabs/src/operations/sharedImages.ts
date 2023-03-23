@@ -8,40 +8,34 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Formulas } from "../operationsInterfaces";
+import { SharedImages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevTestLabsClient } from "../devTestLabsClient";
 import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
-import {
-  Formula,
-  FormulasListNextOptionalParams,
-  FormulasListOptionalParams,
-  FormulasListResponse,
-  FormulasGetOptionalParams,
-  FormulasGetResponse,
-  FormulasCreateOrUpdateOptionalParams,
-  FormulasCreateOrUpdateResponse,
-  FormulasDeleteOptionalParams,
-  FormulaFragment,
-  FormulasUpdateOptionalParams,
-  FormulasUpdateResponse,
-  FormulasListNextResponse
+  SharedImage,
+  SharedImagesListNextOptionalParams,
+  SharedImagesListOptionalParams,
+  SharedImagesListResponse,
+  SharedImagesGetOptionalParams,
+  SharedImagesGetResponse,
+  SharedImagesCreateOrUpdateOptionalParams,
+  SharedImagesCreateOrUpdateResponse,
+  SharedImagesDeleteOptionalParams,
+  SharedImageFragment,
+  SharedImagesUpdateOptionalParams,
+  SharedImagesUpdateResponse,
+  SharedImagesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Formulas operations. */
-export class FormulasImpl implements Formulas {
+/** Class containing SharedImages operations. */
+export class SharedImagesImpl implements SharedImages {
   private readonly client: DevTestLabsClient;
 
   /**
-   * Initialize a new instance of the class Formulas class.
+   * Initialize a new instance of the class SharedImages class.
    * @param client Reference to the service client
    */
   constructor(client: DevTestLabsClient) {
@@ -49,17 +43,24 @@ export class FormulasImpl implements Formulas {
   }
 
   /**
-   * List formulas in a given lab.
+   * List shared images in a given shared gallery.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
+   * @param sharedGalleryName The name of the shared gallery.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     labName: string,
-    options?: FormulasListOptionalParams
-  ): PagedAsyncIterableIterator<Formula> {
-    const iter = this.listPagingAll(resourceGroupName, labName, options);
+    sharedGalleryName: string,
+    options?: SharedImagesListOptionalParams
+  ): PagedAsyncIterableIterator<SharedImage> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      labName,
+      sharedGalleryName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -74,6 +75,7 @@ export class FormulasImpl implements Formulas {
         return this.listPagingPage(
           resourceGroupName,
           labName,
+          sharedGalleryName,
           options,
           settings
         );
@@ -84,13 +86,19 @@ export class FormulasImpl implements Formulas {
   private async *listPagingPage(
     resourceGroupName: string,
     labName: string,
-    options?: FormulasListOptionalParams,
+    sharedGalleryName: string,
+    options?: SharedImagesListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Formula[]> {
-    let result: FormulasListResponse;
+  ): AsyncIterableIterator<SharedImage[]> {
+    let result: SharedImagesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, labName, options);
+      result = await this._list(
+        resourceGroupName,
+        labName,
+        sharedGalleryName,
+        options
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -100,6 +108,7 @@ export class FormulasImpl implements Formulas {
       result = await this._listNext(
         resourceGroupName,
         labName,
+        sharedGalleryName,
         continuationToken,
         options
       );
@@ -113,11 +122,13 @@ export class FormulasImpl implements Formulas {
   private async *listPagingAll(
     resourceGroupName: string,
     labName: string,
-    options?: FormulasListOptionalParams
-  ): AsyncIterableIterator<Formula> {
+    sharedGalleryName: string,
+    options?: SharedImagesListOptionalParams
+  ): AsyncIterableIterator<SharedImage> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       labName,
+      sharedGalleryName,
       options
     )) {
       yield* page;
@@ -125,178 +136,122 @@ export class FormulasImpl implements Formulas {
   }
 
   /**
-   * List formulas in a given lab.
+   * List shared images in a given shared gallery.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
+   * @param sharedGalleryName The name of the shared gallery.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     labName: string,
-    options?: FormulasListOptionalParams
-  ): Promise<FormulasListResponse> {
+    sharedGalleryName: string,
+    options?: SharedImagesListOptionalParams
+  ): Promise<SharedImagesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, options },
+      { resourceGroupName, labName, sharedGalleryName, options },
       listOperationSpec
     );
   }
 
   /**
-   * Get formula.
+   * Get shared image.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the formula.
+   * @param sharedGalleryName The name of the shared gallery.
+   * @param name The name of the shared image.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     labName: string,
+    sharedGalleryName: string,
     name: string,
-    options?: FormulasGetOptionalParams
-  ): Promise<FormulasGetResponse> {
+    options?: SharedImagesGetOptionalParams
+  ): Promise<SharedImagesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, name, options },
+      { resourceGroupName, labName, sharedGalleryName, name, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or replace an existing Formula. This operation can take a while to complete.
+   * Create or replace an existing Shared Image.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the formula.
-   * @param formula A formula for creating a VM, specifying an image base and other parameters
+   * @param sharedGalleryName The name of the shared gallery.
+   * @param name The name of the shared image.
+   * @param sharedImage Properties of a shared image
    * @param options The options parameters.
    */
-  async beginCreateOrUpdate(
+  createOrUpdate(
     resourceGroupName: string,
     labName: string,
+    sharedGalleryName: string,
     name: string,
-    formula: Formula,
-    options?: FormulasCreateOrUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<FormulasCreateOrUpdateResponse>,
-      FormulasCreateOrUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<FormulasCreateOrUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, labName, name, formula, options },
-      spec: createOrUpdateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      FormulasCreateOrUpdateResponse,
-      OperationState<FormulasCreateOrUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Create or replace an existing Formula. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
-   * @param labName The name of the lab.
-   * @param name The name of the formula.
-   * @param formula A formula for creating a VM, specifying an image base and other parameters
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    labName: string,
-    name: string,
-    formula: Formula,
-    options?: FormulasCreateOrUpdateOptionalParams
-  ): Promise<FormulasCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      labName,
-      name,
-      formula,
-      options
+    sharedImage: SharedImage,
+    options?: SharedImagesCreateOrUpdateOptionalParams
+  ): Promise<SharedImagesCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        labName,
+        sharedGalleryName,
+        name,
+        sharedImage,
+        options
+      },
+      createOrUpdateOperationSpec
     );
-    return poller.pollUntilDone();
   }
 
   /**
-   * Delete formula.
+   * Delete shared image.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the formula.
+   * @param sharedGalleryName The name of the shared gallery.
+   * @param name The name of the shared image.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     labName: string,
+    sharedGalleryName: string,
     name: string,
-    options?: FormulasDeleteOptionalParams
+    options?: SharedImagesDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, name, options },
+      { resourceGroupName, labName, sharedGalleryName, name, options },
       deleteOperationSpec
     );
   }
 
   /**
-   * Allows modifying tags of formulas. All other properties will be ignored.
+   * Allows modifying tags of shared images. All other properties will be ignored.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the formula.
-   * @param formula Allows modifying tags of formulas. All other properties will be ignored.
+   * @param sharedGalleryName The name of the shared gallery.
+   * @param name The name of the shared image.
+   * @param sharedImage Allows modifying tags of shared images. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     labName: string,
+    sharedGalleryName: string,
     name: string,
-    formula: FormulaFragment,
-    options?: FormulasUpdateOptionalParams
-  ): Promise<FormulasUpdateResponse> {
+    sharedImage: SharedImageFragment,
+    options?: SharedImagesUpdateOptionalParams
+  ): Promise<SharedImagesUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, name, formula, options },
+      {
+        resourceGroupName,
+        labName,
+        sharedGalleryName,
+        name,
+        sharedImage,
+        options
+      },
       updateOperationSpec
     );
   }
@@ -305,17 +260,19 @@ export class FormulasImpl implements Formulas {
    * ListNext
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
+   * @param sharedGalleryName The name of the shared gallery.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     labName: string,
+    sharedGalleryName: string,
     nextLink: string,
-    options?: FormulasListNextOptionalParams
-  ): Promise<FormulasListNextResponse> {
+    options?: SharedImagesListNextOptionalParams
+  ): Promise<SharedImagesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, nextLink, options },
+      { resourceGroupName, labName, sharedGalleryName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -325,11 +282,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/sharedgalleries/{sharedGalleryName}/sharedimages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FormulaList
+      bodyMapper: Mappers.SharedImageList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -346,18 +303,19 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.labName
+    Parameters.labName,
+    Parameters.sharedGalleryName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/sharedgalleries/{sharedGalleryName}/sharedimages/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Formula
+      bodyMapper: Mappers.SharedImage
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -369,40 +327,36 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.labName
+    Parameters.labName,
+    Parameters.sharedGalleryName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/sharedgalleries/{sharedGalleryName}/sharedimages/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Formula
+      bodyMapper: Mappers.SharedImage
     },
     201: {
-      bodyMapper: Mappers.Formula
-    },
-    202: {
-      bodyMapper: Mappers.Formula
-    },
-    204: {
-      bodyMapper: Mappers.Formula
+      bodyMapper: Mappers.SharedImage
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.formula,
+  requestBody: Parameters.sharedImage,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.labName
+    Parameters.labName,
+    Parameters.sharedGalleryName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -410,7 +364,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/sharedgalleries/{sharedGalleryName}/sharedimages/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -425,31 +379,33 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.labName
+    Parameters.labName,
+    Parameters.sharedGalleryName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/sharedgalleries/{sharedGalleryName}/sharedimages/{name}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Formula
+      bodyMapper: Mappers.SharedImage
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.formula1,
+  requestBody: Parameters.sharedImage1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.labName
+    Parameters.labName,
+    Parameters.sharedGalleryName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -460,7 +416,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FormulaList
+      bodyMapper: Mappers.SharedImageList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -471,7 +427,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.labName
+    Parameters.labName,
+    Parameters.sharedGalleryName
   ],
   headerParameters: [Parameters.accept],
   serializer

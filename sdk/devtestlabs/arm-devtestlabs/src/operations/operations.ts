@@ -54,7 +54,8 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.OperationResult
     },
     202: {
-      bodyMapper: Mappers.OperationResult
+      bodyMapper: Mappers.OperationResult,
+      headersMapper: Mappers.OperationsGetHeaders
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -64,8 +65,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.name,
-    Parameters.locationName
+    Parameters.locationName,
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
   serializer

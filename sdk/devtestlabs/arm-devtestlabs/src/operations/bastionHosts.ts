@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Formulas } from "../operationsInterfaces";
+import { BastionHosts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,28 +20,28 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Formula,
-  FormulasListNextOptionalParams,
-  FormulasListOptionalParams,
-  FormulasListResponse,
-  FormulasGetOptionalParams,
-  FormulasGetResponse,
-  FormulasCreateOrUpdateOptionalParams,
-  FormulasCreateOrUpdateResponse,
-  FormulasDeleteOptionalParams,
-  FormulaFragment,
-  FormulasUpdateOptionalParams,
-  FormulasUpdateResponse,
-  FormulasListNextResponse
+  BastionHost,
+  BastionHostsListNextOptionalParams,
+  BastionHostsListOptionalParams,
+  BastionHostsListResponse,
+  BastionHostsGetOptionalParams,
+  BastionHostsGetResponse,
+  BastionHostsCreateOrUpdateOptionalParams,
+  BastionHostsCreateOrUpdateResponse,
+  BastionHostsDeleteOptionalParams,
+  BastionHostFragment,
+  BastionHostsUpdateOptionalParams,
+  BastionHostsUpdateResponse,
+  BastionHostsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Formulas operations. */
-export class FormulasImpl implements Formulas {
+/** Class containing BastionHosts operations. */
+export class BastionHostsImpl implements BastionHosts {
   private readonly client: DevTestLabsClient;
 
   /**
-   * Initialize a new instance of the class Formulas class.
+   * Initialize a new instance of the class BastionHosts class.
    * @param client Reference to the service client
    */
   constructor(client: DevTestLabsClient) {
@@ -49,17 +49,24 @@ export class FormulasImpl implements Formulas {
   }
 
   /**
-   * List formulas in a given lab.
+   * List bastionhosts in a given virtual network.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
+   * @param virtualNetworkName The name of the virtual network.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     labName: string,
-    options?: FormulasListOptionalParams
-  ): PagedAsyncIterableIterator<Formula> {
-    const iter = this.listPagingAll(resourceGroupName, labName, options);
+    virtualNetworkName: string,
+    options?: BastionHostsListOptionalParams
+  ): PagedAsyncIterableIterator<BastionHost> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      labName,
+      virtualNetworkName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -74,6 +81,7 @@ export class FormulasImpl implements Formulas {
         return this.listPagingPage(
           resourceGroupName,
           labName,
+          virtualNetworkName,
           options,
           settings
         );
@@ -84,13 +92,19 @@ export class FormulasImpl implements Formulas {
   private async *listPagingPage(
     resourceGroupName: string,
     labName: string,
-    options?: FormulasListOptionalParams,
+    virtualNetworkName: string,
+    options?: BastionHostsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Formula[]> {
-    let result: FormulasListResponse;
+  ): AsyncIterableIterator<BastionHost[]> {
+    let result: BastionHostsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, labName, options);
+      result = await this._list(
+        resourceGroupName,
+        labName,
+        virtualNetworkName,
+        options
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -100,6 +114,7 @@ export class FormulasImpl implements Formulas {
       result = await this._listNext(
         resourceGroupName,
         labName,
+        virtualNetworkName,
         continuationToken,
         options
       );
@@ -113,11 +128,13 @@ export class FormulasImpl implements Formulas {
   private async *listPagingAll(
     resourceGroupName: string,
     labName: string,
-    options?: FormulasListOptionalParams
-  ): AsyncIterableIterator<Formula> {
+    virtualNetworkName: string,
+    options?: BastionHostsListOptionalParams
+  ): AsyncIterableIterator<BastionHost> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       labName,
+      virtualNetworkName,
       options
     )) {
       yield* page;
@@ -125,65 +142,71 @@ export class FormulasImpl implements Formulas {
   }
 
   /**
-   * List formulas in a given lab.
+   * List bastionhosts in a given virtual network.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
+   * @param virtualNetworkName The name of the virtual network.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     labName: string,
-    options?: FormulasListOptionalParams
-  ): Promise<FormulasListResponse> {
+    virtualNetworkName: string,
+    options?: BastionHostsListOptionalParams
+  ): Promise<BastionHostsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, options },
+      { resourceGroupName, labName, virtualNetworkName, options },
       listOperationSpec
     );
   }
 
   /**
-   * Get formula.
+   * Get bastionhost.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the formula.
+   * @param virtualNetworkName The name of the virtual network.
+   * @param name The name of the bastionhost.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     labName: string,
+    virtualNetworkName: string,
     name: string,
-    options?: FormulasGetOptionalParams
-  ): Promise<FormulasGetResponse> {
+    options?: BastionHostsGetOptionalParams
+  ): Promise<BastionHostsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, name, options },
+      { resourceGroupName, labName, virtualNetworkName, name, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or replace an existing Formula. This operation can take a while to complete.
+   * Create or replace an existing bastionHost. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the formula.
-   * @param formula A formula for creating a VM, specifying an image base and other parameters
+   * @param virtualNetworkName The name of the virtual network.
+   * @param name The name of the bastionhost.
+   * @param bastionHost Profile of a Bastion Host
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     labName: string,
+    virtualNetworkName: string,
     name: string,
-    formula: Formula,
-    options?: FormulasCreateOrUpdateOptionalParams
+    bastionHost: BastionHost,
+    options?: BastionHostsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<FormulasCreateOrUpdateResponse>,
-      FormulasCreateOrUpdateResponse
+      OperationState<BastionHostsCreateOrUpdateResponse>,
+      BastionHostsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<FormulasCreateOrUpdateResponse> => {
+    ): Promise<BastionHostsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -221,12 +244,19 @@ export class FormulasImpl implements Formulas {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, labName, name, formula, options },
+      args: {
+        resourceGroupName,
+        labName,
+        virtualNetworkName,
+        name,
+        bastionHost,
+        options
+      },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      FormulasCreateOrUpdateResponse,
-      OperationState<FormulasCreateOrUpdateResponse>
+      BastionHostsCreateOrUpdateResponse,
+      OperationState<BastionHostsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -237,66 +267,152 @@ export class FormulasImpl implements Formulas {
   }
 
   /**
-   * Create or replace an existing Formula. This operation can take a while to complete.
+   * Create or replace an existing bastionHost. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the formula.
-   * @param formula A formula for creating a VM, specifying an image base and other parameters
+   * @param virtualNetworkName The name of the virtual network.
+   * @param name The name of the bastionhost.
+   * @param bastionHost Profile of a Bastion Host
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     labName: string,
+    virtualNetworkName: string,
     name: string,
-    formula: Formula,
-    options?: FormulasCreateOrUpdateOptionalParams
-  ): Promise<FormulasCreateOrUpdateResponse> {
+    bastionHost: BastionHost,
+    options?: BastionHostsCreateOrUpdateOptionalParams
+  ): Promise<BastionHostsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       labName,
+      virtualNetworkName,
       name,
-      formula,
+      bastionHost,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete formula.
+   * Delete bastionhost. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the formula.
+   * @param virtualNetworkName The name of the virtual network.
+   * @param name The name of the bastionhost.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
     resourceGroupName: string,
     labName: string,
+    virtualNetworkName: string,
     name: string,
-    options?: FormulasDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, labName, name, options },
-      deleteOperationSpec
-    );
+    options?: BastionHostsDeleteOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, virtualNetworkName, name, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Allows modifying tags of formulas. All other properties will be ignored.
+   * Delete bastionhost. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the formula.
-   * @param formula Allows modifying tags of formulas. All other properties will be ignored.
+   * @param virtualNetworkName The name of the virtual network.
+   * @param name The name of the bastionhost.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    labName: string,
+    virtualNetworkName: string,
+    name: string,
+    options?: BastionHostsDeleteOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      labName,
+      virtualNetworkName,
+      name,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Allows modifying tags of bastionhosts. All other properties will be ignored.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param virtualNetworkName The name of the virtual network.
+   * @param name The name of the bastionhost.
+   * @param bastionHost Allows modifying tags of bastionhosts. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     labName: string,
+    virtualNetworkName: string,
     name: string,
-    formula: FormulaFragment,
-    options?: FormulasUpdateOptionalParams
-  ): Promise<FormulasUpdateResponse> {
+    bastionHost: BastionHostFragment,
+    options?: BastionHostsUpdateOptionalParams
+  ): Promise<BastionHostsUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, name, formula, options },
+      {
+        resourceGroupName,
+        labName,
+        virtualNetworkName,
+        name,
+        bastionHost,
+        options
+      },
       updateOperationSpec
     );
   }
@@ -305,17 +421,19 @@ export class FormulasImpl implements Formulas {
    * ListNext
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
+   * @param virtualNetworkName The name of the virtual network.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     labName: string,
+    virtualNetworkName: string,
     nextLink: string,
-    options?: FormulasListNextOptionalParams
-  ): Promise<FormulasListNextResponse> {
+    options?: BastionHostsListNextOptionalParams
+  ): Promise<BastionHostsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, nextLink, options },
+      { resourceGroupName, labName, virtualNetworkName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -325,11 +443,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{virtualNetworkName}/bastionhosts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FormulaList
+      bodyMapper: Mappers.BastionHostList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -337,7 +455,6 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.expand,
     Parameters.filter,
     Parameters.top,
     Parameters.orderby
@@ -346,63 +463,66 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.labName
+    Parameters.labName,
+    Parameters.virtualNetworkName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{virtualNetworkName}/bastionhosts/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Formula
+      bodyMapper: Mappers.BastionHost
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.labName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas/{name}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Formula
-    },
-    201: {
-      bodyMapper: Mappers.Formula
-    },
-    202: {
-      bodyMapper: Mappers.Formula
-    },
-    204: {
-      bodyMapper: Mappers.Formula
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.formula,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.labName
+    Parameters.labName,
+    Parameters.virtualNetworkName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{virtualNetworkName}/bastionhosts/{name}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BastionHost
+    },
+    201: {
+      bodyMapper: Mappers.BastionHost
+    },
+    202: {
+      bodyMapper: Mappers.BastionHost
+    },
+    204: {
+      bodyMapper: Mappers.BastionHost
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.bastionHost,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.labName,
+    Parameters.virtualNetworkName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -410,10 +530,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{virtualNetworkName}/bastionhosts/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
+    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.CloudError
@@ -425,31 +547,33 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.labName
+    Parameters.labName,
+    Parameters.virtualNetworkName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{virtualNetworkName}/bastionhosts/{name}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Formula
+      bodyMapper: Mappers.BastionHost
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.formula1,
+  requestBody: Parameters.bastionHost1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.labName
+    Parameters.labName,
+    Parameters.virtualNetworkName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -460,7 +584,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FormulaList
+      bodyMapper: Mappers.BastionHostList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -471,7 +595,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.labName
+    Parameters.labName,
+    Parameters.virtualNetworkName
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -157,7 +157,7 @@ export class NotificationChannelsImpl implements NotificationChannels {
   }
 
   /**
-   * Create or replace an existing notification channel.
+   * Create or replace an existing Notification Channel.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the notification channel.
@@ -201,7 +201,8 @@ export class NotificationChannelsImpl implements NotificationChannels {
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the notification channel.
-   * @param notificationChannel A notification.
+   * @param notificationChannel Allows modifying tags of notification channels. All other properties will
+   *                            be ignored.
    * @param options The options parameters.
    */
   update(
@@ -420,13 +421,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

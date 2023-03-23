@@ -6,14 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  PolicySet,
+  PolicySetsListOptionalParams,
   EvaluatePoliciesRequest,
   PolicySetsEvaluatePoliciesOptionalParams,
   PolicySetsEvaluatePoliciesResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a PolicySets. */
 export interface PolicySets {
+  /**
+   * List policy sets in a given lab.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    labName: string,
+    options?: PolicySetsListOptionalParams
+  ): PagedAsyncIterableIterator<PolicySet>;
   /**
    * Evaluates lab policy.
    * @param resourceGroupName The name of the resource group.

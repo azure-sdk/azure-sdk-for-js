@@ -9,23 +9,23 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  CustomImage,
-  CustomImagesListOptionalParams,
-  CustomImagesGetOptionalParams,
-  CustomImagesGetResponse,
-  CustomImagesCreateOrUpdateOptionalParams,
-  CustomImagesCreateOrUpdateResponse,
-  CustomImagesDeleteOptionalParams,
-  CustomImageFragment,
-  CustomImagesUpdateOptionalParams,
-  CustomImagesUpdateResponse
+  LabSecret,
+  LabSecretsListOptionalParams,
+  LabSecretsGetOptionalParams,
+  LabSecretsGetResponse,
+  LabSecretsCreateOrUpdateOptionalParams,
+  LabSecretsCreateOrUpdateResponse,
+  LabSecretsDeleteOptionalParams,
+  SecretFragment,
+  LabSecretsUpdateOptionalParams,
+  LabSecretsUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a CustomImages. */
-export interface CustomImages {
+/** Interface representing a LabSecrets. */
+export interface LabSecrets {
   /**
-   * List custom images in a given lab.
+   * List lab secrets in a given lab.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param options The options parameters.
@@ -33,95 +33,95 @@ export interface CustomImages {
   list(
     resourceGroupName: string,
     labName: string,
-    options?: CustomImagesListOptionalParams
-  ): PagedAsyncIterableIterator<CustomImage>;
+    options?: LabSecretsListOptionalParams
+  ): PagedAsyncIterableIterator<LabSecret>;
   /**
-   * Get custom image.
+   * Get lab secret.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the custom image.
+   * @param name The name of the lab secret.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     labName: string,
     name: string,
-    options?: CustomImagesGetOptionalParams
-  ): Promise<CustomImagesGetResponse>;
+    options?: LabSecretsGetOptionalParams
+  ): Promise<LabSecretsGetResponse>;
   /**
-   * Create or replace an existing custom image. This operation can take a while to complete.
+   * Create or replace an existing Lab Secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the custom image.
-   * @param customImage A custom image.
+   * @param name The name of the lab secret.
+   * @param labSecret A shared secret in a lab.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     labName: string,
     name: string,
-    customImage: CustomImage,
-    options?: CustomImagesCreateOrUpdateOptionalParams
+    labSecret: LabSecret,
+    options?: LabSecretsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<CustomImagesCreateOrUpdateResponse>,
-      CustomImagesCreateOrUpdateResponse
+      OperationState<LabSecretsCreateOrUpdateResponse>,
+      LabSecretsCreateOrUpdateResponse
     >
   >;
   /**
-   * Create or replace an existing custom image. This operation can take a while to complete.
+   * Create or replace an existing Lab Secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the custom image.
-   * @param customImage A custom image.
+   * @param name The name of the lab secret.
+   * @param labSecret A shared secret in a lab.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     labName: string,
     name: string,
-    customImage: CustomImage,
-    options?: CustomImagesCreateOrUpdateOptionalParams
-  ): Promise<CustomImagesCreateOrUpdateResponse>;
+    labSecret: LabSecret,
+    options?: LabSecretsCreateOrUpdateOptionalParams
+  ): Promise<LabSecretsCreateOrUpdateResponse>;
   /**
-   * Delete custom image. This operation can take a while to complete.
+   * Delete lab secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the custom image.
+   * @param name The name of the lab secret.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     labName: string,
     name: string,
-    options?: CustomImagesDeleteOptionalParams
+    options?: LabSecretsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Delete custom image. This operation can take a while to complete.
+   * Delete lab secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the custom image.
+   * @param name The name of the lab secret.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     labName: string,
     name: string,
-    options?: CustomImagesDeleteOptionalParams
+    options?: LabSecretsDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Allows modifying tags of custom images. All other properties will be ignored.
+   * Allows modifying tags of lab secrets. All other properties will be ignored.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the custom image.
-   * @param customImage Allows modifying tags of custom images. All other properties will be ignored.
+   * @param name The name of the lab secret.
+   * @param secret Allows modifying tags of lab secrets. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     labName: string,
     name: string,
-    customImage: CustomImageFragment,
-    options?: CustomImagesUpdateOptionalParams
-  ): Promise<CustomImagesUpdateResponse>;
+    secret: SecretFragment,
+    options?: LabSecretsUpdateOptionalParams
+  ): Promise<LabSecretsUpdateResponse>;
 }

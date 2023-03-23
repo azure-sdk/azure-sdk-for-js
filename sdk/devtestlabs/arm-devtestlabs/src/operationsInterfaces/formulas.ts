@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Formula,
   FormulasListOptionalParams,
@@ -49,7 +49,7 @@ export interface Formulas {
     options?: FormulasGetOptionalParams
   ): Promise<FormulasGetResponse>;
   /**
-   * Create or replace an existing formula. This operation can take a while to complete.
+   * Create or replace an existing Formula. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the formula.
@@ -63,13 +63,13 @@ export interface Formulas {
     formula: Formula,
     options?: FormulasCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<FormulasCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<FormulasCreateOrUpdateResponse>,
       FormulasCreateOrUpdateResponse
     >
   >;
   /**
-   * Create or replace an existing formula. This operation can take a while to complete.
+   * Create or replace an existing Formula. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the formula.
@@ -101,7 +101,7 @@ export interface Formulas {
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the formula.
-   * @param formula A formula for creating a VM, specifying an image base and other parameters
+   * @param formula Allows modifying tags of formulas. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(

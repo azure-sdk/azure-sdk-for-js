@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevTestLabsClient } from "../devTestLabsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ServiceFabric,
   ServiceFabricsListNextOptionalParams,
@@ -177,7 +181,7 @@ export class ServiceFabricsImpl implements ServiceFabrics {
   }
 
   /**
-   * Create or replace an existing service fabric. This operation can take a while to complete.
+   * Create or replace an existing Service Fabric. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
@@ -193,8 +197,8 @@ export class ServiceFabricsImpl implements ServiceFabrics {
     serviceFabric: ServiceFabric,
     options?: ServiceFabricsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServiceFabricsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServiceFabricsCreateOrUpdateResponse>,
       ServiceFabricsCreateOrUpdateResponse
     >
   > {
@@ -204,7 +208,7 @@ export class ServiceFabricsImpl implements ServiceFabrics {
     ): Promise<ServiceFabricsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -237,21 +241,32 @@ export class ServiceFabricsImpl implements ServiceFabrics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, userName, name, serviceFabric, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        labName,
+        userName,
+        name,
+        serviceFabric,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ServiceFabricsCreateOrUpdateResponse,
+      OperationState<ServiceFabricsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or replace an existing service fabric. This operation can take a while to complete.
+   * Create or replace an existing Service Fabric. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
@@ -292,14 +307,14 @@ export class ServiceFabricsImpl implements ServiceFabrics {
     userName: string,
     name: string,
     options?: ServiceFabricsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -332,14 +347,15 @@ export class ServiceFabricsImpl implements ServiceFabrics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, userName, name, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, userName, name, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -376,7 +392,7 @@ export class ServiceFabricsImpl implements ServiceFabrics {
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the service fabric.
-   * @param serviceFabric A Service Fabric.
+   * @param serviceFabric Allows modifying tags of service fabrics. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
@@ -428,14 +444,14 @@ export class ServiceFabricsImpl implements ServiceFabrics {
     userName: string,
     name: string,
     options?: ServiceFabricsStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -468,14 +484,15 @@ export class ServiceFabricsImpl implements ServiceFabrics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, userName, name, options },
-      startOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, userName, name, options },
+      spec: startOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -520,14 +537,14 @@ export class ServiceFabricsImpl implements ServiceFabrics {
     userName: string,
     name: string,
     options?: ServiceFabricsStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -560,14 +577,15 @@ export class ServiceFabricsImpl implements ServiceFabrics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, userName, name, options },
-      stopOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, userName, name, options },
+      spec: stopOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -846,13 +864,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

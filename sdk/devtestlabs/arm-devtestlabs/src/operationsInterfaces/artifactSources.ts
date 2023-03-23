@@ -80,7 +80,8 @@ export interface ArtifactSources {
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the artifact source.
-   * @param artifactSource Properties of an artifact source.
+   * @param artifactSource Allows modifying tags of artifact sources. All other properties will be
+   *                       ignored.
    * @param options The options parameters.
    */
   update(

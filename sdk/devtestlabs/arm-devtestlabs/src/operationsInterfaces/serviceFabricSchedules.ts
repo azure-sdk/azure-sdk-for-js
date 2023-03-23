@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Schedule,
   ServiceFabricSchedulesListOptionalParams,
@@ -100,7 +100,7 @@ export interface ServiceFabricSchedules {
    * @param userName The name of the user profile.
    * @param serviceFabricName The name of the service fabric.
    * @param name The name of the schedule.
-   * @param schedule A schedule.
+   * @param schedule Allows modifying tags of schedules. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
@@ -128,7 +128,7 @@ export interface ServiceFabricSchedules {
     serviceFabricName: string,
     name: string,
     options?: ServiceFabricSchedulesExecuteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Execute a schedule. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.

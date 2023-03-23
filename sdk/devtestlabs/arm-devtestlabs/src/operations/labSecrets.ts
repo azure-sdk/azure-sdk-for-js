@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Formulas } from "../operationsInterfaces";
+import { LabSecrets } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,28 +20,28 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Formula,
-  FormulasListNextOptionalParams,
-  FormulasListOptionalParams,
-  FormulasListResponse,
-  FormulasGetOptionalParams,
-  FormulasGetResponse,
-  FormulasCreateOrUpdateOptionalParams,
-  FormulasCreateOrUpdateResponse,
-  FormulasDeleteOptionalParams,
-  FormulaFragment,
-  FormulasUpdateOptionalParams,
-  FormulasUpdateResponse,
-  FormulasListNextResponse
+  LabSecret,
+  LabSecretsListNextOptionalParams,
+  LabSecretsListOptionalParams,
+  LabSecretsListResponse,
+  LabSecretsGetOptionalParams,
+  LabSecretsGetResponse,
+  LabSecretsCreateOrUpdateOptionalParams,
+  LabSecretsCreateOrUpdateResponse,
+  LabSecretsDeleteOptionalParams,
+  SecretFragment,
+  LabSecretsUpdateOptionalParams,
+  LabSecretsUpdateResponse,
+  LabSecretsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Formulas operations. */
-export class FormulasImpl implements Formulas {
+/** Class containing LabSecrets operations. */
+export class LabSecretsImpl implements LabSecrets {
   private readonly client: DevTestLabsClient;
 
   /**
-   * Initialize a new instance of the class Formulas class.
+   * Initialize a new instance of the class LabSecrets class.
    * @param client Reference to the service client
    */
   constructor(client: DevTestLabsClient) {
@@ -49,7 +49,7 @@ export class FormulasImpl implements Formulas {
   }
 
   /**
-   * List formulas in a given lab.
+   * List lab secrets in a given lab.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param options The options parameters.
@@ -57,8 +57,8 @@ export class FormulasImpl implements Formulas {
   public list(
     resourceGroupName: string,
     labName: string,
-    options?: FormulasListOptionalParams
-  ): PagedAsyncIterableIterator<Formula> {
+    options?: LabSecretsListOptionalParams
+  ): PagedAsyncIterableIterator<LabSecret> {
     const iter = this.listPagingAll(resourceGroupName, labName, options);
     return {
       next() {
@@ -84,10 +84,10 @@ export class FormulasImpl implements Formulas {
   private async *listPagingPage(
     resourceGroupName: string,
     labName: string,
-    options?: FormulasListOptionalParams,
+    options?: LabSecretsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Formula[]> {
-    let result: FormulasListResponse;
+  ): AsyncIterableIterator<LabSecret[]> {
+    let result: LabSecretsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, labName, options);
@@ -113,8 +113,8 @@ export class FormulasImpl implements Formulas {
   private async *listPagingAll(
     resourceGroupName: string,
     labName: string,
-    options?: FormulasListOptionalParams
-  ): AsyncIterableIterator<Formula> {
+    options?: LabSecretsListOptionalParams
+  ): AsyncIterableIterator<LabSecret> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       labName,
@@ -125,7 +125,7 @@ export class FormulasImpl implements Formulas {
   }
 
   /**
-   * List formulas in a given lab.
+   * List lab secrets in a given lab.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param options The options parameters.
@@ -133,8 +133,8 @@ export class FormulasImpl implements Formulas {
   private _list(
     resourceGroupName: string,
     labName: string,
-    options?: FormulasListOptionalParams
-  ): Promise<FormulasListResponse> {
+    options?: LabSecretsListOptionalParams
+  ): Promise<LabSecretsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, labName, options },
       listOperationSpec
@@ -142,18 +142,18 @@ export class FormulasImpl implements Formulas {
   }
 
   /**
-   * Get formula.
+   * Get lab secret.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the formula.
+   * @param name The name of the lab secret.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     labName: string,
     name: string,
-    options?: FormulasGetOptionalParams
-  ): Promise<FormulasGetResponse> {
+    options?: LabSecretsGetOptionalParams
+  ): Promise<LabSecretsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, labName, name, options },
       getOperationSpec
@@ -161,29 +161,29 @@ export class FormulasImpl implements Formulas {
   }
 
   /**
-   * Create or replace an existing Formula. This operation can take a while to complete.
+   * Create or replace an existing Lab Secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the formula.
-   * @param formula A formula for creating a VM, specifying an image base and other parameters
+   * @param name The name of the lab secret.
+   * @param labSecret A shared secret in a lab.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     labName: string,
     name: string,
-    formula: Formula,
-    options?: FormulasCreateOrUpdateOptionalParams
+    labSecret: LabSecret,
+    options?: LabSecretsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<FormulasCreateOrUpdateResponse>,
-      FormulasCreateOrUpdateResponse
+      OperationState<LabSecretsCreateOrUpdateResponse>,
+      LabSecretsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<FormulasCreateOrUpdateResponse> => {
+    ): Promise<LabSecretsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -221,12 +221,12 @@ export class FormulasImpl implements Formulas {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, labName, name, formula, options },
+      args: { resourceGroupName, labName, name, labSecret, options },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      FormulasCreateOrUpdateResponse,
-      OperationState<FormulasCreateOrUpdateResponse>
+      LabSecretsCreateOrUpdateResponse,
+      OperationState<LabSecretsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -237,66 +237,135 @@ export class FormulasImpl implements Formulas {
   }
 
   /**
-   * Create or replace an existing Formula. This operation can take a while to complete.
+   * Create or replace an existing Lab Secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the formula.
-   * @param formula A formula for creating a VM, specifying an image base and other parameters
+   * @param name The name of the lab secret.
+   * @param labSecret A shared secret in a lab.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     labName: string,
     name: string,
-    formula: Formula,
-    options?: FormulasCreateOrUpdateOptionalParams
-  ): Promise<FormulasCreateOrUpdateResponse> {
+    labSecret: LabSecret,
+    options?: LabSecretsCreateOrUpdateOptionalParams
+  ): Promise<LabSecretsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       labName,
       name,
-      formula,
+      labSecret,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete formula.
+   * Delete lab secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the formula.
+   * @param name The name of the lab secret.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
     resourceGroupName: string,
     labName: string,
     name: string,
-    options?: FormulasDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, labName, name, options },
-      deleteOperationSpec
-    );
+    options?: LabSecretsDeleteOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, name, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Allows modifying tags of formulas. All other properties will be ignored.
+   * Delete lab secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the formula.
-   * @param formula Allows modifying tags of formulas. All other properties will be ignored.
+   * @param name The name of the lab secret.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: LabSecretsDeleteOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      labName,
+      name,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Allows modifying tags of lab secrets. All other properties will be ignored.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the lab secret.
+   * @param secret Allows modifying tags of lab secrets. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     labName: string,
     name: string,
-    formula: FormulaFragment,
-    options?: FormulasUpdateOptionalParams
-  ): Promise<FormulasUpdateResponse> {
+    secret: SecretFragment,
+    options?: LabSecretsUpdateOptionalParams
+  ): Promise<LabSecretsUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, name, formula, options },
+      { resourceGroupName, labName, name, secret, options },
       updateOperationSpec
     );
   }
@@ -312,8 +381,8 @@ export class FormulasImpl implements Formulas {
     resourceGroupName: string,
     labName: string,
     nextLink: string,
-    options?: FormulasListNextOptionalParams
-  ): Promise<FormulasListNextResponse> {
+    options?: LabSecretsListNextOptionalParams
+  ): Promise<LabSecretsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, labName, nextLink, options },
       listNextOperationSpec
@@ -325,11 +394,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/secrets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FormulaList
+      bodyMapper: Mappers.LabSecretList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -337,7 +406,6 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.expand,
     Parameters.filter,
     Parameters.top,
     Parameters.orderby
@@ -353,17 +421,17 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/secrets/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Formula
+      bodyMapper: Mappers.LabSecret
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -376,26 +444,26 @@ const getOperationSpec: coreClient.OperationSpec = {
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/secrets/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Formula
+      bodyMapper: Mappers.LabSecret
     },
     201: {
-      bodyMapper: Mappers.Formula
+      bodyMapper: Mappers.LabSecret
     },
     202: {
-      bodyMapper: Mappers.Formula
+      bodyMapper: Mappers.LabSecret
     },
     204: {
-      bodyMapper: Mappers.Formula
+      bodyMapper: Mappers.LabSecret
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.formula,
+  requestBody: Parameters.labSecret,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -410,10 +478,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/secrets/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
+    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.CloudError
@@ -432,17 +502,17 @@ const deleteOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/secrets/{name}",
   httpMethod: "PATCH",
   responses: {
-    200: {
-      bodyMapper: Mappers.Formula
+    201: {
+      bodyMapper: Mappers.LabSecret
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.formula1,
+  requestBody: Parameters.secret,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -460,7 +530,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FormulaList
+      bodyMapper: Mappers.LabSecretList
     },
     default: {
       bodyMapper: Mappers.CloudError

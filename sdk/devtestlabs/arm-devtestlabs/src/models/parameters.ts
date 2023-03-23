@@ -35,7 +35,13 @@ import {
   EvaluatePoliciesRequest as EvaluatePoliciesRequestMapper,
   Policy as PolicyMapper,
   PolicyFragment as PolicyFragmentMapper,
+  LabSecret as LabSecretMapper,
+  SecretFragment as SecretFragmentMapper,
   ServiceRunner as ServiceRunnerMapper,
+  SharedGallery as SharedGalleryMapper,
+  SharedGalleryFragment as SharedGalleryFragmentMapper,
+  SharedImage as SharedImageMapper,
+  SharedImageFragment as SharedImageFragmentMapper,
   User as UserMapper,
   UserFragment as UserFragmentMapper,
   Disk as DiskMapper,
@@ -45,7 +51,6 @@ import {
   DtlEnvironment as DtlEnvironmentMapper,
   DtlEnvironmentFragment as DtlEnvironmentFragmentMapper,
   Secret as SecretMapper,
-  SecretFragment as SecretFragmentMapper,
   ServiceFabric as ServiceFabricMapper,
   ServiceFabricFragment as ServiceFabricFragmentMapper,
   LabVirtualMachine as LabVirtualMachineMapper,
@@ -55,7 +60,9 @@ import {
   DetachDataDiskProperties as DetachDataDiskPropertiesMapper,
   ResizeLabVirtualMachineProperties as ResizeLabVirtualMachinePropertiesMapper,
   VirtualNetwork as VirtualNetworkMapper,
-  VirtualNetworkFragment as VirtualNetworkFragmentMapper
+  VirtualNetworkFragment as VirtualNetworkFragmentMapper,
+  BastionHost as BastionHostMapper,
+  BastionHostFragment as BastionHostFragmentMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -85,7 +92,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2018-09-15",
+    defaultValue: "2021-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -224,7 +231,26 @@ export const importLabVirtualMachineRequest: OperationParameter = {
 export const locationName: OperationURLParameter = {
   parameterPath: "locationName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9_\\-]+$"),
+      MaxLength: 260,
+      MinLength: 1
+    },
     serializedName: "locationName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const name1: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    constraints: {
+      MinLength: 1
+    },
+    serializedName: "name",
     required: true,
     type: {
       name: "String"
@@ -250,6 +276,11 @@ export const retargetScheduleProperties: OperationParameter = {
 export const labName: OperationURLParameter = {
   parameterPath: "labName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9_\\-]+$"),
+      MaxLength: 50,
+      MinLength: 1
+    },
     serializedName: "labName",
     required: true,
     type: {
@@ -271,6 +302,11 @@ export const artifactSource1: OperationParameter = {
 export const artifactSourceName: OperationURLParameter = {
   parameterPath: "artifactSourceName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9_\\-]+$"),
+      MaxLength: 260,
+      MinLength: 1
+    },
     serializedName: "artifactSourceName",
     required: true,
     type: {
@@ -350,13 +386,54 @@ export const policy1: OperationParameter = {
   mapper: PolicyFragmentMapper
 };
 
+export const labSecret: OperationParameter = {
+  parameterPath: "labSecret",
+  mapper: LabSecretMapper
+};
+
+export const secret: OperationParameter = {
+  parameterPath: "secret",
+  mapper: SecretFragmentMapper
+};
+
 export const serviceRunner: OperationParameter = {
   parameterPath: "serviceRunner",
   mapper: ServiceRunnerMapper
 };
 
+export const sharedGallery: OperationParameter = {
+  parameterPath: "sharedGallery",
+  mapper: SharedGalleryMapper
+};
+
+export const sharedGallery1: OperationParameter = {
+  parameterPath: "sharedGallery",
+  mapper: SharedGalleryFragmentMapper
+};
+
+export const sharedGalleryName: OperationURLParameter = {
+  parameterPath: "sharedGalleryName",
+  mapper: {
+    serializedName: "sharedGalleryName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const sharedImage: OperationParameter = {
+  parameterPath: "sharedImage",
+  mapper: SharedImageMapper
+};
+
+export const sharedImage1: OperationParameter = {
+  parameterPath: "sharedImage",
+  mapper: SharedImageFragmentMapper
+};
+
 export const user: OperationParameter = {
-  parameterPath: "user",
+  parameterPath: ["options", "user"],
   mapper: UserMapper
 };
 
@@ -406,14 +483,9 @@ export const dtlEnvironment1: OperationParameter = {
   mapper: DtlEnvironmentFragmentMapper
 };
 
-export const secret: OperationParameter = {
-  parameterPath: "secret",
-  mapper: SecretMapper
-};
-
 export const secret1: OperationParameter = {
   parameterPath: "secret",
-  mapper: SecretFragmentMapper
+  mapper: SecretMapper
 };
 
 export const serviceFabric: OperationParameter = {
@@ -470,6 +542,11 @@ export const resizeLabVirtualMachineProperties: OperationParameter = {
 export const virtualMachineName: OperationURLParameter = {
   parameterPath: "virtualMachineName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9\\-]+$"),
+      MaxLength: 62,
+      MinLength: 1
+    },
     serializedName: "virtualMachineName",
     required: true,
     type: {
@@ -486,4 +563,30 @@ export const virtualNetwork: OperationParameter = {
 export const virtualNetwork1: OperationParameter = {
   parameterPath: "virtualNetwork",
   mapper: VirtualNetworkFragmentMapper
+};
+
+export const virtualNetworkName: OperationURLParameter = {
+  parameterPath: "virtualNetworkName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9_\\-]+$"),
+      MaxLength: 260,
+      MinLength: 1
+    },
+    serializedName: "virtualNetworkName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const bastionHost: OperationParameter = {
+  parameterPath: "bastionHost",
+  mapper: BastionHostMapper
+};
+
+export const bastionHost1: OperationParameter = {
+  parameterPath: "bastionHost",
+  mapper: BastionHostFragmentMapper
 };

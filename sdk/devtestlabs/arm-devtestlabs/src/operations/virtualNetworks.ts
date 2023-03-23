@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevTestLabsClient } from "../devTestLabsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VirtualNetwork,
   VirtualNetworksListNextOptionalParams,
@@ -171,8 +175,8 @@ export class VirtualNetworksImpl implements VirtualNetworks {
     virtualNetwork: VirtualNetwork,
     options?: VirtualNetworksCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworksCreateOrUpdateResponse>,
       VirtualNetworksCreateOrUpdateResponse
     >
   > {
@@ -182,7 +186,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
     ): Promise<VirtualNetworksCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -215,14 +219,18 @@ export class VirtualNetworksImpl implements VirtualNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, name, virtualNetwork, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, name, virtualNetwork, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualNetworksCreateOrUpdateResponse,
+      OperationState<VirtualNetworksCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -265,14 +273,14 @@ export class VirtualNetworksImpl implements VirtualNetworks {
     labName: string,
     name: string,
     options?: VirtualNetworksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -305,14 +313,15 @@ export class VirtualNetworksImpl implements VirtualNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, name, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, name, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -345,7 +354,8 @@ export class VirtualNetworksImpl implements VirtualNetworks {
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the virtual network.
-   * @param virtualNetwork A virtual network.
+   * @param virtualNetwork Allows modifying tags of virtual networks. All other properties will be
+   *                       ignored.
    * @param options The options parameters.
    */
   update(
@@ -528,13 +538,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

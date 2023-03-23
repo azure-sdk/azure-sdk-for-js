@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Schedule,
   GlobalSchedulesListBySubscriptionOptionalParams,
@@ -83,7 +83,7 @@ export interface GlobalSchedules {
    * Allows modifying tags of schedules. All other properties will be ignored.
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the schedule.
-   * @param schedule A schedule.
+   * @param schedule Allows modifying tags of schedules. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
@@ -102,7 +102,7 @@ export interface GlobalSchedules {
     resourceGroupName: string,
     name: string,
     options?: GlobalSchedulesExecuteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Execute a schedule. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
@@ -126,7 +126,7 @@ export interface GlobalSchedules {
     name: string,
     retargetScheduleProperties: RetargetScheduleProperties,
     options?: GlobalSchedulesRetargetOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Updates a schedule's target resource Id. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
