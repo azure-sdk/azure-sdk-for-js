@@ -32,6 +32,9 @@ import {
   PolicyExemptionsCreateOrUpdateResponse,
   PolicyExemptionsGetOptionalParams,
   PolicyExemptionsGetResponse,
+  PolicyExemptionUpdate,
+  PolicyExemptionsUpdateOptionalParams,
+  PolicyExemptionsUpdateResponse,
   PolicyExemptionsListNextResponse,
   PolicyExemptionsListForResourceGroupNextResponse,
   PolicyExemptionsListForResourceNextResponse,
@@ -459,6 +462,29 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
   }
 
   /**
+   *  This operation updates a policy exemption with the given scope and name.
+   * @param scope The scope of the policy exemption. Valid scopes are: management group (format:
+   *              '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * @param policyExemptionName The name of the policy exemption to delete.
+   * @param parameters Parameters for policy exemption patch request.
+   * @param options The options parameters.
+   */
+  update(
+    scope: string,
+    policyExemptionName: string,
+    parameters: PolicyExemptionUpdate,
+    options?: PolicyExemptionsUpdateOptionalParams
+  ): Promise<PolicyExemptionsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { scope, policyExemptionName, parameters, options },
+      updateOperationSpec
+    );
+  }
+
+  /**
    * This operation retrieves the list of all policy exemptions associated with the given subscription
    * that match the optional given $filter. Valid values for $filter are: 'atScope()', 'atExactScope()',
    * 'excludeExpired()' or 'policyAssignmentId eq '{value}''. If $filter is not provided, the unfiltered
@@ -657,7 +683,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -682,7 +708,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -704,13 +730,36 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
     Parameters.policyExemptionName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/{scope}/providers/Microsoft.Authorization/policyExemptions/{policyExemptionName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicyExemption
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.scope,
+    Parameters.policyExemptionName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
@@ -725,7 +774,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion2],
+  queryParameters: [Parameters.filter, Parameters.apiVersion3],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -742,11 +791,11 @@ const listForResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion2],
+  queryParameters: [Parameters.filter, Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -763,11 +812,11 @@ const listForResourceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion2],
+  queryParameters: [Parameters.filter, Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,
@@ -788,7 +837,7 @@ const listForManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion2],
+  queryParameters: [Parameters.filter, Parameters.apiVersion3],
   urlParameters: [Parameters.$host, Parameters.managementGroupId],
   headerParameters: [Parameters.accept],
   serializer
@@ -804,7 +853,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -824,12 +872,11 @@ const listForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -845,12 +892,11 @@ const listForResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,
@@ -870,7 +916,6 @@ const listForManagementGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
