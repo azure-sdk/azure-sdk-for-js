@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataMigrationManagementClient } from "../dataMigrationManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DatabaseMigrationsSqlVmGetOptionalParams,
   DatabaseMigrationsSqlVmGetResponse,
@@ -37,7 +41,7 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
   }
 
   /**
-   * Retrieve the Database Migration resource.
+   * Retrieve the specified database migration for a given SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -57,7 +61,7 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
   }
 
   /**
-   * Create or Update Database Migration resource.
+   * Create a new database migration to a given SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -72,8 +76,8 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
     parameters: DatabaseMigrationSqlVm,
     options?: DatabaseMigrationsSqlVmCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DatabaseMigrationsSqlVmCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DatabaseMigrationsSqlVmCreateOrUpdateResponse>,
       DatabaseMigrationsSqlVmCreateOrUpdateResponse
     >
   > {
@@ -83,7 +87,7 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
     ): Promise<DatabaseMigrationsSqlVmCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -116,19 +120,22 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sqlVirtualMachineName,
         targetDbName,
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DatabaseMigrationsSqlVmCreateOrUpdateResponse,
+      OperationState<DatabaseMigrationsSqlVmCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -136,7 +143,7 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
   }
 
   /**
-   * Create or Update Database Migration resource.
+   * Create a new database migration to a given SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -162,7 +169,7 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
   }
 
   /**
-   * Stop ongoing migration for the database.
+   * Stop in-progress database migration to SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -176,14 +183,14 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
     targetDbName: string,
     parameters: MigrationOperationInput,
     options?: DatabaseMigrationsSqlVmCancelOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -216,19 +223,19 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sqlVirtualMachineName,
         targetDbName,
         parameters,
         options
       },
-      cancelOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: cancelOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -236,7 +243,7 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
   }
 
   /**
-   * Stop ongoing migration for the database.
+   * Stop in-progress database migration to SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -262,7 +269,7 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
   }
 
   /**
-   * Cutover online migration operation for the database.
+   * Initiate cutover for in-progress online database migration to SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -276,14 +283,14 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
     targetDbName: string,
     parameters: MigrationOperationInput,
     options?: DatabaseMigrationsSqlVmCutoverOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -316,19 +323,19 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sqlVirtualMachineName,
         targetDbName,
         parameters,
         options
       },
-      cutoverOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: cutoverOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -336,7 +343,7 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
   }
 
   /**
-   * Cutover online migration operation for the database.
+   * Initiate cutover for in-progress online database migration to SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -408,7 +415,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

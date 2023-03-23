@@ -28,9 +28,9 @@ import {
 /** Interface representing a Tasks. */
 export interface Tasks {
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. This
-   * method returns a list of tasks owned by a service resource. Some tasks may have a status of Unknown,
-   * which indicates that an error occurred while querying the status of that task.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This method returns a list of tasks owned by a service resource. Some tasks may have a
+   * status of Unknown, which indicates that an error occurred while querying the status of that task.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -43,9 +43,13 @@ export interface Tasks {
     options?: TasksListOptionalParams
   ): PagedAsyncIterableIterator<ProjectTask>;
   /**
-   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance.
-   * The PUT method creates a new task or updates an existing one, although since tasks have no mutable
-   * custom properties, there is little reason to update an existing one.
+   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic)
+   * instance. The PUT method creates a new task or updates an existing one, although since tasks have no
+   * mutable custom properties, there is little reason to update an existing one. Database Migration
+   * Service (classic) - SQL scenarios are on a deprecation path and will be retired on 15 March 2026 for
+   * all customers. Please migrate to Azure SQL database services by using the latest Azure Database
+   * Migration Service version which is available as an extension in Azure Data Studio, or by using Azure
+   * PowerShell and Azure CLI.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -62,8 +66,8 @@ export interface Tasks {
     options?: TasksCreateOrUpdateOptionalParams
   ): Promise<TasksCreateOrUpdateResponse>;
   /**
-   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance.
-   * The GET method retrieves information about a task.
+   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic)
+   * instance. The GET method retrieves information about a task.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -78,8 +82,8 @@ export interface Tasks {
     options?: TasksGetOptionalParams
   ): Promise<TasksGetResponse>;
   /**
-   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance.
-   * The DELETE method deletes a task, canceling it first if it's running.
+   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic)
+   * instance. The DELETE method deletes a task, canceling it first if it's running.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -94,9 +98,12 @@ export interface Tasks {
     options?: TasksDeleteOptionalParams
   ): Promise<void>;
   /**
-   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance.
-   * The PATCH method updates an existing task, but since tasks have no mutable custom properties, there
-   * is little reason to do so.
+   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic)
+   * instance. The PATCH method updates an existing task, but since tasks have no mutable custom
+   * properties, there is little reason to do so. Database Migration Service (classic) - SQL scenarios
+   * are on a deprecation path and will be retired on 15 March 2026 for all customers. Please migrate to
+   * Azure SQL database services by using the latest Azure Database Migration Service version which is
+   * available as an extension in Azure Data Studio, or by using Azure PowerShell and Azure CLI.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -113,8 +120,8 @@ export interface Tasks {
     options?: TasksUpdateOptionalParams
   ): Promise<TasksUpdateResponse>;
   /**
-   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance.
-   * This method cancels a task if it's currently queued or running.
+   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic)
+   * instance. This method cancels a task if it's currently queued or running.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -129,8 +136,8 @@ export interface Tasks {
     options?: TasksCancelOptionalParams
   ): Promise<TasksCancelResponse>;
   /**
-   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance.
-   * This method executes a command on a running task.
+   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic)
+   * instance. This method executes a command on a running task.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project

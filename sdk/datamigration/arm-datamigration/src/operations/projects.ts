@@ -133,7 +133,10 @@ export class ProjectsImpl implements Projects {
 
   /**
    * The project resource is a nested resource representing a stored migration project. The PUT method
-   * creates a new project or updates an existing one.
+   * creates a new project or updates an existing one. Database Migration Service (classic) - SQL
+   * scenarios are on a deprecation path and will be retired on 15 March 2026 for all customers. Please
+   * migrate to Azure SQL database services by using the latest Azure Database Migration Service version
+   * which is available as an extension in Azure Data Studio, or by using Azure PowerShell and Azure CLI.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -195,7 +198,10 @@ export class ProjectsImpl implements Projects {
 
   /**
    * The project resource is a nested resource representing a stored migration project. The PATCH method
-   * updates an existing project.
+   * updates an existing project. Database Migration Service (classic) - SQL scenarios are on a
+   * deprecation path and will be retired on 15 March 2026 for all customers. Please migrate to Azure SQL
+   * database services by using the latest Azure Database Migration Service version which is available as
+   * an extension in Azure Data Studio, or by using Azure PowerShell and Azure CLI.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -274,7 +280,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApiError
     }
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -344,7 +350,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApiError
     }
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -368,7 +374,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApiError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

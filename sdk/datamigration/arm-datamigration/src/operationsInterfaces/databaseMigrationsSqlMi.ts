@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DatabaseMigrationsSqlMiGetOptionalParams,
   DatabaseMigrationsSqlMiGetResponse,
@@ -21,7 +21,7 @@ import {
 /** Interface representing a DatabaseMigrationsSqlMi. */
 export interface DatabaseMigrationsSqlMi {
   /**
-   * Retrieve the Database Migration resource.
+   * Retrieve the specified database migration for a given SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
@@ -35,7 +35,7 @@ export interface DatabaseMigrationsSqlMi {
     options?: DatabaseMigrationsSqlMiGetOptionalParams
   ): Promise<DatabaseMigrationsSqlMiGetResponse>;
   /**
-   * Create or Update Database Migration resource.
+   * Create a new database migration to a given SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
@@ -50,13 +50,13 @@ export interface DatabaseMigrationsSqlMi {
     parameters: DatabaseMigrationSqlMi,
     options?: DatabaseMigrationsSqlMiCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DatabaseMigrationsSqlMiCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DatabaseMigrationsSqlMiCreateOrUpdateResponse>,
       DatabaseMigrationsSqlMiCreateOrUpdateResponse
     >
   >;
   /**
-   * Create or Update Database Migration resource.
+   * Create a new database migration to a given SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
@@ -72,7 +72,7 @@ export interface DatabaseMigrationsSqlMi {
     options?: DatabaseMigrationsSqlMiCreateOrUpdateOptionalParams
   ): Promise<DatabaseMigrationsSqlMiCreateOrUpdateResponse>;
   /**
-   * Stop migrations in progress for the database
+   * Stop in-progress database migration to SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
@@ -86,9 +86,9 @@ export interface DatabaseMigrationsSqlMi {
     targetDbName: string,
     parameters: MigrationOperationInput,
     options?: DatabaseMigrationsSqlMiCancelOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Stop migrations in progress for the database
+   * Stop in-progress database migration to SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
@@ -104,7 +104,7 @@ export interface DatabaseMigrationsSqlMi {
     options?: DatabaseMigrationsSqlMiCancelOptionalParams
   ): Promise<void>;
   /**
-   * Initiate cutover for online migration in progress for the database.
+   * Initiate cutover for in-progress online database migration to SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
@@ -118,9 +118,9 @@ export interface DatabaseMigrationsSqlMi {
     targetDbName: string,
     parameters: MigrationOperationInput,
     options?: DatabaseMigrationsSqlMiCutoverOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Initiate cutover for online migration in progress for the database.
+   * Initiate cutover for in-progress online database migration to SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
