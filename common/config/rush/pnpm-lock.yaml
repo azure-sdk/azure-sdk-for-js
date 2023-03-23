@@ -731,6 +731,7 @@ packages:
   /@azure/ai-form-recognizer/3.1.0-beta.3:
     resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
     engines: {node: '>=8.0.0'}
+    deprecated: Please migrate to a supported (non-beta) version of this package
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 1.2.6
@@ -3908,7 +3909,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230321
+      typescript: 5.1.0-dev.20230323
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8764,8 +8765,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230321:
-    resolution: {integrity: sha512-GFq3xvjbJImoKgCDJEiB7Bsa1wQdu/9tlb8Qj475ydSraETbCLzy+Ao3cqQ+KWBM6Mqo+0b1rrpe2Gj0DZz2+w==}
+  /typescript/5.1.0-dev.20230323:
+    resolution: {integrity: sha512-C/U2MNu/RkpNWJLPqo0q6ZimJLwBaQkd9ktJOjLDyV6/d/HgVfvVI15ga0UH4yj4bKRY0B8Yoth8pyn6jP+IUg==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -10638,7 +10639,7 @@ packages:
     dev: false
 
   file:projects/arm-changes.tgz:
-    resolution: {integrity: sha512-p78Uncj2JuxDs3TjtqFlWa36ZWsQQvwse0kbD6SJa9ZiIYW0LRuCaQiYPyI+76ryU/QOjOxiBkvinHUvEu5wNA==, tarball: file:projects/arm-changes.tgz}
+    resolution: {integrity: sha512-7DuFCbmqVSVPHWsrM1Gj686DW76ux/e9U+EA71mZ3exD7n4/E/8jdyOC9bjOVVdG4O0Xw20crjDF/UEvW7rcMQ==, tarball: file:projects/arm-changes.tgz}
     name: '@rush-temp/arm-changes'
     version: 0.0.0
     dependencies:
@@ -10652,7 +10653,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -12105,7 +12107,7 @@ packages:
     dev: false
 
   file:projects/arm-features.tgz:
-    resolution: {integrity: sha512-aT0fEUYX5/forS2f/Zvk7q2HL0K0Yet5UA5l9FZe+ud3D/9eTSDnIA7Jqf1C7ZlBSzdQSjkHWVH8xKfXWIKyEg==, tarball: file:projects/arm-features.tgz}
+    resolution: {integrity: sha512-qgRkXbD2oh2IdBBadYoUnYm2OuZF/LdNM0w4HpF9QfJZddhceyjsa5Iml7mAqPUWY3rSqvGrHG1Uw/9n0K40UA==, tarball: file:projects/arm-features.tgz}
     name: '@rush-temp/arm-features'
     version: 0.0.0
     dependencies:
@@ -12119,7 +12121,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -12713,7 +12716,7 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-26SWjFDxIPrUdFx3K0ucgmf7M14K3Bl2p00pt0X+FF9TzI6sOjTNdKMZKJj/VXaYwGDnTW4Opq4FFs2+F65NRw==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-R7tSmvpr/Op6Py27rczhOq9vc/fOz7jStmkmGHwNiuK2j8vloV0zsV25ZlNbRddiVooSfOHRlG3RQuKI4pTlew==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
@@ -12727,7 +12730,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -12796,7 +12800,7 @@ packages:
     dev: false
 
   file:projects/arm-locks.tgz:
-    resolution: {integrity: sha512-i1t5H0w7SXvIj/aW/Fh/GFh0KgSdl93CjzCHsPus5ZetTJI3OVnFnfFohbDYEP2Fho7jC/PClUirP5IcCczbIA==, tarball: file:projects/arm-locks.tgz}
+    resolution: {integrity: sha512-/pG+cqdMAuWQLXXSf8NkFpIywxNxK7ZgHCfg+OQTxOJWPpG0FZSNPbef7OknyAZfpkEAtKMKltttME1VZ7MGtg==, tarball: file:projects/arm-locks.tgz}
     name: '@rush-temp/arm-locks'
     version: 0.0.0
     dependencies:
@@ -12810,7 +12814,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -12933,7 +12938,7 @@ packages:
     dev: false
 
   file:projects/arm-managedapplications.tgz:
-    resolution: {integrity: sha512-TFukoZvkyxNhxK5iZ2C6yVc/ByzCvHXpxPwqYPoLQSyzmPC1TOeU4U8TN+5kFvbWD/PuG1JvMAvnMix2/tIsbQ==, tarball: file:projects/arm-managedapplications.tgz}
+    resolution: {integrity: sha512-x/JdqsSIJ/W78NtH38h3bEVm2nnVRNMFUQ06jhNgO4C2GF8uMGwQLphTiA7gXIWfwT9m1rYhibragYPuNYMSkw==, tarball: file:projects/arm-managedapplications.tgz}
     name: '@rush-temp/arm-managedapplications'
     version: 0.0.0
     dependencies:
@@ -12947,7 +12952,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -13722,7 +13728,7 @@ packages:
     dev: false
 
   file:projects/arm-policy.tgz:
-    resolution: {integrity: sha512-TeRM2YNOgHBnenijefXG2vB2NCdBiL5R1C23IFEftIF2vqepw8Xaw8/OJtg3Z1yz3IYK7A3IMWHyAuJ9mg46Yw==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-a34IRmRGu+rFYSvulELtwW3FAKg8PpsXjE2wNz3YhIaOJiZG4zUJCHltlvHhA6yCBnaDeTR2WVRzj3kON/MwTw==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
@@ -13736,7 +13742,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -14329,7 +14336,7 @@ packages:
     dev: false
 
   file:projects/arm-resources-subscriptions.tgz:
-    resolution: {integrity: sha512-M0nuMO0Fg1qJXUOq/IdA4ixcuy25QdC/onMUJJNVpF0CxGrTHBm5E+KjUA5kbLyCHzSKSKlclaFRaVTKhvt0Pw==, tarball: file:projects/arm-resources-subscriptions.tgz}
+    resolution: {integrity: sha512-QO/iHVW77yNp3YckbdlUNIodNnm12FOZyKScSB0LHdMJ2vBW2aaMB3qS9V3sVnv62uqzr+bSSZKp9Y0hA4asLw==, tarball: file:projects/arm-resources-subscriptions.tgz}
     name: '@rush-temp/arm-resources-subscriptions'
     version: 0.0.0
     dependencies:
@@ -14343,7 +14350,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -15199,7 +15207,7 @@ packages:
     dev: false
 
   file:projects/arm-templatespecs.tgz:
-    resolution: {integrity: sha512-ZKxHNl9iNMA7cC4x9dYaA3d2SpmqdDrxfVwHpy44pTvCa5z9flxlP/QoqoMxX44kJSD2TIH/13P+bOVItDnYpQ==, tarball: file:projects/arm-templatespecs.tgz}
+    resolution: {integrity: sha512-1enPjBj1dAGdJ1XHOouopfhZn4ZniLrzlCLmmUfEfE+TRVMpWWRJj8G59cd0OyzFV9ppxWG3NRhp8WKht7Lv1A==, tarball: file:projects/arm-templatespecs.tgz}
     name: '@rush-temp/arm-templatespecs'
     version: 0.0.0
     dependencies:
@@ -15213,7 +15221,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
