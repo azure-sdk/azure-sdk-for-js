@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ManagedPrivateEndpoint,
   ManagedPrivateEndpointsListOptionalParams,
@@ -78,8 +78,8 @@ export interface ManagedPrivateEndpoints {
     parameters: ManagedPrivateEndpoint,
     options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedPrivateEndpointsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ManagedPrivateEndpointsCreateOrUpdateResponse>,
       ManagedPrivateEndpointsCreateOrUpdateResponse
     >
   >;
@@ -113,8 +113,8 @@ export interface ManagedPrivateEndpoints {
     parameters: ManagedPrivateEndpoint,
     options?: ManagedPrivateEndpointsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedPrivateEndpointsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ManagedPrivateEndpointsUpdateResponse>,
       ManagedPrivateEndpointsUpdateResponse
     >
   >;
@@ -145,7 +145,7 @@ export interface ManagedPrivateEndpoints {
     clusterName: string,
     managedPrivateEndpointName: string,
     options?: ManagedPrivateEndpointsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a managed private endpoint.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.

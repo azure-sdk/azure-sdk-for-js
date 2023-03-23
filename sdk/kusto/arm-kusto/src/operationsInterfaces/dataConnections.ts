@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DataConnectionUnion,
   DataConnectionsListByDatabaseOptionalParams,
@@ -57,8 +57,8 @@ export interface DataConnections {
     parameters: DataConnectionValidation,
     options?: DataConnectionsDataConnectionValidationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DataConnectionsDataConnectionValidationResponse>,
+    SimplePollerLike<
+      OperationState<DataConnectionsDataConnectionValidationResponse>,
       DataConnectionsDataConnectionValidationResponse
     >
   >;
@@ -124,8 +124,8 @@ export interface DataConnections {
     parameters: DataConnectionUnion,
     options?: DataConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DataConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DataConnectionsCreateOrUpdateResponse>,
       DataConnectionsCreateOrUpdateResponse
     >
   >;
@@ -163,8 +163,8 @@ export interface DataConnections {
     parameters: DataConnectionUnion,
     options?: DataConnectionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DataConnectionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DataConnectionsUpdateResponse>,
       DataConnectionsUpdateResponse
     >
   >;
@@ -199,7 +199,7 @@ export interface DataConnections {
     databaseName: string,
     dataConnectionName: string,
     options?: DataConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the data connection with the given name.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
