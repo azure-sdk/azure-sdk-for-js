@@ -713,6 +713,7 @@ packages:
   /@azure-tools/test-recorder/2.0.0:
     resolution: {integrity: sha512-OTic1OwOk25B8ecdMQ4wgyDaUNMMw0qzO4/0sy9ScPXWLmUFGMlkS0+BOQ2K9t8WCksM/wU+NjUZo/5T4zaG6A==}
     engines: {node: '>=12.0.0'}
+    deprecated: Bug introduced in v2.0.0, fixed in 3.0.0
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 2.3.1
@@ -3911,7 +3912,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230323
+      typescript: 5.1.0-dev.20230327
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8771,9 +8772,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230323:
-    resolution: {integrity: sha512-C/U2MNu/RkpNWJLPqo0q6ZimJLwBaQkd9ktJOjLDyV6/d/HgVfvVI15ga0UH4yj4bKRY0B8Yoth8pyn6jP+IUg==}
-
+  /typescript/5.1.0-dev.20230327:
+    resolution: {integrity: sha512-tzeS6vmUF8qC4zFdvos88Oer1oNVrg0CVlIaxfI//pDrq8rur4nIUTLRWRlEMCeLQporHhD+z9sESoSr5GL+lw==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -14420,7 +14420,7 @@ packages:
     dev: false
 
   file:projects/arm-scvmm.tgz:
-    resolution: {integrity: sha512-h5TZd0JPdPezA8vsK790eumvCtHJItZYfiJg1DBfecI3YPaNVLBG8wzVZZ0tzWHs7lkDZS7THDrbVDHzA/ElAw==, tarball: file:projects/arm-scvmm.tgz}
+    resolution: {integrity: sha512-Y4sr6afpGh6i5BZ576IXwKw13a/IkMphGMXOWRlQE/fUmVM6dAwLupQKs7ZcS2Tx01Zgv2W7PAg4lnXJbUKz6Q==, tarball: file:projects/arm-scvmm.tgz}
     name: '@rush-temp/arm-scvmm'
     version: 0.0.0
     dependencies:
@@ -14434,8 +14434,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AvailabilitySet,
   AvailabilitySetsListByResourceGroupOptionalParams,
@@ -65,8 +65,8 @@ export interface AvailabilitySets {
     body: AvailabilitySet,
     options?: AvailabilitySetsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AvailabilitySetsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AvailabilitySetsCreateOrUpdateResponse>,
       AvailabilitySetsCreateOrUpdateResponse
     >
   >;
@@ -93,7 +93,7 @@ export interface AvailabilitySets {
     resourceGroupName: string,
     availabilitySetName: string,
     options?: AvailabilitySetsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deregisters the ScVmm availability set from Azure.
    * @param resourceGroupName The name of the resource group.
@@ -118,8 +118,8 @@ export interface AvailabilitySets {
     body: ResourcePatch,
     options?: AvailabilitySetsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AvailabilitySetsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AvailabilitySetsUpdateResponse>,
       AvailabilitySetsUpdateResponse
     >
   >;

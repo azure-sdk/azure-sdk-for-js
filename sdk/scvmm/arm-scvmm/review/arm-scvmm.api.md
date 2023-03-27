@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AllocationMethod = string;
@@ -43,11 +43,11 @@ export interface AvailabilitySetListResult {
 
 // @public
 export interface AvailabilitySets {
-    beginCreateOrUpdate(resourceGroupName: string, availabilitySetName: string, body: AvailabilitySet, options?: AvailabilitySetsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AvailabilitySetsCreateOrUpdateResponse>, AvailabilitySetsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, availabilitySetName: string, body: AvailabilitySet, options?: AvailabilitySetsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AvailabilitySetsCreateOrUpdateResponse>, AvailabilitySetsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, availabilitySetName: string, body: AvailabilitySet, options?: AvailabilitySetsCreateOrUpdateOptionalParams): Promise<AvailabilitySetsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, availabilitySetName: string, body: ResourcePatch, options?: AvailabilitySetsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AvailabilitySetsUpdateResponse>, AvailabilitySetsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, availabilitySetName: string, body: ResourcePatch, options?: AvailabilitySetsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AvailabilitySetsUpdateResponse>, AvailabilitySetsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, availabilitySetName: string, body: ResourcePatch, options?: AvailabilitySetsUpdateOptionalParams): Promise<AvailabilitySetsUpdateResponse>;
     get(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsGetOptionalParams): Promise<AvailabilitySetsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: AvailabilitySetsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AvailabilitySet>;
@@ -172,11 +172,11 @@ export interface CloudListResult {
 
 // @public
 export interface Clouds {
-    beginCreateOrUpdate(resourceGroupName: string, cloudName: string, body: Cloud, options?: CloudsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<CloudsCreateOrUpdateResponse>, CloudsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, cloudName: string, body: Cloud, options?: CloudsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CloudsCreateOrUpdateResponse>, CloudsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, cloudName: string, body: Cloud, options?: CloudsCreateOrUpdateOptionalParams): Promise<CloudsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, cloudName: string, options?: CloudsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, cloudName: string, options?: CloudsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, cloudName: string, options?: CloudsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, cloudName: string, body: ResourcePatch, options?: CloudsUpdateOptionalParams): Promise<PollerLike<PollOperationState<CloudsUpdateResponse>, CloudsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, cloudName: string, body: ResourcePatch, options?: CloudsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CloudsUpdateResponse>, CloudsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, cloudName: string, body: ResourcePatch, options?: CloudsUpdateOptionalParams): Promise<CloudsUpdateResponse>;
     get(resourceGroupName: string, cloudName: string, options?: CloudsGetOptionalParams): Promise<CloudsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: CloudsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cloud>;
@@ -705,23 +705,23 @@ export interface VirtualMachineRestoreCheckpoint {
 
 // @public
 export interface VirtualMachines {
-    beginCreateCheckpoint(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesCreateCheckpointOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginCreateCheckpoint(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesCreateCheckpointOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginCreateCheckpointAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesCreateCheckpointOptionalParams): Promise<void>;
-    beginCreateOrUpdate(resourceGroupName: string, virtualMachineName: string, body: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<VirtualMachinesCreateOrUpdateResponse>, VirtualMachinesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, virtualMachineName: string, body: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesCreateOrUpdateResponse>, VirtualMachinesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, virtualMachineName: string, body: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<VirtualMachinesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<void>;
-    beginDeleteCheckpoint(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesDeleteCheckpointOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteCheckpoint(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesDeleteCheckpointOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteCheckpointAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesDeleteCheckpointOptionalParams): Promise<void>;
-    beginRestart(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesRestartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRestart(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRestartAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesRestartOptionalParams): Promise<void>;
-    beginRestoreCheckpoint(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesRestoreCheckpointOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRestoreCheckpoint(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesRestoreCheckpointOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRestoreCheckpointAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesRestoreCheckpointOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStart(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStop(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesStopOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, virtualMachineName: string, body: VirtualMachineUpdate, options?: VirtualMachinesUpdateOptionalParams): Promise<PollerLike<PollOperationState<VirtualMachinesUpdateResponse>, VirtualMachinesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, virtualMachineName: string, body: VirtualMachineUpdate, options?: VirtualMachinesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesUpdateResponse>, VirtualMachinesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, virtualMachineName: string, body: VirtualMachineUpdate, options?: VirtualMachinesUpdateOptionalParams): Promise<VirtualMachinesUpdateResponse>;
     get(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesGetOptionalParams): Promise<VirtualMachinesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: VirtualMachinesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<VirtualMachine>;
@@ -877,11 +877,11 @@ export interface VirtualMachineTemplateListResult {
 
 // @public
 export interface VirtualMachineTemplates {
-    beginCreateOrUpdate(resourceGroupName: string, virtualMachineTemplateName: string, body: VirtualMachineTemplate, options?: VirtualMachineTemplatesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<VirtualMachineTemplatesCreateOrUpdateResponse>, VirtualMachineTemplatesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, virtualMachineTemplateName: string, body: VirtualMachineTemplate, options?: VirtualMachineTemplatesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineTemplatesCreateOrUpdateResponse>, VirtualMachineTemplatesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, virtualMachineTemplateName: string, body: VirtualMachineTemplate, options?: VirtualMachineTemplatesCreateOrUpdateOptionalParams): Promise<VirtualMachineTemplatesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, virtualMachineTemplateName: string, options?: VirtualMachineTemplatesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, virtualMachineTemplateName: string, options?: VirtualMachineTemplatesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, virtualMachineTemplateName: string, options?: VirtualMachineTemplatesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, virtualMachineTemplateName: string, body: ResourcePatch, options?: VirtualMachineTemplatesUpdateOptionalParams): Promise<PollerLike<PollOperationState<VirtualMachineTemplatesUpdateResponse>, VirtualMachineTemplatesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, virtualMachineTemplateName: string, body: ResourcePatch, options?: VirtualMachineTemplatesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineTemplatesUpdateResponse>, VirtualMachineTemplatesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, virtualMachineTemplateName: string, body: ResourcePatch, options?: VirtualMachineTemplatesUpdateOptionalParams): Promise<VirtualMachineTemplatesUpdateResponse>;
     get(resourceGroupName: string, virtualMachineTemplateName: string, options?: VirtualMachineTemplatesGetOptionalParams): Promise<VirtualMachineTemplatesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: VirtualMachineTemplatesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<VirtualMachineTemplate>;
@@ -995,11 +995,11 @@ export interface VirtualNetworkListResult {
 
 // @public
 export interface VirtualNetworks {
-    beginCreateOrUpdate(resourceGroupName: string, virtualNetworkName: string, body: VirtualNetwork, options?: VirtualNetworksCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<VirtualNetworksCreateOrUpdateResponse>, VirtualNetworksCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, virtualNetworkName: string, body: VirtualNetwork, options?: VirtualNetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworksCreateOrUpdateResponse>, VirtualNetworksCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, virtualNetworkName: string, body: VirtualNetwork, options?: VirtualNetworksCreateOrUpdateOptionalParams): Promise<VirtualNetworksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, virtualNetworkName: string, options?: VirtualNetworksDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, virtualNetworkName: string, options?: VirtualNetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, virtualNetworkName: string, options?: VirtualNetworksDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, virtualNetworkName: string, body: ResourcePatch, options?: VirtualNetworksUpdateOptionalParams): Promise<PollerLike<PollOperationState<VirtualNetworksUpdateResponse>, VirtualNetworksUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, virtualNetworkName: string, body: ResourcePatch, options?: VirtualNetworksUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworksUpdateResponse>, VirtualNetworksUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, virtualNetworkName: string, body: ResourcePatch, options?: VirtualNetworksUpdateOptionalParams): Promise<VirtualNetworksUpdateResponse>;
     get(resourceGroupName: string, virtualNetworkName: string, options?: VirtualNetworksGetOptionalParams): Promise<VirtualNetworksGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: VirtualNetworksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<VirtualNetwork>;
@@ -1101,11 +1101,11 @@ export interface VMMServerPropertiesCredentials {
 
 // @public
 export interface VmmServers {
-    beginCreateOrUpdate(resourceGroupName: string, vmmServerName: string, body: VMMServer, options?: VmmServersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<VmmServersCreateOrUpdateResponse>, VmmServersCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, vmmServerName: string, body: VMMServer, options?: VmmServersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VmmServersCreateOrUpdateResponse>, VmmServersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, vmmServerName: string, body: VMMServer, options?: VmmServersCreateOrUpdateOptionalParams): Promise<VmmServersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, vmmServerName: string, options?: VmmServersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, vmmServerName: string, options?: VmmServersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, vmmServerName: string, options?: VmmServersDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, vmmServerName: string, body: ResourcePatch, options?: VmmServersUpdateOptionalParams): Promise<PollerLike<PollOperationState<VmmServersUpdateResponse>, VmmServersUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, vmmServerName: string, body: ResourcePatch, options?: VmmServersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VmmServersUpdateResponse>, VmmServersUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, vmmServerName: string, body: ResourcePatch, options?: VmmServersUpdateOptionalParams): Promise<VmmServersUpdateResponse>;
     get(resourceGroupName: string, vmmServerName: string, options?: VmmServersGetOptionalParams): Promise<VmmServersGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: VmmServersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<VMMServer>;

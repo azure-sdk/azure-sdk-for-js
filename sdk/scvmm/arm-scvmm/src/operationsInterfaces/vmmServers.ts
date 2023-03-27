@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VMMServer,
   VmmServersListByResourceGroupOptionalParams,
@@ -65,8 +65,8 @@ export interface VmmServers {
     body: VMMServer,
     options?: VmmServersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VmmServersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VmmServersCreateOrUpdateResponse>,
       VmmServersCreateOrUpdateResponse
     >
   >;
@@ -93,7 +93,7 @@ export interface VmmServers {
     resourceGroupName: string,
     vmmServerName: string,
     options?: VmmServersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deboards the SCVMM fabric from Azure.
    * @param resourceGroupName The name of the resource group.
@@ -118,8 +118,8 @@ export interface VmmServers {
     body: ResourcePatch,
     options?: VmmServersUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VmmServersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VmmServersUpdateResponse>,
       VmmServersUpdateResponse
     >
   >;

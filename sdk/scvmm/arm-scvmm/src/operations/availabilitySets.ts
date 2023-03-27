@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { Scvmm } from "../scvmm";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   AvailabilitySet,
   AvailabilitySetsListByResourceGroupNextOptionalParams,
@@ -201,8 +205,8 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
     body: AvailabilitySet,
     options?: AvailabilitySetsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AvailabilitySetsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AvailabilitySetsCreateOrUpdateResponse>,
       AvailabilitySetsCreateOrUpdateResponse
     >
   > {
@@ -212,7 +216,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
     ): Promise<AvailabilitySetsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -245,15 +249,18 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, availabilitySetName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, availabilitySetName, body, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AvailabilitySetsCreateOrUpdateResponse,
+      OperationState<AvailabilitySetsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -291,14 +298,14 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
     resourceGroupName: string,
     availabilitySetName: string,
     options?: AvailabilitySetsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -331,13 +338,13 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, availabilitySetName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, availabilitySetName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -376,8 +383,8 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
     body: ResourcePatch,
     options?: AvailabilitySetsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AvailabilitySetsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AvailabilitySetsUpdateResponse>,
       AvailabilitySetsUpdateResponse
     >
   > {
@@ -387,7 +394,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
     ): Promise<AvailabilitySetsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -420,15 +427,18 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, availabilitySetName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, availabilitySetName, body, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AvailabilitySetsUpdateResponse,
+      OperationState<AvailabilitySetsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;

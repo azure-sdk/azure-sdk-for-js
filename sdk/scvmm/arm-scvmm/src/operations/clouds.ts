@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { Scvmm } from "../scvmm";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Cloud,
   CloudsListByResourceGroupNextOptionalParams,
@@ -201,8 +205,8 @@ export class CloudsImpl implements Clouds {
     body: Cloud,
     options?: CloudsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CloudsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CloudsCreateOrUpdateResponse>,
       CloudsCreateOrUpdateResponse
     >
   > {
@@ -212,7 +216,7 @@ export class CloudsImpl implements Clouds {
     ): Promise<CloudsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -245,15 +249,18 @@ export class CloudsImpl implements Clouds {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, cloudName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, cloudName, body, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CloudsCreateOrUpdateResponse,
+      OperationState<CloudsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -291,14 +298,14 @@ export class CloudsImpl implements Clouds {
     resourceGroupName: string,
     cloudName: string,
     options?: CloudsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -331,15 +338,15 @@ export class CloudsImpl implements Clouds {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, cloudName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, cloudName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -377,7 +384,7 @@ export class CloudsImpl implements Clouds {
     body: ResourcePatch,
     options?: CloudsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<CloudsUpdateResponse>, CloudsUpdateResponse>
+    SimplePollerLike<OperationState<CloudsUpdateResponse>, CloudsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -385,7 +392,7 @@ export class CloudsImpl implements Clouds {
     ): Promise<CloudsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -418,15 +425,18 @@ export class CloudsImpl implements Clouds {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, cloudName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, cloudName, body, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CloudsUpdateResponse,
+      OperationState<CloudsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;

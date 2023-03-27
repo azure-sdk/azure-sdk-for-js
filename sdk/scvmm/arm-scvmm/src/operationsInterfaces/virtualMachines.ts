@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualMachine,
   VirtualMachinesListByResourceGroupOptionalParams,
@@ -71,8 +71,8 @@ export interface VirtualMachines {
     body: VirtualMachine,
     options?: VirtualMachinesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachinesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachinesCreateOrUpdateResponse>,
       VirtualMachinesCreateOrUpdateResponse
     >
   >;
@@ -99,7 +99,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     virtualMachineName: string,
     options?: VirtualMachinesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a VirtualMachine deployed on ScVmm fabric.
    * @param resourceGroupName The name of the resource group.
@@ -124,8 +124,8 @@ export interface VirtualMachines {
     body: VirtualMachineUpdate,
     options?: VirtualMachinesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachinesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachinesUpdateResponse>,
       VirtualMachinesUpdateResponse
     >
   >;
@@ -152,7 +152,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     virtualMachineName: string,
     options?: VirtualMachinesStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stop virtual machine.
    * @param resourceGroupName The name of the resource group.
@@ -174,7 +174,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     virtualMachineName: string,
     options?: VirtualMachinesStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Start virtual machine.
    * @param resourceGroupName The name of the resource group.
@@ -196,7 +196,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     virtualMachineName: string,
     options?: VirtualMachinesRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restart virtual machine.
    * @param resourceGroupName The name of the resource group.
@@ -218,7 +218,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     virtualMachineName: string,
     options?: VirtualMachinesCreateCheckpointOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Creates a checkpoint in virtual machine.
    * @param resourceGroupName The name of the resource group.
@@ -240,7 +240,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     virtualMachineName: string,
     options?: VirtualMachinesDeleteCheckpointOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a checkpoint in virtual machine.
    * @param resourceGroupName The name of the resource group.
@@ -262,7 +262,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     virtualMachineName: string,
     options?: VirtualMachinesRestoreCheckpointOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restores to a checkpoint in virtual machine.
    * @param resourceGroupName The name of the resource group.
