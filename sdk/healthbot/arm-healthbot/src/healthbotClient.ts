@@ -50,7 +50,7 @@ export class HealthbotClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-healthbot/2.1.1`;
+    const packageDetails = `azsdk-js-arm-healthbot/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -103,7 +103,7 @@ export class HealthbotClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-06-10";
+    this.apiVersion = options.apiVersion || "2022-08-08";
     this.bots = new BotsImpl(this);
     this.operations = new OperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);

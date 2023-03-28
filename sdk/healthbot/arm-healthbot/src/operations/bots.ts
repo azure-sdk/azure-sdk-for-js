@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { HealthbotClient } from "../healthbotClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   HealthBot,
   BotsListByResourceGroupNextOptionalParams,
@@ -31,6 +35,10 @@ import {
   BotsUpdateOptionalParams,
   BotsUpdateResponse,
   BotsDeleteOptionalParams,
+  BotsListSecretsOptionalParams,
+  BotsListSecretsResponse,
+  BotsRegenerateApiJwtSecretOptionalParams,
+  BotsRegenerateApiJwtSecretResponse,
   BotsListByResourceGroupNextResponse,
   BotsListNextResponse
 } from "../models";
@@ -184,7 +192,7 @@ export class BotsImpl implements Bots {
     parameters: HealthBot,
     options?: BotsCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<BotsCreateResponse>, BotsCreateResponse>
+    SimplePollerLike<OperationState<BotsCreateResponse>, BotsCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -192,7 +200,7 @@ export class BotsImpl implements Bots {
     ): Promise<BotsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -225,15 +233,18 @@ export class BotsImpl implements Bots {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, botName, parameters, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, botName, parameters, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BotsCreateResponse,
+      OperationState<BotsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -285,36 +296,21 @@ export class BotsImpl implements Bots {
    * @param parameters The parameters to provide for the required Azure Health Bot.
    * @param options The options parameters.
    */
-  update(
+  async beginUpdate(
     resourceGroupName: string,
     botName: string,
     parameters: HealthBotUpdateParameters,
     options?: BotsUpdateOptionalParams
-  ): Promise<BotsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, botName, parameters, options },
-      updateOperationSpec
-    );
-  }
-
-  /**
-   * Delete a HealthBot.
-   * @param resourceGroupName The name of the Bot resource group in the user subscription.
-   * @param botName The name of the Bot resource.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    botName: string,
-    options?: BotsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<OperationState<BotsUpdateResponse>, BotsUpdateResponse>
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<BotsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -347,13 +343,101 @@ export class BotsImpl implements Bots {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, botName, options },
-      deleteOperationSpec
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, botName, parameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BotsUpdateResponse,
+      OperationState<BotsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Patch a HealthBot.
+   * @param resourceGroupName The name of the Bot resource group in the user subscription.
+   * @param botName The name of the Bot resource.
+   * @param parameters The parameters to provide for the required Azure Health Bot.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    botName: string,
+    parameters: HealthBotUpdateParameters,
+    options?: BotsUpdateOptionalParams
+  ): Promise<BotsUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      botName,
+      parameters,
+      options
     );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Delete a HealthBot.
+   * @param resourceGroupName The name of the Bot resource group in the user subscription.
+   * @param botName The name of the Bot resource.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    resourceGroupName: string,
+    botName: string,
+    options?: BotsDeleteOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, botName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -373,6 +457,40 @@ export class BotsImpl implements Bots {
   ): Promise<void> {
     const poller = await this.beginDelete(resourceGroupName, botName, options);
     return poller.pollUntilDone();
+  }
+
+  /**
+   * List all secrets of a HealthBot.
+   * @param resourceGroupName The name of the Bot resource group in the user subscription.
+   * @param botName The name of the Bot resource.
+   * @param options The options parameters.
+   */
+  listSecrets(
+    resourceGroupName: string,
+    botName: string,
+    options?: BotsListSecretsOptionalParams
+  ): Promise<BotsListSecretsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, botName, options },
+      listSecretsOperationSpec
+    );
+  }
+
+  /**
+   * Regenerate the API JWT Secret of a HealthBot.
+   * @param resourceGroupName The name of the Bot resource group in the user subscription.
+   * @param botName The name of the Bot resource.
+   * @param options The options parameters.
+   */
+  regenerateApiJwtSecret(
+    resourceGroupName: string,
+    botName: string,
+    options?: BotsRegenerateApiJwtSecretOptionalParams
+  ): Promise<BotsRegenerateApiJwtSecretResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, botName, options },
+      regenerateApiJwtSecretOperationSpec
+    );
   }
 
   /**
@@ -499,6 +617,12 @@ const updateOperationSpec: coreClient.OperationSpec = {
     201: {
       bodyMapper: Mappers.HealthBot
     },
+    202: {
+      bodyMapper: Mappers.HealthBot
+    },
+    204: {
+      bodyMapper: Mappers.HealthBot
+    },
     default: {
       bodyMapper: Mappers.ErrorModel
     }
@@ -524,6 +648,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     201: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.botName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listSecretsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthBot/healthBots/{botName}/listSecrets",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.HealthBotKeysResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.botName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const regenerateApiJwtSecretOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthBot/healthBots/{botName}/regenerateApiJwtSecret",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.HealthBotKey
+    },
     default: {
       bodyMapper: Mappers.ErrorModel
     }
@@ -587,7 +755,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -608,7 +775,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
