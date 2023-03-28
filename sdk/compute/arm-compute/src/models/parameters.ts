@@ -110,7 +110,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-11-01",
+    defaultValue: "2023-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -684,6 +684,34 @@ export const hostName: OperationURLParameter = {
 export const parameters17: OperationParameter = {
   parameterPath: "parameters",
   mapper: DedicatedHostUpdateMapper
+};
+
+export const hostGroupName1: OperationURLParameter = {
+  parameterPath: "hostGroupName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$")
+    },
+    serializedName: "hostGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const hostName1: OperationURLParameter = {
+  parameterPath: "hostName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$")
+    },
+    serializedName: "hostName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const parameters18: OperationParameter = {
