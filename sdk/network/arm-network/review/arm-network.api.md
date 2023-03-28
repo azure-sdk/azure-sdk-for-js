@@ -468,6 +468,9 @@ export interface ApplicationGatewayFirewallManifestRuleSet {
 export type ApplicationGatewayFirewallMode = string;
 
 // @public
+export type ApplicationGatewayFirewallRateLimitDuration = string;
+
+// @public
 export interface ApplicationGatewayFirewallRule {
     action?: ApplicationGatewayWafRuleActionTypes;
     description?: string;
@@ -491,6 +494,9 @@ export interface ApplicationGatewayFirewallRuleSet extends Resource {
     ruleSetVersion?: string;
     tiers?: ApplicationGatewayTierTypes[];
 }
+
+// @public
+export type ApplicationGatewayFirewallUserSessionVariable = string;
 
 // @public
 export interface ApplicationGatewayFrontendIPConfiguration extends SubResource {
@@ -1214,6 +1220,7 @@ export interface ApplicationGatewayWebApplicationFirewallConfiguration {
 export interface ApplicationRule extends FirewallPolicyRule {
     destinationAddresses?: string[];
     fqdnTags?: string[];
+    httpHeadersToInsert?: FirewallPolicyHttpHeaderToInsert[];
     protocols?: FirewallPolicyRuleApplicationProtocol[];
     ruleType: "ApplicationRule";
     sourceAddresses?: string[];
@@ -4726,6 +4733,12 @@ export interface FirewallPolicyFilterRuleCollectionAction {
 export type FirewallPolicyFilterRuleCollectionActionType = string;
 
 // @public
+export interface FirewallPolicyHttpHeaderToInsert {
+    headerName?: string;
+    headerValue?: string;
+}
+
+// @public
 export type FirewallPolicyIdpsQuerySortOrder = string;
 
 // @public
@@ -5228,6 +5241,16 @@ export interface GetOutboundRoutesParameters {
 export interface GetVpnSitesConfigurationRequest {
     outputBlobSasUrl: string;
     vpnSites?: string[];
+}
+
+// @public
+export interface GroupByUserSession {
+    groupByVariables: GroupByVariable[];
+}
+
+// @public
+export interface GroupByVariable {
+    variableName: ApplicationGatewayFirewallUserSessionVariable;
 }
 
 // @public
@@ -5916,6 +5939,19 @@ export enum KnownApplicationGatewayCustomErrorStatusCode {
 export enum KnownApplicationGatewayFirewallMode {
     Detection = "Detection",
     Prevention = "Prevention"
+}
+
+// @public
+export enum KnownApplicationGatewayFirewallRateLimitDuration {
+    FiveMins = "FiveMins",
+    OneMin = "OneMin"
+}
+
+// @public
+export enum KnownApplicationGatewayFirewallUserSessionVariable {
+    ClientAddr = "ClientAddr",
+    GeoLocation = "GeoLocation",
+    None = "None"
 }
 
 // @public
@@ -7355,7 +7391,8 @@ export enum KnownWebApplicationFirewallPolicyResourceState {
 // @public
 export enum KnownWebApplicationFirewallRuleType {
     Invalid = "Invalid",
-    MatchRule = "MatchRule"
+    MatchRule = "MatchRule",
+    RateLimitRule = "RateLimitRule"
 }
 
 // @public
@@ -9891,8 +9928,8 @@ export type OutputType = string;
 export interface OwaspCrsExclusionEntry {
     exclusionManagedRuleSets?: ExclusionManagedRuleSet[];
     matchVariable: OwaspCrsExclusionEntryMatchVariable;
-    selector: string;
-    selectorMatchOperator: OwaspCrsExclusionEntrySelectorMatchOperator;
+    selector?: string;
+    selectorMatchOperator?: OwaspCrsExclusionEntrySelectorMatchOperator;
 }
 
 // @public
@@ -12439,7 +12476,7 @@ export interface StaticRoutesConfig {
 export interface Subnet extends SubResource {
     addressPrefix?: string;
     addressPrefixes?: string[];
-    applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
+    applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
     delegations?: Delegation[];
     readonly etag?: string;
     ipAllocations?: SubResource[];
@@ -15294,9 +15331,12 @@ export type WebApplicationFirewallAction = string;
 export interface WebApplicationFirewallCustomRule {
     action: WebApplicationFirewallAction;
     readonly etag?: string;
+    groupByUserSession?: GroupByUserSession[];
     matchConditions: MatchCondition[];
     name?: string;
     priority: number;
+    rateLimitDuration?: ApplicationGatewayFirewallRateLimitDuration;
+    rateLimitThreshold?: number;
     ruleType: WebApplicationFirewallRuleType;
     state?: WebApplicationFirewallState;
 }

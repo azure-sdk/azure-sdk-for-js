@@ -15741,6 +15741,21 @@ export const WebApplicationFirewallCustomRule: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      rateLimitDuration: {
+        serializedName: "rateLimitDuration",
+        type: {
+          name: "String"
+        }
+      },
+      rateLimitThreshold: {
+        constraints: {
+          InclusiveMinimum: 1
+        },
+        serializedName: "rateLimitThreshold",
+        type: {
+          name: "Number"
+        }
+      },
       ruleType: {
         serializedName: "ruleType",
         required: true,
@@ -15757,6 +15772,18 @@ export const WebApplicationFirewallCustomRule: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "MatchCondition"
+            }
+          }
+        }
+      },
+      groupByUserSession: {
+        serializedName: "groupByUserSession",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GroupByUserSession"
             }
           }
         }
@@ -15852,6 +15879,44 @@ export const MatchVariable: coreClient.CompositeMapper = {
   }
 };
 
+export const GroupByUserSession: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupByUserSession",
+    modelProperties: {
+      groupByVariables: {
+        serializedName: "groupByVariables",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GroupByVariable"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const GroupByVariable: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupByVariable",
+    modelProperties: {
+      variableName: {
+        serializedName: "variableName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ManagedRulesDefinition: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -15900,14 +15965,12 @@ export const OwaspCrsExclusionEntry: coreClient.CompositeMapper = {
       },
       selectorMatchOperator: {
         serializedName: "selectorMatchOperator",
-        required: true,
         type: {
           name: "String"
         }
       },
       selector: {
         serializedName: "selector",
-        required: true,
         type: {
           name: "String"
         }
@@ -16180,6 +16243,27 @@ export const FirewallPolicyRuleApplicationProtocol: coreClient.CompositeMapper =
         serializedName: "port",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const FirewallPolicyHttpHeaderToInsert: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FirewallPolicyHttpHeaderToInsert",
+    modelProperties: {
+      headerName: {
+        serializedName: "headerName",
+        type: {
+          name: "String"
+        }
+      },
+      headerValue: {
+        serializedName: "headerValue",
+        type: {
+          name: "String"
         }
       }
     }
@@ -17810,8 +17894,8 @@ export const Subnet: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      applicationGatewayIpConfigurations: {
-        serializedName: "properties.applicationGatewayIpConfigurations",
+      applicationGatewayIPConfigurations: {
+        serializedName: "properties.applicationGatewayIPConfigurations",
         type: {
           name: "Sequence",
           element: {
@@ -29705,6 +29789,18 @@ export const ApplicationRule: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "String"
+            }
+          }
+        }
+      },
+      httpHeadersToInsert: {
+        serializedName: "httpHeadersToInsert",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FirewallPolicyHttpHeaderToInsert"
             }
           }
         }
