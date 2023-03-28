@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MicrosoftSupport } from "../microsoftSupport";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   CommunicationDetails,
   CommunicationsListNextOptionalParams,
@@ -178,8 +182,8 @@ export class CommunicationsImpl implements Communications {
     createCommunicationParameters: CommunicationDetails,
     options?: CommunicationsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CommunicationsCreateResponse>,
+    SimplePollerLike<
+      OperationState<CommunicationsCreateResponse>,
       CommunicationsCreateResponse
     >
   > {
@@ -189,7 +193,7 @@ export class CommunicationsImpl implements Communications {
     ): Promise<CommunicationsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -222,20 +226,23 @@ export class CommunicationsImpl implements Communications {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         supportTicketName,
         communicationName,
         createCommunicationParameters,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CommunicationsCreateResponse,
+      OperationState<CommunicationsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;

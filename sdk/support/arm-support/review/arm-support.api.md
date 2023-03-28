@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface CheckNameAvailabilityInput {
@@ -41,7 +41,7 @@ export type CommunicationDirection = string;
 
 // @public
 export interface Communications {
-    beginCreate(supportTicketName: string, communicationName: string, createCommunicationParameters: CommunicationDetails, options?: CommunicationsCreateOptionalParams): Promise<PollerLike<PollOperationState<CommunicationsCreateResponse>, CommunicationsCreateResponse>>;
+    beginCreate(supportTicketName: string, communicationName: string, createCommunicationParameters: CommunicationDetails, options?: CommunicationsCreateOptionalParams): Promise<SimplePollerLike<OperationState<CommunicationsCreateResponse>, CommunicationsCreateResponse>>;
     beginCreateAndWait(supportTicketName: string, communicationName: string, createCommunicationParameters: CommunicationDetails, options?: CommunicationsCreateOptionalParams): Promise<CommunicationsCreateResponse>;
     checkNameAvailability(supportTicketName: string, checkNameAvailabilityInput: CheckNameAvailabilityInput, options?: CommunicationsCheckNameAvailabilityOptionalParams): Promise<CommunicationsCheckNameAvailabilityResponse>;
     get(supportTicketName: string, communicationName: string, options?: CommunicationsGetOptionalParams): Promise<CommunicationsGetResponse>;
@@ -353,7 +353,7 @@ export interface SupportTicketDetails {
 
 // @public
 export interface SupportTickets {
-    beginCreate(supportTicketName: string, createSupportTicketParameters: SupportTicketDetails, options?: SupportTicketsCreateOptionalParams): Promise<PollerLike<PollOperationState<SupportTicketsCreateResponse>, SupportTicketsCreateResponse>>;
+    beginCreate(supportTicketName: string, createSupportTicketParameters: SupportTicketDetails, options?: SupportTicketsCreateOptionalParams): Promise<SimplePollerLike<OperationState<SupportTicketsCreateResponse>, SupportTicketsCreateResponse>>;
     beginCreateAndWait(supportTicketName: string, createSupportTicketParameters: SupportTicketDetails, options?: SupportTicketsCreateOptionalParams): Promise<SupportTicketsCreateResponse>;
     checkNameAvailability(checkNameAvailabilityInput: CheckNameAvailabilityInput, options?: SupportTicketsCheckNameAvailabilityOptionalParams): Promise<SupportTicketsCheckNameAvailabilityResponse>;
     get(supportTicketName: string, options?: SupportTicketsGetOptionalParams): Promise<SupportTicketsGetResponse>;

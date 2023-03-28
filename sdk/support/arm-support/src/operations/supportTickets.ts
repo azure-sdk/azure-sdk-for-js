@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MicrosoftSupport } from "../microsoftSupport";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SupportTicketDetails,
   SupportTicketsListNextOptionalParams,
@@ -48,10 +52,10 @@ export class SupportTicketsImpl implements SupportTickets {
 
   /**
    * Lists all the support tickets for an Azure subscription. You can also filter the support tickets by
-   * _Status_ or _CreatedDate_ using the $filter parameter. Output will be a paged result with
-   * _nextLink_, using which you can retrieve the next set of support tickets. <br/><br/>Support ticket
-   * data is available for 18 months after ticket creation. If a ticket was created more than 18 months
-   * ago, a request for data might cause an error.
+   * _Status_, _CreatedDate_, _ServiceId_, and _ProblemClassificationId_ using the $filter parameter.
+   * Output will be a paged result with _nextLink_, using which you can retrieve the next set of support
+   * tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket
+   * was created more than 18 months ago, a request for data might cause an error.
    * @param options The options parameters.
    */
   public list(
@@ -122,10 +126,10 @@ export class SupportTicketsImpl implements SupportTickets {
 
   /**
    * Lists all the support tickets for an Azure subscription. You can also filter the support tickets by
-   * _Status_ or _CreatedDate_ using the $filter parameter. Output will be a paged result with
-   * _nextLink_, using which you can retrieve the next set of support tickets. <br/><br/>Support ticket
-   * data is available for 18 months after ticket creation. If a ticket was created more than 18 months
-   * ago, a request for data might cause an error.
+   * _Status_, _CreatedDate_, _ServiceId_, and _ProblemClassificationId_ using the $filter parameter.
+   * Output will be a paged result with _nextLink_, using which you can retrieve the next set of support
+   * tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket
+   * was created more than 18 months ago, a request for data might cause an error.
    * @param options The options parameters.
    */
   private _list(
@@ -201,8 +205,8 @@ export class SupportTicketsImpl implements SupportTickets {
     createSupportTicketParameters: SupportTicketDetails,
     options?: SupportTicketsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SupportTicketsCreateResponse>,
+    SimplePollerLike<
+      OperationState<SupportTicketsCreateResponse>,
       SupportTicketsCreateResponse
     >
   > {
@@ -212,7 +216,7 @@ export class SupportTicketsImpl implements SupportTickets {
     ): Promise<SupportTicketsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -245,15 +249,18 @@ export class SupportTicketsImpl implements SupportTickets {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { supportTicketName, createSupportTicketParameters, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { supportTicketName, createSupportTicketParameters, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SupportTicketsCreateResponse,
+      OperationState<SupportTicketsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
