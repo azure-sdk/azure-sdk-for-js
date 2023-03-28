@@ -197,6 +197,7 @@ export interface AzureBackupRehydrationRequest {
 
 // @public
 export interface AzureBackupRestoreRequest {
+    identityDetails?: IdentityDetails;
     objectType: "AzureBackupRecoveryPointBasedRestoreRequest" | "AzureBackupRestoreWithRehydrationRequest" | "AzureBackupRecoveryTimeBasedRestoreRequest";
     restoreTargetInfo: RestoreTargetInfoBaseUnion;
     sourceDataStoreType: SourceDataStoreType;
@@ -265,6 +266,7 @@ export interface BackupInstance {
     dataSourceInfo: Datasource;
     dataSourceSetInfo?: DatasourceSet;
     friendlyName?: string;
+    identityDetails?: IdentityDetails;
     // (undocumented)
     objectType: string;
     policyInfo: PolicyInfo;
@@ -584,6 +586,7 @@ export interface BackupVault {
     readonly provisioningState?: ProvisioningState;
     readonly resourceMoveDetails?: ResourceMoveDetails;
     readonly resourceMoveState?: ResourceMoveState;
+    readonly secureScore?: SecureScoreLevel;
     securitySettings?: SecuritySettings;
     storageSettings: StorageSetting[];
 }
@@ -792,6 +795,20 @@ export interface CloudError {
 }
 
 // @public
+export interface CmkKekIdentity {
+    // (undocumented)
+    identityId?: string;
+    // (undocumented)
+    identityType?: ManagedIdentityType;
+}
+
+// @public
+export interface CmkKeyVaultProperties {
+    // (undocumented)
+    keyUri?: string;
+}
+
+// @public
 export interface CopyOnExpiryOption extends CopyOption {
     objectType: "CopyOnExpiryOption";
 }
@@ -858,11 +875,14 @@ export class DataProtectionClient extends coreClient.ServiceClient {
     // (undocumented)
     deletedBackupInstances: DeletedBackupInstances;
     // (undocumented)
+    dppResourceGuardProxy: DppResourceGuardProxy;
+    // (undocumented)
     exportJobs: ExportJobs;
     // (undocumented)
     exportJobsOperationResult: ExportJobsOperationResult;
     // (undocumented)
     jobs: Jobs;
+    listFetchSecondaryRPs(resourceGroupName: string, location: string, parameters: FetchSecondaryRPsRequestParameters, options?: FetchSecondaryRPsOptionalParams): PagedAsyncIterableIterator<AzureBackupRecoveryPointResource>;
     // (undocumented)
     operationResult: OperationResult;
     // (undocumented)
@@ -1056,6 +1076,9 @@ export interface DppIdentityDetails {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: string;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentityDetails;
+    };
 }
 
 // @public (undocumented)
@@ -1076,6 +1099,54 @@ export interface DppResource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export interface DppResourceGuardProxy {
+    createOrUpdate(resourceGroupName: string, vaultName: string, resourceGuardProxyName: string, parameters: ResourceGuardProxyBaseResource, options?: DppResourceGuardProxyCreateOrUpdateOptionalParams): Promise<DppResourceGuardProxyCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, vaultName: string, resourceGuardProxyName: string, options?: DppResourceGuardProxyDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, vaultName: string, resourceGuardProxyName: string, options?: DppResourceGuardProxyGetOptionalParams): Promise<DppResourceGuardProxyGetResponse>;
+    list(resourceGroupName: string, vaultName: string, options?: DppResourceGuardProxyListOptionalParams): PagedAsyncIterableIterator<ResourceGuardProxyBaseResource>;
+    unlockDelete(resourceGroupName: string, vaultName: string, resourceGuardProxyName: string, parameters: UnlockDeleteRequest, options?: DppResourceGuardProxyUnlockDeleteOptionalParams): Promise<DppResourceGuardProxyUnlockDeleteResponse>;
+}
+
+// @public
+export interface DppResourceGuardProxyCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DppResourceGuardProxyCreateOrUpdateResponse = ResourceGuardProxyBaseResource;
+
+// @public
+export interface DppResourceGuardProxyDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface DppResourceGuardProxyGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DppResourceGuardProxyGetResponse = ResourceGuardProxyBaseResource;
+
+// @public
+export interface DppResourceGuardProxyListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DppResourceGuardProxyListNextResponse = ResourceGuardProxyBaseResourceList;
+
+// @public
+export interface DppResourceGuardProxyListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DppResourceGuardProxyListResponse = ResourceGuardProxyBaseResourceList;
+
+// @public
+export interface DppResourceGuardProxyUnlockDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DppResourceGuardProxyUnlockDeleteResponse = UnlockDeleteResponse;
 
 // @public
 export interface DppResourceList {
@@ -1111,6 +1182,17 @@ export interface DppWorkerRequest {
     // (undocumented)
     uri?: string;
 }
+
+// @public
+export interface EncryptionSettings {
+    infrastructureEncryption?: InfrastructureEncryptionState;
+    kekIdentity?: CmkKekIdentity;
+    keyVaultProperties?: CmkKeyVaultProperties;
+    state?: EncryptionState;
+}
+
+// @public
+export type EncryptionState = string;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -1213,7 +1295,35 @@ export interface FeatureValidationResponseBase {
 export type FeatureValidationResponseBaseUnion = FeatureValidationResponseBase | FeatureValidationResponse;
 
 // @public
+export interface FetchSecondaryRPsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FetchSecondaryRPsNextResponse = AzureBackupRecoveryPointResourceList;
+
+// @public
+export interface FetchSecondaryRPsOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    skipToken?: string;
+}
+
+// @public
+export interface FetchSecondaryRPsRequestParameters {
+    sourceBackupInstanceId?: string;
+    sourceRegion?: string;
+}
+
+// @public
+export type FetchSecondaryRPsResponse = AzureBackupRecoveryPointResourceList;
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public (undocumented)
+export interface IdentityDetails {
+    userAssignedIdentityArmUrl?: string;
+    useSystemAssignedIdentity?: boolean;
+}
 
 // @public
 export interface ImmediateCopyOption extends CopyOption {
@@ -1227,6 +1337,9 @@ export interface ImmutabilitySettings {
 
 // @public
 export type ImmutabilityState = string;
+
+// @public
+export type InfrastructureEncryptionState = string;
 
 // @public
 export interface InnerError {
@@ -1277,6 +1390,8 @@ export interface JobExtendedInfo {
 
 // @public
 export interface Jobs {
+    beginTriggerCancel(resourceGroupName: string, vaultName: string, jobId: string, options?: JobsTriggerCancelOptionalParams): Promise<SimplePollerLike<OperationState<JobsTriggerCancelResponse>, JobsTriggerCancelResponse>>;
+    beginTriggerCancelAndWait(resourceGroupName: string, vaultName: string, jobId: string, options?: JobsTriggerCancelOptionalParams): Promise<JobsTriggerCancelResponse>;
     get(resourceGroupName: string, vaultName: string, jobId: string, options?: JobsGetOptionalParams): Promise<JobsGetResponse>;
     list(resourceGroupName: string, vaultName: string, options?: JobsListOptionalParams): PagedAsyncIterableIterator<AzureBackupJobResource>;
 }
@@ -1301,6 +1416,21 @@ export interface JobsListOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export type JobsListResponse = AzureBackupJobResourceList;
+
+// @public
+export interface JobsTriggerCancelHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface JobsTriggerCancelOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type JobsTriggerCancelResponse = JobsTriggerCancelHeaders;
 
 // @public
 export interface JobSubTask {
@@ -1378,6 +1508,13 @@ export enum KnownDayOfWeek {
 }
 
 // @public
+export enum KnownEncryptionState {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Inconsistent = "Inconsistent"
+}
+
+// @public
 export enum KnownExistingResourcePolicy {
     Patch = "Patch",
     Skip = "Skip"
@@ -1404,6 +1541,21 @@ export enum KnownImmutabilityState {
     Disabled = "Disabled",
     Locked = "Locked",
     Unlocked = "Unlocked"
+}
+
+// @public
+export enum KnownInfrastructureEncryptionState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownManagedIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedAndUserAssigned = "SystemAssignedAndUserAssigned",
+    Unknown = "Unknown",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -1490,6 +1642,15 @@ export enum KnownRestoreTargetLocationType {
 export enum KnownSecretStoreType {
     AzureKeyVault = "AzureKeyVault",
     Invalid = "Invalid"
+}
+
+// @public
+export enum KnownSecureScoreLevel {
+    Adequate = "Adequate",
+    Maximum = "Maximum",
+    Minimum = "Minimum",
+    None = "None",
+    NotSupported = "NotSupported"
 }
 
 // @public
@@ -1593,6 +1754,9 @@ export interface KubernetesStorageClassRestoreCriteria extends ItemLevelRestoreC
     provisioner?: string;
     selectedStorageClassName?: string;
 }
+
+// @public
+export type ManagedIdentityType = string;
 
 // @public
 export interface MonitoringSettings {
@@ -1826,6 +1990,36 @@ export interface ResourceGuard {
 export interface ResourceGuardOperation {
     readonly requestResourceType?: string;
     readonly vaultCriticalOperation?: string;
+}
+
+// @public
+export interface ResourceGuardOperationDetail {
+    // (undocumented)
+    defaultResourceRequest?: string;
+    // (undocumented)
+    vaultCriticalOperation?: string;
+}
+
+// @public
+export interface ResourceGuardProxyBase {
+    // (undocumented)
+    description?: string;
+    // (undocumented)
+    lastUpdatedTime?: string;
+    // (undocumented)
+    resourceGuardOperationDetails?: ResourceGuardOperationDetail[];
+    // (undocumented)
+    resourceGuardResourceId?: string;
+}
+
+// @public
+export interface ResourceGuardProxyBaseResource extends DppResource {
+    properties?: ResourceGuardProxyBase;
+}
+
+// @public
+export interface ResourceGuardProxyBaseResourceList extends DppResourceList {
+    value?: ResourceGuardProxyBaseResource[];
 }
 
 // @public (undocumented)
@@ -2152,7 +2346,11 @@ export interface SecretStoreResource {
 export type SecretStoreType = string;
 
 // @public
+export type SecureScoreLevel = string;
+
+// @public
 export interface SecuritySettings {
+    encryptionSettings?: EncryptionSettings;
     immutabilitySettings?: ImmutabilitySettings;
     softDeleteSettings?: SoftDeleteSettings;
 }
@@ -2251,6 +2449,25 @@ export interface TriggerContext {
 
 // @public (undocumented)
 export type TriggerContextUnion = TriggerContext | AdhocBasedTriggerContext | ScheduleBasedTriggerContext;
+
+// @public
+export interface UnlockDeleteRequest {
+    // (undocumented)
+    resourceGuardOperationRequests?: string[];
+    // (undocumented)
+    resourceToBeDeleted?: string;
+}
+
+// @public
+export interface UnlockDeleteResponse {
+    unlockDeleteExpiryTime?: string;
+}
+
+// @public
+export interface UserAssignedIdentityDetails {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
 
 // @public
 export interface UserFacingError {

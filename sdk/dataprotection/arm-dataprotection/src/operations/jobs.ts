@@ -14,12 +14,20 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataProtectionClient } from "../dataProtectionClient";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   AzureBackupJobResource,
   JobsListNextOptionalParams,
   JobsListOptionalParams,
   JobsListResponse,
   JobsGetOptionalParams,
   JobsGetResponse,
+  JobsTriggerCancelOptionalParams,
+  JobsTriggerCancelResponse,
   JobsListNextResponse
 } from "../models";
 
@@ -150,6 +158,104 @@ export class JobsImpl implements Jobs {
   }
 
   /**
+   * Triggers cancellation of Job and returns an OperationID to track.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the backup vault.
+   * @param jobId The Job ID. This is a GUID-formatted string (e.g.
+   *              00000000-0000-0000-0000-000000000000).
+   * @param options The options parameters.
+   */
+  async beginTriggerCancel(
+    resourceGroupName: string,
+    vaultName: string,
+    jobId: string,
+    options?: JobsTriggerCancelOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<JobsTriggerCancelResponse>,
+      JobsTriggerCancelResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<JobsTriggerCancelResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vaultName, jobId, options },
+      spec: triggerCancelOperationSpec
+    });
+    const poller = await createHttpPoller<
+      JobsTriggerCancelResponse,
+      OperationState<JobsTriggerCancelResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Triggers cancellation of Job and returns an OperationID to track.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the backup vault.
+   * @param jobId The Job ID. This is a GUID-formatted string (e.g.
+   *              00000000-0000-0000-0000-000000000000).
+   * @param options The options parameters.
+   */
+  async beginTriggerCancelAndWait(
+    resourceGroupName: string,
+    vaultName: string,
+    jobId: string,
+    options?: JobsTriggerCancelOptionalParams
+  ): Promise<JobsTriggerCancelResponse> {
+    const poller = await this.beginTriggerCancel(
+      resourceGroupName,
+      vaultName,
+      jobId,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
@@ -200,6 +306,38 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.AzureBackupJobResource
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+    Parameters.jobId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const triggerCancelOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupJobs/{jobId}/triggerCancel",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.JobsTriggerCancelHeaders
+    },
+    201: {
+      headersMapper: Mappers.JobsTriggerCancelHeaders
+    },
+    202: {
+      headersMapper: Mappers.JobsTriggerCancelHeaders
+    },
+    204: {
+      headersMapper: Mappers.JobsTriggerCancelHeaders
     },
     default: {
       bodyMapper: Mappers.CloudError

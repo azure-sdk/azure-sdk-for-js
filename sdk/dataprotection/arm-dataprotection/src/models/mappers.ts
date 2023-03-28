@@ -74,6 +74,13 @@ export const BackupVault: coreClient.CompositeMapper = {
           name: "Composite",
           className: "FeatureSettings"
         }
+      },
+      secureScore: {
+        serializedName: "secureScore",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -167,6 +174,13 @@ export const SecuritySettings: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ImmutabilitySettings"
         }
+      },
+      encryptionSettings: {
+        serializedName: "encryptionSettings",
+        type: {
+          name: "Composite",
+          className: "EncryptionSettings"
+        }
       }
     }
   }
@@ -200,6 +214,77 @@ export const ImmutabilitySettings: coreClient.CompositeMapper = {
     modelProperties: {
       state: {
         serializedName: "state",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EncryptionSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EncryptionSettings",
+    modelProperties: {
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultProperties: {
+        serializedName: "keyVaultProperties",
+        type: {
+          name: "Composite",
+          className: "CmkKeyVaultProperties"
+        }
+      },
+      kekIdentity: {
+        serializedName: "kekIdentity",
+        type: {
+          name: "Composite",
+          className: "CmkKekIdentity"
+        }
+      },
+      infrastructureEncryption: {
+        serializedName: "infrastructureEncryption",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CmkKeyVaultProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CmkKeyVaultProperties",
+    modelProperties: {
+      keyUri: {
+        serializedName: "keyUri",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CmkKekIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CmkKekIdentity",
+    modelProperties: {
+      identityType: {
+        serializedName: "identityType",
+        type: {
+          name: "String"
+        }
+      },
+      identityId: {
+        serializedName: "identityId",
         type: {
           name: "String"
         }
@@ -281,6 +366,41 @@ export const DppIdentityDetails: coreClient.CompositeMapper = {
       },
       type: {
         serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "UserAssignedIdentityDetails"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UserAssignedIdentityDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentityDetails",
+    modelProperties: {
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -1033,6 +1153,13 @@ export const BackupInstance: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      identityDetails: {
+        serializedName: "identityDetails",
+        type: {
+          name: "Composite",
+          className: "IdentityDetails"
+        }
+      },
       objectType: {
         serializedName: "objectType",
         required: true,
@@ -1408,6 +1535,27 @@ export const AuthCredentials: coreClient.CompositeMapper = {
   }
 };
 
+export const IdentityDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IdentityDetails",
+    modelProperties: {
+      useSystemAssignedIdentity: {
+        serializedName: "useSystemAssignedIdentity",
+        type: {
+          name: "Boolean"
+        }
+      },
+      userAssignedIdentityArmUrl: {
+        serializedName: "userAssignedIdentityArmUrl",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DppProxyResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1543,6 +1691,27 @@ export const AzureBackupRecoveryPoint: coreClient.CompositeMapper = {
   }
 };
 
+export const FetchSecondaryRPsRequestParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FetchSecondaryRPsRequestParameters",
+    modelProperties: {
+      sourceRegion: {
+        serializedName: "sourceRegion",
+        type: {
+          name: "String"
+        }
+      },
+      sourceBackupInstanceId: {
+        serializedName: "sourceBackupInstanceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AzureBackupRehydrationRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1607,6 +1776,13 @@ export const AzureBackupRestoreRequest: coreClient.CompositeMapper = {
         serializedName: "sourceResourceId",
         type: {
           name: "String"
+        }
+      },
+      identityDetails: {
+        serializedName: "identityDetails",
+        type: {
+          name: "Composite",
+          className: "IdentityDetails"
         }
       }
     }
@@ -2347,6 +2523,107 @@ export const DppBaseResource: coreClient.CompositeMapper = {
       type: {
         serializedName: "type",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceGuardProxyBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceGuardProxyBase",
+    modelProperties: {
+      resourceGuardResourceId: {
+        serializedName: "resourceGuardResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      resourceGuardOperationDetails: {
+        serializedName: "resourceGuardOperationDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceGuardOperationDetail"
+            }
+          }
+        }
+      },
+      lastUpdatedTime: {
+        serializedName: "lastUpdatedTime",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceGuardOperationDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceGuardOperationDetail",
+    modelProperties: {
+      vaultCriticalOperation: {
+        serializedName: "vaultCriticalOperation",
+        type: {
+          name: "String"
+        }
+      },
+      defaultResourceRequest: {
+        serializedName: "defaultResourceRequest",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UnlockDeleteRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UnlockDeleteRequest",
+    modelProperties: {
+      resourceGuardOperationRequests: {
+        serializedName: "resourceGuardOperationRequests",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      resourceToBeDeleted: {
+        serializedName: "resourceToBeDeleted",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UnlockDeleteResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UnlockDeleteResponse",
+    modelProperties: {
+      unlockDeleteExpiryTime: {
+        serializedName: "unlockDeleteExpiryTime",
         type: {
           name: "String"
         }
@@ -3165,6 +3442,28 @@ export const DeletedBackupInstanceResourceList: coreClient.CompositeMapper = {
   }
 };
 
+export const ResourceGuardProxyBaseResourceList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceGuardProxyBaseResourceList",
+    modelProperties: {
+      ...DppResourceList.type.modelProperties,
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceGuardProxyBaseResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const OperationJobExtendedInfo: coreClient.CompositeMapper = {
   serializedName: "OperationJobExtendedInfo",
   type: {
@@ -3348,6 +3647,23 @@ export const DeletedBackupInstanceResource: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DeletedBackupInstance"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceGuardProxyBaseResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceGuardProxyBaseResource",
+    modelProperties: {
+      ...DppResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ResourceGuardProxyBase"
         }
       }
     }
@@ -4697,6 +5013,27 @@ export const BackupInstancesValidateForRestoreHeaders: coreClient.CompositeMappe
       },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const JobsTriggerCancelHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "JobsTriggerCancelHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
         type: {
           name: "String"
         }

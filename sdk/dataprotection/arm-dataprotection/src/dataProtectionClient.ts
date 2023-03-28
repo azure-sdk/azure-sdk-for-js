@@ -14,6 +14,8 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "./pagingHelper";
 import {
   BackupVaultsImpl,
   OperationResultImpl,
@@ -31,7 +33,8 @@ import {
   ExportJobsImpl,
   ExportJobsOperationResultImpl,
   DeletedBackupInstancesImpl,
-  ResourceGuardsImpl
+  ResourceGuardsImpl,
+  DppResourceGuardProxyImpl
 } from "./operations";
 import {
   BackupVaults,
@@ -50,10 +53,22 @@ import {
   ExportJobs,
   ExportJobsOperationResult,
   DeletedBackupInstances,
-  ResourceGuards
+  ResourceGuards,
+  DppResourceGuardProxy
 } from "./operationsInterfaces";
-import { DataProtectionClientOptionalParams } from "./models";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
+import {
+  DataProtectionClientOptionalParams,
+  AzureBackupRecoveryPointResource,
+  FetchSecondaryRPsRequestParameters,
+  FetchSecondaryRPsNextOptionalParams,
+  FetchSecondaryRPsOptionalParams,
+  FetchSecondaryRPsResponse,
+  FetchSecondaryRPsNextResponse
+} from "./models";
 
+/// <reference lib="esnext.asynciterable" />
 export class DataProtectionClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
@@ -86,7 +101,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-dataprotection/1.0.1`;
+    const packageDetails = `azsdk-js-arm-dataprotection/1.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -139,7 +154,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-01-01";
+    this.apiVersion = options.apiVersion || "2023-04-01-preview";
     this.backupVaults = new BackupVaultsImpl(this);
     this.operationResult = new OperationResultImpl(this);
     this.operationStatus = new OperationStatusImpl(this);
@@ -163,6 +178,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
     this.exportJobsOperationResult = new ExportJobsOperationResultImpl(this);
     this.deletedBackupInstances = new DeletedBackupInstancesImpl(this);
     this.resourceGuards = new ResourceGuardsImpl(this);
+    this.dppResourceGuardProxy = new DppResourceGuardProxyImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -194,6 +210,141 @@ export class DataProtectionClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  /**
+   * Returns a list of Secondary Recovery Points for a DataSource in a vault, that can be used for Cross
+   * Region Restore.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  public listFetchSecondaryRPs(
+    resourceGroupName: string,
+    location: string,
+    parameters: FetchSecondaryRPsRequestParameters,
+    options?: FetchSecondaryRPsOptionalParams
+  ): PagedAsyncIterableIterator<AzureBackupRecoveryPointResource> {
+    const iter = this.fetchSecondaryRPsPagingAll(
+      resourceGroupName,
+      location,
+      parameters,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.fetchSecondaryRPsPagingPage(
+          resourceGroupName,
+          location,
+          parameters,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *fetchSecondaryRPsPagingPage(
+    resourceGroupName: string,
+    location: string,
+    parameters: FetchSecondaryRPsRequestParameters,
+    options?: FetchSecondaryRPsOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<AzureBackupRecoveryPointResource[]> {
+    let result: FetchSecondaryRPsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._fetchSecondaryRPs(
+        resourceGroupName,
+        location,
+        parameters,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._fetchSecondaryRPsNext(
+        resourceGroupName,
+        location,
+        parameters,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *fetchSecondaryRPsPagingAll(
+    resourceGroupName: string,
+    location: string,
+    parameters: FetchSecondaryRPsRequestParameters,
+    options?: FetchSecondaryRPsOptionalParams
+  ): AsyncIterableIterator<AzureBackupRecoveryPointResource> {
+    for await (const page of this.fetchSecondaryRPsPagingPage(
+      resourceGroupName,
+      location,
+      parameters,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Returns a list of Secondary Recovery Points for a DataSource in a vault, that can be used for Cross
+   * Region Restore.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  private _fetchSecondaryRPs(
+    resourceGroupName: string,
+    location: string,
+    parameters: FetchSecondaryRPsRequestParameters,
+    options?: FetchSecondaryRPsOptionalParams
+  ): Promise<FetchSecondaryRPsResponse> {
+    return this.sendOperationRequest(
+      { resourceGroupName, location, parameters, options },
+      fetchSecondaryRPsOperationSpec
+    );
+  }
+
+  /**
+   * FetchSecondaryRPsNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location
+   * @param parameters Request body for operation
+   * @param nextLink The nextLink from the previous successful call to the FetchSecondaryRPs method.
+   * @param options The options parameters.
+   */
+  private _fetchSecondaryRPsNext(
+    resourceGroupName: string,
+    location: string,
+    parameters: FetchSecondaryRPsRequestParameters,
+    nextLink: string,
+    options?: FetchSecondaryRPsNextOptionalParams
+  ): Promise<FetchSecondaryRPsNextResponse> {
+    return this.sendOperationRequest(
+      { resourceGroupName, location, parameters, nextLink, options },
+      fetchSecondaryRPsNextOperationSpec
+    );
+  }
+
   backupVaults: BackupVaults;
   operationResult: OperationResult;
   operationStatus: OperationStatus;
@@ -211,4 +362,60 @@ export class DataProtectionClient extends coreClient.ServiceClient {
   exportJobsOperationResult: ExportJobsOperationResult;
   deletedBackupInstances: DeletedBackupInstances;
   resourceGuards: ResourceGuards;
+  dppResourceGuardProxy: DppResourceGuardProxy;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const fetchSecondaryRPsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/locations/{location}/fetchSecondaryRecoveryPoints",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AzureBackupRecoveryPointResourceList
+    },
+    404: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters12,
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.skipToken
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.location
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const fetchSecondaryRPsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AzureBackupRecoveryPointResourceList
+    },
+    404: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.location,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
