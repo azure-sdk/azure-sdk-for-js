@@ -5585,10 +5585,16 @@ export interface WebApplicationFirewallCustomRule {
   priority: number;
   /** Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified. */
   state?: WebApplicationFirewallState;
+  /** Duration over which Rate Limit policy will be applied. Applies only when ruleType is RateLimitRule. */
+  rateLimitDuration?: ApplicationGatewayFirewallRateLimitDuration;
+  /** Rate Limit threshold to apply in case ruleType is RateLimitRule. Must be greater than or equal to 1 */
+  rateLimitThreshold?: number;
   /** The rule type. */
   ruleType: WebApplicationFirewallRuleType;
   /** List of match conditions. */
   matchConditions: MatchCondition[];
+  /** List of user session identifier group by clauses. */
+  groupByUserSession?: GroupByUserSession[];
   /** Type of Actions. */
   action: WebApplicationFirewallAction;
 }
@@ -5613,6 +5619,18 @@ export interface MatchVariable {
   variableName: WebApplicationFirewallMatchVariable;
   /** The selector of match variable. */
   selector?: string;
+}
+
+/** Define user session identifier group by clauses. */
+export interface GroupByUserSession {
+  /** List of group by clause variables. */
+  groupByVariables: GroupByVariable[];
+}
+
+/** Define user session group by clause variables. */
+export interface GroupByVariable {
+  /** User Session clause variable. */
+  variableName: ApplicationGatewayFirewallUserSessionVariable;
 }
 
 /** Allow to exclude some variable satisfy the condition for the WAF check. */
@@ -6416,7 +6434,7 @@ export interface Subnet extends SubResource {
   /** Enable or Disable apply network policies on private link service in the subnet. */
   privateLinkServiceNetworkPolicies?: VirtualNetworkPrivateLinkServiceNetworkPolicies;
   /** Application gateway IP configurations of virtual network resource. */
-  applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
+  applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
 }
 
 /** Frontend IP address of the load balancer. */
@@ -15417,10 +15435,30 @@ export enum KnownWebApplicationFirewallState {
  */
 export type WebApplicationFirewallState = string;
 
+/** Known values of {@link ApplicationGatewayFirewallRateLimitDuration} that the service accepts. */
+export enum KnownApplicationGatewayFirewallRateLimitDuration {
+  /** OneMin */
+  OneMin = "OneMin",
+  /** FiveMins */
+  FiveMins = "FiveMins"
+}
+
+/**
+ * Defines values for ApplicationGatewayFirewallRateLimitDuration. \
+ * {@link KnownApplicationGatewayFirewallRateLimitDuration} can be used interchangeably with ApplicationGatewayFirewallRateLimitDuration,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **OneMin** \
+ * **FiveMins**
+ */
+export type ApplicationGatewayFirewallRateLimitDuration = string;
+
 /** Known values of {@link WebApplicationFirewallRuleType} that the service accepts. */
 export enum KnownWebApplicationFirewallRuleType {
   /** MatchRule */
   MatchRule = "MatchRule",
+  /** RateLimitRule */
+  RateLimitRule = "RateLimitRule",
   /** Invalid */
   Invalid = "Invalid"
 }
@@ -15431,6 +15469,7 @@ export enum KnownWebApplicationFirewallRuleType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **MatchRule** \
+ * **RateLimitRule** \
  * **Invalid**
  */
 export type WebApplicationFirewallRuleType = string;
@@ -15551,6 +15590,27 @@ export enum KnownWebApplicationFirewallTransform {
  * **HtmlEntityDecode**
  */
 export type WebApplicationFirewallTransform = string;
+
+/** Known values of {@link ApplicationGatewayFirewallUserSessionVariable} that the service accepts. */
+export enum KnownApplicationGatewayFirewallUserSessionVariable {
+  /** ClientAddr */
+  ClientAddr = "ClientAddr",
+  /** GeoLocation */
+  GeoLocation = "GeoLocation",
+  /** None */
+  None = "None"
+}
+
+/**
+ * Defines values for ApplicationGatewayFirewallUserSessionVariable. \
+ * {@link KnownApplicationGatewayFirewallUserSessionVariable} can be used interchangeably with ApplicationGatewayFirewallUserSessionVariable,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ClientAddr** \
+ * **GeoLocation** \
+ * **None**
+ */
+export type ApplicationGatewayFirewallUserSessionVariable = string;
 
 /** Known values of {@link WebApplicationFirewallAction} that the service accepts. */
 export enum KnownWebApplicationFirewallAction {
