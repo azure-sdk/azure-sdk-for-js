@@ -1,15 +1,29 @@
 # Release History
+    
+## 14.1.0 (2023-03-28)
+    
+**Features**
 
-## 14.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation StaticSites.createFreeTrialStaticWebApp
+  - Added operation StaticSites.deleteFreeTrialStaticWebApp
+  - Added operation StaticSites.getFreeTrialStaticWebApp
+  - Added operation StaticSites.listFreeTrialStaticWebApps
+  - Added operation StaticSites.upgradeFreeTrialStaticWebApp
+  - Added Interface FreeTrialStaticWebAppsProxyEntity
+  - Added Interface FreeTrialStaticWebAppsProxyEntityCollection
+  - Added Interface FreeTrialStaticWebAppsProxyEntityProperties
+  - Added Interface StaticSite
+  - Added Interface StaticSitesCreateFreeTrialStaticWebAppOptionalParams
+  - Added Interface StaticSitesDeleteFreeTrialStaticWebAppOptionalParams
+  - Added Interface StaticSitesGetFreeTrialStaticWebAppOptionalParams
+  - Added Interface StaticSitesListFreeTrialStaticWebAppsOptionalParams
+  - Added Interface StaticSitesUpgradeFreeTrialStaticWebAppOptionalParams
+  - Added Type Alias StaticSitesCreateFreeTrialStaticWebAppResponse
+  - Added Type Alias StaticSitesGetFreeTrialStaticWebAppResponse
+  - Added Type Alias StaticSitesListFreeTrialStaticWebAppsResponse
+  - Added Enum KnownWorkflowState
+    
+    
 ## 14.0.0 (2023-03-10)
     
 **Features**

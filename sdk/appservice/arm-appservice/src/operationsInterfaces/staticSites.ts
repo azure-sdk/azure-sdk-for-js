@@ -144,7 +144,16 @@ import {
   StaticSitesGetLinkedBackendForBuildResponse,
   StaticSitesLinkBackendToBuildOptionalParams,
   StaticSitesLinkBackendToBuildResponse,
-  StaticSitesUnlinkBackendFromBuildOptionalParams
+  StaticSitesUnlinkBackendFromBuildOptionalParams,
+  StaticSitesListFreeTrialStaticWebAppsOptionalParams,
+  StaticSitesListFreeTrialStaticWebAppsResponse,
+  StaticSitesGetFreeTrialStaticWebAppOptionalParams,
+  StaticSitesGetFreeTrialStaticWebAppResponse,
+  FreeTrialStaticWebAppsProxyEntity,
+  StaticSitesCreateFreeTrialStaticWebAppOptionalParams,
+  StaticSitesCreateFreeTrialStaticWebAppResponse,
+  StaticSitesDeleteFreeTrialStaticWebAppOptionalParams,
+  StaticSitesUpgradeFreeTrialStaticWebAppOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -1467,5 +1476,52 @@ export interface StaticSites {
     environmentName: string,
     linkedBackendName: string,
     options?: StaticSitesUnlinkBackendFromBuildOptionalParams
+  ): Promise<void>;
+  /**
+   * Lists all free trial static web apps.
+   * @param options The options parameters.
+   */
+  listFreeTrialStaticWebApps(
+    options?: StaticSitesListFreeTrialStaticWebAppsOptionalParams
+  ): Promise<StaticSitesListFreeTrialStaticWebAppsResponse>;
+  /**
+   * Gets a free trial static web app.
+   * @param freeTrialStaticWebAppName Name of the free trial static web app.
+   * @param options The options parameters.
+   */
+  getFreeTrialStaticWebApp(
+    freeTrialStaticWebAppName: string,
+    options?: StaticSitesGetFreeTrialStaticWebAppOptionalParams
+  ): Promise<StaticSitesGetFreeTrialStaticWebAppResponse>;
+  /**
+   * Creates a free trial static web app.
+   * @param freeTrialStaticWebAppName Name of the free trial static web app.
+   * @param freeTrialStaticWebApp
+   * @param options The options parameters.
+   */
+  createFreeTrialStaticWebApp(
+    freeTrialStaticWebAppName: string,
+    freeTrialStaticWebApp: FreeTrialStaticWebAppsProxyEntity,
+    options?: StaticSitesCreateFreeTrialStaticWebAppOptionalParams
+  ): Promise<StaticSitesCreateFreeTrialStaticWebAppResponse>;
+  /**
+   * Deletes a free trial static web app.
+   * @param freeTrialStaticWebAppName Name of the free trial static web app.
+   * @param options The options parameters.
+   */
+  deleteFreeTrialStaticWebApp(
+    freeTrialStaticWebAppName: string,
+    options?: StaticSitesDeleteFreeTrialStaticWebAppOptionalParams
+  ): Promise<void>;
+  /**
+   * Upgrades a free trial static web app.
+   * @param freeTrialStaticWebAppName Name of the free trial static web app.
+   * @param freeTrialStaticWebApp
+   * @param options The options parameters.
+   */
+  upgradeFreeTrialStaticWebApp(
+    freeTrialStaticWebAppName: string,
+    freeTrialStaticWebApp: FreeTrialStaticWebAppsProxyEntity,
+    options?: StaticSitesUpgradeFreeTrialStaticWebAppOptionalParams
   ): Promise<void>;
 }

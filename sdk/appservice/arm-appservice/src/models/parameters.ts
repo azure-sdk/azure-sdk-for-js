@@ -61,6 +61,7 @@ import {
   StaticSiteCustomDomainRequestPropertiesARMResource as StaticSiteCustomDomainRequestPropertiesARMResourceMapper,
   StaticSiteResetPropertiesARMResource as StaticSiteResetPropertiesARMResourceMapper,
   StaticSiteLinkedBackendARMResource as StaticSiteLinkedBackendARMResourceMapper,
+  FreeTrialStaticWebAppsProxyEntity as FreeTrialStaticWebAppsProxyEntityMapper,
   Site as SiteMapper,
   SitePatchResource as SitePatchResourceMapper,
   CsmSlotEntity as CsmSlotEntityMapper,
@@ -1166,6 +1167,26 @@ export const isCleaningAuthConfig: OperationQueryParameter = {
       name: "Boolean"
     }
   }
+};
+
+export const freeTrialStaticWebAppName: OperationURLParameter = {
+  parameterPath: "freeTrialStaticWebAppName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]+$")
+    },
+    serializedName: "freeTrialStaticWebAppName",
+    required: true,
+    xmlName: "freeTrialStaticWebAppName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const freeTrialStaticWebApp: OperationParameter = {
+  parameterPath: "freeTrialStaticWebApp",
+  mapper: FreeTrialStaticWebAppsProxyEntityMapper
 };
 
 export const includeSlots: OperationQueryParameter = {

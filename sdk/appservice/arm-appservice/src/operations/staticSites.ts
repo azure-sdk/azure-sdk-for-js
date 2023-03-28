@@ -190,6 +190,15 @@ import {
   StaticSitesLinkBackendToBuildOptionalParams,
   StaticSitesLinkBackendToBuildResponse,
   StaticSitesUnlinkBackendFromBuildOptionalParams,
+  StaticSitesListFreeTrialStaticWebAppsOptionalParams,
+  StaticSitesListFreeTrialStaticWebAppsResponse,
+  StaticSitesGetFreeTrialStaticWebAppOptionalParams,
+  StaticSitesGetFreeTrialStaticWebAppResponse,
+  FreeTrialStaticWebAppsProxyEntity,
+  StaticSitesCreateFreeTrialStaticWebAppOptionalParams,
+  StaticSitesCreateFreeTrialStaticWebAppResponse,
+  StaticSitesDeleteFreeTrialStaticWebAppOptionalParams,
+  StaticSitesUpgradeFreeTrialStaticWebAppOptionalParams,
   StaticSitesListNextResponse,
   StaticSitesGetStaticSitesByResourceGroupNextResponse,
   StaticSitesListStaticSiteUsersNextResponse,
@@ -4520,6 +4529,83 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
+   * Lists all free trial static web apps.
+   * @param options The options parameters.
+   */
+  listFreeTrialStaticWebApps(
+    options?: StaticSitesListFreeTrialStaticWebAppsOptionalParams
+  ): Promise<StaticSitesListFreeTrialStaticWebAppsResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listFreeTrialStaticWebAppsOperationSpec
+    );
+  }
+
+  /**
+   * Gets a free trial static web app.
+   * @param freeTrialStaticWebAppName Name of the free trial static web app.
+   * @param options The options parameters.
+   */
+  getFreeTrialStaticWebApp(
+    freeTrialStaticWebAppName: string,
+    options?: StaticSitesGetFreeTrialStaticWebAppOptionalParams
+  ): Promise<StaticSitesGetFreeTrialStaticWebAppResponse> {
+    return this.client.sendOperationRequest(
+      { freeTrialStaticWebAppName, options },
+      getFreeTrialStaticWebAppOperationSpec
+    );
+  }
+
+  /**
+   * Creates a free trial static web app.
+   * @param freeTrialStaticWebAppName Name of the free trial static web app.
+   * @param freeTrialStaticWebApp
+   * @param options The options parameters.
+   */
+  createFreeTrialStaticWebApp(
+    freeTrialStaticWebAppName: string,
+    freeTrialStaticWebApp: FreeTrialStaticWebAppsProxyEntity,
+    options?: StaticSitesCreateFreeTrialStaticWebAppOptionalParams
+  ): Promise<StaticSitesCreateFreeTrialStaticWebAppResponse> {
+    return this.client.sendOperationRequest(
+      { freeTrialStaticWebAppName, freeTrialStaticWebApp, options },
+      createFreeTrialStaticWebAppOperationSpec
+    );
+  }
+
+  /**
+   * Deletes a free trial static web app.
+   * @param freeTrialStaticWebAppName Name of the free trial static web app.
+   * @param options The options parameters.
+   */
+  deleteFreeTrialStaticWebApp(
+    freeTrialStaticWebAppName: string,
+    options?: StaticSitesDeleteFreeTrialStaticWebAppOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { freeTrialStaticWebAppName, options },
+      deleteFreeTrialStaticWebAppOperationSpec
+    );
+  }
+
+  /**
+   * Upgrades a free trial static web app.
+   * @param freeTrialStaticWebAppName Name of the free trial static web app.
+   * @param freeTrialStaticWebApp
+   * @param options The options parameters.
+   */
+  upgradeFreeTrialStaticWebApp(
+    freeTrialStaticWebAppName: string,
+    freeTrialStaticWebApp: FreeTrialStaticWebAppsProxyEntity,
+    options?: StaticSitesUpgradeFreeTrialStaticWebAppOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { freeTrialStaticWebAppName, freeTrialStaticWebApp, options },
+      upgradeFreeTrialStaticWebAppOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -6700,6 +6786,92 @@ const unlinkBackendFromBuildOperationSpec: coreClient.OperationSpec = {
     Parameters.linkedBackendName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const listFreeTrialStaticWebAppsOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Web/freeTrialStaticWebApps",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FreeTrialStaticWebAppsProxyEntityCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getFreeTrialStaticWebAppOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Web/freeTrialStaticWebApps/{freeTrialStaticWebAppName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FreeTrialStaticWebAppsProxyEntity
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.freeTrialStaticWebAppName],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createFreeTrialStaticWebAppOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Web/freeTrialStaticWebApps/{freeTrialStaticWebAppName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FreeTrialStaticWebAppsProxyEntity
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.freeTrialStaticWebApp,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.freeTrialStaticWebAppName],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteFreeTrialStaticWebAppOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Web/freeTrialStaticWebApps/{freeTrialStaticWebAppName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.freeTrialStaticWebAppName],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const upgradeFreeTrialStaticWebAppOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Web/freeTrialStaticWebApps/{freeTrialStaticWebAppName}/upgrade",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.freeTrialStaticWebApp,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.freeTrialStaticWebAppName],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {

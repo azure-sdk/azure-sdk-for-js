@@ -3496,6 +3496,24 @@ export interface ForwardProxy {
 // @public
 export type ForwardProxyConvention = "NoProxy" | "Standard" | "Custom";
 
+// @public (undocumented)
+export interface FreeTrialStaticWebAppsProxyEntity extends Resource {
+    properties?: FreeTrialStaticWebAppsProxyEntityProperties;
+    sku?: SkuDescription;
+}
+
+// @public
+export interface FreeTrialStaticWebAppsProxyEntityCollection {
+    readonly nextLink?: string;
+    value: FreeTrialStaticWebAppsProxyEntity[];
+}
+
+// @public
+export interface FreeTrialStaticWebAppsProxyEntityProperties {
+    properties?: StaticSite;
+    readonly staticSiteResourceId?: string;
+}
+
 // @public
 export type FrequencyUnit = "Day" | "Hour";
 
@@ -4322,6 +4340,16 @@ export enum KnownWorkflowSkuName {
     Premium = "Premium",
     Shared = "Shared",
     Standard = "Standard"
+}
+
+// @public
+export enum KnownWorkflowState {
+    Completed = "Completed",
+    Deleted = "Deleted",
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    NotSpecified = "NotSpecified",
+    Suspended = "Suspended"
 }
 
 // @public
@@ -6602,6 +6630,28 @@ export interface StampCapacityCollection {
 }
 
 // @public
+export interface StaticSite {
+    allowConfigFileUpdates?: boolean;
+    branch?: string;
+    buildProperties?: StaticSiteBuildProperties;
+    readonly contentDistributionEndpoint?: string;
+    readonly customDomains?: string[];
+    readonly databaseConnections?: DatabaseConnectionOverview[];
+    readonly defaultHostname?: string;
+    enterpriseGradeCdnStatus?: EnterpriseGradeCdnStatus;
+    readonly keyVaultReferenceIdentity?: string;
+    readonly linkedBackends?: StaticSiteLinkedBackend[];
+    readonly privateEndpointConnections?: ResponseMessageEnvelopeRemotePrivateEndpointConnection[];
+    provider?: string;
+    publicNetworkAccess?: string;
+    repositoryToken?: string;
+    repositoryUrl?: string;
+    stagingEnvironmentPolicy?: StagingEnvironmentPolicy;
+    templateProperties?: StaticSiteTemplateOptions;
+    readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
+}
+
+// @public
 export interface StaticSiteARMResource extends Resource {
     allowConfigFileUpdates?: boolean;
     branch?: string;
@@ -6803,6 +6853,7 @@ export interface StaticSites {
     beginValidateBackendForBuildAndWait(resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendForBuildOptionalParams): Promise<void>;
     beginValidateCustomDomainCanBeAddedToStaticSite(resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginValidateCustomDomainCanBeAddedToStaticSiteAndWait(resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams): Promise<void>;
+    createFreeTrialStaticWebApp(freeTrialStaticWebAppName: string, freeTrialStaticWebApp: FreeTrialStaticWebAppsProxyEntity, options?: StaticSitesCreateFreeTrialStaticWebAppOptionalParams): Promise<StaticSitesCreateFreeTrialStaticWebAppResponse>;
     createOrUpdateBasicAuth(resourceGroupName: string, name: string, basicAuthName: BasicAuthName, basicAuthEnvelope: StaticSiteBasicAuthPropertiesARMResource, options?: StaticSitesCreateOrUpdateBasicAuthOptionalParams): Promise<StaticSitesCreateOrUpdateBasicAuthResponse>;
     createOrUpdateBuildDatabaseConnection(resourceGroupName: string, name: string, environmentName: string, databaseConnectionName: string, databaseConnectionRequestEnvelope: DatabaseConnection, options?: StaticSitesCreateOrUpdateBuildDatabaseConnectionOptionalParams): Promise<StaticSitesCreateOrUpdateBuildDatabaseConnectionResponse>;
     createOrUpdateDatabaseConnection(resourceGroupName: string, name: string, databaseConnectionName: string, databaseConnectionRequestEnvelope: DatabaseConnection, options?: StaticSitesCreateOrUpdateDatabaseConnectionOptionalParams): Promise<StaticSitesCreateOrUpdateDatabaseConnectionResponse>;
@@ -6813,6 +6864,7 @@ export interface StaticSites {
     createUserRolesInvitationLink(resourceGroupName: string, name: string, staticSiteUserRolesInvitationEnvelope: StaticSiteUserInvitationRequestResource, options?: StaticSitesCreateUserRolesInvitationLinkOptionalParams): Promise<StaticSitesCreateUserRolesInvitationLinkResponse>;
     deleteBuildDatabaseConnection(resourceGroupName: string, name: string, environmentName: string, databaseConnectionName: string, options?: StaticSitesDeleteBuildDatabaseConnectionOptionalParams): Promise<void>;
     deleteDatabaseConnection(resourceGroupName: string, name: string, databaseConnectionName: string, options?: StaticSitesDeleteDatabaseConnectionOptionalParams): Promise<void>;
+    deleteFreeTrialStaticWebApp(freeTrialStaticWebAppName: string, options?: StaticSitesDeleteFreeTrialStaticWebAppOptionalParams): Promise<void>;
     deleteStaticSiteUser(resourceGroupName: string, name: string, authprovider: string, userid: string, options?: StaticSitesDeleteStaticSiteUserOptionalParams): Promise<void>;
     detachUserProvidedFunctionAppFromStaticSite(resourceGroupName: string, name: string, functionAppName: string, options?: StaticSitesDetachUserProvidedFunctionAppFromStaticSiteOptionalParams): Promise<void>;
     detachUserProvidedFunctionAppFromStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options?: StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuildOptionalParams): Promise<void>;
@@ -6821,6 +6873,7 @@ export interface StaticSites {
     getBuildDatabaseConnectionWithDetails(resourceGroupName: string, name: string, environmentName: string, databaseConnectionName: string, options?: StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams): Promise<StaticSitesGetBuildDatabaseConnectionWithDetailsResponse>;
     getDatabaseConnection(resourceGroupName: string, name: string, databaseConnectionName: string, options?: StaticSitesGetDatabaseConnectionOptionalParams): Promise<StaticSitesGetDatabaseConnectionResponse>;
     getDatabaseConnectionWithDetails(resourceGroupName: string, name: string, databaseConnectionName: string, options?: StaticSitesGetDatabaseConnectionWithDetailsOptionalParams): Promise<StaticSitesGetDatabaseConnectionWithDetailsResponse>;
+    getFreeTrialStaticWebApp(freeTrialStaticWebAppName: string, options?: StaticSitesGetFreeTrialStaticWebAppOptionalParams): Promise<StaticSitesGetFreeTrialStaticWebAppResponse>;
     getLinkedBackend(resourceGroupName: string, name: string, linkedBackendName: string, options?: StaticSitesGetLinkedBackendOptionalParams): Promise<StaticSitesGetLinkedBackendResponse>;
     getLinkedBackendForBuild(resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, options?: StaticSitesGetLinkedBackendForBuildOptionalParams): Promise<StaticSitesGetLinkedBackendForBuildResponse>;
     getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: StaticSitesGetPrivateEndpointConnectionOptionalParams): Promise<StaticSitesGetPrivateEndpointConnectionResponse>;
@@ -6836,6 +6889,7 @@ export interface StaticSites {
     listBuildDatabaseConnectionsWithDetails(resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams): PagedAsyncIterableIterator<DatabaseConnection>;
     listDatabaseConnections(resourceGroupName: string, name: string, options?: StaticSitesGetDatabaseConnectionsOptionalParams): PagedAsyncIterableIterator<DatabaseConnection>;
     listDatabaseConnectionsWithDetails(resourceGroupName: string, name: string, options?: StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams): PagedAsyncIterableIterator<DatabaseConnection>;
+    listFreeTrialStaticWebApps(options?: StaticSitesListFreeTrialStaticWebAppsOptionalParams): Promise<StaticSitesListFreeTrialStaticWebAppsResponse>;
     listLinkedBackends(resourceGroupName: string, name: string, options?: StaticSitesGetLinkedBackendsOptionalParams): PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource>;
     listLinkedBackendsForBuild(resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetLinkedBackendsForBuildOptionalParams): PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource>;
     listPrivateEndpointConnectionList(resourceGroupName: string, name: string, options?: StaticSitesGetPrivateEndpointConnectionListOptionalParams): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
@@ -6861,6 +6915,7 @@ export interface StaticSites {
     updateDatabaseConnection(resourceGroupName: string, name: string, databaseConnectionName: string, databaseConnectionRequestEnvelope: DatabaseConnectionPatchRequest, options?: StaticSitesUpdateDatabaseConnectionOptionalParams): Promise<StaticSitesUpdateDatabaseConnectionResponse>;
     updateStaticSite(resourceGroupName: string, name: string, staticSiteEnvelope: StaticSitePatchResource, options?: StaticSitesUpdateStaticSiteOptionalParams): Promise<StaticSitesUpdateStaticSiteResponse>;
     updateStaticSiteUser(resourceGroupName: string, name: string, authprovider: string, userid: string, staticSiteUserEnvelope: StaticSiteUserARMResource, options?: StaticSitesUpdateStaticSiteUserOptionalParams): Promise<StaticSitesUpdateStaticSiteUserResponse>;
+    upgradeFreeTrialStaticWebApp(freeTrialStaticWebAppName: string, freeTrialStaticWebApp: FreeTrialStaticWebAppsProxyEntity, options?: StaticSitesUpgradeFreeTrialStaticWebAppOptionalParams): Promise<void>;
 }
 
 // @public
@@ -6871,6 +6926,13 @@ export interface StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalPara
 
 // @public
 export type StaticSitesApproveOrRejectPrivateEndpointConnectionResponse = RemotePrivateEndpointConnectionARMResource;
+
+// @public
+export interface StaticSitesCreateFreeTrialStaticWebAppOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StaticSitesCreateFreeTrialStaticWebAppResponse = FreeTrialStaticWebAppsProxyEntity;
 
 // @public
 export interface StaticSitesCreateOrUpdateBasicAuthOptionalParams extends coreClient.OperationOptions {
@@ -6964,6 +7026,10 @@ export interface StaticSitesDeleteBuildDatabaseConnectionOptionalParams extends 
 
 // @public
 export interface StaticSitesDeleteDatabaseConnectionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface StaticSitesDeleteFreeTrialStaticWebAppOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -7101,6 +7167,13 @@ export interface StaticSitesGetDatabaseConnectionWithDetailsOptionalParams exten
 
 // @public
 export type StaticSitesGetDatabaseConnectionWithDetailsResponse = DatabaseConnection;
+
+// @public
+export interface StaticSitesGetFreeTrialStaticWebAppOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StaticSitesGetFreeTrialStaticWebAppResponse = FreeTrialStaticWebAppsProxyEntity;
 
 // @public
 export interface StaticSitesGetLinkedBackendForBuildOptionalParams extends coreClient.OperationOptions {
@@ -7296,6 +7369,13 @@ export interface StaticSitesListBasicAuthOptionalParams extends coreClient.Opera
 export type StaticSitesListBasicAuthResponse = StaticSiteBasicAuthPropertiesCollection;
 
 // @public
+export interface StaticSitesListFreeTrialStaticWebAppsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StaticSitesListFreeTrialStaticWebAppsResponse = FreeTrialStaticWebAppsProxyEntityCollection;
+
+// @public
 export interface StaticSitesListNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -7475,6 +7555,10 @@ export interface StaticSitesUpdateStaticSiteUserOptionalParams extends coreClien
 
 // @public
 export type StaticSitesUpdateStaticSiteUserResponse = StaticSiteUserARMResource;
+
+// @public
+export interface StaticSitesUpgradeFreeTrialStaticWebAppOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
 export interface StaticSitesValidateBackendForBuildOptionalParams extends coreClient.OperationOptions {
@@ -12301,7 +12385,7 @@ export interface WorkflowsRegenerateAccessKeyOptionalParams extends coreClient.O
 }
 
 // @public
-export type WorkflowState = "NotSpecified" | "Completed" | "Enabled" | "Disabled" | "Deleted" | "Suspended";
+export type WorkflowState = string;
 
 // @public
 export type WorkflowStatus = string;
