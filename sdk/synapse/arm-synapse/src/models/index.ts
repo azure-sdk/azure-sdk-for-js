@@ -32,15 +32,6 @@ export type LinkedIntegrationRuntimeTypeUnion =
   | LinkedIntegrationRuntimeType
   | LinkedIntegrationRuntimeKeyAuthorization
   | LinkedIntegrationRuntimeRbacAuthorization;
-export type DatabaseUnion =
-  | Database
-  | ReadWriteDatabase
-  | ReadOnlyFollowingDatabase;
-export type DataConnectionUnion =
-  | DataConnection
-  | EventHubDataConnection
-  | IotHubDataConnection
-  | EventGridDataConnection;
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
@@ -124,6 +115,103 @@ export interface AzureADOnlyAuthenticationListResult {
   readonly nextLink?: string;
 }
 
+/** Auto-scaling properties of a Big Data pool powered by Apache Spark */
+export interface AutoScaleProperties {
+  /** The minimum number of nodes the Big Data pool can support. */
+  minNodeCount?: number;
+  /** Whether automatic scaling is enabled for the Big Data pool. */
+  enabled?: boolean;
+  /** The maximum number of nodes the Big Data pool can support. */
+  maxNodeCount?: number;
+}
+
+/** Auto-pausing properties of a Big Data pool powered by Apache Spark */
+export interface AutoPauseProperties {
+  /** Number of minutes of idle time before the Big Data pool is automatically paused. */
+  delayInMinutes?: number;
+  /** Whether auto-pausing is enabled for the Big Data pool. */
+  enabled?: boolean;
+}
+
+/** Dynamic Executor Allocation Properties */
+export interface DynamicExecutorAllocation {
+  /** Indicates whether Dynamic Executor Allocation is enabled or not. */
+  enabled?: boolean;
+  /** The minimum number of executors alloted */
+  minExecutors?: number;
+  /** The maximum number of executors alloted */
+  maxExecutors?: number;
+}
+
+/** Library requirements for a Big Data pool powered by Apache Spark */
+export interface LibraryRequirements {
+  /**
+   * The last update time of the library requirements file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly time?: Date;
+  /** The library requirements. */
+  content?: string;
+  /** The filename of the library requirements file. */
+  filename?: string;
+}
+
+/** Library/package information of a Big Data pool powered by Apache Spark */
+export interface LibraryInfo {
+  /** Name of the library. */
+  name?: string;
+  /** Storage blob path of library. */
+  path?: string;
+  /** Storage blob container name. */
+  containerName?: string;
+  /**
+   * The last update time of the library.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uploadedTimestamp?: Date;
+  /** Type of the library. */
+  type?: string;
+  /**
+   * Provisioning status of the library/package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningStatus?: string;
+  /**
+   * Creator Id of the library/package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creatorId?: string;
+}
+
+/** SparkConfig Properties for a Big Data pool powered by Apache Spark */
+export interface SparkConfigProperties {
+  /**
+   * The last update time of the spark config properties file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly time?: Date;
+  /** The spark config properties. */
+  content?: string;
+  /** The filename of the spark config properties file. */
+  filename?: string;
+  /** The type of the spark config properties file. */
+  configurationType?: ConfigurationType;
+}
+
+/** Properties patch for a Big Data pool */
+export interface BigDataPoolPatchInfo {
+  /** Updated tags for the Big Data pool */
+  tags?: { [propertyName: string]: string };
+}
+
+/** Collection of Big Data pool information */
+export interface BigDataPoolResourceInfoListResult {
+  /** Link to the next page of results */
+  nextLink?: string;
+  /** List of Big Data pools */
+  value?: BigDataPoolResourceInfo[];
+}
+
 /** A request about whether a workspace name is available */
 export interface CheckNameAvailabilityRequest {
   /** Workspace name */
@@ -177,12 +265,397 @@ export interface ReplaceAllFirewallRulesOperationResponse {
   operationId?: string;
 }
 
+/** Update integration runtime request. */
+export interface UpdateIntegrationRuntimeRequest {
+  /** Enables or disables the auto-update feature of the self-hosted integration runtime. See https://go.microsoft.com/fwlink/?linkid=854189. */
+  autoUpdate?: IntegrationRuntimeAutoUpdate;
+  /** The time offset (in hours) in the day, e.g., PT03H is 3 hours. The integration runtime auto update will happen on that time. */
+  updateDelayOffset?: string;
+}
+
+/** Azure Synapse nested object which serves as a compute resource for activities. */
+export interface IntegrationRuntime {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Managed" | "SelfHosted";
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** Integration runtime description. */
+  description?: string;
+}
+
+/** The IP address of self-hosted integration runtime node. */
+export interface IntegrationRuntimeNodeIpAddress {
+  /**
+   * The IP address of self-hosted integration runtime node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipAddress?: string;
+}
+
+/** The request payload of get SSIS object metadata. */
+export interface GetSsisObjectMetadataRequest {
+  /** Metadata path. */
+  metadataPath?: string;
+}
+
+/** A list of SSIS object metadata. */
+export interface SsisObjectMetadataListResponse {
+  /** List of SSIS object metadata. */
+  value?: SsisObjectMetadataUnion[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
+}
+
+/** SSIS object metadata. */
+export interface SsisObjectMetadata {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Folder" | "Project" | "Package" | "Environment";
+  /** Metadata id. */
+  id?: number;
+  /** Metadata name. */
+  name?: string;
+  /** Metadata description. */
+  description?: string;
+}
+
+/** Properties of Self-hosted integration runtime node. */
+export interface SelfHostedIntegrationRuntimeNode {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /**
+   * Name of the integration runtime node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nodeName?: string;
+  /**
+   * Machine name of the integration runtime node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineName?: string;
+  /**
+   * URI for the host machine of the integration runtime.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostServiceUri?: string;
+  /**
+   * Status of the integration runtime node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: SelfHostedIntegrationRuntimeNodeStatus;
+  /**
+   * The integration runtime capabilities dictionary
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capabilities?: { [propertyName: string]: string };
+  /**
+   * Status of the integration runtime node version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly versionStatus?: string;
+  /**
+   * Version of the integration runtime node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+  /**
+   * The time at which the integration runtime node was registered in ISO8601 format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly registerTime?: Date;
+  /**
+   * The most recent time at which the integration runtime was connected in ISO8601 format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastConnectTime?: Date;
+  /**
+   * The time at which the integration runtime will expire in ISO8601 format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expiryTime?: Date;
+  /**
+   * The time the node last started up.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastStartTime?: Date;
+  /**
+   * The integration runtime node last stop time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastStopTime?: Date;
+  /**
+   * The result of the last integration runtime node update.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdateResult?: IntegrationRuntimeUpdateResult;
+  /**
+   * The last time for the integration runtime node update start.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastStartUpdateTime?: Date;
+  /**
+   * The last time for the integration runtime node update end.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastEndUpdateTime?: Date;
+  /**
+   * Indicates whether this node is the active dispatcher for integration runtime requests.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isActiveDispatcher?: boolean;
+  /**
+   * Maximum concurrent jobs on the integration runtime node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly concurrentJobsLimit?: number;
+  /**
+   * The maximum concurrent jobs in this integration runtime.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxConcurrentJobs?: number;
+}
+
+/** Update integration runtime node request. */
+export interface UpdateIntegrationRuntimeNodeRequest {
+  /** The number of concurrent jobs permitted to run on the integration runtime node. Values between 1 and maxConcurrentJobs(inclusive) are allowed. */
+  concurrentJobsLimit?: number;
+}
+
+/** A list of integration runtime resources. */
+export interface IntegrationRuntimeListResponse {
+  /** List of integration runtimes. */
+  value: IntegrationRuntimeResource[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
+}
+
+/** The object that defines the structure of an Azure Synapse error response. */
+export interface CloudError {
+  /** Error code. */
+  code: string;
+  /** Error message. */
+  message: string;
+  /** Property name/path in request associated with error. */
+  target?: string;
+  /** Array with additional error details. */
+  details?: CloudError[];
+}
+
+/** Connection information for encrypting the on-premises data source credentials. */
+export interface IntegrationRuntimeConnectionInfo {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /**
+   * The token generated in service. Callers use this token to authenticate to integration runtime.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceToken?: string;
+  /**
+   * The integration runtime SSL certificate thumbprint. Click-Once application uses it to do server validation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly identityCertThumbprint?: string;
+  /**
+   * The on-premises integration runtime host URL.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostServiceUri?: string;
+  /**
+   * The integration runtime version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+  /**
+   * The public key for encrypting a credential when transferring the credential to the integration runtime.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicKey?: string;
+  /**
+   * Whether the identity certificate is expired.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isIdentityCertExprired?: boolean;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
+export interface ErrorResponseAutoGenerated {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorResponseAutoGenerated[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** Integration runtime status response. */
+export interface IntegrationRuntimeStatusResponse {
+  /**
+   * The integration runtime name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /** Integration runtime properties. */
+  properties: IntegrationRuntimeStatusUnion;
+}
+
+/** Integration runtime status. */
+export interface IntegrationRuntimeStatus {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Managed" | "SelfHosted";
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /**
+   * The workspace name which the integration runtime belong to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataFactoryName?: string;
+  /**
+   * The state of integration runtime.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: IntegrationRuntimeState;
+}
+
+/** Parameters to regenerate the authentication key. */
+export interface IntegrationRuntimeRegenerateKeyParameters {
+  /** The name of the authentication key to regenerate. */
+  keyName?: IntegrationRuntimeAuthKeyName;
+}
+
+/** The integration runtime authentication keys. */
+export interface IntegrationRuntimeAuthKeys {
+  /** The primary integration runtime authentication key. */
+  authKey1?: string;
+  /** The secondary integration runtime authentication key. */
+  authKey2?: string;
+}
+
+/** Get monitoring data response. */
+export interface IntegrationRuntimeMonitoringData {
+  /** Integration runtime name. */
+  name?: string;
+  /** Integration runtime node monitoring data. */
+  nodes?: IntegrationRuntimeNodeMonitoringData[];
+}
+
+/** Monitoring data for integration runtime node. */
+export interface IntegrationRuntimeNodeMonitoringData {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /**
+   * Name of the integration runtime node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nodeName?: string;
+  /**
+   * Available memory (MB) on the integration runtime node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availableMemoryInMB?: number;
+  /**
+   * CPU percentage on the integration runtime node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cpuUtilization?: number;
+  /**
+   * Maximum concurrent jobs on the integration runtime node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly concurrentJobsLimit?: number;
+  /**
+   * The number of jobs currently running on the integration runtime node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly concurrentJobsRunning?: number;
+  /**
+   * The maximum concurrent jobs in this integration runtime.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxConcurrentJobs?: number;
+  /**
+   * Sent bytes on the integration runtime node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sentBytes?: number;
+  /**
+   * Received bytes on the integration runtime node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly receivedBytes?: number;
+}
+
+/** The status of the operation. */
+export interface SsisObjectMetadataStatusResponse {
+  /** The status of the operation. */
+  status?: string;
+  /** The operation name. */
+  name?: string;
+  /** The operation properties. */
+  properties?: string;
+  /** The operation error message. */
+  error?: string;
+}
+
+/** Azure-SSIS integration runtime outbound network dependency endpoints. */
+export interface IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse {
+  /** The list of outbound network dependency endpoints. */
+  value?: IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpoint[];
+}
+
+/** Azure-SSIS integration runtime outbound network dependency endpoints for one category. */
+export interface IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpoint {
+  /** The category of outbound network dependency. */
+  category?: string;
+  /** The endpoints for outbound network dependency. */
+  endpoints?: IntegrationRuntimeOutboundNetworkDependenciesEndpoint[];
+}
+
+/** The endpoint for Azure-SSIS integration runtime outbound network dependency. */
+export interface IntegrationRuntimeOutboundNetworkDependenciesEndpoint {
+  /** The domain name of endpoint. */
+  domainName?: string;
+  /** The details of endpoint. */
+  endpointDetails?: IntegrationRuntimeOutboundNetworkDependenciesEndpointDetails[];
+}
+
+/** The details of Azure-SSIS integration runtime outbound network dependency endpoint. */
+export interface IntegrationRuntimeOutboundNetworkDependenciesEndpointDetails {
+  /** The port of endpoint. */
+  port?: number;
+}
+
 /** List of keys */
 export interface KeyInfoListResult {
   /** Link to the next page of results */
   nextLink?: string;
   /** List of keys */
   value?: Key[];
+}
+
+/** A list of Library resources. */
+export interface LibraryListResponse {
+  /** List of Library. */
+  value: LibraryResource[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
 }
 
 /** An operation that is available in this resource provider */
@@ -529,35 +1002,6 @@ export interface MaintenanceWindowTimeRange {
   duration?: string;
 }
 
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
-export interface ErrorResponseAutoGenerated {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorResponseAutoGenerated[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
 /** A list of transparent data encryption configurations. */
 export interface TransparentDataEncryptionListResult {
   /**
@@ -878,6 +1322,16 @@ export interface ServerSecurityAlertPolicyListResult {
   readonly nextLink?: string;
 }
 
+/** Properties of a Vulnerability Assessment recurring scans. */
+export interface VulnerabilityAssessmentRecurringScansPropertiesAutoGenerated {
+  /** Recurring scans state. */
+  isEnabled?: boolean;
+  /** Specifies that the schedule scan notification will be is sent to the subscription administrators. */
+  emailSubscriptionAdmins?: boolean;
+  /** Specifies an array of e-mail addresses to which the scan notification is sent. */
+  emails?: string[];
+}
+
 /** A list of the server's vulnerability assessments. */
 export interface ServerVulnerabilityAssessmentListResult {
   /**
@@ -1170,924 +1624,6 @@ export interface RestorableDroppedSqlPoolListResult {
   value: RestorableDroppedSqlPool[];
 }
 
-/** Auto-scaling properties of a Big Data pool powered by Apache Spark */
-export interface AutoScaleProperties {
-  /** The minimum number of nodes the Big Data pool can support. */
-  minNodeCount?: number;
-  /** Whether automatic scaling is enabled for the Big Data pool. */
-  enabled?: boolean;
-  /** The maximum number of nodes the Big Data pool can support. */
-  maxNodeCount?: number;
-}
-
-/** Auto-pausing properties of a Big Data pool powered by Apache Spark */
-export interface AutoPauseProperties {
-  /** Number of minutes of idle time before the Big Data pool is automatically paused. */
-  delayInMinutes?: number;
-  /** Whether auto-pausing is enabled for the Big Data pool. */
-  enabled?: boolean;
-}
-
-/** Dynamic Executor Allocation Properties */
-export interface DynamicExecutorAllocation {
-  /** Indicates whether Dynamic Executor Allocation is enabled or not. */
-  enabled?: boolean;
-  /** The minimum number of executors alloted */
-  minExecutors?: number;
-  /** The maximum number of executors alloted */
-  maxExecutors?: number;
-}
-
-/** Library requirements for a Big Data pool powered by Apache Spark */
-export interface LibraryRequirements {
-  /**
-   * The last update time of the library requirements file.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly time?: Date;
-  /** The library requirements. */
-  content?: string;
-  /** The filename of the library requirements file. */
-  filename?: string;
-}
-
-/** Library/package information of a Big Data pool powered by Apache Spark */
-export interface LibraryInfo {
-  /** Name of the library. */
-  name?: string;
-  /** Storage blob path of library. */
-  path?: string;
-  /** Storage blob container name. */
-  containerName?: string;
-  /** The last update time of the library. */
-  uploadedTimestamp?: Date;
-  /** Type of the library. */
-  type?: string;
-  /**
-   * Provisioning status of the library/package.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningStatus?: string;
-  /**
-   * Creator Id of the library/package.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly creatorId?: string;
-}
-
-/** SparkConfig Properties for a Big Data pool powered by Apache Spark */
-export interface SparkConfigProperties {
-  /**
-   * The last update time of the spark config properties file.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly time?: Date;
-  /** The spark config properties. */
-  content?: string;
-  /** The filename of the spark config properties file. */
-  filename?: string;
-  /** The type of the spark config properties file. */
-  configurationType?: ConfigurationType;
-}
-
-/** Properties patch for a Big Data pool */
-export interface BigDataPoolPatchInfo {
-  /** Updated tags for the Big Data pool */
-  tags?: { [propertyName: string]: string };
-}
-
-/** Collection of Big Data pool information */
-export interface BigDataPoolResourceInfoListResult {
-  /** Link to the next page of results */
-  nextLink?: string;
-  /** List of Big Data pools */
-  value?: BigDataPoolResourceInfo[];
-}
-
-/** A list of Library resources. */
-export interface LibraryListResponse {
-  /** List of Library. */
-  value: LibraryResource[];
-  /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
-}
-
-/** Update integration runtime request. */
-export interface UpdateIntegrationRuntimeRequest {
-  /** Enables or disables the auto-update feature of the self-hosted integration runtime. See https://go.microsoft.com/fwlink/?linkid=854189. */
-  autoUpdate?: IntegrationRuntimeAutoUpdate;
-  /** The time offset (in hours) in the day, e.g., PT03H is 3 hours. The integration runtime auto update will happen on that time. */
-  updateDelayOffset?: string;
-}
-
-/** Azure Synapse nested object which serves as a compute resource for activities. */
-export interface IntegrationRuntime {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Managed" | "SelfHosted";
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** Integration runtime description. */
-  description?: string;
-}
-
-/** The IP address of self-hosted integration runtime node. */
-export interface IntegrationRuntimeNodeIpAddress {
-  /**
-   * The IP address of self-hosted integration runtime node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ipAddress?: string;
-}
-
-/** The request payload of get SSIS object metadata. */
-export interface GetSsisObjectMetadataRequest {
-  /** Metadata path. */
-  metadataPath?: string;
-}
-
-/** A list of SSIS object metadata. */
-export interface SsisObjectMetadataListResponse {
-  /** List of SSIS object metadata. */
-  value?: SsisObjectMetadataUnion[];
-  /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
-}
-
-/** SSIS object metadata. */
-export interface SsisObjectMetadata {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Folder" | "Project" | "Package" | "Environment";
-  /** Metadata id. */
-  id?: number;
-  /** Metadata name. */
-  name?: string;
-  /** Metadata description. */
-  description?: string;
-}
-
-/** Properties of Self-hosted integration runtime node. */
-export interface SelfHostedIntegrationRuntimeNode {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /**
-   * Name of the integration runtime node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nodeName?: string;
-  /**
-   * Machine name of the integration runtime node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly machineName?: string;
-  /**
-   * URI for the host machine of the integration runtime.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hostServiceUri?: string;
-  /**
-   * Status of the integration runtime node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: SelfHostedIntegrationRuntimeNodeStatus;
-  /**
-   * The integration runtime capabilities dictionary
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly capabilities?: { [propertyName: string]: string };
-  /**
-   * Status of the integration runtime node version.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly versionStatus?: string;
-  /**
-   * Version of the integration runtime node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly version?: string;
-  /**
-   * The time at which the integration runtime node was registered in ISO8601 format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly registerTime?: Date;
-  /**
-   * The most recent time at which the integration runtime was connected in ISO8601 format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastConnectTime?: Date;
-  /**
-   * The time at which the integration runtime will expire in ISO8601 format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expiryTime?: Date;
-  /**
-   * The time the node last started up.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastStartTime?: Date;
-  /**
-   * The integration runtime node last stop time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastStopTime?: Date;
-  /**
-   * The result of the last integration runtime node update.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastUpdateResult?: IntegrationRuntimeUpdateResult;
-  /**
-   * The last time for the integration runtime node update start.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastStartUpdateTime?: Date;
-  /**
-   * The last time for the integration runtime node update end.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastEndUpdateTime?: Date;
-  /**
-   * Indicates whether this node is the active dispatcher for integration runtime requests.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isActiveDispatcher?: boolean;
-  /**
-   * Maximum concurrent jobs on the integration runtime node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly concurrentJobsLimit?: number;
-  /**
-   * The maximum concurrent jobs in this integration runtime.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maxConcurrentJobs?: number;
-}
-
-/** Update integration runtime node request. */
-export interface UpdateIntegrationRuntimeNodeRequest {
-  /** The number of concurrent jobs permitted to run on the integration runtime node. Values between 1 and maxConcurrentJobs(inclusive) are allowed. */
-  concurrentJobsLimit?: number;
-}
-
-/** A list of integration runtime resources. */
-export interface IntegrationRuntimeListResponse {
-  /** List of integration runtimes. */
-  value: IntegrationRuntimeResource[];
-  /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
-}
-
-/** Connection information for encrypting the on-premises data source credentials. */
-export interface IntegrationRuntimeConnectionInfo {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /**
-   * The token generated in service. Callers use this token to authenticate to integration runtime.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serviceToken?: string;
-  /**
-   * The integration runtime SSL certificate thumbprint. Click-Once application uses it to do server validation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly identityCertThumbprint?: string;
-  /**
-   * The on-premises integration runtime host URL.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hostServiceUri?: string;
-  /**
-   * The integration runtime version.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly version?: string;
-  /**
-   * The public key for encrypting a credential when transferring the credential to the integration runtime.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicKey?: string;
-  /**
-   * Whether the identity certificate is expired.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isIdentityCertExprired?: boolean;
-}
-
-/** Integration runtime status response. */
-export interface IntegrationRuntimeStatusResponse {
-  /**
-   * The integration runtime name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** Type of integration runtime. */
-  type: IntegrationRuntimeType;
-  /**
-   * The workspace name which the integration runtime belong to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dataFactoryName?: string;
-  /**
-   * The state of integration runtime.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: IntegrationRuntimeState;
-}
-
-/** Integration runtime status. */
-export interface IntegrationRuntimeStatus {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Managed" | "SelfHosted";
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /**
-   * The workspace name which the integration runtime belong to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dataFactoryName?: string;
-  /**
-   * The state of integration runtime.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: IntegrationRuntimeState;
-}
-
-/** Parameters to regenerate the authentication key. */
-export interface IntegrationRuntimeRegenerateKeyParameters {
-  /** The name of the authentication key to regenerate. */
-  keyName?: IntegrationRuntimeAuthKeyName;
-}
-
-/** The integration runtime authentication keys. */
-export interface IntegrationRuntimeAuthKeys {
-  /** The primary integration runtime authentication key. */
-  authKey1?: string;
-  /** The secondary integration runtime authentication key. */
-  authKey2?: string;
-}
-
-/** Get monitoring data response. */
-export interface IntegrationRuntimeMonitoringData {
-  /** Integration runtime name. */
-  name?: string;
-  /** Integration runtime node monitoring data. */
-  nodes?: IntegrationRuntimeNodeMonitoringData[];
-}
-
-/** Monitoring data for integration runtime node. */
-export interface IntegrationRuntimeNodeMonitoringData {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /**
-   * Name of the integration runtime node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nodeName?: string;
-  /**
-   * Available memory (MB) on the integration runtime node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availableMemoryInMB?: number;
-  /**
-   * CPU percentage on the integration runtime node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cpuUtilization?: number;
-  /**
-   * Maximum concurrent jobs on the integration runtime node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly concurrentJobsLimit?: number;
-  /**
-   * The number of jobs currently running on the integration runtime node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly concurrentJobsRunning?: number;
-  /**
-   * The maximum concurrent jobs in this integration runtime.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maxConcurrentJobs?: number;
-  /**
-   * Sent bytes on the integration runtime node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sentBytes?: number;
-  /**
-   * Received bytes on the integration runtime node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly receivedBytes?: number;
-}
-
-/** The status of the operation. */
-export interface SsisObjectMetadataStatusResponse {
-  /** The status of the operation. */
-  status?: string;
-  /** The operation name. */
-  name?: string;
-  /** The operation properties. */
-  properties?: string;
-  /** The operation error message. */
-  error?: string;
-}
-
-/** Azure-SSIS integration runtime outbound network dependency endpoints. */
-export interface IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse {
-  /** The list of outbound network dependency endpoints. */
-  value?: IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpoint[];
-}
-
-/** Azure-SSIS integration runtime outbound network dependency endpoints for one category. */
-export interface IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpoint {
-  /** The category of outbound network dependency. */
-  category?: string;
-  /** The endpoints for outbound network dependency. */
-  endpoints?: IntegrationRuntimeOutboundNetworkDependenciesEndpoint[];
-}
-
-/** The endpoint for Azure-SSIS integration runtime outbound network dependency. */
-export interface IntegrationRuntimeOutboundNetworkDependenciesEndpoint {
-  /** The domain name of endpoint. */
-  domainName?: string;
-  /** The details of endpoint. */
-  endpointDetails?: IntegrationRuntimeOutboundNetworkDependenciesEndpointDetails[];
-}
-
-/** The details of Azure-SSIS integration runtime outbound network dependency endpoint. */
-export interface IntegrationRuntimeOutboundNetworkDependenciesEndpointDetails {
-  /** The port of endpoint. */
-  port?: number;
-}
-
-/** Integration Runtime Operation Status Properties */
-export interface IntegrationRuntimeOperationStatus {
-  /** status of Start Integrationruntimes. */
-  status?: WorkspaceStatus;
-  /** The operation name. */
-  name?: string;
-  /** The operation properties. */
-  properties?: Record<string, unknown>;
-  /** The operation error message. */
-  error?: string;
-}
-
-/** Integration Runtime Operation Status Properties */
-export interface IntegrationRuntimeStopOperationStatus {
-  /** status of Start Integrationruntimes. */
-  status?: WorkspaceStatus;
-  /** The operation name. */
-  name?: string;
-  /** The operation properties. */
-  properties?: Record<string, unknown>;
-  /** The operation error message. */
-  error?: string;
-}
-
-/** Integration Runtime Operation Status Properties */
-export interface IntegrationRuntimeEnableinteractivequery {
-  /** EnableInteractivequery status of  Integrationruntimes. */
-  status?: WorkspaceStatus;
-  /** The operation name. */
-  name?: string;
-  /** The operation properties. */
-  properties?: Record<string, unknown>;
-  /** The operation error message. */
-  error?: string;
-}
-
-/** A list of SparkConfiguration resources. */
-export interface SparkConfigurationListResponse {
-  /** List of SparkConfiguration. */
-  value: SparkConfigurationResource[];
-  /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
-}
-
-/** Result of the request to list REST API operations. It contains a list of operations and a URL nextLink to get the next set of results. */
-export interface OperationListResult {
-  /** The list of operations supported by the resource provider. */
-  value?: Operation[];
-  /**
-   * The URL to get the next set of operation list results if there are any.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** A REST API operation */
-export interface Operation {
-  /** This is of the format {provider}/{resource}/{operation}. */
-  name?: string;
-  /** The object that describes the operation. */
-  display?: OperationDisplay;
-  /** The intended executor of the operation. */
-  origin?: string;
-  /** Properties of the operation. */
-  properties?: Record<string, unknown>;
-}
-
-/** The object that describes the operation. */
-export interface OperationDisplay {
-  /** Friendly name of the resource provider. */
-  provider?: string;
-  /** For example: read, write, delete. */
-  operation?: string;
-  /** The resource type on which the operation is performed. */
-  resource?: string;
-  /** The friendly name of the operation. */
-  description?: string;
-}
-
-/** The list of the SKU descriptions */
-export interface SkuDescriptionList {
-  /**
-   * SKU descriptions
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: SkuDescription[];
-}
-
-/** The Kusto SKU description of given resource type */
-export interface SkuDescription {
-  /**
-   * The resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceType?: string;
-  /**
-   * The name of the SKU
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The size of the SKU
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly size?: string;
-  /**
-   * The set of locations that the SKU is available
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly locations?: string[];
-  /**
-   * Locations and zones
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly locationInfo?: SkuLocationInfoItem[];
-  /**
-   * The restrictions because of which SKU cannot be used
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly restrictions?: Record<string, unknown>[];
-}
-
-/** The locations and zones info for SKU. */
-export interface SkuLocationInfoItem {
-  /** The available location of the SKU. */
-  location: string;
-  /** The available zone of the SKU. */
-  zones?: string[];
-}
-
-/** The object sent for a kusto pool check name availability request. */
-export interface KustoPoolCheckNameRequest {
-  /** Kusto Pool name. */
-  name: string;
-  /** The type of resource, Microsoft.Synapse/workspaces/kustoPools. */
-  type: "Microsoft.Synapse/workspaces/kustoPools";
-}
-
-/** The result returned from a check name availability request. */
-export interface CheckNameResult {
-  /** Specifies a Boolean value that indicates if the name is available. */
-  nameAvailable?: boolean;
-  /** The name that was checked. */
-  name?: string;
-  /** Message indicating an unavailable name due to a conflict, or a description of the naming rules that are violated. */
-  message?: string;
-  /** Message providing the reason why the given name is invalid. */
-  reason?: Reason;
-}
-
-/** The list Kusto pools operation response. */
-export interface KustoPoolListResult {
-  /** The list of Kusto pools. */
-  value?: KustoPool[];
-}
-
-/** Azure SKU definition. */
-export interface AzureSku {
-  /** SKU name. */
-  name: SkuName;
-  /** The number of instances of the cluster. */
-  capacity?: number;
-  /** SKU size. */
-  size: SkuSize;
-}
-
-/** A class that contains the optimized auto scale definition. */
-export interface OptimizedAutoscale {
-  /** The version of the template defined, for instance 1. */
-  version: number;
-  /** A boolean value that indicate if the optimized autoscale feature is enabled or not. */
-  isEnabled: boolean;
-  /** Minimum allowed instances count. */
-  minimum: number;
-  /** Maximum allowed instances count. */
-  maximum: number;
-}
-
-/** The list of language extension objects. */
-export interface LanguageExtensionsList {
-  /** The list of language extensions. */
-  value?: LanguageExtension[];
-}
-
-/** The language extension object. */
-export interface LanguageExtension {
-  /** The language extension name. */
-  languageExtensionName?: LanguageExtensionName;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-/** List of available SKUs for a Kusto Pool. */
-export interface ListResourceSkusResult {
-  /** The collection of available SKUs for an existing resource. */
-  value?: AzureResourceSku[];
-}
-
-/** Azure resource SKU definition. */
-export interface AzureResourceSku {
-  /** Resource Namespace and Type. */
-  resourceType?: string;
-  /** The SKU details. */
-  sku?: AzureSku;
-  /** The number of instances of the cluster. */
-  capacity?: AzureCapacity;
-}
-
-/** Azure capacity definition. */
-export interface AzureCapacity {
-  /** Scale type. */
-  scaleType: AzureScaleType;
-  /** Minimum allowed capacity. */
-  minimum: number;
-  /** Maximum allowed capacity. */
-  maximum: number;
-  /** The default capacity that would be used. */
-  default: number;
-}
-
-/** The result returned from a database check name availability request. */
-export interface DatabaseCheckNameRequest {
-  /** Resource name. */
-  name: string;
-  /** The type of resource, for instance Microsoft.Synapse/workspaces/kustoPools/databases. */
-  type: Type;
-}
-
-/** The list Kusto database principals operation response. */
-export interface FollowerDatabaseListResult {
-  /** The list of follower database result. */
-  value?: FollowerDatabaseDefinition[];
-}
-
-/** A class representing follower database request. */
-export interface FollowerDatabaseDefinition {
-  /** Resource id of the cluster that follows a database owned by this cluster. */
-  kustoPoolResourceId: string;
-  /** Resource name of the attached database configuration in the follower cluster. */
-  attachedDatabaseConfigurationName: string;
-  /**
-   * The database name owned by this cluster that was followed. * in case following all databases.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseName?: string;
-}
-
-/** The list attached database configurations operation response. */
-export interface AttachedDatabaseConfigurationListResult {
-  /** The list of attached database configurations. */
-  value?: AttachedDatabaseConfiguration[];
-}
-
-/** Tables that will be included and excluded in the follower database */
-export interface TableLevelSharingProperties {
-  /** List of tables to include in the follower database */
-  tablesToInclude?: string[];
-  /** List of tables to exclude from the follower database */
-  tablesToExclude?: string[];
-  /** List of external tables to include in the follower database */
-  externalTablesToInclude?: string[];
-  /** List of external tables exclude from the follower database */
-  externalTablesToExclude?: string[];
-  /** List of materialized views to include in the follower database */
-  materializedViewsToInclude?: string[];
-  /** List of materialized views exclude from the follower database */
-  materializedViewsToExclude?: string[];
-}
-
-/** The list Kusto databases operation response. */
-export interface DatabaseListResult {
-  /** The list of Kusto databases. */
-  value?: DatabaseUnion[];
-}
-
-/** A data connection check name availability request. */
-export interface DataConnectionCheckNameRequest {
-  /** Data Connection name. */
-  name: string;
-  /** The type of resource, Microsoft.Synapse/workspaces/kustoPools/databases/dataConnections. */
-  type: "Microsoft.Synapse/workspaces/kustoPools/databases/dataConnections";
-}
-
-/** Class representing an data connection validation. */
-export interface DataConnectionValidation {
-  /** The name of the data connection. */
-  dataConnectionName?: string;
-  /** The data connection properties to validate. */
-  properties?: DataConnectionUnion;
-}
-
-/** The list Kusto data connection validation result. */
-export interface DataConnectionValidationListResult {
-  /** The list of Kusto data connection validation errors. */
-  value?: DataConnectionValidationResult[];
-}
-
-/** The result returned from a data connection validation request. */
-export interface DataConnectionValidationResult {
-  /** A message which indicates a problem in data connection validation. */
-  errorMessage?: string;
-}
-
-/** The list Kusto data connections operation response. */
-export interface DataConnectionListResult {
-  /** The list of Kusto data connections. */
-  value?: DataConnectionUnion[];
-}
-
-/** A principal assignment check name availability request. */
-export interface ClusterPrincipalAssignmentCheckNameRequest {
-  /** Principal Assignment resource name. */
-  name: string;
-  /** The type of resource, Microsoft.Synapse/workspaces/kustoPools/principalAssignments. */
-  type: "Microsoft.Synapse/workspaces/kustoPools/principalAssignments";
-}
-
-/** The list Kusto cluster principal assignments operation response. */
-export interface ClusterPrincipalAssignmentListResult {
-  /** The list of Kusto cluster principal assignments. */
-  value?: ClusterPrincipalAssignment[];
-}
-
-/** A principal assignment check name availability request. */
-export interface DatabasePrincipalAssignmentCheckNameRequest {
-  /** Principal Assignment resource name. */
-  name: string;
-  /** The type of resource, Microsoft.Synapse/workspaces/kustoPools/databases/principalAssignments. */
-  type: "Microsoft.Synapse/workspaces/kustoPools/databases/principalAssignments";
-}
-
-/** The list Kusto database principal assignments operation response. */
-export interface DatabasePrincipalAssignmentListResult {
-  /** The list of Kusto database principal assignments. */
-  value?: DatabasePrincipalAssignment[];
-}
-
-/** The list Kusto Private Link Resources operation response. */
-export interface PrivateLinkResources {
-  /** The list of Kusto Private Link Resources. */
-  value?: KustoPoolPrivateLinkResources[];
-}
-
-/** A database query. */
-export interface TopQueries {
-  /**
-   * The function that is used to aggregate each query's metrics.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly aggregationFunction?: QueryAggregationFunction;
-  /**
-   * The execution type that is used to filter the query instances that are returned.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly executionType?: QueryExecutionType;
-  /**
-   * The duration of the interval (ISO8601 duration format).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly intervalType?: string;
-  /**
-   * The number of requested queries.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly numberOfTopQueries?: number;
-  /**
-   * The start time for queries that are returned (ISO8601 format)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly observationStartTime?: Date;
-  /**
-   * The end time for queries that are returned (ISO8601 format)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly observationEndTime?: Date;
-  /**
-   * The type of metric to use for ordering the top metrics.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly observedMetric?: QueryObservedMetricType;
-  /**
-   * The list of queries.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly queries?: QueryStatistic[];
-}
-
-/** A database query. */
-export interface QueryStatistic {
-  /**
-   * The id of the query
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly queryId?: string;
-  /**
-   * The list of query intervals.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly intervals?: QueryInterval[];
-}
-
-/** A database query. */
-export interface QueryInterval {
-  /**
-   * The start time of the measurement interval (ISO8601 format).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly intervalStartTime?: Date;
-  /**
-   * The number of times the query was executed during this interval.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly executionCount?: number;
-  /**
-   * The list of query metrics during this interval.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly metrics?: QueryMetric[];
-}
-
-/** A database query. */
-export interface QueryMetric {
-  /**
-   * The name of the metric
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The name of the metric for display in user interface
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /**
-   * The unit of measurement
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly unit?: QueryMetricUnit;
-  /**
-   * The measured value
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: number;
-}
-
-/** Represents the response to a get top queries request. */
-export interface TopQueriesListResult {
-  /** The list of top queries. */
-  value: TopQueries[];
-}
-
-/** Dedicated SQL minimal tls settings patch info */
-export interface DedicatedSQLminimalTlsSettingsPatchInfo {
-  /** minimal tls version */
-  minimalTlsVersion?: string;
-}
-
 /** The compute resource properties for managed integration runtime. */
 export interface IntegrationRuntimeComputeProperties {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
@@ -2116,8 +1652,6 @@ export interface IntegrationRuntimeDataFlowProperties {
   coreCount?: number;
   /** Time to live (in minutes) setting of the cluster which will execute data flow job. */
   timeToLive?: number;
-  /** Cluster will not be recycled and it will be used in next data flow activity run until TTL (time to live) is reached if this is set as false. Default is true. */
-  cleanup?: boolean;
 }
 
 /** VNet properties for managed integration runtime. */
@@ -2202,6 +1736,12 @@ export interface EntityReference {
 export interface CustomSetupBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CmdkeySetup" | "EnvironmentVariableSetup" | "ComponentSetup";
+}
+
+/** The definition and properties of virtual network to which Azure-SSIS integration runtime will join. */
+export interface IntegrationRuntimeCustomerVirtualNetwork {
+  /** The ID of subnet to which Azure-SSIS integration runtime will join. */
+  subnetId?: string;
 }
 
 /** The base definition of a linked integration runtime. */
@@ -2377,10 +1917,117 @@ export interface SsisVariable {
   sensitiveValue?: string;
 }
 
-/** A class that contains database statistics information. */
-export interface DatabaseStatistics {
-  /** The database size - the total size of compressed data and index in bytes. */
-  size?: number;
+/** A database query. */
+export interface TopQueries {
+  /**
+   * The function that is used to aggregate each query's metrics.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly aggregationFunction?: QueryAggregationFunction;
+  /**
+   * The execution type that is used to filter the query instances that are returned.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly executionType?: QueryExecutionType;
+  /**
+   * The duration of the interval (ISO8601 duration format).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly intervalType?: string;
+  /**
+   * The number of requested queries.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfTopQueries?: number;
+  /**
+   * The start time for queries that are returned (ISO8601 format)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly observationStartTime?: Date;
+  /**
+   * The end time for queries that are returned (ISO8601 format)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly observationEndTime?: Date;
+  /**
+   * The type of metric to use for ordering the top metrics.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly observedMetric?: QueryObservedMetricType;
+  /**
+   * The list of queries.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly queries?: QueryStatistic[];
+}
+
+/** A database query. */
+export interface QueryStatistic {
+  /**
+   * The id of the query
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly queryId?: string;
+  /**
+   * The list of query intervals.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly intervals?: QueryInterval[];
+}
+
+/** A database query. */
+export interface QueryInterval {
+  /**
+   * The start time of the measurement interval (ISO8601 format).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly intervalStartTime?: Date;
+  /**
+   * The number of times the query was executed during this interval.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly executionCount?: number;
+  /**
+   * The list of query metrics during this interval.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metrics?: QueryMetric[];
+}
+
+/** A database query. */
+export interface QueryMetric {
+  /**
+   * The name of the metric
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The name of the metric for display in user interface
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * The unit of measurement
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly unit?: QueryMetricUnit;
+  /**
+   * The measured value
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: number;
+}
+
+/** Represents the response to a get top queries request. */
+export interface TopQueriesListResult {
+  /** The list of top queries. */
+  value: TopQueries[];
+}
+
+/** Dedicated SQL minimal tls settings patch info */
+export interface DedicatedSQLminimalTlsSettingsPatchInfo {
+  /** minimal tls version */
+  minimalTlsVersion?: string;
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
@@ -2403,58 +2050,6 @@ export interface AzureEntityResource extends Resource {
   readonly etag?: string;
 }
 
-/** Class representing an update to a Kusto kusto pool. */
-export interface KustoPoolUpdate extends Resource {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The SKU of the kusto pool. */
-  sku?: AzureSku;
-  /**
-   * The state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: State;
-  /**
-   * The provisioned state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ResourceProvisioningState;
-  /**
-   * The Kusto Pool URI.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly uri?: string;
-  /**
-   * The Kusto Pool data ingestion URI.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dataIngestionUri?: string;
-  /**
-   * The reason for the Kusto Pool's current state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly stateReason?: string;
-  /** Optimized auto scale definition. */
-  optimizedAutoscale?: OptimizedAutoscale;
-  /** A boolean value that indicates if the streaming ingest is enabled. */
-  enableStreamingIngest?: boolean;
-  /** A boolean value that indicates if the purge operations are enabled. */
-  enablePurge?: boolean;
-  /**
-   * List of the Kusto Pool's language extensions.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly languageExtensions?: LanguageExtensionsList;
-  /** The workspace unique identifier. */
-  workspaceUID?: string;
-}
-
-export interface PrivateEndpointConnectionForPrivateLinkHub
-  extends PrivateEndpointConnectionForPrivateLinkHubBasicAutoGenerated {
-  name?: string;
-  type?: string;
-}
-
 /** Managed integration runtime, including managed elastic and managed dedicated integration runtimes. */
 export interface ManagedIntegrationRuntime extends IntegrationRuntime {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -2463,8 +2058,8 @@ export interface ManagedIntegrationRuntime extends IntegrationRuntime {
    * Integration runtime state, only valid for managed dedicated integration runtime.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly state?: IntegrationRuntimeState;
-  /** The reference name of the managed virtual network. */
+  readonly provisioningState?: IntegrationRuntimeState;
+  /** The reference name of the managed virtual network */
   referenceName?: string;
   /** The type of the managed virtual network. */
   typeManagedVirtualNetworkType?: string;
@@ -2474,6 +2069,8 @@ export interface ManagedIntegrationRuntime extends IntegrationRuntime {
   computeProperties?: IntegrationRuntimeComputeProperties;
   /** SSIS properties for managed integration runtime. */
   ssisProperties?: IntegrationRuntimeSsisProperties;
+  /** The name of virtual network to which Azure-SSIS integration runtime will join */
+  customerVirtualNetwork?: IntegrationRuntimeCustomerVirtualNetwork;
 }
 
 /** Self-hosted integration runtime. */
@@ -2639,10 +2236,12 @@ export interface SelfHostedIntegrationRuntimeStatus
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly autoUpdateETA?: Date;
-  /** The service region of the integration runtime */
-  serviceRegion?: string;
-  /** The newer versions on download center. */
-  newerVersions?: string[];
+}
+
+export interface PrivateEndpointConnectionForPrivateLinkHub
+  extends PrivateEndpointConnectionForPrivateLinkHubBasicAutoGenerated {
+  name?: string;
+  type?: string;
 }
 
 /** Azure Synapse secure string definition. The string value will be masked with asterisks '*' during Get or List API calls. */
@@ -3773,7 +3372,7 @@ export interface ServerVulnerabilityAssessment extends ProxyResource {
   /** Specifies the identifier key of the storage account for vulnerability assessment scan results. If 'StorageContainerSasKey' isn't specified, storageAccountAccessKey is required. */
   storageAccountAccessKey?: string;
   /** The recurring scans settings */
-  recurringScans?: VulnerabilityAssessmentRecurringScansProperties;
+  recurringScans?: VulnerabilityAssessmentRecurringScansPropertiesAutoGenerated;
 }
 
 /** The server encryption protector. */
@@ -3911,162 +3510,55 @@ export interface RestorableDroppedSqlPool extends ProxyResource {
   readonly earliestRestoreDate?: Date;
 }
 
-/** Class representing an attached database configuration. */
-export interface AttachedDatabaseConfiguration extends ProxyResource {
-  /** Resource location. */
-  location?: string;
+/** A Big Data pool */
+export interface BigDataPoolResourceInfo extends TrackedResource {
+  /** The state of the Big Data pool. */
+  provisioningState?: string;
+  /** Auto-scaling properties */
+  autoScale?: AutoScaleProperties;
   /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * The time when the Big Data pool was created.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly systemData?: SystemData;
+  readonly creationDate?: Date;
+  /** Auto-pausing properties */
+  autoPause?: AutoPauseProperties;
+  /** Whether compute isolation is required or not. */
+  isComputeIsolationEnabled?: boolean;
+  /** Whether autotune is required or not. */
+  isAutotuneEnabled?: boolean;
+  /** Whether session level packages enabled. */
+  sessionLevelPackagesEnabled?: boolean;
   /**
-   * The provisioned state of the resource.
+   * The cache size
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: ResourceProvisioningState;
-  /** The name of the database which you would like to attach, use * if you want to follow all current and future databases. */
-  databaseName?: string;
-  /** The resource id of the kusto pool where the databases you would like to attach reside. */
-  kustoPoolResourceId?: string;
+  readonly cacheSize?: number;
+  /** Dynamic Executor Allocation */
+  dynamicExecutorAllocation?: DynamicExecutorAllocation;
+  /** The Spark events folder */
+  sparkEventsFolder?: string;
+  /** The number of nodes in the Big Data pool. */
+  nodeCount?: number;
+  /** Library version requirements */
+  libraryRequirements?: LibraryRequirements;
+  /** List of custom libraries/packages associated with the spark pool. */
+  customLibraries?: LibraryInfo[];
+  /** Spark configuration file to specify additional properties */
+  sparkConfigProperties?: SparkConfigProperties;
+  /** The Apache Spark version. */
+  sparkVersion?: string;
+  /** The default folder where Spark logs will be written. */
+  defaultSparkLogFolder?: string;
+  /** The level of compute power that each node in the Big Data pool has. */
+  nodeSize?: NodeSize;
+  /** The kind of nodes that the Big Data pool provides. */
+  nodeSizeFamily?: NodeSizeFamily;
   /**
-   * The list of databases from the clusterResourceId which are currently attached to the kusto pool.
+   * The time when the Big Data pool was updated successfully.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly attachedDatabaseNames?: string[];
-  /** The default principals modification kind */
-  defaultPrincipalsModificationKind?: DefaultPrincipalsModificationKind;
-  /** Table level sharing specifications */
-  tableLevelSharingProperties?: TableLevelSharingProperties;
-}
-
-/** Class representing a Kusto database. */
-export interface Database extends ProxyResource {
-  /** Resource location. */
-  location?: string;
-  /** Kind of the database */
-  kind: Kind;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Class representing a data connection. */
-export interface DataConnection extends ProxyResource {
-  /** Resource location. */
-  location?: string;
-  /** Kind of the endpoint for the data connection */
-  kind: DataConnectionKind;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Class representing a cluster principal assignment. */
-export interface ClusterPrincipalAssignment extends ProxyResource {
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The principal ID assigned to the cluster principal. It can be a user email, application ID, or security group name. */
-  principalId?: string;
-  /** Cluster principal role. */
-  role?: ClusterPrincipalRole;
-  /** The tenant id of the principal */
-  tenantId?: string;
-  /** Principal type. */
-  principalType?: PrincipalType;
-  /**
-   * The tenant name of the principal
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantName?: string;
-  /**
-   * The principal name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalName?: string;
-  /**
-   * The provisioned state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ResourceProvisioningState;
-  /**
-   * The service principal object id in AAD (Azure active directory)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly aadObjectId?: string;
-}
-
-/** Class representing a database principal assignment. */
-export interface DatabasePrincipalAssignment extends ProxyResource {
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The principal ID assigned to the database principal. It can be a user email, application ID, or security group name. */
-  principalId?: string;
-  /** Database principal role. */
-  role?: DatabasePrincipalRole;
-  /** The tenant id of the principal */
-  tenantId?: string;
-  /** Principal type. */
-  principalType?: PrincipalType;
-  /**
-   * The tenant name of the principal
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantName?: string;
-  /**
-   * The principal name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalName?: string;
-  /**
-   * The provisioned state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ResourceProvisioningState;
-  /**
-   * The service principal object id in AAD (Azure active directory)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly aadObjectId?: string;
-}
-
-/** Class representing a Private Link Resources. */
-export interface KustoPoolPrivateLinkResources extends ProxyResource {
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * The Private link resources GroupId
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly groupId?: string;
-  /**
-   * The private link resource required member names.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requiredMembers?: string[];
-  /**
-   * The private link resource required zone names.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requiredZoneNames?: string[];
-  /**
-   * The provisioned state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly lastSucceededTimestamp?: Date;
 }
 
 /** A privateLinkHub */
@@ -4143,8 +3635,11 @@ export interface Workspace extends TrackedResource {
   sqlAdministratorLogin?: string;
   /** Virtual Network profile */
   virtualNetworkProfile?: VirtualNetworkProfile;
-  /** Connectivity endpoints */
-  connectivityEndpoints?: { [propertyName: string]: string };
+  /**
+   * Connectivity endpoints
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectivityEndpoints?: { [propertyName: string]: string };
   /** Setting this to 'default' will ensure that all compute for this workspace is in a virtual network managed on behalf of the user. */
   managedVirtualNetwork?: string;
   /** Private endpoint connections to the workspace */
@@ -4160,9 +3655,7 @@ export interface Workspace extends TrackedResource {
    * Workspace level configs and feature flags
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly extraProperties?: {
-    [propertyName: string]: Record<string, unknown>;
-  };
+  readonly extraProperties?: Record<string, unknown>;
   /** Managed Virtual Network Settings */
   managedVirtualNetworkSettings?: ManagedVirtualNetworkSettings;
   /** Git integration settings */
@@ -4189,251 +3682,13 @@ export interface Workspace extends TrackedResource {
   trustedServiceBypassEnabled?: boolean;
 }
 
-/** A Big Data pool */
-export interface BigDataPoolResourceInfo extends TrackedResource {
-  /** The state of the Big Data pool. */
-  provisioningState?: string;
-  /** Auto-scaling properties */
-  autoScale?: AutoScaleProperties;
-  /**
-   * The time when the Big Data pool was created.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly creationDate?: Date;
-  /** Auto-pausing properties */
-  autoPause?: AutoPauseProperties;
-  /** Whether compute isolation is required or not. */
-  isComputeIsolationEnabled?: boolean;
-  /** Whether autotune is required or not. */
-  isAutotuneEnabled?: boolean;
-  /** Whether session level packages enabled. */
-  sessionLevelPackagesEnabled?: boolean;
-  /** The cache size */
-  cacheSize?: number;
-  /** Dynamic Executor Allocation */
-  dynamicExecutorAllocation?: DynamicExecutorAllocation;
-  /** The Spark events folder */
-  sparkEventsFolder?: string;
-  /** The number of nodes in the Big Data pool. */
-  nodeCount?: number;
-  /** Library version requirements */
-  libraryRequirements?: LibraryRequirements;
-  /** List of custom libraries/packages associated with the spark pool. */
-  customLibraries?: LibraryInfo[];
-  /** Spark configuration file to specify additional properties */
-  sparkConfigProperties?: SparkConfigProperties;
-  /** The Apache Spark version. */
-  sparkVersion?: string;
-  /** The default folder where Spark logs will be written. */
-  defaultSparkLogFolder?: string;
-  /** The level of compute power that each node in the Big Data pool has. */
-  nodeSize?: NodeSize;
-  /** The kind of nodes that the Big Data pool provides. */
-  nodeSizeFamily?: NodeSizeFamily;
-  /**
-   * The time when the Big Data pool was updated successfully.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastSucceededTimestamp?: Date;
-}
-
-/** Class representing a Kusto kusto pool. */
-export interface KustoPool extends TrackedResource {
-  /** The SKU of the kusto pool. */
-  sku: AzureSku;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * The state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: State;
-  /**
-   * The provisioned state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ResourceProvisioningState;
-  /**
-   * The Kusto Pool URI.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly uri?: string;
-  /**
-   * The Kusto Pool data ingestion URI.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dataIngestionUri?: string;
-  /**
-   * The reason for the Kusto Pool's current state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly stateReason?: string;
-  /** Optimized auto scale definition. */
-  optimizedAutoscale?: OptimizedAutoscale;
-  /** A boolean value that indicates if the streaming ingest is enabled. */
-  enableStreamingIngest?: boolean;
-  /** A boolean value that indicates if the purge operations are enabled. */
-  enablePurge?: boolean;
-  /**
-   * List of the Kusto Pool's language extensions.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly languageExtensions?: LanguageExtensionsList;
-  /** The workspace unique identifier. */
-  workspaceUID?: string;
-}
-
 /** Azure Synapse nested resource, which belongs to a workspace. */
 export interface SubResource extends AzureEntityResource {}
 
-/** Class representing a read write database. */
-export interface ReadWriteDatabase extends Database {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "ReadWrite";
-  /**
-   * The provisioned state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ResourceProvisioningState;
-  /** The time the data should be kept before it stops being accessible to queries in TimeSpan. */
-  softDeletePeriod?: string;
-  /** The time the data should be kept in cache for fast queries in TimeSpan. */
-  hotCachePeriod?: string;
-  /**
-   * The statistics of the database.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statistics?: DatabaseStatistics;
-  /**
-   * Indicates whether the database is followed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isFollowed?: boolean;
-}
-
-/** Class representing a read only following database. */
-export interface ReadOnlyFollowingDatabase extends Database {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "ReadOnlyFollowing";
-  /**
-   * The provisioned state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ResourceProvisioningState;
-  /**
-   * The time the data should be kept before it stops being accessible to queries in TimeSpan.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly softDeletePeriod?: string;
-  /** The time the data should be kept in cache for fast queries in TimeSpan. */
-  hotCachePeriod?: string;
-  /**
-   * The statistics of the database.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statistics?: DatabaseStatistics;
-  /**
-   * The name of the leader cluster
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly leaderClusterResourceId?: string;
-  /**
-   * The name of the attached database configuration cluster
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly attachedDatabaseConfigurationName?: string;
-  /**
-   * The principals modification kind of the database
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalsModificationKind?: PrincipalsModificationKind;
-}
-
-/** Class representing an event hub data connection. */
-export interface EventHubDataConnection extends DataConnection {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "EventHub";
-  /** The resource ID of the event hub to be used to create a data connection. */
-  eventHubResourceId?: string;
-  /** The event hub consumer group. */
-  consumerGroup?: string;
-  /** The table where the data should be ingested. Optionally the table information can be added to each message. */
-  tableName?: string;
-  /** The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message. */
-  mappingRuleName?: string;
-  /** The data format of the message. Optionally the data format can be added to each message. */
-  dataFormat?: EventHubDataFormat;
-  /** System properties of the event hub */
-  eventSystemProperties?: string[];
-  /** The event hub messages compression type */
-  compression?: Compression;
-  /**
-   * The provisioned state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ResourceProvisioningState;
-  /** The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub. */
-  managedIdentityResourceId?: string;
-}
-
-/** Class representing an iot hub data connection. */
-export interface IotHubDataConnection extends DataConnection {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "IotHub";
-  /** The resource ID of the Iot hub to be used to create a data connection. */
-  iotHubResourceId?: string;
-  /** The iot hub consumer group. */
-  consumerGroup?: string;
-  /** The table where the data should be ingested. Optionally the table information can be added to each message. */
-  tableName?: string;
-  /** The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message. */
-  mappingRuleName?: string;
-  /** The data format of the message. Optionally the data format can be added to each message. */
-  dataFormat?: IotHubDataFormat;
-  /** System properties of the iot hub */
-  eventSystemProperties?: string[];
-  /** The name of the share access policy */
-  sharedAccessPolicyName?: string;
-  /**
-   * The provisioned state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ResourceProvisioningState;
-}
-
-/** Class representing an Event Grid data connection. */
-export interface EventGridDataConnection extends DataConnection {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "EventGrid";
-  /** The resource ID of the storage account where the data resides. */
-  storageAccountResourceId?: string;
-  /** The resource ID where the event grid is configured to send events. */
-  eventHubResourceId?: string;
-  /** The event hub consumer group. */
-  consumerGroup?: string;
-  /** The table where the data should be ingested. Optionally the table information can be added to each message. */
-  tableName?: string;
-  /** The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message. */
-  mappingRuleName?: string;
-  /** The data format of the message. Optionally the data format can be added to each message. */
-  dataFormat?: EventGridDataFormat;
-  /** A Boolean value that, if set to true, indicates that ingestion should ignore the first record of every file */
-  ignoreFirstRecord?: boolean;
-  /** The name of blob storage event type to process. */
-  blobStorageEventType?: BlobStorageEventType;
-  /**
-   * The provisioned state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ResourceProvisioningState;
+/** Integration runtime resource type. */
+export interface IntegrationRuntimeResource extends SubResource {
+  /** Integration runtime properties. */
+  properties: IntegrationRuntimeUnion;
 }
 
 /** Library response details */
@@ -4444,8 +3699,11 @@ export interface LibraryResource extends SubResource {
   path?: string;
   /** Storage blob container name. */
   containerName?: string;
-  /** The last update time of the library. */
-  uploadedTimestamp?: Date;
+  /**
+   * The last update time of the library.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uploadedTimestamp?: Date;
   /** Type of the library. */
   typePropertiesType?: string;
   /**
@@ -4458,32 +3716,6 @@ export interface LibraryResource extends SubResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly creatorId?: string;
-}
-
-/** Integration runtime resource type. */
-export interface IntegrationRuntimeResource extends SubResource {
-  /** Type of integration runtime. */
-  typePropertiesType: IntegrationRuntimeType;
-  /** Integration runtime description. */
-  description?: string;
-}
-
-/** SparkConfiguration response details */
-export interface SparkConfigurationResource extends SubResource {
-  /** Description about the SparkConfiguration. */
-  description?: string;
-  /** SparkConfiguration configs. */
-  configs: { [propertyName: string]: string };
-  /** Annotations for SparkConfiguration. */
-  annotations?: string[];
-  /** additional Notes. */
-  notes?: string;
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The timestamp of resource creation. */
-  created?: Date;
-  /** SparkConfiguration merge configs. */
-  configMergeRule?: { [propertyName: string]: string };
 }
 
 /** Known values of {@link AzureADOnlyAuthenticationName} that the service accepts. */
@@ -4522,6 +3754,81 @@ export enum KnownStateValue {
  */
 export type StateValue = string;
 
+/** Known values of {@link ConfigurationType} that the service accepts. */
+export enum KnownConfigurationType {
+  /** File */
+  File = "File",
+  /** Artifact */
+  Artifact = "Artifact"
+}
+
+/**
+ * Defines values for ConfigurationType. \
+ * {@link KnownConfigurationType} can be used interchangeably with ConfigurationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **File** \
+ * **Artifact**
+ */
+export type ConfigurationType = string;
+
+/** Known values of {@link NodeSize} that the service accepts. */
+export enum KnownNodeSize {
+  /** None */
+  None = "None",
+  /** Small */
+  Small = "Small",
+  /** Medium */
+  Medium = "Medium",
+  /** Large */
+  Large = "Large",
+  /** XLarge */
+  XLarge = "XLarge",
+  /** XXLarge */
+  XXLarge = "XXLarge",
+  /** XXXLarge */
+  XXXLarge = "XXXLarge"
+}
+
+/**
+ * Defines values for NodeSize. \
+ * {@link KnownNodeSize} can be used interchangeably with NodeSize,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Small** \
+ * **Medium** \
+ * **Large** \
+ * **XLarge** \
+ * **XXLarge** \
+ * **XXXLarge**
+ */
+export type NodeSize = string;
+
+/** Known values of {@link NodeSizeFamily} that the service accepts. */
+export enum KnownNodeSizeFamily {
+  /** None */
+  None = "None",
+  /** MemoryOptimized */
+  MemoryOptimized = "MemoryOptimized",
+  /** HardwareAcceleratedFpga */
+  HardwareAcceleratedFpga = "HardwareAcceleratedFPGA",
+  /** HardwareAcceleratedGPU */
+  HardwareAcceleratedGPU = "HardwareAcceleratedGPU"
+}
+
+/**
+ * Defines values for NodeSizeFamily. \
+ * {@link KnownNodeSizeFamily} can be used interchangeably with NodeSizeFamily,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **MemoryOptimized** \
+ * **HardwareAcceleratedFPGA** \
+ * **HardwareAcceleratedGPU**
+ */
+export type NodeSizeFamily = string;
+
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
   /** Provisioning */
@@ -4548,6 +3855,180 @@ export enum KnownProvisioningState {
  * **DeleteError**
  */
 export type ProvisioningState = string;
+
+/** Known values of {@link IntegrationRuntimeAutoUpdate} that the service accepts. */
+export enum KnownIntegrationRuntimeAutoUpdate {
+  /** On */
+  On = "On",
+  /** Off */
+  Off = "Off"
+}
+
+/**
+ * Defines values for IntegrationRuntimeAutoUpdate. \
+ * {@link KnownIntegrationRuntimeAutoUpdate} can be used interchangeably with IntegrationRuntimeAutoUpdate,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **On** \
+ * **Off**
+ */
+export type IntegrationRuntimeAutoUpdate = string;
+
+/** Known values of {@link IntegrationRuntimeType} that the service accepts. */
+export enum KnownIntegrationRuntimeType {
+  /** Managed */
+  Managed = "Managed",
+  /** SelfHosted */
+  SelfHosted = "SelfHosted"
+}
+
+/**
+ * Defines values for IntegrationRuntimeType. \
+ * {@link KnownIntegrationRuntimeType} can be used interchangeably with IntegrationRuntimeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Managed** \
+ * **SelfHosted**
+ */
+export type IntegrationRuntimeType = string;
+
+/** Known values of {@link SsisObjectMetadataType} that the service accepts. */
+export enum KnownSsisObjectMetadataType {
+  /** Folder */
+  Folder = "Folder",
+  /** Project */
+  Project = "Project",
+  /** Package */
+  Package = "Package",
+  /** Environment */
+  Environment = "Environment"
+}
+
+/**
+ * Defines values for SsisObjectMetadataType. \
+ * {@link KnownSsisObjectMetadataType} can be used interchangeably with SsisObjectMetadataType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Folder** \
+ * **Project** \
+ * **Package** \
+ * **Environment**
+ */
+export type SsisObjectMetadataType = string;
+
+/** Known values of {@link SelfHostedIntegrationRuntimeNodeStatus} that the service accepts. */
+export enum KnownSelfHostedIntegrationRuntimeNodeStatus {
+  /** NeedRegistration */
+  NeedRegistration = "NeedRegistration",
+  /** Online */
+  Online = "Online",
+  /** Limited */
+  Limited = "Limited",
+  /** Offline */
+  Offline = "Offline",
+  /** Upgrading */
+  Upgrading = "Upgrading",
+  /** Initializing */
+  Initializing = "Initializing",
+  /** InitializeFailed */
+  InitializeFailed = "InitializeFailed"
+}
+
+/**
+ * Defines values for SelfHostedIntegrationRuntimeNodeStatus. \
+ * {@link KnownSelfHostedIntegrationRuntimeNodeStatus} can be used interchangeably with SelfHostedIntegrationRuntimeNodeStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NeedRegistration** \
+ * **Online** \
+ * **Limited** \
+ * **Offline** \
+ * **Upgrading** \
+ * **Initializing** \
+ * **InitializeFailed**
+ */
+export type SelfHostedIntegrationRuntimeNodeStatus = string;
+
+/** Known values of {@link IntegrationRuntimeUpdateResult} that the service accepts. */
+export enum KnownIntegrationRuntimeUpdateResult {
+  /** None */
+  None = "None",
+  /** Succeed */
+  Succeed = "Succeed",
+  /** Fail */
+  Fail = "Fail"
+}
+
+/**
+ * Defines values for IntegrationRuntimeUpdateResult. \
+ * {@link KnownIntegrationRuntimeUpdateResult} can be used interchangeably with IntegrationRuntimeUpdateResult,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Succeed** \
+ * **Fail**
+ */
+export type IntegrationRuntimeUpdateResult = string;
+
+/** Known values of {@link IntegrationRuntimeState} that the service accepts. */
+export enum KnownIntegrationRuntimeState {
+  /** Initial */
+  Initial = "Initial",
+  /** Stopped */
+  Stopped = "Stopped",
+  /** Started */
+  Started = "Started",
+  /** Starting */
+  Starting = "Starting",
+  /** Stopping */
+  Stopping = "Stopping",
+  /** NeedRegistration */
+  NeedRegistration = "NeedRegistration",
+  /** Online */
+  Online = "Online",
+  /** Limited */
+  Limited = "Limited",
+  /** Offline */
+  Offline = "Offline",
+  /** AccessDenied */
+  AccessDenied = "AccessDenied"
+}
+
+/**
+ * Defines values for IntegrationRuntimeState. \
+ * {@link KnownIntegrationRuntimeState} can be used interchangeably with IntegrationRuntimeState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Initial** \
+ * **Stopped** \
+ * **Started** \
+ * **Starting** \
+ * **Stopping** \
+ * **NeedRegistration** \
+ * **Online** \
+ * **Limited** \
+ * **Offline** \
+ * **AccessDenied**
+ */
+export type IntegrationRuntimeState = string;
+
+/** Known values of {@link IntegrationRuntimeAuthKeyName} that the service accepts. */
+export enum KnownIntegrationRuntimeAuthKeyName {
+  /** AuthKey1 */
+  AuthKey1 = "authKey1",
+  /** AuthKey2 */
+  AuthKey2 = "authKey2"
+}
+
+/**
+ * Defines values for IntegrationRuntimeAuthKeyName. \
+ * {@link KnownIntegrationRuntimeAuthKeyName} can be used interchangeably with IntegrationRuntimeAuthKeyName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **authKey1** \
+ * **authKey2**
+ */
+export type IntegrationRuntimeAuthKeyName = string;
 
 /** Known values of {@link OperationStatus} that the service accepts. */
 export enum KnownOperationStatus {
@@ -5044,600 +4525,6 @@ export enum KnownWorkspacePublicNetworkAccess {
  */
 export type WorkspacePublicNetworkAccess = string;
 
-/** Known values of {@link ConfigurationType} that the service accepts. */
-export enum KnownConfigurationType {
-  /** File */
-  File = "File",
-  /** Artifact */
-  Artifact = "Artifact"
-}
-
-/**
- * Defines values for ConfigurationType. \
- * {@link KnownConfigurationType} can be used interchangeably with ConfigurationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **File** \
- * **Artifact**
- */
-export type ConfigurationType = string;
-
-/** Known values of {@link NodeSize} that the service accepts. */
-export enum KnownNodeSize {
-  /** None */
-  None = "None",
-  /** Small */
-  Small = "Small",
-  /** Medium */
-  Medium = "Medium",
-  /** Large */
-  Large = "Large",
-  /** XLarge */
-  XLarge = "XLarge",
-  /** XXLarge */
-  XXLarge = "XXLarge",
-  /** XXXLarge */
-  XXXLarge = "XXXLarge"
-}
-
-/**
- * Defines values for NodeSize. \
- * {@link KnownNodeSize} can be used interchangeably with NodeSize,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **Small** \
- * **Medium** \
- * **Large** \
- * **XLarge** \
- * **XXLarge** \
- * **XXXLarge**
- */
-export type NodeSize = string;
-
-/** Known values of {@link NodeSizeFamily} that the service accepts. */
-export enum KnownNodeSizeFamily {
-  /** None */
-  None = "None",
-  /** MemoryOptimized */
-  MemoryOptimized = "MemoryOptimized",
-  /** HardwareAcceleratedFpga */
-  HardwareAcceleratedFpga = "HardwareAcceleratedFPGA",
-  /** HardwareAcceleratedGPU */
-  HardwareAcceleratedGPU = "HardwareAcceleratedGPU"
-}
-
-/**
- * Defines values for NodeSizeFamily. \
- * {@link KnownNodeSizeFamily} can be used interchangeably with NodeSizeFamily,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **MemoryOptimized** \
- * **HardwareAcceleratedFPGA** \
- * **HardwareAcceleratedGPU**
- */
-export type NodeSizeFamily = string;
-
-/** Known values of {@link IntegrationRuntimeAutoUpdate} that the service accepts. */
-export enum KnownIntegrationRuntimeAutoUpdate {
-  /** On */
-  On = "On",
-  /** Off */
-  Off = "Off"
-}
-
-/**
- * Defines values for IntegrationRuntimeAutoUpdate. \
- * {@link KnownIntegrationRuntimeAutoUpdate} can be used interchangeably with IntegrationRuntimeAutoUpdate,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **On** \
- * **Off**
- */
-export type IntegrationRuntimeAutoUpdate = string;
-
-/** Known values of {@link IntegrationRuntimeType} that the service accepts. */
-export enum KnownIntegrationRuntimeType {
-  /** Managed */
-  Managed = "Managed",
-  /** SelfHosted */
-  SelfHosted = "SelfHosted"
-}
-
-/**
- * Defines values for IntegrationRuntimeType. \
- * {@link KnownIntegrationRuntimeType} can be used interchangeably with IntegrationRuntimeType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Managed** \
- * **SelfHosted**
- */
-export type IntegrationRuntimeType = string;
-
-/** Known values of {@link SsisObjectMetadataType} that the service accepts. */
-export enum KnownSsisObjectMetadataType {
-  /** Folder */
-  Folder = "Folder",
-  /** Project */
-  Project = "Project",
-  /** Package */
-  Package = "Package",
-  /** Environment */
-  Environment = "Environment"
-}
-
-/**
- * Defines values for SsisObjectMetadataType. \
- * {@link KnownSsisObjectMetadataType} can be used interchangeably with SsisObjectMetadataType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Folder** \
- * **Project** \
- * **Package** \
- * **Environment**
- */
-export type SsisObjectMetadataType = string;
-
-/** Known values of {@link SelfHostedIntegrationRuntimeNodeStatus} that the service accepts. */
-export enum KnownSelfHostedIntegrationRuntimeNodeStatus {
-  /** NeedRegistration */
-  NeedRegistration = "NeedRegistration",
-  /** Online */
-  Online = "Online",
-  /** Limited */
-  Limited = "Limited",
-  /** Offline */
-  Offline = "Offline",
-  /** Upgrading */
-  Upgrading = "Upgrading",
-  /** Initializing */
-  Initializing = "Initializing",
-  /** InitializeFailed */
-  InitializeFailed = "InitializeFailed"
-}
-
-/**
- * Defines values for SelfHostedIntegrationRuntimeNodeStatus. \
- * {@link KnownSelfHostedIntegrationRuntimeNodeStatus} can be used interchangeably with SelfHostedIntegrationRuntimeNodeStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NeedRegistration** \
- * **Online** \
- * **Limited** \
- * **Offline** \
- * **Upgrading** \
- * **Initializing** \
- * **InitializeFailed**
- */
-export type SelfHostedIntegrationRuntimeNodeStatus = string;
-
-/** Known values of {@link IntegrationRuntimeUpdateResult} that the service accepts. */
-export enum KnownIntegrationRuntimeUpdateResult {
-  /** None */
-  None = "None",
-  /** Succeed */
-  Succeed = "Succeed",
-  /** Fail */
-  Fail = "Fail"
-}
-
-/**
- * Defines values for IntegrationRuntimeUpdateResult. \
- * {@link KnownIntegrationRuntimeUpdateResult} can be used interchangeably with IntegrationRuntimeUpdateResult,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **Succeed** \
- * **Fail**
- */
-export type IntegrationRuntimeUpdateResult = string;
-
-/** Known values of {@link IntegrationRuntimeState} that the service accepts. */
-export enum KnownIntegrationRuntimeState {
-  /** Initial */
-  Initial = "Initial",
-  /** Stopped */
-  Stopped = "Stopped",
-  /** Started */
-  Started = "Started",
-  /** Starting */
-  Starting = "Starting",
-  /** Stopping */
-  Stopping = "Stopping",
-  /** NeedRegistration */
-  NeedRegistration = "NeedRegistration",
-  /** Online */
-  Online = "Online",
-  /** Limited */
-  Limited = "Limited",
-  /** Offline */
-  Offline = "Offline",
-  /** AccessDenied */
-  AccessDenied = "AccessDenied"
-}
-
-/**
- * Defines values for IntegrationRuntimeState. \
- * {@link KnownIntegrationRuntimeState} can be used interchangeably with IntegrationRuntimeState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Initial** \
- * **Stopped** \
- * **Started** \
- * **Starting** \
- * **Stopping** \
- * **NeedRegistration** \
- * **Online** \
- * **Limited** \
- * **Offline** \
- * **AccessDenied**
- */
-export type IntegrationRuntimeState = string;
-
-/** Known values of {@link IntegrationRuntimeAuthKeyName} that the service accepts. */
-export enum KnownIntegrationRuntimeAuthKeyName {
-  /** AuthKey1 */
-  AuthKey1 = "authKey1",
-  /** AuthKey2 */
-  AuthKey2 = "authKey2"
-}
-
-/**
- * Defines values for IntegrationRuntimeAuthKeyName. \
- * {@link KnownIntegrationRuntimeAuthKeyName} can be used interchangeably with IntegrationRuntimeAuthKeyName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **authKey1** \
- * **authKey2**
- */
-export type IntegrationRuntimeAuthKeyName = string;
-
-/** Known values of {@link WorkspaceStatus} that the service accepts. */
-export enum KnownWorkspaceStatus {
-  /** InProgress */
-  InProgress = "InProgress",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed"
-}
-
-/**
- * Defines values for WorkspaceStatus. \
- * {@link KnownWorkspaceStatus} can be used interchangeably with WorkspaceStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **InProgress** \
- * **Succeeded** \
- * **Failed**
- */
-export type WorkspaceStatus = string;
-
-/** Known values of {@link Reason} that the service accepts. */
-export enum KnownReason {
-  /** Invalid */
-  Invalid = "Invalid",
-  /** AlreadyExists */
-  AlreadyExists = "AlreadyExists"
-}
-
-/**
- * Defines values for Reason. \
- * {@link KnownReason} can be used interchangeably with Reason,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Invalid** \
- * **AlreadyExists**
- */
-export type Reason = string;
-
-/** Known values of {@link SkuName} that the service accepts. */
-export enum KnownSkuName {
-  /** ComputeOptimized */
-  ComputeOptimized = "Compute optimized",
-  /** StorageOptimized */
-  StorageOptimized = "Storage optimized"
-}
-
-/**
- * Defines values for SkuName. \
- * {@link KnownSkuName} can be used interchangeably with SkuName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Compute optimized** \
- * **Storage optimized**
- */
-export type SkuName = string;
-
-/** Known values of {@link SkuSize} that the service accepts. */
-export enum KnownSkuSize {
-  /** ExtraSmall */
-  ExtraSmall = "Extra small",
-  /** Small */
-  Small = "Small",
-  /** Medium */
-  Medium = "Medium",
-  /** Large */
-  Large = "Large"
-}
-
-/**
- * Defines values for SkuSize. \
- * {@link KnownSkuSize} can be used interchangeably with SkuSize,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Extra small** \
- * **Small** \
- * **Medium** \
- * **Large**
- */
-export type SkuSize = string;
-
-/** Known values of {@link State} that the service accepts. */
-export enum KnownState {
-  /** Creating */
-  Creating = "Creating",
-  /** Unavailable */
-  Unavailable = "Unavailable",
-  /** Running */
-  Running = "Running",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Deleted */
-  Deleted = "Deleted",
-  /** Stopping */
-  Stopping = "Stopping",
-  /** Stopped */
-  Stopped = "Stopped",
-  /** Starting */
-  Starting = "Starting",
-  /** Updating */
-  Updating = "Updating"
-}
-
-/**
- * Defines values for State. \
- * {@link KnownState} can be used interchangeably with State,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Creating** \
- * **Unavailable** \
- * **Running** \
- * **Deleting** \
- * **Deleted** \
- * **Stopping** \
- * **Stopped** \
- * **Starting** \
- * **Updating**
- */
-export type State = string;
-
-/** Known values of {@link ResourceProvisioningState} that the service accepts. */
-export enum KnownResourceProvisioningState {
-  /** Running */
-  Running = "Running",
-  /** Creating */
-  Creating = "Creating",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Moving */
-  Moving = "Moving",
-  /** Canceled */
-  Canceled = "Canceled"
-}
-
-/**
- * Defines values for ResourceProvisioningState. \
- * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Running** \
- * **Creating** \
- * **Deleting** \
- * **Succeeded** \
- * **Failed** \
- * **Moving** \
- * **Canceled**
- */
-export type ResourceProvisioningState = string;
-
-/** Known values of {@link LanguageExtensionName} that the service accepts. */
-export enum KnownLanguageExtensionName {
-  /** Python */
-  Python = "PYTHON",
-  /** R */
-  R = "R"
-}
-
-/**
- * Defines values for LanguageExtensionName. \
- * {@link KnownLanguageExtensionName} can be used interchangeably with LanguageExtensionName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **PYTHON** \
- * **R**
- */
-export type LanguageExtensionName = string;
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
-/** Known values of {@link AzureScaleType} that the service accepts. */
-export enum KnownAzureScaleType {
-  /** Automatic */
-  Automatic = "automatic",
-  /** Manual */
-  Manual = "manual",
-  /** None */
-  None = "none"
-}
-
-/**
- * Defines values for AzureScaleType. \
- * {@link KnownAzureScaleType} can be used interchangeably with AzureScaleType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **automatic** \
- * **manual** \
- * **none**
- */
-export type AzureScaleType = string;
-
-/** Known values of {@link DefaultPrincipalsModificationKind} that the service accepts. */
-export enum KnownDefaultPrincipalsModificationKind {
-  /** Union */
-  Union = "Union",
-  /** Replace */
-  Replace = "Replace",
-  /** None */
-  None = "None"
-}
-
-/**
- * Defines values for DefaultPrincipalsModificationKind. \
- * {@link KnownDefaultPrincipalsModificationKind} can be used interchangeably with DefaultPrincipalsModificationKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Union** \
- * **Replace** \
- * **None**
- */
-export type DefaultPrincipalsModificationKind = string;
-
-/** Known values of {@link Kind} that the service accepts. */
-export enum KnownKind {
-  /** ReadWrite */
-  ReadWrite = "ReadWrite",
-  /** ReadOnlyFollowing */
-  ReadOnlyFollowing = "ReadOnlyFollowing"
-}
-
-/**
- * Defines values for Kind. \
- * {@link KnownKind} can be used interchangeably with Kind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ReadWrite** \
- * **ReadOnlyFollowing**
- */
-export type Kind = string;
-
-/** Known values of {@link DataConnectionKind} that the service accepts. */
-export enum KnownDataConnectionKind {
-  /** EventHub */
-  EventHub = "EventHub",
-  /** EventGrid */
-  EventGrid = "EventGrid",
-  /** IotHub */
-  IotHub = "IotHub"
-}
-
-/**
- * Defines values for DataConnectionKind. \
- * {@link KnownDataConnectionKind} can be used interchangeably with DataConnectionKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **EventHub** \
- * **EventGrid** \
- * **IotHub**
- */
-export type DataConnectionKind = string;
-
-/** Known values of {@link ClusterPrincipalRole} that the service accepts. */
-export enum KnownClusterPrincipalRole {
-  /** AllDatabasesAdmin */
-  AllDatabasesAdmin = "AllDatabasesAdmin",
-  /** AllDatabasesViewer */
-  AllDatabasesViewer = "AllDatabasesViewer"
-}
-
-/**
- * Defines values for ClusterPrincipalRole. \
- * {@link KnownClusterPrincipalRole} can be used interchangeably with ClusterPrincipalRole,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AllDatabasesAdmin** \
- * **AllDatabasesViewer**
- */
-export type ClusterPrincipalRole = string;
-
-/** Known values of {@link PrincipalType} that the service accepts. */
-export enum KnownPrincipalType {
-  /** App */
-  App = "App",
-  /** Group */
-  Group = "Group",
-  /** User */
-  User = "User"
-}
-
-/**
- * Defines values for PrincipalType. \
- * {@link KnownPrincipalType} can be used interchangeably with PrincipalType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **App** \
- * **Group** \
- * **User**
- */
-export type PrincipalType = string;
-
-/** Known values of {@link DatabasePrincipalRole} that the service accepts. */
-export enum KnownDatabasePrincipalRole {
-  /** Admin */
-  Admin = "Admin",
-  /** Ingestor */
-  Ingestor = "Ingestor",
-  /** Monitor */
-  Monitor = "Monitor",
-  /** User */
-  User = "User",
-  /** UnrestrictedViewer */
-  UnrestrictedViewer = "UnrestrictedViewer",
-  /** Viewer */
-  Viewer = "Viewer"
-}
-
-/**
- * Defines values for DatabasePrincipalRole. \
- * {@link KnownDatabasePrincipalRole} can be used interchangeably with DatabasePrincipalRole,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Admin** \
- * **Ingestor** \
- * **Monitor** \
- * **User** \
- * **UnrestrictedViewer** \
- * **Viewer**
- */
-export type DatabasePrincipalRole = string;
-
 /** Known values of {@link DataFlowComputeType} that the service accepts. */
 export enum KnownDataFlowComputeType {
   /** General */
@@ -5781,243 +4668,6 @@ export enum KnownIntegrationRuntimeInternalChannelEncryptionMode {
  * **NotEncrypted**
  */
 export type IntegrationRuntimeInternalChannelEncryptionMode = string;
-
-/** Known values of {@link PrincipalsModificationKind} that the service accepts. */
-export enum KnownPrincipalsModificationKind {
-  /** Union */
-  Union = "Union",
-  /** Replace */
-  Replace = "Replace",
-  /** None */
-  None = "None"
-}
-
-/**
- * Defines values for PrincipalsModificationKind. \
- * {@link KnownPrincipalsModificationKind} can be used interchangeably with PrincipalsModificationKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Union** \
- * **Replace** \
- * **None**
- */
-export type PrincipalsModificationKind = string;
-
-/** Known values of {@link EventHubDataFormat} that the service accepts. */
-export enum KnownEventHubDataFormat {
-  /** Multijson */
-  Multijson = "MULTIJSON",
-  /** Json */
-  Json = "JSON",
-  /** CSV */
-  CSV = "CSV",
-  /** TSV */
-  TSV = "TSV",
-  /** Scsv */
-  Scsv = "SCSV",
-  /** Sohsv */
-  Sohsv = "SOHSV",
-  /** PSV */
-  PSV = "PSV",
-  /** TXT */
-  TXT = "TXT",
-  /** RAW */
-  RAW = "RAW",
-  /** Singlejson */
-  Singlejson = "SINGLEJSON",
-  /** Avro */
-  Avro = "AVRO",
-  /** Tsve */
-  Tsve = "TSVE",
-  /** Parquet */
-  Parquet = "PARQUET",
-  /** ORC */
-  ORC = "ORC",
-  /** Apacheavro */
-  Apacheavro = "APACHEAVRO",
-  /** W3Clogfile */
-  W3Clogfile = "W3CLOGFILE"
-}
-
-/**
- * Defines values for EventHubDataFormat. \
- * {@link KnownEventHubDataFormat} can be used interchangeably with EventHubDataFormat,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **MULTIJSON** \
- * **JSON** \
- * **CSV** \
- * **TSV** \
- * **SCSV** \
- * **SOHSV** \
- * **PSV** \
- * **TXT** \
- * **RAW** \
- * **SINGLEJSON** \
- * **AVRO** \
- * **TSVE** \
- * **PARQUET** \
- * **ORC** \
- * **APACHEAVRO** \
- * **W3CLOGFILE**
- */
-export type EventHubDataFormat = string;
-
-/** Known values of {@link Compression} that the service accepts. */
-export enum KnownCompression {
-  /** None */
-  None = "None",
-  /** GZip */
-  GZip = "GZip"
-}
-
-/**
- * Defines values for Compression. \
- * {@link KnownCompression} can be used interchangeably with Compression,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **GZip**
- */
-export type Compression = string;
-
-/** Known values of {@link IotHubDataFormat} that the service accepts. */
-export enum KnownIotHubDataFormat {
-  /** Multijson */
-  Multijson = "MULTIJSON",
-  /** Json */
-  Json = "JSON",
-  /** CSV */
-  CSV = "CSV",
-  /** TSV */
-  TSV = "TSV",
-  /** Scsv */
-  Scsv = "SCSV",
-  /** Sohsv */
-  Sohsv = "SOHSV",
-  /** PSV */
-  PSV = "PSV",
-  /** TXT */
-  TXT = "TXT",
-  /** RAW */
-  RAW = "RAW",
-  /** Singlejson */
-  Singlejson = "SINGLEJSON",
-  /** Avro */
-  Avro = "AVRO",
-  /** Tsve */
-  Tsve = "TSVE",
-  /** Parquet */
-  Parquet = "PARQUET",
-  /** ORC */
-  ORC = "ORC",
-  /** Apacheavro */
-  Apacheavro = "APACHEAVRO",
-  /** W3Clogfile */
-  W3Clogfile = "W3CLOGFILE"
-}
-
-/**
- * Defines values for IotHubDataFormat. \
- * {@link KnownIotHubDataFormat} can be used interchangeably with IotHubDataFormat,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **MULTIJSON** \
- * **JSON** \
- * **CSV** \
- * **TSV** \
- * **SCSV** \
- * **SOHSV** \
- * **PSV** \
- * **TXT** \
- * **RAW** \
- * **SINGLEJSON** \
- * **AVRO** \
- * **TSVE** \
- * **PARQUET** \
- * **ORC** \
- * **APACHEAVRO** \
- * **W3CLOGFILE**
- */
-export type IotHubDataFormat = string;
-
-/** Known values of {@link EventGridDataFormat} that the service accepts. */
-export enum KnownEventGridDataFormat {
-  /** Multijson */
-  Multijson = "MULTIJSON",
-  /** Json */
-  Json = "JSON",
-  /** CSV */
-  CSV = "CSV",
-  /** TSV */
-  TSV = "TSV",
-  /** Scsv */
-  Scsv = "SCSV",
-  /** Sohsv */
-  Sohsv = "SOHSV",
-  /** PSV */
-  PSV = "PSV",
-  /** TXT */
-  TXT = "TXT",
-  /** RAW */
-  RAW = "RAW",
-  /** Singlejson */
-  Singlejson = "SINGLEJSON",
-  /** Avro */
-  Avro = "AVRO",
-  /** Tsve */
-  Tsve = "TSVE",
-  /** Parquet */
-  Parquet = "PARQUET",
-  /** ORC */
-  ORC = "ORC",
-  /** Apacheavro */
-  Apacheavro = "APACHEAVRO",
-  /** W3Clogfile */
-  W3Clogfile = "W3CLOGFILE"
-}
-
-/**
- * Defines values for EventGridDataFormat. \
- * {@link KnownEventGridDataFormat} can be used interchangeably with EventGridDataFormat,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **MULTIJSON** \
- * **JSON** \
- * **CSV** \
- * **TSV** \
- * **SCSV** \
- * **SOHSV** \
- * **PSV** \
- * **TXT** \
- * **RAW** \
- * **SINGLEJSON** \
- * **AVRO** \
- * **TSVE** \
- * **PARQUET** \
- * **ORC** \
- * **APACHEAVRO** \
- * **W3CLOGFILE**
- */
-export type EventGridDataFormat = string;
-
-/** Known values of {@link BlobStorageEventType} that the service accepts. */
-export enum KnownBlobStorageEventType {
-  /** MicrosoftStorageBlobCreated */
-  MicrosoftStorageBlobCreated = "Microsoft.Storage.BlobCreated",
-  /** MicrosoftStorageBlobRenamed */
-  MicrosoftStorageBlobRenamed = "Microsoft.Storage.BlobRenamed"
-}
-
-/**
- * Defines values for BlobStorageEventType. \
- * {@link KnownBlobStorageEventType} can be used interchangeably with BlobStorageEventType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Microsoft.Storage.BlobCreated** \
- * **Microsoft.Storage.BlobRenamed**
- */
-export type BlobStorageEventType = string;
 /** Defines values for GeoBackupPolicyState. */
 export type GeoBackupPolicyState = "Disabled" | "Enabled";
 /** Defines values for RestorePointType. */
@@ -6076,10 +4726,6 @@ export type ActualState =
   | "Disabling"
   | "Disabled"
   | "Unknown";
-/** Defines values for Type. */
-export type Type =
-  | "Microsoft.Synapse/workspaces/kustoPools/databases"
-  | "Microsoft.Synapse/workspaces/kustoPools/attachedDatabaseConfigurations";
 /** Defines values for QueryAggregationFunction. */
 export type QueryAggregationFunction = "min" | "max" | "avg" | "sum";
 /** Defines values for QueryExecutionType. */
@@ -6131,6 +4777,60 @@ export interface AzureADOnlyAuthenticationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type AzureADOnlyAuthenticationsListNextResponse = AzureADOnlyAuthenticationListResult;
+
+/** Optional parameters. */
+export interface BigDataPoolsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type BigDataPoolsGetResponse = BigDataPoolResourceInfo;
+
+/** Optional parameters. */
+export interface BigDataPoolsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type BigDataPoolsUpdateResponse = BigDataPoolResourceInfo;
+
+/** Optional parameters. */
+export interface BigDataPoolsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Whether to stop any running jobs in the Big Data pool */
+  force?: boolean;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type BigDataPoolsCreateOrUpdateResponse = BigDataPoolResourceInfo;
+
+/** Optional parameters. */
+export interface BigDataPoolsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type BigDataPoolsDeleteResponse = BigDataPoolResourceInfo;
+
+/** Optional parameters. */
+export interface BigDataPoolsListByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWorkspace operation. */
+export type BigDataPoolsListByWorkspaceResponse = BigDataPoolResourceInfoListResult;
+
+/** Optional parameters. */
+export interface BigDataPoolsListByWorkspaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWorkspaceNext operation. */
+export type BigDataPoolsListByWorkspaceNextResponse = BigDataPoolResourceInfoListResult;
 
 /** Optional parameters. */
 export interface OperationsCheckNameAvailabilityOptionalParams
@@ -6215,6 +4915,196 @@ export interface IpFirewallRulesListByWorkspaceNextOptionalParams
 export type IpFirewallRulesListByWorkspaceNextResponse = IpFirewallRuleInfoListResult;
 
 /** Optional parameters. */
+export interface IntegrationRuntimesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type IntegrationRuntimesUpdateResponse = IntegrationRuntimeResource;
+
+/** Optional parameters. */
+export interface IntegrationRuntimesGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the integration runtime entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
+  ifNoneMatch?: string;
+}
+
+/** Contains response data for the get operation. */
+export type IntegrationRuntimesGetResponse = IntegrationRuntimeResource;
+
+/** Optional parameters. */
+export interface IntegrationRuntimesCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the integration runtime entity. Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type IntegrationRuntimesCreateResponse = IntegrationRuntimeResource;
+
+/** Optional parameters. */
+export interface IntegrationRuntimesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface IntegrationRuntimesUpgradeOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface IntegrationRuntimesListByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWorkspace operation. */
+export type IntegrationRuntimesListByWorkspaceResponse = IntegrationRuntimeListResponse;
+
+/** Optional parameters. */
+export interface IntegrationRuntimesStartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the start operation. */
+export type IntegrationRuntimesStartResponse = IntegrationRuntimeStatusResponse;
+
+/** Optional parameters. */
+export interface IntegrationRuntimesStopOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface IntegrationRuntimesListOutboundNetworkDependenciesEndpointsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listOutboundNetworkDependenciesEndpoints operation. */
+export type IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse = IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse;
+
+/** Optional parameters. */
+export interface IntegrationRuntimesEnableInteractiveQueryOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface IntegrationRuntimesDisableInteractiveQueryOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface IntegrationRuntimesListByWorkspaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWorkspaceNext operation. */
+export type IntegrationRuntimesListByWorkspaceNextResponse = IntegrationRuntimeListResponse;
+
+/** Optional parameters. */
+export interface IntegrationRuntimeNodeIpAddressGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IntegrationRuntimeNodeIpAddressGetResponse = IntegrationRuntimeNodeIpAddress;
+
+/** Optional parameters. */
+export interface IntegrationRuntimeObjectMetadataListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The parameters for getting a SSIS object metadata. */
+  getMetadataRequest?: GetSsisObjectMetadataRequest;
+}
+
+/** Contains response data for the list operation. */
+export type IntegrationRuntimeObjectMetadataListResponse = SsisObjectMetadataListResponse;
+
+/** Optional parameters. */
+export interface IntegrationRuntimeObjectMetadataRefreshOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the refresh operation. */
+export type IntegrationRuntimeObjectMetadataRefreshResponse = SsisObjectMetadataStatusResponse;
+
+/** Optional parameters. */
+export interface IntegrationRuntimeNodesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IntegrationRuntimeNodesGetResponse = SelfHostedIntegrationRuntimeNode;
+
+/** Optional parameters. */
+export interface IntegrationRuntimeNodesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type IntegrationRuntimeNodesUpdateResponse = SelfHostedIntegrationRuntimeNode;
+
+/** Optional parameters. */
+export interface IntegrationRuntimeNodesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface IntegrationRuntimeCredentialsSyncOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface IntegrationRuntimeConnectionInfosGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IntegrationRuntimeConnectionInfosGetResponse = IntegrationRuntimeConnectionInfo;
+
+/** Optional parameters. */
+export interface IntegrationRuntimeAuthKeysRegenerateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the regenerate operation. */
+export type IntegrationRuntimeAuthKeysRegenerateResponse = IntegrationRuntimeAuthKeys;
+
+/** Optional parameters. */
+export interface IntegrationRuntimeAuthKeysListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type IntegrationRuntimeAuthKeysListResponse = IntegrationRuntimeAuthKeys;
+
+/** Optional parameters. */
+export interface IntegrationRuntimeMonitoringDataListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type IntegrationRuntimeMonitoringDataListResponse = IntegrationRuntimeMonitoringData;
+
+/** Optional parameters. */
+export interface IntegrationRuntimeStatusGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IntegrationRuntimeStatusGetResponse = IntegrationRuntimeStatusResponse;
+
+/** Optional parameters. */
 export interface KeysListByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -6246,6 +5136,26 @@ export interface KeysListByWorkspaceNextOptionalParams
 
 /** Contains response data for the listByWorkspaceNext operation. */
 export type KeysListByWorkspaceNextResponse = KeyInfoListResult;
+
+/** Optional parameters. */
+export interface LibraryGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type LibraryGetResponse = LibraryResource;
+
+/** Optional parameters. */
+export interface LibrariesListByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWorkspace operation. */
+export type LibrariesListByWorkspaceResponse = LibraryListResponse;
+
+/** Optional parameters. */
+export interface LibrariesListByWorkspaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWorkspaceNext operation. */
+export type LibrariesListByWorkspaceNextResponse = LibraryListResponse;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -7524,709 +6434,12 @@ export interface RestorableDroppedSqlPoolsListByWorkspaceOptionalParams
 export type RestorableDroppedSqlPoolsListByWorkspaceResponse = RestorableDroppedSqlPoolListResult;
 
 /** Optional parameters. */
-export interface BigDataPoolsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type BigDataPoolsGetResponse = BigDataPoolResourceInfo;
-
-/** Optional parameters. */
-export interface BigDataPoolsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type BigDataPoolsUpdateResponse = BigDataPoolResourceInfo;
-
-/** Optional parameters. */
-export interface BigDataPoolsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Whether to stop any running jobs in the Big Data pool */
-  force?: boolean;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type BigDataPoolsCreateOrUpdateResponse = BigDataPoolResourceInfo;
-
-/** Optional parameters. */
-export interface BigDataPoolsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type BigDataPoolsDeleteResponse = BigDataPoolResourceInfo;
-
-/** Optional parameters. */
-export interface BigDataPoolsListByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByWorkspace operation. */
-export type BigDataPoolsListByWorkspaceResponse = BigDataPoolResourceInfoListResult;
-
-/** Optional parameters. */
-export interface BigDataPoolsListByWorkspaceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByWorkspaceNext operation. */
-export type BigDataPoolsListByWorkspaceNextResponse = BigDataPoolResourceInfoListResult;
-
-/** Optional parameters. */
-export interface LibraryGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type LibraryGetResponse = LibraryResource;
-
-/** Optional parameters. */
-export interface LibrariesListByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByWorkspace operation. */
-export type LibrariesListByWorkspaceResponse = LibraryListResponse;
-
-/** Optional parameters. */
-export interface LibrariesListByWorkspaceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByWorkspaceNext operation. */
-export type LibrariesListByWorkspaceNextResponse = LibraryListResponse;
-
-/** Optional parameters. */
-export interface IntegrationRuntimesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type IntegrationRuntimesUpdateResponse = IntegrationRuntimeResource;
-
-/** Optional parameters. */
-export interface IntegrationRuntimesGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** ETag of the integration runtime entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
-  ifNoneMatch?: string;
-}
-
-/** Contains response data for the get operation. */
-export type IntegrationRuntimesGetResponse = IntegrationRuntimeResource;
-
-/** Optional parameters. */
-export interface IntegrationRuntimesCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** ETag of the integration runtime entity. Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
-  ifMatch?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type IntegrationRuntimesCreateResponse = IntegrationRuntimeResource;
-
-/** Optional parameters. */
-export interface IntegrationRuntimesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface IntegrationRuntimesUpgradeOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface IntegrationRuntimesListByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByWorkspace operation. */
-export type IntegrationRuntimesListByWorkspaceResponse = IntegrationRuntimeListResponse;
-
-/** Optional parameters. */
-export interface IntegrationRuntimesStartOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the start operation. */
-export type IntegrationRuntimesStartResponse = IntegrationRuntimeStatusResponse;
-
-/** Optional parameters. */
-export interface IntegrationRuntimesStopOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface IntegrationRuntimesListOutboundNetworkDependenciesEndpointsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOutboundNetworkDependenciesEndpoints operation. */
-export type IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse = IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse;
-
-/** Optional parameters. */
-export interface IntegrationRuntimesEnableInteractiveQueryOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface IntegrationRuntimesDisableInteractiveQueryOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface IntegrationRuntimesListByWorkspaceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByWorkspaceNext operation. */
-export type IntegrationRuntimesListByWorkspaceNextResponse = IntegrationRuntimeListResponse;
-
-/** Optional parameters. */
-export interface IntegrationRuntimeNodeIpAddressGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type IntegrationRuntimeNodeIpAddressGetResponse = IntegrationRuntimeNodeIpAddress;
-
-/** Optional parameters. */
-export interface IntegrationRuntimeObjectMetadataListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The parameters for getting a SSIS object metadata. */
-  getMetadataRequest?: GetSsisObjectMetadataRequest;
-}
-
-/** Contains response data for the list operation. */
-export type IntegrationRuntimeObjectMetadataListResponse = SsisObjectMetadataListResponse;
-
-/** Optional parameters. */
-export interface IntegrationRuntimeObjectMetadataRefreshOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the refresh operation. */
-export type IntegrationRuntimeObjectMetadataRefreshResponse = SsisObjectMetadataStatusResponse;
-
-/** Optional parameters. */
-export interface IntegrationRuntimeNodesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type IntegrationRuntimeNodesGetResponse = SelfHostedIntegrationRuntimeNode;
-
-/** Optional parameters. */
-export interface IntegrationRuntimeNodesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type IntegrationRuntimeNodesUpdateResponse = SelfHostedIntegrationRuntimeNode;
-
-/** Optional parameters. */
-export interface IntegrationRuntimeNodesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface IntegrationRuntimeCredentialsSyncOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface IntegrationRuntimeConnectionInfosGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type IntegrationRuntimeConnectionInfosGetResponse = IntegrationRuntimeConnectionInfo;
-
-/** Optional parameters. */
-export interface IntegrationRuntimeAuthKeysRegenerateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the regenerate operation. */
-export type IntegrationRuntimeAuthKeysRegenerateResponse = IntegrationRuntimeAuthKeys;
-
-/** Optional parameters. */
-export interface IntegrationRuntimeAuthKeysListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type IntegrationRuntimeAuthKeysListResponse = IntegrationRuntimeAuthKeys;
-
-/** Optional parameters. */
-export interface IntegrationRuntimeMonitoringDataListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type IntegrationRuntimeMonitoringDataListResponse = IntegrationRuntimeMonitoringData;
-
-/** Optional parameters. */
-export interface IntegrationRuntimeStatusGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type IntegrationRuntimeStatusGetResponse = IntegrationRuntimeStatusResponse;
-
-/** Optional parameters. */
-export interface GetIntegrationRuntimeStartOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the integrationRuntimeStart operation. */
-export type GetIntegrationRuntimeStartResponse = IntegrationRuntimeOperationStatus;
-
-/** Optional parameters. */
-export interface GetIntegrationRuntimeStopOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the integrationRuntimeStop operation. */
-export type GetIntegrationRuntimeStopResponse = IntegrationRuntimeStopOperationStatus;
-
-/** Optional parameters. */
-export interface GetIntegrationRuntimeEnableInteractivequeryOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the integrationRuntimeEnableInteractivequery operation. */
-export type GetIntegrationRuntimeEnableInteractivequeryResponse = IntegrationRuntimeEnableinteractivequery;
-
-/** Optional parameters. */
-export interface SparkConfigurationGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SparkConfigurationGetResponse = SparkConfigurationResource;
-
-/** Optional parameters. */
-export interface SparkConfigurationsListByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByWorkspace operation. */
-export type SparkConfigurationsListByWorkspaceResponse = SparkConfigurationListResponse;
-
-/** Optional parameters. */
-export interface SparkConfigurationsListByWorkspaceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByWorkspaceNext operation. */
-export type SparkConfigurationsListByWorkspaceNextResponse = SparkConfigurationListResponse;
-
-/** Optional parameters. */
-export interface KustoOperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type KustoOperationsListResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface KustoOperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type KustoOperationsListNextResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface KustoPoolsListSkusOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listSkus operation. */
-export type KustoPoolsListSkusResponse = SkuDescriptionList;
-
-/** Optional parameters. */
-export interface KustoPoolsCheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the checkNameAvailability operation. */
-export type KustoPoolsCheckNameAvailabilityResponse = CheckNameResult;
-
-/** Optional parameters. */
-export interface KustoPoolsListByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByWorkspace operation. */
-export type KustoPoolsListByWorkspaceResponse = KustoPoolListResult;
-
-/** Optional parameters. */
-export interface KustoPoolsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type KustoPoolsGetResponse = KustoPool;
-
-/** Optional parameters. */
-export interface KustoPoolsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Set to '*' to allow a new Kusto Pool to be created, but to prevent updating an existing Kusto Pool. Other values will result in a 412 Pre-condition Failed response. */
-  ifNoneMatch?: string;
-  /** The ETag of the Kusto Pool. Omit this value to always overwrite the current Kusto Pool. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type KustoPoolsCreateOrUpdateResponse = KustoPool;
-
-/** Optional parameters. */
-export interface KustoPoolsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The ETag of the Kusto Pool. Omit this value to always overwrite the current Kusto Pool. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type KustoPoolsUpdateResponse = KustoPool;
-
-/** Optional parameters. */
-export interface KustoPoolsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface KustoPoolsStopOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface KustoPoolsStartOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface KustoPoolsListSkusByResourceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listSkusByResource operation. */
-export type KustoPoolsListSkusByResourceResponse = ListResourceSkusResult;
-
-/** Optional parameters. */
-export interface KustoPoolsListLanguageExtensionsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listLanguageExtensions operation. */
-export type KustoPoolsListLanguageExtensionsResponse = LanguageExtensionsList;
-
-/** Optional parameters. */
-export interface KustoPoolsAddLanguageExtensionsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface KustoPoolsRemoveLanguageExtensionsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface KustoPoolsListFollowerDatabasesOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listFollowerDatabases operation. */
-export type KustoPoolsListFollowerDatabasesResponse = FollowerDatabaseListResult;
-
-/** Optional parameters. */
-export interface KustoPoolsDetachFollowerDatabasesOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface KustoPoolChildResourceCheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the checkNameAvailability operation. */
-export type KustoPoolChildResourceCheckNameAvailabilityResponse = CheckNameResult;
-
-/** Optional parameters. */
-export interface KustoPoolAttachedDatabaseConfigurationsListByKustoPoolOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByKustoPool operation. */
-export type KustoPoolAttachedDatabaseConfigurationsListByKustoPoolResponse = AttachedDatabaseConfigurationListResult;
-
-/** Optional parameters. */
-export interface KustoPoolAttachedDatabaseConfigurationsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type KustoPoolAttachedDatabaseConfigurationsGetResponse = AttachedDatabaseConfiguration;
-
-/** Optional parameters. */
-export interface KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateResponse = AttachedDatabaseConfiguration;
-
-/** Optional parameters. */
-export interface KustoPoolAttachedDatabaseConfigurationsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface KustoPoolDatabasesListByKustoPoolOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByKustoPool operation. */
-export type KustoPoolDatabasesListByKustoPoolResponse = DatabaseListResult;
-
-/** Optional parameters. */
-export interface KustoPoolDatabasesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type KustoPoolDatabasesGetResponse = DatabaseUnion;
-
-/** Optional parameters. */
-export interface KustoPoolDatabasesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type KustoPoolDatabasesCreateOrUpdateResponse = DatabaseUnion;
-
-/** Optional parameters. */
-export interface KustoPoolDatabasesUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type KustoPoolDatabasesUpdateResponse = DatabaseUnion;
-
-/** Optional parameters. */
-export interface KustoPoolDatabasesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface KustoPoolDataConnectionsCheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the checkNameAvailability operation. */
-export type KustoPoolDataConnectionsCheckNameAvailabilityResponse = CheckNameResult;
-
-/** Optional parameters. */
-export interface KustoPoolDataConnectionsDataConnectionValidationOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the dataConnectionValidation operation. */
-export type KustoPoolDataConnectionsDataConnectionValidationResponse = DataConnectionValidationListResult;
-
-/** Optional parameters. */
-export interface KustoPoolDataConnectionsListByDatabaseOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByDatabase operation. */
-export type KustoPoolDataConnectionsListByDatabaseResponse = DataConnectionListResult;
-
-/** Optional parameters. */
-export interface KustoPoolDataConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type KustoPoolDataConnectionsGetResponse = DataConnectionUnion;
-
-/** Optional parameters. */
-export interface KustoPoolDataConnectionsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type KustoPoolDataConnectionsCreateOrUpdateResponse = DataConnectionUnion;
-
-/** Optional parameters. */
-export interface KustoPoolDataConnectionsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type KustoPoolDataConnectionsUpdateResponse = DataConnectionUnion;
-
-/** Optional parameters. */
-export interface KustoPoolDataConnectionsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface KustoPoolPrincipalAssignmentsCheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the checkNameAvailability operation. */
-export type KustoPoolPrincipalAssignmentsCheckNameAvailabilityResponse = CheckNameResult;
-
-/** Optional parameters. */
-export interface KustoPoolPrincipalAssignmentsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type KustoPoolPrincipalAssignmentsListResponse = ClusterPrincipalAssignmentListResult;
-
-/** Optional parameters. */
-export interface KustoPoolPrincipalAssignmentsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type KustoPoolPrincipalAssignmentsGetResponse = ClusterPrincipalAssignment;
-
-/** Optional parameters. */
-export interface KustoPoolPrincipalAssignmentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type KustoPoolPrincipalAssignmentsCreateOrUpdateResponse = ClusterPrincipalAssignment;
-
-/** Optional parameters. */
-export interface KustoPoolPrincipalAssignmentsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface KustoPoolDatabasePrincipalAssignmentsCheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the checkNameAvailability operation. */
-export type KustoPoolDatabasePrincipalAssignmentsCheckNameAvailabilityResponse = CheckNameResult;
-
-/** Optional parameters. */
-export interface KustoPoolDatabasePrincipalAssignmentsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type KustoPoolDatabasePrincipalAssignmentsListResponse = DatabasePrincipalAssignmentListResult;
-
-/** Optional parameters. */
-export interface KustoPoolDatabasePrincipalAssignmentsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type KustoPoolDatabasePrincipalAssignmentsGetResponse = DatabasePrincipalAssignment;
-
-/** Optional parameters. */
-export interface KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateResponse = DatabasePrincipalAssignment;
-
-/** Optional parameters. */
-export interface KustoPoolDatabasePrincipalAssignmentsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface KustoPoolPrivateLinkResourcesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type KustoPoolPrivateLinkResourcesListResponse = PrivateLinkResources;
-
-/** Optional parameters. */
 export interface SynapseManagementClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
+  /** Api Version */
+  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

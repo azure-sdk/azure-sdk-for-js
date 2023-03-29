@@ -13,9 +13,16 @@ import {
 } from "@azure/core-client";
 import {
   AzureADOnlyAuthentication as AzureADOnlyAuthenticationMapper,
+  BigDataPoolPatchInfo as BigDataPoolPatchInfoMapper,
+  BigDataPoolResourceInfo as BigDataPoolResourceInfoMapper,
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   IpFirewallRuleInfo as IpFirewallRuleInfoMapper,
   ReplaceAllIpFirewallRulesRequest as ReplaceAllIpFirewallRulesRequestMapper,
+  UpdateIntegrationRuntimeRequest as UpdateIntegrationRuntimeRequestMapper,
+  IntegrationRuntimeResource as IntegrationRuntimeResourceMapper,
+  GetSsisObjectMetadataRequest as GetSsisObjectMetadataRequestMapper,
+  UpdateIntegrationRuntimeNodeRequest as UpdateIntegrationRuntimeNodeRequestMapper,
+  IntegrationRuntimeRegenerateKeyParameters as IntegrationRuntimeRegenerateKeyParametersMapper,
   Key as KeyMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   PrivateLinkHubPatchInfo as PrivateLinkHubPatchInfoMapper,
@@ -49,29 +56,7 @@ import {
   WorkspacePatchInfo as WorkspacePatchInfoMapper,
   Workspace as WorkspaceMapper,
   WorkspaceAadAdminInfo as WorkspaceAadAdminInfoMapper,
-  ManagedIdentitySqlControlSettingsModel as ManagedIdentitySqlControlSettingsModelMapper,
-  BigDataPoolPatchInfo as BigDataPoolPatchInfoMapper,
-  BigDataPoolResourceInfo as BigDataPoolResourceInfoMapper,
-  UpdateIntegrationRuntimeRequest as UpdateIntegrationRuntimeRequestMapper,
-  IntegrationRuntimeResource as IntegrationRuntimeResourceMapper,
-  GetSsisObjectMetadataRequest as GetSsisObjectMetadataRequestMapper,
-  UpdateIntegrationRuntimeNodeRequest as UpdateIntegrationRuntimeNodeRequestMapper,
-  IntegrationRuntimeRegenerateKeyParameters as IntegrationRuntimeRegenerateKeyParametersMapper,
-  KustoPoolCheckNameRequest as KustoPoolCheckNameRequestMapper,
-  KustoPool as KustoPoolMapper,
-  KustoPoolUpdate as KustoPoolUpdateMapper,
-  LanguageExtensionsList as LanguageExtensionsListMapper,
-  FollowerDatabaseDefinition as FollowerDatabaseDefinitionMapper,
-  DatabaseCheckNameRequest as DatabaseCheckNameRequestMapper,
-  AttachedDatabaseConfiguration as AttachedDatabaseConfigurationMapper,
-  Database as DatabaseMapper,
-  DataConnectionCheckNameRequest as DataConnectionCheckNameRequestMapper,
-  DataConnectionValidation as DataConnectionValidationMapper,
-  DataConnection as DataConnectionMapper,
-  ClusterPrincipalAssignmentCheckNameRequest as ClusterPrincipalAssignmentCheckNameRequestMapper,
-  ClusterPrincipalAssignment as ClusterPrincipalAssignmentMapper,
-  DatabasePrincipalAssignmentCheckNameRequest as DatabasePrincipalAssignmentCheckNameRequestMapper,
-  DatabasePrincipalAssignment as DatabasePrincipalAssignmentMapper
+  ManagedIdentitySqlControlSettingsModel as ManagedIdentitySqlControlSettingsModelMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -101,7 +86,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-01",
+    defaultValue: "2023-05-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -190,6 +175,38 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const bigDataPoolName: OperationURLParameter = {
+  parameterPath: "bigDataPoolName",
+  mapper: {
+    serializedName: "bigDataPoolName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const bigDataPoolPatchInfo: OperationParameter = {
+  parameterPath: "bigDataPoolPatchInfo",
+  mapper: BigDataPoolPatchInfoMapper
+};
+
+export const bigDataPoolInfo: OperationParameter = {
+  parameterPath: "bigDataPoolInfo",
+  mapper: BigDataPoolResourceInfoMapper
+};
+
+export const force: OperationQueryParameter = {
+  parameterPath: ["options", "force"],
+  mapper: {
+    defaultValue: false,
+    serializedName: "force",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
 export const request: OperationParameter = {
   parameterPath: "request",
   mapper: CheckNameAvailabilityRequestMapper
@@ -227,6 +244,73 @@ export const request1: OperationParameter = {
   mapper: ReplaceAllIpFirewallRulesRequestMapper
 };
 
+export const updateIntegrationRuntimeRequest: OperationParameter = {
+  parameterPath: "updateIntegrationRuntimeRequest",
+  mapper: UpdateIntegrationRuntimeRequestMapper
+};
+
+export const integrationRuntimeName: OperationURLParameter = {
+  parameterPath: "integrationRuntimeName",
+  mapper: {
+    serializedName: "integrationRuntimeName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const ifNoneMatch: OperationParameter = {
+  parameterPath: ["options", "ifNoneMatch"],
+  mapper: {
+    serializedName: "If-None-Match",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const integrationRuntime: OperationParameter = {
+  parameterPath: "integrationRuntime",
+  mapper: IntegrationRuntimeResourceMapper
+};
+
+export const ifMatch: OperationParameter = {
+  parameterPath: ["options", "ifMatch"],
+  mapper: {
+    serializedName: "If-Match",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const nodeName: OperationURLParameter = {
+  parameterPath: "nodeName",
+  mapper: {
+    serializedName: "nodeName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const getMetadataRequest: OperationParameter = {
+  parameterPath: ["options", "getMetadataRequest"],
+  mapper: GetSsisObjectMetadataRequestMapper
+};
+
+export const updateIntegrationRuntimeNodeRequest: OperationParameter = {
+  parameterPath: "updateIntegrationRuntimeNodeRequest",
+  mapper: UpdateIntegrationRuntimeNodeRequestMapper
+};
+
+export const regenerateKeyParameters: OperationParameter = {
+  parameterPath: "regenerateKeyParameters",
+  mapper: IntegrationRuntimeRegenerateKeyParametersMapper
+};
+
 export const keyName: OperationURLParameter = {
   parameterPath: "keyName",
   mapper: {
@@ -241,6 +325,17 @@ export const keyName: OperationURLParameter = {
 export const keyProperties: OperationParameter = {
   parameterPath: "keyProperties",
   mapper: KeyMapper
+};
+
+export const libraryName: OperationURLParameter = {
+  parameterPath: "libraryName",
+  mapper: {
+    serializedName: "libraryName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -816,297 +911,4 @@ export const restorableDroppedSqlPoolId: OperationURLParameter = {
       name: "String"
     }
   }
-};
-
-export const apiVersion1: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-06-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const bigDataPoolName: OperationURLParameter = {
-  parameterPath: "bigDataPoolName",
-  mapper: {
-    serializedName: "bigDataPoolName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const bigDataPoolPatchInfo: OperationParameter = {
-  parameterPath: "bigDataPoolPatchInfo",
-  mapper: BigDataPoolPatchInfoMapper
-};
-
-export const bigDataPoolInfo: OperationParameter = {
-  parameterPath: "bigDataPoolInfo",
-  mapper: BigDataPoolResourceInfoMapper
-};
-
-export const force: OperationQueryParameter = {
-  parameterPath: ["options", "force"],
-  mapper: {
-    defaultValue: false,
-    serializedName: "force",
-    type: {
-      name: "Boolean"
-    }
-  }
-};
-
-export const libraryName: OperationURLParameter = {
-  parameterPath: "libraryName",
-  mapper: {
-    serializedName: "libraryName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const updateIntegrationRuntimeRequest: OperationParameter = {
-  parameterPath: "updateIntegrationRuntimeRequest",
-  mapper: UpdateIntegrationRuntimeRequestMapper
-};
-
-export const integrationRuntimeName: OperationURLParameter = {
-  parameterPath: "integrationRuntimeName",
-  mapper: {
-    serializedName: "integrationRuntimeName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const ifNoneMatch: OperationParameter = {
-  parameterPath: ["options", "ifNoneMatch"],
-  mapper: {
-    serializedName: "If-None-Match",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const integrationRuntime: OperationParameter = {
-  parameterPath: "integrationRuntime",
-  mapper: IntegrationRuntimeResourceMapper
-};
-
-export const ifMatch: OperationParameter = {
-  parameterPath: ["options", "ifMatch"],
-  mapper: {
-    serializedName: "If-Match",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const nodeName: OperationURLParameter = {
-  parameterPath: "nodeName",
-  mapper: {
-    serializedName: "nodeName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const getMetadataRequest: OperationParameter = {
-  parameterPath: ["options", "getMetadataRequest"],
-  mapper: GetSsisObjectMetadataRequestMapper
-};
-
-export const updateIntegrationRuntimeNodeRequest: OperationParameter = {
-  parameterPath: "updateIntegrationRuntimeNodeRequest",
-  mapper: UpdateIntegrationRuntimeNodeRequestMapper
-};
-
-export const regenerateKeyParameters: OperationParameter = {
-  parameterPath: "regenerateKeyParameters",
-  mapper: IntegrationRuntimeRegenerateKeyParametersMapper
-};
-
-export const integrationRuntimeOperationId: OperationURLParameter = {
-  parameterPath: "integrationRuntimeOperationId",
-  mapper: {
-    serializedName: "integrationRuntimeOperationId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const sparkConfigurationName: OperationURLParameter = {
-  parameterPath: "sparkConfigurationName",
-  mapper: {
-    serializedName: "sparkConfigurationName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const kustoPoolName: OperationParameter = {
-  parameterPath: "kustoPoolName",
-  mapper: KustoPoolCheckNameRequestMapper
-};
-
-export const location: OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    constraints: {
-      MinLength: 1
-    },
-    serializedName: "location",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const kustoPoolName1: OperationURLParameter = {
-  parameterPath: "kustoPoolName",
-  mapper: {
-    serializedName: "kustoPoolName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters23: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: KustoPoolMapper
-};
-
-export const parameters24: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: KustoPoolUpdateMapper
-};
-
-export const languageExtensionsToAdd: OperationParameter = {
-  parameterPath: "languageExtensionsToAdd",
-  mapper: LanguageExtensionsListMapper
-};
-
-export const languageExtensionsToRemove: OperationParameter = {
-  parameterPath: "languageExtensionsToRemove",
-  mapper: LanguageExtensionsListMapper
-};
-
-export const followerDatabaseToRemove: OperationParameter = {
-  parameterPath: "followerDatabaseToRemove",
-  mapper: FollowerDatabaseDefinitionMapper
-};
-
-export const resourceName: OperationParameter = {
-  parameterPath: "resourceName",
-  mapper: DatabaseCheckNameRequestMapper
-};
-
-export const attachedDatabaseConfigurationName: OperationURLParameter = {
-  parameterPath: "attachedDatabaseConfigurationName",
-  mapper: {
-    serializedName: "attachedDatabaseConfigurationName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters25: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: AttachedDatabaseConfigurationMapper
-};
-
-export const databaseName: OperationURLParameter = {
-  parameterPath: "databaseName",
-  mapper: {
-    serializedName: "databaseName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters26: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: DatabaseMapper
-};
-
-export const dataConnectionName: OperationParameter = {
-  parameterPath: "dataConnectionName",
-  mapper: DataConnectionCheckNameRequestMapper
-};
-
-export const parameters27: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: DataConnectionValidationMapper
-};
-
-export const dataConnectionName1: OperationURLParameter = {
-  parameterPath: "dataConnectionName",
-  mapper: {
-    serializedName: "dataConnectionName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters28: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: DataConnectionMapper
-};
-
-export const principalAssignmentName: OperationParameter = {
-  parameterPath: "principalAssignmentName",
-  mapper: ClusterPrincipalAssignmentCheckNameRequestMapper
-};
-
-export const principalAssignmentName1: OperationURLParameter = {
-  parameterPath: "principalAssignmentName",
-  mapper: {
-    serializedName: "principalAssignmentName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters29: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ClusterPrincipalAssignmentMapper
-};
-
-export const principalAssignmentName2: OperationParameter = {
-  parameterPath: "principalAssignmentName",
-  mapper: DatabasePrincipalAssignmentCheckNameRequestMapper
-};
-
-export const parameters30: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: DatabasePrincipalAssignmentMapper
 };

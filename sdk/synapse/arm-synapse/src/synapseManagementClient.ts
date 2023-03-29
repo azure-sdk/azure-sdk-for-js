@@ -8,14 +8,31 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   AzureADOnlyAuthenticationsImpl,
+  BigDataPoolsImpl,
   OperationsImpl,
   IpFirewallRulesImpl,
+  IntegrationRuntimesImpl,
+  IntegrationRuntimeNodeIpAddressOperationsImpl,
+  IntegrationRuntimeObjectMetadataImpl,
+  IntegrationRuntimeNodesImpl,
+  IntegrationRuntimeCredentialsImpl,
+  IntegrationRuntimeConnectionInfosImpl,
+  IntegrationRuntimeAuthKeysOperationsImpl,
+  IntegrationRuntimeMonitoringDataOperationsImpl,
+  IntegrationRuntimeStatusOperationsImpl,
   KeysImpl,
+  LibraryImpl,
+  LibrariesImpl,
   PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesOperationsImpl,
+  PrivateLinkResourcesImpl,
   PrivateLinkHubPrivateLinkResourcesImpl,
   PrivateLinkHubsImpl,
   PrivateEndpointConnectionsPrivateLinkHubImpl,
@@ -60,39 +77,27 @@ import {
   WorkspaceAadAdminsImpl,
   WorkspaceSqlAadAdminsImpl,
   WorkspaceManagedIdentitySqlControlSettingsImpl,
-  RestorableDroppedSqlPoolsImpl,
-  BigDataPoolsImpl,
-  LibraryImpl,
-  LibrariesImpl,
-  IntegrationRuntimesImpl,
-  IntegrationRuntimeNodeIpAddressOperationsImpl,
-  IntegrationRuntimeObjectMetadataImpl,
-  IntegrationRuntimeNodesImpl,
-  IntegrationRuntimeCredentialsImpl,
-  IntegrationRuntimeConnectionInfosImpl,
-  IntegrationRuntimeAuthKeysOperationsImpl,
-  IntegrationRuntimeMonitoringDataOperationsImpl,
-  IntegrationRuntimeStatusOperationsImpl,
-  GetImpl,
-  SparkConfigurationImpl,
-  SparkConfigurationsImpl,
-  KustoOperationsImpl,
-  KustoPoolsImpl,
-  KustoPoolChildResourceImpl,
-  KustoPoolAttachedDatabaseConfigurationsImpl,
-  KustoPoolDatabasesImpl,
-  KustoPoolDataConnectionsImpl,
-  KustoPoolPrincipalAssignmentsImpl,
-  KustoPoolDatabasePrincipalAssignmentsImpl,
-  KustoPoolPrivateLinkResourcesOperationsImpl
+  RestorableDroppedSqlPoolsImpl
 } from "./operations";
 import {
   AzureADOnlyAuthentications,
+  BigDataPools,
   Operations,
   IpFirewallRules,
+  IntegrationRuntimes,
+  IntegrationRuntimeNodeIpAddressOperations,
+  IntegrationRuntimeObjectMetadata,
+  IntegrationRuntimeNodes,
+  IntegrationRuntimeCredentials,
+  IntegrationRuntimeConnectionInfos,
+  IntegrationRuntimeAuthKeysOperations,
+  IntegrationRuntimeMonitoringDataOperations,
+  IntegrationRuntimeStatusOperations,
   Keys,
+  Library,
+  Libraries,
   PrivateEndpointConnections,
-  PrivateLinkResourcesOperations,
+  PrivateLinkResources,
   PrivateLinkHubPrivateLinkResources,
   PrivateLinkHubs,
   PrivateEndpointConnectionsPrivateLinkHub,
@@ -137,36 +142,13 @@ import {
   WorkspaceAadAdmins,
   WorkspaceSqlAadAdmins,
   WorkspaceManagedIdentitySqlControlSettings,
-  RestorableDroppedSqlPools,
-  BigDataPools,
-  Library,
-  Libraries,
-  IntegrationRuntimes,
-  IntegrationRuntimeNodeIpAddressOperations,
-  IntegrationRuntimeObjectMetadata,
-  IntegrationRuntimeNodes,
-  IntegrationRuntimeCredentials,
-  IntegrationRuntimeConnectionInfos,
-  IntegrationRuntimeAuthKeysOperations,
-  IntegrationRuntimeMonitoringDataOperations,
-  IntegrationRuntimeStatusOperations,
-  Get,
-  SparkConfiguration,
-  SparkConfigurations,
-  KustoOperations,
-  KustoPools,
-  KustoPoolChildResource,
-  KustoPoolAttachedDatabaseConfigurations,
-  KustoPoolDatabases,
-  KustoPoolDataConnections,
-  KustoPoolPrincipalAssignments,
-  KustoPoolDatabasePrincipalAssignments,
-  KustoPoolPrivateLinkResourcesOperations
+  RestorableDroppedSqlPools
 } from "./operationsInterfaces";
 import { SynapseManagementClientOptionalParams } from "./models";
 
 export class SynapseManagementClient extends coreClient.ServiceClient {
   $host: string;
+  apiVersion: string;
   subscriptionId: string;
 
   /**
@@ -196,7 +178,7 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-synapse/9.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-synapse/9.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -249,14 +231,39 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
+    this.apiVersion = options.apiVersion || "2023-05-01";
     this.azureADOnlyAuthentications = new AzureADOnlyAuthenticationsImpl(this);
+    this.bigDataPools = new BigDataPoolsImpl(this);
     this.operations = new OperationsImpl(this);
     this.ipFirewallRules = new IpFirewallRulesImpl(this);
-    this.keys = new KeysImpl(this);
-    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
-    this.privateLinkResourcesOperations = new PrivateLinkResourcesOperationsImpl(
+    this.integrationRuntimes = new IntegrationRuntimesImpl(this);
+    this.integrationRuntimeNodeIpAddressOperations = new IntegrationRuntimeNodeIpAddressOperationsImpl(
       this
     );
+    this.integrationRuntimeObjectMetadata = new IntegrationRuntimeObjectMetadataImpl(
+      this
+    );
+    this.integrationRuntimeNodes = new IntegrationRuntimeNodesImpl(this);
+    this.integrationRuntimeCredentials = new IntegrationRuntimeCredentialsImpl(
+      this
+    );
+    this.integrationRuntimeConnectionInfos = new IntegrationRuntimeConnectionInfosImpl(
+      this
+    );
+    this.integrationRuntimeAuthKeysOperations = new IntegrationRuntimeAuthKeysOperationsImpl(
+      this
+    );
+    this.integrationRuntimeMonitoringDataOperations = new IntegrationRuntimeMonitoringDataOperationsImpl(
+      this
+    );
+    this.integrationRuntimeStatusOperations = new IntegrationRuntimeStatusOperationsImpl(
+      this
+    );
+    this.keys = new KeysImpl(this);
+    this.library = new LibraryImpl(this);
+    this.libraries = new LibrariesImpl(this);
+    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.privateLinkHubPrivateLinkResources = new PrivateLinkHubPrivateLinkResourcesImpl(
       this
     );
@@ -344,60 +351,55 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
       this
     );
     this.restorableDroppedSqlPools = new RestorableDroppedSqlPoolsImpl(this);
-    this.bigDataPools = new BigDataPoolsImpl(this);
-    this.library = new LibraryImpl(this);
-    this.libraries = new LibrariesImpl(this);
-    this.integrationRuntimes = new IntegrationRuntimesImpl(this);
-    this.integrationRuntimeNodeIpAddressOperations = new IntegrationRuntimeNodeIpAddressOperationsImpl(
-      this
-    );
-    this.integrationRuntimeObjectMetadata = new IntegrationRuntimeObjectMetadataImpl(
-      this
-    );
-    this.integrationRuntimeNodes = new IntegrationRuntimeNodesImpl(this);
-    this.integrationRuntimeCredentials = new IntegrationRuntimeCredentialsImpl(
-      this
-    );
-    this.integrationRuntimeConnectionInfos = new IntegrationRuntimeConnectionInfosImpl(
-      this
-    );
-    this.integrationRuntimeAuthKeysOperations = new IntegrationRuntimeAuthKeysOperationsImpl(
-      this
-    );
-    this.integrationRuntimeMonitoringDataOperations = new IntegrationRuntimeMonitoringDataOperationsImpl(
-      this
-    );
-    this.integrationRuntimeStatusOperations = new IntegrationRuntimeStatusOperationsImpl(
-      this
-    );
-    this.get = new GetImpl(this);
-    this.sparkConfiguration = new SparkConfigurationImpl(this);
-    this.sparkConfigurations = new SparkConfigurationsImpl(this);
-    this.kustoOperations = new KustoOperationsImpl(this);
-    this.kustoPools = new KustoPoolsImpl(this);
-    this.kustoPoolChildResource = new KustoPoolChildResourceImpl(this);
-    this.kustoPoolAttachedDatabaseConfigurations = new KustoPoolAttachedDatabaseConfigurationsImpl(
-      this
-    );
-    this.kustoPoolDatabases = new KustoPoolDatabasesImpl(this);
-    this.kustoPoolDataConnections = new KustoPoolDataConnectionsImpl(this);
-    this.kustoPoolPrincipalAssignments = new KustoPoolPrincipalAssignmentsImpl(
-      this
-    );
-    this.kustoPoolDatabasePrincipalAssignments = new KustoPoolDatabasePrincipalAssignmentsImpl(
-      this
-    );
-    this.kustoPoolPrivateLinkResourcesOperations = new KustoPoolPrivateLinkResourcesOperationsImpl(
-      this
-    );
+    this.addCustomApiVersionPolicy(options.apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   azureADOnlyAuthentications: AzureADOnlyAuthentications;
+  bigDataPools: BigDataPools;
   operations: Operations;
   ipFirewallRules: IpFirewallRules;
+  integrationRuntimes: IntegrationRuntimes;
+  integrationRuntimeNodeIpAddressOperations: IntegrationRuntimeNodeIpAddressOperations;
+  integrationRuntimeObjectMetadata: IntegrationRuntimeObjectMetadata;
+  integrationRuntimeNodes: IntegrationRuntimeNodes;
+  integrationRuntimeCredentials: IntegrationRuntimeCredentials;
+  integrationRuntimeConnectionInfos: IntegrationRuntimeConnectionInfos;
+  integrationRuntimeAuthKeysOperations: IntegrationRuntimeAuthKeysOperations;
+  integrationRuntimeMonitoringDataOperations: IntegrationRuntimeMonitoringDataOperations;
+  integrationRuntimeStatusOperations: IntegrationRuntimeStatusOperations;
   keys: Keys;
+  library: Library;
+  libraries: Libraries;
   privateEndpointConnections: PrivateEndpointConnections;
-  privateLinkResourcesOperations: PrivateLinkResourcesOperations;
+  privateLinkResources: PrivateLinkResources;
   privateLinkHubPrivateLinkResources: PrivateLinkHubPrivateLinkResources;
   privateLinkHubs: PrivateLinkHubs;
   privateEndpointConnectionsPrivateLinkHub: PrivateEndpointConnectionsPrivateLinkHub;
@@ -443,28 +445,4 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
   workspaceSqlAadAdmins: WorkspaceSqlAadAdmins;
   workspaceManagedIdentitySqlControlSettings: WorkspaceManagedIdentitySqlControlSettings;
   restorableDroppedSqlPools: RestorableDroppedSqlPools;
-  bigDataPools: BigDataPools;
-  library: Library;
-  libraries: Libraries;
-  integrationRuntimes: IntegrationRuntimes;
-  integrationRuntimeNodeIpAddressOperations: IntegrationRuntimeNodeIpAddressOperations;
-  integrationRuntimeObjectMetadata: IntegrationRuntimeObjectMetadata;
-  integrationRuntimeNodes: IntegrationRuntimeNodes;
-  integrationRuntimeCredentials: IntegrationRuntimeCredentials;
-  integrationRuntimeConnectionInfos: IntegrationRuntimeConnectionInfos;
-  integrationRuntimeAuthKeysOperations: IntegrationRuntimeAuthKeysOperations;
-  integrationRuntimeMonitoringDataOperations: IntegrationRuntimeMonitoringDataOperations;
-  integrationRuntimeStatusOperations: IntegrationRuntimeStatusOperations;
-  get: Get;
-  sparkConfiguration: SparkConfiguration;
-  sparkConfigurations: SparkConfigurations;
-  kustoOperations: KustoOperations;
-  kustoPools: KustoPools;
-  kustoPoolChildResource: KustoPoolChildResource;
-  kustoPoolAttachedDatabaseConfigurations: KustoPoolAttachedDatabaseConfigurations;
-  kustoPoolDatabases: KustoPoolDatabases;
-  kustoPoolDataConnections: KustoPoolDataConnections;
-  kustoPoolPrincipalAssignments: KustoPoolPrincipalAssignments;
-  kustoPoolDatabasePrincipalAssignments: KustoPoolDatabasePrincipalAssignments;
-  kustoPoolPrivateLinkResourcesOperations: KustoPoolPrivateLinkResourcesOperations;
 }
