@@ -15702,6 +15702,75 @@ export const PolicySettings: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      logScrubbing: {
+        serializedName: "logScrubbing",
+        type: {
+          name: "Composite",
+          className: "PolicySettingsLogScrubbing"
+        }
+      }
+    }
+  }
+};
+
+export const PolicySettingsLogScrubbing: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicySettingsLogScrubbing",
+    modelProperties: {
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
+      scrubbingRules: {
+        serializedName: "scrubbingRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "WebApplicationFirewallScrubbingRules"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const WebApplicationFirewallScrubbingRules: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebApplicationFirewallScrubbingRules",
+    modelProperties: {
+      matchVariable: {
+        serializedName: "matchVariable",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      selectorMatchOperator: {
+        serializedName: "selectorMatchOperator",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      selector: {
+        serializedName: "selector",
+        type: {
+          name: "String"
+        }
+      },
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -15741,6 +15810,21 @@ export const WebApplicationFirewallCustomRule: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      rateLimitDuration: {
+        serializedName: "rateLimitDuration",
+        type: {
+          name: "String"
+        }
+      },
+      rateLimitThreshold: {
+        constraints: {
+          InclusiveMinimum: 1
+        },
+        serializedName: "rateLimitThreshold",
+        type: {
+          name: "Number"
+        }
+      },
       ruleType: {
         serializedName: "ruleType",
         required: true,
@@ -15757,6 +15841,18 @@ export const WebApplicationFirewallCustomRule: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "MatchCondition"
+            }
+          }
+        }
+      },
+      groupByUserSession: {
+        serializedName: "groupByUserSession",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GroupByUserSession"
             }
           }
         }
@@ -15844,6 +15940,44 @@ export const MatchVariable: coreClient.CompositeMapper = {
       },
       selector: {
         serializedName: "selector",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GroupByUserSession: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupByUserSession",
+    modelProperties: {
+      groupByVariables: {
+        serializedName: "groupByVariables",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GroupByVariable"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const GroupByVariable: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupByVariable",
+    modelProperties: {
+      variableName: {
+        serializedName: "variableName",
+        required: true,
         type: {
           name: "String"
         }
@@ -17810,8 +17944,8 @@ export const Subnet: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      applicationGatewayIpConfigurations: {
-        serializedName: "properties.applicationGatewayIpConfigurations",
+      applicationGatewayIPConfigurations: {
+        serializedName: "properties.applicationGatewayIPConfigurations",
         type: {
           name: "Sequence",
           element: {

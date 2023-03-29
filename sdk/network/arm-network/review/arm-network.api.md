@@ -468,6 +468,9 @@ export interface ApplicationGatewayFirewallManifestRuleSet {
 export type ApplicationGatewayFirewallMode = string;
 
 // @public
+export type ApplicationGatewayFirewallRateLimitDuration = string;
+
+// @public
 export interface ApplicationGatewayFirewallRule {
     action?: ApplicationGatewayWafRuleActionTypes;
     description?: string;
@@ -491,6 +494,9 @@ export interface ApplicationGatewayFirewallRuleSet extends Resource {
     ruleSetVersion?: string;
     tiers?: ApplicationGatewayTierTypes[];
 }
+
+// @public
+export type ApplicationGatewayFirewallUserSessionVariable = string;
 
 // @public
 export interface ApplicationGatewayFrontendIPConfiguration extends SubResource {
@@ -5231,6 +5237,16 @@ export interface GetVpnSitesConfigurationRequest {
 }
 
 // @public
+export interface GroupByUserSession {
+    groupByVariables: GroupByVariable[];
+}
+
+// @public
+export interface GroupByVariable {
+    variableName: ApplicationGatewayFirewallUserSessionVariable;
+}
+
+// @public
 export type GroupConnectivity = string;
 
 // @public
@@ -5916,6 +5932,19 @@ export enum KnownApplicationGatewayCustomErrorStatusCode {
 export enum KnownApplicationGatewayFirewallMode {
     Detection = "Detection",
     Prevention = "Prevention"
+}
+
+// @public
+export enum KnownApplicationGatewayFirewallRateLimitDuration {
+    FiveMins = "FiveMins",
+    OneMin = "OneMin"
+}
+
+// @public
+export enum KnownApplicationGatewayFirewallUserSessionVariable {
+    ClientAddr = "ClientAddr",
+    GeoLocation = "GeoLocation",
+    None = "None"
 }
 
 // @public
@@ -6994,6 +7023,28 @@ export enum KnownScopeConnectionState {
 }
 
 // @public
+export enum KnownScrubbingRuleEntryMatchOperator {
+    Equals = "Equals",
+    EqualsAny = "EqualsAny"
+}
+
+// @public
+export enum KnownScrubbingRuleEntryMatchVariable {
+    RequestArgNames = "RequestArgNames",
+    RequestCookieNames = "RequestCookieNames",
+    RequestHeaderNames = "RequestHeaderNames",
+    RequestIPAddress = "RequestIPAddress",
+    RequestJsonArgNames = "RequestJSONArgNames",
+    RequestPostArgNames = "RequestPostArgNames"
+}
+
+// @public
+export enum KnownScrubbingRuleEntryState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownSecurityConfigurationRuleAccess {
     Allow = "Allow",
     AlwaysAllow = "AlwaysAllow",
@@ -7355,7 +7406,14 @@ export enum KnownWebApplicationFirewallPolicyResourceState {
 // @public
 export enum KnownWebApplicationFirewallRuleType {
     Invalid = "Invalid",
-    MatchRule = "MatchRule"
+    MatchRule = "MatchRule",
+    RateLimitRule = "RateLimitRule"
+}
+
+// @public
+export enum KnownWebApplicationFirewallScrubbingState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -10339,10 +10397,17 @@ export interface PolicySettings {
     customBlockResponseBody?: string;
     customBlockResponseStatusCode?: number;
     fileUploadLimitInMb?: number;
+    logScrubbing?: PolicySettingsLogScrubbing;
     maxRequestBodySizeInKb?: number;
     mode?: WebApplicationFirewallMode;
     requestBodyCheck?: boolean;
     state?: WebApplicationFirewallEnabledState;
+}
+
+// @public
+export interface PolicySettingsLogScrubbing {
+    scrubbingRules?: WebApplicationFirewallScrubbingRules[];
+    state?: WebApplicationFirewallScrubbingState;
 }
 
 // @public
@@ -11776,6 +11841,15 @@ export type ScopeConnectionsListResponse = ScopeConnectionListResult;
 export type ScopeConnectionState = string;
 
 // @public
+export type ScrubbingRuleEntryMatchOperator = string;
+
+// @public
+export type ScrubbingRuleEntryMatchVariable = string;
+
+// @public
+export type ScrubbingRuleEntryState = string;
+
+// @public
 export interface SecurityAdminConfiguration extends ChildResource {
     applyOnNetworkIntentPolicyBasedServices?: NetworkIntentPolicyBasedService[];
     description?: string;
@@ -12439,7 +12513,7 @@ export interface StaticRoutesConfig {
 export interface Subnet extends SubResource {
     addressPrefix?: string;
     addressPrefixes?: string[];
-    applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
+    applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
     delegations?: Delegation[];
     readonly etag?: string;
     ipAllocations?: SubResource[];
@@ -15294,9 +15368,12 @@ export type WebApplicationFirewallAction = string;
 export interface WebApplicationFirewallCustomRule {
     action: WebApplicationFirewallAction;
     readonly etag?: string;
+    groupByUserSession?: GroupByUserSession[];
     matchConditions: MatchCondition[];
     name?: string;
     priority: number;
+    rateLimitDuration?: ApplicationGatewayFirewallRateLimitDuration;
+    rateLimitThreshold?: number;
     ruleType: WebApplicationFirewallRuleType;
     state?: WebApplicationFirewallState;
 }
@@ -15395,6 +15472,17 @@ export type WebApplicationFirewallPolicyResourceState = string;
 
 // @public
 export type WebApplicationFirewallRuleType = string;
+
+// @public
+export interface WebApplicationFirewallScrubbingRules {
+    matchVariable: ScrubbingRuleEntryMatchVariable;
+    selector?: string;
+    selectorMatchOperator: ScrubbingRuleEntryMatchOperator;
+    state?: ScrubbingRuleEntryState;
+}
+
+// @public
+export type WebApplicationFirewallScrubbingState = string;
 
 // @public
 export type WebApplicationFirewallState = string;

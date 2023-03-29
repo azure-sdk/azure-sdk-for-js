@@ -5570,6 +5570,28 @@ export interface PolicySettings {
   customBlockResponseStatusCode?: number;
   /** If the action type is block, customer can override the response body. The body must be specified in base64 encoding. */
   customBlockResponseBody?: string;
+  /** To scrub sensitive log fields */
+  logScrubbing?: PolicySettingsLogScrubbing;
+}
+
+/** To scrub sensitive log fields */
+export interface PolicySettingsLogScrubbing {
+  /** State of the log scrubbing config. Default value is Enabled. */
+  state?: WebApplicationFirewallScrubbingState;
+  /** The rules that are applied to the logs for scrubbing. */
+  scrubbingRules?: WebApplicationFirewallScrubbingRules[];
+}
+
+/** Allow certain variables to be scrubbed on WAF logs */
+export interface WebApplicationFirewallScrubbingRules {
+  /** The variable to be scrubbed from the logs. */
+  matchVariable: ScrubbingRuleEntryMatchVariable;
+  /** When matchVariable is a collection, operate on the selector to specify which elements in the collection this rule applies to. */
+  selectorMatchOperator: ScrubbingRuleEntryMatchOperator;
+  /** When matchVariable is a collection, operator used to specify which elements in the collection this rule applies to. */
+  selector?: string;
+  /** Defines the state of log scrubbing rule. Default value is Enabled. */
+  state?: ScrubbingRuleEntryState;
 }
 
 /** Defines contents of a web application rule. */
@@ -5585,10 +5607,16 @@ export interface WebApplicationFirewallCustomRule {
   priority: number;
   /** Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified. */
   state?: WebApplicationFirewallState;
+  /** Duration over which Rate Limit policy will be applied. Applies only when ruleType is RateLimitRule. */
+  rateLimitDuration?: ApplicationGatewayFirewallRateLimitDuration;
+  /** Rate Limit threshold to apply in case ruleType is RateLimitRule. Must be greater than or equal to 1 */
+  rateLimitThreshold?: number;
   /** The rule type. */
   ruleType: WebApplicationFirewallRuleType;
   /** List of match conditions. */
   matchConditions: MatchCondition[];
+  /** List of user session identifier group by clauses. */
+  groupByUserSession?: GroupByUserSession[];
   /** Type of Actions. */
   action: WebApplicationFirewallAction;
 }
@@ -5613,6 +5641,18 @@ export interface MatchVariable {
   variableName: WebApplicationFirewallMatchVariable;
   /** The selector of match variable. */
   selector?: string;
+}
+
+/** Define user session identifier group by clauses. */
+export interface GroupByUserSession {
+  /** List of group by clause variables. */
+  groupByVariables: GroupByVariable[];
+}
+
+/** Define user session group by clause variables. */
+export interface GroupByVariable {
+  /** User Session clause variable. */
+  variableName: ApplicationGatewayFirewallUserSessionVariable;
 }
 
 /** Allow to exclude some variable satisfy the condition for the WAF check. */
@@ -6416,7 +6456,7 @@ export interface Subnet extends SubResource {
   /** Enable or Disable apply network policies on private link service in the subnet. */
   privateLinkServiceNetworkPolicies?: VirtualNetworkPrivateLinkServiceNetworkPolicies;
   /** Application gateway IP configurations of virtual network resource. */
-  applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
+  applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
 }
 
 /** Frontend IP address of the load balancer. */
@@ -15399,6 +15439,90 @@ export enum KnownWebApplicationFirewallMode {
  */
 export type WebApplicationFirewallMode = string;
 
+/** Known values of {@link WebApplicationFirewallScrubbingState} that the service accepts. */
+export enum KnownWebApplicationFirewallScrubbingState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled"
+}
+
+/**
+ * Defines values for WebApplicationFirewallScrubbingState. \
+ * {@link KnownWebApplicationFirewallScrubbingState} can be used interchangeably with WebApplicationFirewallScrubbingState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type WebApplicationFirewallScrubbingState = string;
+
+/** Known values of {@link ScrubbingRuleEntryMatchVariable} that the service accepts. */
+export enum KnownScrubbingRuleEntryMatchVariable {
+  /** RequestHeaderNames */
+  RequestHeaderNames = "RequestHeaderNames",
+  /** RequestCookieNames */
+  RequestCookieNames = "RequestCookieNames",
+  /** RequestArgNames */
+  RequestArgNames = "RequestArgNames",
+  /** RequestPostArgNames */
+  RequestPostArgNames = "RequestPostArgNames",
+  /** RequestJsonArgNames */
+  RequestJsonArgNames = "RequestJSONArgNames",
+  /** RequestIPAddress */
+  RequestIPAddress = "RequestIPAddress"
+}
+
+/**
+ * Defines values for ScrubbingRuleEntryMatchVariable. \
+ * {@link KnownScrubbingRuleEntryMatchVariable} can be used interchangeably with ScrubbingRuleEntryMatchVariable,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RequestHeaderNames** \
+ * **RequestCookieNames** \
+ * **RequestArgNames** \
+ * **RequestPostArgNames** \
+ * **RequestJSONArgNames** \
+ * **RequestIPAddress**
+ */
+export type ScrubbingRuleEntryMatchVariable = string;
+
+/** Known values of {@link ScrubbingRuleEntryMatchOperator} that the service accepts. */
+export enum KnownScrubbingRuleEntryMatchOperator {
+  /** Equals */
+  Equals = "Equals",
+  /** EqualsAny */
+  EqualsAny = "EqualsAny"
+}
+
+/**
+ * Defines values for ScrubbingRuleEntryMatchOperator. \
+ * {@link KnownScrubbingRuleEntryMatchOperator} can be used interchangeably with ScrubbingRuleEntryMatchOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Equals** \
+ * **EqualsAny**
+ */
+export type ScrubbingRuleEntryMatchOperator = string;
+
+/** Known values of {@link ScrubbingRuleEntryState} that the service accepts. */
+export enum KnownScrubbingRuleEntryState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for ScrubbingRuleEntryState. \
+ * {@link KnownScrubbingRuleEntryState} can be used interchangeably with ScrubbingRuleEntryState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ScrubbingRuleEntryState = string;
+
 /** Known values of {@link WebApplicationFirewallState} that the service accepts. */
 export enum KnownWebApplicationFirewallState {
   /** Disabled */
@@ -15417,10 +15541,30 @@ export enum KnownWebApplicationFirewallState {
  */
 export type WebApplicationFirewallState = string;
 
+/** Known values of {@link ApplicationGatewayFirewallRateLimitDuration} that the service accepts. */
+export enum KnownApplicationGatewayFirewallRateLimitDuration {
+  /** OneMin */
+  OneMin = "OneMin",
+  /** FiveMins */
+  FiveMins = "FiveMins"
+}
+
+/**
+ * Defines values for ApplicationGatewayFirewallRateLimitDuration. \
+ * {@link KnownApplicationGatewayFirewallRateLimitDuration} can be used interchangeably with ApplicationGatewayFirewallRateLimitDuration,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **OneMin** \
+ * **FiveMins**
+ */
+export type ApplicationGatewayFirewallRateLimitDuration = string;
+
 /** Known values of {@link WebApplicationFirewallRuleType} that the service accepts. */
 export enum KnownWebApplicationFirewallRuleType {
   /** MatchRule */
   MatchRule = "MatchRule",
+  /** RateLimitRule */
+  RateLimitRule = "RateLimitRule",
   /** Invalid */
   Invalid = "Invalid"
 }
@@ -15431,6 +15575,7 @@ export enum KnownWebApplicationFirewallRuleType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **MatchRule** \
+ * **RateLimitRule** \
  * **Invalid**
  */
 export type WebApplicationFirewallRuleType = string;
@@ -15551,6 +15696,27 @@ export enum KnownWebApplicationFirewallTransform {
  * **HtmlEntityDecode**
  */
 export type WebApplicationFirewallTransform = string;
+
+/** Known values of {@link ApplicationGatewayFirewallUserSessionVariable} that the service accepts. */
+export enum KnownApplicationGatewayFirewallUserSessionVariable {
+  /** ClientAddr */
+  ClientAddr = "ClientAddr",
+  /** GeoLocation */
+  GeoLocation = "GeoLocation",
+  /** None */
+  None = "None"
+}
+
+/**
+ * Defines values for ApplicationGatewayFirewallUserSessionVariable. \
+ * {@link KnownApplicationGatewayFirewallUserSessionVariable} can be used interchangeably with ApplicationGatewayFirewallUserSessionVariable,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ClientAddr** \
+ * **GeoLocation** \
+ * **None**
+ */
+export type ApplicationGatewayFirewallUserSessionVariable = string;
 
 /** Known values of {@link WebApplicationFirewallAction} that the service accepts. */
 export enum KnownWebApplicationFirewallAction {
