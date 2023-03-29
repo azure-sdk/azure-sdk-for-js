@@ -614,6 +614,49 @@ export const CosmosDbSettings: coreClient.CompositeMapper = {
   }
 };
 
+export const FeatureStoreSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeatureStoreSettings",
+    modelProperties: {
+      computeRuntime: {
+        serializedName: "computeRuntime",
+        type: {
+          name: "Composite",
+          className: "ComputeRuntimeDto"
+        }
+      },
+      offlineStoreConnectionName: {
+        serializedName: "offlineStoreConnectionName",
+        type: {
+          name: "String"
+        }
+      },
+      onlineStoreConnectionName: {
+        serializedName: "onlineStoreConnectionName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ComputeRuntimeDto: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ComputeRuntimeDto",
+    modelProperties: {
+      sparkRuntimeVersion: {
+        serializedName: "sparkRuntimeVersion",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const WorkspaceUpdateParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -685,6 +728,52 @@ export const WorkspaceUpdateParameters: coreClient.CompositeMapper = {
       },
       containerRegistry: {
         serializedName: "properties.containerRegistry",
+        type: {
+          name: "String"
+        }
+      },
+      encryption: {
+        serializedName: "properties.encryption",
+        type: {
+          name: "Composite",
+          className: "EncryptionUpdateProperties"
+        }
+      },
+      featureStoreSettings: {
+        serializedName: "properties.featureStoreSettings",
+        type: {
+          name: "Composite",
+          className: "FeatureStoreSettings"
+        }
+      }
+    }
+  }
+};
+
+export const EncryptionUpdateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EncryptionUpdateProperties",
+    modelProperties: {
+      keyVaultProperties: {
+        serializedName: "keyVaultProperties",
+        type: {
+          name: "Composite",
+          className: "EncryptionKeyVaultUpdateProperties"
+        }
+      }
+    }
+  }
+};
+
+export const EncryptionKeyVaultUpdateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EncryptionKeyVaultUpdateProperties",
+    modelProperties: {
+      keyIdentifier: {
+        serializedName: "keyIdentifier",
+        required: true,
         type: {
           name: "String"
         }
@@ -1828,6 +1917,298 @@ export const ScaleSettings: coreClient.CompositeMapper = {
   }
 };
 
+export const CustomService: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomService",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      image: {
+        serializedName: "image",
+        type: {
+          name: "Composite",
+          className: "Image"
+        }
+      },
+      environmentVariables: {
+        serializedName: "environmentVariables",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "EnvironmentVariable" }
+          }
+        }
+      },
+      docker: {
+        serializedName: "docker",
+        type: {
+          name: "Composite",
+          className: "Docker"
+        }
+      },
+      endpoints: {
+        serializedName: "endpoints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Endpoint"
+            }
+          }
+        }
+      },
+      volumes: {
+        serializedName: "volumes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VolumeDefinition"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Image: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Image",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      type: {
+        defaultValue: "docker",
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      reference: {
+        serializedName: "reference",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EnvironmentVariable: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EnvironmentVariable",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      type: {
+        defaultValue: "local",
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Docker: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Docker",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      privileged: {
+        serializedName: "privileged",
+        nullable: true,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const Endpoint: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Endpoint",
+    modelProperties: {
+      protocol: {
+        defaultValue: "tcp",
+        serializedName: "protocol",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "Number"
+        }
+      },
+      published: {
+        serializedName: "published",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      hostIp: {
+        serializedName: "hostIp",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VolumeDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumeDefinition",
+    modelProperties: {
+      type: {
+        defaultValue: "bind",
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      readOnly: {
+        serializedName: "readOnly",
+        nullable: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      source: {
+        serializedName: "source",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      consistency: {
+        serializedName: "consistency",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      bind: {
+        serializedName: "bind",
+        type: {
+          name: "Composite",
+          className: "BindOptions"
+        }
+      },
+      volume: {
+        serializedName: "volume",
+        type: {
+          name: "Composite",
+          className: "VolumeOptions"
+        }
+      },
+      tmpfs: {
+        serializedName: "tmpfs",
+        type: {
+          name: "Composite",
+          className: "TmpfsOptions"
+        }
+      }
+    }
+  }
+};
+
+export const BindOptions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BindOptions",
+    modelProperties: {
+      propagation: {
+        serializedName: "propagation",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      createHostPath: {
+        serializedName: "createHostPath",
+        nullable: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      selinux: {
+        serializedName: "selinux",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VolumeOptions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumeOptions",
+    modelProperties: {
+      nocopy: {
+        serializedName: "nocopy",
+        nullable: true,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const TmpfsOptions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TmpfsOptions",
+    modelProperties: {
+      size: {
+        serializedName: "size",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const AmlComputeNodesInformation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1997,6 +2378,21 @@ export const ComputeSecrets: coreClient.CompositeMapper = {
   }
 };
 
+export const IdleShutdownSetting: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IdleShutdownSetting",
+    modelProperties: {
+      idleTimeBeforeShutdown: {
+        serializedName: "idleTimeBeforeShutdown",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PrivateEndpointConnectionListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2068,6 +2464,12 @@ export const WorkspaceConnectionPropertiesV2: coreClient.CompositeMapper = {
       authType: {
         serializedName: "authType",
         required: true,
+        type: {
+          name: "String"
+        }
+      },
+      expiryTime: {
+        serializedName: "expiryTime",
         type: {
           name: "String"
         }
@@ -2228,383 +2630,6 @@ export const FqdnEndpointDetail: coreClient.CompositeMapper = {
         serializedName: "port",
         type: {
           name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const BatchEndpointTrackedResourceArmPaginatedResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BatchEndpointTrackedResourceArmPaginatedResult",
-    modelProperties: {
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      },
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "BatchEndpoint"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const BatchEndpointDefaults: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BatchEndpointDefaults",
-    modelProperties: {
-      deploymentName: {
-        serializedName: "deploymentName",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const EndpointPropertiesBase: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EndpointPropertiesBase",
-    modelProperties: {
-      authMode: {
-        serializedName: "authMode",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      keys: {
-        serializedName: "keys",
-        type: {
-          name: "Composite",
-          className: "EndpointAuthKeys"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        nullable: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      scoringUri: {
-        serializedName: "scoringUri",
-        readOnly: true,
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      swaggerUri: {
-        serializedName: "swaggerUri",
-        readOnly: true,
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const EndpointAuthKeys: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EndpointAuthKeys",
-    modelProperties: {
-      primaryKey: {
-        serializedName: "primaryKey",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      secondaryKey: {
-        serializedName: "secondaryKey",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PartialManagedServiceIdentity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PartialManagedServiceIdentity",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      userAssignedIdentities: {
-        serializedName: "userAssignedIdentities",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const PartialMinimalTrackedResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PartialMinimalTrackedResource",
-    modelProperties: {
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
-};
-
-export const BatchDeploymentTrackedResourceArmPaginatedResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BatchDeploymentTrackedResourceArmPaginatedResult",
-    modelProperties: {
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      },
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "BatchDeployment"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const AssetReferenceBase: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AssetReferenceBase",
-    uberParent: "AssetReferenceBase",
-    polymorphicDiscriminator: {
-      serializedName: "referenceType",
-      clientName: "referenceType"
-    },
-    modelProperties: {
-      referenceType: {
-        serializedName: "referenceType",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ResourceConfiguration: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ResourceConfiguration",
-    modelProperties: {
-      instanceCount: {
-        defaultValue: 1,
-        serializedName: "instanceCount",
-        type: {
-          name: "Number"
-        }
-      },
-      instanceType: {
-        serializedName: "instanceType",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        nullable: true,
-        type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const BatchRetrySettings: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BatchRetrySettings",
-    modelProperties: {
-      maxRetries: {
-        defaultValue: 3,
-        serializedName: "maxRetries",
-        type: {
-          name: "Number"
-        }
-      },
-      timeout: {
-        defaultValue: "PT30S",
-        serializedName: "timeout",
-        type: {
-          name: "TimeSpan"
-        }
-      }
-    }
-  }
-};
-
-export const EndpointDeploymentPropertiesBase: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EndpointDeploymentPropertiesBase",
-    modelProperties: {
-      codeConfiguration: {
-        serializedName: "codeConfiguration",
-        type: {
-          name: "Composite",
-          className: "CodeConfiguration"
-        }
-      },
-      description: {
-        serializedName: "description",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      environmentId: {
-        serializedName: "environmentId",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      environmentVariables: {
-        serializedName: "environmentVariables",
-        nullable: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        nullable: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
-};
-
-export const CodeConfiguration: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CodeConfiguration",
-    modelProperties: {
-      codeId: {
-        serializedName: "codeId",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      scoringScript: {
-        constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]"),
-          MinLength: 1
-        },
-        serializedName: "scoringScript",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className:
-      "PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties",
-    modelProperties: {
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "PartialBatchDeployment"
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
-};
-
-export const PartialBatchDeployment: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PartialBatchDeployment",
-    modelProperties: {
-      description: {
-        serializedName: "description",
-        nullable: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -2805,6 +2830,625 @@ export const DataVersionBaseResourceArmPaginatedResult: coreClient.CompositeMapp
   }
 };
 
+export const EnvironmentContainerResourceArmPaginatedResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EnvironmentContainerResourceArmPaginatedResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EnvironmentContainer"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const EnvironmentVersionResourceArmPaginatedResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EnvironmentVersionResourceArmPaginatedResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EnvironmentVersion"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const BuildContext: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BuildContext",
+    modelProperties: {
+      contextUri: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "contextUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      dockerfilePath: {
+        defaultValue: "Dockerfile",
+        serializedName: "dockerfilePath",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const InferenceContainerProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InferenceContainerProperties",
+    modelProperties: {
+      livenessRoute: {
+        serializedName: "livenessRoute",
+        type: {
+          name: "Composite",
+          className: "Route"
+        }
+      },
+      readinessRoute: {
+        serializedName: "readinessRoute",
+        type: {
+          name: "Composite",
+          className: "Route"
+        }
+      },
+      scoringRoute: {
+        serializedName: "scoringRoute",
+        type: {
+          name: "Composite",
+          className: "Route"
+        }
+      }
+    }
+  }
+};
+
+export const Route: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Route",
+    modelProperties: {
+      path: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "path",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      port: {
+        serializedName: "port",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ModelContainerResourceArmPaginatedResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ModelContainerResourceArmPaginatedResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ModelContainer"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ModelVersionResourceArmPaginatedResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ModelVersionResourceArmPaginatedResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ModelVersion"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const FlavorData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FlavorData",
+    modelProperties: {
+      data: {
+        serializedName: "data",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const BatchEndpointTrackedResourceArmPaginatedResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BatchEndpointTrackedResourceArmPaginatedResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BatchEndpoint"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const BatchEndpointDefaults: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BatchEndpointDefaults",
+    modelProperties: {
+      deploymentName: {
+        serializedName: "deploymentName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EndpointPropertiesBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EndpointPropertiesBase",
+    modelProperties: {
+      authMode: {
+        serializedName: "authMode",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      keys: {
+        serializedName: "keys",
+        type: {
+          name: "Composite",
+          className: "EndpointAuthKeys"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      scoringUri: {
+        serializedName: "scoringUri",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      swaggerUri: {
+        serializedName: "swaggerUri",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EndpointAuthKeys: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EndpointAuthKeys",
+    modelProperties: {
+      primaryKey: {
+        serializedName: "primaryKey",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      secondaryKey: {
+        serializedName: "secondaryKey",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PartialManagedServiceIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PartialManagedServiceIdentity",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Dictionary", value: { type: { name: "any" } } }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PartialMinimalTrackedResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PartialMinimalTrackedResource",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const BatchDeploymentTrackedResourceArmPaginatedResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BatchDeploymentTrackedResourceArmPaginatedResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BatchDeployment"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const BatchDeploymentConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BatchDeploymentConfiguration",
+    uberParent: "BatchDeploymentConfiguration",
+    polymorphicDiscriminator: {
+      serializedName: "deploymentConfigurationType",
+      clientName: "deploymentConfigurationType"
+    },
+    modelProperties: {
+      deploymentConfigurationType: {
+        serializedName: "deploymentConfigurationType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AssetReferenceBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AssetReferenceBase",
+    uberParent: "AssetReferenceBase",
+    polymorphicDiscriminator: {
+      serializedName: "referenceType",
+      clientName: "referenceType"
+    },
+    modelProperties: {
+      referenceType: {
+        serializedName: "referenceType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceConfiguration",
+    modelProperties: {
+      instanceCount: {
+        defaultValue: 1,
+        serializedName: "instanceCount",
+        type: {
+          name: "Number"
+        }
+      },
+      instanceType: {
+        serializedName: "instanceType",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      locations: {
+        serializedName: "locations",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Dictionary", value: { type: { name: "any" } } }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const BatchRetrySettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BatchRetrySettings",
+    modelProperties: {
+      maxRetries: {
+        defaultValue: 3,
+        serializedName: "maxRetries",
+        type: {
+          name: "Number"
+        }
+      },
+      timeout: {
+        defaultValue: "PT30S",
+        serializedName: "timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      }
+    }
+  }
+};
+
+export const EndpointDeploymentPropertiesBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EndpointDeploymentPropertiesBase",
+    modelProperties: {
+      codeConfiguration: {
+        serializedName: "codeConfiguration",
+        type: {
+          name: "Composite",
+          className: "CodeConfiguration"
+        }
+      },
+      description: {
+        serializedName: "description",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      environmentId: {
+        serializedName: "environmentId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      environmentVariables: {
+        serializedName: "environmentVariables",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const CodeConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CodeConfiguration",
+    modelProperties: {
+      codeId: {
+        serializedName: "codeId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      scoringScript: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "scoringScript",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "PartialBatchDeployment"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const PartialBatchDeployment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PartialBatchDeployment",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DatastoreResourceArmPaginatedResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2874,10 +3518,10 @@ export const DatastoreSecrets: coreClient.CompositeMapper = {
   }
 };
 
-export const EnvironmentContainerResourceArmPaginatedResult: coreClient.CompositeMapper = {
+export const FeaturesetContainerResourceArmPaginatedResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "EnvironmentContainerResourceArmPaginatedResult",
+    className: "FeaturesetContainerResourceArmPaginatedResult",
     modelProperties: {
       nextLink: {
         serializedName: "nextLink",
@@ -2892,7 +3536,7 @@ export const EnvironmentContainerResourceArmPaginatedResult: coreClient.Composit
           element: {
             type: {
               name: "Composite",
-              className: "EnvironmentContainer"
+              className: "FeaturesetContainer"
             }
           }
         }
@@ -2901,10 +3545,10 @@ export const EnvironmentContainerResourceArmPaginatedResult: coreClient.Composit
   }
 };
 
-export const EnvironmentVersionResourceArmPaginatedResult: coreClient.CompositeMapper = {
+export const FeaturesetVersionResourceArmPaginatedResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "EnvironmentVersionResourceArmPaginatedResult",
+    className: "FeaturesetVersionResourceArmPaginatedResult",
     modelProperties: {
       nextLink: {
         serializedName: "nextLink",
@@ -2919,7 +3563,7 @@ export const EnvironmentVersionResourceArmPaginatedResult: coreClient.CompositeM
           element: {
             type: {
               name: "Composite",
-              className: "EnvironmentVersion"
+              className: "FeaturesetVersion"
             }
           }
         }
@@ -2928,82 +3572,550 @@ export const EnvironmentVersionResourceArmPaginatedResult: coreClient.CompositeM
   }
 };
 
-export const BuildContext: coreClient.CompositeMapper = {
+export const MaterializationSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "BuildContext",
+    className: "MaterializationSettings",
     modelProperties: {
-      contextUri: {
-        constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
-        },
-        serializedName: "contextUri",
+      notification: {
+        serializedName: "notification",
+        type: {
+          name: "Composite",
+          className: "NotificationSetting"
+        }
+      },
+      resource: {
+        serializedName: "resource",
+        type: {
+          name: "Composite",
+          className: "MaterializationComputeResource"
+        }
+      },
+      schedule: {
+        serializedName: "schedule",
+        type: {
+          name: "Composite",
+          className: "RecurrenceTrigger"
+        }
+      },
+      sparkConfiguration: {
+        serializedName: "sparkConfiguration",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      storeType: {
+        serializedName: "storeType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NotificationSetting: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NotificationSetting",
+    modelProperties: {
+      emailOn: {
+        serializedName: "emailOn",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      emails: {
+        serializedName: "emails",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MaterializationComputeResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MaterializationComputeResource",
+    modelProperties: {
+      instanceType: {
+        serializedName: "instanceType",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RecurrenceSchedule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RecurrenceSchedule",
+    modelProperties: {
+      hours: {
+        serializedName: "hours",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      minutes: {
+        serializedName: "minutes",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      monthDays: {
+        serializedName: "monthDays",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      weekDays: {
+        serializedName: "weekDays",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TriggerBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TriggerBase",
+    uberParent: "TriggerBase",
+    polymorphicDiscriminator: {
+      serializedName: "triggerType",
+      clientName: "triggerType"
+    },
+    modelProperties: {
+      endTime: {
+        serializedName: "endTime",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      timeZone: {
+        defaultValue: "UTC",
+        serializedName: "timeZone",
+        type: {
+          name: "String"
+        }
+      },
+      triggerType: {
+        serializedName: "triggerType",
         required: true,
         type: {
           name: "String"
         }
-      },
-      dockerfilePath: {
-        defaultValue: "Dockerfile",
-        serializedName: "dockerfilePath",
-        type: {
-          name: "String"
-        }
       }
     }
   }
 };
 
-export const InferenceContainerProperties: coreClient.CompositeMapper = {
+export const FeaturesetSpecification: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "InferenceContainerProperties",
-    modelProperties: {
-      livenessRoute: {
-        serializedName: "livenessRoute",
-        type: {
-          name: "Composite",
-          className: "Route"
-        }
-      },
-      readinessRoute: {
-        serializedName: "readinessRoute",
-        type: {
-          name: "Composite",
-          className: "Route"
-        }
-      },
-      scoringRoute: {
-        serializedName: "scoringRoute",
-        type: {
-          name: "Composite",
-          className: "Route"
-        }
-      }
-    }
-  }
-};
-
-export const Route: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Route",
+    className: "FeaturesetSpecification",
     modelProperties: {
       path: {
-        constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
-        },
         serializedName: "path",
-        required: true,
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FeaturesetVersionBackfillRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturesetVersionBackfillRequest",
+    modelProperties: {
+      description: {
+        serializedName: "description",
         type: {
           name: "String"
         }
       },
-      port: {
-        serializedName: "port",
-        required: true,
+      displayName: {
+        serializedName: "displayName",
         type: {
-          name: "Number"
+          name: "String"
+        }
+      },
+      featureWindow: {
+        serializedName: "featureWindow",
+        type: {
+          name: "Composite",
+          className: "FeatureWindow"
+        }
+      },
+      resource: {
+        serializedName: "resource",
+        type: {
+          name: "Composite",
+          className: "MaterializationComputeResource"
+        }
+      },
+      sparkConfiguration: {
+        serializedName: "sparkConfiguration",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const FeatureWindow: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeatureWindow",
+    modelProperties: {
+      featureWindowEnd: {
+        serializedName: "featureWindowEnd",
+        nullable: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      featureWindowStart: {
+        serializedName: "featureWindowStart",
+        nullable: true,
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const FeaturesetVersionBackfillResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturesetVersionBackfillResponse",
+    modelProperties: {
+      jobId: {
+        serializedName: "jobId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GetFeatureRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GetFeatureRequest",
+    modelProperties: {
+      featureName: {
+        serializedName: "featureName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Feature: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Feature",
+    modelProperties: {
+      dataType: {
+        serializedName: "dataType",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      featureName: {
+        serializedName: "featureName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const FeatureArmPaginatedResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeatureArmPaginatedResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Feature"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const FeaturesetJobArmPaginatedResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturesetJobArmPaginatedResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FeaturesetJob"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const FeaturesetJob: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturesetJob",
+    modelProperties: {
+      createdDate: {
+        serializedName: "createdDate",
+        nullable: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      duration: {
+        serializedName: "duration",
+        nullable: true,
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      experimentId: {
+        serializedName: "experimentId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      featureWindow: {
+        serializedName: "featureWindow",
+        type: {
+          name: "Composite",
+          className: "FeatureWindow"
+        }
+      },
+      jobId: {
+        serializedName: "jobId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FeaturestoreEntityContainerResourceArmPaginatedResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturestoreEntityContainerResourceArmPaginatedResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FeaturestoreEntityContainer"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const FeaturestoreEntityVersionResourceArmPaginatedResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturestoreEntityVersionResourceArmPaginatedResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FeaturestoreEntityVersion"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const IndexColumn: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IndexColumn",
+    modelProperties: {
+      columnName: {
+        serializedName: "columnName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      dataType: {
+        serializedName: "dataType",
+        type: {
+          name: "String"
         }
       }
     }
@@ -3085,6 +4197,13 @@ export const JobService: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      nodes: {
+        serializedName: "nodes",
+        type: {
+          name: "Composite",
+          className: "Nodes"
+        }
+      },
       port: {
         serializedName: "port",
         nullable: true,
@@ -3112,10 +4231,31 @@ export const JobService: coreClient.CompositeMapper = {
   }
 };
 
-export const ModelContainerResourceArmPaginatedResult: coreClient.CompositeMapper = {
+export const Nodes: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ModelContainerResourceArmPaginatedResult",
+    className: "Nodes",
+    uberParent: "Nodes",
+    polymorphicDiscriminator: {
+      serializedName: "nodesValueType",
+      clientName: "nodesValueType"
+    },
+    modelProperties: {
+      nodesValueType: {
+        serializedName: "nodesValueType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LabelingJobResourceArmPaginatedResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LabelingJobResourceArmPaginatedResult",
     modelProperties: {
       nextLink: {
         serializedName: "nextLink",
@@ -3130,7 +4270,7 @@ export const ModelContainerResourceArmPaginatedResult: coreClient.CompositeMappe
           element: {
             type: {
               name: "Composite",
-              className: "ModelContainer"
+              className: "LabelingJob"
             }
           }
         }
@@ -3139,44 +4279,575 @@ export const ModelContainerResourceArmPaginatedResult: coreClient.CompositeMappe
   }
 };
 
-export const ModelVersionResourceArmPaginatedResult: coreClient.CompositeMapper = {
+export const LabelingDataConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ModelVersionResourceArmPaginatedResult",
+    className: "LabelingDataConfiguration",
     modelProperties: {
-      nextLink: {
-        serializedName: "nextLink",
+      dataId: {
+        serializedName: "dataId",
+        nullable: true,
         type: {
           name: "String"
         }
       },
-      value: {
-        serializedName: "value",
+      incrementalDataRefresh: {
+        serializedName: "incrementalDataRefresh",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ModelVersion"
-            }
-          }
+          name: "String"
         }
       }
     }
   }
 };
 
-export const FlavorData: coreClient.CompositeMapper = {
+export const LabelingJobInstructions: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "FlavorData",
+    className: "LabelingJobInstructions",
     modelProperties: {
-      data: {
-        serializedName: "data",
+      uri: {
+        serializedName: "uri",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LabelCategory: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LabelCategory",
+    modelProperties: {
+      classes: {
+        serializedName: "classes",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Composite", className: "LabelClass" } }
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      multiSelect: {
+        serializedName: "multiSelect",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LabelClass: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LabelClass",
+    modelProperties: {
+      displayName: {
+        serializedName: "displayName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      subclasses: {
+        serializedName: "subclasses",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Composite", className: "LabelClass" } }
+        }
+      }
+    }
+  }
+};
+
+export const LabelingJobMediaProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LabelingJobMediaProperties",
+    uberParent: "LabelingJobMediaProperties",
+    polymorphicDiscriminator: {
+      serializedName: "mediaType",
+      clientName: "mediaType"
+    },
+    modelProperties: {
+      mediaType: {
+        serializedName: "mediaType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MLAssistConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MLAssistConfiguration",
+    uberParent: "MLAssistConfiguration",
+    polymorphicDiscriminator: {
+      serializedName: "mlAssist",
+      clientName: "mlAssist"
+    },
+    modelProperties: {
+      mlAssist: {
+        serializedName: "mlAssist",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProgressMetrics: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProgressMetrics",
+    modelProperties: {
+      completedDatapointCount: {
+        serializedName: "completedDatapointCount",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      incrementalDataLastRefreshDateTime: {
+        serializedName: "incrementalDataLastRefreshDateTime",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      skippedDatapointCount: {
+        serializedName: "skippedDatapointCount",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      totalDatapointCount: {
+        serializedName: "totalDatapointCount",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const StatusMessage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StatusMessage",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      level: {
+        serializedName: "level",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExportSummary: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExportSummary",
+    uberParent: "ExportSummary",
+    polymorphicDiscriminator: {
+      serializedName: "format",
+      clientName: "format"
+    },
+    modelProperties: {
+      endDateTime: {
+        serializedName: "endDateTime",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      exportedRowCount: {
+        serializedName: "exportedRowCount",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      format: {
+        serializedName: "format",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      labelingJobId: {
+        serializedName: "labelingJobId",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      startDateTime: {
+        serializedName: "startDateTime",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const PackageRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PackageRequest",
+    modelProperties: {
+      baseEnvironmentSource: {
+        serializedName: "baseEnvironmentSource",
+        type: {
+          name: "Composite",
+          className: "BaseEnvironmentSource"
+        }
+      },
+      environmentVariables: {
+        serializedName: "environmentVariables",
         nullable: true,
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
+        }
+      },
+      inferencingServer: {
+        serializedName: "inferencingServer",
+        type: {
+          name: "Composite",
+          className: "InferencingServer"
+        }
+      },
+      inputs: {
+        serializedName: "inputs",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ModelPackageInput"
+            }
+          }
+        }
+      },
+      modelConfiguration: {
+        serializedName: "modelConfiguration",
+        type: {
+          name: "Composite",
+          className: "ModelConfiguration"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      targetEnvironmentName: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "targetEnvironmentName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      targetEnvironmentVersion: {
+        serializedName: "targetEnvironmentVersion",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BaseEnvironmentSource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BaseEnvironmentSource",
+    uberParent: "BaseEnvironmentSource",
+    polymorphicDiscriminator: {
+      serializedName: "baseEnvironmentSourceType",
+      clientName: "baseEnvironmentSourceType"
+    },
+    modelProperties: {
+      baseEnvironmentSourceType: {
+        serializedName: "baseEnvironmentSourceType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const InferencingServer: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InferencingServer",
+    uberParent: "InferencingServer",
+    polymorphicDiscriminator: {
+      serializedName: "serverType",
+      clientName: "serverType"
+    },
+    modelProperties: {
+      serverType: {
+        serializedName: "serverType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ModelPackageInput: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ModelPackageInput",
+    modelProperties: {
+      inputType: {
+        serializedName: "inputType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      mode: {
+        serializedName: "mode",
+        type: {
+          name: "String"
+        }
+      },
+      mountPath: {
+        serializedName: "mountPath",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      path: {
+        serializedName: "path",
+        type: {
+          name: "Composite",
+          className: "PackageInputPathBase"
+        }
+      }
+    }
+  }
+};
+
+export const PackageInputPathBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PackageInputPathBase",
+    uberParent: "PackageInputPathBase",
+    polymorphicDiscriminator: {
+      serializedName: "inputPathType",
+      clientName: "inputPathType"
+    },
+    modelProperties: {
+      inputPathType: {
+        serializedName: "inputPathType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ModelConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ModelConfiguration",
+    modelProperties: {
+      mode: {
+        serializedName: "mode",
+        type: {
+          name: "String"
+        }
+      },
+      mountPath: {
+        serializedName: "mountPath",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PackageResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PackageResponse",
+    modelProperties: {
+      baseEnvironmentSource: {
+        serializedName: "baseEnvironmentSource",
+        type: {
+          name: "Composite",
+          className: "BaseEnvironmentSource"
+        }
+      },
+      buildId: {
+        serializedName: "buildId",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      buildState: {
+        serializedName: "buildState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      environmentVariables: {
+        serializedName: "environmentVariables",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      inferencingServer: {
+        serializedName: "inferencingServer",
+        type: {
+          name: "Composite",
+          className: "InferencingServer"
+        }
+      },
+      inputs: {
+        serializedName: "inputs",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ModelPackageInput"
+            }
+          }
+        }
+      },
+      logUrl: {
+        serializedName: "logUrl",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      modelConfiguration: {
+        serializedName: "modelConfiguration",
+        type: {
+          name: "Composite",
+          className: "ModelConfiguration"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      targetEnvironmentId: {
+        serializedName: "targetEnvironmentId",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      targetEnvironmentName: {
+        serializedName: "targetEnvironmentName",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      targetEnvironmentVersion: {
+        serializedName: "targetEnvironmentVersion",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -3511,7 +5182,8 @@ export const SkuSetting: coreClient.CompositeMapper = {
     modelProperties: {
       name: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "name",
         required: true,
@@ -3638,42 +5310,405 @@ export const ScheduleActionBase: coreClient.CompositeMapper = {
   }
 };
 
-export const TriggerBase: coreClient.CompositeMapper = {
+export const RegistryTrackedResourceArmPaginatedResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TriggerBase",
-    uberParent: "TriggerBase",
-    polymorphicDiscriminator: {
-      serializedName: "triggerType",
-      clientName: "triggerType"
-    },
+    className: "RegistryTrackedResourceArmPaginatedResult",
     modelProperties: {
-      endTime: {
-        serializedName: "endTime",
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Registry"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ArmResourceId: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ArmResourceId",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpointConnectionAutoGenerated: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionAutoGenerated",
+    modelProperties: {
+      id: {
+        serializedName: "id",
         nullable: true,
         type: {
           name: "String"
         }
       },
-      startTime: {
-        serializedName: "startTime",
+      location: {
+        serializedName: "location",
         nullable: true,
         type: {
           name: "String"
         }
       },
-      timeZone: {
-        defaultValue: "UTC",
-        serializedName: "timeZone",
+      groupIds: {
+        serializedName: "properties.groupIds",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      privateEndpoint: {
+        serializedName: "properties.privateEndpoint",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpointResource"
+        }
+      },
+      privateLinkServiceConnectionState: {
+        serializedName: "properties.privateLinkServiceConnectionState",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkServiceConnectionStateAutoGenerated"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpointAutoGenerated: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointAutoGenerated",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkServiceConnectionStateAutoGenerated: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateLinkServiceConnectionStateAutoGenerated",
+    modelProperties: {
+      actionsRequired: {
+        serializedName: "actionsRequired",
+        nullable: true,
         type: {
           name: "String"
         }
       },
-      triggerType: {
-        serializedName: "triggerType",
+      description: {
+        serializedName: "description",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryRegionArmDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryRegionArmDetails",
+    modelProperties: {
+      acrDetails: {
+        serializedName: "acrDetails",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AcrDetails"
+            }
+          }
+        }
+      },
+      location: {
+        serializedName: "location",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      storageAccountDetails: {
+        serializedName: "storageAccountDetails",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StorageAccountDetails"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AcrDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcrDetails",
+    modelProperties: {
+      systemCreatedAcrAccount: {
+        serializedName: "systemCreatedAcrAccount",
+        type: {
+          name: "Composite",
+          className: "SystemCreatedAcrAccount"
+        }
+      },
+      userCreatedAcrAccount: {
+        serializedName: "userCreatedAcrAccount",
+        type: {
+          name: "Composite",
+          className: "UserCreatedAcrAccount"
+        }
+      }
+    }
+  }
+};
+
+export const SystemCreatedAcrAccount: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemCreatedAcrAccount",
+    modelProperties: {
+      acrAccountName: {
+        serializedName: "acrAccountName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      acrAccountSku: {
+        serializedName: "acrAccountSku",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      armResourceId: {
+        serializedName: "armResourceId",
+        type: {
+          name: "Composite",
+          className: "ArmResourceId"
+        }
+      }
+    }
+  }
+};
+
+export const UserCreatedAcrAccount: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserCreatedAcrAccount",
+    modelProperties: {
+      armResourceId: {
+        serializedName: "armResourceId",
+        type: {
+          name: "Composite",
+          className: "ArmResourceId"
+        }
+      }
+    }
+  }
+};
+
+export const StorageAccountDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageAccountDetails",
+    modelProperties: {
+      systemCreatedStorageAccount: {
+        serializedName: "systemCreatedStorageAccount",
+        type: {
+          name: "Composite",
+          className: "SystemCreatedStorageAccount"
+        }
+      },
+      userCreatedStorageAccount: {
+        serializedName: "userCreatedStorageAccount",
+        type: {
+          name: "Composite",
+          className: "UserCreatedStorageAccount"
+        }
+      }
+    }
+  }
+};
+
+export const SystemCreatedStorageAccount: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemCreatedStorageAccount",
+    modelProperties: {
+      allowBlobPublicAccess: {
+        serializedName: "allowBlobPublicAccess",
+        type: {
+          name: "Boolean"
+        }
+      },
+      armResourceId: {
+        serializedName: "armResourceId",
+        type: {
+          name: "Composite",
+          className: "ArmResourceId"
+        }
+      },
+      storageAccountHnsEnabled: {
+        serializedName: "storageAccountHnsEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      storageAccountName: {
+        serializedName: "storageAccountName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      storageAccountType: {
+        serializedName: "storageAccountType",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UserCreatedStorageAccount: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserCreatedStorageAccount",
+    modelProperties: {
+      armResourceId: {
+        serializedName: "armResourceId",
+        type: {
+          name: "Composite",
+          className: "ArmResourceId"
+        }
+      }
+    }
+  }
+};
+
+export const PartialRegistryPartialTrackedResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PartialRegistryPartialTrackedResource",
+    modelProperties: {
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "PartialManagedServiceIdentityAutoGenerated"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "PartialSku"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const ManagedServiceIdentityAutoGenerated: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedServiceIdentityAutoGenerated",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      type: {
+        serializedName: "type",
         required: true,
         type: {
           name: "String"
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "UserAssignedIdentity" }
+          }
         }
       }
     }
@@ -4376,11 +6411,38 @@ export const ComputeInstanceProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      autologgerSettings: {
+        serializedName: "autologgerSettings",
+        type: {
+          name: "Composite",
+          className: "ComputeInstanceAutologgerSettings"
+        }
+      },
       sshSettings: {
         serializedName: "sshSettings",
         type: {
           name: "Composite",
           className: "ComputeInstanceSshSettings"
+        }
+      },
+      customServices: {
+        serializedName: "customServices",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CustomService"
+            }
+          }
+        }
+      },
+      osImageMetadata: {
+        serializedName: "osImageMetadata",
+        type: {
+          name: "Composite",
+          className: "ImageMetadata"
         }
       },
       connectivityEndpoints: {
@@ -4466,6 +6528,12 @@ export const ComputeInstanceProperties: coreClient.CompositeMapper = {
           className: "ComputeSchedules"
         }
       },
+      idleTimeBeforeShutdown: {
+        serializedName: "idleTimeBeforeShutdown",
+        type: {
+          name: "String"
+        }
+      },
       enableNodePublicIp: {
         serializedName: "enableNodePublicIp",
         type: {
@@ -4525,6 +6593,21 @@ export const ComputeInstanceProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const ComputeInstanceAutologgerSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ComputeInstanceAutologgerSettings",
+    modelProperties: {
+      mlflowAutologger: {
+        serializedName: "mlflowAutologger",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ComputeInstanceSshSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4555,6 +6638,33 @@ export const ComputeInstanceSshSettings: coreClient.CompositeMapper = {
         serializedName: "adminPublicKey",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ImageMetadata: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImageMetadata",
+    modelProperties: {
+      currentImageVersion: {
+        serializedName: "currentImageVersion",
+        type: {
+          name: "String"
+        }
+      },
+      latestImageVersion: {
+        serializedName: "latestImageVersion",
+        type: {
+          name: "String"
+        }
+      },
+      isLatestOsImageVersion: {
+        serializedName: "isLatestOsImageVersion",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -4846,14 +6956,14 @@ export const ComputeStartStopSchedule: coreClient.CompositeMapper = {
         serializedName: "recurrence",
         type: {
           name: "Composite",
-          className: "RecurrenceTrigger"
+          className: "Recurrence"
         }
       },
       cron: {
         serializedName: "cron",
         type: {
           name: "Composite",
-          className: "CronTrigger"
+          className: "Cron"
         }
       },
       schedule: {
@@ -4867,57 +6977,71 @@ export const ComputeStartStopSchedule: coreClient.CompositeMapper = {
   }
 };
 
-export const RecurrenceSchedule: coreClient.CompositeMapper = {
+export const Recurrence: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RecurrenceSchedule",
+    className: "Recurrence",
     modelProperties: {
-      hours: {
-        serializedName: "hours",
-        required: true,
+      frequency: {
+        serializedName: "frequency",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Number"
-            }
-          }
+          name: "String"
         }
       },
-      minutes: {
-        serializedName: "minutes",
-        required: true,
+      interval: {
+        serializedName: "interval",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Number"
-            }
-          }
+          name: "Number"
         }
       },
-      monthDays: {
-        serializedName: "monthDays",
+      startTime: {
+        serializedName: "startTime",
         nullable: true,
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Number"
-            }
-          }
+          name: "String"
         }
       },
-      weekDays: {
-        serializedName: "weekDays",
+      timeZone: {
+        defaultValue: "UTC",
+        serializedName: "timeZone",
+        type: {
+          name: "String"
+        }
+      },
+      schedule: {
+        serializedName: "schedule",
+        type: {
+          name: "Composite",
+          className: "RecurrenceSchedule"
+        }
+      }
+    }
+  }
+};
+
+export const Cron: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Cron",
+    modelProperties: {
+      startTime: {
+        serializedName: "startTime",
         nullable: true,
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
+          name: "String"
+        }
+      },
+      timeZone: {
+        defaultValue: "UTC",
+        serializedName: "timeZone",
+        type: {
+          name: "String"
+        }
+      },
+      expression: {
+        serializedName: "expression",
+        type: {
+          name: "String"
         }
       }
     }
@@ -5591,6 +7715,54 @@ export const WorkspaceConnectionSharedAccessSignature: coreClient.CompositeMappe
   }
 };
 
+export const WorkspaceConnectionAccessKey: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WorkspaceConnectionAccessKey",
+    modelProperties: {
+      accessKeyId: {
+        serializedName: "accessKeyId",
+        type: {
+          name: "String"
+        }
+      },
+      secretAccessKey: {
+        serializedName: "secretAccessKey",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WorkspaceConnectionServicePrincipal: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WorkspaceConnectionServicePrincipal",
+    modelProperties: {
+      clientId: {
+        serializedName: "clientId",
+        type: {
+          name: "String"
+        }
+      },
+      clientSecret: {
+        serializedName: "clientSecret",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const WorkspaceConnectionManagedIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5625,7 +7797,8 @@ export const AssetJobInput: coreClient.CompositeMapper = {
       },
       uri: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "uri",
         required: true,
@@ -5642,6 +7815,20 @@ export const AssetJobOutput: coreClient.CompositeMapper = {
     name: "Composite",
     className: "AssetJobOutput",
     modelProperties: {
+      assetName: {
+        serializedName: "assetName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      assetVersion: {
+        serializedName: "assetVersion",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
       mode: {
         serializedName: "mode",
         type: {
@@ -5680,6 +7867,22 @@ export const ForecastHorizon: coreClient.CompositeMapper = {
   }
 };
 
+export const AutologgerSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutologgerSettings",
+    modelProperties: {
+      mlflowAutologger: {
+        serializedName: "mlflowAutologger",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const JobOutput: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5702,6 +7905,28 @@ export const JobOutput: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const QueueSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QueueSettings",
+    modelProperties: {
+      jobTier: {
+        serializedName: "jobTier",
+        type: {
+          name: "String"
+        }
+      },
+      priority: {
+        serializedName: "priority",
+        nullable: true,
+        type: {
+          name: "Number"
         }
       }
     }
@@ -5861,6 +8086,29 @@ export const TargetRollingWindowSize: coreClient.CompositeMapper = {
   }
 };
 
+export const AzureDatastore: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureDatastore",
+    modelProperties: {
+      resourceGroup: {
+        serializedName: "resourceGroup",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const EarlyTerminationPolicy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5970,6 +8218,12 @@ export const TrainingSettings: coreClient.CompositeMapper = {
           name: "Composite",
           className: "StackEnsembleSettings"
         }
+      },
+      trainingMode: {
+        serializedName: "trainingMode",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -6029,6 +8283,13 @@ export const TableVertical: coreClient.CompositeMapper = {
           className: "TableVerticalFeaturizationSettings"
         }
       },
+      fixedParameters: {
+        serializedName: "fixedParameters",
+        type: {
+          name: "Composite",
+          className: "TableFixedParameters"
+        }
+      },
       limitSettings: {
         serializedName: "limitSettings",
         type: {
@@ -6041,6 +8302,26 @@ export const TableVertical: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "NCrossValidations"
+        }
+      },
+      searchSpace: {
+        serializedName: "searchSpace",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TableParameterSubspace"
+            }
+          }
+        }
+      },
+      sweepSettings: {
+        serializedName: "sweepSettings",
+        type: {
+          name: "Composite",
+          className: "TableSweepSettings"
         }
       },
       testData: {
@@ -6127,6 +8408,155 @@ export const FeaturizationSettings: coreClient.CompositeMapper = {
   }
 };
 
+export const TableFixedParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TableFixedParameters",
+    modelProperties: {
+      booster: {
+        serializedName: "booster",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      boostingType: {
+        serializedName: "boostingType",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      growPolicy: {
+        serializedName: "growPolicy",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      learningRate: {
+        serializedName: "learningRate",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      maxBin: {
+        serializedName: "maxBin",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      maxDepth: {
+        serializedName: "maxDepth",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      maxLeaves: {
+        serializedName: "maxLeaves",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      minDataInLeaf: {
+        serializedName: "minDataInLeaf",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      minSplitGain: {
+        serializedName: "minSplitGain",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      modelName: {
+        serializedName: "modelName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      nEstimators: {
+        serializedName: "nEstimators",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      numLeaves: {
+        serializedName: "numLeaves",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      preprocessorName: {
+        serializedName: "preprocessorName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      regAlpha: {
+        serializedName: "regAlpha",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      regLambda: {
+        serializedName: "regLambda",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      subsample: {
+        serializedName: "subsample",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      subsampleFreq: {
+        serializedName: "subsampleFreq",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      treeMethod: {
+        serializedName: "treeMethod",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      withMean: {
+        defaultValue: false,
+        serializedName: "withMean",
+        type: {
+          name: "Boolean"
+        }
+      },
+      withStd: {
+        defaultValue: false,
+        serializedName: "withStd",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const TableVerticalLimitSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6160,9 +8590,30 @@ export const TableVerticalLimitSettings: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
+      maxNodes: {
+        defaultValue: 1,
+        serializedName: "maxNodes",
+        type: {
+          name: "Number"
+        }
+      },
       maxTrials: {
         defaultValue: 1000,
         serializedName: "maxTrials",
+        type: {
+          name: "Number"
+        }
+      },
+      sweepConcurrentTrials: {
+        defaultValue: 0,
+        serializedName: "sweepConcurrentTrials",
+        type: {
+          name: "Number"
+        }
+      },
+      sweepTrials: {
+        defaultValue: 0,
+        serializedName: "sweepTrials",
         type: {
           name: "Number"
         }
@@ -6179,6 +8630,178 @@ export const TableVerticalLimitSettings: coreClient.CompositeMapper = {
         serializedName: "trialTimeout",
         type: {
           name: "TimeSpan"
+        }
+      }
+    }
+  }
+};
+
+export const TableParameterSubspace: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TableParameterSubspace",
+    modelProperties: {
+      booster: {
+        serializedName: "booster",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      boostingType: {
+        serializedName: "boostingType",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      growPolicy: {
+        serializedName: "growPolicy",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      learningRate: {
+        serializedName: "learningRate",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      maxBin: {
+        serializedName: "maxBin",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      maxDepth: {
+        serializedName: "maxDepth",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      maxLeaves: {
+        serializedName: "maxLeaves",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      minDataInLeaf: {
+        serializedName: "minDataInLeaf",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      minSplitGain: {
+        serializedName: "minSplitGain",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      modelName: {
+        serializedName: "modelName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      nEstimators: {
+        serializedName: "nEstimators",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      numLeaves: {
+        serializedName: "numLeaves",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      preprocessorName: {
+        serializedName: "preprocessorName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      regAlpha: {
+        serializedName: "regAlpha",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      regLambda: {
+        serializedName: "regLambda",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      subsample: {
+        serializedName: "subsample",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      subsampleFreq: {
+        serializedName: "subsampleFreq",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      treeMethod: {
+        serializedName: "treeMethod",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      withMean: {
+        serializedName: "withMean",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      withStd: {
+        serializedName: "withStd",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TableSweepSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TableSweepSettings",
+    modelProperties: {
+      earlyTermination: {
+        serializedName: "earlyTermination",
+        type: {
+          name: "Composite",
+          className: "EarlyTerminationPolicy"
+        }
+      },
+      samplingAlgorithm: {
+        serializedName: "samplingAlgorithm",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -6281,6 +8904,51 @@ export const ContainerResourceSettings: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OnlineInferenceConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OnlineInferenceConfiguration",
+    modelProperties: {
+      configurations: {
+        serializedName: "configurations",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      entryScript: {
+        serializedName: "entryScript",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      livenessRoute: {
+        serializedName: "livenessRoute",
+        type: {
+          name: "Composite",
+          className: "Route"
+        }
+      },
+      readinessRoute: {
+        serializedName: "readinessRoute",
+        type: {
+          name: "Composite",
+          className: "Route"
+        }
+      },
+      scoringRoute: {
+        serializedName: "scoringRoute",
+        type: {
+          name: "Composite",
+          className: "Route"
         }
       }
     }
@@ -6914,6 +9582,214 @@ export const ImageSweepSettings: coreClient.CompositeMapper = {
   }
 };
 
+export const KerberosCredentials: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KerberosCredentials",
+    modelProperties: {
+      kerberosKdcAddress: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "kerberosKdcAddress",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      kerberosPrincipal: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "kerberosPrincipal",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      kerberosRealm: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "kerberosRealm",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NlpFixedParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NlpFixedParameters",
+    modelProperties: {
+      gradientAccumulationSteps: {
+        serializedName: "gradientAccumulationSteps",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      learningRate: {
+        serializedName: "learningRate",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      learningRateScheduler: {
+        serializedName: "learningRateScheduler",
+        type: {
+          name: "String"
+        }
+      },
+      modelName: {
+        serializedName: "modelName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      numberOfEpochs: {
+        serializedName: "numberOfEpochs",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      trainingBatchSize: {
+        serializedName: "trainingBatchSize",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      validationBatchSize: {
+        serializedName: "validationBatchSize",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      warmupRatio: {
+        serializedName: "warmupRatio",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      weightDecay: {
+        serializedName: "weightDecay",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const NlpParameterSubspace: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NlpParameterSubspace",
+    modelProperties: {
+      gradientAccumulationSteps: {
+        serializedName: "gradientAccumulationSteps",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      learningRate: {
+        serializedName: "learningRate",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      learningRateScheduler: {
+        serializedName: "learningRateScheduler",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      modelName: {
+        serializedName: "modelName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      numberOfEpochs: {
+        serializedName: "numberOfEpochs",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      trainingBatchSize: {
+        serializedName: "trainingBatchSize",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      validationBatchSize: {
+        serializedName: "validationBatchSize",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      warmupRatio: {
+        serializedName: "warmupRatio",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      weightDecay: {
+        serializedName: "weightDecay",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NlpSweepSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NlpSweepSettings",
+    modelProperties: {
+      earlyTermination: {
+        serializedName: "earlyTermination",
+        type: {
+          name: "Composite",
+          className: "EarlyTerminationPolicy"
+        }
+      },
+      samplingAlgorithm: {
+        serializedName: "samplingAlgorithm",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const NlpVertical: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6926,11 +9802,38 @@ export const NlpVertical: coreClient.CompositeMapper = {
           className: "NlpVerticalFeaturizationSettings"
         }
       },
+      fixedParameters: {
+        serializedName: "fixedParameters",
+        type: {
+          name: "Composite",
+          className: "NlpFixedParameters"
+        }
+      },
       limitSettings: {
         serializedName: "limitSettings",
         type: {
           name: "Composite",
           className: "NlpVerticalLimitSettings"
+        }
+      },
+      searchSpace: {
+        serializedName: "searchSpace",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NlpParameterSubspace"
+            }
+          }
+        }
+      },
+      sweepSettings: {
+        serializedName: "sweepSettings",
+        type: {
+          name: "Composite",
+          className: "NlpSweepSettings"
         }
       },
       validationData: {
@@ -6956,6 +9859,13 @@ export const NlpVerticalLimitSettings: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
+      maxNodes: {
+        defaultValue: 1,
+        serializedName: "maxNodes",
+        type: {
+          name: "Number"
+        }
+      },
       maxTrials: {
         defaultValue: 1,
         serializedName: "maxTrials",
@@ -6964,7 +9874,14 @@ export const NlpVerticalLimitSettings: coreClient.CompositeMapper = {
         }
       },
       timeout: {
+        defaultValue: "P7D",
         serializedName: "timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      trialTimeout: {
+        serializedName: "trialTimeout",
         type: {
           name: "TimeSpan"
         }
@@ -6987,10 +9904,55 @@ export const Objective: coreClient.CompositeMapper = {
       },
       primaryMetric: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "primaryMetric",
         required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SparkJobEntry: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SparkJobEntry",
+    uberParent: "SparkJobEntry",
+    polymorphicDiscriminator: {
+      serializedName: "sparkJobEntryType",
+      clientName: "sparkJobEntryType"
+    },
+    modelProperties: {
+      sparkJobEntryType: {
+        serializedName: "sparkJobEntryType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SparkResourceConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SparkResourceConfiguration",
+    modelProperties: {
+      instanceType: {
+        serializedName: "instanceType",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      runtimeVersion: {
+        defaultValue: "3.1",
+        serializedName: "runtimeVersion",
         type: {
           name: "String"
         }
@@ -7031,7 +9993,8 @@ export const TrialComponent: coreClient.CompositeMapper = {
       },
       environmentId: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "environmentId",
         required: true,
@@ -7147,6 +10110,12 @@ export const Workspace: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Sku"
+        }
+      },
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
         }
       },
       workspaceId: {
@@ -7325,6 +10294,46 @@ export const Workspace: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      softDeletedAt: {
+        serializedName: "properties.softDeletedAt",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      scheduledPurgeDate: {
+        serializedName: "properties.scheduledPurgeDate",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      systemDatastoresAuthMode: {
+        serializedName: "properties.systemDatastoresAuthMode",
+        type: {
+          name: "String"
+        }
+      },
+      featureStoreSettings: {
+        serializedName: "properties.featureStoreSettings",
+        type: {
+          name: "Composite",
+          className: "FeatureStoreSettings"
+        }
+      },
+      softDeleteRetentionInDays: {
+        serializedName: "properties.softDeleteRetentionInDays",
+        type: {
+          name: "Number"
+        }
+      },
+      enableDataIsolation: {
+        defaultValue: false,
+        serializedName: "properties.enableDataIsolation",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -7453,30 +10462,6 @@ export const WorkspaceConnectionPropertiesV2BasicResource: coreClient.CompositeM
   }
 };
 
-export const TrackedResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TrackedResource",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      location: {
-        serializedName: "location",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const CodeContainer: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7579,23 +10564,6 @@ export const DataVersionBase: coreClient.CompositeMapper = {
   }
 };
 
-export const Datastore: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Datastore",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "DatastoreProperties"
-        }
-      }
-    }
-  }
-};
-
 export const EnvironmentContainer: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7630,23 +10598,6 @@ export const EnvironmentVersion: coreClient.CompositeMapper = {
   }
 };
 
-export const JobBase: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "JobBase",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "JobBaseProperties"
-        }
-      }
-    }
-  }
-};
-
 export const ModelContainer: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7675,6 +10626,149 @@ export const ModelVersion: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ModelVersionProperties"
+        }
+      }
+    }
+  }
+};
+
+export const TrackedResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrackedResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      location: {
+        serializedName: "location",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Datastore: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Datastore",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "DatastoreProperties"
+        }
+      }
+    }
+  }
+};
+
+export const FeaturesetContainer: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturesetContainer",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "FeaturesetContainerProperties"
+        }
+      }
+    }
+  }
+};
+
+export const FeaturesetVersion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturesetVersion",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "FeaturesetVersionProperties"
+        }
+      }
+    }
+  }
+};
+
+export const FeaturestoreEntityContainer: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturestoreEntityContainer",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "FeaturestoreEntityContainerProperties"
+        }
+      }
+    }
+  }
+};
+
+export const FeaturestoreEntityVersion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturestoreEntityVersion",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "FeaturestoreEntityVersionProperties"
+        }
+      }
+    }
+  }
+};
+
+export const JobBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "JobBase",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "JobBaseProperties"
+        }
+      }
+    }
+  }
+};
+
+export const LabelingJob: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LabelingJob",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "LabelingJobProperties"
         }
       }
     }
@@ -7948,6 +11042,48 @@ export const UsernamePasswordAuthTypeWorkspaceConnectionProperties: coreClient.C
   }
 };
 
+export const AccessKeyAuthTypeWorkspaceConnectionProperties: coreClient.CompositeMapper = {
+  serializedName: "AccessKey",
+  type: {
+    name: "Composite",
+    className: "AccessKeyAuthTypeWorkspaceConnectionProperties",
+    uberParent: "WorkspaceConnectionPropertiesV2",
+    polymorphicDiscriminator:
+      WorkspaceConnectionPropertiesV2.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...WorkspaceConnectionPropertiesV2.type.modelProperties,
+      credentials: {
+        serializedName: "credentials",
+        type: {
+          name: "Composite",
+          className: "WorkspaceConnectionAccessKey"
+        }
+      }
+    }
+  }
+};
+
+export const ServicePrincipalAuthTypeWorkspaceConnectionProperties: coreClient.CompositeMapper = {
+  serializedName: "ServicePrincipal",
+  type: {
+    name: "Composite",
+    className: "ServicePrincipalAuthTypeWorkspaceConnectionProperties",
+    uberParent: "WorkspaceConnectionPropertiesV2",
+    polymorphicDiscriminator:
+      WorkspaceConnectionPropertiesV2.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...WorkspaceConnectionPropertiesV2.type.modelProperties,
+      credentials: {
+        serializedName: "credentials",
+        type: {
+          name: "Composite",
+          className: "WorkspaceConnectionServicePrincipal"
+        }
+      }
+    }
+  }
+};
+
 export const NoneAuthTypeWorkspaceConnectionProperties: coreClient.CompositeMapper = {
   serializedName: "None",
   type: {
@@ -7977,6 +11113,232 @@ export const ManagedIdentityAuthTypeWorkspaceConnectionProperties: coreClient.Co
         type: {
           name: "Composite",
           className: "WorkspaceConnectionManagedIdentity"
+        }
+      }
+    }
+  }
+};
+
+export const AssetContainer: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AssetContainer",
+    modelProperties: {
+      ...ResourceBase.type.modelProperties,
+      isArchived: {
+        defaultValue: false,
+        serializedName: "isArchived",
+        type: {
+          name: "Boolean"
+        }
+      },
+      latestVersion: {
+        serializedName: "latestVersion",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      nextVersion: {
+        serializedName: "nextVersion",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AssetBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AssetBase",
+    modelProperties: {
+      ...ResourceBase.type.modelProperties,
+      isAnonymous: {
+        defaultValue: false,
+        serializedName: "isAnonymous",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isArchived: {
+        defaultValue: false,
+        serializedName: "isArchived",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const DatastoreProperties: coreClient.CompositeMapper = {
+  serializedName: "DatastoreProperties",
+  type: {
+    name: "Composite",
+    className: "DatastoreProperties",
+    uberParent: "ResourceBase",
+    polymorphicDiscriminator: {
+      serializedName: "datastoreType",
+      clientName: "datastoreType"
+    },
+    modelProperties: {
+      ...ResourceBase.type.modelProperties,
+      credentials: {
+        serializedName: "credentials",
+        type: {
+          name: "Composite",
+          className: "DatastoreCredentials"
+        }
+      },
+      datastoreType: {
+        serializedName: "datastoreType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isDefault: {
+        serializedName: "isDefault",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const JobBaseProperties: coreClient.CompositeMapper = {
+  serializedName: "JobBaseProperties",
+  type: {
+    name: "Composite",
+    className: "JobBaseProperties",
+    uberParent: "ResourceBase",
+    polymorphicDiscriminator: {
+      serializedName: "jobType",
+      clientName: "jobType"
+    },
+    modelProperties: {
+      ...ResourceBase.type.modelProperties,
+      componentId: {
+        serializedName: "componentId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      computeId: {
+        serializedName: "computeId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      experimentName: {
+        defaultValue: "Default",
+        serializedName: "experimentName",
+        type: {
+          name: "String"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "IdentityConfiguration"
+        }
+      },
+      isArchived: {
+        defaultValue: false,
+        serializedName: "isArchived",
+        type: {
+          name: "Boolean"
+        }
+      },
+      jobType: {
+        serializedName: "jobType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      notificationSetting: {
+        serializedName: "notificationSetting",
+        type: {
+          name: "Composite",
+          className: "NotificationSetting"
+        }
+      },
+      services: {
+        serializedName: "services",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Composite", className: "JobService" } }
+        }
+      },
+      status: {
+        serializedName: "status",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ScheduleProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ScheduleProperties",
+    modelProperties: {
+      ...ResourceBase.type.modelProperties,
+      action: {
+        serializedName: "action",
+        type: {
+          name: "Composite",
+          className: "ScheduleActionBase"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      isEnabled: {
+        defaultValue: true,
+        serializedName: "isEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      trigger: {
+        serializedName: "trigger",
+        type: {
+          name: "Composite",
+          className: "TriggerBase"
         }
       }
     }
@@ -8018,6 +11380,14 @@ export const OnlineEndpointProperties: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "String"
+        }
+      },
+      mirrorTraffic: {
+        serializedName: "mirrorTraffic",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Number" } }
         }
       },
       provisioningState: {
@@ -8079,6 +11449,74 @@ export const PartialMinimalTrackedResourceWithSku: coreClient.CompositeMapper = 
   }
 };
 
+export const BatchPipelineComponentDeploymentConfiguration: coreClient.CompositeMapper = {
+  serializedName: "PipelineComponent",
+  type: {
+    name: "Composite",
+    className: "BatchPipelineComponentDeploymentConfiguration",
+    uberParent: "BatchDeploymentConfiguration",
+    polymorphicDiscriminator:
+      BatchDeploymentConfiguration.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BatchDeploymentConfiguration.type.modelProperties,
+      componentId: {
+        serializedName: "componentId",
+        type: {
+          name: "Composite",
+          className: "IdAssetReference"
+        }
+      },
+      description: {
+        serializedName: "description",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      settings: {
+        serializedName: "settings",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const IdAssetReference: coreClient.CompositeMapper = {
+  serializedName: "Id",
+  type: {
+    name: "Composite",
+    className: "IdAssetReference",
+    uberParent: "AssetReferenceBase",
+    polymorphicDiscriminator: AssetReferenceBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AssetReferenceBase.type.modelProperties,
+      assetId: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "assetId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DataPathAssetReference: coreClient.CompositeMapper = {
   serializedName: "DataPath",
   type: {
@@ -8098,29 +11536,6 @@ export const DataPathAssetReference: coreClient.CompositeMapper = {
       path: {
         serializedName: "path",
         nullable: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const IdAssetReference: coreClient.CompositeMapper = {
-  serializedName: "Id",
-  type: {
-    name: "Composite",
-    className: "IdAssetReference",
-    uberParent: "AssetReferenceBase",
-    polymorphicDiscriminator: AssetReferenceBase.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...AssetReferenceBase.type.modelProperties,
-      assetId: {
-        constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
-        },
-        serializedName: "assetId",
-        required: true,
         type: {
           name: "String"
         }
@@ -8204,6 +11619,13 @@ export const BatchDeploymentProperties: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "String"
+        }
+      },
+      deploymentConfiguration: {
+        serializedName: "deploymentConfiguration",
+        type: {
+          name: "Composite",
+          className: "BatchDeploymentConfiguration"
         }
       },
       errorThreshold: {
@@ -8370,225 +11792,6 @@ export const OnlineDeploymentProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const AssetContainer: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AssetContainer",
-    modelProperties: {
-      ...ResourceBase.type.modelProperties,
-      isArchived: {
-        defaultValue: false,
-        serializedName: "isArchived",
-        type: {
-          name: "Boolean"
-        }
-      },
-      latestVersion: {
-        serializedName: "latestVersion",
-        readOnly: true,
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      nextVersion: {
-        serializedName: "nextVersion",
-        readOnly: true,
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AssetBase: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AssetBase",
-    modelProperties: {
-      ...ResourceBase.type.modelProperties,
-      isAnonymous: {
-        defaultValue: false,
-        serializedName: "isAnonymous",
-        type: {
-          name: "Boolean"
-        }
-      },
-      isArchived: {
-        defaultValue: false,
-        serializedName: "isArchived",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const DatastoreProperties: coreClient.CompositeMapper = {
-  serializedName: "DatastoreProperties",
-  type: {
-    name: "Composite",
-    className: "DatastoreProperties",
-    uberParent: "ResourceBase",
-    polymorphicDiscriminator: {
-      serializedName: "datastoreType",
-      clientName: "datastoreType"
-    },
-    modelProperties: {
-      ...ResourceBase.type.modelProperties,
-      credentials: {
-        serializedName: "credentials",
-        type: {
-          name: "Composite",
-          className: "DatastoreCredentials"
-        }
-      },
-      datastoreType: {
-        serializedName: "datastoreType",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      isDefault: {
-        serializedName: "isDefault",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const JobBaseProperties: coreClient.CompositeMapper = {
-  serializedName: "JobBaseProperties",
-  type: {
-    name: "Composite",
-    className: "JobBaseProperties",
-    uberParent: "ResourceBase",
-    polymorphicDiscriminator: {
-      serializedName: "jobType",
-      clientName: "jobType"
-    },
-    modelProperties: {
-      ...ResourceBase.type.modelProperties,
-      componentId: {
-        serializedName: "componentId",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      computeId: {
-        serializedName: "computeId",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      displayName: {
-        serializedName: "displayName",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      experimentName: {
-        defaultValue: "Default",
-        serializedName: "experimentName",
-        type: {
-          name: "String"
-        }
-      },
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "IdentityConfiguration"
-        }
-      },
-      isArchived: {
-        defaultValue: false,
-        serializedName: "isArchived",
-        type: {
-          name: "Boolean"
-        }
-      },
-      jobType: {
-        serializedName: "jobType",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      services: {
-        serializedName: "services",
-        nullable: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "Composite", className: "JobService" } }
-        }
-      },
-      status: {
-        serializedName: "status",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ScheduleProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ScheduleProperties",
-    modelProperties: {
-      ...ResourceBase.type.modelProperties,
-      action: {
-        serializedName: "action",
-        type: {
-          name: "Composite",
-          className: "ScheduleActionBase"
-        }
-      },
-      displayName: {
-        serializedName: "displayName",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      isEnabled: {
-        defaultValue: true,
-        serializedName: "isEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      provisioningState: {
-        serializedName: "provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      trigger: {
-        serializedName: "trigger",
-        type: {
-          name: "Composite",
-          className: "TriggerBase"
-        }
-      }
-    }
-  }
-};
-
 export const AccountKeyDatastoreCredentials: coreClient.CompositeMapper = {
   serializedName: "AccountKey",
   type: {
@@ -8657,12 +11860,55 @@ export const CertificateDatastoreCredentials: coreClient.CompositeMapper = {
       },
       thumbprint: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "thumbprint",
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const KerberosKeytabCredentials: coreClient.CompositeMapper = {
+  serializedName: "KerberosKeytab",
+  type: {
+    name: "Composite",
+    className: "KerberosKeytabCredentials",
+    uberParent: "KerberosCredentials",
+    polymorphicDiscriminator: KerberosCredentials.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...KerberosCredentials.type.modelProperties,
+      ...DatastoreCredentials.type.modelProperties,
+      secrets: {
+        serializedName: "secrets",
+        type: {
+          name: "Composite",
+          className: "KerberosKeytabSecrets"
+        }
+      }
+    }
+  }
+};
+
+export const KerberosPasswordCredentials: coreClient.CompositeMapper = {
+  serializedName: "KerberosPassword",
+  type: {
+    name: "Composite",
+    className: "KerberosPasswordCredentials",
+    uberParent: "KerberosCredentials",
+    polymorphicDiscriminator: KerberosCredentials.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...KerberosCredentials.type.modelProperties,
+      ...DatastoreCredentials.type.modelProperties,
+      secrets: {
+        serializedName: "secrets",
+        type: {
+          name: "Composite",
+          className: "KerberosPasswordSecrets"
         }
       }
     }
@@ -8793,6 +12039,46 @@ export const CertificateDatastoreSecrets: coreClient.CompositeMapper = {
   }
 };
 
+export const KerberosKeytabSecrets: coreClient.CompositeMapper = {
+  serializedName: "KerberosKeytab",
+  type: {
+    name: "Composite",
+    className: "KerberosKeytabSecrets",
+    uberParent: "DatastoreSecrets",
+    polymorphicDiscriminator: DatastoreSecrets.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DatastoreSecrets.type.modelProperties,
+      kerberosKeytab: {
+        serializedName: "kerberosKeytab",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const KerberosPasswordSecrets: coreClient.CompositeMapper = {
+  serializedName: "KerberosPassword",
+  type: {
+    name: "Composite",
+    className: "KerberosPasswordSecrets",
+    uberParent: "DatastoreSecrets",
+    polymorphicDiscriminator: DatastoreSecrets.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DatastoreSecrets.type.modelProperties,
+      kerberosPassword: {
+        serializedName: "kerberosPassword",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SasDatastoreSecrets: coreClient.CompositeMapper = {
   serializedName: "Sas",
   type: {
@@ -8825,6 +12111,64 @@ export const ServicePrincipalDatastoreSecrets: coreClient.CompositeMapper = {
       clientSecret: {
         serializedName: "clientSecret",
         nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RecurrenceTrigger: coreClient.CompositeMapper = {
+  serializedName: "Recurrence",
+  type: {
+    name: "Composite",
+    className: "RecurrenceTrigger",
+    uberParent: "TriggerBase",
+    polymorphicDiscriminator: TriggerBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...TriggerBase.type.modelProperties,
+      frequency: {
+        serializedName: "frequency",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      interval: {
+        serializedName: "interval",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      schedule: {
+        serializedName: "schedule",
+        type: {
+          name: "Composite",
+          className: "RecurrenceSchedule"
+        }
+      }
+    }
+  }
+};
+
+export const CronTrigger: coreClient.CompositeMapper = {
+  serializedName: "Cron",
+  type: {
+    name: "Composite",
+    className: "CronTrigger",
+    uberParent: "TriggerBase",
+    polymorphicDiscriminator: TriggerBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...TriggerBase.type.modelProperties,
+      expression: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "expression",
+        required: true,
         type: {
           name: "String"
         }
@@ -8892,6 +12236,363 @@ export const UserIdentity: coreClient.CompositeMapper = {
       IdentityConfiguration.type.polymorphicDiscriminator,
     modelProperties: {
       ...IdentityConfiguration.type.modelProperties
+    }
+  }
+};
+
+export const AllNodes: coreClient.CompositeMapper = {
+  serializedName: "All",
+  type: {
+    name: "Composite",
+    className: "AllNodes",
+    uberParent: "Nodes",
+    polymorphicDiscriminator: Nodes.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Nodes.type.modelProperties
+    }
+  }
+};
+
+export const LabelingJobImageProperties: coreClient.CompositeMapper = {
+  serializedName: "Image",
+  type: {
+    name: "Composite",
+    className: "LabelingJobImageProperties",
+    uberParent: "LabelingJobMediaProperties",
+    polymorphicDiscriminator:
+      LabelingJobMediaProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LabelingJobMediaProperties.type.modelProperties,
+      annotationType: {
+        serializedName: "annotationType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LabelingJobTextProperties: coreClient.CompositeMapper = {
+  serializedName: "Text",
+  type: {
+    name: "Composite",
+    className: "LabelingJobTextProperties",
+    uberParent: "LabelingJobMediaProperties",
+    polymorphicDiscriminator:
+      LabelingJobMediaProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LabelingJobMediaProperties.type.modelProperties,
+      annotationType: {
+        serializedName: "annotationType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MLAssistConfigurationDisabled: coreClient.CompositeMapper = {
+  serializedName: "Disabled",
+  type: {
+    name: "Composite",
+    className: "MLAssistConfigurationDisabled",
+    uberParent: "MLAssistConfiguration",
+    polymorphicDiscriminator:
+      MLAssistConfiguration.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...MLAssistConfiguration.type.modelProperties
+    }
+  }
+};
+
+export const MLAssistConfigurationEnabled: coreClient.CompositeMapper = {
+  serializedName: "Enabled",
+  type: {
+    name: "Composite",
+    className: "MLAssistConfigurationEnabled",
+    uberParent: "MLAssistConfiguration",
+    polymorphicDiscriminator:
+      MLAssistConfiguration.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...MLAssistConfiguration.type.modelProperties,
+      inferencingComputeBinding: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "inferencingComputeBinding",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      trainingComputeBinding: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "trainingComputeBinding",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CocoExportSummary: coreClient.CompositeMapper = {
+  serializedName: "Coco",
+  type: {
+    name: "Composite",
+    className: "CocoExportSummary",
+    uberParent: "ExportSummary",
+    polymorphicDiscriminator: ExportSummary.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ExportSummary.type.modelProperties,
+      containerName: {
+        serializedName: "containerName",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      snapshotPath: {
+        serializedName: "snapshotPath",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CsvExportSummary: coreClient.CompositeMapper = {
+  serializedName: "CSV",
+  type: {
+    name: "Composite",
+    className: "CsvExportSummary",
+    uberParent: "ExportSummary",
+    polymorphicDiscriminator: ExportSummary.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ExportSummary.type.modelProperties,
+      containerName: {
+        serializedName: "containerName",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      snapshotPath: {
+        serializedName: "snapshotPath",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DatasetExportSummary: coreClient.CompositeMapper = {
+  serializedName: "Dataset",
+  type: {
+    name: "Composite",
+    className: "DatasetExportSummary",
+    uberParent: "ExportSummary",
+    polymorphicDiscriminator: ExportSummary.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ExportSummary.type.modelProperties,
+      labeledAssetName: {
+        serializedName: "labeledAssetName",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BaseEnvironmentId: coreClient.CompositeMapper = {
+  serializedName: "EnvironmentAsset",
+  type: {
+    name: "Composite",
+    className: "BaseEnvironmentId",
+    uberParent: "BaseEnvironmentSource",
+    polymorphicDiscriminator:
+      BaseEnvironmentSource.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseEnvironmentSource.type.modelProperties,
+      resourceId: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "resourceId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureMLBatchInferencingServer: coreClient.CompositeMapper = {
+  serializedName: "AzureMLBatch",
+  type: {
+    name: "Composite",
+    className: "AzureMLBatchInferencingServer",
+    uberParent: "InferencingServer",
+    polymorphicDiscriminator: InferencingServer.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...InferencingServer.type.modelProperties,
+      codeConfiguration: {
+        serializedName: "codeConfiguration",
+        type: {
+          name: "Composite",
+          className: "CodeConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const AzureMLOnlineInferencingServer: coreClient.CompositeMapper = {
+  serializedName: "AzureMLOnline",
+  type: {
+    name: "Composite",
+    className: "AzureMLOnlineInferencingServer",
+    uberParent: "InferencingServer",
+    polymorphicDiscriminator: InferencingServer.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...InferencingServer.type.modelProperties,
+      codeConfiguration: {
+        serializedName: "codeConfiguration",
+        type: {
+          name: "Composite",
+          className: "CodeConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const CustomInferencingServer: coreClient.CompositeMapper = {
+  serializedName: "Custom",
+  type: {
+    name: "Composite",
+    className: "CustomInferencingServer",
+    uberParent: "InferencingServer",
+    polymorphicDiscriminator: InferencingServer.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...InferencingServer.type.modelProperties,
+      inferenceConfiguration: {
+        serializedName: "inferenceConfiguration",
+        type: {
+          name: "Composite",
+          className: "OnlineInferenceConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const TritonInferencingServer: coreClient.CompositeMapper = {
+  serializedName: "Triton",
+  type: {
+    name: "Composite",
+    className: "TritonInferencingServer",
+    uberParent: "InferencingServer",
+    polymorphicDiscriminator: InferencingServer.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...InferencingServer.type.modelProperties,
+      inferenceConfiguration: {
+        serializedName: "inferenceConfiguration",
+        type: {
+          name: "Composite",
+          className: "OnlineInferenceConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const PackageInputPathId: coreClient.CompositeMapper = {
+  serializedName: "PathId",
+  type: {
+    name: "Composite",
+    className: "PackageInputPathId",
+    uberParent: "PackageInputPathBase",
+    polymorphicDiscriminator:
+      PackageInputPathBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...PackageInputPathBase.type.modelProperties,
+      resourceId: {
+        serializedName: "resourceId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PackageInputPathUrl: coreClient.CompositeMapper = {
+  serializedName: "Url",
+  type: {
+    name: "Composite",
+    className: "PackageInputPathUrl",
+    uberParent: "PackageInputPathBase",
+    polymorphicDiscriminator:
+      PackageInputPathBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...PackageInputPathBase.type.modelProperties,
+      url: {
+        serializedName: "url",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PackageInputPathVersion: coreClient.CompositeMapper = {
+  serializedName: "PathVersion",
+  type: {
+    name: "Composite",
+    className: "PackageInputPathVersion",
+    uberParent: "PackageInputPathBase",
+    polymorphicDiscriminator:
+      PackageInputPathBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...PackageInputPathBase.type.modelProperties,
+      resourceName: {
+        serializedName: "resourceName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceVersion: {
+        serializedName: "resourceVersion",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
     }
   }
 };
@@ -8991,59 +12692,29 @@ export const JobScheduleAction: coreClient.CompositeMapper = {
   }
 };
 
-export const RecurrenceTrigger: coreClient.CompositeMapper = {
-  serializedName: "Recurrence",
+export const PrivateEndpointResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RecurrenceTrigger",
-    uberParent: "TriggerBase",
-    polymorphicDiscriminator: TriggerBase.type.polymorphicDiscriminator,
+    className: "PrivateEndpointResource",
     modelProperties: {
-      ...TriggerBase.type.modelProperties,
-      frequency: {
-        serializedName: "frequency",
-        required: true,
+      ...PrivateEndpointAutoGenerated.type.modelProperties,
+      subnetArmId: {
+        serializedName: "subnetArmId",
+        nullable: true,
         type: {
           name: "String"
-        }
-      },
-      interval: {
-        serializedName: "interval",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      schedule: {
-        serializedName: "schedule",
-        type: {
-          name: "Composite",
-          className: "RecurrenceSchedule"
         }
       }
     }
   }
 };
 
-export const CronTrigger: coreClient.CompositeMapper = {
-  serializedName: "Cron",
+export const PartialManagedServiceIdentityAutoGenerated: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CronTrigger",
-    uberParent: "TriggerBase",
-    polymorphicDiscriminator: TriggerBase.type.polymorphicDiscriminator,
+    className: "PartialManagedServiceIdentityAutoGenerated",
     modelProperties: {
-      ...TriggerBase.type.modelProperties,
-      expression: {
-        constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
-        },
-        serializedName: "expression",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
+      ...ManagedServiceIdentityAutoGenerated.type.modelProperties
     }
   }
 };
@@ -9561,7 +13232,8 @@ export const LiteralJobInput: coreClient.CompositeMapper = {
       ...JobInput.type.modelProperties,
       value: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "value",
         required: true,
@@ -9712,6 +13384,197 @@ export const CustomTargetRollingWindowSize: coreClient.CompositeMapper = {
   }
 };
 
+export const AzureBlobDatastore: coreClient.CompositeMapper = {
+  serializedName: "AzureBlob",
+  type: {
+    name: "Composite",
+    className: "AzureBlobDatastore",
+    uberParent: "AzureDatastore",
+    polymorphicDiscriminator: AzureDatastore.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AzureDatastore.type.modelProperties,
+      ...DatastoreProperties.type.modelProperties,
+      accountName: {
+        serializedName: "accountName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      containerName: {
+        serializedName: "containerName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      endpoint: {
+        serializedName: "endpoint",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      protocol: {
+        serializedName: "protocol",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      serviceDataAccessAuthIdentity: {
+        serializedName: "serviceDataAccessAuthIdentity",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureDataLakeGen1Datastore: coreClient.CompositeMapper = {
+  serializedName: "AzureDataLakeGen1",
+  type: {
+    name: "Composite",
+    className: "AzureDataLakeGen1Datastore",
+    uberParent: "AzureDatastore",
+    polymorphicDiscriminator: AzureDatastore.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AzureDatastore.type.modelProperties,
+      ...DatastoreProperties.type.modelProperties,
+      serviceDataAccessAuthIdentity: {
+        serializedName: "serviceDataAccessAuthIdentity",
+        type: {
+          name: "String"
+        }
+      },
+      storeName: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "storeName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureDataLakeGen2Datastore: coreClient.CompositeMapper = {
+  serializedName: "AzureDataLakeGen2",
+  type: {
+    name: "Composite",
+    className: "AzureDataLakeGen2Datastore",
+    uberParent: "AzureDatastore",
+    polymorphicDiscriminator: AzureDatastore.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AzureDatastore.type.modelProperties,
+      ...DatastoreProperties.type.modelProperties,
+      accountName: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "accountName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      endpoint: {
+        serializedName: "endpoint",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      filesystem: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "filesystem",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      protocol: {
+        serializedName: "protocol",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      serviceDataAccessAuthIdentity: {
+        serializedName: "serviceDataAccessAuthIdentity",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureFileDatastore: coreClient.CompositeMapper = {
+  serializedName: "AzureFile",
+  type: {
+    name: "Composite",
+    className: "AzureFileDatastore",
+    uberParent: "AzureDatastore",
+    polymorphicDiscriminator: AzureDatastore.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AzureDatastore.type.modelProperties,
+      ...DatastoreProperties.type.modelProperties,
+      accountName: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "accountName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      endpoint: {
+        serializedName: "endpoint",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      fileShareName: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "fileShareName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      protocol: {
+        serializedName: "protocol",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      serviceDataAccessAuthIdentity: {
+        serializedName: "serviceDataAccessAuthIdentity",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const BanditPolicy: coreClient.CompositeMapper = {
   serializedName: "Bandit",
   type: {
@@ -9810,6 +13673,13 @@ export const RandomSamplingAlgorithm: coreClient.CompositeMapper = {
     polymorphicDiscriminator: SamplingAlgorithm.type.polymorphicDiscriminator,
     modelProperties: {
       ...SamplingAlgorithm.type.modelProperties,
+      logbase: {
+        serializedName: "logbase",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
       rule: {
         serializedName: "rule",
         type: {
@@ -10390,6 +14260,54 @@ export const ImageModelDistributionSettingsObjectDetection: coreClient.Composite
   }
 };
 
+export const SparkJobPythonEntry: coreClient.CompositeMapper = {
+  serializedName: "SparkJobPythonEntry",
+  type: {
+    name: "Composite",
+    className: "SparkJobPythonEntry",
+    uberParent: "SparkJobEntry",
+    polymorphicDiscriminator: SparkJobEntry.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SparkJobEntry.type.modelProperties,
+      file: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "file",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SparkJobScalaEntry: coreClient.CompositeMapper = {
+  serializedName: "SparkJobScalaEntry",
+  type: {
+    name: "Composite",
+    className: "SparkJobScalaEntry",
+    uberParent: "SparkJobEntry",
+    polymorphicDiscriminator: SparkJobEntry.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SparkJobEntry.type.modelProperties,
+      className: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "className",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const BatchEndpoint: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -10538,37 +14456,93 @@ export const OnlineDeployment: coreClient.CompositeMapper = {
   }
 };
 
-export const KubernetesOnlineDeployment: coreClient.CompositeMapper = {
-  serializedName: "Kubernetes",
+export const Registry: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "KubernetesOnlineDeployment",
-    uberParent: "OnlineDeploymentProperties",
-    polymorphicDiscriminator:
-      OnlineDeploymentProperties.type.polymorphicDiscriminator,
+    className: "Registry",
     modelProperties: {
-      ...OnlineDeploymentProperties.type.modelProperties,
-      containerResourceRequirements: {
-        serializedName: "containerResourceRequirements",
+      ...TrackedResource.type.modelProperties,
+      identity: {
+        serializedName: "identity",
         type: {
           name: "Composite",
-          className: "ContainerResourceRequirements"
+          className: "ManagedServiceIdentity"
+        }
+      },
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      },
+      discoveryUrl: {
+        serializedName: "properties.discoveryUrl",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      intellectualPropertyPublisher: {
+        serializedName: "properties.intellectualPropertyPublisher",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      managedResourceGroup: {
+        serializedName: "properties.managedResourceGroup",
+        type: {
+          name: "Composite",
+          className: "ArmResourceId"
+        }
+      },
+      mlFlowRegistryUri: {
+        serializedName: "properties.mlFlowRegistryUri",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      privateEndpointConnections: {
+        serializedName: "properties.privateEndpointConnections",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnectionAutoGenerated"
+            }
+          }
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      regionDetails: {
+        serializedName: "properties.regionDetails",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RegistryRegionArmDetails"
+            }
+          }
         }
       }
-    }
-  }
-};
-
-export const ManagedOnlineDeployment: coreClient.CompositeMapper = {
-  serializedName: "Managed",
-  type: {
-    name: "Composite",
-    className: "ManagedOnlineDeployment",
-    uberParent: "OnlineDeploymentProperties",
-    polymorphicDiscriminator:
-      OnlineDeploymentProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...OnlineDeploymentProperties.type.modelProperties
     }
   }
 };
@@ -10578,7 +14552,14 @@ export const CodeContainerProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CodeContainerProperties",
     modelProperties: {
-      ...AssetContainer.type.modelProperties
+      ...AssetContainer.type.modelProperties,
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
     }
   }
 };
@@ -10588,7 +14569,14 @@ export const ComponentContainerProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ComponentContainerProperties",
     modelProperties: {
-      ...AssetContainer.type.modelProperties
+      ...AssetContainer.type.modelProperties,
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
     }
   }
 };
@@ -10615,7 +14603,14 @@ export const EnvironmentContainerProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "EnvironmentContainerProperties",
     modelProperties: {
-      ...AssetContainer.type.modelProperties
+      ...AssetContainer.type.modelProperties,
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
     }
   }
 };
@@ -10625,7 +14620,48 @@ export const ModelContainerProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ModelContainerProperties",
     modelProperties: {
-      ...AssetContainer.type.modelProperties
+      ...AssetContainer.type.modelProperties,
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FeaturesetContainerProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturesetContainerProperties",
+    modelProperties: {
+      ...AssetContainer.type.modelProperties,
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FeaturestoreEntityContainerProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturestoreEntityContainerProperties",
+    modelProperties: {
+      ...AssetContainer.type.modelProperties,
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
     }
   }
 };
@@ -10639,6 +14675,13 @@ export const CodeVersionProperties: coreClient.CompositeMapper = {
       codeUri: {
         serializedName: "codeUri",
         nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -10659,6 +14702,13 @@ export const ComponentVersionProperties: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -10686,7 +14736,8 @@ export const DataVersionBaseProperties: coreClient.CompositeMapper = {
       },
       dataUri: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "dataUri",
         required: true,
@@ -10748,6 +14799,13 @@ export const EnvironmentVersionProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -10787,50 +14845,10 @@ export const ModelVersionProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      }
-    }
-  }
-};
-
-export const AzureBlobDatastore: coreClient.CompositeMapper = {
-  serializedName: "AzureBlob",
-  type: {
-    name: "Composite",
-    className: "AzureBlobDatastore",
-    uberParent: "DatastoreProperties",
-    polymorphicDiscriminator: DatastoreProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...DatastoreProperties.type.modelProperties,
-      accountName: {
-        serializedName: "accountName",
-        nullable: true,
-        type: {
-          name: "String"
-        }
       },
-      containerName: {
-        serializedName: "containerName",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      endpoint: {
-        serializedName: "endpoint",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      protocol: {
-        serializedName: "protocol",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      serviceDataAccessAuthIdentity: {
-        serializedName: "serviceDataAccessAuthIdentity",
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -10839,27 +14857,48 @@ export const AzureBlobDatastore: coreClient.CompositeMapper = {
   }
 };
 
-export const AzureDataLakeGen1Datastore: coreClient.CompositeMapper = {
-  serializedName: "AzureDataLakeGen1",
+export const FeaturesetVersionProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AzureDataLakeGen1Datastore",
-    uberParent: "DatastoreProperties",
-    polymorphicDiscriminator: DatastoreProperties.type.polymorphicDiscriminator,
+    className: "FeaturesetVersionProperties",
     modelProperties: {
-      ...DatastoreProperties.type.modelProperties,
-      serviceDataAccessAuthIdentity: {
-        serializedName: "serviceDataAccessAuthIdentity",
+      ...AssetBase.type.modelProperties,
+      entities: {
+        serializedName: "entities",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      materializationSettings: {
+        serializedName: "materializationSettings",
+        type: {
+          name: "Composite",
+          className: "MaterializationSettings"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
-      storeName: {
-        constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
-        },
-        serializedName: "storeName",
-        required: true,
+      specification: {
+        serializedName: "specification",
+        type: {
+          name: "Composite",
+          className: "FeaturesetSpecification"
+        }
+      },
+      stage: {
+        serializedName: "stage",
+        nullable: true,
         type: {
           name: "String"
         }
@@ -10868,51 +14907,28 @@ export const AzureDataLakeGen1Datastore: coreClient.CompositeMapper = {
   }
 };
 
-export const AzureDataLakeGen2Datastore: coreClient.CompositeMapper = {
-  serializedName: "AzureDataLakeGen2",
+export const FeaturestoreEntityVersionProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AzureDataLakeGen2Datastore",
-    uberParent: "DatastoreProperties",
-    polymorphicDiscriminator: DatastoreProperties.type.polymorphicDiscriminator,
+    className: "FeaturestoreEntityVersionProperties",
     modelProperties: {
-      ...DatastoreProperties.type.modelProperties,
-      accountName: {
-        constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
-        },
-        serializedName: "accountName",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      endpoint: {
-        serializedName: "endpoint",
+      ...AssetBase.type.modelProperties,
+      indexColumns: {
+        serializedName: "indexColumns",
         nullable: true,
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IndexColumn"
+            }
+          }
         }
       },
-      filesystem: {
-        constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
-        },
-        serializedName: "filesystem",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      protocol: {
-        serializedName: "protocol",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      serviceDataAccessAuthIdentity: {
-        serializedName: "serviceDataAccessAuthIdentity",
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -10921,53 +14937,130 @@ export const AzureDataLakeGen2Datastore: coreClient.CompositeMapper = {
   }
 };
 
-export const AzureFileDatastore: coreClient.CompositeMapper = {
-  serializedName: "AzureFile",
+export const HdfsDatastore: coreClient.CompositeMapper = {
+  serializedName: "Hdfs",
   type: {
     name: "Composite",
-    className: "AzureFileDatastore",
+    className: "HdfsDatastore",
     uberParent: "DatastoreProperties",
     polymorphicDiscriminator: DatastoreProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatastoreProperties.type.modelProperties,
-      accountName: {
-        constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
-        },
-        serializedName: "accountName",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      endpoint: {
-        serializedName: "endpoint",
+      hdfsServerCertificate: {
+        serializedName: "hdfsServerCertificate",
         nullable: true,
         type: {
           name: "String"
         }
       },
-      fileShareName: {
+      nameNodeAddress: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
-        serializedName: "fileShareName",
+        serializedName: "nameNodeAddress",
         required: true,
         type: {
           name: "String"
         }
       },
       protocol: {
+        defaultValue: "http",
         serializedName: "protocol",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LabelingJobProperties: coreClient.CompositeMapper = {
+  serializedName: "Labeling",
+  type: {
+    name: "Composite",
+    className: "LabelingJobProperties",
+    uberParent: "JobBaseProperties",
+    polymorphicDiscriminator: JobBaseProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...JobBaseProperties.type.modelProperties,
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        readOnly: true,
         nullable: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      dataConfiguration: {
+        serializedName: "dataConfiguration",
+        type: {
+          name: "Composite",
+          className: "LabelingDataConfiguration"
+        }
+      },
+      jobInstructions: {
+        serializedName: "jobInstructions",
+        type: {
+          name: "Composite",
+          className: "LabelingJobInstructions"
+        }
+      },
+      labelCategories: {
+        serializedName: "labelCategories",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Composite", className: "LabelCategory" } }
+        }
+      },
+      labelingJobMediaProperties: {
+        serializedName: "labelingJobMediaProperties",
+        type: {
+          name: "Composite",
+          className: "LabelingJobMediaProperties"
+        }
+      },
+      mlAssistConfiguration: {
+        serializedName: "mlAssistConfiguration",
+        type: {
+          name: "Composite",
+          className: "MLAssistConfiguration"
+        }
+      },
+      progressMetrics: {
+        serializedName: "progressMetrics",
+        type: {
+          name: "Composite",
+          className: "ProgressMetrics"
+        }
+      },
+      projectId: {
+        serializedName: "projectId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
-      serviceDataAccessAuthIdentity: {
-        serializedName: "serviceDataAccessAuthIdentity",
+      statusMessages: {
+        serializedName: "statusMessages",
+        readOnly: true,
+        nullable: true,
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StatusMessage"
+            }
+          }
         }
       }
     }
@@ -11006,6 +15099,13 @@ export const AutoMLJob: coreClient.CompositeMapper = {
           value: { type: { name: "Composite", className: "JobOutput" } }
         }
       },
+      queueSettings: {
+        serializedName: "queueSettings",
+        type: {
+          name: "Composite",
+          className: "QueueSettings"
+        }
+      },
       resources: {
         serializedName: "resources",
         type: {
@@ -11033,6 +15133,13 @@ export const CommandJob: coreClient.CompositeMapper = {
     polymorphicDiscriminator: JobBaseProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...JobBaseProperties.type.modelProperties,
+      autologgerSettings: {
+        serializedName: "autologgerSettings",
+        type: {
+          name: "Composite",
+          className: "AutologgerSettings"
+        }
+      },
       codeId: {
         serializedName: "codeId",
         nullable: true,
@@ -11060,7 +15167,8 @@ export const CommandJob: coreClient.CompositeMapper = {
       },
       environmentId: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "environmentId",
         required: true,
@@ -11106,6 +15214,13 @@ export const CommandJob: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
+        }
+      },
+      queueSettings: {
+        serializedName: "queueSettings",
+        type: {
+          name: "Composite",
+          className: "QueueSettings"
         }
       },
       resources: {
@@ -11173,6 +15288,137 @@ export const PipelineJob: coreClient.CompositeMapper = {
   }
 };
 
+export const SparkJob: coreClient.CompositeMapper = {
+  serializedName: "Spark",
+  type: {
+    name: "Composite",
+    className: "SparkJob",
+    uberParent: "JobBaseProperties",
+    polymorphicDiscriminator: JobBaseProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...JobBaseProperties.type.modelProperties,
+      archives: {
+        serializedName: "archives",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      args: {
+        serializedName: "args",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      codeId: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "codeId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      conf: {
+        serializedName: "conf",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      entry: {
+        serializedName: "entry",
+        type: {
+          name: "Composite",
+          className: "SparkJobEntry"
+        }
+      },
+      environmentId: {
+        serializedName: "environmentId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      files: {
+        serializedName: "files",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      inputs: {
+        serializedName: "inputs",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Composite", className: "JobInput" } }
+        }
+      },
+      jars: {
+        serializedName: "jars",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      outputs: {
+        serializedName: "outputs",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Composite", className: "JobOutput" } }
+        }
+      },
+      pyFiles: {
+        serializedName: "pyFiles",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      queueSettings: {
+        serializedName: "queueSettings",
+        type: {
+          name: "Composite",
+          className: "QueueSettings"
+        }
+      },
+      resources: {
+        serializedName: "resources",
+        type: {
+          name: "Composite",
+          className: "SparkResourceConfiguration"
+        }
+      }
+    }
+  }
+};
+
 export const SweepJob: coreClient.CompositeMapper = {
   serializedName: "Sweep",
   type: {
@@ -11219,6 +15465,13 @@ export const SweepJob: coreClient.CompositeMapper = {
           value: { type: { name: "Composite", className: "JobOutput" } }
         }
       },
+      queueSettings: {
+        serializedName: "queueSettings",
+        type: {
+          name: "Composite",
+          className: "QueueSettings"
+        }
+      },
       samplingAlgorithm: {
         serializedName: "samplingAlgorithm",
         type: {
@@ -11241,6 +15494,41 @@ export const SweepJob: coreClient.CompositeMapper = {
           className: "TrialComponent"
         }
       }
+    }
+  }
+};
+
+export const KubernetesOnlineDeployment: coreClient.CompositeMapper = {
+  serializedName: "Kubernetes",
+  type: {
+    name: "Composite",
+    className: "KubernetesOnlineDeployment",
+    uberParent: "OnlineDeploymentProperties",
+    polymorphicDiscriminator:
+      OnlineDeploymentProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...OnlineDeploymentProperties.type.modelProperties,
+      containerResourceRequirements: {
+        serializedName: "containerResourceRequirements",
+        type: {
+          name: "Composite",
+          className: "ContainerResourceRequirements"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedOnlineDeployment: coreClient.CompositeMapper = {
+  serializedName: "Managed",
+  type: {
+    name: "Composite",
+    className: "ManagedOnlineDeployment",
+    uberParent: "OnlineDeploymentProperties",
+    polymorphicDiscriminator:
+      OnlineDeploymentProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...OnlineDeploymentProperties.type.modelProperties
     }
   }
 };
@@ -11352,6 +15640,526 @@ export const ComputeDeleteHeaders: coreClient.CompositeMapper = {
       },
       location: {
         serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryCodeContainersDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryCodeContainersDeleteHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        constraints: {
+          InclusiveMaximum: 600,
+          InclusiveMinimum: 10
+        },
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryCodeContainersCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryCodeContainersCreateOrUpdateHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryCodeVersionsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryCodeVersionsDeleteHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        constraints: {
+          InclusiveMaximum: 600,
+          InclusiveMinimum: 10
+        },
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryCodeVersionsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryCodeVersionsCreateOrUpdateHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryComponentContainersDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryComponentContainersDeleteHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        constraints: {
+          InclusiveMaximum: 600,
+          InclusiveMinimum: 10
+        },
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryComponentContainersCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryComponentContainersCreateOrUpdateHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryComponentVersionsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryComponentVersionsDeleteHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        constraints: {
+          InclusiveMaximum: 600,
+          InclusiveMinimum: 10
+        },
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryComponentVersionsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryComponentVersionsCreateOrUpdateHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryDataContainersDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryDataContainersDeleteHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        constraints: {
+          InclusiveMaximum: 600,
+          InclusiveMinimum: 10
+        },
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryDataContainersCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryDataContainersCreateOrUpdateHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryDataVersionsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryDataVersionsDeleteHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        constraints: {
+          InclusiveMaximum: 600,
+          InclusiveMinimum: 10
+        },
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryDataVersionsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryDataVersionsCreateOrUpdateHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryEnvironmentContainersDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryEnvironmentContainersDeleteHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        constraints: {
+          InclusiveMaximum: 600,
+          InclusiveMinimum: 10
+        },
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryEnvironmentContainersCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryEnvironmentContainersCreateOrUpdateHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryEnvironmentVersionsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryEnvironmentVersionsDeleteHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        constraints: {
+          InclusiveMaximum: 600,
+          InclusiveMinimum: 10
+        },
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryEnvironmentVersionsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryEnvironmentVersionsCreateOrUpdateHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryModelContainersDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryModelContainersDeleteHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        constraints: {
+          InclusiveMaximum: 600,
+          InclusiveMinimum: 10
+        },
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryModelContainersCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryModelContainersCreateOrUpdateHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryModelVersionsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryModelVersionsDeleteHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        constraints: {
+          InclusiveMaximum: 600,
+          InclusiveMinimum: 10
+        },
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryModelVersionsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryModelVersionsCreateOrUpdateHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
         type: {
           name: "String"
         }
@@ -11526,6 +16334,239 @@ export const BatchDeploymentsCreateOrUpdateHeaders: coreClient.CompositeMapper =
   }
 };
 
+export const FeaturesetContainersDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturesetContainersDeleteHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        constraints: {
+          InclusiveMaximum: 600,
+          InclusiveMinimum: 10
+        },
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const FeaturesetContainersCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturesetContainersCreateOrUpdateHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FeaturesetVersionsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturesetVersionsDeleteHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        constraints: {
+          InclusiveMaximum: 600,
+          InclusiveMinimum: 10
+        },
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const FeaturesetVersionsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturesetVersionsCreateOrUpdateHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FeaturesetVersionsBackfillHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturesetVersionsBackfillHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        constraints: {
+          InclusiveMaximum: 600,
+          InclusiveMinimum: 10
+        },
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const FeaturestoreEntityContainersDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturestoreEntityContainersDeleteHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        constraints: {
+          InclusiveMaximum: 600,
+          InclusiveMinimum: 10
+        },
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const FeaturestoreEntityContainersCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturestoreEntityContainersCreateOrUpdateHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FeaturestoreEntityVersionsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturestoreEntityVersionsDeleteHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        constraints: {
+          InclusiveMaximum: 600,
+          InclusiveMinimum: 10
+        },
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const FeaturestoreEntityVersionsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FeaturestoreEntityVersionsCreateOrUpdateHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const JobsDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -11561,6 +16602,102 @@ export const JobsCancelHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobsCancelHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        constraints: {
+          InclusiveMaximum: 600,
+          InclusiveMinimum: 10
+        },
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const LabelingJobsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LabelingJobsCreateOrUpdateHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LabelingJobsExportLabelsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LabelingJobsExportLabelsHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        constraints: {
+          InclusiveMaximum: 600,
+          InclusiveMinimum: 10
+        },
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const LabelingJobsResumeHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LabelingJobsResumeHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        constraints: {
+          InclusiveMaximum: 600,
+          InclusiveMinimum: 10
+        },
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ModelVersionsPackageHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ModelVersionsPackageHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
@@ -11825,17 +16962,87 @@ export const SchedulesCreateOrUpdateHeaders: coreClient.CompositeMapper = {
   }
 };
 
+export const RegistriesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistriesDeleteHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        constraints: {
+          InclusiveMaximum: 600,
+          InclusiveMinimum: 10
+        },
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RegistriesRemoveRegionsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistriesRemoveRegionsHeaders",
+    modelProperties: {
+      xMsAsyncOperationTimeout: {
+        serializedName: "x-ms-async-operation-timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        constraints: {
+          InclusiveMaximum: 600,
+          InclusiveMinimum: 10
+        },
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export let discriminators = {
   Compute: Compute,
   ComputeSecrets: ComputeSecrets,
   WorkspaceConnectionPropertiesV2: WorkspaceConnectionPropertiesV2,
+  BatchDeploymentConfiguration: BatchDeploymentConfiguration,
   AssetReferenceBase: AssetReferenceBase,
   DatastoreCredentials: DatastoreCredentials,
   DatastoreSecrets: DatastoreSecrets,
+  TriggerBase: TriggerBase,
   IdentityConfiguration: IdentityConfiguration,
+  Nodes: Nodes,
+  LabelingJobMediaProperties: LabelingJobMediaProperties,
+  MLAssistConfiguration: MLAssistConfiguration,
+  ExportSummary: ExportSummary,
+  BaseEnvironmentSource: BaseEnvironmentSource,
+  InferencingServer: InferencingServer,
+  PackageInputPathBase: PackageInputPathBase,
   OnlineScaleSettings: OnlineScaleSettings,
   ScheduleActionBase: ScheduleActionBase,
-  TriggerBase: TriggerBase,
   ForecastHorizon: ForecastHorizon,
   JobOutput: JobOutput,
   AutoMLVertical: AutoMLVertical,
@@ -11848,6 +17055,7 @@ export let discriminators = {
   SamplingAlgorithm: SamplingAlgorithm,
   DistributionConfiguration: DistributionConfiguration,
   JobLimits: JobLimits,
+  SparkJobEntry: SparkJobEntry,
   "Compute.AKS": Aks,
   "Compute.Kubernetes": Kubernetes,
   "Compute.AmlCompute": AmlCompute,
@@ -11864,32 +17072,55 @@ export let discriminators = {
   "WorkspaceConnectionPropertiesV2.PAT": PATAuthTypeWorkspaceConnectionProperties,
   "WorkspaceConnectionPropertiesV2.SAS": SASAuthTypeWorkspaceConnectionProperties,
   "WorkspaceConnectionPropertiesV2.UsernamePassword": UsernamePasswordAuthTypeWorkspaceConnectionProperties,
+  "WorkspaceConnectionPropertiesV2.AccessKey": AccessKeyAuthTypeWorkspaceConnectionProperties,
+  "WorkspaceConnectionPropertiesV2.ServicePrincipal": ServicePrincipalAuthTypeWorkspaceConnectionProperties,
   "WorkspaceConnectionPropertiesV2.None": NoneAuthTypeWorkspaceConnectionProperties,
   "WorkspaceConnectionPropertiesV2.ManagedIdentity": ManagedIdentityAuthTypeWorkspaceConnectionProperties,
-  "AssetReferenceBase.DataPath": DataPathAssetReference,
-  "AssetReferenceBase.Id": IdAssetReference,
-  "AssetReferenceBase.OutputPath": OutputPathAssetReference,
-  "EndpointDeploymentPropertiesBase.OnlineDeploymentProperties": OnlineDeploymentProperties,
   "ResourceBase.DatastoreProperties": DatastoreProperties,
   "ResourceBase.JobBaseProperties": JobBaseProperties,
+  "BatchDeploymentConfiguration.PipelineComponent": BatchPipelineComponentDeploymentConfiguration,
+  "AssetReferenceBase.Id": IdAssetReference,
+  "AssetReferenceBase.DataPath": DataPathAssetReference,
+  "AssetReferenceBase.OutputPath": OutputPathAssetReference,
+  "EndpointDeploymentPropertiesBase.OnlineDeploymentProperties": OnlineDeploymentProperties,
   "DatastoreCredentials.AccountKey": AccountKeyDatastoreCredentials,
   "DatastoreCredentials.Certificate": CertificateDatastoreCredentials,
+  "KerberosCredentials.KerberosKeytab": KerberosKeytabCredentials,
+  "KerberosCredentials.KerberosPassword": KerberosPasswordCredentials,
   "DatastoreCredentials.None": NoneDatastoreCredentials,
   "DatastoreCredentials.Sas": SasDatastoreCredentials,
   "DatastoreCredentials.ServicePrincipal": ServicePrincipalDatastoreCredentials,
   "DatastoreSecrets.AccountKey": AccountKeyDatastoreSecrets,
   "DatastoreSecrets.Certificate": CertificateDatastoreSecrets,
+  "DatastoreSecrets.KerberosKeytab": KerberosKeytabSecrets,
+  "DatastoreSecrets.KerberosPassword": KerberosPasswordSecrets,
   "DatastoreSecrets.Sas": SasDatastoreSecrets,
   "DatastoreSecrets.ServicePrincipal": ServicePrincipalDatastoreSecrets,
+  "TriggerBase.Recurrence": RecurrenceTrigger,
+  "TriggerBase.Cron": CronTrigger,
   "IdentityConfiguration.AMLToken": AmlToken,
   "IdentityConfiguration.Managed": ManagedIdentity,
   "IdentityConfiguration.UserIdentity": UserIdentity,
+  "Nodes.All": AllNodes,
+  "LabelingJobMediaProperties.Image": LabelingJobImageProperties,
+  "LabelingJobMediaProperties.Text": LabelingJobTextProperties,
+  "MLAssistConfiguration.Disabled": MLAssistConfigurationDisabled,
+  "MLAssistConfiguration.Enabled": MLAssistConfigurationEnabled,
+  "ExportSummary.Coco": CocoExportSummary,
+  "ExportSummary.CSV": CsvExportSummary,
+  "ExportSummary.Dataset": DatasetExportSummary,
+  "BaseEnvironmentSource.EnvironmentAsset": BaseEnvironmentId,
+  "InferencingServer.AzureMLBatch": AzureMLBatchInferencingServer,
+  "InferencingServer.AzureMLOnline": AzureMLOnlineInferencingServer,
+  "InferencingServer.Custom": CustomInferencingServer,
+  "InferencingServer.Triton": TritonInferencingServer,
+  "PackageInputPathBase.PathId": PackageInputPathId,
+  "PackageInputPathBase.Url": PackageInputPathUrl,
+  "PackageInputPathBase.PathVersion": PackageInputPathVersion,
   "OnlineScaleSettings.Default": DefaultScaleSettings,
   "OnlineScaleSettings.TargetUtilization": TargetUtilizationScaleSettings,
   "ScheduleActionBase.InvokeBatchEndpoint": EndpointScheduleAction,
   "ScheduleActionBase.CreateJob": JobScheduleAction,
-  "TriggerBase.Recurrence": RecurrenceTrigger,
-  "TriggerBase.Cron": CronTrigger,
   "AssetJobInput.mltable": MLTableJobInput,
   "AssetJobInput.custom_model": CustomModelJobInput,
   "AssetJobInput.mlflow_model": MLFlowModelJobInput,
@@ -11923,6 +17154,10 @@ export let discriminators = {
   "TargetLags.Custom": CustomTargetLags,
   "TargetRollingWindowSize.Auto": AutoTargetRollingWindowSize,
   "TargetRollingWindowSize.Custom": CustomTargetRollingWindowSize,
+  "AzureDatastore.AzureBlob": AzureBlobDatastore,
+  "AzureDatastore.AzureDataLakeGen1": AzureDataLakeGen1Datastore,
+  "AzureDatastore.AzureDataLakeGen2": AzureDataLakeGen2Datastore,
+  "AzureDatastore.AzureFile": AzureFileDatastore,
   "EarlyTerminationPolicy.Bandit": BanditPolicy,
   "EarlyTerminationPolicy.MedianStopping": MedianStoppingPolicy,
   "EarlyTerminationPolicy.TruncationSelection": TruncationSelectionPolicy,
@@ -11934,17 +17169,18 @@ export let discriminators = {
   "DistributionConfiguration.TensorFlow": TensorFlow,
   "JobLimits.Command": CommandJobLimits,
   "JobLimits.Sweep": SweepJobLimits,
-  "OnlineDeploymentProperties.Kubernetes": KubernetesOnlineDeployment,
-  "OnlineDeploymentProperties.Managed": ManagedOnlineDeployment,
+  "SparkJobEntry.SparkJobPythonEntry": SparkJobPythonEntry,
+  "SparkJobEntry.SparkJobScalaEntry": SparkJobScalaEntry,
   "AssetBase.DataVersionBaseProperties": DataVersionBaseProperties,
-  "DatastoreProperties.AzureBlob": AzureBlobDatastore,
-  "DatastoreProperties.AzureDataLakeGen1": AzureDataLakeGen1Datastore,
-  "DatastoreProperties.AzureDataLakeGen2": AzureDataLakeGen2Datastore,
-  "DatastoreProperties.AzureFile": AzureFileDatastore,
+  "DatastoreProperties.Hdfs": HdfsDatastore,
+  "JobBaseProperties.Labeling": LabelingJobProperties,
   "JobBaseProperties.AutoML": AutoMLJob,
   "JobBaseProperties.Command": CommandJob,
   "JobBaseProperties.Pipeline": PipelineJob,
+  "JobBaseProperties.Spark": SparkJob,
   "JobBaseProperties.Sweep": SweepJob,
+  "OnlineDeploymentProperties.Kubernetes": KubernetesOnlineDeployment,
+  "OnlineDeploymentProperties.Managed": ManagedOnlineDeployment,
   "DataVersionBaseProperties.mltable": MLTableData,
   "DataVersionBaseProperties.uri_file": UriFileDataVersion,
   "DataVersionBaseProperties.uri_folder": UriFolderDataVersion
