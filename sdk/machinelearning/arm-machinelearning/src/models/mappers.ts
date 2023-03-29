@@ -2935,7 +2935,8 @@ export const BuildContext: coreClient.CompositeMapper = {
     modelProperties: {
       contextUri: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "contextUri",
         required: true,
@@ -2991,7 +2992,8 @@ export const Route: coreClient.CompositeMapper = {
     modelProperties: {
       path: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "path",
         required: true,
@@ -3511,7 +3513,8 @@ export const SkuSetting: coreClient.CompositeMapper = {
     modelProperties: {
       name: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "name",
         required: true,
@@ -4383,6 +4386,26 @@ export const ComputeInstanceProperties: coreClient.CompositeMapper = {
           className: "ComputeInstanceSshSettings"
         }
       },
+      customServices: {
+        serializedName: "customServices",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CustomService"
+            }
+          }
+        }
+      },
+      osImageMetadata: {
+        serializedName: "osImageMetadata",
+        type: {
+          name: "Composite",
+          className: "ImageMetadata"
+        }
+      },
       connectivityEndpoints: {
         serializedName: "connectivityEndpoints",
         type: {
@@ -4555,6 +4578,324 @@ export const ComputeInstanceSshSettings: coreClient.CompositeMapper = {
         serializedName: "adminPublicKey",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CustomService: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomService",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      image: {
+        serializedName: "image",
+        type: {
+          name: "Composite",
+          className: "Image"
+        }
+      },
+      environmentVariables: {
+        serializedName: "environmentVariables",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "EnvironmentVariable" }
+          }
+        }
+      },
+      docker: {
+        serializedName: "docker",
+        type: {
+          name: "Composite",
+          className: "Docker"
+        }
+      },
+      endpoints: {
+        serializedName: "endpoints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Endpoint"
+            }
+          }
+        }
+      },
+      volumes: {
+        serializedName: "volumes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VolumeDefinition"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Image: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Image",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      type: {
+        defaultValue: "docker",
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      reference: {
+        serializedName: "reference",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EnvironmentVariable: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EnvironmentVariable",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      type: {
+        defaultValue: "local",
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Docker: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Docker",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      privileged: {
+        serializedName: "privileged",
+        nullable: true,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const Endpoint: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Endpoint",
+    modelProperties: {
+      protocol: {
+        defaultValue: "tcp",
+        serializedName: "protocol",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "Number"
+        }
+      },
+      published: {
+        serializedName: "published",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      hostIp: {
+        serializedName: "hostIp",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VolumeDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumeDefinition",
+    modelProperties: {
+      type: {
+        defaultValue: "bind",
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      readOnly: {
+        serializedName: "readOnly",
+        nullable: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      source: {
+        serializedName: "source",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      consistency: {
+        serializedName: "consistency",
+        type: {
+          name: "String"
+        }
+      },
+      bind: {
+        serializedName: "bind",
+        type: {
+          name: "Composite",
+          className: "BindOptions"
+        }
+      },
+      volume: {
+        serializedName: "volume",
+        type: {
+          name: "Composite",
+          className: "VolumeOptions"
+        }
+      },
+      tmpfs: {
+        serializedName: "tmpfs",
+        type: {
+          name: "Composite",
+          className: "TmpfsOptions"
+        }
+      }
+    }
+  }
+};
+
+export const BindOptions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BindOptions",
+    modelProperties: {
+      propagation: {
+        serializedName: "propagation",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      createHostPath: {
+        serializedName: "createHostPath",
+        nullable: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      selinux: {
+        serializedName: "selinux",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VolumeOptions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumeOptions",
+    modelProperties: {
+      nocopy: {
+        serializedName: "nocopy",
+        nullable: true,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const TmpfsOptions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TmpfsOptions",
+    modelProperties: {
+      size: {
+        serializedName: "size",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ImageMetadata: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImageMetadata",
+    modelProperties: {
+      currentImageVersion: {
+        serializedName: "currentImageVersion",
+        type: {
+          name: "String"
+        }
+      },
+      latestImageVersion: {
+        serializedName: "latestImageVersion",
+        type: {
+          name: "String"
+        }
+      },
+      isLatestOsImageVersion: {
+        serializedName: "isLatestOsImageVersion",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -4846,14 +5187,14 @@ export const ComputeStartStopSchedule: coreClient.CompositeMapper = {
         serializedName: "recurrence",
         type: {
           name: "Composite",
-          className: "RecurrenceTrigger"
+          className: "Recurrence"
         }
       },
       cron: {
         serializedName: "cron",
         type: {
           name: "Composite",
-          className: "CronTrigger"
+          className: "Cron"
         }
       },
       schedule: {
@@ -4861,6 +5202,48 @@ export const ComputeStartStopSchedule: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ScheduleBase"
+        }
+      }
+    }
+  }
+};
+
+export const Recurrence: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Recurrence",
+    modelProperties: {
+      frequency: {
+        serializedName: "frequency",
+        type: {
+          name: "String"
+        }
+      },
+      interval: {
+        serializedName: "interval",
+        type: {
+          name: "Number"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      timeZone: {
+        defaultValue: "UTC",
+        serializedName: "timeZone",
+        type: {
+          name: "String"
+        }
+      },
+      schedule: {
+        serializedName: "schedule",
+        type: {
+          name: "Composite",
+          className: "RecurrenceSchedule"
         }
       }
     }
@@ -4918,6 +5301,35 @@ export const RecurrenceSchedule: coreClient.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const Cron: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Cron",
+    modelProperties: {
+      startTime: {
+        serializedName: "startTime",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      timeZone: {
+        defaultValue: "UTC",
+        serializedName: "timeZone",
+        type: {
+          name: "String"
+        }
+      },
+      expression: {
+        serializedName: "expression",
+        type: {
+          name: "String"
         }
       }
     }
@@ -5540,6 +5952,21 @@ export const DatabricksComputeSecretsProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const IdleShutdownSetting: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IdleShutdownSetting",
+    modelProperties: {
+      idleTimeBeforeShutdown: {
+        serializedName: "idleTimeBeforeShutdown",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const WorkspaceConnectionUsernamePassword: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5625,7 +6052,8 @@ export const AssetJobInput: coreClient.CompositeMapper = {
       },
       uri: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "uri",
         required: true,
@@ -6987,7 +7415,8 @@ export const Objective: coreClient.CompositeMapper = {
       },
       primaryMetric: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "primaryMetric",
         required: true,
@@ -7031,7 +7460,8 @@ export const TrialComponent: coreClient.CompositeMapper = {
       },
       environmentId: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "environmentId",
         required: true,
@@ -8117,7 +8547,8 @@ export const IdAssetReference: coreClient.CompositeMapper = {
       ...AssetReferenceBase.type.modelProperties,
       assetId: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "assetId",
         required: true,
@@ -8657,7 +9088,8 @@ export const CertificateDatastoreCredentials: coreClient.CompositeMapper = {
       },
       thumbprint: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "thumbprint",
         required: true,
@@ -8991,6 +9423,30 @@ export const JobScheduleAction: coreClient.CompositeMapper = {
   }
 };
 
+export const CronTrigger: coreClient.CompositeMapper = {
+  serializedName: "Cron",
+  type: {
+    name: "Composite",
+    className: "CronTrigger",
+    uberParent: "TriggerBase",
+    polymorphicDiscriminator: TriggerBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...TriggerBase.type.modelProperties,
+      expression: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
+        },
+        serializedName: "expression",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const RecurrenceTrigger: coreClient.CompositeMapper = {
   serializedName: "Recurrence",
   type: {
@@ -9019,29 +9475,6 @@ export const RecurrenceTrigger: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "RecurrenceSchedule"
-        }
-      }
-    }
-  }
-};
-
-export const CronTrigger: coreClient.CompositeMapper = {
-  serializedName: "Cron",
-  type: {
-    name: "Composite",
-    className: "CronTrigger",
-    uberParent: "TriggerBase",
-    polymorphicDiscriminator: TriggerBase.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...TriggerBase.type.modelProperties,
-      expression: {
-        constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
-        },
-        serializedName: "expression",
-        required: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -9561,7 +9994,8 @@ export const LiteralJobInput: coreClient.CompositeMapper = {
       ...JobInput.type.modelProperties,
       value: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "value",
         required: true,
@@ -10686,7 +11120,8 @@ export const DataVersionBaseProperties: coreClient.CompositeMapper = {
       },
       dataUri: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "dataUri",
         required: true,
@@ -10856,7 +11291,8 @@ export const AzureDataLakeGen1Datastore: coreClient.CompositeMapper = {
       },
       storeName: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "storeName",
         required: true,
@@ -10879,7 +11315,8 @@ export const AzureDataLakeGen2Datastore: coreClient.CompositeMapper = {
       ...DatastoreProperties.type.modelProperties,
       accountName: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "accountName",
         required: true,
@@ -10896,7 +11333,8 @@ export const AzureDataLakeGen2Datastore: coreClient.CompositeMapper = {
       },
       filesystem: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "filesystem",
         required: true,
@@ -10932,7 +11370,8 @@ export const AzureFileDatastore: coreClient.CompositeMapper = {
       ...DatastoreProperties.type.modelProperties,
       accountName: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "accountName",
         required: true,
@@ -10949,7 +11388,8 @@ export const AzureFileDatastore: coreClient.CompositeMapper = {
       },
       fileShareName: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "fileShareName",
         required: true,
@@ -11060,7 +11500,8 @@ export const CommandJob: coreClient.CompositeMapper = {
       },
       environmentId: {
         constraints: {
-          Pattern: new RegExp("[a-zA-Z0-9_]")
+          Pattern: new RegExp("[a-zA-Z0-9_]"),
+          MinLength: 1
         },
         serializedName: "environmentId",
         required: true,
@@ -11888,8 +12329,8 @@ export let discriminators = {
   "OnlineScaleSettings.TargetUtilization": TargetUtilizationScaleSettings,
   "ScheduleActionBase.InvokeBatchEndpoint": EndpointScheduleAction,
   "ScheduleActionBase.CreateJob": JobScheduleAction,
-  "TriggerBase.Recurrence": RecurrenceTrigger,
   "TriggerBase.Cron": CronTrigger,
+  "TriggerBase.Recurrence": RecurrenceTrigger,
   "AssetJobInput.mltable": MLTableJobInput,
   "AssetJobInput.custom_model": CustomModelJobInput,
   "AssetJobInput.mlflow_model": MLFlowModelJobInput,

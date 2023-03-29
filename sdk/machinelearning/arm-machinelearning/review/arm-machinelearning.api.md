@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AccountKeyDatastoreCredentials extends DatastoreCredentials {
@@ -404,11 +404,11 @@ export interface BatchDeploymentProperties extends EndpointDeploymentPropertiesB
 
 // @public
 export interface BatchDeployments {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: BatchDeployment, options?: BatchDeploymentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<BatchDeploymentsCreateOrUpdateResponse>, BatchDeploymentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: BatchDeployment, options?: BatchDeploymentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BatchDeploymentsCreateOrUpdateResponse>, BatchDeploymentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: BatchDeployment, options?: BatchDeploymentsCreateOrUpdateOptionalParams): Promise<BatchDeploymentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, options?: BatchDeploymentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, options?: BatchDeploymentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, options?: BatchDeploymentsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties, options?: BatchDeploymentsUpdateOptionalParams): Promise<PollerLike<PollOperationState<BatchDeploymentsUpdateResponse>, BatchDeploymentsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties, options?: BatchDeploymentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BatchDeploymentsUpdateResponse>, BatchDeploymentsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties, options?: BatchDeploymentsUpdateOptionalParams): Promise<BatchDeploymentsUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, options?: BatchDeploymentsGetOptionalParams): Promise<BatchDeploymentsGetResponse>;
     list(resourceGroupName: string, workspaceName: string, endpointName: string, options?: BatchDeploymentsListOptionalParams): PagedAsyncIterableIterator<BatchDeployment>;
@@ -451,9 +451,6 @@ export type BatchDeploymentsGetResponse = BatchDeployment;
 
 // @public
 export interface BatchDeploymentsListNextOptionalParams extends coreClient.OperationOptions {
-    orderBy?: string;
-    skip?: string;
-    top?: number;
 }
 
 // @public
@@ -512,11 +509,11 @@ export interface BatchEndpointProperties extends EndpointPropertiesBase {
 
 // @public
 export interface BatchEndpoints {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, body: BatchEndpoint, options?: BatchEndpointsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<BatchEndpointsCreateOrUpdateResponse>, BatchEndpointsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, body: BatchEndpoint, options?: BatchEndpointsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BatchEndpointsCreateOrUpdateResponse>, BatchEndpointsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, body: BatchEndpoint, options?: BatchEndpointsCreateOrUpdateOptionalParams): Promise<BatchEndpointsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, endpointName: string, options?: BatchEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, endpointName: string, options?: BatchEndpointsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, options?: BatchEndpointsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, body: PartialMinimalTrackedResourceWithIdentity, options?: BatchEndpointsUpdateOptionalParams): Promise<PollerLike<PollOperationState<BatchEndpointsUpdateResponse>, BatchEndpointsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, body: PartialMinimalTrackedResourceWithIdentity, options?: BatchEndpointsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BatchEndpointsUpdateResponse>, BatchEndpointsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, body: PartialMinimalTrackedResourceWithIdentity, options?: BatchEndpointsUpdateOptionalParams): Promise<BatchEndpointsUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, endpointName: string, options?: BatchEndpointsGetOptionalParams): Promise<BatchEndpointsGetResponse>;
     list(resourceGroupName: string, workspaceName: string, options?: BatchEndpointsListOptionalParams): PagedAsyncIterableIterator<BatchEndpoint>;
@@ -567,8 +564,6 @@ export type BatchEndpointsListKeysResponse = EndpointAuthKeys;
 
 // @public
 export interface BatchEndpointsListNextOptionalParams extends coreClient.OperationOptions {
-    count?: number;
-    skip?: string;
 }
 
 // @public
@@ -624,6 +619,13 @@ export interface BayesianSamplingAlgorithm extends SamplingAlgorithm {
 
 // @public
 export type BillingCurrency = string;
+
+// @public
+export interface BindOptions {
+    createHostPath?: boolean;
+    propagation?: string;
+    selinux?: string;
+}
 
 // @public
 export type BlockedTransformers = string;
@@ -733,7 +735,6 @@ export type CodeContainersGetResponse = CodeContainer;
 
 // @public
 export interface CodeContainersListNextOptionalParams extends coreClient.OperationOptions {
-    skip?: string;
 }
 
 // @public
@@ -791,9 +792,6 @@ export type CodeVersionsGetResponse = CodeVersion;
 
 // @public
 export interface CodeVersionsListNextOptionalParams extends coreClient.OperationOptions {
-    orderBy?: string;
-    skip?: string;
-    top?: number;
 }
 
 // @public
@@ -884,8 +882,6 @@ export type ComponentContainersGetResponse = ComponentContainer;
 
 // @public
 export interface ComponentContainersListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ListViewType;
-    skip?: string;
 }
 
 // @public
@@ -944,10 +940,6 @@ export type ComponentVersionsGetResponse = ComponentVersion;
 
 // @public
 export interface ComponentVersionsListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ListViewType;
-    orderBy?: string;
-    skip?: string;
-    top?: number;
 }
 
 // @public
@@ -1091,13 +1083,15 @@ export interface ComputeInstanceProperties {
     readonly connectivityEndpoints?: ComputeInstanceConnectivityEndpoints;
     readonly containers?: ComputeInstanceContainer[];
     readonly createdBy?: ComputeInstanceCreatedBy;
+    customServices?: CustomService[];
     readonly dataDisks?: ComputeInstanceDataDisk[];
     readonly dataMounts?: ComputeInstanceDataMount[];
     enableNodePublicIp?: boolean;
     readonly errors?: ErrorResponse[];
     readonly lastOperation?: ComputeInstanceLastOperation;
+    readonly osImageMetadata?: ImageMetadata;
     personalComputeInstanceSettings?: PersonalComputeInstanceSettings;
-    readonly schedules?: ComputeSchedules;
+    schedules?: ComputeSchedules;
     setupScripts?: SetupScripts;
     sshSettings?: ComputeInstanceSshSettings;
     readonly state?: ComputeInstanceState;
@@ -1136,7 +1130,6 @@ export type ComputeListKeysResponse = ComputeSecretsUnion;
 
 // @public
 export interface ComputeListNextOptionalParams extends coreClient.OperationOptions {
-    skip?: string;
 }
 
 // @public
@@ -1166,17 +1159,17 @@ export type ComputeListResponse = PaginatedComputeResourcesList;
 
 // @public
 export interface ComputeOperations {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, computeName: string, parameters: ComputeResource, options?: ComputeCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ComputeCreateOrUpdateResponse>, ComputeCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, computeName: string, parameters: ComputeResource, options?: ComputeCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ComputeCreateOrUpdateResponse>, ComputeCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, computeName: string, parameters: ComputeResource, options?: ComputeCreateOrUpdateOptionalParams): Promise<ComputeCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, computeName: string, underlyingResourceAction: UnderlyingResourceAction, options?: ComputeDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, computeName: string, underlyingResourceAction: UnderlyingResourceAction, options?: ComputeDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, computeName: string, underlyingResourceAction: UnderlyingResourceAction, options?: ComputeDeleteOptionalParams): Promise<void>;
-    beginRestart(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeRestartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRestart(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRestartAndWait(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeRestartOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStart(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStop(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeStopOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, computeName: string, parameters: ClusterUpdateParameters, options?: ComputeUpdateOptionalParams): Promise<PollerLike<PollOperationState<ComputeUpdateResponse>, ComputeUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, computeName: string, parameters: ClusterUpdateParameters, options?: ComputeUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ComputeUpdateResponse>, ComputeUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, workspaceName: string, computeName: string, parameters: ClusterUpdateParameters, options?: ComputeUpdateOptionalParams): Promise<ComputeUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeGetOptionalParams): Promise<ComputeGetResponse>;
     list(resourceGroupName: string, workspaceName: string, options?: ComputeListOptionalParams): PagedAsyncIterableIterator<ComputeResource>;
@@ -1230,10 +1223,10 @@ export interface ComputeStartOptionalParams extends coreClient.OperationOptions 
 // @public
 export interface ComputeStartStopSchedule {
     action?: ComputePowerAction;
-    cron?: CronTrigger;
+    cron?: Cron;
     readonly id?: string;
     readonly provisioningStatus?: ProvisioningStatus;
-    recurrence?: RecurrenceTrigger;
+    recurrence?: Recurrence;
     schedule?: ScheduleBase;
     status?: ScheduleStatus;
     triggerType?: TriggerType;
@@ -1293,6 +1286,13 @@ export type CreatedByType = string;
 // @public
 export type CredentialsType = string;
 
+// @public
+export interface Cron {
+    expression?: string;
+    startTime?: string;
+    timeZone?: string;
+}
+
 // @public (undocumented)
 export interface CronTrigger extends TriggerBase {
     expression: string;
@@ -1323,6 +1323,19 @@ export interface CustomNCrossValidations extends NCrossValidations {
 export interface CustomSeasonality extends Seasonality {
     mode: "Custom";
     value: number;
+}
+
+// @public
+export interface CustomService {
+    [property: string]: any;
+    docker?: Docker;
+    endpoints?: Endpoint[];
+    environmentVariables?: {
+        [propertyName: string]: EnvironmentVariable;
+    };
+    image?: Image_2;
+    name?: string;
+    volumes?: VolumeDefinition[];
 }
 
 // @public (undocumented)
@@ -1407,8 +1420,6 @@ export type DataContainersGetResponse = DataContainer;
 
 // @public
 export interface DataContainersListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ListViewType;
-    skip?: string;
 }
 
 // @public
@@ -1518,13 +1529,6 @@ export type DatastoresGetResponse = Datastore;
 
 // @public
 export interface DatastoresListNextOptionalParams extends coreClient.OperationOptions {
-    count?: number;
-    isDefault?: boolean;
-    names?: string[];
-    orderBy?: string;
-    orderByAsc?: boolean;
-    searchText?: string;
-    skip?: string;
 }
 
 // @public
@@ -1605,11 +1609,6 @@ export type DataVersionsGetResponse = DataVersionBase;
 
 // @public
 export interface DataVersionsListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ListViewType;
-    orderBy?: string;
-    skip?: string;
-    tags?: string;
-    top?: number;
 }
 
 // @public
@@ -1736,6 +1735,12 @@ export type DistributionConfigurationUnion = DistributionConfiguration | Mpi | P
 export type DistributionType = string;
 
 // @public
+export interface Docker {
+    [property: string]: any;
+    privileged?: boolean;
+}
+
+// @public
 export interface EarlyTerminationPolicy {
     delayEvaluation?: number;
     evaluationInterval?: number;
@@ -1767,6 +1772,15 @@ export interface EncryptionProperty {
 
 // @public
 export type EncryptionStatus = string;
+
+// @public
+export interface Endpoint {
+    hostIp?: string;
+    name?: string;
+    protocol?: Protocol;
+    published?: number;
+    target?: number;
+}
 
 // @public
 export interface EndpointAuthKeys {
@@ -1865,8 +1879,6 @@ export type EnvironmentContainersGetResponse = EnvironmentContainer;
 
 // @public
 export interface EnvironmentContainersListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ListViewType;
-    skip?: string;
 }
 
 // @public
@@ -1883,6 +1895,16 @@ export type EnvironmentContainersListResponse = EnvironmentContainerResourceArmP
 
 // @public
 export type EnvironmentType = string;
+
+// @public
+export interface EnvironmentVariable {
+    [property: string]: any;
+    type?: EnvironmentVariableType;
+    value?: string;
+}
+
+// @public
+export type EnvironmentVariableType = string;
 
 // @public
 export interface EnvironmentVersion extends Resource {
@@ -1934,10 +1956,6 @@ export type EnvironmentVersionsGetResponse = EnvironmentVersion;
 
 // @public
 export interface EnvironmentVersionsListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ListViewType;
-    orderBy?: string;
-    skip?: string;
-    top?: number;
 }
 
 // @public
@@ -2138,6 +2156,19 @@ export interface IdentityForCmk {
 }
 
 // @public
+export interface IdleShutdownSetting {
+    idleTimeBeforeShutdown?: string;
+}
+
+// @public
+interface Image_2 {
+    [property: string]: any;
+    reference?: string;
+    type?: ImageType;
+}
+export { Image_2 as Image }
+
+// @public
 export interface ImageClassification extends ImageClassificationBase, AutoMLVertical {
     primaryMetric?: ClassificationPrimaryMetrics;
 }
@@ -2163,6 +2194,13 @@ export interface ImageLimitSettings {
     maxConcurrentTrials?: number;
     maxTrials?: number;
     timeout?: string;
+}
+
+// @public
+export interface ImageMetadata {
+    currentImageVersion?: string;
+    isLatestOsImageVersion?: boolean;
+    latestImageVersion?: string;
 }
 
 // @public
@@ -2301,6 +2339,9 @@ export interface ImageSweepSettings {
 }
 
 // @public
+export type ImageType = string;
+
+// @public
 export interface ImageVertical {
     limitSettings: ImageLimitSettings;
     sweepSettings?: ImageSweepSettings;
@@ -2412,9 +2453,9 @@ export interface JobResourceConfiguration extends ResourceConfiguration {
 
 // @public
 export interface Jobs {
-    beginCancel(resourceGroupName: string, workspaceName: string, id: string, options?: JobsCancelOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginCancel(resourceGroupName: string, workspaceName: string, id: string, options?: JobsCancelOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginCancelAndWait(resourceGroupName: string, workspaceName: string, id: string, options?: JobsCancelOptionalParams): Promise<void>;
-    beginDelete(resourceGroupName: string, workspaceName: string, id: string, options?: JobsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, id: string, options?: JobsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, id: string, options?: JobsDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, workspaceName: string, id: string, body: JobBase, options?: JobsCreateOrUpdateOptionalParams): Promise<JobsCreateOrUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, id: string, options?: JobsGetOptionalParams): Promise<JobsGetResponse>;
@@ -2480,10 +2521,6 @@ export type JobsGetResponse = JobBase;
 
 // @public
 export interface JobsListNextOptionalParams extends coreClient.OperationOptions {
-    jobType?: string;
-    listViewType?: ListViewType;
-    skip?: string;
-    tag?: string;
 }
 
 // @public
@@ -2790,6 +2827,11 @@ export enum KnownEnvironmentType {
 }
 
 // @public
+export enum KnownEnvironmentVariableType {
+    Local = "local"
+}
+
+// @public
 export enum KnownFeatureLags {
     Auto = "Auto",
     None = "None"
@@ -2850,6 +2892,12 @@ export enum KnownIdentityConfigurationType {
     AMLToken = "AMLToken",
     Managed = "Managed",
     UserIdentity = "UserIdentity"
+}
+
+// @public
+export enum KnownImageType {
+    Azureml = "azureml",
+    Docker = "docker"
 }
 
 // @public
@@ -3086,6 +3134,13 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
     Pending = "Pending",
     Rejected = "Rejected",
     Timeout = "Timeout"
+}
+
+// @public
+export enum KnownProtocol {
+    Http = "http",
+    Tcp = "tcp",
+    Udp = "udp"
 }
 
 // @public
@@ -3414,6 +3469,14 @@ export enum KnownVMTier {
 }
 
 // @public
+export enum KnownVolumeDefinitionType {
+    Bind = "bind",
+    Npipe = "npipe",
+    Tmpfs = "tmpfs",
+    Volume = "volume"
+}
+
+// @public
 export enum KnownWeekDay {
     Friday = "Friday",
     Monday = "Monday",
@@ -3613,9 +3676,6 @@ export type ModelContainersGetResponse = ModelContainer;
 
 // @public
 export interface ModelContainersListNextOptionalParams extends coreClient.OperationOptions {
-    count?: number;
-    listViewType?: ListViewType;
-    skip?: string;
 }
 
 // @public
@@ -3683,16 +3743,6 @@ export type ModelVersionsGetResponse = ModelVersion;
 
 // @public
 export interface ModelVersionsListNextOptionalParams extends coreClient.OperationOptions {
-    description?: string;
-    feed?: string;
-    listViewType?: ListViewType;
-    offset?: number;
-    orderBy?: string;
-    properties?: string;
-    skip?: string;
-    tags?: string;
-    top?: number;
-    version?: string;
 }
 
 // @public
@@ -3847,11 +3897,11 @@ export type OnlineDeploymentPropertiesUnion = OnlineDeploymentProperties | Kuber
 
 // @public
 export interface OnlineDeployments {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: OnlineDeployment, options?: OnlineDeploymentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<OnlineDeploymentsCreateOrUpdateResponse>, OnlineDeploymentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: OnlineDeployment, options?: OnlineDeploymentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OnlineDeploymentsCreateOrUpdateResponse>, OnlineDeploymentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: OnlineDeployment, options?: OnlineDeploymentsCreateOrUpdateOptionalParams): Promise<OnlineDeploymentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, options?: OnlineDeploymentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, options?: OnlineDeploymentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, options?: OnlineDeploymentsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: PartialMinimalTrackedResourceWithSku, options?: OnlineDeploymentsUpdateOptionalParams): Promise<PollerLike<PollOperationState<OnlineDeploymentsUpdateResponse>, OnlineDeploymentsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: PartialMinimalTrackedResourceWithSku, options?: OnlineDeploymentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OnlineDeploymentsUpdateResponse>, OnlineDeploymentsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: PartialMinimalTrackedResourceWithSku, options?: OnlineDeploymentsUpdateOptionalParams): Promise<OnlineDeploymentsUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, options?: OnlineDeploymentsGetOptionalParams): Promise<OnlineDeploymentsGetResponse>;
     getLogs(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: DeploymentLogsRequest, options?: OnlineDeploymentsGetLogsOptionalParams): Promise<OnlineDeploymentsGetLogsResponse>;
@@ -3903,9 +3953,6 @@ export type OnlineDeploymentsGetResponse = OnlineDeployment;
 
 // @public
 export interface OnlineDeploymentsListNextOptionalParams extends coreClient.OperationOptions {
-    orderBy?: string;
-    skip?: string;
-    top?: number;
 }
 
 // @public
@@ -3923,8 +3970,6 @@ export type OnlineDeploymentsListResponse = OnlineDeploymentTrackedResourceArmPa
 
 // @public
 export interface OnlineDeploymentsListSkusNextOptionalParams extends coreClient.OperationOptions {
-    count?: number;
-    skip?: string;
 }
 
 // @public
@@ -3981,13 +4026,13 @@ export interface OnlineEndpointProperties extends EndpointPropertiesBase {
 
 // @public
 export interface OnlineEndpoints {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, body: OnlineEndpoint, options?: OnlineEndpointsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<OnlineEndpointsCreateOrUpdateResponse>, OnlineEndpointsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, body: OnlineEndpoint, options?: OnlineEndpointsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OnlineEndpointsCreateOrUpdateResponse>, OnlineEndpointsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, body: OnlineEndpoint, options?: OnlineEndpointsCreateOrUpdateOptionalParams): Promise<OnlineEndpointsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, endpointName: string, options?: OnlineEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, endpointName: string, options?: OnlineEndpointsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, options?: OnlineEndpointsDeleteOptionalParams): Promise<void>;
-    beginRegenerateKeys(resourceGroupName: string, workspaceName: string, endpointName: string, body: RegenerateEndpointKeysRequest, options?: OnlineEndpointsRegenerateKeysOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRegenerateKeys(resourceGroupName: string, workspaceName: string, endpointName: string, body: RegenerateEndpointKeysRequest, options?: OnlineEndpointsRegenerateKeysOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRegenerateKeysAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, body: RegenerateEndpointKeysRequest, options?: OnlineEndpointsRegenerateKeysOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, body: PartialMinimalTrackedResourceWithIdentity, options?: OnlineEndpointsUpdateOptionalParams): Promise<PollerLike<PollOperationState<OnlineEndpointsUpdateResponse>, OnlineEndpointsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, body: PartialMinimalTrackedResourceWithIdentity, options?: OnlineEndpointsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OnlineEndpointsUpdateResponse>, OnlineEndpointsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, body: PartialMinimalTrackedResourceWithIdentity, options?: OnlineEndpointsUpdateOptionalParams): Promise<OnlineEndpointsUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, endpointName: string, options?: OnlineEndpointsGetOptionalParams): Promise<OnlineEndpointsGetResponse>;
     getToken(resourceGroupName: string, workspaceName: string, endpointName: string, options?: OnlineEndpointsGetTokenOptionalParams): Promise<OnlineEndpointsGetTokenResponse>;
@@ -4046,13 +4091,6 @@ export type OnlineEndpointsListKeysResponse = EndpointAuthKeys;
 
 // @public
 export interface OnlineEndpointsListNextOptionalParams extends coreClient.OperationOptions {
-    computeType?: EndpointComputeType;
-    count?: number;
-    name?: string;
-    orderBy?: OrderString;
-    properties?: string;
-    skip?: string;
-    tags?: string;
 }
 
 // @public
@@ -4358,6 +4396,9 @@ export interface ProbeSettings {
 }
 
 // @public
+export type Protocol = string;
+
+// @public
 export type ProvisioningState = string;
 
 // @public
@@ -4428,6 +4469,15 @@ export interface RandomSamplingAlgorithm extends SamplingAlgorithm {
 
 // @public
 export type RandomSamplingAlgorithmRule = string;
+
+// @public
+export interface Recurrence {
+    frequency?: RecurrenceFrequency;
+    interval?: number;
+    schedule?: RecurrenceSchedule;
+    startTime?: string;
+    timeZone?: string;
+}
 
 // @public
 export type RecurrenceFrequency = string;
@@ -4635,9 +4685,9 @@ export interface ScheduleResourceArmPaginatedResult {
 
 // @public
 export interface Schedules {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, name: string, body: Schedule, options?: SchedulesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SchedulesCreateOrUpdateResponse>, SchedulesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, name: string, body: Schedule, options?: SchedulesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SchedulesCreateOrUpdateResponse>, SchedulesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, name: string, body: Schedule, options?: SchedulesCreateOrUpdateOptionalParams): Promise<SchedulesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, name: string, options?: SchedulesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, name: string, options?: SchedulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, name: string, options?: SchedulesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, name: string, options?: SchedulesGetOptionalParams): Promise<SchedulesGetResponse>;
     list(resourceGroupName: string, workspaceName: string, options?: SchedulesListOptionalParams): PagedAsyncIterableIterator<Schedule>;
@@ -4680,8 +4730,6 @@ export type SchedulesGetResponse = Schedule;
 
 // @public
 export interface SchedulesListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ScheduleListViewType;
-    skip?: string;
 }
 
 // @public
@@ -5008,6 +5056,11 @@ export interface TextNer extends NlpVertical, AutoMLVertical {
 }
 
 // @public
+export interface TmpfsOptions {
+    size?: number;
+}
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
     tags?: {
@@ -5043,11 +5096,11 @@ export interface TriggerBase {
     endTime?: string;
     startTime?: string;
     timeZone?: string;
-    triggerType: "Recurrence" | "Cron";
+    triggerType: "Cron" | "Recurrence";
 }
 
 // @public (undocumented)
-export type TriggerBaseUnion = TriggerBase | RecurrenceTrigger | CronTrigger;
+export type TriggerBaseUnion = TriggerBase | CronTrigger | RecurrenceTrigger;
 
 // @public
 export type TriggerType = string;
@@ -5272,6 +5325,26 @@ export type VmPriority = string;
 export type VMTier = string;
 
 // @public
+export interface VolumeDefinition {
+    bind?: BindOptions;
+    consistency?: string;
+    readOnly?: boolean;
+    source?: string;
+    target?: string;
+    tmpfs?: TmpfsOptions;
+    type?: VolumeDefinitionType;
+    volume?: VolumeOptions;
+}
+
+// @public
+export type VolumeDefinitionType = string;
+
+// @public
+export interface VolumeOptions {
+    nocopy?: boolean;
+}
+
+// @public
 export type WeekDay = string;
 
 // @public
@@ -5387,8 +5460,6 @@ export interface WorkspaceConnectionSharedAccessSignature {
 
 // @public
 export interface WorkspaceConnectionsListNextOptionalParams extends coreClient.OperationOptions {
-    category?: string;
-    target?: string;
 }
 
 // @public
@@ -5438,17 +5509,17 @@ export interface WorkspaceListResult {
 
 // @public
 export interface Workspaces {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, parameters: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspacesCreateOrUpdateResponse>, WorkspacesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, parameters: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesCreateOrUpdateResponse>, WorkspacesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, parameters: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<WorkspacesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<void>;
-    beginDiagnose(resourceGroupName: string, workspaceName: string, options?: WorkspacesDiagnoseOptionalParams): Promise<PollerLike<PollOperationState<WorkspacesDiagnoseResponse>, WorkspacesDiagnoseResponse>>;
+    beginDiagnose(resourceGroupName: string, workspaceName: string, options?: WorkspacesDiagnoseOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesDiagnoseResponse>, WorkspacesDiagnoseResponse>>;
     beginDiagnoseAndWait(resourceGroupName: string, workspaceName: string, options?: WorkspacesDiagnoseOptionalParams): Promise<WorkspacesDiagnoseResponse>;
-    beginPrepareNotebook(resourceGroupName: string, workspaceName: string, options?: WorkspacesPrepareNotebookOptionalParams): Promise<PollerLike<PollOperationState<WorkspacesPrepareNotebookResponse>, WorkspacesPrepareNotebookResponse>>;
+    beginPrepareNotebook(resourceGroupName: string, workspaceName: string, options?: WorkspacesPrepareNotebookOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesPrepareNotebookResponse>, WorkspacesPrepareNotebookResponse>>;
     beginPrepareNotebookAndWait(resourceGroupName: string, workspaceName: string, options?: WorkspacesPrepareNotebookOptionalParams): Promise<WorkspacesPrepareNotebookResponse>;
-    beginResyncKeys(resourceGroupName: string, workspaceName: string, options?: WorkspacesResyncKeysOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginResyncKeys(resourceGroupName: string, workspaceName: string, options?: WorkspacesResyncKeysOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginResyncKeysAndWait(resourceGroupName: string, workspaceName: string, options?: WorkspacesResyncKeysOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, parameters: WorkspaceUpdateParameters, options?: WorkspacesUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspacesUpdateResponse>, WorkspacesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, parameters: WorkspaceUpdateParameters, options?: WorkspacesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesUpdateResponse>, WorkspacesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, workspaceName: string, parameters: WorkspaceUpdateParameters, options?: WorkspacesUpdateOptionalParams): Promise<WorkspacesUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, options?: WorkspacesGetOptionalParams): Promise<WorkspacesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: WorkspacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Workspace>;
@@ -5500,7 +5571,6 @@ export type WorkspacesGetResponse = Workspace;
 
 // @public
 export interface WorkspacesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    skip?: string;
 }
 
 // @public
@@ -5516,7 +5586,6 @@ export type WorkspacesListByResourceGroupResponse = WorkspaceListResult;
 
 // @public
 export interface WorkspacesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    skip?: string;
 }
 
 // @public
