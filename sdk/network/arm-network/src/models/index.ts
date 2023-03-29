@@ -6416,7 +6416,7 @@ export interface Subnet extends SubResource {
   /** Enable or Disable apply network policies on private link service in the subnet. */
   privateLinkServiceNetworkPolicies?: VirtualNetworkPrivateLinkServiceNetworkPolicies;
   /** Application gateway IP configurations of virtual network resource. */
-  applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
+  applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
 }
 
 /** Frontend IP address of the load balancer. */
@@ -12035,7 +12035,11 @@ export enum KnownVirtualNetworkPrivateEndpointNetworkPolicies {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
+  /** NetworkSecurityGroupEnabled */
+  NetworkSecurityGroupEnabled = "NetworkSecurityGroupEnabled",
+  /** RouteTableEnabled */
+  RouteTableEnabled = "RouteTableEnabled"
 }
 
 /**
@@ -12044,7 +12048,9 @@ export enum KnownVirtualNetworkPrivateEndpointNetworkPolicies {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Enabled** \
- * **Disabled**
+ * **Disabled** \
+ * **NetworkSecurityGroupEnabled** \
+ * **RouteTableEnabled**
  */
 export type VirtualNetworkPrivateEndpointNetworkPolicies = string;
 

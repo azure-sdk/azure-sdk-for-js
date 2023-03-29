@@ -7207,7 +7207,9 @@ export enum KnownVirtualNetworkPeeringState {
 // @public
 export enum KnownVirtualNetworkPrivateEndpointNetworkPolicies {
     Disabled = "Disabled",
-    Enabled = "Enabled"
+    Enabled = "Enabled",
+    NetworkSecurityGroupEnabled = "NetworkSecurityGroupEnabled",
+    RouteTableEnabled = "RouteTableEnabled"
 }
 
 // @public
@@ -12439,7 +12441,7 @@ export interface StaticRoutesConfig {
 export interface Subnet extends SubResource {
     addressPrefix?: string;
     addressPrefixes?: string[];
-    applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
+    applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
     delegations?: Delegation[];
     readonly etag?: string;
     ipAllocations?: SubResource[];
