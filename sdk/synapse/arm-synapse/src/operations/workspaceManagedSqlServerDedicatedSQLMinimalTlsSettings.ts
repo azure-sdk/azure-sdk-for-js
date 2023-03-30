@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DedicatedSQLminimalTlsSettings,
   WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListNextOptionalParams,
@@ -133,8 +137,8 @@ export class WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl
     parameters: DedicatedSQLminimalTlsSettings,
     options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse
       >,
       WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse
@@ -146,7 +150,7 @@ export class WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl
     ): Promise<WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -179,19 +183,24 @@ export class WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         dedicatedSQLminimalTlsSettingsName,
         parameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse,
+      OperationState<
+        WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
