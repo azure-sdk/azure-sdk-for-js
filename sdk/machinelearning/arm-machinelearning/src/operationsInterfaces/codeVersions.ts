@@ -14,7 +14,10 @@ import {
   CodeVersionsGetOptionalParams,
   CodeVersionsGetResponse,
   CodeVersionsCreateOrUpdateOptionalParams,
-  CodeVersionsCreateOrUpdateResponse
+  CodeVersionsCreateOrUpdateResponse,
+  PendingUploadRequestDto,
+  CodeVersionsCreateOrGetStartPendingUploadOptionalParams,
+  CodeVersionsCreateOrGetStartPendingUploadResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -80,4 +83,21 @@ export interface CodeVersions {
     body: CodeVersion,
     options?: CodeVersionsCreateOrUpdateOptionalParams
   ): Promise<CodeVersionsCreateOrUpdateResponse>;
+  /**
+   * Generate a storage location and credential for the client to upload a code asset to.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name. This is case-sensitive.
+   * @param version Version identifier. This is case-sensitive.
+   * @param body Pending upload request object
+   * @param options The options parameters.
+   */
+  createOrGetStartPendingUpload(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: PendingUploadRequestDto,
+    options?: CodeVersionsCreateOrGetStartPendingUploadOptionalParams
+  ): Promise<CodeVersionsCreateOrGetStartPendingUploadResponse>;
 }
