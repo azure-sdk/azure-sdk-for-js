@@ -181,6 +181,7 @@ specifiers:
   '@rush-temp/arm-security': file:./projects/arm-security.tgz
   '@rush-temp/arm-securitydevops': file:./projects/arm-securitydevops.tgz
   '@rush-temp/arm-securityinsight': file:./projects/arm-securityinsight.tgz
+  '@rush-temp/arm-selfhelp': file:./projects/arm-selfhelp.tgz
   '@rush-temp/arm-serialconsole': file:./projects/arm-serialconsole.tgz
   '@rush-temp/arm-servicebus': file:./projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:./projects/arm-servicefabric.tgz
@@ -517,6 +518,7 @@ dependencies:
   '@rush-temp/arm-security': file:projects/arm-security.tgz
   '@rush-temp/arm-securitydevops': file:projects/arm-securitydevops.tgz
   '@rush-temp/arm-securityinsight': file:projects/arm-securityinsight.tgz
+  '@rush-temp/arm-selfhelp': file:projects/arm-selfhelp.tgz
   '@rush-temp/arm-serialconsole': file:projects/arm-serialconsole.tgz
   '@rush-temp/arm-servicebus': file:projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:projects/arm-servicefabric.tgz
@@ -734,6 +736,7 @@ packages:
   /@azure/ai-form-recognizer/3.1.0-beta.3:
     resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
     engines: {node: '>=8.0.0'}
+    deprecated: Please migrate to a supported (non-beta) version of this package
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 1.2.6
@@ -3935,7 +3938,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230402
+      typescript: 5.1.0-dev.20230403
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8783,8 +8786,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230402:
-    resolution: {integrity: sha512-YivJhKi6iTmS5qfkSuv/p1NYZtlQLexIHIF25kXxYkpjcs6jEtbLEctviQYTrzGVMq+R0QCTRW5EQtp+NLwtnA==}
+  /typescript/5.1.0-dev.20230403:
+    resolution: {integrity: sha512-13wAf5PQCHJI5dJ945XBEp+63KzXWkazC4glwfzp1ODLQYVWUnHA6trbCpsMIQfvmiaNmzqRmpSrIqaWppST4g==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -14544,6 +14547,34 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_qg36w4uagpty5et2swcu4ykn64
+      tslib: 2.5.0
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-selfhelp.tgz:
+    resolution: {integrity: sha512-WryVDsrQfP69Zi4rvuk2+hv8QZ2Bnpf0IY5Wv4dez/66SA4cSmEuI5RmPmw+NKxhJ/vd6VPhHJZsLHyqmLwibw==, tarball: file:projects/arm-selfhelp.tgz}
+    name: '@rush-temp/arm-selfhelp'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.41
+      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.41
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
