@@ -389,6 +389,36 @@ export interface PrivateLinkResource extends Resource {
   requiredZoneNames?: string[];
 }
 
+/** Defines headers for Grafana_create operation. */
+export interface GrafanaCreateHeaders {
+  /** Operation URI for long running operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Grafana_update operation. */
+export interface GrafanaUpdateHeaders {
+  /** Operation URI for long running operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Grafana_delete operation. */
+export interface GrafanaDeleteHeaders {
+  /** Operation URI for long running operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for PrivateEndpointConnections_approve operation. */
+export interface PrivateEndpointConnectionsApproveHeaders {
+  /** Operation URI for long running operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for PrivateEndpointConnections_delete operation. */
+export interface PrivateEndpointConnectionsDeleteHeaders {
+  /** Operation URI for long running operation. */
+  azureAsyncOperation?: string;
+}
+
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
   /** User */
@@ -739,7 +769,8 @@ export interface PrivateEndpointConnectionsApproveOptionalParams
 }
 
 /** Contains response data for the approve operation. */
-export type PrivateEndpointConnectionsApproveResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsApproveResponse = PrivateEndpointConnectionsApproveHeaders &
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -749,6 +780,9 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the delete operation. */
+export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnectionsDeleteHeaders;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListOptionalParams

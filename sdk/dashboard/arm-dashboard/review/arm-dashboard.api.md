@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
@@ -81,14 +81,19 @@ export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface Grafana {
-    beginCreate(resourceGroupName: string, workspaceName: string, requestBodyParameters: ManagedGrafana, options?: GrafanaCreateOptionalParams): Promise<PollerLike<PollOperationState<GrafanaCreateResponse>, GrafanaCreateResponse>>;
+    beginCreate(resourceGroupName: string, workspaceName: string, requestBodyParameters: ManagedGrafana, options?: GrafanaCreateOptionalParams): Promise<SimplePollerLike<OperationState<GrafanaCreateResponse>, GrafanaCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, workspaceName: string, requestBodyParameters: ManagedGrafana, options?: GrafanaCreateOptionalParams): Promise<GrafanaCreateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, options?: GrafanaDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, options?: GrafanaDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, options?: GrafanaDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, options?: GrafanaGetOptionalParams): Promise<GrafanaGetResponse>;
     list(options?: GrafanaListOptionalParams): PagedAsyncIterableIterator<ManagedGrafana>;
     listByResourceGroup(resourceGroupName: string, options?: GrafanaListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ManagedGrafana>;
     update(resourceGroupName: string, workspaceName: string, requestBodyParameters: ManagedGrafanaUpdateParameters, options?: GrafanaUpdateOptionalParams): Promise<GrafanaUpdateResponse>;
+}
+
+// @public
+export interface GrafanaCreateHeaders {
+    azureAsyncOperation?: string;
 }
 
 // @public
@@ -99,6 +104,11 @@ export interface GrafanaCreateOptionalParams extends coreClient.OperationOptions
 
 // @public
 export type GrafanaCreateResponse = ManagedGrafana;
+
+// @public
+export interface GrafanaDeleteHeaders {
+    azureAsyncOperation?: string;
+}
 
 // @public
 export interface GrafanaDeleteOptionalParams extends coreClient.OperationOptions {
@@ -146,6 +156,11 @@ export interface GrafanaListOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export type GrafanaListResponse = ManagedGrafanaListResponse;
+
+// @public
+export interface GrafanaUpdateHeaders {
+    azureAsyncOperation?: string;
+}
 
 // @public
 export interface GrafanaUpdateOptionalParams extends coreClient.OperationOptions {
@@ -377,12 +392,17 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
 export interface PrivateEndpointConnections {
-    beginApprove(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsApproveOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsApproveResponse>, PrivateEndpointConnectionsApproveResponse>>;
+    beginApprove(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsApproveOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsApproveResponse>, PrivateEndpointConnectionsApproveResponse>>;
     beginApproveAndWait(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsApproveOptionalParams): Promise<PrivateEndpointConnectionsApproveResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsDeleteResponse>, PrivateEndpointConnectionsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PrivateEndpointConnectionsDeleteResponse>;
     get(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
     list(resourceGroupName: string, workspaceName: string, options?: PrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+}
+
+// @public
+export interface PrivateEndpointConnectionsApproveHeaders {
+    azureAsyncOperation?: string;
 }
 
 // @public
@@ -393,13 +413,21 @@ export interface PrivateEndpointConnectionsApproveOptionalParams extends coreCli
 }
 
 // @public
-export type PrivateEndpointConnectionsApproveResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsApproveResponse = PrivateEndpointConnectionsApproveHeaders & PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsDeleteHeaders {
+    azureAsyncOperation?: string;
+}
 
 // @public
 export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnectionsDeleteHeaders;
 
 // @public
 export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {

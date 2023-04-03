@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DashboardManagementClient } from "../dashboardManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ManagedGrafana,
   GrafanaListNextOptionalParams,
@@ -227,7 +231,10 @@ export class GrafanaImpl implements Grafana {
     requestBodyParameters: ManagedGrafana,
     options?: GrafanaCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<GrafanaCreateResponse>, GrafanaCreateResponse>
+    SimplePollerLike<
+      OperationState<GrafanaCreateResponse>,
+      GrafanaCreateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -235,7 +242,7 @@ export class GrafanaImpl implements Grafana {
     ): Promise<GrafanaCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -268,15 +275,23 @@ export class GrafanaImpl implements Grafana {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, requestBodyParameters, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        requestBodyParameters,
+        options
+      },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      GrafanaCreateResponse,
+      OperationState<GrafanaCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -334,14 +349,14 @@ export class GrafanaImpl implements Grafana {
     resourceGroupName: string,
     workspaceName: string,
     options?: GrafanaDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -374,15 +389,15 @@ export class GrafanaImpl implements Grafana {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -543,7 +558,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedGrafana
     },
     202: {
-      bodyMapper: Mappers.ManagedGrafana
+      bodyMapper: Mappers.ManagedGrafana,
+      headersMapper: Mappers.GrafanaUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

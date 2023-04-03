@@ -60,7 +60,7 @@ export class DashboardManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-dashboard/1.0.2`;
+    const packageDetails = `azsdk-js-arm-dashboard/1.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
