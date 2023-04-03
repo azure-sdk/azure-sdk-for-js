@@ -1,15 +1,30 @@
 # Release History
+    
+## 10.0.0 (2023-04-03)
+    
+**Features**
 
-## 9.1.1 (Unreleased)
+  - Added operation CloudEndpoints.afsShareMetadataCertificatePublicKeys
+  - Added Interface CloudEndpointAfsShareMetadataCertificatePublicKeys
+  - Added Interface CloudEndpointsAfsShareMetadataCertificatePublicKeysHeaders
+  - Added Interface CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams
+  - Added Interface CloudTieringLowDiskMode
+  - Added Interface SystemData
+  - Added Type Alias CloudEndpointsAfsShareMetadataCertificatePublicKeysResponse
+  - Added Type Alias CloudTieringLowDiskModeState
+  - Added Type Alias CreatedByType
+  - Interface OperationResourceMetricSpecification has a new optional parameter supportedAggregationTypes
+  - Interface Resource has a new optional parameter systemData
+  - Interface ServerEndpointCloudTieringStatus has a new optional parameter lowDiskMode
+  - Interface StorageSyncApiError has a new optional parameter innererror
+  - Added Enum KnownCloudTieringLowDiskModeState
+  - Added Enum KnownCreatedByType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface StorageSyncApiError no longer has parameter innerError
+    
+    
 ## 9.1.0 (2022-12-12)
     
 **Features**

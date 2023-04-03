@@ -64,6 +64,8 @@ export interface OperationResourceMetricSpecification {
   unit?: string;
   /** Aggregation type for the metric. */
   aggregationType?: string;
+  /** Supported aggregation types for the metric. */
+  supportedAggregationTypes?: string[];
   /** Fill gaps in the metric with zero. */
   fillGapWithZero?: boolean;
   /** Dimensions for the metric specification. */
@@ -99,7 +101,7 @@ export interface StorageSyncApiError {
   /** Error details of the given entry. */
   details?: StorageSyncErrorDetails;
   /** Inner error details of the given entry. */
-  innerError?: StorageSyncInnerErrorDetails;
+  innererror?: StorageSyncInnerErrorDetails;
 }
 
 /** Error Details object. */
@@ -207,6 +209,27 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** Parameters for updating an Storage sync service. */
@@ -442,6 +465,20 @@ export interface TriggerChangeDetectionParameters {
   changeDetectionMode?: ChangeDetectionMode;
   /** Array of relative paths on the Azure File share to be included in the change detection. Can be files and directories. */
   paths?: string[];
+}
+
+/** Cloud endpoint AFS file share metadata signing certificate public keys. */
+export interface CloudEndpointAfsShareMetadataCertificatePublicKeys {
+  /**
+   * The first public key.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly firstKey?: string;
+  /**
+   * The second public key.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secondKey?: string;
 }
 
 /** Server Endpoint sync status */
@@ -691,6 +728,11 @@ export interface ServerEndpointCloudTieringStatus {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly datePolicyStatus?: CloudTieringDatePolicyStatus;
+  /**
+   * Information regarding the low disk mode state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lowDiskMode?: CloudTieringLowDiskMode;
 }
 
 /** Server endpoint cloud tiering status object. */
@@ -815,6 +857,20 @@ export interface CloudTieringDatePolicyStatus {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tieredFilesMostRecentAccessTimestamp?: Date;
+}
+
+/** Information regarding the low disk mode state */
+export interface CloudTieringLowDiskMode {
+  /**
+   * Last updated timestamp
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedTimestamp?: Date;
+  /**
+   * Low disk mode state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: CloudTieringLowDiskModeState;
 }
 
 /** Server endpoint recall status object. */
@@ -1572,6 +1628,14 @@ export interface CloudEndpointsTriggerChangeDetectionHeaders {
   xMsCorrelationRequestId?: string;
 }
 
+/** Defines headers for CloudEndpoints_afsShareMetadataCertificatePublicKeys operation. */
+export interface CloudEndpointsAfsShareMetadataCertificatePublicKeysHeaders {
+  /** request id. */
+  xMsRequestId?: string;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+}
+
 /** Defines headers for ServerEndpoints_create operation. */
 export interface ServerEndpointsCreateHeaders {
   /** request id. */
@@ -1764,6 +1828,30 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  * **Failed**
  */
 export type PrivateEndpointConnectionProvisioningState = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link CloudEndpointChangeEnumerationActivityState} that the service accepts. */
 export enum KnownCloudEndpointChangeEnumerationActivityState {
@@ -1986,6 +2074,24 @@ export enum KnownServerEndpointOfflineDataTransferState {
  * **Complete**
  */
 export type ServerEndpointOfflineDataTransferState = string;
+
+/** Known values of {@link CloudTieringLowDiskModeState} that the service accepts. */
+export enum KnownCloudTieringLowDiskModeState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for CloudTieringLowDiskModeState. \
+ * {@link KnownCloudTieringLowDiskModeState} can be used interchangeably with CloudTieringLowDiskModeState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type CloudTieringLowDiskModeState = string;
 
 /** Known values of {@link RegisteredServerAgentVersionStatus} that the service accepts. */
 export enum KnownRegisteredServerAgentVersionStatus {
@@ -2372,6 +2478,14 @@ export interface CloudEndpointsTriggerChangeDetectionOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the afsShareMetadataCertificatePublicKeys operation. */
+export type CloudEndpointsAfsShareMetadataCertificatePublicKeysResponse = CloudEndpointsAfsShareMetadataCertificatePublicKeysHeaders &
+  CloudEndpointAfsShareMetadataCertificatePublicKeys;
 
 /** Optional parameters. */
 export interface ServerEndpointsCreateOptionalParams

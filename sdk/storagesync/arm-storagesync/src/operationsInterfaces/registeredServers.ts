@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RegisteredServer,
   RegisteredServersListByStorageSyncServiceOptionalParams,
@@ -65,8 +65,8 @@ export interface RegisteredServers {
     parameters: RegisteredServerCreateParameters,
     options?: RegisteredServersCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RegisteredServersCreateResponse>,
+    SimplePollerLike<
+      OperationState<RegisteredServersCreateResponse>,
       RegisteredServersCreateResponse
     >
   >;
@@ -98,8 +98,8 @@ export interface RegisteredServers {
     serverId: string,
     options?: RegisteredServersDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RegisteredServersDeleteResponse>,
+    SimplePollerLike<
+      OperationState<RegisteredServersDeleteResponse>,
       RegisteredServersDeleteResponse
     >
   >;
@@ -131,8 +131,8 @@ export interface RegisteredServers {
     parameters: TriggerRolloverRequest,
     options?: RegisteredServersTriggerRolloverOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RegisteredServersTriggerRolloverResponse>,
+    SimplePollerLike<
+      OperationState<RegisteredServersTriggerRolloverResponse>,
       RegisteredServersTriggerRolloverResponse
     >
   >;
