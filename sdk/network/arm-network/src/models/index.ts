@@ -6416,7 +6416,7 @@ export interface Subnet extends SubResource {
   /** Enable or Disable apply network policies on private link service in the subnet. */
   privateLinkServiceNetworkPolicies?: VirtualNetworkPrivateLinkServiceNetworkPolicies;
   /** Application gateway IP configurations of virtual network resource. */
-  applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
+  applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
 }
 
 /** Frontend IP address of the load balancer. */
@@ -10158,7 +10158,7 @@ export interface VirtualNetwork extends Resource {
   readonly provisioningState?: ProvisioningState;
   /** Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It requires a DDoS protection plan associated with the resource. */
   enableDdosProtection?: boolean;
-  /** Indicates if VM protection is enabled for all the subnets in the virtual network. */
+  /** Indicates if VM protection is enabled for all the subnets in the virtual network. The enableVmProtection property is deprecated. You can leverage the enableDdoSProtection property. */
   enableVmProtection?: boolean;
   /** The DDoS protection plan associated with the virtual network. */
   ddosProtectionPlan?: SubResource;
