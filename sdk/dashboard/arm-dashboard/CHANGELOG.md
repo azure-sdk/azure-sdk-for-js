@@ -1,15 +1,17 @@
 # Release History
+    
+## 1.1.0 (2023-04-03)
+    
+**Features**
 
-## 1.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface GrafanaCreateHeaders
+  - Added Interface GrafanaDeleteHeaders
+  - Added Interface GrafanaUpdateHeaders
+  - Added Interface PrivateEndpointConnectionsApproveHeaders
+  - Added Interface PrivateEndpointConnectionsDeleteHeaders
+  - Added Type Alias PrivateEndpointConnectionsDeleteResponse
+  - Add parameters of PrivateEndpointConnectionsApproveHeaders to TypeAlias PrivateEndpointConnectionsApproveResponse
+    
 ## 1.0.1 (2023-01-03)
 
 **Features**
