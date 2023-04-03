@@ -24,6 +24,16 @@ import {
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   WorkspaceConnectionsImpl,
+  RegistryCodeContainersImpl,
+  RegistryCodeVersionsImpl,
+  RegistryComponentContainersImpl,
+  RegistryComponentVersionsImpl,
+  RegistryDataContainersImpl,
+  RegistryDataVersionsImpl,
+  RegistryEnvironmentContainersImpl,
+  RegistryEnvironmentVersionsImpl,
+  RegistryModelContainersImpl,
+  RegistryModelVersionsImpl,
   BatchEndpointsImpl,
   BatchDeploymentsImpl,
   CodeContainersImpl,
@@ -41,6 +51,7 @@ import {
   OnlineEndpointsImpl,
   OnlineDeploymentsImpl,
   SchedulesImpl,
+  RegistriesImpl,
   WorkspaceFeaturesImpl
 } from "./operations";
 import {
@@ -53,6 +64,16 @@ import {
   PrivateEndpointConnections,
   PrivateLinkResources,
   WorkspaceConnections,
+  RegistryCodeContainers,
+  RegistryCodeVersions,
+  RegistryComponentContainers,
+  RegistryComponentVersions,
+  RegistryDataContainers,
+  RegistryDataVersions,
+  RegistryEnvironmentContainers,
+  RegistryEnvironmentVersions,
+  RegistryModelContainers,
+  RegistryModelVersions,
   BatchEndpoints,
   BatchDeployments,
   CodeContainers,
@@ -70,17 +91,18 @@ import {
   OnlineEndpoints,
   OnlineDeployments,
   Schedules,
+  Registries,
   WorkspaceFeatures
 } from "./operationsInterfaces";
-import { AzureMachineLearningWorkspacesOptionalParams } from "./models";
+import { AzureMachineLearningServicesOptionalParams } from "./models";
 
-export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
+export class AzureMachineLearningServices extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
 
   /**
-   * Initializes a new instance of the AzureMachineLearningWorkspaces class.
+   * Initializes a new instance of the AzureMachineLearningServices class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
@@ -88,7 +110,7 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AzureMachineLearningWorkspacesOptionalParams
+    options?: AzureMachineLearningServicesOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -101,12 +123,12 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: AzureMachineLearningWorkspacesOptionalParams = {
+    const defaults: AzureMachineLearningServicesOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-machinelearning/2.1.2`;
+    const packageDetails = `azsdk-js-arm-machinelearning/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -159,7 +181,7 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-10-01";
+    this.apiVersion = options.apiVersion || "2023-04-01";
     this.operations = new OperationsImpl(this);
     this.workspaces = new WorkspacesImpl(this);
     this.usages = new UsagesImpl(this);
@@ -169,6 +191,22 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.workspaceConnections = new WorkspaceConnectionsImpl(this);
+    this.registryCodeContainers = new RegistryCodeContainersImpl(this);
+    this.registryCodeVersions = new RegistryCodeVersionsImpl(this);
+    this.registryComponentContainers = new RegistryComponentContainersImpl(
+      this
+    );
+    this.registryComponentVersions = new RegistryComponentVersionsImpl(this);
+    this.registryDataContainers = new RegistryDataContainersImpl(this);
+    this.registryDataVersions = new RegistryDataVersionsImpl(this);
+    this.registryEnvironmentContainers = new RegistryEnvironmentContainersImpl(
+      this
+    );
+    this.registryEnvironmentVersions = new RegistryEnvironmentVersionsImpl(
+      this
+    );
+    this.registryModelContainers = new RegistryModelContainersImpl(this);
+    this.registryModelVersions = new RegistryModelVersionsImpl(this);
     this.batchEndpoints = new BatchEndpointsImpl(this);
     this.batchDeployments = new BatchDeploymentsImpl(this);
     this.codeContainers = new CodeContainersImpl(this);
@@ -186,6 +224,7 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
     this.onlineEndpoints = new OnlineEndpointsImpl(this);
     this.onlineDeployments = new OnlineDeploymentsImpl(this);
     this.schedules = new SchedulesImpl(this);
+    this.registries = new RegistriesImpl(this);
     this.workspaceFeatures = new WorkspaceFeaturesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -227,6 +266,16 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   workspaceConnections: WorkspaceConnections;
+  registryCodeContainers: RegistryCodeContainers;
+  registryCodeVersions: RegistryCodeVersions;
+  registryComponentContainers: RegistryComponentContainers;
+  registryComponentVersions: RegistryComponentVersions;
+  registryDataContainers: RegistryDataContainers;
+  registryDataVersions: RegistryDataVersions;
+  registryEnvironmentContainers: RegistryEnvironmentContainers;
+  registryEnvironmentVersions: RegistryEnvironmentVersions;
+  registryModelContainers: RegistryModelContainers;
+  registryModelVersions: RegistryModelVersions;
   batchEndpoints: BatchEndpoints;
   batchDeployments: BatchDeployments;
   codeContainers: CodeContainers;
@@ -244,5 +293,6 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
   onlineEndpoints: OnlineEndpoints;
   onlineDeployments: OnlineDeployments;
   schedules: Schedules;
+  registries: Registries;
   workspaceFeatures: WorkspaceFeatures;
 }
