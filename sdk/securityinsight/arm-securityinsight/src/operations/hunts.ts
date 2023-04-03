@@ -8,38 +8,31 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Entities } from "../operationsInterfaces";
+import { Hunts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
-  EntityUnion,
-  EntitiesListNextOptionalParams,
-  EntitiesListOptionalParams,
-  EntitiesListResponse,
-  EntitiesRunPlaybookOptionalParams,
-  EntitiesGetOptionalParams,
-  EntitiesGetResponse,
-  EntityExpandParameters,
-  EntitiesExpandOptionalParams,
-  EntitiesExpandResponse,
-  EntityItemQueryKind,
-  EntitiesQueriesOptionalParams,
-  EntitiesQueriesResponse,
-  EntityGetInsightsParameters,
-  EntitiesGetInsightsOptionalParams,
-  EntitiesGetInsightsResponse,
-  EntitiesListNextResponse
+  Hunt,
+  HuntsListNextOptionalParams,
+  HuntsListOptionalParams,
+  HuntsListResponse,
+  HuntsGetOptionalParams,
+  HuntsGetResponse,
+  HuntsDeleteOptionalParams,
+  HuntsCreateOrUpdateOptionalParams,
+  HuntsCreateOrUpdateResponse,
+  HuntsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Entities operations. */
-export class EntitiesImpl implements Entities {
+/** Class containing Hunts operations. */
+export class HuntsImpl implements Hunts {
   private readonly client: SecurityInsights;
 
   /**
-   * Initialize a new instance of the class Entities class.
+   * Initialize a new instance of the class Hunts class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityInsights) {
@@ -47,7 +40,7 @@ export class EntitiesImpl implements Entities {
   }
 
   /**
-   * Gets all entities.
+   * Gets all hunts, without relations and comments.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -55,8 +48,8 @@ export class EntitiesImpl implements Entities {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntitiesListOptionalParams
-  ): PagedAsyncIterableIterator<EntityUnion> {
+    options?: HuntsListOptionalParams
+  ): PagedAsyncIterableIterator<Hunt> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
       next() {
@@ -82,10 +75,10 @@ export class EntitiesImpl implements Entities {
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntitiesListOptionalParams,
+    options?: HuntsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<EntityUnion[]> {
-    let result: EntitiesListResponse;
+  ): AsyncIterableIterator<Hunt[]> {
+    let result: HuntsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, workspaceName, options);
@@ -111,8 +104,8 @@ export class EntitiesImpl implements Entities {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntitiesListOptionalParams
-  ): AsyncIterableIterator<EntityUnion> {
+    options?: HuntsListOptionalParams
+  ): AsyncIterableIterator<Hunt> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
@@ -123,26 +116,7 @@ export class EntitiesImpl implements Entities {
   }
 
   /**
-   * Triggers playbook on a specific entity.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param entityIdentifier Entity identifier.
-   * @param options The options parameters.
-   */
-  runPlaybook(
-    resourceGroupName: string,
-    workspaceName: string,
-    entityIdentifier: string,
-    options?: EntitiesRunPlaybookOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, entityIdentifier, options },
-      runPlaybookOperationSpec
-    );
-  }
-
-  /**
-   * Gets all entities.
+   * Gets all hunts, without relations and comments.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -150,8 +124,8 @@ export class EntitiesImpl implements Entities {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntitiesListOptionalParams
-  ): Promise<EntitiesListResponse> {
+    options?: HuntsListOptionalParams
+  ): Promise<HuntsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
       listOperationSpec
@@ -159,84 +133,61 @@ export class EntitiesImpl implements Entities {
   }
 
   /**
-   * Gets an entity.
+   * Gets a hunt, without relations and comments.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param entityId entity ID
+   * @param huntId The hunt id (GUID)
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
-    entityId: string,
-    options?: EntitiesGetOptionalParams
-  ): Promise<EntitiesGetResponse> {
+    huntId: string,
+    options?: HuntsGetOptionalParams
+  ): Promise<HuntsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, entityId, options },
+      { resourceGroupName, workspaceName, huntId, options },
       getOperationSpec
     );
   }
 
   /**
-   * Expands an entity.
+   * Delete a hunt.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param entityId entity ID
-   * @param parameters The parameters required to execute an expand operation on the given entity.
+   * @param huntId The hunt id (GUID)
    * @param options The options parameters.
    */
-  expand(
+  delete(
     resourceGroupName: string,
     workspaceName: string,
-    entityId: string,
-    parameters: EntityExpandParameters,
-    options?: EntitiesExpandOptionalParams
-  ): Promise<EntitiesExpandResponse> {
+    huntId: string,
+    options?: HuntsDeleteOptionalParams
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, entityId, parameters, options },
-      expandOperationSpec
+      { resourceGroupName, workspaceName, huntId, options },
+      deleteOperationSpec
     );
   }
 
   /**
-   * Get Insights and Activities for an entity.
+   * Create or update a hunt
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param entityId entity ID
-   * @param kind The Kind parameter for queries
+   * @param huntId The hunt id (GUID)
+   * @param hunt The hunt
    * @param options The options parameters.
    */
-  queries(
+  createOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
-    entityId: string,
-    kind: EntityItemQueryKind,
-    options?: EntitiesQueriesOptionalParams
-  ): Promise<EntitiesQueriesResponse> {
+    huntId: string,
+    hunt: Hunt,
+    options?: HuntsCreateOrUpdateOptionalParams
+  ): Promise<HuntsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, entityId, kind, options },
-      queriesOperationSpec
-    );
-  }
-
-  /**
-   * Execute Insights for an entity.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param entityId entity ID
-   * @param parameters The parameters required to execute insights on the given entity.
-   * @param options The options parameters.
-   */
-  getInsights(
-    resourceGroupName: string,
-    workspaceName: string,
-    entityId: string,
-    parameters: EntityGetInsightsParameters,
-    options?: EntitiesGetInsightsOptionalParams
-  ): Promise<EntitiesGetInsightsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, entityId, parameters, options },
-      getInsightsOperationSpec
+      { resourceGroupName, workspaceName, huntId, hunt, options },
+      createOrUpdateOperationSpec
     );
   }
 
@@ -251,8 +202,8 @@ export class EntitiesImpl implements Entities {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: EntitiesListNextOptionalParams
-  ): Promise<EntitiesListNextResponse> {
+    options?: HuntsListNextOptionalParams
+  ): Promise<HuntsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
       listNextOperationSpec
@@ -262,42 +213,25 @@ export class EntitiesImpl implements Entities {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const runPlaybookOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityIdentifier}/runPlaybook",
-  httpMethod: "POST",
-  responses: {
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.requestBody,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.entityIdentifier
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/hunts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityList
+      bodyMapper: Mappers.HuntList
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.orderby,
+    Parameters.top,
+    Parameters.skipToken
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -309,11 +243,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/hunts/{huntId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Entity
+      bodyMapper: Mappers.Hunt
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -325,79 +259,56 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.entityId
+    Parameters.huntId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const expandOperationSpec: coreClient.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/expand",
-  httpMethod: "POST",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/hunts/{huntId}",
+  httpMethod: "DELETE",
   responses: {
-    200: {
-      bodyMapper: Mappers.EntityExpandResponse
-    },
+    200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.entityId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const queriesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/queries",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GetQueriesResponse
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.kind],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.entityId
+    Parameters.huntId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const getInsightsOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/getInsights",
-  httpMethod: "POST",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/hunts/{huntId}",
+  httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityGetInsightsResponse
+      bodyMapper: Mappers.Hunt
+    },
+    201: {
+      bodyMapper: Mappers.Hunt
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.hunt,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.entityId
+    Parameters.huntId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -408,7 +319,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityList
+      bodyMapper: Mappers.HuntList
     },
     default: {
       bodyMapper: Mappers.CloudError
