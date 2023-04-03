@@ -421,7 +421,7 @@ export interface AzureBlobFSLocation extends DatasetLocation {
 // @public
 export interface AzureBlobFSReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     modifiedDatetimeEnd?: any;
     modifiedDatetimeStart?: any;
@@ -661,7 +661,7 @@ export interface AzureDataLakeStoreLocation extends DatasetLocation {
 // @public
 export interface AzureDataLakeStoreReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     listAfter?: any;
     listBefore?: any;
@@ -3661,7 +3661,14 @@ export interface IntegrationRuntimeDataFlowProperties {
     cleanup?: boolean;
     computeType?: DataFlowComputeType;
     coreCount?: number;
+    customProperties?: IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem[];
     timeToLive?: number;
+}
+
+// @public (undocumented)
+export interface IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem {
+    name?: string;
+    value?: string;
 }
 
 // @public

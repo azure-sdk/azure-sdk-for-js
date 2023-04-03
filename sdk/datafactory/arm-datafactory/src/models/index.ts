@@ -2550,6 +2550,15 @@ export interface IntegrationRuntimeDataFlowProperties {
   timeToLive?: number;
   /** Cluster will not be recycled and it will be used in next data flow activity run until TTL (time to live) is reached if this is set as false. Default is true. */
   cleanup?: boolean;
+  /** Custom properties are used to tune the data flow runtime performance. */
+  customProperties?: IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem[];
+}
+
+export interface IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem {
+  /** Name of custom property. */
+  name?: string;
+  /** Value of custom property. */
+  value?: string;
 }
 
 /** VNet properties for managed integration runtime. */
@@ -7928,8 +7937,8 @@ export interface AzureBlobFSReadSettings extends StoreReadSettings {
   wildcardFileName?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
   fileListPath?: any;
-  /** Indicates whether to enable partition discovery. */
-  enablePartitionDiscovery?: boolean;
+  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
+  enablePartitionDiscovery?: any;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
@@ -7956,8 +7965,8 @@ export interface AzureDataLakeStoreReadSettings extends StoreReadSettings {
   listAfter?: any;
   /** Lists files before the value (inclusive) based on file/folder names’ lexicographical order. Applies under the folderPath in data set, and filter files/sub-folders under the folderPath. Type: string (or Expression with resultType string). */
   listBefore?: any;
-  /** Indicates whether to enable partition discovery. */
-  enablePartitionDiscovery?: boolean;
+  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
+  enablePartitionDiscovery?: any;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
@@ -8248,7 +8257,7 @@ export interface AzureBlobFSWriteSettings extends StoreWriteSettings {
 export interface AzureDataLakeStoreWriteSettings extends StoreWriteSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataLakeStoreWriteSettings";
-  /** Specifies the expiry time of the written files. The time is applied to the UTC time zone in the format of "2018-12-01T05:00:00Z". Default value is NULL. Type: integer (or Expression with resultType integer). */
+  /** Specifies the expiry time of the written files. The time is applied to the UTC time zone in the format of "2018-12-01T05:00:00Z". Default value is NULL. Type: string (or Expression with resultType string). */
   expiryDateTime?: any;
 }
 
@@ -9200,7 +9209,7 @@ export interface OracleSink extends CopySink {
 export interface AzureDataLakeStoreSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataLakeStoreSink";
-  /** The type of copy behavior for copy sink. */
+  /** The type of copy behavior for copy sink. Type: string (or Expression with resultType string). */
   copyBehavior?: any;
   /** Single File Parallel. */
   enableAdlsSingleFileParallel?: any;
@@ -9210,7 +9219,7 @@ export interface AzureDataLakeStoreSink extends CopySink {
 export interface AzureBlobFSSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobFSSink";
-  /** The type of copy behavior for copy sink. */
+  /** The type of copy behavior for copy sink. Type: string (or Expression with resultType string). */
   copyBehavior?: any;
   /** Specify the custom metadata to be added to sink data. Type: array of objects (or Expression with resultType array of objects). */
   metadata?: MetadataItem[];
