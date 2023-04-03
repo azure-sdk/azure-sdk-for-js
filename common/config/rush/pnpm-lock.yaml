@@ -734,6 +734,7 @@ packages:
   /@azure/ai-form-recognizer/3.1.0-beta.3:
     resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
     engines: {node: '>=8.0.0'}
+    deprecated: Please migrate to a supported (non-beta) version of this package
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 1.2.6
@@ -3935,7 +3936,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230331
+      typescript: 5.1.0-dev.20230402
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8783,8 +8784,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230331:
-    resolution: {integrity: sha512-PLypvuK09nEU9B7OTAx/4oG8foaYoeDTCBYlypMo5bF4L4MN54uLTy6dUwHdnw0QkTl6gjFKZQ4f/dUSZV/NFw==}
+  /typescript/5.1.0-dev.20230402:
+    resolution: {integrity: sha512-YivJhKi6iTmS5qfkSuv/p1NYZtlQLexIHIF25kXxYkpjcs6jEtbLEctviQYTrzGVMq+R0QCTRW5EQtp+NLwtnA==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -10838,7 +10839,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-Wo7QcOadvBoR5vbeXSNYdwkIDmtRMlbeJLc+VM/gTSeju8z7NQ0/01SpkeOb/SHHejAyuDkHXtl9vrMT6mKnsQ==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-usDapy5bugy1wEZbGyM9czPanvc40ENzlJFYlgYTid1mXl755OWJTKdVMthKsPDL4rAvxljMO80cFkeCIGF76w==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -10854,7 +10855,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
