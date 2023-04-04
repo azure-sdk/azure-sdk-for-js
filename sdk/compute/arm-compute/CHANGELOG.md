@@ -1,15 +1,30 @@
 # Release History
+    
+## 20.1.0 (2023-04-04)
+    
+**Features**
 
-## 20.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation DedicatedHosts.listAvailableSizes
+  - Added Interface DedicatedHostSizeListResult
+  - Added Interface DedicatedHostsListAvailableSizesOptionalParams
+  - Added Type Alias DedicatedHostsListAvailableSizesResponse
+  - Added Type Alias ExpandTypeForListVMs
+  - Added Type Alias ExpandTypesForListVMs
+  - Interface DedicatedHostUpdate has a new optional parameter sku
+  - Interface LinuxVMGuestPatchAutomaticByPlatformSettings has a new optional parameter bypassPlatformSafetyChecksOnUserSchedule
+  - Interface VirtualMachineScaleSetsDeallocateOptionalParams has a new optional parameter hibernate
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter computerName
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter hyperVGeneration
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter osName
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter osVersion
+  - Interface VirtualMachinesListAllOptionalParams has a new optional parameter expand
+  - Interface VirtualMachinesListOptionalParams has a new optional parameter expand
+  - Interface WindowsVMGuestPatchAutomaticByPlatformSettings has a new optional parameter bypassPlatformSafetyChecksOnUserSchedule
+  - Added Enum KnownExpandTypeForListVMs
+  - Added Enum KnownExpandTypesForListVMs
+  - Enum KnownStorageAccountType has a new value StandardSSDLRS
+    
+    
 ## 20.0.0 (2023-01-05)
     
 **Features**
