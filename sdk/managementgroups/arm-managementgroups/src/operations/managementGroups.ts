@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ManagementGroupsAPI } from "../managementGroupsAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ManagementGroupInfo,
   ManagementGroupsListNextOptionalParams,
@@ -210,8 +214,8 @@ export class ManagementGroupsImpl implements ManagementGroups {
     createManagementGroupRequest: CreateManagementGroupRequest,
     options?: ManagementGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagementGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ManagementGroupsCreateOrUpdateResponse>,
       ManagementGroupsCreateOrUpdateResponse
     >
   > {
@@ -221,7 +225,7 @@ export class ManagementGroupsImpl implements ManagementGroups {
     ): Promise<ManagementGroupsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -254,15 +258,18 @@ export class ManagementGroupsImpl implements ManagementGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { groupId, createManagementGroupRequest, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { groupId, createManagementGroupRequest, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagementGroupsCreateOrUpdateResponse,
+      OperationState<ManagementGroupsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -319,8 +326,8 @@ export class ManagementGroupsImpl implements ManagementGroups {
     groupId: string,
     options?: ManagementGroupsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagementGroupsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<ManagementGroupsDeleteResponse>,
       ManagementGroupsDeleteResponse
     >
   > {
@@ -330,7 +337,7 @@ export class ManagementGroupsImpl implements ManagementGroups {
     ): Promise<ManagementGroupsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -363,15 +370,18 @@ export class ManagementGroupsImpl implements ManagementGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { groupId, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { groupId, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagementGroupsDeleteResponse,
+      OperationState<ManagementGroupsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -594,7 +604,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept, Parameters.cacheControl],
   serializer
@@ -610,11 +619,6 @@ const getDescendantsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skiptoken,
-    Parameters.top
-  ],
   urlParameters: [Parameters.$host, Parameters.groupId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

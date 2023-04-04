@@ -734,6 +734,7 @@ packages:
   /@azure/ai-form-recognizer/3.1.0-beta.3:
     resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
     engines: {node: '>=8.0.0'}
+    deprecated: Please migrate to a supported (non-beta) version of this package
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 1.2.6
@@ -779,6 +780,21 @@ packages:
 
   /@azure/arm-cosmosdb/15.3.0:
     resolution: {integrity: sha512-XT0tgDyrmEw7rO+SuTrUQkF9yqmp/TCEacnZJQM2xydu4chB49ES3KCtBBWdtdi1fYI1AE7z6XrEIvgL3ngVzg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.7.2
+      '@azure/core-lro': 2.5.1
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.10.2
+      tslib: 2.5.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/arm-managementgroups/2.0.2:
+    resolution: {integrity: sha512-vR5g/LDdyVI5zTUJrNCYks3AMU7TYUqbDbQ2lfhGvyf+6Vvi9qh3BHVYTFE963x7/M9oEINK2lPvl21/dxFNyA==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
@@ -3958,7 +3974,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230403
+      typescript: 5.1.0-dev.20230404
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8807,8 +8823,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230403:
-    resolution: {integrity: sha512-13wAf5PQCHJI5dJ945XBEp+63KzXWkazC4glwfzp1ODLQYVWUnHA6trbCpsMIQfvmiaNmzqRmpSrIqaWppST4g==}
+  /typescript/5.1.0-dev.20230404:
+    resolution: {integrity: sha512-jnBojDBCCoAxsmxh8bjH7FHFBsGVOFOcPwfGhZ9zPnh2/uORifLcsKRHD3DI2dM+6Y9wISlh+cb23R2BQR09xg==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -12989,7 +13005,7 @@ packages:
     dev: false
 
   file:projects/arm-managementgroups.tgz:
-    resolution: {integrity: sha512-OAdrsQCkD8Z51V49kNjhYfJrT30y9+FPFfuHLRfz0UUDMuO7KXJ/7MwE/mLLvb5D3Sl+hdTjgeWRjUsya7IMSQ==, tarball: file:projects/arm-managementgroups.tgz}
+    resolution: {integrity: sha512-avSEEbF/XF9tGUw8zHPVu6kKmVOoZZIdbbPtk2KrIJuD4IGIQNl7C7zStQKqzNHvLL9nHLuz2NR3/Sd4jnfnWA==, tarball: file:projects/arm-managementgroups.tgz}
     name: '@rush-temp/arm-managementgroups'
     version: 0.0.0
     dependencies:
@@ -13003,7 +13019,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -13779,10 +13796,11 @@ packages:
     dev: false
 
   file:projects/arm-policy.tgz:
-    resolution: {integrity: sha512-TeRM2YNOgHBnenijefXG2vB2NCdBiL5R1C23IFEftIF2vqepw8Xaw8/OJtg3Z1yz3IYK7A3IMWHyAuJ9mg46Yw==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-H9zxXBHIcq+SI8Uy+UkhpQQFl3URACIQ2tvHreS103MrovxgDl02sbqj4eNU9akisZsow1Fphi/WiwCieZMLMQ==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
+      '@azure/arm-managementgroups': 2.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
       '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
