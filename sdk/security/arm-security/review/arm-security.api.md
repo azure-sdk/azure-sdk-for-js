@@ -1057,8 +1057,10 @@ export interface AwsCredsAuthenticationDetailsProperties extends AuthenticationD
 
 // @public
 export interface AwsEnvironmentData extends EnvironmentData {
+    readonly accountName?: string;
     environmentType: "AwsAccount";
     organizationalData?: AwsOrganizationalDataUnion;
+    regions?: string[];
 }
 
 // @public
@@ -1102,6 +1104,12 @@ export interface AzureResourceIdentifier extends ResourceIdentifier {
 // @public
 export interface AzureResourceLink {
     readonly id?: string;
+}
+
+// @public
+export interface AzureServersSetting extends ServerVulnerabilityAssessmentsSetting {
+    kind: "AzureServersSetting";
+    selectedProvider?: ServerVulnerabilityAssessmentsAzureSettingSelectedProvider;
 }
 
 // @public
@@ -1174,11 +1182,14 @@ export type CloudName = string;
 // @public
 export interface CloudOffering {
     readonly description?: string;
-    offeringType: "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAws" | "DefenderForDatabasesAws" | "InformationProtectionAws" | "CspmMonitorGcp" | "DefenderForServersGcp" | "DefenderForDatabasesGcp" | "DefenderForContainersGcp" | "CspmMonitorGithub" | "CspmMonitorAzureDevOps" | "DefenderCspmAws" | "DefenderCspmGcp" | "DefenderForDevOpsGithub" | "DefenderForDevOpsAzureDevOps";
+    offeringType: "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAws" | "DefenderForDatabasesAws" | "InformationProtectionAws" | "CspmMonitorGcp" | "DefenderForServersGcp" | "DefenderForDatabasesGcp" | "DefenderForContainersGcp" | "CspmMonitorGithub" | "CspmMonitorAzureDevOps" | "DefenderCspmAws" | "DefenderCspmGcp" | "DefenderForDevOpsGithub" | "DefenderForDevOpsAzureDevOps" | "CspmMonitorGitLab" | "DefenderForDevOpsGitLab";
 }
 
 // @public (undocumented)
-export type CloudOfferingUnion = CloudOffering | CspmMonitorAwsOffering | DefenderForContainersAwsOffering | DefenderForServersAwsOffering | DefenderFoDatabasesAwsOffering | InformationProtectionAwsOffering | CspmMonitorGcpOffering | DefenderForServersGcpOffering | DefenderForDatabasesGcpOffering | DefenderForContainersGcpOffering | CspmMonitorGithubOffering | CspmMonitorAzureDevOpsOffering | DefenderCspmAwsOffering | DefenderCspmGcpOffering | DefenderForDevOpsGithubOffering | DefenderForDevOpsAzureDevOpsOffering;
+export type CloudOfferingUnion = CloudOffering | CspmMonitorAwsOffering | DefenderForContainersAwsOffering | DefenderForServersAwsOffering | DefenderFoDatabasesAwsOffering | InformationProtectionAwsOffering | CspmMonitorGcpOffering | DefenderForServersGcpOffering | DefenderForDatabasesGcpOffering | DefenderForContainersGcpOffering | CspmMonitorGithubOffering | CspmMonitorAzureDevOpsOffering | DefenderCspmAwsOffering | DefenderCspmGcpOffering | DefenderForDevOpsGithubOffering | DefenderForDevOpsAzureDevOpsOffering | CspmMonitorGitLabOffering | DefenderForDevOpsGitLabOffering;
+
+// @public
+export type Code = string;
 
 // @public
 export interface Compliance extends Resource {
@@ -1418,6 +1429,11 @@ export interface CspmMonitorGithubOffering extends CloudOffering {
 }
 
 // @public
+export interface CspmMonitorGitLabOffering extends CloudOffering {
+    offeringType: "CspmMonitorGitLab";
+}
+
+// @public
 export interface CustomAlertRule {
     readonly description?: string;
     readonly displayName?: string;
@@ -1606,8 +1622,22 @@ export type DataSource = string;
 
 // @public
 export interface DefenderCspmAwsOffering extends CloudOffering {
+    databasesDspm?: DefenderCspmAwsOfferingDatabasesDspm;
+    dataSensitivityDiscovery?: DefenderCspmAwsOfferingDataSensitivityDiscovery;
     offeringType: "DefenderCspmAws";
     vmScanners?: DefenderCspmAwsOfferingVmScanners;
+}
+
+// @public
+export interface DefenderCspmAwsOfferingDatabasesDspm {
+    cloudRoleArn?: string;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderCspmAwsOfferingDataSensitivityDiscovery {
+    cloudRoleArn?: string;
+    enabled?: boolean;
 }
 
 // @public
@@ -1633,12 +1663,26 @@ export interface DefenderCspmGcpOffering extends CloudOffering {
 // @public
 export interface DefenderFoDatabasesAwsOffering extends CloudOffering {
     arcAutoProvisioning?: DefenderFoDatabasesAwsOfferingArcAutoProvisioning;
+    databasesDspm?: DefenderFoDatabasesAwsOfferingDatabasesDspm;
     offeringType: "DefenderForDatabasesAws";
     rds?: DefenderFoDatabasesAwsOfferingRds;
 }
 
 // @public
 export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning {
+    cloudRoleArn?: string;
+    configuration?: DefenderFoDatabasesAwsOfferingArcAutoProvisioningConfiguration;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioningConfiguration {
+    privateLinkScope?: string;
+    proxy?: string;
+}
+
+// @public
+export interface DefenderFoDatabasesAwsOfferingDatabasesDspm {
     cloudRoleArn?: string;
     enabled?: boolean;
 }
@@ -1725,7 +1769,14 @@ export interface DefenderForDatabasesGcpOffering extends CloudOffering {
 
 // @public
 export interface DefenderForDatabasesGcpOfferingArcAutoProvisioning {
+    configuration?: DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration;
     enabled?: boolean;
+}
+
+// @public
+export interface DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration {
+    privateLinkScope?: string;
+    proxy?: string;
 }
 
 // @public
@@ -1745,6 +1796,11 @@ export interface DefenderForDevOpsGithubOffering extends CloudOffering {
 }
 
 // @public
+export interface DefenderForDevOpsGitLabOffering extends CloudOffering {
+    offeringType: "DefenderForDevOpsGitLab";
+}
+
+// @public
 export interface DefenderForServersAwsOffering extends CloudOffering {
     arcAutoProvisioning?: DefenderForServersAwsOfferingArcAutoProvisioning;
     defenderForServers?: DefenderForServersAwsOfferingDefenderForServers;
@@ -1758,7 +1814,14 @@ export interface DefenderForServersAwsOffering extends CloudOffering {
 // @public
 export interface DefenderForServersAwsOfferingArcAutoProvisioning {
     cloudRoleArn?: string;
+    configuration?: DefenderForServersAwsOfferingArcAutoProvisioningConfiguration;
     enabled?: boolean;
+}
+
+// @public
+export interface DefenderForServersAwsOfferingArcAutoProvisioningConfiguration {
+    privateLinkScope?: string;
+    proxy?: string;
 }
 
 // @public
@@ -1811,11 +1874,19 @@ export interface DefenderForServersGcpOffering extends CloudOffering {
     offeringType: "DefenderForServersGcp";
     subPlan?: DefenderForServersGcpOfferingSubPlan;
     vaAutoProvisioning?: DefenderForServersGcpOfferingVaAutoProvisioning;
+    vmScanners?: DefenderForServersGcpOfferingVmScanners;
 }
 
 // @public
 export interface DefenderForServersGcpOfferingArcAutoProvisioning {
+    configuration?: DefenderForServersGcpOfferingArcAutoProvisioningConfiguration;
     enabled?: boolean;
+}
+
+// @public
+export interface DefenderForServersGcpOfferingArcAutoProvisioningConfiguration {
+    privateLinkScope?: string;
+    proxy?: string;
 }
 
 // @public
@@ -1844,6 +1915,20 @@ export interface DefenderForServersGcpOfferingVaAutoProvisioning {
 // @public
 export interface DefenderForServersGcpOfferingVaAutoProvisioningConfiguration {
     type?: Type;
+}
+
+// @public
+export interface DefenderForServersGcpOfferingVmScanners {
+    configuration?: DefenderForServersGcpOfferingVmScannersConfiguration;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderForServersGcpOfferingVmScannersConfiguration {
+    exclusionTags?: {
+        [propertyName: string]: string;
+    };
+    scanningMode?: ScanningMode;
 }
 
 // @public
@@ -1988,11 +2073,11 @@ export type EnforcementSupport = string;
 
 // @public
 export interface EnvironmentData {
-    environmentType: "AwsAccount" | "GcpProject" | "GithubScope" | "AzureDevOpsScope";
+    environmentType: "AwsAccount" | "GcpProject" | "GithubScope" | "AzureDevOpsScope" | "GitlabScope";
 }
 
 // @public (undocumented)
-export type EnvironmentDataUnion = EnvironmentData | AwsEnvironmentData | GcpProjectEnvironmentData | GithubScopeEnvironmentData | AzureDevOpsScopeEnvironmentData;
+export type EnvironmentDataUnion = EnvironmentData | AwsEnvironmentData | GcpProjectEnvironmentData | GithubScopeEnvironmentData | AzureDevOpsScopeEnvironmentData | GitlabScopeEnvironmentData;
 
 // @public
 export interface EnvironmentDetails {
@@ -2062,6 +2147,16 @@ export type ExpandEnum = string;
 
 // @public
 export type ExportData = string;
+
+// @public
+export interface Extension {
+    additionalExtensionProperties?: {
+        [propertyName: string]: any;
+    };
+    isEnabled: IsEnabled;
+    name: string;
+    readonly operationStatus?: OperationStatus;
+}
 
 // @public
 export interface ExternalSecuritySolution extends Resource, ExternalSecuritySolutionKindAutoGenerated, Location_2 {
@@ -2179,6 +2274,7 @@ export interface GcpOrganizationalDataMember extends GcpOrganizationalData {
 export interface GcpOrganizationalDataOrganization extends GcpOrganizationalData {
     excludedProjectNumbers?: string[];
     organizationMembershipType: "Organization";
+    readonly organizationName?: string;
     serviceAccountEmailAddress?: string;
     workloadIdentityProviderId?: string;
 }
@@ -2189,6 +2285,7 @@ export type GcpOrganizationalDataUnion = GcpOrganizationalData | GcpOrganization
 // @public
 export interface GcpProjectDetails {
     projectId?: string;
+    readonly projectName?: string;
     projectNumber?: string;
     readonly workloadIdentityPoolId?: string;
 }
@@ -2206,6 +2303,11 @@ export function getContinuationToken(page: unknown): string | undefined;
 // @public
 export interface GithubScopeEnvironmentData extends EnvironmentData {
     environmentType: "GithubScope";
+}
+
+// @public
+export interface GitlabScopeEnvironmentData extends EnvironmentData {
+    environmentType: "GitlabScope";
 }
 
 // @public
@@ -2492,6 +2594,13 @@ export interface HybridComputeSettingsProperties {
     region?: string;
     resourceGroupName?: string;
     servicePrincipal?: ServicePrincipalProperties;
+}
+
+// @public
+export interface Identity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type?: "SystemAssigned";
 }
 
 // @public
@@ -2933,6 +3042,9 @@ export interface IoTSeverityMetrics {
 }
 
 // @public
+export type IsEnabled = string;
+
+// @public
 export interface Issue {
     issueAdditionalData?: {
         [propertyName: string]: string;
@@ -3260,7 +3372,14 @@ export enum KnownCloudName {
     Azure = "Azure",
     AzureDevOps = "AzureDevOps",
     GCP = "GCP",
-    Github = "Github"
+    Github = "Github",
+    GitLab = "GitLab"
+}
+
+// @public
+export enum KnownCode {
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -3331,7 +3450,8 @@ export enum KnownEnvironmentType {
     AwsAccount = "AwsAccount",
     AzureDevOpsScope = "AzureDevOpsScope",
     GcpProject = "GcpProject",
-    GithubScope = "GithubScope"
+    GithubScope = "GithubScope",
+    GitlabScope = "GitlabScope"
 }
 
 // @public
@@ -3446,6 +3566,12 @@ export enum KnownIntent {
 }
 
 // @public
+export enum KnownIsEnabled {
+    False = "False",
+    True = "True"
+}
+
+// @public
 export enum KnownKind {
     Bundles = "Bundles"
 }
@@ -3463,6 +3589,7 @@ export enum KnownOfferingType {
     CspmMonitorAzureDevOps = "CspmMonitorAzureDevOps",
     CspmMonitorGcp = "CspmMonitorGcp",
     CspmMonitorGithub = "CspmMonitorGithub",
+    CspmMonitorGitLab = "CspmMonitorGitLab",
     DefenderCspmAws = "DefenderCspmAws",
     DefenderCspmGcp = "DefenderCspmGcp",
     DefenderForContainersAws = "DefenderForContainersAws",
@@ -3471,6 +3598,7 @@ export enum KnownOfferingType {
     DefenderForDatabasesGcp = "DefenderForDatabasesGcp",
     DefenderForDevOpsAzureDevOps = "DefenderForDevOpsAzureDevOps",
     DefenderForDevOpsGithub = "DefenderForDevOpsGithub",
+    DefenderForDevOpsGitLab = "DefenderForDevOpsGitLab",
     DefenderForServersAws = "DefenderForServersAws",
     DefenderForServersGcp = "DefenderForServersGcp",
     InformationProtectionAws = "InformationProtectionAws"
@@ -3681,6 +3809,21 @@ export enum KnownServerVulnerabilityAssessmentPropertiesProvisioningState {
     Failed = "Failed",
     Provisioning = "Provisioning",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownServerVulnerabilityAssessmentsAzureSettingSelectedProvider {
+    MdeTvm = "MdeTvm"
+}
+
+// @public
+export enum KnownServerVulnerabilityAssessmentsSettingKind {
+    AzureServersSetting = "AzureServersSetting"
+}
+
+// @public
+export enum KnownServerVulnerabilityAssessmentsSettingKindName {
+    AzureServersSetting = "azureServersSetting"
 }
 
 // @public
@@ -4130,6 +4273,12 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationList;
 
 // @public
+export interface OperationStatus {
+    code?: Code;
+    message?: string;
+}
+
+// @public
 export type Operator = string;
 
 // @public
@@ -4156,6 +4305,8 @@ export type PermissionProperty = string;
 // @public
 export interface Pricing extends Resource {
     readonly deprecated?: boolean;
+    readonly enablementTime?: Date;
+    extensions?: Extension[];
     readonly freeTrialRemainingTime?: string;
     pricingTier?: PricingTier;
     readonly replacedBy?: string[];
@@ -4991,11 +5142,15 @@ export class SecurityCenter extends coreClient.ServiceClient {
     // (undocumented)
     securityContacts: SecurityContacts;
     // (undocumented)
+    securityOperators: SecurityOperators;
+    // (undocumented)
     securitySolutions: SecuritySolutions;
     // (undocumented)
     securitySolutionsReferenceDataOperations: SecuritySolutionsReferenceDataOperations;
     // (undocumented)
     serverVulnerabilityAssessmentOperations: ServerVulnerabilityAssessmentOperations;
+    // (undocumented)
+    serverVulnerabilityAssessmentsSettings: ServerVulnerabilityAssessmentsSettings;
     // (undocumented)
     settings: Settings;
     // (undocumented)
@@ -5216,6 +5371,49 @@ export type SecurityContactsListResponse = SecurityContactList;
 // @public
 export type SecurityFamily = string;
 
+// @public
+export interface SecurityOperator extends Resource {
+    identity?: Identity;
+}
+
+// @public
+export interface SecurityOperatorList {
+    value: SecurityOperator[];
+}
+
+// @public
+export interface SecurityOperators {
+    createOrUpdate(pricingName: string, securityOperatorName: string, options?: SecurityOperatorsCreateOrUpdateOptionalParams): Promise<SecurityOperatorsCreateOrUpdateResponse>;
+    delete(pricingName: string, securityOperatorName: string, options?: SecurityOperatorsDeleteOptionalParams): Promise<void>;
+    get(pricingName: string, securityOperatorName: string, options?: SecurityOperatorsGetOptionalParams): Promise<SecurityOperatorsGetResponse>;
+    list(pricingName: string, options?: SecurityOperatorsListOptionalParams): Promise<SecurityOperatorsListResponse>;
+}
+
+// @public
+export interface SecurityOperatorsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityOperatorsCreateOrUpdateResponse = SecurityOperator;
+
+// @public
+export interface SecurityOperatorsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SecurityOperatorsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityOperatorsGetResponse = SecurityOperator;
+
+// @public
+export interface SecurityOperatorsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityOperatorsListResponse = SecurityOperatorList;
+
 // @public (undocumented)
 export interface SecuritySolution extends Resource, Location_2 {
     protectionStatus?: string;
@@ -5393,10 +5591,74 @@ export interface ServerVulnerabilityAssessmentOperations {
 export type ServerVulnerabilityAssessmentPropertiesProvisioningState = string;
 
 // @public
+export type ServerVulnerabilityAssessmentsAzureSettingSelectedProvider = string;
+
+// @public
 export interface ServerVulnerabilityAssessmentsList {
     // (undocumented)
     value?: ServerVulnerabilityAssessment[];
 }
+
+// @public
+export interface ServerVulnerabilityAssessmentsSetting extends Resource {
+    kind: ServerVulnerabilityAssessmentsSettingKind;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export type ServerVulnerabilityAssessmentsSettingKind = string;
+
+// @public
+export type ServerVulnerabilityAssessmentsSettingKindName = string;
+
+// @public
+export interface ServerVulnerabilityAssessmentsSettings {
+    createOrUpdate(settingKind: ServerVulnerabilityAssessmentsSettingKindName, serverVulnerabilityAssessmentsSetting: ServerVulnerabilityAssessmentsSettingUnion, options?: ServerVulnerabilityAssessmentsSettingsCreateOrUpdateOptionalParams): Promise<ServerVulnerabilityAssessmentsSettingsCreateOrUpdateResponse>;
+    delete(settingKind: ServerVulnerabilityAssessmentsSettingKindName, options?: ServerVulnerabilityAssessmentsSettingsDeleteOptionalParams): Promise<void>;
+    get(settingKind: ServerVulnerabilityAssessmentsSettingKindName, options?: ServerVulnerabilityAssessmentsSettingsGetOptionalParams): Promise<ServerVulnerabilityAssessmentsSettingsGetResponse>;
+    list(options?: ServerVulnerabilityAssessmentsSettingsListOptionalParams): PagedAsyncIterableIterator<ServerVulnerabilityAssessmentsSettingUnion>;
+}
+
+// @public
+export interface ServerVulnerabilityAssessmentsSettingsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerVulnerabilityAssessmentsSettingsCreateOrUpdateResponse = ServerVulnerabilityAssessmentsSettingUnion;
+
+// @public
+export interface ServerVulnerabilityAssessmentsSettingsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ServerVulnerabilityAssessmentsSettingsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerVulnerabilityAssessmentsSettingsGetResponse = ServerVulnerabilityAssessmentsSettingUnion;
+
+// @public
+export interface ServerVulnerabilityAssessmentsSettingsList {
+    readonly nextLink?: string;
+    readonly value?: ServerVulnerabilityAssessmentsSettingUnion[];
+}
+
+// @public
+export interface ServerVulnerabilityAssessmentsSettingsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerVulnerabilityAssessmentsSettingsListNextResponse = ServerVulnerabilityAssessmentsSettingsList;
+
+// @public
+export interface ServerVulnerabilityAssessmentsSettingsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerVulnerabilityAssessmentsSettingsListResponse = ServerVulnerabilityAssessmentsSettingsList;
+
+// @public (undocumented)
+export type ServerVulnerabilityAssessmentsSettingUnion = ServerVulnerabilityAssessmentsSetting | AzureServersSetting;
 
 // @public
 export interface ServerVulnerabilityProperties extends AdditionalData {
