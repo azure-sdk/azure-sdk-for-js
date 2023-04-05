@@ -311,7 +311,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -332,7 +332,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -349,7 +349,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -374,8 +374,8 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  requestBody: Parameters.body3,
-  queryParameters: [Parameters.apiVersion13],
+  requestBody: Parameters.body4,
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -398,8 +398,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  requestBody: Parameters.body1,
-  queryParameters: [Parameters.apiVersion13],
+  requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -421,7 +421,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
