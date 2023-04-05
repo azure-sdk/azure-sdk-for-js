@@ -3955,7 +3955,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230404
+      typescript: 5.1.0-dev.20230405
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8804,8 +8804,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230404:
-    resolution: {integrity: sha512-jnBojDBCCoAxsmxh8bjH7FHFBsGVOFOcPwfGhZ9zPnh2/uORifLcsKRHD3DI2dM+6Y9wISlh+cb23R2BQR09xg==}
+  /typescript/5.1.0-dev.20230405:
+    resolution: {integrity: sha512-4unWRVmR6URHndao/lK2XCSabqveeczgOSGNNQbfZW7Hu4b+YND5DlpVQOL/Yaz9olB1FgeZidZwYnTQbOXc6w==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -9912,7 +9912,7 @@ packages:
     dev: false
 
   file:projects/arm-advisor.tgz:
-    resolution: {integrity: sha512-JA6j++TJ+DBBehxMOmlK3F2ewGyWHnZScXs8RQm61UlGLOdc8ozadG1WRhVZRhU/AQZ4gJeL9tIen8X7ps/n9w==, tarball: file:projects/arm-advisor.tgz}
+    resolution: {integrity: sha512-kJY0f5FFHGS26W8UGiY2O4FBhfhVNDb+2iBLHSvFw6Lw0HiBH39CZMkr6WUIPrVdGB+OlYwJb+RjuOOreMb2Dg==, tarball: file:projects/arm-advisor.tgz}
     name: '@rush-temp/arm-advisor'
     version: 0.0.0
     dependencies:
@@ -9926,7 +9926,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
