@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListOptionalParams,
@@ -63,8 +63,8 @@ export interface PrivateEndpointConnections {
     properties: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsPutOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionsPutResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionsPutResponse>,
       PrivateEndpointConnectionsPutResponse
     >
   >;
@@ -93,7 +93,21 @@ export interface PrivateEndpointConnections {
    *                                      Azure resource
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
+    resourceGroupName: string,
+    clusterName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Deletes the specified private endpoint connection associated with the RedisEnterprise cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
+   *                                      Azure resource
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
     privateEndpointConnectionName: string,
