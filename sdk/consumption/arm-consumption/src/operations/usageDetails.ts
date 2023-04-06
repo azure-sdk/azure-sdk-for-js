@@ -37,6 +37,14 @@ export class UsageDetailsImpl implements UsageDetails {
   /**
    * Lists the usage details for the defined scope. Usage details are available via this API only for May
    * 1, 2014 or later.
+   *
+   * !Note :
+   *
+   * Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not
+   * recommend that you take a new dependency on this API. Please use the Cost Details API instead. We
+   * will notify customers once a date for retirement has been determined.For Cost Details API see,
+   *  https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP
+   *
    * @param scope The scope associated with usage details operations. This includes
    *              '/subscriptions/{subscriptionId}/' for subscription scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope,
@@ -52,10 +60,10 @@ export class UsageDetailsImpl implements UsageDetails {
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for billingAccount scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope, and
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for
-   *              partners.
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific
+   *              for partners.
    * @param options The options parameters.
    */
   public list(
@@ -114,6 +122,14 @@ export class UsageDetailsImpl implements UsageDetails {
   /**
    * Lists the usage details for the defined scope. Usage details are available via this API only for May
    * 1, 2014 or later.
+   *
+   * !Note :
+   *
+   * Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not
+   * recommend that you take a new dependency on this API. Please use the Cost Details API instead. We
+   * will notify customers once a date for retirement has been determined.For Cost Details API see,
+   *  https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP
+   *
    * @param scope The scope associated with usage details operations. This includes
    *              '/subscriptions/{subscriptionId}/' for subscription scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope,
@@ -129,10 +145,10 @@ export class UsageDetailsImpl implements UsageDetails {
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for billingAccount scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope, and
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for
-   *              partners.
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific
+   *              for partners.
    * @param options The options parameters.
    */
   private _list(
@@ -162,10 +178,10 @@ export class UsageDetailsImpl implements UsageDetails {
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for billingAccount scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope, and
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for
-   *              partners.
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific
+   *              for partners.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -190,6 +206,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.UsageDetailsListResult
     },
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -213,6 +230,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.UsageDetailsListResult
     },
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
