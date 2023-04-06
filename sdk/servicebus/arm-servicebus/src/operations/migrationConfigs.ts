@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ServiceBusManagementClient } from "../serviceBusManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   MigrationConfigProperties,
   MigrationConfigsListNextOptionalParams,
@@ -152,8 +156,8 @@ export class MigrationConfigsImpl implements MigrationConfigs {
     parameters: MigrationConfigProperties,
     options?: MigrationConfigsCreateAndStartMigrationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MigrationConfigsCreateAndStartMigrationResponse>,
+    SimplePollerLike<
+      OperationState<MigrationConfigsCreateAndStartMigrationResponse>,
       MigrationConfigsCreateAndStartMigrationResponse
     >
   > {
@@ -163,7 +167,7 @@ export class MigrationConfigsImpl implements MigrationConfigs {
     ): Promise<MigrationConfigsCreateAndStartMigrationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -196,13 +200,22 @@ export class MigrationConfigsImpl implements MigrationConfigs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, namespaceName, configName, parameters, options },
-      createAndStartMigrationOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        namespaceName,
+        configName,
+        parameters,
+        options
+      },
+      spec: createAndStartMigrationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MigrationConfigsCreateAndStartMigrationResponse,
+      OperationState<MigrationConfigsCreateAndStartMigrationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
