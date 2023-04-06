@@ -63,12 +63,15 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-containerinstance/9.1.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-containerinstance/9.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
@@ -76,7 +79,9 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
         userAgentPrefix
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ??
+        options.baseUri ??
+        "https://eastus2euap.management.azure.com"
     };
     super(optionsWithDefaults);
 
@@ -115,8 +120,8 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
-    this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-10-01-preview";
+    this.$host = options.$host || "https://eastus2euap.management.azure.com";
+    this.apiVersion = options.apiVersion || "2023-05-01";
     this.containerGroups = new ContainerGroupsImpl(this);
     this.operations = new OperationsImpl(this);
     this.location = new LocationImpl(this);
