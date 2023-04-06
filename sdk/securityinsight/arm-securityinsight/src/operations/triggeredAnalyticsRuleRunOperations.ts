@@ -6,22 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { EntityRelations } from "../operationsInterfaces";
+import { TriggeredAnalyticsRuleRunOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
-  EntityRelationsGetRelationOptionalParams,
-  EntityRelationsGetRelationResponse
+  TriggeredAnalyticsRuleRunGetOptionalParams,
+  TriggeredAnalyticsRuleRunGetResponse
 } from "../models";
 
-/** Class containing EntityRelations operations. */
-export class EntityRelationsImpl implements EntityRelations {
+/** Class containing TriggeredAnalyticsRuleRunOperations operations. */
+export class TriggeredAnalyticsRuleRunOperationsImpl
+  implements TriggeredAnalyticsRuleRunOperations {
   private readonly client: SecurityInsights;
 
   /**
-   * Initialize a new instance of the class EntityRelations class.
+   * Initialize a new instance of the class TriggeredAnalyticsRuleRunOperations class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityInsights) {
@@ -29,36 +30,34 @@ export class EntityRelationsImpl implements EntityRelations {
   }
 
   /**
-   * Gets an entity relation.
+   * Gets the triggered analytics rule run.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param entityId entity ID
-   * @param relationName Relation Name
+   * @param ruleRunId the triggered rule id
    * @param options The options parameters.
    */
-  getRelation(
+  get(
     resourceGroupName: string,
     workspaceName: string,
-    entityId: string,
-    relationName: string,
-    options?: EntityRelationsGetRelationOptionalParams
-  ): Promise<EntityRelationsGetRelationResponse> {
+    ruleRunId: string,
+    options?: TriggeredAnalyticsRuleRunGetOptionalParams
+  ): Promise<TriggeredAnalyticsRuleRunGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, entityId, relationName, options },
-      getRelationOperationSpec
+      { resourceGroupName, workspaceName, ruleRunId, options },
+      getOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getRelationOperationSpec: coreClient.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/relations/{relationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/triggeredAnalyticsRuleRuns/{ruleRunId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Relation
+      bodyMapper: Mappers.TriggeredAnalyticsRuleRun
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -70,8 +69,7 @@ const getRelationOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.entityId,
-    Parameters.relationName
+    Parameters.ruleRunId
   ],
   headerParameters: [Parameters.accept],
   serializer
