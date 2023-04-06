@@ -734,6 +734,7 @@ packages:
   /@azure/ai-form-recognizer/3.1.0-beta.3:
     resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
     engines: {node: '>=8.0.0'}
+    deprecated: Please migrate to a supported (non-beta) version of this package
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 1.2.6
@@ -10916,7 +10917,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-Wo7QcOadvBoR5vbeXSNYdwkIDmtRMlbeJLc+VM/gTSeju8z7NQ0/01SpkeOb/SHHejAyuDkHXtl9vrMT6mKnsQ==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-usDapy5bugy1wEZbGyM9czPanvc40ENzlJFYlgYTid1mXl755OWJTKdVMthKsPDL4rAvxljMO80cFkeCIGF76w==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -10932,7 +10933,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -17171,7 +17172,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-55L6D3Zr5nZu7iJ/bEuLzhKZ2AG4xeZ3aqkU2H9n3h1/bCp8g9Z4IhCZ3zBj5tSyZolhXot3cbINTIHlvDZZtA==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-/v2/2q6QmBLAy9IctuvCXDMjEedZw7eU0nNBrsQYr1zZqFHDyQRVJXLYYZVsIjWpuYTb6c/o7fkUhfe8YIuFAg==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -18744,7 +18745,7 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-X1NvwwnX9KW680X8qYAvWSab7HtqQCZXw/alWYUXwIV5glv3ivLmPYQ5Piid4yK4GyhBRMmd1zmgHk+MHPXiOQ==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-wioVHbwMitD5Oi7RoiJr6nKap7VrDmz+QfijZnl1FWfCgRdtrCyIpYp2oC+VDnmCiPQavSFrLpW+6qmzGR1jrg==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:
