@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type CreatedByType = string;
@@ -129,10 +129,10 @@ export interface DatadogOrganizationProperties {
     apiKey?: string;
     applicationKey?: string;
     enterpriseAppId?: string;
-    readonly id?: string;
+    id?: string;
     linkingAuthCode?: string;
     linkingClientId?: string;
-    readonly name?: string;
+    name?: string;
     redirectUri?: string;
 }
 
@@ -407,11 +407,11 @@ export interface MonitorProperties {
 
 // @public
 export interface Monitors {
-    beginCreate(resourceGroupName: string, monitorName: string, options?: MonitorsCreateOptionalParams): Promise<PollerLike<PollOperationState<MonitorsCreateResponse>, MonitorsCreateResponse>>;
+    beginCreate(resourceGroupName: string, monitorName: string, options?: MonitorsCreateOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsCreateResponse>, MonitorsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsCreateOptionalParams): Promise<MonitorsCreateResponse>;
-    beginDelete(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, monitorName: string, options?: MonitorsUpdateOptionalParams): Promise<PollerLike<PollOperationState<MonitorsUpdateResponse>, MonitorsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, monitorName: string, options?: MonitorsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsUpdateResponse>, MonitorsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsUpdateOptionalParams): Promise<MonitorsUpdateResponse>;
     get(resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams): Promise<MonitorsGetResponse>;
     getDefaultKey(resourceGroupName: string, monitorName: string, options?: MonitorsGetDefaultKeyOptionalParams): Promise<MonitorsGetDefaultKeyResponse>;
@@ -618,7 +618,7 @@ export interface ResourceSku {
 
 // @public
 export interface SingleSignOnConfigurations {
-    beginCreateOrUpdate(resourceGroupName: string, monitorName: string, configurationName: string, options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SingleSignOnConfigurationsCreateOrUpdateResponse>, SingleSignOnConfigurationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, monitorName: string, configurationName: string, options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SingleSignOnConfigurationsCreateOrUpdateResponse>, SingleSignOnConfigurationsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, monitorName: string, configurationName: string, options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams): Promise<SingleSignOnConfigurationsCreateOrUpdateResponse>;
     get(resourceGroupName: string, monitorName: string, configurationName: string, options?: SingleSignOnConfigurationsGetOptionalParams): Promise<SingleSignOnConfigurationsGetResponse>;
     list(resourceGroupName: string, monitorName: string, options?: SingleSignOnConfigurationsListOptionalParams): PagedAsyncIterableIterator<DatadogSingleSignOnResource>;
