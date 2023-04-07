@@ -1,15 +1,25 @@
 # Release History
+    
+## 15.0.0 (2023-04-07)
+    
+**Features**
 
-## 14.0.1 (Unreleased)
+  - Added operation WebApps.beginCreateOrUpdateConfiguration
+  - Added operation WebApps.beginCreateOrUpdateConfigurationAndWait
+  - Added operation WebApps.beginUpdateApplicationSettings
+  - Added operation WebApps.beginUpdateApplicationSettingsAndWait
+  - Interface WebAppsCreateOrUpdateConfigurationOptionalParams has a new optional parameter resumeFrom
+  - Interface WebAppsCreateOrUpdateConfigurationOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface WebAppsUpdateApplicationSettingsOptionalParams has a new optional parameter resumeFrom
+  - Interface WebAppsUpdateApplicationSettingsOptionalParams has a new optional parameter updateIntervalInMs
+  - Added Enum KnownWorkflowState
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation WebApps.createOrUpdateConfiguration
+  - Removed operation WebApps.updateApplicationSettings
+    
+    
 ## 14.0.0 (2023-03-10)
     
 **Features**

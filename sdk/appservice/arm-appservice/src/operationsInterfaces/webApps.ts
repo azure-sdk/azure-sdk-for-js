@@ -1843,7 +1843,25 @@ export interface WebApps {
    * @param appSettings Application settings of the app.
    * @param options The options parameters.
    */
-  updateApplicationSettings(
+  beginUpdateApplicationSettings(
+    resourceGroupName: string,
+    name: string,
+    appSettings: StringDictionary,
+    options?: WebAppsUpdateApplicationSettingsOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WebAppsUpdateApplicationSettingsResponse>,
+      WebAppsUpdateApplicationSettingsResponse
+    >
+  >;
+  /**
+   * Description for Replaces the application settings of an app.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param appSettings Application settings of the app.
+   * @param options The options parameters.
+   */
+  beginUpdateApplicationSettingsAndWait(
     resourceGroupName: string,
     name: string,
     appSettings: StringDictionary,
@@ -2173,7 +2191,25 @@ export interface WebApps {
    * @param siteConfig JSON representation of a SiteConfig object. See example.
    * @param options The options parameters.
    */
-  createOrUpdateConfiguration(
+  beginCreateOrUpdateConfiguration(
+    resourceGroupName: string,
+    name: string,
+    siteConfig: SiteConfigResource,
+    options?: WebAppsCreateOrUpdateConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WebAppsCreateOrUpdateConfigurationResponse>,
+      WebAppsCreateOrUpdateConfigurationResponse
+    >
+  >;
+  /**
+   * Description for Updates the configuration of an app.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param siteConfig JSON representation of a SiteConfig object. See example.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateConfigurationAndWait(
     resourceGroupName: string,
     name: string,
     siteConfig: SiteConfigResource,
