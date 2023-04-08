@@ -1,15 +1,62 @@
 # Release History
+    
+## 31.0.0 (2023-04-08)
+    
+**Features**
 
-## 30.2.1 (Unreleased)
+  - Added operation NetworkInterfaces.createOrUpdate
+  - Added operation NetworkInterfaces.delete
+  - Added operation NetworkInterfaces.getEffectiveRouteTable
+  - Added operation NetworkInterfaces.listEffectiveNetworkSecurityGroups
+  - Added operation NetworkInterfaceTapConfigurations.createOrUpdate
+  - Added operation NetworkInterfaceTapConfigurations.delete
+  - Interface DdosProtectionPlan has a new optional parameter publicIPAddresses
+  - Interface PolicySettings has a new optional parameter fileUploadEnforcement
+  - Interface PolicySettings has a new optional parameter requestBodyEnforcement
+  - Interface PolicySettings has a new optional parameter requestBodyInspectLimitInKB
+  - Interface PrivateEndpointConnection has a new optional parameter privateEndpointLocation
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation NetworkInterfaces.beginCreateOrUpdate
+  - Removed operation NetworkInterfaces.beginCreateOrUpdateAndWait
+  - Removed operation NetworkInterfaces.beginDelete
+  - Removed operation NetworkInterfaces.beginDeleteAndWait
+  - Removed operation NetworkInterfaces.beginGetEffectiveRouteTable
+  - Removed operation NetworkInterfaces.beginGetEffectiveRouteTableAndWait
+  - Removed operation NetworkInterfaces.beginListEffectiveNetworkSecurityGroups
+  - Removed operation NetworkInterfaces.beginListEffectiveNetworkSecurityGroupsAndWait
+  - Removed operation NetworkInterfaceTapConfigurations.beginCreateOrUpdate
+  - Removed operation NetworkInterfaceTapConfigurations.beginCreateOrUpdateAndWait
+  - Removed operation NetworkInterfaceTapConfigurations.beginDelete
+  - Removed operation NetworkInterfaceTapConfigurations.beginDeleteAndWait
+  - Interface DdosProtectionPlan no longer has parameter publicIpAddresses
+  - Interface NetworkInterfacesCreateOrUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface NetworkInterfacesCreateOrUpdateOptionalParams no longer has parameter updateIntervalInMs
+  - Interface NetworkInterfacesDeleteOptionalParams no longer has parameter resumeFrom
+  - Interface NetworkInterfacesDeleteOptionalParams no longer has parameter updateIntervalInMs
+  - Interface NetworkInterfacesGetEffectiveRouteTableOptionalParams no longer has parameter resumeFrom
+  - Interface NetworkInterfacesGetEffectiveRouteTableOptionalParams no longer has parameter updateIntervalInMs
+  - Interface NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams no longer has parameter resumeFrom
+  - Interface NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams no longer has parameter updateIntervalInMs
+  - Interface NetworkInterfaceTapConfigurationsCreateOrUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface NetworkInterfaceTapConfigurationsCreateOrUpdateOptionalParams no longer has parameter updateIntervalInMs
+  - Interface NetworkInterfaceTapConfigurationsDeleteOptionalParams no longer has parameter resumeFrom
+  - Interface NetworkInterfaceTapConfigurationsDeleteOptionalParams no longer has parameter updateIntervalInMs
+  - Interface VirtualNetwork no longer has parameter flowLogs
+  - Interface VpnGatewaysResetOptionalParams no longer has parameter ipConfigurationId
+  - Interface WebApplicationFirewallCustomRule no longer has parameter state
+  - Removed Enum KnownWebApplicationFirewallState
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus400
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus404
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus405
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus408
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus499
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus500
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus503
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus504
+    
+    
 ## 30.2.0 (2023-03-07)
     
 **Features**

@@ -7,7 +7,6 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NetworkInterfaceTapConfiguration,
   NetworkInterfaceTapConfigurationsListOptionalParams,
@@ -39,20 +38,7 @@ export interface NetworkInterfaceTapConfigurations {
    * @param tapConfigurationName The name of the tap configuration.
    * @param options The options parameters.
    */
-  beginDelete(
-    resourceGroupName: string,
-    networkInterfaceName: string,
-    tapConfigurationName: string,
-    options?: NetworkInterfaceTapConfigurationsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes the specified tap configuration from the NetworkInterface.
-   * @param resourceGroupName The name of the resource group.
-   * @param networkInterfaceName The name of the network interface.
-   * @param tapConfigurationName The name of the tap configuration.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
+  delete(
     resourceGroupName: string,
     networkInterfaceName: string,
     tapConfigurationName: string,
@@ -80,28 +66,7 @@ export interface NetworkInterfaceTapConfigurations {
    *                                   operation.
    * @param options The options parameters.
    */
-  beginCreateOrUpdate(
-    resourceGroupName: string,
-    networkInterfaceName: string,
-    tapConfigurationName: string,
-    tapConfigurationParameters: NetworkInterfaceTapConfiguration,
-    options?: NetworkInterfaceTapConfigurationsCreateOrUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NetworkInterfaceTapConfigurationsCreateOrUpdateResponse>,
-      NetworkInterfaceTapConfigurationsCreateOrUpdateResponse
-    >
-  >;
-  /**
-   * Creates or updates a Tap configuration in the specified NetworkInterface.
-   * @param resourceGroupName The name of the resource group.
-   * @param networkInterfaceName The name of the network interface.
-   * @param tapConfigurationName The name of the tap configuration.
-   * @param tapConfigurationParameters Parameters supplied to the create or update tap configuration
-   *                                   operation.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdateAndWait(
+  createOrUpdate(
     resourceGroupName: string,
     networkInterfaceName: string,
     tapConfigurationName: string,

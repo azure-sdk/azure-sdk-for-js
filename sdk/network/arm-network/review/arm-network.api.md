@@ -2911,7 +2911,7 @@ export interface DdosProtectionPlan {
     location?: string;
     readonly name?: string;
     readonly provisioningState?: ProvisioningState;
-    readonly publicIpAddresses?: SubResource[];
+    readonly publicIPAddresses?: SubResource[];
     readonly resourceGuid?: string;
     tags?: {
         [propertyName: string]: string;
@@ -3439,7 +3439,7 @@ export interface ExpressRouteCircuit extends Resource {
     allowClassicOperations?: boolean;
     authorizationKey?: string;
     authorizations?: ExpressRouteCircuitAuthorization[];
-    readonly authorizationStatus?: string;
+    authorizationStatus?: string;
     bandwidthInGbps?: number;
     circuitProvisioningState?: string;
     readonly etag?: string;
@@ -5900,16 +5900,8 @@ export enum KnownApplicationGatewayCookieBasedAffinity {
 
 // @public
 export enum KnownApplicationGatewayCustomErrorStatusCode {
-    HttpStatus400 = "HttpStatus400",
     HttpStatus403 = "HttpStatus403",
-    HttpStatus404 = "HttpStatus404",
-    HttpStatus405 = "HttpStatus405",
-    HttpStatus408 = "HttpStatus408",
-    HttpStatus499 = "HttpStatus499",
-    HttpStatus500 = "HttpStatus500",
-    HttpStatus502 = "HttpStatus502",
-    HttpStatus503 = "HttpStatus503",
-    HttpStatus504 = "HttpStatus504"
+    HttpStatus502 = "HttpStatus502"
 }
 
 // @public
@@ -7359,12 +7351,6 @@ export enum KnownWebApplicationFirewallRuleType {
 }
 
 // @public
-export enum KnownWebApplicationFirewallState {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
 export enum KnownWebApplicationFirewallTransform {
     HtmlEntityDecode = "HtmlEntityDecode",
     Lowercase = "Lowercase",
@@ -8516,22 +8502,18 @@ export type NetworkInterfaceNicType = string;
 
 // @public
 export interface NetworkInterfaces {
-    beginCreateOrUpdate(resourceGroupName: string, networkInterfaceName: string, parameters: NetworkInterface, options?: NetworkInterfacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NetworkInterfacesCreateOrUpdateResponse>, NetworkInterfacesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, networkInterfaceName: string, parameters: NetworkInterface, options?: NetworkInterfacesCreateOrUpdateOptionalParams): Promise<NetworkInterfacesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, networkInterfaceName: string, options?: NetworkInterfacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, networkInterfaceName: string, options?: NetworkInterfacesDeleteOptionalParams): Promise<void>;
-    beginGetEffectiveRouteTable(resourceGroupName: string, networkInterfaceName: string, options?: NetworkInterfacesGetEffectiveRouteTableOptionalParams): Promise<SimplePollerLike<OperationState<NetworkInterfacesGetEffectiveRouteTableResponse>, NetworkInterfacesGetEffectiveRouteTableResponse>>;
-    beginGetEffectiveRouteTableAndWait(resourceGroupName: string, networkInterfaceName: string, options?: NetworkInterfacesGetEffectiveRouteTableOptionalParams): Promise<NetworkInterfacesGetEffectiveRouteTableResponse>;
-    beginListEffectiveNetworkSecurityGroups(resourceGroupName: string, networkInterfaceName: string, options?: NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams): Promise<SimplePollerLike<OperationState<NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse>, NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse>>;
-    beginListEffectiveNetworkSecurityGroupsAndWait(resourceGroupName: string, networkInterfaceName: string, options?: NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams): Promise<NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse>;
+    createOrUpdate(resourceGroupName: string, networkInterfaceName: string, parameters: NetworkInterface, options?: NetworkInterfacesCreateOrUpdateOptionalParams): Promise<NetworkInterfacesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, networkInterfaceName: string, options?: NetworkInterfacesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, networkInterfaceName: string, options?: NetworkInterfacesGetOptionalParams): Promise<NetworkInterfacesGetResponse>;
     getCloudServiceNetworkInterface(resourceGroupName: string, cloudServiceName: string, roleInstanceName: string, networkInterfaceName: string, options?: NetworkInterfacesGetCloudServiceNetworkInterfaceOptionalParams): Promise<NetworkInterfacesGetCloudServiceNetworkInterfaceResponse>;
+    getEffectiveRouteTable(resourceGroupName: string, networkInterfaceName: string, options?: NetworkInterfacesGetEffectiveRouteTableOptionalParams): Promise<NetworkInterfacesGetEffectiveRouteTableResponse>;
     getVirtualMachineScaleSetIpConfiguration(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options?: NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams): Promise<NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationResponse>;
     getVirtualMachineScaleSetNetworkInterface(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, options?: NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams): Promise<NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceResponse>;
     list(resourceGroupName: string, options?: NetworkInterfacesListOptionalParams): PagedAsyncIterableIterator<NetworkInterface>;
     listAll(options?: NetworkInterfacesListAllOptionalParams): PagedAsyncIterableIterator<NetworkInterface>;
     listCloudServiceNetworkInterfaces(resourceGroupName: string, cloudServiceName: string, options?: NetworkInterfacesListCloudServiceNetworkInterfacesOptionalParams): PagedAsyncIterableIterator<NetworkInterface>;
     listCloudServiceRoleInstanceNetworkInterfaces(resourceGroupName: string, cloudServiceName: string, roleInstanceName: string, options?: NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesOptionalParams): PagedAsyncIterableIterator<NetworkInterface>;
+    listEffectiveNetworkSecurityGroups(resourceGroupName: string, networkInterfaceName: string, options?: NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams): Promise<NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse>;
     listVirtualMachineScaleSetIpConfigurations(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, options?: NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams): PagedAsyncIterableIterator<NetworkInterfaceIPConfiguration>;
     listVirtualMachineScaleSetNetworkInterfaces(resourceGroupName: string, virtualMachineScaleSetName: string, options?: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams): PagedAsyncIterableIterator<NetworkInterface>;
     listVirtualMachineScaleSetVMNetworkInterfaces(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, options?: NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams): PagedAsyncIterableIterator<NetworkInterface>;
@@ -8540,8 +8522,6 @@ export interface NetworkInterfaces {
 
 // @public
 export interface NetworkInterfacesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -8549,8 +8529,6 @@ export type NetworkInterfacesCreateOrUpdateResponse = NetworkInterface;
 
 // @public
 export interface NetworkInterfacesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -8563,8 +8541,6 @@ export type NetworkInterfacesGetCloudServiceNetworkInterfaceResponse = NetworkIn
 
 // @public
 export interface NetworkInterfacesGetEffectiveRouteTableOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -8638,8 +8614,6 @@ export type NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesRespon
 
 // @public
 export interface NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -8726,18 +8700,14 @@ export interface NetworkInterfaceTapConfigurationListResult {
 
 // @public
 export interface NetworkInterfaceTapConfigurations {
-    beginCreateOrUpdate(resourceGroupName: string, networkInterfaceName: string, tapConfigurationName: string, tapConfigurationParameters: NetworkInterfaceTapConfiguration, options?: NetworkInterfaceTapConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NetworkInterfaceTapConfigurationsCreateOrUpdateResponse>, NetworkInterfaceTapConfigurationsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, networkInterfaceName: string, tapConfigurationName: string, tapConfigurationParameters: NetworkInterfaceTapConfiguration, options?: NetworkInterfaceTapConfigurationsCreateOrUpdateOptionalParams): Promise<NetworkInterfaceTapConfigurationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, networkInterfaceName: string, tapConfigurationName: string, options?: NetworkInterfaceTapConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, networkInterfaceName: string, tapConfigurationName: string, options?: NetworkInterfaceTapConfigurationsDeleteOptionalParams): Promise<void>;
+    createOrUpdate(resourceGroupName: string, networkInterfaceName: string, tapConfigurationName: string, tapConfigurationParameters: NetworkInterfaceTapConfiguration, options?: NetworkInterfaceTapConfigurationsCreateOrUpdateOptionalParams): Promise<NetworkInterfaceTapConfigurationsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, networkInterfaceName: string, tapConfigurationName: string, options?: NetworkInterfaceTapConfigurationsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, networkInterfaceName: string, tapConfigurationName: string, options?: NetworkInterfaceTapConfigurationsGetOptionalParams): Promise<NetworkInterfaceTapConfigurationsGetResponse>;
     list(resourceGroupName: string, networkInterfaceName: string, options?: NetworkInterfaceTapConfigurationsListOptionalParams): PagedAsyncIterableIterator<NetworkInterfaceTapConfiguration>;
 }
 
 // @public
 export interface NetworkInterfaceTapConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -8745,8 +8715,6 @@ export type NetworkInterfaceTapConfigurationsCreateOrUpdateResponse = NetworkInt
 
 // @public
 export interface NetworkInterfaceTapConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -10327,21 +10295,19 @@ export interface PeerRoute {
 }
 
 // @public
-export interface PeerRouteList {
-    value?: PeerRoute[];
-}
-
-// @public
 export type PfsGroup = string;
 
 // @public
 export interface PolicySettings {
     customBlockResponseBody?: string;
     customBlockResponseStatusCode?: number;
+    fileUploadEnforcement?: boolean;
     fileUploadLimitInMb?: number;
     maxRequestBodySizeInKb?: number;
     mode?: WebApplicationFirewallMode;
     requestBodyCheck?: boolean;
+    requestBodyEnforcement?: boolean;
+    requestBodyInspectLimitInKB?: number;
     state?: WebApplicationFirewallEnabledState;
 }
 
@@ -10445,6 +10411,7 @@ export interface PrivateEndpointConnection extends SubResource {
     readonly linkIdentifier?: string;
     name?: string;
     readonly privateEndpoint?: PrivateEndpoint;
+    readonly privateEndpointLocation?: string;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: ProvisioningState;
     readonly type?: string;
@@ -12998,7 +12965,9 @@ export interface VirtualHubBgpConnectionsListAdvertisedRoutesOptionalParams exte
 }
 
 // @public
-export type VirtualHubBgpConnectionsListAdvertisedRoutesResponse = PeerRouteList;
+export type VirtualHubBgpConnectionsListAdvertisedRoutesResponse = {
+    [propertyName: string]: PeerRoute[];
+};
 
 // @public
 export interface VirtualHubBgpConnectionsListLearnedRoutesOptionalParams extends coreClient.OperationOptions {
@@ -13007,7 +12976,9 @@ export interface VirtualHubBgpConnectionsListLearnedRoutesOptionalParams extends
 }
 
 // @public
-export type VirtualHubBgpConnectionsListLearnedRoutesResponse = PeerRouteList;
+export type VirtualHubBgpConnectionsListLearnedRoutesResponse = {
+    [propertyName: string]: PeerRoute[];
+};
 
 // @public
 export interface VirtualHubBgpConnectionsListNextOptionalParams extends coreClient.OperationOptions {
@@ -13267,7 +13238,6 @@ export interface VirtualNetwork extends Resource {
     encryption?: VirtualNetworkEncryption;
     readonly etag?: string;
     extendedLocation?: ExtendedLocation;
-    readonly flowLogs?: FlowLog[];
     flowTimeoutInMinutes?: number;
     ipAllocations?: SubResource[];
     readonly provisioningState?: ProvisioningState;
@@ -14825,7 +14795,6 @@ export type VpnGatewaysListResponse = ListVpnGatewaysResult;
 
 // @public
 export interface VpnGatewaysResetOptionalParams extends coreClient.OperationOptions {
-    ipConfigurationId?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -15298,7 +15267,6 @@ export interface WebApplicationFirewallCustomRule {
     name?: string;
     priority: number;
     ruleType: WebApplicationFirewallRuleType;
-    state?: WebApplicationFirewallState;
 }
 
 // @public
@@ -15395,9 +15363,6 @@ export type WebApplicationFirewallPolicyResourceState = string;
 
 // @public
 export type WebApplicationFirewallRuleType = string;
-
-// @public
-export type WebApplicationFirewallState = string;
 
 // @public
 export type WebApplicationFirewallTransform = string;

@@ -14,12 +14,6 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
 import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
-import {
   NetworkInterface,
   NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesNextOptionalParams,
   NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesOptionalParams,
@@ -726,81 +720,15 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
    * @param networkInterfaceName The name of the network interface.
    * @param options The options parameters.
    */
-  async beginDelete(
-    resourceGroupName: string,
-    networkInterfaceName: string,
-    options?: NetworkInterfacesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, networkInterfaceName, options },
-      spec: deleteOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes the specified network interface.
-   * @param resourceGroupName The name of the resource group.
-   * @param networkInterfaceName The name of the network interface.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
+  delete(
     resourceGroupName: string,
     networkInterfaceName: string,
     options?: NetworkInterfacesDeleteOptionalParams
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      networkInterfaceName,
-      options
+    return this.client.sendOperationRequest(
+      { resourceGroupName, networkInterfaceName, options },
+      deleteOperationSpec
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -827,93 +755,16 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
    * @param parameters Parameters supplied to the create or update network interface operation.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdate(
-    resourceGroupName: string,
-    networkInterfaceName: string,
-    parameters: NetworkInterface,
-    options?: NetworkInterfacesCreateOrUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NetworkInterfacesCreateOrUpdateResponse>,
-      NetworkInterfacesCreateOrUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<NetworkInterfacesCreateOrUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, networkInterfaceName, parameters, options },
-      spec: createOrUpdateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      NetworkInterfacesCreateOrUpdateResponse,
-      OperationState<NetworkInterfacesCreateOrUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Creates or updates a network interface.
-   * @param resourceGroupName The name of the resource group.
-   * @param networkInterfaceName The name of the network interface.
-   * @param parameters Parameters supplied to the create or update network interface operation.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
+  createOrUpdate(
     resourceGroupName: string,
     networkInterfaceName: string,
     parameters: NetworkInterface,
     options?: NetworkInterfacesCreateOrUpdateOptionalParams
   ): Promise<NetworkInterfacesCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      networkInterfaceName,
-      parameters,
-      options
+    return this.client.sendOperationRequest(
+      { resourceGroupName, networkInterfaceName, parameters, options },
+      createOrUpdateOperationSpec
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -966,89 +817,15 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
    * @param networkInterfaceName The name of the network interface.
    * @param options The options parameters.
    */
-  async beginGetEffectiveRouteTable(
-    resourceGroupName: string,
-    networkInterfaceName: string,
-    options?: NetworkInterfacesGetEffectiveRouteTableOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NetworkInterfacesGetEffectiveRouteTableResponse>,
-      NetworkInterfacesGetEffectiveRouteTableResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<NetworkInterfacesGetEffectiveRouteTableResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, networkInterfaceName, options },
-      spec: getEffectiveRouteTableOperationSpec
-    });
-    const poller = await createHttpPoller<
-      NetworkInterfacesGetEffectiveRouteTableResponse,
-      OperationState<NetworkInterfacesGetEffectiveRouteTableResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Gets all route tables applied to a network interface.
-   * @param resourceGroupName The name of the resource group.
-   * @param networkInterfaceName The name of the network interface.
-   * @param options The options parameters.
-   */
-  async beginGetEffectiveRouteTableAndWait(
+  getEffectiveRouteTable(
     resourceGroupName: string,
     networkInterfaceName: string,
     options?: NetworkInterfacesGetEffectiveRouteTableOptionalParams
   ): Promise<NetworkInterfacesGetEffectiveRouteTableResponse> {
-    const poller = await this.beginGetEffectiveRouteTable(
-      resourceGroupName,
-      networkInterfaceName,
-      options
+    return this.client.sendOperationRequest(
+      { resourceGroupName, networkInterfaceName, options },
+      getEffectiveRouteTableOperationSpec
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -1057,93 +834,15 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
    * @param networkInterfaceName The name of the network interface.
    * @param options The options parameters.
    */
-  async beginListEffectiveNetworkSecurityGroups(
-    resourceGroupName: string,
-    networkInterfaceName: string,
-    options?: NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<
-        NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse
-      >,
-      NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, networkInterfaceName, options },
-      spec: listEffectiveNetworkSecurityGroupsOperationSpec
-    });
-    const poller = await createHttpPoller<
-      NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse,
-      OperationState<
-        NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse
-      >
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Gets all network security groups applied to a network interface.
-   * @param resourceGroupName The name of the resource group.
-   * @param networkInterfaceName The name of the network interface.
-   * @param options The options parameters.
-   */
-  async beginListEffectiveNetworkSecurityGroupsAndWait(
+  listEffectiveNetworkSecurityGroups(
     resourceGroupName: string,
     networkInterfaceName: string,
     options?: NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams
   ): Promise<NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse> {
-    const poller = await this.beginListEffectiveNetworkSecurityGroups(
-      resourceGroupName,
-      networkInterfaceName,
-      options
+    return this.client.sendOperationRequest(
+      { resourceGroupName, networkInterfaceName, options },
+      listEffectiveNetworkSecurityGroupsOperationSpec
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -1526,7 +1225,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
-    201: {},
     202: {},
     204: {},
     default: {
@@ -1574,12 +1272,6 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NetworkInterface
     },
     201: {
-      bodyMapper: Mappers.NetworkInterface
-    },
-    202: {
-      bodyMapper: Mappers.NetworkInterface
-    },
-    204: {
       bodyMapper: Mappers.NetworkInterface
     },
     default: {
@@ -1668,15 +1360,7 @@ const getEffectiveRouteTableOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.EffectiveRouteListResult
     },
-    201: {
-      bodyMapper: Mappers.EffectiveRouteListResult
-    },
-    202: {
-      bodyMapper: Mappers.EffectiveRouteListResult
-    },
-    204: {
-      bodyMapper: Mappers.EffectiveRouteListResult
-    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -1699,15 +1383,7 @@ const listEffectiveNetworkSecurityGroupsOperationSpec: coreClient.OperationSpec 
     200: {
       bodyMapper: Mappers.EffectiveNetworkSecurityGroupListResult
     },
-    201: {
-      bodyMapper: Mappers.EffectiveNetworkSecurityGroupListResult
-    },
-    202: {
-      bodyMapper: Mappers.EffectiveNetworkSecurityGroupListResult
-    },
-    204: {
-      bodyMapper: Mappers.EffectiveNetworkSecurityGroupListResult
-    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
