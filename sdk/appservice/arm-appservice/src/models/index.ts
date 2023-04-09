@@ -3951,6 +3951,12 @@ export interface FunctionEnvelopeCollection {
 
 /** Function key info. */
 export interface KeyInfo {
+  /** The properties of function key info. */
+  properties?: KeyInfoProperties;
+}
+
+/** The properties of function key info. */
+export interface KeyInfoProperties {
   /** Key name */
   name?: string;
   /** Key value */
@@ -10021,6 +10027,36 @@ export enum KnownPublishingProfileFormat {
  */
 export type PublishingProfileFormat = string;
 
+/** Known values of {@link WorkflowState} that the service accepts. */
+export enum KnownWorkflowState {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** Completed */
+  Completed = "Completed",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** Suspended */
+  Suspended = "Suspended"
+}
+
+/**
+ * Defines values for WorkflowState. \
+ * {@link KnownWorkflowState} can be used interchangeably with WorkflowState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **Completed** \
+ * **Enabled** \
+ * **Disabled** \
+ * **Deleted** \
+ * **Suspended**
+ */
+export type WorkflowState = string;
+
 /** Known values of {@link KeyType} that the service accepts. */
 export enum KnownKeyType {
   /** NotSpecified */
@@ -10743,14 +10779,6 @@ export type PublicCertificateLocation =
 export type SiteExtensionType = "Gallery" | "WebRoot";
 /** Defines values for TriggeredWebJobStatus. */
 export type TriggeredWebJobStatus = "Success" | "Failed" | "Error";
-/** Defines values for WorkflowState. */
-export type WorkflowState =
-  | "NotSpecified"
-  | "Completed"
-  | "Enabled"
-  | "Disabled"
-  | "Deleted"
-  | "Suspended";
 /** Defines values for WorkflowHealthState. */
 export type WorkflowHealthState =
   | "NotSpecified"

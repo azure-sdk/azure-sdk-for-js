@@ -1,15 +1,19 @@
 # Release History
+    
+## 15.0.0 (2023-04-09)
+    
+**Features**
 
-## 14.0.1 (Unreleased)
+  - Added Interface KeyInfoProperties
+  - Interface KeyInfo has a new optional parameter properties
+  - Added Enum KnownWorkflowState
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface KeyInfo no longer has parameter name
+  - Interface KeyInfo no longer has parameter value
+    
+    
 ## 14.0.0 (2023-03-10)
     
 **Features**

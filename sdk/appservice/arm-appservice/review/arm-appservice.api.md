@@ -3969,6 +3969,11 @@ export interface JwtClaimChecks {
 
 // @public
 export interface KeyInfo {
+    properties?: KeyInfoProperties;
+}
+
+// @public
+export interface KeyInfoProperties {
     name?: string;
     value?: string;
 }
@@ -4322,6 +4327,16 @@ export enum KnownWorkflowSkuName {
     Premium = "Premium",
     Shared = "Shared",
     Standard = "Standard"
+}
+
+// @public
+export enum KnownWorkflowState {
+    Completed = "Completed",
+    Deleted = "Deleted",
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    NotSpecified = "NotSpecified",
+    Suspended = "Suspended"
 }
 
 // @public
@@ -12301,7 +12316,7 @@ export interface WorkflowsRegenerateAccessKeyOptionalParams extends coreClient.O
 }
 
 // @public
-export type WorkflowState = "NotSpecified" | "Completed" | "Enabled" | "Disabled" | "Deleted" | "Suspended";
+export type WorkflowState = string;
 
 // @public
 export type WorkflowStatus = string;
