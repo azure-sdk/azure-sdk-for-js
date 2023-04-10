@@ -6416,7 +6416,7 @@ export interface Subnet extends SubResource {
   /** Enable or Disable apply network policies on private link service in the subnet. */
   privateLinkServiceNetworkPolicies?: VirtualNetworkPrivateLinkServiceNetworkPolicies;
   /** Application gateway IP configurations of virtual network resource. */
-  applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
+  applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
 }
 
 /** Frontend IP address of the load balancer. */
@@ -15691,8 +15691,6 @@ export type ManagedRuleEnabledState = string;
 export enum KnownActionType {
   /** AnomalyScoring */
   AnomalyScoring = "AnomalyScoring",
-  /** Allow */
-  Allow = "Allow",
   /** Block */
   Block = "Block",
   /** Log */
@@ -15705,7 +15703,6 @@ export enum KnownActionType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **AnomalyScoring** \
- * **Allow** \
  * **Block** \
  * **Log**
  */

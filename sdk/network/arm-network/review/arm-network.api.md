@@ -5859,7 +5859,6 @@ export enum KnownAccess {
 
 // @public
 export enum KnownActionType {
-    Allow = "Allow",
     AnomalyScoring = "AnomalyScoring",
     Block = "Block",
     Log = "Log"
@@ -12439,7 +12438,7 @@ export interface StaticRoutesConfig {
 export interface Subnet extends SubResource {
     addressPrefix?: string;
     addressPrefixes?: string[];
-    applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
+    applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
     delegations?: Delegation[];
     readonly etag?: string;
     ipAllocations?: SubResource[];
