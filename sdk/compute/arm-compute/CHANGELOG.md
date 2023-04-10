@@ -1,15 +1,21 @@
 # Release History
+    
+## 20.1.0 (2023-04-10)
+    
+**Features**
 
-## 20.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ExecutedValidation
+  - Added Interface ValidationsProfile
+  - Interface GalleryImageVersion has a new optional parameter validationsProfile
+  - Interface GalleryImageVersionUpdate has a new optional parameter validationsProfile
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter computerName
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter hyperVGeneration
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter osName
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter osVersion
+  - Enum KnownReplicationStatusTypes has a new value ValidationProfile
+  - Enum KnownStorageAccountType has a new value StandardSSDLRS
+    
+    
 ## 20.0.0 (2023-01-05)
     
 **Features**

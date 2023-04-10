@@ -1488,6 +1488,84 @@ export const ApiEntityReference: coreClient.CompositeMapper = {
   }
 };
 
+export const VirtualMachineScaleSetNetworkConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualMachineScaleSetNetworkConfiguration",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      primary: {
+        serializedName: "properties.primary",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableAcceleratedNetworking: {
+        serializedName: "properties.enableAcceleratedNetworking",
+        type: {
+          name: "Boolean"
+        }
+      },
+      disableTcpStateTracking: {
+        serializedName: "properties.disableTcpStateTracking",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableFpga: {
+        serializedName: "properties.enableFpga",
+        type: {
+          name: "Boolean"
+        }
+      },
+      networkSecurityGroup: {
+        serializedName: "properties.networkSecurityGroup",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      },
+      dnsSettings: {
+        serializedName: "properties.dnsSettings",
+        type: {
+          name: "Composite",
+          className: "VirtualMachineScaleSetNetworkConfigurationDnsSettings"
+        }
+      },
+      ipConfigurations: {
+        serializedName: "properties.ipConfigurations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VirtualMachineScaleSetIPConfiguration"
+            }
+          }
+        }
+      },
+      enableIPForwarding: {
+        serializedName: "properties.enableIPForwarding",
+        type: {
+          name: "Boolean"
+        }
+      },
+      deleteOption: {
+        serializedName: "properties.deleteOption",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const VirtualMachineScaleSetNetworkConfigurationDnsSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1500,6 +1578,96 @@ export const VirtualMachineScaleSetNetworkConfigurationDnsSettings: coreClient.C
           element: {
             type: {
               name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const VirtualMachineScaleSetIPConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualMachineScaleSetIPConfiguration",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      subnet: {
+        serializedName: "properties.subnet",
+        type: {
+          name: "Composite",
+          className: "ApiEntityReference"
+        }
+      },
+      primary: {
+        serializedName: "properties.primary",
+        type: {
+          name: "Boolean"
+        }
+      },
+      publicIPAddressConfiguration: {
+        serializedName: "properties.publicIPAddressConfiguration",
+        type: {
+          name: "Composite",
+          className: "VirtualMachineScaleSetPublicIPAddressConfiguration"
+        }
+      },
+      privateIPAddressVersion: {
+        serializedName: "properties.privateIPAddressVersion",
+        type: {
+          name: "String"
+        }
+      },
+      applicationGatewayBackendAddressPools: {
+        serializedName: "properties.applicationGatewayBackendAddressPools",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource"
+            }
+          }
+        }
+      },
+      applicationSecurityGroups: {
+        serializedName: "properties.applicationSecurityGroups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource"
+            }
+          }
+        }
+      },
+      loadBalancerBackendAddressPools: {
+        serializedName: "properties.loadBalancerBackendAddressPools",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource"
+            }
+          }
+        }
+      },
+      loadBalancerInboundNatPools: {
+        serializedName: "properties.loadBalancerInboundNatPools",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource"
             }
           }
         }
@@ -3458,6 +3626,30 @@ export const VirtualMachineScaleSetVMInstanceView: coreClient.CompositeMapper = 
       },
       placementGroupId: {
         serializedName: "placementGroupId",
+        type: {
+          name: "String"
+        }
+      },
+      computerName: {
+        serializedName: "computerName",
+        type: {
+          name: "String"
+        }
+      },
+      osName: {
+        serializedName: "osName",
+        type: {
+          name: "String"
+        }
+      },
+      osVersion: {
+        serializedName: "osVersion",
+        type: {
+          name: "String"
+        }
+      },
+      hyperVGeneration: {
+        serializedName: "hyperVGeneration",
         type: {
           name: "String"
         }
@@ -9382,6 +9574,73 @@ export const RegionalReplicationStatus: coreClient.CompositeMapper = {
   }
 };
 
+export const ValidationsProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ValidationsProfile",
+    modelProperties: {
+      validationEtag: {
+        serializedName: "validationEtag",
+        type: {
+          name: "String"
+        }
+      },
+      executedValidations: {
+        serializedName: "executedValidations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExecutedValidation"
+            }
+          }
+        }
+      },
+      platformAttributes: {
+        serializedName: "platformAttributes",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const ExecutedValidation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExecutedValidation",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      },
+      executionTime: {
+        serializedName: "executionTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const GalleryApplicationCustomAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -11470,176 +11729,6 @@ export const DiskEncryptionSetParameters: coreClient.CompositeMapper = {
     className: "DiskEncryptionSetParameters",
     modelProperties: {
       ...SubResource.type.modelProperties
-    }
-  }
-};
-
-export const VirtualMachineScaleSetIPConfiguration: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VirtualMachineScaleSetIPConfiguration",
-    modelProperties: {
-      ...SubResource.type.modelProperties,
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      subnet: {
-        serializedName: "properties.subnet",
-        type: {
-          name: "Composite",
-          className: "ApiEntityReference"
-        }
-      },
-      primary: {
-        serializedName: "properties.primary",
-        type: {
-          name: "Boolean"
-        }
-      },
-      publicIPAddressConfiguration: {
-        serializedName: "properties.publicIPAddressConfiguration",
-        type: {
-          name: "Composite",
-          className: "VirtualMachineScaleSetPublicIPAddressConfiguration"
-        }
-      },
-      privateIPAddressVersion: {
-        serializedName: "properties.privateIPAddressVersion",
-        type: {
-          name: "String"
-        }
-      },
-      applicationGatewayBackendAddressPools: {
-        serializedName: "properties.applicationGatewayBackendAddressPools",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SubResource"
-            }
-          }
-        }
-      },
-      applicationSecurityGroups: {
-        serializedName: "properties.applicationSecurityGroups",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SubResource"
-            }
-          }
-        }
-      },
-      loadBalancerBackendAddressPools: {
-        serializedName: "properties.loadBalancerBackendAddressPools",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SubResource"
-            }
-          }
-        }
-      },
-      loadBalancerInboundNatPools: {
-        serializedName: "properties.loadBalancerInboundNatPools",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SubResource"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const VirtualMachineScaleSetNetworkConfiguration: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VirtualMachineScaleSetNetworkConfiguration",
-    modelProperties: {
-      ...SubResource.type.modelProperties,
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      primary: {
-        serializedName: "properties.primary",
-        type: {
-          name: "Boolean"
-        }
-      },
-      enableAcceleratedNetworking: {
-        serializedName: "properties.enableAcceleratedNetworking",
-        type: {
-          name: "Boolean"
-        }
-      },
-      disableTcpStateTracking: {
-        serializedName: "properties.disableTcpStateTracking",
-        type: {
-          name: "Boolean"
-        }
-      },
-      enableFpga: {
-        serializedName: "properties.enableFpga",
-        type: {
-          name: "Boolean"
-        }
-      },
-      networkSecurityGroup: {
-        serializedName: "properties.networkSecurityGroup",
-        type: {
-          name: "Composite",
-          className: "SubResource"
-        }
-      },
-      dnsSettings: {
-        serializedName: "properties.dnsSettings",
-        type: {
-          name: "Composite",
-          className: "VirtualMachineScaleSetNetworkConfigurationDnsSettings"
-        }
-      },
-      ipConfigurations: {
-        serializedName: "properties.ipConfigurations",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VirtualMachineScaleSetIPConfiguration"
-            }
-          }
-        }
-      },
-      enableIPForwarding: {
-        serializedName: "properties.enableIPForwarding",
-        type: {
-          name: "Boolean"
-        }
-      },
-      deleteOption: {
-        serializedName: "properties.deleteOption",
-        type: {
-          name: "String"
-        }
-      }
     }
   }
 };
@@ -14411,6 +14500,13 @@ export const GalleryImageVersion: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ReplicationStatus"
         }
+      },
+      validationsProfile: {
+        serializedName: "properties.validationsProfile",
+        type: {
+          name: "Composite",
+          className: "ValidationsProfile"
+        }
       }
     }
   }
@@ -16031,6 +16127,13 @@ export const GalleryImageVersionUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ReplicationStatus"
+        }
+      },
+      validationsProfile: {
+        serializedName: "properties.validationsProfile",
+        type: {
+          name: "Composite",
+          className: "ValidationsProfile"
         }
       }
     }
