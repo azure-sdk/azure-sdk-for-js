@@ -255,7 +255,7 @@ export interface Remediation {
   /** The way resources to remediate are discovered. Defaults to ExistingNonCompliant if not specified. */
   resourceDiscoveryMode?: ResourceDiscoveryMode;
   /**
-   * The status of the remediation.
+   * The status of the remediation. This refers to the entire remediation task, not individual deployments. Allowed values are Evaluating, Canceled, Cancelling, Failed, Complete, or Succeeded.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
@@ -882,6 +882,8 @@ export interface CheckRestrictionsRequest {
   resourceDetails: CheckRestrictionsResourceDetails;
   /** The list of fields and values that should be evaluated for potential restrictions. */
   pendingFields?: PendingField[];
+  /** Whether to include policies with the 'audit' effect in the results. Defaults to false. */
+  includeAuditEffect?: boolean;
 }
 
 /** The information about the resource that will be evaluated. */
@@ -949,6 +951,16 @@ export interface FieldRestriction {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly policy?: PolicyReference;
+  /**
+   * The effect of the policy that is causing the field restriction. http://aka.ms/policyeffects
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyEffect?: string;
+  /**
+   * The reason for the restriction.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reason?: string;
 }
 
 /** Resource identifiers for a policy. */
@@ -997,7 +1009,34 @@ export interface PolicyEvaluationResult {
    * The detailed results of the policy expressions and values that were evaluated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly evaluationDetails?: PolicyEvaluationDetails;
+  readonly evaluationDetails?: CheckRestrictionEvaluationDetails;
+  /**
+   * The details of the effect that was applied to the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly effectDetails?: PolicyEffectDetails;
+}
+
+/** Policy evaluation details. */
+export interface CheckRestrictionEvaluationDetails {
+  /** Details of the evaluated expressions. */
+  evaluatedExpressions?: ExpressionEvaluationDetails[];
+  /** Evaluation details of IfNotExists effect. */
+  ifNotExistsDetails?: IfNotExistsEvaluationDetails;
+  /**
+   * The reason for the evaluation result.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reason?: string;
+}
+
+/** The details of the effect that was applied to the resource. */
+export interface PolicyEffectDetails {
+  /**
+   * The effect that was applied to the resource. http://aka.ms/policyeffects
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyEffect?: string;
 }
 
 /** The check policy restrictions parameters describing the resource that is being evaluated. */
@@ -1514,12 +1553,14 @@ export type PolicyStatesSummaryResourceType = string;
 
 /** Known values of {@link FieldRestrictionResult} that the service accepts. */
 export enum KnownFieldRestrictionResult {
-  /** The field and/or values are required by policy. */
+  /** The field and\/or values are required by policy. */
   Required = "Required",
   /** The field will be removed by policy. */
   Removed = "Removed",
-  /** The field and/or values will be denied by policy. */
-  Deny = "Deny"
+  /** The field and\/or values will be denied by policy. */
+  Deny = "Deny",
+  /** The field and\/or values will be audited by policy. */
+  Audit = "Audit"
 }
 
 /**
@@ -1529,7 +1570,8 @@ export enum KnownFieldRestrictionResult {
  * ### Known values supported by the service
  * **Required**: The field and\/or values are required by policy. \
  * **Removed**: The field will be removed by policy. \
- * **Deny**: The field and\/or values will be denied by policy.
+ * **Deny**: The field and\/or values will be denied by policy. \
+ * **Audit**: The field and\/or values will be audited by policy.
  */
 export type FieldRestrictionResult = string;
 

@@ -1977,6 +1977,13 @@ export const CheckRestrictionsRequest: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      includeAuditEffect: {
+        defaultValue: false,
+        serializedName: "includeAuditEffect",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -2132,6 +2139,20 @@ export const FieldRestriction: coreClient.CompositeMapper = {
           name: "Composite",
           className: "PolicyReference"
         }
+      },
+      policyEffect: {
+        serializedName: "policyEffect",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      reason: {
+        serializedName: "reason",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2218,7 +2239,65 @@ export const PolicyEvaluationResult: coreClient.CompositeMapper = {
         serializedName: "evaluationDetails",
         type: {
           name: "Composite",
-          className: "PolicyEvaluationDetails"
+          className: "CheckRestrictionEvaluationDetails"
+        }
+      },
+      effectDetails: {
+        serializedName: "effectDetails",
+        type: {
+          name: "Composite",
+          className: "PolicyEffectDetails"
+        }
+      }
+    }
+  }
+};
+
+export const CheckRestrictionEvaluationDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CheckRestrictionEvaluationDetails",
+    modelProperties: {
+      evaluatedExpressions: {
+        serializedName: "evaluatedExpressions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExpressionEvaluationDetails"
+            }
+          }
+        }
+      },
+      ifNotExistsDetails: {
+        serializedName: "ifNotExistsDetails",
+        type: {
+          name: "Composite",
+          className: "IfNotExistsEvaluationDetails"
+        }
+      },
+      reason: {
+        serializedName: "reason",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PolicyEffectDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicyEffectDetails",
+    modelProperties: {
+      policyEffect: {
+        serializedName: "policyEffect",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }

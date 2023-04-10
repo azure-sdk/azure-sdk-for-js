@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { PolicyInsightsClient } from "../policyInsightsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   PolicyState,
   PolicyStatesResource,
@@ -995,14 +999,14 @@ export class PolicyStatesImpl implements PolicyStates {
   async beginTriggerSubscriptionEvaluation(
     subscriptionId: string,
     options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1035,15 +1039,15 @@ export class PolicyStatesImpl implements PolicyStates {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { subscriptionId, options },
-      triggerSubscriptionEvaluationOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { subscriptionId, options },
+      spec: triggerSubscriptionEvaluationOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1075,14 +1079,14 @@ export class PolicyStatesImpl implements PolicyStates {
     subscriptionId: string,
     resourceGroupName: string,
     options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1115,15 +1119,15 @@ export class PolicyStatesImpl implements PolicyStates {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { subscriptionId, resourceGroupName, options },
-      triggerResourceGroupEvaluationOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { subscriptionId, resourceGroupName, options },
+      spec: triggerResourceGroupEvaluationOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;

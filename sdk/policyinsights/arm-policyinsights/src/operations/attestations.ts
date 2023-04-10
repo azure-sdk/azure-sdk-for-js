@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { PolicyInsightsClient } from "../policyInsightsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Attestation,
   AttestationsListForSubscriptionNextOptionalParams,
@@ -271,8 +275,8 @@ export class AttestationsImpl implements Attestations {
     parameters: Attestation,
     options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AttestationsCreateOrUpdateAtSubscriptionResponse>,
+    SimplePollerLike<
+      OperationState<AttestationsCreateOrUpdateAtSubscriptionResponse>,
       AttestationsCreateOrUpdateAtSubscriptionResponse
     >
   > {
@@ -282,7 +286,7 @@ export class AttestationsImpl implements Attestations {
     ): Promise<AttestationsCreateOrUpdateAtSubscriptionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -315,13 +319,16 @@ export class AttestationsImpl implements Attestations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { attestationName, parameters, options },
-      createOrUpdateAtSubscriptionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { attestationName, parameters, options },
+      spec: createOrUpdateAtSubscriptionOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AttestationsCreateOrUpdateAtSubscriptionResponse,
+      OperationState<AttestationsCreateOrUpdateAtSubscriptionResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -405,8 +412,8 @@ export class AttestationsImpl implements Attestations {
     parameters: Attestation,
     options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AttestationsCreateOrUpdateAtResourceGroupResponse>,
+    SimplePollerLike<
+      OperationState<AttestationsCreateOrUpdateAtResourceGroupResponse>,
       AttestationsCreateOrUpdateAtResourceGroupResponse
     >
   > {
@@ -416,7 +423,7 @@ export class AttestationsImpl implements Attestations {
     ): Promise<AttestationsCreateOrUpdateAtResourceGroupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -449,13 +456,16 @@ export class AttestationsImpl implements Attestations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, attestationName, parameters, options },
-      createOrUpdateAtResourceGroupOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, attestationName, parameters, options },
+      spec: createOrUpdateAtResourceGroupOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AttestationsCreateOrUpdateAtResourceGroupResponse,
+      OperationState<AttestationsCreateOrUpdateAtResourceGroupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -546,8 +556,8 @@ export class AttestationsImpl implements Attestations {
     parameters: Attestation,
     options?: AttestationsCreateOrUpdateAtResourceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AttestationsCreateOrUpdateAtResourceResponse>,
+    SimplePollerLike<
+      OperationState<AttestationsCreateOrUpdateAtResourceResponse>,
       AttestationsCreateOrUpdateAtResourceResponse
     >
   > {
@@ -557,7 +567,7 @@ export class AttestationsImpl implements Attestations {
     ): Promise<AttestationsCreateOrUpdateAtResourceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -590,13 +600,16 @@ export class AttestationsImpl implements Attestations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceId, attestationName, parameters, options },
-      createOrUpdateAtResourceOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceId, attestationName, parameters, options },
+      spec: createOrUpdateAtResourceOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AttestationsCreateOrUpdateAtResourceResponse,
+      OperationState<AttestationsCreateOrUpdateAtResourceResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
