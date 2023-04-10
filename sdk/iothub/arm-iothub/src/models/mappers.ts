@@ -351,6 +351,12 @@ export const IotHubProperties: coreClient.CompositeMapper = {
           name: "Composite",
           className: "RootCertificateProperties"
         }
+      },
+      ipVersion: {
+        serializedName: "ipVersion",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1234,7 +1240,6 @@ export const RouteProperties: coreClient.CompositeMapper = {
       },
       isEnabled: {
         serializedName: "isEnabled",
-        required: true,
         type: {
           name: "Boolean"
         }
@@ -3304,6 +3309,27 @@ export const IotHubResourceDeleteHeaders: coreClient.CompositeMapper = {
     modelProperties: {
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IotHubManualFailoverHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IotHubManualFailoverHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
         type: {
           name: "String"
         }

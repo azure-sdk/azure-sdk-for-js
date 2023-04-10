@@ -149,6 +149,8 @@ export interface IotHubProperties {
   enableDataResidency?: boolean;
   /** This property store root certificate related information */
   rootCertificate?: RootCertificateProperties;
+  /** This property specifies the IP Version the hub is currently utilizing. */
+  ipVersion?: IpVersion;
 }
 
 /** The properties of an IoT hub shared access policy. */
@@ -270,7 +272,7 @@ export interface RoutingProperties {
   endpoints?: RoutingEndpoints;
   /** The list of user-provided routing rules that the IoT hub uses to route messages to built-in and custom endpoints. A maximum of 100 routing rules are allowed for paid hubs and a maximum of 5 routing rules are allowed for free hubs. */
   routes?: RouteProperties[];
-  /** The properties of the route that is used as a fall-back route when none of the conditions specified in the 'routes' section are met. This is an optional parameter. When this property is not set, the messages which do not meet any of the conditions specified in the 'routes' section get routed to the built-in eventhub endpoint. */
+  /** The properties of the route that is used as a fall-back route when none of the conditions specified in the 'routes' section are met. This is an optional parameter. When this property is not present in the template, the fallback route gets disabled by default. */
   fallbackRoute?: FallbackRouteProperties;
   /** The list of user-provided enrichments that the IoT hub applies to messages to be delivered to built-in and custom endpoints. See: https://aka.ms/telemetryoneventgrid */
   enrichments?: EnrichmentProperties[];
@@ -433,7 +435,7 @@ export interface RouteProperties {
   /** The list of endpoints to which messages that satisfy the condition are routed. Currently only one endpoint is allowed. */
   endpointNames: string[];
   /** Used to specify whether a route is enabled. */
-  isEnabled: boolean;
+  isEnabled?: boolean;
 }
 
 /** The properties of the fallback route. IoT Hub uses these properties when it routes messages to the fallback endpoint. */
@@ -1291,6 +1293,13 @@ export interface IotHubResourceDeleteHeaders {
   azureAsyncOperation?: string;
 }
 
+/** Defines headers for IotHub_manualFailover operation. */
+export interface IotHubManualFailoverHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+  location?: string;
+}
+
 /** Defines headers for PrivateEndpointConnections_update operation. */
 export interface PrivateEndpointConnectionsUpdateHeaders {
   /** URL to query for status of the operation. */
@@ -1488,6 +1497,27 @@ export enum KnownIotHubReplicaRoleType {
  * **secondary**
  */
 export type IotHubReplicaRoleType = string;
+
+/** Known values of {@link IpVersion} that the service accepts. */
+export enum KnownIpVersion {
+  /** Ipv4 */
+  Ipv4 = "ipv4",
+  /** Ipv6 */
+  Ipv6 = "ipv6",
+  /** Ipv4Ipv6 */
+  Ipv4Ipv6 = "ipv4ipv6"
+}
+
+/**
+ * Defines values for IpVersion. \
+ * {@link KnownIpVersion} can be used interchangeably with IpVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ipv4** \
+ * **ipv6** \
+ * **ipv4ipv6**
+ */
+export type IpVersion = string;
 
 /** Known values of {@link IotHubSku} that the service accepts. */
 export enum KnownIotHubSku {
