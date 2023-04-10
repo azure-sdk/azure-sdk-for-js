@@ -995,6 +995,32 @@ export interface DppBaseResource {
   readonly type?: string;
 }
 
+/** ResourceGuardProxyBase object, used in ResourceGuardProxyBaseResource */
+export interface ResourceGuardProxyBase {
+  resourceGuardResourceId?: string;
+  resourceGuardOperationDetails?: ResourceGuardOperationDetail[];
+  lastUpdatedTime?: string;
+  description?: string;
+}
+
+/** VaultCritical Operation protected by a resource guard */
+export interface ResourceGuardOperationDetail {
+  vaultCriticalOperation?: string;
+  defaultResourceRequest?: string;
+}
+
+/** Request body of unlock delete API. */
+export interface UnlockDeleteRequest {
+  resourceGuardOperationRequests?: string[];
+  resourceToBeDeleted?: string;
+}
+
+/** Response of Unlock Delete API. */
+export interface UnlockDeleteResponse {
+  /** This is the time when unlock delete privileges will get expired. */
+  unlockDeleteExpiryTime?: string;
+}
+
 /** Delete Option */
 export interface DeleteOption {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1086,6 +1112,14 @@ export interface BasePolicyRule {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "AzureBackupRule" | "AzureRetentionRule";
   name: string;
+}
+
+/** Class to refer resources which contains namespace and name */
+export interface NamespacedNameResource {
+  /** Name of the resource */
+  name?: string;
+  /** Namespace in which the resource exists */
+  namespace?: string;
 }
 
 /** Source LifeCycle */
@@ -1244,6 +1278,12 @@ export interface DeletedBackupInstanceResourceList extends DppResourceList {
   value?: DeletedBackupInstanceResource[];
 }
 
+/** List of ResourceGuardProxyBase resources */
+export interface ResourceGuardProxyBaseResourceList extends DppResourceList {
+  /** List of resources. */
+  value?: ResourceGuardProxyBaseResource[];
+}
+
 /** Operation Job Extended Info */
 export interface OperationJobExtendedInfo extends OperationExtendedInfo {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1312,6 +1352,12 @@ export interface DeletedBackupInstanceResource extends DppResource {
   properties?: DeletedBackupInstance;
 }
 
+/** ResourceGuardProxyBaseResource object, used for response and request bodies for ResourceGuardProxy APIs */
+export interface ResourceGuardProxyBaseResource extends DppResource {
+  /** ResourceGuardProxyBaseResource properties */
+  properties?: ResourceGuardProxyBase;
+}
+
 /** Deleted Backup Instance */
 export interface DeletedBackupInstance extends BackupInstance {
   /**
@@ -1334,20 +1380,22 @@ export interface KubernetesClusterBackupDatasourceParameters
   extends BackupDatasourceParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "KubernetesClusterBackupDatasourceParameters";
-  /** Gets or sets the volume snapshot property. This property if enabled will take volume snapshots during restore. */
+  /** Gets or sets the volume snapshot property. This property if enabled will take volume snapshots during backup. */
   snapshotVolumes: boolean;
-  /** Gets or sets the include cluster resources property. This property if enabled will include cluster scope resources during restore. */
+  /** Gets or sets the include cluster resources property. This property if enabled will include cluster scope resources during backup. */
   includeClusterScopeResources: boolean;
-  /** Gets or sets the include namespaces property. This property sets the namespaces to be included during restore. */
+  /** Gets or sets the include namespaces property. This property sets the namespaces to be included during backup. */
   includedNamespaces?: string[];
-  /** Gets or sets the exclude namespaces property. This property sets the namespaces to be excluded during restore. */
+  /** Gets or sets the exclude namespaces property. This property sets the namespaces to be excluded during backup. */
   excludedNamespaces?: string[];
-  /** Gets or sets the include resource types property. This property sets the resource types to be included during restore. */
+  /** Gets or sets the include resource types property. This property sets the resource types to be included during backup. */
   includedResourceTypes?: string[];
-  /** Gets or sets the exclude resource types property. This property sets the resource types to be excluded during restore. */
+  /** Gets or sets the exclude resource types property. This property sets the resource types to be excluded during backup. */
   excludedResourceTypes?: string[];
-  /** Gets or sets the LabelSelectors property. This property sets the resource with such label selectors to be included during restore. */
+  /** Gets or sets the LabelSelectors property. This property sets the resource with such label selectors to be included during backup. */
   labelSelectors?: string[];
+  /** Gets or sets the backup hook references. This property sets the hook reference to be executed during backup. */
+  backupHookReferences?: NamespacedNameResource[];
 }
 
 /** Parameters to be used during configuration of backup of blobs */
@@ -1617,6 +1665,8 @@ export interface KubernetesClusterRestoreCriteria
   conflictPolicy?: ExistingResourcePolicy;
   /** Gets or sets the Namespace Mappings property. This property sets if namespace needs to be change during restore. */
   namespaceMappings?: { [propertyName: string]: string };
+  /** Gets or sets the restore hook references. This property sets the hook reference to be executed during restore. */
+  restoreHookReferences?: NamespacedNameResource[];
 }
 
 /** Backup Vault Resource */
@@ -3095,6 +3145,45 @@ export interface ResourceGuardsGetUpdateProtectedItemRequestsObjectsNextOptional
 
 /** Contains response data for the getUpdateProtectedItemRequestsObjectsNext operation. */
 export type ResourceGuardsGetUpdateProtectedItemRequestsObjectsNextResponse = DppBaseResourceList;
+
+/** Optional parameters. */
+export interface DppResourceGuardProxyListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type DppResourceGuardProxyListResponse = ResourceGuardProxyBaseResourceList;
+
+/** Optional parameters. */
+export interface DppResourceGuardProxyGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DppResourceGuardProxyGetResponse = ResourceGuardProxyBaseResource;
+
+/** Optional parameters. */
+export interface DppResourceGuardProxyCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DppResourceGuardProxyCreateOrUpdateResponse = ResourceGuardProxyBaseResource;
+
+/** Optional parameters. */
+export interface DppResourceGuardProxyDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DppResourceGuardProxyUnlockDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the unlockDelete operation. */
+export type DppResourceGuardProxyUnlockDeleteResponse = UnlockDeleteResponse;
+
+/** Optional parameters. */
+export interface DppResourceGuardProxyListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type DppResourceGuardProxyListNextResponse = ResourceGuardProxyBaseResourceList;
 
 /** Optional parameters. */
 export interface DataProtectionClientOptionalParams

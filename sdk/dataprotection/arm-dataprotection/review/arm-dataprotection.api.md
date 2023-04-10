@@ -858,6 +858,8 @@ export class DataProtectionClient extends coreClient.ServiceClient {
     // (undocumented)
     deletedBackupInstances: DeletedBackupInstances;
     // (undocumented)
+    dppResourceGuardProxy: DppResourceGuardProxy;
+    // (undocumented)
     exportJobs: ExportJobs;
     // (undocumented)
     exportJobsOperationResult: ExportJobsOperationResult;
@@ -1076,6 +1078,54 @@ export interface DppResource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export interface DppResourceGuardProxy {
+    createOrUpdate(resourceGroupName: string, vaultName: string, resourceGuardProxyName: string, parameters: ResourceGuardProxyBaseResource, options?: DppResourceGuardProxyCreateOrUpdateOptionalParams): Promise<DppResourceGuardProxyCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, vaultName: string, resourceGuardProxyName: string, options?: DppResourceGuardProxyDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, vaultName: string, resourceGuardProxyName: string, options?: DppResourceGuardProxyGetOptionalParams): Promise<DppResourceGuardProxyGetResponse>;
+    list(resourceGroupName: string, vaultName: string, options?: DppResourceGuardProxyListOptionalParams): PagedAsyncIterableIterator<ResourceGuardProxyBaseResource>;
+    unlockDelete(resourceGroupName: string, vaultName: string, resourceGuardProxyName: string, parameters: UnlockDeleteRequest, options?: DppResourceGuardProxyUnlockDeleteOptionalParams): Promise<DppResourceGuardProxyUnlockDeleteResponse>;
+}
+
+// @public
+export interface DppResourceGuardProxyCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DppResourceGuardProxyCreateOrUpdateResponse = ResourceGuardProxyBaseResource;
+
+// @public
+export interface DppResourceGuardProxyDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface DppResourceGuardProxyGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DppResourceGuardProxyGetResponse = ResourceGuardProxyBaseResource;
+
+// @public
+export interface DppResourceGuardProxyListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DppResourceGuardProxyListNextResponse = ResourceGuardProxyBaseResourceList;
+
+// @public
+export interface DppResourceGuardProxyListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DppResourceGuardProxyListResponse = ResourceGuardProxyBaseResourceList;
+
+// @public
+export interface DppResourceGuardProxyUnlockDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DppResourceGuardProxyUnlockDeleteResponse = UnlockDeleteResponse;
 
 // @public
 export interface DppResourceList {
@@ -1554,6 +1604,7 @@ export enum KnownWeekNumber {
 
 // @public
 export interface KubernetesClusterBackupDatasourceParameters extends BackupDatasourceParameters {
+    backupHookReferences?: NamespacedNameResource[];
     excludedNamespaces?: string[];
     excludedResourceTypes?: string[];
     includeClusterScopeResources: boolean;
@@ -1578,6 +1629,7 @@ export interface KubernetesClusterRestoreCriteria extends ItemLevelRestoreCriter
     };
     objectType: "KubernetesClusterRestoreCriteria";
     persistentVolumeRestoreMode?: PersistentVolumeRestoreMode;
+    restoreHookReferences?: NamespacedNameResource[];
 }
 
 // @public
@@ -1601,6 +1653,12 @@ export interface MonitoringSettings {
 
 // @public
 export type Month = string;
+
+// @public
+export interface NamespacedNameResource {
+    name?: string;
+    namespace?: string;
+}
 
 // @public
 export interface OperationExtendedInfo {
@@ -1826,6 +1884,36 @@ export interface ResourceGuard {
 export interface ResourceGuardOperation {
     readonly requestResourceType?: string;
     readonly vaultCriticalOperation?: string;
+}
+
+// @public
+export interface ResourceGuardOperationDetail {
+    // (undocumented)
+    defaultResourceRequest?: string;
+    // (undocumented)
+    vaultCriticalOperation?: string;
+}
+
+// @public
+export interface ResourceGuardProxyBase {
+    // (undocumented)
+    description?: string;
+    // (undocumented)
+    lastUpdatedTime?: string;
+    // (undocumented)
+    resourceGuardOperationDetails?: ResourceGuardOperationDetail[];
+    // (undocumented)
+    resourceGuardResourceId?: string;
+}
+
+// @public
+export interface ResourceGuardProxyBaseResource extends DppResource {
+    properties?: ResourceGuardProxyBase;
+}
+
+// @public
+export interface ResourceGuardProxyBaseResourceList extends DppResourceList {
+    value?: ResourceGuardProxyBaseResource[];
 }
 
 // @public (undocumented)
@@ -2251,6 +2339,19 @@ export interface TriggerContext {
 
 // @public (undocumented)
 export type TriggerContextUnion = TriggerContext | AdhocBasedTriggerContext | ScheduleBasedTriggerContext;
+
+// @public
+export interface UnlockDeleteRequest {
+    // (undocumented)
+    resourceGuardOperationRequests?: string[];
+    // (undocumented)
+    resourceToBeDeleted?: string;
+}
+
+// @public
+export interface UnlockDeleteResponse {
+    unlockDeleteExpiryTime?: string;
+}
 
 // @public
 export interface UserFacingError {
