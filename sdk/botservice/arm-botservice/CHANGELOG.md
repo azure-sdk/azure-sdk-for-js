@@ -1,15 +1,13 @@
 # Release History
+    
+## 4.1.0 (2023-04-10)
+    
+**Features**
 
-## 4.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ConnectionSettingProperties has a new optional parameter id
+  - Interface ConnectionSettingProperties has a new optional parameter name
+    
+    
 ## 4.0.0 (2023-01-16)
 
 The package of @azure/arm-botservice is using our next generation design principles since version 4.0.0, which contains breaking changes.

@@ -1248,6 +1248,18 @@ export const ConnectionSettingProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ConnectionSettingProperties",
     modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
       clientId: {
         serializedName: "clientId",
         type: {

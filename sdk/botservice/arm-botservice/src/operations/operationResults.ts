@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureBotService } from "../azureBotService";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   OperationResultsGetOptionalParams,
   OperationResultsGetResponse
@@ -39,8 +43,8 @@ export class OperationResultsImpl implements OperationResults {
     operationResultId: string,
     options?: OperationResultsGetOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<OperationResultsGetResponse>,
+    SimplePollerLike<
+      OperationState<OperationResultsGetResponse>,
       OperationResultsGetResponse
     >
   > {
@@ -50,7 +54,7 @@ export class OperationResultsImpl implements OperationResults {
     ): Promise<OperationResultsGetResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -83,13 +87,16 @@ export class OperationResultsImpl implements OperationResults {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { operationResultId, options },
-      getOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { operationResultId, options },
+      spec: getOperationSpec
+    });
+    const poller = await createHttpPoller<
+      OperationResultsGetResponse,
+      OperationState<OperationResultsGetResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

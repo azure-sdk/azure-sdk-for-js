@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AcsChatChannel extends Channel {
@@ -402,6 +402,8 @@ export interface ConnectionSettingParameter {
 export interface ConnectionSettingProperties {
     clientId?: string;
     clientSecret?: string;
+    id?: string;
+    name?: string;
     parameters?: ConnectionSettingParameter[];
     provisioningState?: string;
     scopes?: string;
@@ -725,7 +727,7 @@ export interface OperationEntityListResult {
 
 // @public
 export interface OperationResults {
-    beginGet(operationResultId: string, options?: OperationResultsGetOptionalParams): Promise<PollerLike<PollOperationState<OperationResultsGetResponse>, OperationResultsGetResponse>>;
+    beginGet(operationResultId: string, options?: OperationResultsGetOptionalParams): Promise<SimplePollerLike<OperationState<OperationResultsGetResponse>, OperationResultsGetResponse>>;
     beginGetAndWait(operationResultId: string, options?: OperationResultsGetOptionalParams): Promise<OperationResultsGetResponse>;
 }
 
