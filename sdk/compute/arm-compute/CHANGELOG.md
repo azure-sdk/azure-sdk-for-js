@@ -1,15 +1,41 @@
 # Release History
+    
+## 21.0.0 (2023-04-10)
+    
+**Features**
 
-## 20.0.1 (Unreleased)
+  - Added operation DedicatedHosts.listAvailableSizes
+  - Added Interface DedicatedHostSizeListResult
+  - Added Interface DedicatedHostsListAvailableSizesOptionalParams
+  - Added Interface DiskRestorePointAttributes
+  - Added Interface RestorePointEncryption
+  - Added Type Alias DedicatedHostsListAvailableSizesResponse
+  - Added Type Alias ExpandTypeForListVMs
+  - Added Type Alias ExpandTypesForListVMs
+  - Added Type Alias RestorePointEncryptionType
+  - Interface DedicatedHostUpdate has a new optional parameter sku
+  - Interface LinuxVMGuestPatchAutomaticByPlatformSettings has a new optional parameter bypassPlatformSafetyChecksOnUserSchedule
+  - Interface RestorePointSourceMetadata has a new optional parameter hyperVGeneration
+  - Interface RestorePointSourceVMDataDisk has a new optional parameter writeAcceleratorEnabled
+  - Interface RestorePointSourceVmosDisk has a new optional parameter writeAcceleratorEnabled
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter computerName
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter hyperVGeneration
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter osName
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter osVersion
+  - Interface VirtualMachinesListAllOptionalParams has a new optional parameter expand
+  - Interface VirtualMachinesListOptionalParams has a new optional parameter expand
+  - Interface WindowsVMGuestPatchAutomaticByPlatformSettings has a new optional parameter bypassPlatformSafetyChecksOnUserSchedule
+  - Added Enum KnownExpandTypeForListVMs
+  - Added Enum KnownExpandTypesForListVMs
+  - Added Enum KnownRestorePointEncryptionType
+  - Enum KnownStorageAccountType has a new value StandardSSDLRS
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter diskRestorePoint of interface RestorePointSourceVMDataDisk is changed from ApiEntityReference to DiskRestorePointAttributes
+  - Type of parameter diskRestorePoint of interface RestorePointSourceVmosDisk is changed from ApiEntityReference to DiskRestorePointAttributes
+    
+    
 ## 20.0.0 (2023-01-05)
     
 **Features**
