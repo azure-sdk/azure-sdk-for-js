@@ -12,31 +12,32 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  Addon as AddonMapper,
+  BandwidthSchedule as BandwidthScheduleMapper,
+  Container as ContainerMapper,
+  DeviceCapacityRequestInfo as DeviceCapacityRequestInfoMapper,
   DataBoxEdgeDevice as DataBoxEdgeDeviceMapper,
   DataBoxEdgeDevicePatch as DataBoxEdgeDevicePatchMapper,
-  SecuritySettings as SecuritySettingsMapper,
   DataBoxEdgeDeviceExtendedInfoPatch as DataBoxEdgeDeviceExtendedInfoPatchMapper,
+  SecuritySettings as SecuritySettingsMapper,
   UploadCertificateRequest as UploadCertificateRequestMapper,
-  BandwidthSchedule as BandwidthScheduleMapper,
   DiagnosticProactiveLogCollectionSettings as DiagnosticProactiveLogCollectionSettingsMapper,
   DiagnosticRemoteSupportSettings as DiagnosticRemoteSupportSettingsMapper,
+  MonitoringMetricConfiguration as MonitoringMetricConfigurationMapper,
   Order as OrderMapper,
   Role as RoleMapper,
-  Addon as AddonMapper,
-  MonitoringMetricConfiguration as MonitoringMetricConfigurationMapper,
   Share as ShareMapper,
   StorageAccountCredential as StorageAccountCredentialMapper,
   StorageAccount as StorageAccountMapper,
-  Container as ContainerMapper,
-  Trigger as TriggerMapper,
   TriggerSupportPackageRequest as TriggerSupportPackageRequestMapper,
+  Trigger as TriggerMapper,
   User as UserMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
   mapper: {
-    defaultValue: "application/json",
+    defaultValue: "application/json, text/json",
     isConstant: true,
     serializedName: "Accept",
     type: {
@@ -57,12 +58,96 @@ export const $host: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const deviceName: OperationURLParameter = {
+  parameterPath: "deviceName",
+  mapper: {
+    serializedName: "deviceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const roleName: OperationURLParameter = {
+  parameterPath: "roleName",
+  mapper: {
+    serializedName: "roleName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-01",
+    defaultValue: "2023-01-01-preview",
     isConstant: true,
     serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const addonName: OperationURLParameter = {
+  parameterPath: "addonName",
+  mapper: {
+    serializedName: "addonName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json-patch+json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: AddonMapper
+};
+
+export const accept1: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
     type: {
       name: "String"
     }
@@ -81,86 +166,6 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const expand: OperationQueryParameter = {
-  parameterPath: ["options", "expand"],
-  mapper: {
-    serializedName: "$expand",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const deviceName: OperationURLParameter = {
-  parameterPath: "deviceName",
-  mapper: {
-    serializedName: "deviceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const dataBoxEdgeDevice: OperationParameter = {
-  parameterPath: "dataBoxEdgeDevice",
-  mapper: DataBoxEdgeDeviceMapper
-};
-
-export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: DataBoxEdgeDevicePatchMapper
-};
-
-export const securitySettings: OperationParameter = {
-  parameterPath: "securitySettings",
-  mapper: SecuritySettingsMapper
-};
-
-export const parameters1: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: DataBoxEdgeDeviceExtendedInfoPatchMapper
-};
-
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: UploadCertificateRequestMapper
-};
-
 export const name: OperationURLParameter = {
   parameterPath: "name",
   mapper: {
@@ -172,71 +177,9 @@ export const name: OperationURLParameter = {
   }
 };
 
-export const parameters3: OperationParameter = {
-  parameterPath: "parameters",
+export const body1: OperationParameter = {
+  parameterPath: ["options", "body"],
   mapper: BandwidthScheduleMapper
-};
-
-export const proactiveLogCollectionSettings: OperationParameter = {
-  parameterPath: "proactiveLogCollectionSettings",
-  mapper: DiagnosticProactiveLogCollectionSettingsMapper
-};
-
-export const diagnosticRemoteSupportSettings: OperationParameter = {
-  parameterPath: "diagnosticRemoteSupportSettings",
-  mapper: DiagnosticRemoteSupportSettingsMapper
-};
-
-export const order: OperationParameter = {
-  parameterPath: "order",
-  mapper: OrderMapper
-};
-
-export const role: OperationParameter = {
-  parameterPath: "role",
-  mapper: RoleMapper
-};
-
-export const roleName: OperationURLParameter = {
-  parameterPath: "roleName",
-  mapper: {
-    serializedName: "roleName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const addonName: OperationURLParameter = {
-  parameterPath: "addonName",
-  mapper: {
-    serializedName: "addonName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const addon: OperationParameter = {
-  parameterPath: "addon",
-  mapper: AddonMapper
-};
-
-export const monitoringMetricConfiguration: OperationParameter = {
-  parameterPath: "monitoringMetricConfiguration",
-  mapper: MonitoringMetricConfigurationMapper
-};
-
-export const share: OperationParameter = {
-  parameterPath: "share",
-  mapper: ShareMapper
-};
-
-export const storageAccountCredential: OperationParameter = {
-  parameterPath: "storageAccountCredential",
-  mapper: StorageAccountCredentialMapper
 };
 
 export const storageAccountName: OperationURLParameter = {
@@ -250,11 +193,6 @@ export const storageAccountName: OperationURLParameter = {
   }
 };
 
-export const storageAccount: OperationParameter = {
-  parameterPath: "storageAccount",
-  mapper: StorageAccountMapper
-};
-
 export const containerName: OperationURLParameter = {
   parameterPath: "containerName",
   mapper: {
@@ -266,9 +204,148 @@ export const containerName: OperationURLParameter = {
   }
 };
 
-export const container: OperationParameter = {
-  parameterPath: "container",
+export const body2: OperationParameter = {
+  parameterPath: ["options", "body"],
   mapper: ContainerMapper
+};
+
+export const body3: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: DeviceCapacityRequestInfoMapper
+};
+
+export const capacityName: OperationQueryParameter = {
+  parameterPath: ["options", "capacityName"],
+  mapper: {
+    serializedName: "capacityName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body4: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: DataBoxEdgeDeviceMapper
+};
+
+export const body5: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: DataBoxEdgeDevicePatchMapper
+};
+
+export const expand: OperationQueryParameter = {
+  parameterPath: ["options", "expand"],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body6: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: DataBoxEdgeDeviceExtendedInfoPatchMapper
+};
+
+export const body7: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: SecuritySettingsMapper
+};
+
+export const body8: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: UploadCertificateRequestMapper
+};
+
+export const body9: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: DiagnosticProactiveLogCollectionSettingsMapper
+};
+
+export const body10: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: DiagnosticRemoteSupportSettingsMapper
+};
+
+export const publisherName: OperationURLParameter = {
+  parameterPath: "publisherName",
+  mapper: {
+    serializedName: "publisherName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const offerName: OperationURLParameter = {
+  parameterPath: "offerName",
+  mapper: {
+    serializedName: "offerName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const skuName: OperationURLParameter = {
+  parameterPath: "skuName",
+  mapper: {
+    serializedName: "skuName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const versionName: OperationURLParameter = {
+  parameterPath: "versionName",
+  mapper: {
+    serializedName: "versionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body11: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: MonitoringMetricConfigurationMapper
+};
+
+export const body12: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: OrderMapper
+};
+
+export const body13: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: RoleMapper
+};
+
+export const body14: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: ShareMapper
+};
+
+export const body15: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: StorageAccountCredentialMapper
+};
+
+export const body16: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: StorageAccountMapper
+};
+
+export const body17: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: TriggerSupportPackageRequestMapper
 };
 
 export const filter: OperationQueryParameter = {
@@ -281,17 +358,12 @@ export const filter: OperationQueryParameter = {
   }
 };
 
-export const trigger: OperationParameter = {
-  parameterPath: "trigger",
+export const body18: OperationParameter = {
+  parameterPath: ["options", "body"],
   mapper: TriggerMapper
 };
 
-export const triggerSupportPackageRequest: OperationParameter = {
-  parameterPath: "triggerSupportPackageRequest",
-  mapper: TriggerSupportPackageRequestMapper
-};
-
-export const user: OperationParameter = {
-  parameterPath: "user",
+export const body19: OperationParameter = {
+  parameterPath: ["options", "body"],
   mapper: UserMapper
 };

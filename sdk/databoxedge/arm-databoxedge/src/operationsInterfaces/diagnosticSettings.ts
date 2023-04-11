@@ -6,16 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsOptionalParams,
   DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsResponse,
-  DiagnosticProactiveLogCollectionSettings,
   DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams,
   DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse,
   DiagnosticSettingsGetDiagnosticRemoteSupportSettingsOptionalParams,
   DiagnosticSettingsGetDiagnosticRemoteSupportSettingsResponse,
-  DiagnosticRemoteSupportSettings,
   DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams,
   DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse
 } from "../models";
@@ -39,17 +37,15 @@ export interface DiagnosticSettings {
    * Updates the proactive log collection settings on a Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
-   * @param proactiveLogCollectionSettings The proactive log collection settings.
    * @param options The options parameters.
    */
   beginUpdateDiagnosticProactiveLogCollectionSettings(
     deviceName: string,
     resourceGroupName: string,
-    proactiveLogCollectionSettings: DiagnosticProactiveLogCollectionSettings,
     options?: DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse
       >,
       DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse
@@ -59,13 +55,11 @@ export interface DiagnosticSettings {
    * Updates the proactive log collection settings on a Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
-   * @param proactiveLogCollectionSettings The proactive log collection settings.
    * @param options The options parameters.
    */
   beginUpdateDiagnosticProactiveLogCollectionSettingsAndWait(
     deviceName: string,
     resourceGroupName: string,
-    proactiveLogCollectionSettings: DiagnosticProactiveLogCollectionSettings,
     options?: DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams
   ): Promise<
     DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse
@@ -85,17 +79,15 @@ export interface DiagnosticSettings {
    * Updates the diagnostic remote support settings on a Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
-   * @param diagnosticRemoteSupportSettings The diagnostic remote support settings.
    * @param options The options parameters.
    */
   beginUpdateDiagnosticRemoteSupportSettings(
     deviceName: string,
     resourceGroupName: string,
-    diagnosticRemoteSupportSettings: DiagnosticRemoteSupportSettings,
     options?: DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse
       >,
       DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse
@@ -105,13 +97,11 @@ export interface DiagnosticSettings {
    * Updates the diagnostic remote support settings on a Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
-   * @param diagnosticRemoteSupportSettings The diagnostic remote support settings.
    * @param options The options parameters.
    */
   beginUpdateDiagnosticRemoteSupportSettingsAndWait(
     deviceName: string,
     resourceGroupName: string,
-    diagnosticRemoteSupportSettings: DiagnosticRemoteSupportSettings,
     options?: DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams
   ): Promise<DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse>;
 }

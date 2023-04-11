@@ -13,45 +13,45 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DataBoxEdgeDevice,
-  DevicesListBySubscriptionNextOptionalParams,
-  DevicesListBySubscriptionOptionalParams,
-  DevicesListBySubscriptionResponse,
   DevicesListByResourceGroupNextOptionalParams,
   DevicesListByResourceGroupOptionalParams,
   DevicesListByResourceGroupResponse,
-  DevicesGetOptionalParams,
-  DevicesGetResponse,
+  DevicesListBySubscriptionNextOptionalParams,
+  DevicesListBySubscriptionOptionalParams,
+  DevicesListBySubscriptionResponse,
   DevicesCreateOrUpdateOptionalParams,
   DevicesCreateOrUpdateResponse,
+  DevicesGetOptionalParams,
+  DevicesGetResponse,
   DevicesDeleteOptionalParams,
-  DataBoxEdgeDevicePatch,
   DevicesUpdateOptionalParams,
   DevicesUpdateResponse,
-  DevicesDownloadUpdatesOptionalParams,
-  DevicesGenerateCertificateOptionalParams,
-  DevicesGenerateCertificateResponse,
   DevicesGetExtendedInformationOptionalParams,
   DevicesGetExtendedInformationResponse,
-  DevicesInstallUpdatesOptionalParams,
-  DevicesGetNetworkSettingsOptionalParams,
-  DevicesGetNetworkSettingsResponse,
-  DevicesScanForUpdatesOptionalParams,
-  SecuritySettings,
-  DevicesCreateOrUpdateSecuritySettingsOptionalParams,
-  DataBoxEdgeDeviceExtendedInfoPatch,
   DevicesUpdateExtendedInformationOptionalParams,
   DevicesUpdateExtendedInformationResponse,
+  DevicesGetNetworkSettingsOptionalParams,
+  DevicesGetNetworkSettingsResponse,
+  DevicesCreateOrUpdateSecuritySettingsOptionalParams,
   DevicesGetUpdateSummaryOptionalParams,
   DevicesGetUpdateSummaryResponse,
-  UploadCertificateRequest,
+  DevicesScanForUpdatesOptionalParams,
+  DevicesDownloadUpdatesOptionalParams,
+  DevicesInstallUpdatesOptionalParams,
   DevicesUploadCertificateOptionalParams,
   DevicesUploadCertificateResponse,
-  DevicesListBySubscriptionNextResponse,
-  DevicesListByResourceGroupNextResponse
+  DevicesGenerateCertificateOptionalParams,
+  DevicesGenerateCertificateResponse,
+  DevicesListByResourceGroupNextResponse,
+  DevicesListBySubscriptionNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -65,60 +65,6 @@ export class DevicesImpl implements Devices {
    */
   constructor(client: DataBoxEdgeManagementClient) {
     this.client = client;
-  }
-
-  /**
-   * Gets all the Data Box Edge/Data Box Gateway devices in a subscription.
-   * @param options The options parameters.
-   */
-  public listBySubscription(
-    options?: DevicesListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<DataBoxEdgeDevice> {
-    const iter = this.listBySubscriptionPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
-      }
-    };
-  }
-
-  private async *listBySubscriptionPagingPage(
-    options?: DevicesListBySubscriptionOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<DataBoxEdgeDevice[]> {
-    let result: DevicesListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listBySubscriptionNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listBySubscriptionPagingAll(
-    options?: DevicesListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<DataBoxEdgeDevice> {
-    for await (const page of this.listBySubscriptionPagingPage(options)) {
-      yield* page;
-    }
   }
 
   /**
@@ -194,27 +140,70 @@ export class DevicesImpl implements Devices {
    * Gets all the Data Box Edge/Data Box Gateway devices in a subscription.
    * @param options The options parameters.
    */
-  private _listBySubscription(
+  public listBySubscription(
     options?: DevicesListBySubscriptionOptionalParams
-  ): Promise<DevicesListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec
-    );
+  ): PagedAsyncIterableIterator<DataBoxEdgeDevice> {
+    const iter = this.listBySubscriptionPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
+      }
+    };
+  }
+
+  private async *listBySubscriptionPagingPage(
+    options?: DevicesListBySubscriptionOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<DataBoxEdgeDevice[]> {
+    let result: DevicesListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBySubscriptionNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listBySubscriptionPagingAll(
+    options?: DevicesListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<DataBoxEdgeDevice> {
+    for await (const page of this.listBySubscriptionPagingPage(options)) {
+      yield* page;
+    }
   }
 
   /**
-   * Gets all the Data Box Edge/Data Box Gateway devices in a resource group.
+   * Creates or updates a Data Box Edge/Data Box Gateway resource.
+   * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
+  createOrUpdate(
+    deviceName: string,
     resourceGroupName: string,
-    options?: DevicesListByResourceGroupOptionalParams
-  ): Promise<DevicesListByResourceGroupResponse> {
+    options?: DevicesCreateOrUpdateOptionalParams
+  ): Promise<DevicesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      { deviceName, resourceGroupName, options },
+      createOrUpdateOperationSpec
     );
   }
 
@@ -236,221 +225,64 @@ export class DevicesImpl implements Devices {
   }
 
   /**
-   * Creates or updates a Data Box Edge/Data Box Gateway resource.
-   * @param deviceName The device name.
-   * @param resourceGroupName The resource group name.
-   * @param dataBoxEdgeDevice The resource object.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    deviceName: string,
-    resourceGroupName: string,
-    dataBoxEdgeDevice: DataBoxEdgeDevice,
-    options?: DevicesCreateOrUpdateOptionalParams
-  ): Promise<DevicesCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { deviceName, resourceGroupName, dataBoxEdgeDevice, options },
-      createOrUpdateOperationSpec
-    );
-  }
-
-  /**
    * Deletes the Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  async beginDelete(
-    deviceName: string,
-    resourceGroupName: string,
-    options?: DevicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, resourceGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes the Data Box Edge/Data Box Gateway device.
-   * @param deviceName The device name.
-   * @param resourceGroupName The resource group name.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
+  delete(
     deviceName: string,
     resourceGroupName: string,
     options?: DevicesDeleteOptionalParams
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      deviceName,
-      resourceGroupName,
-      options
+    return this.client.sendOperationRequest(
+      { deviceName, resourceGroupName, options },
+      deleteOperationSpec
     );
-    return poller.pollUntilDone();
   }
 
   /**
    * Modifies a Data Box Edge/Data Box Gateway resource.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
-   * @param parameters The resource parameters.
    * @param options The options parameters.
    */
   update(
     deviceName: string,
     resourceGroupName: string,
-    parameters: DataBoxEdgeDevicePatch,
     options?: DevicesUpdateOptionalParams
   ): Promise<DevicesUpdateResponse> {
     return this.client.sendOperationRequest(
-      { deviceName, resourceGroupName, parameters, options },
+      { deviceName, resourceGroupName, options },
       updateOperationSpec
     );
   }
 
   /**
-   * Downloads the updates on a Data Box Edge/Data Box Gateway device.
-   * @param deviceName The device name.
+   * Gets all the Data Box Edge/Data Box Gateway devices in a resource group.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  async beginDownloadUpdates(
-    deviceName: string,
+  private _listByResourceGroup(
     resourceGroupName: string,
-    options?: DevicesDownloadUpdatesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, resourceGroupName, options },
-      downloadUpdatesOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Downloads the updates on a Data Box Edge/Data Box Gateway device.
-   * @param deviceName The device name.
-   * @param resourceGroupName The resource group name.
-   * @param options The options parameters.
-   */
-  async beginDownloadUpdatesAndWait(
-    deviceName: string,
-    resourceGroupName: string,
-    options?: DevicesDownloadUpdatesOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginDownloadUpdates(
-      deviceName,
-      resourceGroupName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Generates certificate for activation key.
-   * @param deviceName The device name.
-   * @param resourceGroupName The resource group name.
-   * @param options The options parameters.
-   */
-  generateCertificate(
-    deviceName: string,
-    resourceGroupName: string,
-    options?: DevicesGenerateCertificateOptionalParams
-  ): Promise<DevicesGenerateCertificateResponse> {
+    options?: DevicesListByResourceGroupOptionalParams
+  ): Promise<DevicesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
-      { deviceName, resourceGroupName, options },
-      generateCertificateOperationSpec
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec
+    );
+  }
+
+  /**
+   * Gets all the Data Box Edge/Data Box Gateway devices in a subscription.
+   * @param options The options parameters.
+   */
+  private _listBySubscription(
+    options?: DevicesListBySubscriptionOptionalParams
+  ): Promise<DevicesListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec
     );
   }
 
@@ -472,85 +304,20 @@ export class DevicesImpl implements Devices {
   }
 
   /**
-   * Installs the updates on the Data Box Edge/Data Box Gateway device.
+   * Gets additional information for the specified Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  async beginInstallUpdates(
+  updateExtendedInformation(
     deviceName: string,
     resourceGroupName: string,
-    options?: DevicesInstallUpdatesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
+    options?: DevicesUpdateExtendedInformationOptionalParams
+  ): Promise<DevicesUpdateExtendedInformationResponse> {
+    return this.client.sendOperationRequest(
       { deviceName, resourceGroupName, options },
-      installUpdatesOperationSpec
+      updateExtendedInformationOperationSpec
     );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Installs the updates on the Data Box Edge/Data Box Gateway device.
-   * @param deviceName The device name.
-   * @param resourceGroupName The resource group name.
-   * @param options The options parameters.
-   */
-  async beginInstallUpdatesAndWait(
-    deviceName: string,
-    resourceGroupName: string,
-    options?: DevicesInstallUpdatesOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginInstallUpdates(
-      deviceName,
-      resourceGroupName,
-      options
-    );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -571,23 +338,23 @@ export class DevicesImpl implements Devices {
   }
 
   /**
-   * Scans for updates on a Data Box Edge/Data Box Gateway device.
+   * Updates the security settings on a Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  async beginScanForUpdates(
+  async beginCreateOrUpdateSecuritySettings(
     deviceName: string,
     resourceGroupName: string,
-    options?: DevicesScanForUpdatesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: DevicesCreateOrUpdateSecuritySettingsOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -620,13 +387,113 @@ export class DevicesImpl implements Devices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, resourceGroupName, options },
-      scanForUpdatesOperationSpec
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, resourceGroupName, options },
+      spec: createOrUpdateSecuritySettingsOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates the security settings on a Data Box Edge/Data Box Gateway device.
+   * @param deviceName The device name.
+   * @param resourceGroupName The resource group name.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateSecuritySettingsAndWait(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: DevicesCreateOrUpdateSecuritySettingsOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginCreateOrUpdateSecuritySettings(
+      deviceName,
+      resourceGroupName,
+      options
     );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets information about the availability of updates based on the last scan of the device. It also
+   * gets information about any ongoing download or install jobs on the device.
+   * @param deviceName The device name.
+   * @param resourceGroupName The resource group name.
+   * @param options The options parameters.
+   */
+  getUpdateSummary(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: DevicesGetUpdateSummaryOptionalParams
+  ): Promise<DevicesGetUpdateSummaryResponse> {
+    return this.client.sendOperationRequest(
+      { deviceName, resourceGroupName, options },
+      getUpdateSummaryOperationSpec
+    );
+  }
+
+  /**
+   * Scans for updates on a Data Box Edge/Data Box Gateway device.
+   * @param deviceName The device name.
+   * @param resourceGroupName The resource group name.
+   * @param options The options parameters.
+   */
+  async beginScanForUpdates(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: DevicesScanForUpdatesOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, resourceGroupName, options },
+      spec: scanForUpdatesOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -653,25 +520,23 @@ export class DevicesImpl implements Devices {
   }
 
   /**
-   * Updates the security settings on a Data Box Edge/Data Box Gateway device.
+   * Downloads the updates on a Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
-   * @param securitySettings The security settings.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdateSecuritySettings(
+  async beginDownloadUpdates(
     deviceName: string,
     resourceGroupName: string,
-    securitySettings: SecuritySettings,
-    options?: DevicesCreateOrUpdateSecuritySettingsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: DevicesDownloadUpdatesOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -704,13 +569,13 @@ export class DevicesImpl implements Devices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, resourceGroupName, securitySettings, options },
-      createOrUpdateSecuritySettingsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, resourceGroupName, options },
+      spec: downloadUpdatesOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -718,95 +583,137 @@ export class DevicesImpl implements Devices {
   }
 
   /**
-   * Updates the security settings on a Data Box Edge/Data Box Gateway device.
+   * Downloads the updates on a Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
-   * @param securitySettings The security settings.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdateSecuritySettingsAndWait(
+  async beginDownloadUpdatesAndWait(
     deviceName: string,
     resourceGroupName: string,
-    securitySettings: SecuritySettings,
-    options?: DevicesCreateOrUpdateSecuritySettingsOptionalParams
+    options?: DevicesDownloadUpdatesOptionalParams
   ): Promise<void> {
-    const poller = await this.beginCreateOrUpdateSecuritySettings(
+    const poller = await this.beginDownloadUpdates(
       deviceName,
       resourceGroupName,
-      securitySettings,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets additional information for the specified Data Box Edge/Data Box Gateway device.
+   * Installs the updates on the Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
-   * @param parameters The patch object.
    * @param options The options parameters.
    */
-  updateExtendedInformation(
+  async beginInstallUpdates(
     deviceName: string,
     resourceGroupName: string,
-    parameters: DataBoxEdgeDeviceExtendedInfoPatch,
-    options?: DevicesUpdateExtendedInformationOptionalParams
-  ): Promise<DevicesUpdateExtendedInformationResponse> {
-    return this.client.sendOperationRequest(
-      { deviceName, resourceGroupName, parameters, options },
-      updateExtendedInformationOperationSpec
-    );
+    options?: DevicesInstallUpdatesOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, resourceGroupName, options },
+      spec: installUpdatesOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Gets information about the availability of updates based on the last scan of the device. It also
-   * gets information about any ongoing download or install jobs on the device.
+   * Installs the updates on the Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  getUpdateSummary(
+  async beginInstallUpdatesAndWait(
     deviceName: string,
     resourceGroupName: string,
-    options?: DevicesGetUpdateSummaryOptionalParams
-  ): Promise<DevicesGetUpdateSummaryResponse> {
-    return this.client.sendOperationRequest(
-      { deviceName, resourceGroupName, options },
-      getUpdateSummaryOperationSpec
+    options?: DevicesInstallUpdatesOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginInstallUpdates(
+      deviceName,
+      resourceGroupName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
    * Uploads registration certificate for the device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
-   * @param parameters The upload certificate request.
    * @param options The options parameters.
    */
   uploadCertificate(
     deviceName: string,
     resourceGroupName: string,
-    parameters: UploadCertificateRequest,
     options?: DevicesUploadCertificateOptionalParams
   ): Promise<DevicesUploadCertificateResponse> {
     return this.client.sendOperationRequest(
-      { deviceName, resourceGroupName, parameters, options },
+      { deviceName, resourceGroupName, options },
       uploadCertificateOperationSpec
     );
   }
 
   /**
-   * ListBySubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
+   * Generates certificate for activation key.
+   * @param deviceName The device name.
+   * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  private _listBySubscriptionNext(
-    nextLink: string,
-    options?: DevicesListBySubscriptionNextOptionalParams
-  ): Promise<DevicesListBySubscriptionNextResponse> {
+  generateCertificate(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: DevicesGenerateCertificateOptionalParams
+  ): Promise<DevicesGenerateCertificateResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      { deviceName, resourceGroupName, options },
+      generateCertificateOperationSpec
     );
   }
 
@@ -826,25 +733,114 @@ export class DevicesImpl implements Devices {
       listByResourceGroupNextOperationSpec
     );
   }
+
+  /**
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
+   * @param options The options parameters.
+   */
+  private _listBySubscriptionNext(
+    nextLink: string,
+    options?: DevicesListBySubscriptionNextOptionalParams
+  ): Promise<DevicesListBySubscriptionNextResponse> {
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listBySubscriptionNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices",
-  httpMethod: "GET",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}",
+  httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataBoxEdgeDeviceList
+      bodyMapper: Mappers.DataBoxEdgeDevice
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  requestBody: Parameters.body4,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.deviceName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataBoxEdgeDevice
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.deviceName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.deviceName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  headerParameters: [Parameters.accept1],
+  serializer
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataBoxEdgeDevice
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.body5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.deviceName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
@@ -868,141 +864,20 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getOperationSpec: coreClient.OperationSpec = {
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataBoxEdgeDevice
+      bodyMapper: Mappers.DataBoxEdgeDeviceList
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DataBoxEdgeDevice
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.dataBoxEdgeDevice,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DataBoxEdgeDevice
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const downloadUpdatesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/downloadUpdates",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const generateCertificateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/generateCertificate",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GenerateCertResponse
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -1021,34 +896,35 @@ const getExtendedInformationOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const installUpdatesOperationSpec: coreClient.OperationSpec = {
+const updateExtendedInformationOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/installUpdates",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/updateExtendedInformation",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.DataBoxEdgeDeviceExtendedInfo
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
+  requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.resourceGroupName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const getNetworkSettingsOperationSpec: coreClient.OperationSpec = {
@@ -1066,9 +942,56 @@ const getNetworkSettingsOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.resourceGroupName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateSecuritySettingsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/securitySettings/default/update",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.body7,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.deviceName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept1],
+  mediaType: "json",
+  serializer
+};
+const getUpdateSummaryOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/updateSummary/default",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.UpdateSummary
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.deviceName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1089,16 +1012,16 @@ const scanForUpdatesOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.resourceGroupName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
-const createOrUpdateSecuritySettingsOperationSpec: coreClient.OperationSpec = {
+const downloadUpdatesOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/securitySettings/default/update",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/downloadUpdates",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1109,50 +1032,25 @@ const createOrUpdateSecuritySettingsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.securitySettings,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.resourceGroupName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.accept1],
   serializer
 };
-const updateExtendedInformationOperationSpec: coreClient.OperationSpec = {
+const installUpdatesOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/updateExtendedInformation",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/installUpdates",
   httpMethod: "POST",
   responses: {
-    200: {
-      bodyMapper: Mappers.DataBoxEdgeDeviceExtendedInfo
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const getUpdateSummaryOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/updateSummary/default",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.UpdateSummary
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -1160,11 +1058,11 @@ const getUpdateSummaryOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.resourceGroupName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const uploadCertificateOperationSpec: coreClient.OperationSpec = {
@@ -1179,34 +1077,36 @@ const uploadCertificateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.body8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
+const generateCertificateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/generateCertificate",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DataBoxEdgeDeviceList
+      bodyMapper: Mappers.GenerateCertResponse
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.deviceName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1222,12 +1122,30 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataBoxEdgeDeviceList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

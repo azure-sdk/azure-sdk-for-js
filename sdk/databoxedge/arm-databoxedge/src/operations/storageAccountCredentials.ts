@@ -13,17 +13,21 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   StorageAccountCredential,
   StorageAccountCredentialsListByDataBoxEdgeDeviceNextOptionalParams,
   StorageAccountCredentialsListByDataBoxEdgeDeviceOptionalParams,
   StorageAccountCredentialsListByDataBoxEdgeDeviceResponse,
-  StorageAccountCredentialsGetOptionalParams,
-  StorageAccountCredentialsGetResponse,
   StorageAccountCredentialsCreateOrUpdateOptionalParams,
   StorageAccountCredentialsCreateOrUpdateResponse,
+  StorageAccountCredentialsGetOptionalParams,
+  StorageAccountCredentialsGetResponse,
   StorageAccountCredentialsDeleteOptionalParams,
   StorageAccountCredentialsListByDataBoxEdgeDeviceNextResponse
 } from "../models";
@@ -127,20 +131,98 @@ export class StorageAccountCredentialsImpl
   }
 
   /**
-   * Gets all the storage account credentials in a Data Box Edge/Data Box Gateway device.
+   * Creates or updates the storage account credential.
    * @param deviceName The device name.
+   * @param name The storage account credential name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  private _listByDataBoxEdgeDevice(
+  async beginCreateOrUpdate(
     deviceName: string,
+    name: string,
     resourceGroupName: string,
-    options?: StorageAccountCredentialsListByDataBoxEdgeDeviceOptionalParams
-  ): Promise<StorageAccountCredentialsListByDataBoxEdgeDeviceResponse> {
-    return this.client.sendOperationRequest(
-      { deviceName, resourceGroupName, options },
-      listByDataBoxEdgeDeviceOperationSpec
+    options?: StorageAccountCredentialsCreateOrUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<StorageAccountCredentialsCreateOrUpdateResponse>,
+      StorageAccountCredentialsCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<StorageAccountCredentialsCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, name, resourceGroupName, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      StorageAccountCredentialsCreateOrUpdateResponse,
+      OperationState<StorageAccountCredentialsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Creates or updates the storage account credential.
+   * @param deviceName The device name.
+   * @param name The storage account credential name.
+   * @param resourceGroupName The resource group name.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    options?: StorageAccountCredentialsCreateOrUpdateOptionalParams
+  ): Promise<StorageAccountCredentialsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      deviceName,
+      name,
+      resourceGroupName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -163,109 +245,6 @@ export class StorageAccountCredentialsImpl
   }
 
   /**
-   * Creates or updates the storage account credential.
-   * @param deviceName The device name.
-   * @param name The storage account credential name.
-   * @param resourceGroupName The resource group name.
-   * @param storageAccountCredential The storage account credential.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdate(
-    deviceName: string,
-    name: string,
-    resourceGroupName: string,
-    storageAccountCredential: StorageAccountCredential,
-    options?: StorageAccountCredentialsCreateOrUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<StorageAccountCredentialsCreateOrUpdateResponse>,
-      StorageAccountCredentialsCreateOrUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<StorageAccountCredentialsCreateOrUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        deviceName,
-        name,
-        resourceGroupName,
-        storageAccountCredential,
-        options
-      },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Creates or updates the storage account credential.
-   * @param deviceName The device name.
-   * @param name The storage account credential name.
-   * @param resourceGroupName The resource group name.
-   * @param storageAccountCredential The storage account credential.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    deviceName: string,
-    name: string,
-    resourceGroupName: string,
-    storageAccountCredential: StorageAccountCredential,
-    options?: StorageAccountCredentialsCreateOrUpdateOptionalParams
-  ): Promise<StorageAccountCredentialsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      deviceName,
-      name,
-      resourceGroupName,
-      storageAccountCredential,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * Deletes the storage account credential.
    * @param deviceName The device name.
    * @param name The storage account credential name.
@@ -277,14 +256,14 @@ export class StorageAccountCredentialsImpl
     name: string,
     resourceGroupName: string,
     options?: StorageAccountCredentialsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -317,13 +296,13 @@ export class StorageAccountCredentialsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, name, resourceGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, name, resourceGroupName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -353,6 +332,23 @@ export class StorageAccountCredentialsImpl
   }
 
   /**
+   * Gets all the storage account credentials in a Data Box Edge/Data Box Gateway device.
+   * @param deviceName The device name.
+   * @param resourceGroupName The resource group name.
+   * @param options The options parameters.
+   */
+  private _listByDataBoxEdgeDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: StorageAccountCredentialsListByDataBoxEdgeDeviceOptionalParams
+  ): Promise<StorageAccountCredentialsListByDataBoxEdgeDeviceResponse> {
+    return this.client.sendOperationRequest(
+      { deviceName, resourceGroupName, options },
+      listByDataBoxEdgeDeviceOperationSpec
+    );
+  }
+
+  /**
    * ListByDataBoxEdgeDeviceNext
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
@@ -375,51 +371,6 @@ export class StorageAccountCredentialsImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByDataBoxEdgeDeviceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/storageAccountCredentials",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageAccountCredentialList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/storageAccountCredentials/{name}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageAccountCredential
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName,
-    Parameters.name
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/storageAccountCredentials/{name}",
@@ -441,17 +392,40 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.storageAccountCredential,
+  requestBody: Parameters.body15,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName,
     Parameters.name
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/storageAccountCredentials/{name}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageAccountCredential
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.deviceName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
@@ -470,10 +444,32 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName,
     Parameters.name
+  ],
+  headerParameters: [Parameters.accept1],
+  serializer
+};
+const listByDataBoxEdgeDeviceOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/storageAccountCredentials",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageAccountCredentialList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.deviceName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -489,13 +485,12 @@ const listByDataBoxEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
+    Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

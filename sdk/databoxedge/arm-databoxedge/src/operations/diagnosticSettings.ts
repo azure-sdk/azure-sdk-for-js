@@ -11,17 +11,19 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsOptionalParams,
   DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsResponse,
-  DiagnosticProactiveLogCollectionSettings,
   DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams,
   DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse,
   DiagnosticSettingsGetDiagnosticRemoteSupportSettingsOptionalParams,
   DiagnosticSettingsGetDiagnosticRemoteSupportSettingsResponse,
-  DiagnosticRemoteSupportSettings,
   DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams,
   DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse
 } from "../models";
@@ -61,17 +63,15 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
    * Updates the proactive log collection settings on a Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
-   * @param proactiveLogCollectionSettings The proactive log collection settings.
    * @param options The options parameters.
    */
   async beginUpdateDiagnosticProactiveLogCollectionSettings(
     deviceName: string,
     resourceGroupName: string,
-    proactiveLogCollectionSettings: DiagnosticProactiveLogCollectionSettings,
     options?: DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse
       >,
       DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse
@@ -83,7 +83,7 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
     ): Promise<DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -116,18 +116,18 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        deviceName,
-        resourceGroupName,
-        proactiveLogCollectionSettings,
-        options
-      },
-      updateDiagnosticProactiveLogCollectionSettingsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, resourceGroupName, options },
+      spec: updateDiagnosticProactiveLogCollectionSettingsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse,
+      OperationState<
+        DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -138,13 +138,11 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
    * Updates the proactive log collection settings on a Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
-   * @param proactiveLogCollectionSettings The proactive log collection settings.
    * @param options The options parameters.
    */
   async beginUpdateDiagnosticProactiveLogCollectionSettingsAndWait(
     deviceName: string,
     resourceGroupName: string,
-    proactiveLogCollectionSettings: DiagnosticProactiveLogCollectionSettings,
     options?: DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams
   ): Promise<
     DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse
@@ -152,7 +150,6 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
     const poller = await this.beginUpdateDiagnosticProactiveLogCollectionSettings(
       deviceName,
       resourceGroupName,
-      proactiveLogCollectionSettings,
       options
     );
     return poller.pollUntilDone();
@@ -179,17 +176,15 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
    * Updates the diagnostic remote support settings on a Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
-   * @param diagnosticRemoteSupportSettings The diagnostic remote support settings.
    * @param options The options parameters.
    */
   async beginUpdateDiagnosticRemoteSupportSettings(
     deviceName: string,
     resourceGroupName: string,
-    diagnosticRemoteSupportSettings: DiagnosticRemoteSupportSettings,
     options?: DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse
       >,
       DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse
@@ -201,7 +196,7 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
     ): Promise<DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -234,18 +229,18 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        deviceName,
-        resourceGroupName,
-        diagnosticRemoteSupportSettings,
-        options
-      },
-      updateDiagnosticRemoteSupportSettingsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, resourceGroupName, options },
+      spec: updateDiagnosticRemoteSupportSettingsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse,
+      OperationState<
+        DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -256,19 +251,16 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
    * Updates the diagnostic remote support settings on a Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
-   * @param diagnosticRemoteSupportSettings The diagnostic remote support settings.
    * @param options The options parameters.
    */
   async beginUpdateDiagnosticRemoteSupportSettingsAndWait(
     deviceName: string,
     resourceGroupName: string,
-    diagnosticRemoteSupportSettings: DiagnosticRemoteSupportSettings,
     options?: DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams
   ): Promise<DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse> {
     const poller = await this.beginUpdateDiagnosticRemoteSupportSettings(
       deviceName,
       resourceGroupName,
-      diagnosticRemoteSupportSettings,
       options
     );
     return poller.pollUntilDone();
@@ -292,9 +284,9 @@ const getDiagnosticProactiveLogCollectionSettingsOperationSpec: coreClient.Opera
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -320,13 +312,13 @@ const updateDiagnosticProactiveLogCollectionSettingsOperationSpec: coreClient.Op
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.proactiveLogCollectionSettings,
+  requestBody: Parameters.body9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -347,9 +339,9 @@ const getDiagnosticRemoteSupportSettingsOperationSpec: coreClient.OperationSpec 
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -375,13 +367,13 @@ const updateDiagnosticRemoteSupportSettingsOperationSpec: coreClient.OperationSp
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.diagnosticRemoteSupportSettings,
+  requestBody: Parameters.body10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

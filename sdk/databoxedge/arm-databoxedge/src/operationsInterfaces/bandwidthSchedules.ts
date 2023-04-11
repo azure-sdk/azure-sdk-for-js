@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BandwidthSchedule,
   BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams,
@@ -50,18 +50,16 @@ export interface BandwidthSchedules {
    * @param deviceName The device name.
    * @param name The bandwidth schedule name which needs to be added/updated.
    * @param resourceGroupName The resource group name.
-   * @param parameters The bandwidth schedule to be added or updated.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    parameters: BandwidthSchedule,
     options?: BandwidthSchedulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BandwidthSchedulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BandwidthSchedulesCreateOrUpdateResponse>,
       BandwidthSchedulesCreateOrUpdateResponse
     >
   >;
@@ -70,14 +68,12 @@ export interface BandwidthSchedules {
    * @param deviceName The device name.
    * @param name The bandwidth schedule name which needs to be added/updated.
    * @param resourceGroupName The resource group name.
-   * @param parameters The bandwidth schedule to be added or updated.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    parameters: BandwidthSchedule,
     options?: BandwidthSchedulesCreateOrUpdateOptionalParams
   ): Promise<BandwidthSchedulesCreateOrUpdateResponse>;
   /**
@@ -92,7 +88,7 @@ export interface BandwidthSchedules {
     name: string,
     resourceGroupName: string,
     options?: BandwidthSchedulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified bandwidth schedule.
    * @param deviceName The device name.

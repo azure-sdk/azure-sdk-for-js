@@ -173,9 +173,9 @@ const listByDataBoxEdgeDeviceOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -191,13 +191,12 @@ const listByDataBoxEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
+    Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

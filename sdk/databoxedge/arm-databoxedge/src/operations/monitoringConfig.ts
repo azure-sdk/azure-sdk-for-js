@@ -13,18 +13,22 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   MonitoringMetricConfiguration,
   MonitoringConfigListNextOptionalParams,
   MonitoringConfigListOptionalParams,
   MonitoringConfigListResponse,
-  MonitoringConfigGetOptionalParams,
-  MonitoringConfigGetResponse,
   MonitoringConfigCreateOrUpdateOptionalParams,
   MonitoringConfigCreateOrUpdateResponse,
   MonitoringConfigDeleteOptionalParams,
+  MonitoringConfigGetOptionalParams,
+  MonitoringConfigGetResponse,
   MonitoringConfigListNextResponse
 } from "../models";
 
@@ -135,60 +139,20 @@ export class MonitoringConfigImpl implements MonitoringConfig {
   }
 
   /**
-   * Lists metric configurations in a role.
-   * @param deviceName The device name.
-   * @param roleName The role name.
-   * @param resourceGroupName The resource group name.
-   * @param options The options parameters.
-   */
-  private _list(
-    deviceName: string,
-    roleName: string,
-    resourceGroupName: string,
-    options?: MonitoringConfigListOptionalParams
-  ): Promise<MonitoringConfigListResponse> {
-    return this.client.sendOperationRequest(
-      { deviceName, roleName, resourceGroupName, options },
-      listOperationSpec
-    );
-  }
-
-  /**
-   * Gets a  metric configuration of a role.
-   * @param deviceName The device name.
-   * @param roleName The role name.
-   * @param resourceGroupName The resource group name.
-   * @param options The options parameters.
-   */
-  get(
-    deviceName: string,
-    roleName: string,
-    resourceGroupName: string,
-    options?: MonitoringConfigGetOptionalParams
-  ): Promise<MonitoringConfigGetResponse> {
-    return this.client.sendOperationRequest(
-      { deviceName, roleName, resourceGroupName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
    * Creates a new metric configuration or updates an existing one for a role.
    * @param deviceName The device name.
    * @param roleName The role name.
    * @param resourceGroupName The resource group name.
-   * @param monitoringMetricConfiguration The metric configuration.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     deviceName: string,
     roleName: string,
     resourceGroupName: string,
-    monitoringMetricConfiguration: MonitoringMetricConfiguration,
     options?: MonitoringConfigCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MonitoringConfigCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<MonitoringConfigCreateOrUpdateResponse>,
       MonitoringConfigCreateOrUpdateResponse
     >
   > {
@@ -198,7 +162,7 @@ export class MonitoringConfigImpl implements MonitoringConfig {
     ): Promise<MonitoringConfigCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -231,19 +195,16 @@ export class MonitoringConfigImpl implements MonitoringConfig {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        deviceName,
-        roleName,
-        resourceGroupName,
-        monitoringMetricConfiguration,
-        options
-      },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, roleName, resourceGroupName, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MonitoringConfigCreateOrUpdateResponse,
+      OperationState<MonitoringConfigCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -255,21 +216,18 @@ export class MonitoringConfigImpl implements MonitoringConfig {
    * @param deviceName The device name.
    * @param roleName The role name.
    * @param resourceGroupName The resource group name.
-   * @param monitoringMetricConfiguration The metric configuration.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     deviceName: string,
     roleName: string,
     resourceGroupName: string,
-    monitoringMetricConfiguration: MonitoringMetricConfiguration,
     options?: MonitoringConfigCreateOrUpdateOptionalParams
   ): Promise<MonitoringConfigCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       deviceName,
       roleName,
       resourceGroupName,
-      monitoringMetricConfiguration,
       options
     );
     return poller.pollUntilDone();
@@ -287,14 +245,14 @@ export class MonitoringConfigImpl implements MonitoringConfig {
     roleName: string,
     resourceGroupName: string,
     options?: MonitoringConfigDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -327,13 +285,13 @@ export class MonitoringConfigImpl implements MonitoringConfig {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, roleName, resourceGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, roleName, resourceGroupName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -363,6 +321,44 @@ export class MonitoringConfigImpl implements MonitoringConfig {
   }
 
   /**
+   * Gets a  metric configuration of a role.
+   * @param deviceName The device name.
+   * @param roleName The role name.
+   * @param resourceGroupName The resource group name.
+   * @param options The options parameters.
+   */
+  get(
+    deviceName: string,
+    roleName: string,
+    resourceGroupName: string,
+    options?: MonitoringConfigGetOptionalParams
+  ): Promise<MonitoringConfigGetResponse> {
+    return this.client.sendOperationRequest(
+      { deviceName, roleName, resourceGroupName, options },
+      getOperationSpec
+    );
+  }
+
+  /**
+   * Lists metric configurations in a role.
+   * @param deviceName The device name.
+   * @param roleName The role name.
+   * @param resourceGroupName The resource group name.
+   * @param options The options parameters.
+   */
+  private _list(
+    deviceName: string,
+    roleName: string,
+    resourceGroupName: string,
+    options?: MonitoringConfigListOptionalParams
+  ): Promise<MonitoringConfigListResponse> {
+    return this.client.sendOperationRequest(
+      { deviceName, roleName, resourceGroupName, options },
+      listOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param deviceName The device name.
    * @param roleName The role name.
@@ -386,52 +382,6 @@ export class MonitoringConfigImpl implements MonitoringConfig {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/monitoringConfig",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MonitoringMetricConfigurationList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName,
-    Parameters.roleName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/monitoringConfig/default",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MonitoringMetricConfiguration
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName,
-    Parameters.roleName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/monitoringConfig/default",
@@ -453,14 +403,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.monitoringMetricConfiguration,
+  requestBody: Parameters.body11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.deviceName,
-    Parameters.roleName
+    Parameters.roleName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -482,10 +432,56 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.deviceName,
-    Parameters.roleName
+    Parameters.roleName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  headerParameters: [Parameters.accept1],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/monitoringConfig/default",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MonitoringMetricConfiguration
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.deviceName,
+    Parameters.roleName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/monitoringConfig",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MonitoringMetricConfigurationList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.deviceName,
+    Parameters.roleName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -501,14 +497,13 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
+    Parameters.deviceName,
+    Parameters.roleName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName,
-    Parameters.roleName
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

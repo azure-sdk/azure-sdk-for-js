@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SupportPackages } from "../operationsInterfaces";
+import { DeviceCapacityCheck } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -17,14 +17,14 @@ import {
   createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
-import { SupportPackagesTriggerSupportPackageOptionalParams } from "../models";
+import { DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams } from "../models";
 
-/** Class containing SupportPackages operations. */
-export class SupportPackagesImpl implements SupportPackages {
+/** Class containing DeviceCapacityCheck operations. */
+export class DeviceCapacityCheckImpl implements DeviceCapacityCheck {
   private readonly client: DataBoxEdgeManagementClient;
 
   /**
-   * Initialize a new instance of the class SupportPackages class.
+   * Initialize a new instance of the class DeviceCapacityCheck class.
    * @param client Reference to the service client
    */
   constructor(client: DataBoxEdgeManagementClient) {
@@ -32,15 +32,15 @@ export class SupportPackagesImpl implements SupportPackages {
   }
 
   /**
-   * Triggers support package on the device
+   * Posts the device capacity request info to check feasibility.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  async beginTriggerSupportPackage(
+  async beginCheckResourceCreationFeasibility(
     deviceName: string,
     resourceGroupName: string,
-    options?: SupportPackagesTriggerSupportPackageOptionalParams
+    options?: DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -84,7 +84,7 @@ export class SupportPackagesImpl implements SupportPackages {
     const lro = createLroSpec({
       sendOperationFn,
       args: { deviceName, resourceGroupName, options },
-      spec: triggerSupportPackageOperationSpec
+      spec: checkResourceCreationFeasibilityOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
@@ -95,17 +95,17 @@ export class SupportPackagesImpl implements SupportPackages {
   }
 
   /**
-   * Triggers support package on the device
+   * Posts the device capacity request info to check feasibility.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  async beginTriggerSupportPackageAndWait(
+  async beginCheckResourceCreationFeasibilityAndWait(
     deviceName: string,
     resourceGroupName: string,
-    options?: SupportPackagesTriggerSupportPackageOptionalParams
+    options?: DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams
   ): Promise<void> {
-    const poller = await this.beginTriggerSupportPackage(
+    const poller = await this.beginCheckResourceCreationFeasibility(
       deviceName,
       resourceGroupName,
       options
@@ -116,9 +116,9 @@ export class SupportPackagesImpl implements SupportPackages {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const triggerSupportPackageOperationSpec: coreClient.OperationSpec = {
+const checkResourceCreationFeasibilityOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/triggerSupportPackage",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/deviceCapacityCheck",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -129,8 +129,8 @@ const triggerSupportPackageOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.body17,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.body3,
+  queryParameters: [Parameters.apiVersion, Parameters.capacityName],
   urlParameters: [
     Parameters.$host,
     Parameters.deviceName,

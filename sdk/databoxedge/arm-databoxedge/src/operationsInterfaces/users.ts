@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   User,
   UsersListByDataBoxEdgeDeviceOptionalParams,
@@ -51,18 +51,16 @@ export interface Users {
    * @param deviceName The device name.
    * @param name The user name.
    * @param resourceGroupName The resource group name.
-   * @param user The user details.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    user: User,
     options?: UsersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<UsersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<UsersCreateOrUpdateResponse>,
       UsersCreateOrUpdateResponse
     >
   >;
@@ -72,14 +70,12 @@ export interface Users {
    * @param deviceName The device name.
    * @param name The user name.
    * @param resourceGroupName The resource group name.
-   * @param user The user details.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    user: User,
     options?: UsersCreateOrUpdateOptionalParams
   ): Promise<UsersCreateOrUpdateResponse>;
   /**
@@ -94,7 +90,7 @@ export interface Users {
     name: string,
     resourceGroupName: string,
     options?: UsersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the user on a databox edge/gateway device.
    * @param deviceName The device name.

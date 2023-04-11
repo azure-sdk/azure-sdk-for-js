@@ -7,14 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   StorageAccountCredential,
   StorageAccountCredentialsListByDataBoxEdgeDeviceOptionalParams,
-  StorageAccountCredentialsGetOptionalParams,
-  StorageAccountCredentialsGetResponse,
   StorageAccountCredentialsCreateOrUpdateOptionalParams,
   StorageAccountCredentialsCreateOrUpdateResponse,
+  StorageAccountCredentialsGetOptionalParams,
+  StorageAccountCredentialsGetResponse,
   StorageAccountCredentialsDeleteOptionalParams
 } from "../models";
 
@@ -33,6 +33,37 @@ export interface StorageAccountCredentials {
     options?: StorageAccountCredentialsListByDataBoxEdgeDeviceOptionalParams
   ): PagedAsyncIterableIterator<StorageAccountCredential>;
   /**
+   * Creates or updates the storage account credential.
+   * @param deviceName The device name.
+   * @param name The storage account credential name.
+   * @param resourceGroupName The resource group name.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdate(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    options?: StorageAccountCredentialsCreateOrUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<StorageAccountCredentialsCreateOrUpdateResponse>,
+      StorageAccountCredentialsCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Creates or updates the storage account credential.
+   * @param deviceName The device name.
+   * @param name The storage account credential name.
+   * @param resourceGroupName The resource group name.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    options?: StorageAccountCredentialsCreateOrUpdateOptionalParams
+  ): Promise<StorageAccountCredentialsCreateOrUpdateResponse>;
+  /**
    * Gets the properties of the specified storage account credential.
    * @param deviceName The device name.
    * @param name The storage account credential name.
@@ -46,41 +77,6 @@ export interface StorageAccountCredentials {
     options?: StorageAccountCredentialsGetOptionalParams
   ): Promise<StorageAccountCredentialsGetResponse>;
   /**
-   * Creates or updates the storage account credential.
-   * @param deviceName The device name.
-   * @param name The storage account credential name.
-   * @param resourceGroupName The resource group name.
-   * @param storageAccountCredential The storage account credential.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdate(
-    deviceName: string,
-    name: string,
-    resourceGroupName: string,
-    storageAccountCredential: StorageAccountCredential,
-    options?: StorageAccountCredentialsCreateOrUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<StorageAccountCredentialsCreateOrUpdateResponse>,
-      StorageAccountCredentialsCreateOrUpdateResponse
-    >
-  >;
-  /**
-   * Creates or updates the storage account credential.
-   * @param deviceName The device name.
-   * @param name The storage account credential name.
-   * @param resourceGroupName The resource group name.
-   * @param storageAccountCredential The storage account credential.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdateAndWait(
-    deviceName: string,
-    name: string,
-    resourceGroupName: string,
-    storageAccountCredential: StorageAccountCredential,
-    options?: StorageAccountCredentialsCreateOrUpdateOptionalParams
-  ): Promise<StorageAccountCredentialsCreateOrUpdateResponse>;
-  /**
    * Deletes the storage account credential.
    * @param deviceName The device name.
    * @param name The storage account credential name.
@@ -92,7 +88,7 @@ export interface StorageAccountCredentials {
     name: string,
     resourceGroupName: string,
     options?: StorageAccountCredentialsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the storage account credential.
    * @param deviceName The device name.

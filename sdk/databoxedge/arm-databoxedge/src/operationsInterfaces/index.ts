@@ -6,23 +6,30 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./availableSkus";
-export * from "./devices";
+export * from "./addons";
 export * from "./alerts";
+export * from "./availableSkus";
 export * from "./bandwidthSchedules";
+export * from "./containers";
+export * from "./deviceCapacityCheck";
+export * from "./deviceCapacityInfoOperations";
+export * from "./devices";
 export * from "./diagnosticSettings";
 export * from "./jobs";
+export * from "./marketplaceImageOfferOperations";
+export * from "./marketplaceImagePublisherOperations";
+export * from "./marketplaceImageSasToken";
+export * from "./marketplaceImageSkuOperations";
+export * from "./marketplaceImageVersionOperations";
+export * from "./monitoringConfig";
 export * from "./nodes";
+export * from "./operations";
 export * from "./operationsStatus";
 export * from "./orders";
 export * from "./roles";
-export * from "./addons";
-export * from "./monitoringConfig";
 export * from "./shares";
 export * from "./storageAccountCredentials";
 export * from "./storageAccounts";
-export * from "./containers";
-export * from "./triggers";
 export * from "./supportPackages";
+export * from "./triggers";
 export * from "./users";

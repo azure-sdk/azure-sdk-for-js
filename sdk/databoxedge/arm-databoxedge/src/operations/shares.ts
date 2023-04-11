@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Share,
   SharesListByDataBoxEdgeDeviceNextOptionalParams,
@@ -167,18 +171,16 @@ export class SharesImpl implements Shares {
    * @param deviceName The device name.
    * @param name The share name.
    * @param resourceGroupName The resource group name.
-   * @param share The share properties.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    share: Share,
     options?: SharesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SharesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SharesCreateOrUpdateResponse>,
       SharesCreateOrUpdateResponse
     >
   > {
@@ -188,7 +190,7 @@ export class SharesImpl implements Shares {
     ): Promise<SharesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -221,13 +223,16 @@ export class SharesImpl implements Shares {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, name, resourceGroupName, share, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, name, resourceGroupName, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SharesCreateOrUpdateResponse,
+      OperationState<SharesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -239,21 +244,18 @@ export class SharesImpl implements Shares {
    * @param deviceName The device name.
    * @param name The share name.
    * @param resourceGroupName The resource group name.
-   * @param share The share properties.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    share: Share,
     options?: SharesCreateOrUpdateOptionalParams
   ): Promise<SharesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       deviceName,
       name,
       resourceGroupName,
-      share,
       options
     );
     return poller.pollUntilDone();
@@ -271,14 +273,14 @@ export class SharesImpl implements Shares {
     name: string,
     resourceGroupName: string,
     options?: SharesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -311,13 +313,13 @@ export class SharesImpl implements Shares {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, name, resourceGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, name, resourceGroupName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -358,14 +360,14 @@ export class SharesImpl implements Shares {
     name: string,
     resourceGroupName: string,
     options?: SharesRefreshOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -398,13 +400,13 @@ export class SharesImpl implements Shares {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, name, resourceGroupName, options },
-      refreshOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, name, resourceGroupName, options },
+      spec: refreshOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -471,9 +473,9 @@ const listByDataBoxEdgeDeviceOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -493,9 +495,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName,
     Parameters.name
   ],
   headerParameters: [Parameters.accept],
@@ -522,13 +524,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.share,
+  requestBody: Parameters.body14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName,
     Parameters.name
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -551,12 +553,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName,
     Parameters.name
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const refreshOperationSpec: coreClient.OperationSpec = {
@@ -575,12 +577,12 @@ const refreshOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName,
     Parameters.name
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const listByDataBoxEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
@@ -594,13 +596,12 @@ const listByDataBoxEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
+    Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

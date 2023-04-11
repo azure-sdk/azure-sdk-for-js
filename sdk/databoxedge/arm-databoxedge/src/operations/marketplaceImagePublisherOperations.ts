@@ -8,28 +8,27 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Alerts } from "../operationsInterfaces";
+import { MarketplaceImagePublisherOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
 import {
-  Alert,
-  AlertsListByDataBoxEdgeDeviceNextOptionalParams,
-  AlertsListByDataBoxEdgeDeviceOptionalParams,
-  AlertsListByDataBoxEdgeDeviceResponse,
-  AlertsGetOptionalParams,
-  AlertsGetResponse,
-  AlertsListByDataBoxEdgeDeviceNextResponse
+  MarketplaceImagePublisher,
+  MarketplaceImagePublisherListPublishersNextOptionalParams,
+  MarketplaceImagePublisherListPublishersOptionalParams,
+  MarketplaceImagePublisherListPublishersResponse,
+  MarketplaceImagePublisherListPublishersNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Alerts operations. */
-export class AlertsImpl implements Alerts {
+/** Class containing MarketplaceImagePublisherOperations operations. */
+export class MarketplaceImagePublisherOperationsImpl
+  implements MarketplaceImagePublisherOperations {
   private readonly client: DataBoxEdgeManagementClient;
 
   /**
-   * Initialize a new instance of the class Alerts class.
+   * Initialize a new instance of the class MarketplaceImagePublisherOperations class.
    * @param client Reference to the service client
    */
   constructor(client: DataBoxEdgeManagementClient) {
@@ -37,17 +36,17 @@ export class AlertsImpl implements Alerts {
   }
 
   /**
-   * Gets all the alerts for a Data Box Edge/Data Box Gateway device.
-   * @param deviceName The device name.
+   * Returns list of publishers
+   * @param deviceName
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  public listByDataBoxEdgeDevice(
+  public listPublishers(
     deviceName: string,
     resourceGroupName: string,
-    options?: AlertsListByDataBoxEdgeDeviceOptionalParams
-  ): PagedAsyncIterableIterator<Alert> {
-    const iter = this.listByDataBoxEdgeDevicePagingAll(
+    options?: MarketplaceImagePublisherListPublishersOptionalParams
+  ): PagedAsyncIterableIterator<MarketplaceImagePublisher> {
+    const iter = this.listPublishersPagingAll(
       deviceName,
       resourceGroupName,
       options
@@ -63,7 +62,7 @@ export class AlertsImpl implements Alerts {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByDataBoxEdgeDevicePagingPage(
+        return this.listPublishersPagingPage(
           deviceName,
           resourceGroupName,
           options,
@@ -73,16 +72,16 @@ export class AlertsImpl implements Alerts {
     };
   }
 
-  private async *listByDataBoxEdgeDevicePagingPage(
+  private async *listPublishersPagingPage(
     deviceName: string,
     resourceGroupName: string,
-    options?: AlertsListByDataBoxEdgeDeviceOptionalParams,
+    options?: MarketplaceImagePublisherListPublishersOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Alert[]> {
-    let result: AlertsListByDataBoxEdgeDeviceResponse;
+  ): AsyncIterableIterator<MarketplaceImagePublisher[]> {
+    let result: MarketplaceImagePublisherListPublishersResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDataBoxEdgeDevice(
+      result = await this._listPublishers(
         deviceName,
         resourceGroupName,
         options
@@ -93,7 +92,7 @@ export class AlertsImpl implements Alerts {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByDataBoxEdgeDeviceNext(
+      result = await this._listPublishersNext(
         deviceName,
         resourceGroupName,
         continuationToken,
@@ -106,12 +105,12 @@ export class AlertsImpl implements Alerts {
     }
   }
 
-  private async *listByDataBoxEdgeDevicePagingAll(
+  private async *listPublishersPagingAll(
     deviceName: string,
     resourceGroupName: string,
-    options?: AlertsListByDataBoxEdgeDeviceOptionalParams
-  ): AsyncIterableIterator<Alert> {
-    for await (const page of this.listByDataBoxEdgeDevicePagingPage(
+    options?: MarketplaceImagePublisherListPublishersOptionalParams
+  ): AsyncIterableIterator<MarketplaceImagePublisher> {
+    for await (const page of this.listPublishersPagingPage(
       deviceName,
       resourceGroupName,
       options
@@ -121,71 +120,51 @@ export class AlertsImpl implements Alerts {
   }
 
   /**
-   * Gets all the alerts for a Data Box Edge/Data Box Gateway device.
-   * @param deviceName The device name.
+   * Returns list of publishers
+   * @param deviceName
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  private _listByDataBoxEdgeDevice(
+  private _listPublishers(
     deviceName: string,
     resourceGroupName: string,
-    options?: AlertsListByDataBoxEdgeDeviceOptionalParams
-  ): Promise<AlertsListByDataBoxEdgeDeviceResponse> {
+    options?: MarketplaceImagePublisherListPublishersOptionalParams
+  ): Promise<MarketplaceImagePublisherListPublishersResponse> {
     return this.client.sendOperationRequest(
       { deviceName, resourceGroupName, options },
-      listByDataBoxEdgeDeviceOperationSpec
+      listPublishersOperationSpec
     );
   }
 
   /**
-   * Gets an alert by name.
-   * @param deviceName The device name.
-   * @param name The alert name.
+   * ListPublishersNext
+   * @param deviceName
    * @param resourceGroupName The resource group name.
+   * @param nextLink The nextLink from the previous successful call to the ListPublishers method.
    * @param options The options parameters.
    */
-  get(
-    deviceName: string,
-    name: string,
-    resourceGroupName: string,
-    options?: AlertsGetOptionalParams
-  ): Promise<AlertsGetResponse> {
-    return this.client.sendOperationRequest(
-      { deviceName, name, resourceGroupName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * ListByDataBoxEdgeDeviceNext
-   * @param deviceName The device name.
-   * @param resourceGroupName The resource group name.
-   * @param nextLink The nextLink from the previous successful call to the ListByDataBoxEdgeDevice
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listByDataBoxEdgeDeviceNext(
+  private _listPublishersNext(
     deviceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: AlertsListByDataBoxEdgeDeviceNextOptionalParams
-  ): Promise<AlertsListByDataBoxEdgeDeviceNextResponse> {
+    options?: MarketplaceImagePublisherListPublishersNextOptionalParams
+  ): Promise<MarketplaceImagePublisherListPublishersNextResponse> {
     return this.client.sendOperationRequest(
       { deviceName, resourceGroupName, nextLink, options },
-      listByDataBoxEdgeDeviceNextOperationSpec
+      listPublishersNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByDataBoxEdgeDeviceOperationSpec: coreClient.OperationSpec = {
+const listPublishersOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/alerts",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/publishers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertList
+      bodyMapper: Mappers.MarketplaceImagePublisherList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -198,38 +177,15 @@ const listByDataBoxEdgeDeviceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/alerts/{name}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Alert
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.deviceName,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByDataBoxEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
+const listPublishersNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertList
+      bodyMapper: Mappers.MarketplaceImagePublisherList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -242,6 +198,6 @@ const listByDataBoxEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.nextLink
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };

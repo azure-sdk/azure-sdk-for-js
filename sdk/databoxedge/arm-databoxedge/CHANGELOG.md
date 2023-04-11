@@ -1,15 +1,412 @@
 # Release History
+    
+## 3.0.0-beta.1 (2023-04-11)
+    
+**Features**
 
-## 2.1.1 (Unreleased)
+  - Added operation group DeviceCapacityCheck
+  - Added operation group DeviceCapacityInfoOperations
+  - Added operation group MarketplaceImageOfferOperations
+  - Added operation group MarketplaceImagePublisherOperations
+  - Added operation group MarketplaceImageSasToken
+  - Added operation group MarketplaceImageSkuOperations
+  - Added operation group MarketplaceImageVersionOperations
+  - Added operation Devices.delete
+  - Added Interface AlertProperties
+  - Added Interface ArcAddonProperties
+  - Added Interface ASEKubernetesRole
+  - Added Interface ASEKubernetesRoleCompute
+  - Added Interface ASEKubernetesRoleProperties
+  - Added Interface ASEKubernetesRoleResources
+  - Added Interface ASEKubernetesRoleStorage
+  - Added Interface BandwidthScheduleProperties
+  - Added Interface CloudEdgeManagementRoleProperties
+  - Added Interface ClusterCapacityViewData
+  - Added Interface ClusterGpuCapacity
+  - Added Interface ClusterMemoryCapacity
+  - Added Interface ClusterStorageViewData
+  - Added Interface ComputeVersionInformation
+  - Added Interface ContainerProperties
+  - Added Interface DataBoxEdgeDeviceExtendedInfoProperties
+  - Added Interface DataBoxEdgeDeviceProperties
+  - Added Interface DataBoxEdgeDevicePropertiesPatch
+  - Added Interface DCAccessCodeProperties
+  - Added Interface DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams
+  - Added Interface DeviceCapacityInfo
+  - Added Interface DeviceCapacityInfoGetDeviceCapacityInfoOptionalParams
+  - Added Interface DeviceCapacityInfoProperties
+  - Added Interface DeviceCapacityRequestInfo
+  - Added Interface DeviceCapacityRequestInfoProperties
+  - Added Interface DiagnosticRemoteSupportSettingsProperties
+  - Added Interface FileTriggerProperties
+  - Added Interface HostCapacity
+  - Added Interface IoTRoleProperties
+  - Added Interface JobProperties
+  - Added Interface KubernetesRoleProperties
+  - Added Interface MarketplaceImageOffer
+  - Added Interface MarketplaceImageOfferList
+  - Added Interface MarketplaceImageOfferListOffersbyPublisherNextOptionalParams
+  - Added Interface MarketplaceImageOfferListOffersbyPublisherOptionalParams
+  - Added Interface MarketplaceImageOfferListOffersNextOptionalParams
+  - Added Interface MarketplaceImageOfferListOffersOptionalParams
+  - Added Interface MarketplaceImageOfferProperties
+  - Added Interface MarketplaceImagePublisher
+  - Added Interface MarketplaceImagePublisherList
+  - Added Interface MarketplaceImagePublisherListPublishersNextOptionalParams
+  - Added Interface MarketplaceImagePublisherListPublishersOptionalParams
+  - Added Interface MarketplaceImagePublisherProperties
+  - Added Interface MarketplaceImageSasTokenGetSASTokenOptionalParams
+  - Added Interface MarketplaceImageSku
+  - Added Interface MarketplaceImageSkuList
+  - Added Interface MarketplaceImageSkuListSKUsWithinOfferNextOptionalParams
+  - Added Interface MarketplaceImageSkuListSKUsWithinOfferOptionalParams
+  - Added Interface MarketplaceImageSkuProperties
+  - Added Interface MarketplaceImageVersion
+  - Added Interface MarketplaceImageVersionGetParticularImageOptionalParams
+  - Added Interface MarketplaceImageVersionList
+  - Added Interface MarketplaceImageVersionListVersionswithinSKUNextOptionalParams
+  - Added Interface MarketplaceImageVersionListVersionswithinSKUOptionalParams
+  - Added Interface MarketplaceImageVersionProperties
+  - Added Interface MarketplaceSasToken
+  - Added Interface MECRoleProperties
+  - Added Interface MonitoringMetricConfigurationProperties
+  - Added Interface NetworkSettingsProperties
+  - Added Interface NodeProperties
+  - Added Interface NumaNodeData
+  - Added Interface OperationProperties
+  - Added Interface OrderProperties
+  - Added Interface PeriodicTimerProperties
+  - Added Interface ProactiveLogCollectionSettingsProperties
+  - Added Interface RawCertificateData
+  - Added Interface SasTokenProperties
+  - Added Interface SecuritySettingsProperties
+  - Added Interface ShareProperties
+  - Added Interface SkuMapping
+  - Added Interface StorageAccountCredentialProperties
+  - Added Interface StorageAccountProperties
+  - Added Interface SubscriptionProperties
+  - Added Interface SupportPackageRequestProperties
+  - Added Interface UpdateSummaryProperties
+  - Added Interface UserProperties
+  - Added Interface VmMemory
+  - Added Interface VmPlacementRequestResult
+  - Added Type Alias ClusterWitnessType
+  - Added Type Alias DeviceCapacityInfoGetDeviceCapacityInfoResponse
+  - Added Type Alias KubernetesComponentType
+  - Added Type Alias MarketplaceImageOfferListOffersbyPublisherNextResponse
+  - Added Type Alias MarketplaceImageOfferListOffersbyPublisherResponse
+  - Added Type Alias MarketplaceImageOfferListOffersNextResponse
+  - Added Type Alias MarketplaceImageOfferListOffersResponse
+  - Added Type Alias MarketplaceImagePublisherListPublishersNextResponse
+  - Added Type Alias MarketplaceImagePublisherListPublishersResponse
+  - Added Type Alias MarketplaceImageSasTokenGetSASTokenResponse
+  - Added Type Alias MarketplaceImageSkuListSKUsWithinOfferNextResponse
+  - Added Type Alias MarketplaceImageSkuListSKUsWithinOfferResponse
+  - Added Type Alias MarketplaceImageVersionGetParticularImageResponse
+  - Added Type Alias MarketplaceImageVersionListVersionswithinSKUNextResponse
+  - Added Type Alias MarketplaceImageVersionListVersionswithinSKUResponse
+  - Interface AddonsCreateOrUpdateOptionalParams has a new optional parameter body
+  - Interface Alert has a new optional parameter properties
+  - Interface BandwidthSchedulesCreateOrUpdateOptionalParams has a new optional parameter body
+  - Interface CloudEdgeManagementRole has a new optional parameter properties
+  - Interface CniConfig has a new optional parameter componentType
+  - Interface ContainersCreateOrUpdateOptionalParams has a new optional parameter body
+  - Interface DataBoxEdgeDevice has a new optional parameter properties
+  - Interface DataBoxEdgeDeviceExtendedInfo has a new optional parameter properties
+  - Interface DataBoxEdgeDeviceExtendedInfo has a new optional parameter systemData
+  - Interface DataBoxEdgeDevicePatch has a new optional parameter properties
+  - Interface DCAccessCode has a new optional parameter properties
+  - Interface DevicesCreateOrUpdateOptionalParams has a new optional parameter body
+  - Interface DevicesCreateOrUpdateSecuritySettingsOptionalParams has a new optional parameter body
+  - Interface DevicesUpdateExtendedInformationOptionalParams has a new optional parameter body
+  - Interface DevicesUpdateOptionalParams has a new optional parameter body
+  - Interface DevicesUploadCertificateOptionalParams has a new optional parameter body
+  - Interface DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams has a new optional parameter body
+  - Interface DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams has a new optional parameter body
+  - Interface EdgeProfileSubscription has a new optional parameter properties
+  - Interface EtcdInfo has a new optional parameter componentType
+  - Interface IoTRole has a new optional parameter properties
+  - Interface Job has a new optional parameter properties
+  - Interface KubernetesClusterInfo has a new optional parameter componentType
+  - Interface KubernetesRole has a new optional parameter properties
+  - Interface KubernetesRoleCompute has a new optional parameter hugePage1G
+  - Interface KubernetesRoleCompute has a new optional parameter hugePage2M
+  - Interface LoadBalancerConfig has a new optional parameter componentType
+  - Interface MECRole has a new optional parameter properties
+  - Interface MonitoringConfigCreateOrUpdateOptionalParams has a new optional parameter body
+  - Interface NetworkSettings has a new optional parameter properties
+  - Interface Node_2 has a new optional parameter properties
+  - Interface NodeInfo has a new optional parameter componentType
+  - Interface Operation has a new optional parameter properties
+  - Interface Order has a new optional parameter kind
+  - Interface Order has a new optional parameter properties
+  - Interface OrdersCreateOrUpdateOptionalParams has a new optional parameter body
+  - Interface RolesCreateOrUpdateOptionalParams has a new optional parameter body
+  - Interface SharesCreateOrUpdateOptionalParams has a new optional parameter body
+  - Interface StorageAccountCredentialsCreateOrUpdateOptionalParams has a new optional parameter body
+  - Interface StorageAccountsCreateOrUpdateOptionalParams has a new optional parameter body
+  - Interface SupportPackagesTriggerSupportPackageOptionalParams has a new optional parameter body
+  - Interface TriggersCreateOrUpdateOptionalParams has a new optional parameter body
+  - Interface UpdateSummary has a new optional parameter properties
+  - Interface UsersCreateOrUpdateOptionalParams has a new optional parameter body
+  - Added Enum KnownClusterWitnessType
+  - Added Enum KnownKubernetesComponentType
+  - Enum KnownInstallationImpact has a new value KubernetesDisruptive
+  - Enum KnownInstallationImpact has a new value KubernetesOptimized
+  - Enum KnownInstallationImpact has a new value SoftwareDisruptive
+  - Enum KnownInstallationImpact has a new value SoftwareOptimized
+  - Enum KnownKubernetesNodeType has a new value ControlPlane
+  - Enum KnownKubernetesNodeType has a new value ManagementCluster
+  - Enum KnownKubernetesNodeType has a new value NodePool
+  - Enum KnownOrderState has a new value AwaitingFulfilment
+  - Enum KnownRoleTypes has a new value ASEKubernetes
+  - Enum KnownShareStatus has a new value Online
+  - Enum KnownSkuName has a new value EdgeMRTCP
+  - Enum KnownSkuName has a new value EP2128GPU1Mx1W
+  - Enum KnownSkuName has a new value EP2256GPU2Mx1
+  - Enum KnownSkuName has a new value EP264Mx1W
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation Devices.beginDelete
+  - Removed operation Devices.beginDeleteAndWait
+  - Operation Addons.beginCreateOrUpdate has a new signature
+  - Operation Addons.beginCreateOrUpdateAndWait has a new signature
+  - Operation BandwidthSchedules.beginCreateOrUpdate has a new signature
+  - Operation BandwidthSchedules.beginCreateOrUpdateAndWait has a new signature
+  - Operation Containers.beginCreateOrUpdate has a new signature
+  - Operation Containers.beginCreateOrUpdateAndWait has a new signature
+  - Operation Devices.beginCreateOrUpdateSecuritySettings has a new signature
+  - Operation Devices.beginCreateOrUpdateSecuritySettingsAndWait has a new signature
+  - Operation Devices.createOrUpdate has a new signature
+  - Operation Devices.update has a new signature
+  - Operation Devices.updateExtendedInformation has a new signature
+  - Operation Devices.uploadCertificate has a new signature
+  - Operation DiagnosticSettings.beginUpdateDiagnosticProactiveLogCollectionSettings has a new signature
+  - Operation DiagnosticSettings.beginUpdateDiagnosticProactiveLogCollectionSettingsAndWait has a new signature
+  - Operation DiagnosticSettings.beginUpdateDiagnosticRemoteSupportSettings has a new signature
+  - Operation DiagnosticSettings.beginUpdateDiagnosticRemoteSupportSettingsAndWait has a new signature
+  - Operation MonitoringConfig.beginCreateOrUpdate has a new signature
+  - Operation MonitoringConfig.beginCreateOrUpdateAndWait has a new signature
+  - Operation Orders.beginCreateOrUpdate has a new signature
+  - Operation Orders.beginCreateOrUpdateAndWait has a new signature
+  - Operation Roles.beginCreateOrUpdate has a new signature
+  - Operation Roles.beginCreateOrUpdateAndWait has a new signature
+  - Operation Shares.beginCreateOrUpdate has a new signature
+  - Operation Shares.beginCreateOrUpdateAndWait has a new signature
+  - Operation StorageAccountCredentials.beginCreateOrUpdate has a new signature
+  - Operation StorageAccountCredentials.beginCreateOrUpdateAndWait has a new signature
+  - Operation StorageAccounts.beginCreateOrUpdate has a new signature
+  - Operation StorageAccounts.beginCreateOrUpdateAndWait has a new signature
+  - Operation SupportPackages.beginTriggerSupportPackage has a new signature
+  - Operation SupportPackages.beginTriggerSupportPackageAndWait has a new signature
+  - Operation Triggers.beginCreateOrUpdate has a new signature
+  - Operation Triggers.beginCreateOrUpdateAndWait has a new signature
+  - Operation Users.beginCreateOrUpdate has a new signature
+  - Operation Users.beginCreateOrUpdateAndWait has a new signature
+  - Interface Alert no longer has parameter alertType
+  - Interface Alert no longer has parameter appearedAtDateTime
+  - Interface Alert no longer has parameter detailedInformation
+  - Interface Alert no longer has parameter errorDetails
+  - Interface Alert no longer has parameter recommendation
+  - Interface Alert no longer has parameter severity
+  - Interface Alert no longer has parameter title
+  - Interface ArcAddon no longer has parameter hostPlatform
+  - Interface ArcAddon no longer has parameter hostPlatformType
+  - Interface ArcAddon no longer has parameter provisioningState
+  - Interface ArcAddon no longer has parameter resourceGroupName
+  - Interface ArcAddon no longer has parameter resourceLocation
+  - Interface ArcAddon no longer has parameter resourceName
+  - Interface ArcAddon no longer has parameter subscriptionId
+  - Interface ArcAddon no longer has parameter version
+  - Interface BandwidthSchedule no longer has parameter days
+  - Interface BandwidthSchedule no longer has parameter rateInMbps
+  - Interface BandwidthSchedule no longer has parameter start
+  - Interface BandwidthSchedule no longer has parameter stop
+  - Interface CloudEdgeManagementRole no longer has parameter edgeProfile
+  - Interface CloudEdgeManagementRole no longer has parameter localManagementStatus
+  - Interface CloudEdgeManagementRole no longer has parameter roleStatus
+  - Interface Container no longer has parameter containerStatus
+  - Interface Container no longer has parameter createdDateTime
+  - Interface Container no longer has parameter dataFormat
+  - Interface Container no longer has parameter refreshDetails
+  - Interface DataBoxEdgeDevice no longer has parameter configuredRoleTypes
+  - Interface DataBoxEdgeDevice no longer has parameter culture
+  - Interface DataBoxEdgeDevice no longer has parameter dataBoxEdgeDeviceStatus
+  - Interface DataBoxEdgeDevice no longer has parameter dataResidency
+  - Interface DataBoxEdgeDevice no longer has parameter description
+  - Interface DataBoxEdgeDevice no longer has parameter deviceHcsVersion
+  - Interface DataBoxEdgeDevice no longer has parameter deviceLocalCapacity
+  - Interface DataBoxEdgeDevice no longer has parameter deviceModel
+  - Interface DataBoxEdgeDevice no longer has parameter deviceSoftwareVersion
+  - Interface DataBoxEdgeDevice no longer has parameter deviceType
+  - Interface DataBoxEdgeDevice no longer has parameter edgeProfile
+  - Interface DataBoxEdgeDevice no longer has parameter friendlyName
+  - Interface DataBoxEdgeDevice no longer has parameter modelDescription
+  - Interface DataBoxEdgeDevice no longer has parameter nodeCount
+  - Interface DataBoxEdgeDevice no longer has parameter resourceMoveDetails
+  - Interface DataBoxEdgeDevice no longer has parameter serialNumber
+  - Interface DataBoxEdgeDevice no longer has parameter systemData
+  - Interface DataBoxEdgeDevice no longer has parameter systemDataPropertiesSystemData
+  - Interface DataBoxEdgeDevice no longer has parameter timeZone
+  - Interface DataBoxEdgeDeviceExtendedInfo no longer has parameter channelIntegrityKeyName
+  - Interface DataBoxEdgeDeviceExtendedInfo no longer has parameter channelIntegrityKeyVersion
+  - Interface DataBoxEdgeDeviceExtendedInfo no longer has parameter clientSecretStoreId
+  - Interface DataBoxEdgeDeviceExtendedInfo no longer has parameter clientSecretStoreUrl
+  - Interface DataBoxEdgeDeviceExtendedInfo no longer has parameter deviceSecrets
+  - Interface DataBoxEdgeDeviceExtendedInfo no longer has parameter encryptionKey
+  - Interface DataBoxEdgeDeviceExtendedInfo no longer has parameter encryptionKeyThumbprint
+  - Interface DataBoxEdgeDeviceExtendedInfo no longer has parameter keyVaultSyncStatus
+  - Interface DataBoxEdgeDeviceExtendedInfo no longer has parameter resourceKey
+  - Interface DataBoxEdgeDevicePatch no longer has parameter edgeProfile
+  - Interface DCAccessCode no longer has parameter authCode
+  - Interface DevicesDeleteOptionalParams no longer has parameter resumeFrom
+  - Interface DevicesDeleteOptionalParams no longer has parameter updateIntervalInMs
+  - Interface DevicesListByResourceGroupNextOptionalParams no longer has parameter expand
+  - Interface DevicesListBySubscriptionNextOptionalParams no longer has parameter expand
+  - Interface DiagnosticProactiveLogCollectionSettings no longer has parameter userConsent
+  - Interface DiagnosticRemoteSupportSettings no longer has parameter remoteSupportSettingsList
+  - Interface EdgeProfileSubscription no longer has parameter locationPlacementId
+  - Interface EdgeProfileSubscription no longer has parameter quotaId
+  - Interface EdgeProfileSubscription no longer has parameter registeredFeatures
+  - Interface EdgeProfileSubscription no longer has parameter serializedDetails
+  - Interface EdgeProfileSubscription no longer has parameter tenantId
+  - Interface FileEventTrigger no longer has parameter customContextTag
+  - Interface FileEventTrigger no longer has parameter sinkInfo
+  - Interface FileEventTrigger no longer has parameter sourceInfo
+  - Interface IoTRole no longer has parameter computeResource
+  - Interface IoTRole no longer has parameter hostPlatform
+  - Interface IoTRole no longer has parameter hostPlatformType
+  - Interface IoTRole no longer has parameter ioTDeviceDetails
+  - Interface IoTRole no longer has parameter ioTEdgeAgentInfo
+  - Interface IoTRole no longer has parameter ioTEdgeDeviceDetails
+  - Interface IoTRole no longer has parameter roleStatus
+  - Interface IoTRole no longer has parameter shareMappings
+  - Interface Job no longer has parameter currentStage
+  - Interface Job no longer has parameter downloadProgress
+  - Interface Job no longer has parameter errorManifestFile
+  - Interface Job no longer has parameter folder
+  - Interface Job no longer has parameter installProgress
+  - Interface Job no longer has parameter jobType
+  - Interface Job no longer has parameter refreshedEntityId
+  - Interface Job no longer has parameter totalRefreshErrors
+  - Interface KubernetesRole no longer has parameter hostPlatform
+  - Interface KubernetesRole no longer has parameter hostPlatformType
+  - Interface KubernetesRole no longer has parameter kubernetesClusterInfo
+  - Interface KubernetesRole no longer has parameter kubernetesRoleResources
+  - Interface KubernetesRole no longer has parameter provisioningState
+  - Interface KubernetesRole no longer has parameter roleStatus
+  - Interface MECRole no longer has parameter connectionString
+  - Interface MECRole no longer has parameter controllerEndpoint
+  - Interface MECRole no longer has parameter resourceUniqueId
+  - Interface MECRole no longer has parameter roleStatus
+  - Interface MonitoringMetricConfiguration no longer has parameter metricConfigurations
+  - Interface NetworkSettings no longer has parameter networkAdapters
+  - Interface Node_2 no longer has parameter nodeChassisSerialNumber
+  - Interface Node_2 no longer has parameter nodeDisplayName
+  - Interface Node_2 no longer has parameter nodeFriendlySoftwareVersion
+  - Interface Node_2 no longer has parameter nodeHcsVersion
+  - Interface Node_2 no longer has parameter nodeInstanceId
+  - Interface Node_2 no longer has parameter nodeSerialNumber
+  - Interface Node_2 no longer has parameter nodeStatus
+  - Interface Operation no longer has parameter serviceSpecification
+  - Interface Order no longer has parameter contactInformation
+  - Interface Order no longer has parameter currentStatus
+  - Interface Order no longer has parameter deliveryTrackingInfo
+  - Interface Order no longer has parameter orderHistory
+  - Interface Order no longer has parameter returnTrackingInfo
+  - Interface Order no longer has parameter serialNumber
+  - Interface Order no longer has parameter shipmentType
+  - Interface Order no longer has parameter shippingAddress
+  - Interface PeriodicTimerEventTrigger no longer has parameter customContextTag
+  - Interface PeriodicTimerEventTrigger no longer has parameter sinkInfo
+  - Interface PeriodicTimerEventTrigger no longer has parameter sourceInfo
+  - Interface SecuritySettings no longer has parameter deviceAdminPassword
+  - Interface Share no longer has parameter accessProtocol
+  - Interface Share no longer has parameter azureContainerInfo
+  - Interface Share no longer has parameter clientAccessRights
+  - Interface Share no longer has parameter dataPolicy
+  - Interface Share no longer has parameter description
+  - Interface Share no longer has parameter monitoringStatus
+  - Interface Share no longer has parameter refreshDetails
+  - Interface Share no longer has parameter shareMappings
+  - Interface Share no longer has parameter shareStatus
+  - Interface Share no longer has parameter userAccessRights
+  - Interface StorageAccount no longer has parameter blobEndpoint
+  - Interface StorageAccount no longer has parameter containerCount
+  - Interface StorageAccount no longer has parameter dataPolicy
+  - Interface StorageAccount no longer has parameter description
+  - Interface StorageAccount no longer has parameter storageAccountCredentialId
+  - Interface StorageAccount no longer has parameter storageAccountStatus
+  - Interface StorageAccountCredential no longer has parameter accountKey
+  - Interface StorageAccountCredential no longer has parameter accountType
+  - Interface StorageAccountCredential no longer has parameter alias
+  - Interface StorageAccountCredential no longer has parameter blobDomainName
+  - Interface StorageAccountCredential no longer has parameter connectionString
+  - Interface StorageAccountCredential no longer has parameter sslStatus
+  - Interface StorageAccountCredential no longer has parameter storageAccountId
+  - Interface StorageAccountCredential no longer has parameter userName
+  - Interface TriggersListByDataBoxEdgeDeviceNextOptionalParams no longer has parameter filter
+  - Interface TriggerSupportPackageRequest no longer has parameter include
+  - Interface TriggerSupportPackageRequest no longer has parameter maximumTimeStamp
+  - Interface TriggerSupportPackageRequest no longer has parameter minimumTimeStamp
+  - Interface UpdateSummary no longer has parameter deviceLastScannedDateTime
+  - Interface UpdateSummary no longer has parameter deviceVersionNumber
+  - Interface UpdateSummary no longer has parameter friendlyDeviceVersionName
+  - Interface UpdateSummary no longer has parameter inProgressDownloadJobId
+  - Interface UpdateSummary no longer has parameter inProgressDownloadJobStartedDateTime
+  - Interface UpdateSummary no longer has parameter inProgressInstallJobId
+  - Interface UpdateSummary no longer has parameter inProgressInstallJobStartedDateTime
+  - Interface UpdateSummary no longer has parameter lastCompletedDownloadJobDateTime
+  - Interface UpdateSummary no longer has parameter lastCompletedDownloadJobId
+  - Interface UpdateSummary no longer has parameter lastCompletedInstallJobDateTime
+  - Interface UpdateSummary no longer has parameter lastCompletedInstallJobId
+  - Interface UpdateSummary no longer has parameter lastCompletedScanJobDateTime
+  - Interface UpdateSummary no longer has parameter lastDownloadJobStatus
+  - Interface UpdateSummary no longer has parameter lastInstallJobStatus
+  - Interface UpdateSummary no longer has parameter lastSuccessfulInstallJobDateTime
+  - Interface UpdateSummary no longer has parameter lastSuccessfulScanJobTime
+  - Interface UpdateSummary no longer has parameter ongoingUpdateOperation
+  - Interface UpdateSummary no longer has parameter rebootBehavior
+  - Interface UpdateSummary no longer has parameter totalNumberOfUpdatesAvailable
+  - Interface UpdateSummary no longer has parameter totalNumberOfUpdatesPendingDownload
+  - Interface UpdateSummary no longer has parameter totalNumberOfUpdatesPendingInstall
+  - Interface UpdateSummary no longer has parameter totalTimeInMinutes
+  - Interface UpdateSummary no longer has parameter totalUpdateSizeInBytes
+  - Interface UpdateSummary no longer has parameter updates
+  - Interface UpdateSummary no longer has parameter updateTitles
+  - Interface UploadCertificateRequest no longer has parameter authenticationType
+  - Interface UploadCertificateRequest no longer has parameter certificate
+  - Interface User no longer has parameter encryptedPassword
+  - Interface User no longer has parameter shareAccessRights
+  - Interface User no longer has parameter userType
+  - Interface UsersListByDataBoxEdgeDeviceNextOptionalParams no longer has parameter filter
+  - Interface ArcAddon has a new required parameter properties
+  - Interface BandwidthSchedule has a new required parameter properties
+  - Interface Container has a new required parameter properties
+  - Interface DiagnosticProactiveLogCollectionSettings has a new required parameter properties
+  - Interface DiagnosticRemoteSupportSettings has a new required parameter properties
+  - Interface FileEventTrigger has a new required parameter properties
+  - Interface MonitoringMetricConfiguration has a new required parameter properties
+  - Interface PeriodicTimerEventTrigger has a new required parameter properties
+  - Interface SecuritySettings has a new required parameter properties
+  - Interface Share has a new required parameter properties
+  - Interface StorageAccount has a new required parameter properties
+  - Interface StorageAccountCredential has a new required parameter properties
+  - Interface TriggerSupportPackageRequest has a new required parameter properties
+  - Interface UploadCertificateRequest has a new required parameter properties
+  - Interface User has a new required parameter properties
+  - Type of parameter additionalOrderDetails of interface OrderStatus is changed from {
+        [propertyName: string]: string;
+    } to {
+        [propertyName: string]: string | null;
+    }
+  - Type of parameter createdByType of interface SystemData is changed from CreatedByType to string
+  - Type of parameter lastModifiedByType of interface SystemData is changed from CreatedByType to string
+  - Removed Enum KnownCreatedByType
+  - Enum KnownOrderState no longer has value AwaitingFulfillment
+    
+    
 ## 2.1.0 (2022-11-21)
     
 **Features**

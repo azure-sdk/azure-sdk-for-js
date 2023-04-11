@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AddonUnion,
   AddonsListByRoleOptionalParams,
@@ -55,7 +55,6 @@ export interface Addons {
    * @param roleName The role name.
    * @param addonName The addon name.
    * @param resourceGroupName The resource group name.
-   * @param addon The addon properties.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
@@ -63,11 +62,10 @@ export interface Addons {
     roleName: string,
     addonName: string,
     resourceGroupName: string,
-    addon: AddonUnion,
     options?: AddonsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AddonsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AddonsCreateOrUpdateResponse>,
       AddonsCreateOrUpdateResponse
     >
   >;
@@ -77,7 +75,6 @@ export interface Addons {
    * @param roleName The role name.
    * @param addonName The addon name.
    * @param resourceGroupName The resource group name.
-   * @param addon The addon properties.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
@@ -85,7 +82,6 @@ export interface Addons {
     roleName: string,
     addonName: string,
     resourceGroupName: string,
-    addon: AddonUnion,
     options?: AddonsCreateOrUpdateOptionalParams
   ): Promise<AddonsCreateOrUpdateResponse>;
   /**
@@ -102,7 +98,7 @@ export interface Addons {
     addonName: string,
     resourceGroupName: string,
     options?: AddonsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the addon on the device.
    * @param deviceName The device name.

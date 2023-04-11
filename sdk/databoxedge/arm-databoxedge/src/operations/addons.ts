@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   AddonUnion,
   AddonsListByRoleNextOptionalParams,
@@ -180,7 +184,6 @@ export class AddonsImpl implements Addons {
    * @param roleName The role name.
    * @param addonName The addon name.
    * @param resourceGroupName The resource group name.
-   * @param addon The addon properties.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
@@ -188,11 +191,10 @@ export class AddonsImpl implements Addons {
     roleName: string,
     addonName: string,
     resourceGroupName: string,
-    addon: AddonUnion,
     options?: AddonsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AddonsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AddonsCreateOrUpdateResponse>,
       AddonsCreateOrUpdateResponse
     >
   > {
@@ -202,7 +204,7 @@ export class AddonsImpl implements Addons {
     ): Promise<AddonsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -235,13 +237,16 @@ export class AddonsImpl implements Addons {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, roleName, addonName, resourceGroupName, addon, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, roleName, addonName, resourceGroupName, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AddonsCreateOrUpdateResponse,
+      OperationState<AddonsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -254,7 +259,6 @@ export class AddonsImpl implements Addons {
    * @param roleName The role name.
    * @param addonName The addon name.
    * @param resourceGroupName The resource group name.
-   * @param addon The addon properties.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
@@ -262,7 +266,6 @@ export class AddonsImpl implements Addons {
     roleName: string,
     addonName: string,
     resourceGroupName: string,
-    addon: AddonUnion,
     options?: AddonsCreateOrUpdateOptionalParams
   ): Promise<AddonsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
@@ -270,7 +273,6 @@ export class AddonsImpl implements Addons {
       roleName,
       addonName,
       resourceGroupName,
-      addon,
       options
     );
     return poller.pollUntilDone();
@@ -290,14 +292,14 @@ export class AddonsImpl implements Addons {
     addonName: string,
     resourceGroupName: string,
     options?: AddonsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -330,13 +332,13 @@ export class AddonsImpl implements Addons {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, roleName, addonName, resourceGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, roleName, addonName, resourceGroupName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -407,10 +409,10 @@ const listByRoleOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.deviceName,
-    Parameters.roleName
+    Parameters.roleName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -430,10 +432,10 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.deviceName,
     Parameters.roleName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.addonName
   ],
   headerParameters: [Parameters.accept],
@@ -460,14 +462,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.addon,
+  requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.deviceName,
     Parameters.roleName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.addonName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -490,13 +492,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.deviceName,
     Parameters.roleName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.addonName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const listByRoleNextOperationSpec: coreClient.OperationSpec = {
@@ -510,14 +512,13 @@ const listByRoleNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
+    Parameters.deviceName,
+    Parameters.roleName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName,
-    Parameters.roleName
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

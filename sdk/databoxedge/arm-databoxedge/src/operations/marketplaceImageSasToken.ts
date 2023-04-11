@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SupportPackages } from "../operationsInterfaces";
+import { MarketplaceImageSasToken } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -17,14 +17,17 @@ import {
   createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
-import { SupportPackagesTriggerSupportPackageOptionalParams } from "../models";
+import {
+  MarketplaceImageSasTokenGetSASTokenOptionalParams,
+  MarketplaceImageSasTokenGetSASTokenResponse
+} from "../models";
 
-/** Class containing SupportPackages operations. */
-export class SupportPackagesImpl implements SupportPackages {
+/** Class containing MarketplaceImageSasToken operations. */
+export class MarketplaceImageSasTokenImpl implements MarketplaceImageSasToken {
   private readonly client: DataBoxEdgeManagementClient;
 
   /**
-   * Initialize a new instance of the class SupportPackages class.
+   * Initialize a new instance of the class MarketplaceImageSasToken class.
    * @param client Reference to the service client
    */
   constructor(client: DataBoxEdgeManagementClient) {
@@ -32,20 +35,33 @@ export class SupportPackagesImpl implements SupportPackages {
   }
 
   /**
-   * Triggers support package on the device
-   * @param deviceName The device name.
+   * Returns SASToken
+   * @param deviceName
+   * @param publisherName
+   * @param offerName
+   * @param skuName
+   * @param versionName
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  async beginTriggerSupportPackage(
+  async beginGetSASToken(
     deviceName: string,
+    publisherName: string,
+    offerName: string,
+    skuName: string,
+    versionName: string,
     resourceGroupName: string,
-    options?: SupportPackagesTriggerSupportPackageOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: MarketplaceImageSasTokenGetSASTokenOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MarketplaceImageSasTokenGetSASTokenResponse>,
+      MarketplaceImageSasTokenGetSASTokenResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<MarketplaceImageSasTokenGetSASTokenResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -83,10 +99,21 @@ export class SupportPackagesImpl implements SupportPackages {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { deviceName, resourceGroupName, options },
-      spec: triggerSupportPackageOperationSpec
+      args: {
+        deviceName,
+        publisherName,
+        offerName,
+        skuName,
+        versionName,
+        resourceGroupName,
+        options
+      },
+      spec: getSASTokenOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      MarketplaceImageSasTokenGetSASTokenResponse,
+      OperationState<MarketplaceImageSasTokenGetSASTokenResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
@@ -95,18 +122,30 @@ export class SupportPackagesImpl implements SupportPackages {
   }
 
   /**
-   * Triggers support package on the device
-   * @param deviceName The device name.
+   * Returns SASToken
+   * @param deviceName
+   * @param publisherName
+   * @param offerName
+   * @param skuName
+   * @param versionName
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  async beginTriggerSupportPackageAndWait(
+  async beginGetSASTokenAndWait(
     deviceName: string,
+    publisherName: string,
+    offerName: string,
+    skuName: string,
+    versionName: string,
     resourceGroupName: string,
-    options?: SupportPackagesTriggerSupportPackageOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginTriggerSupportPackage(
+    options?: MarketplaceImageSasTokenGetSASTokenOptionalParams
+  ): Promise<MarketplaceImageSasTokenGetSASTokenResponse> {
+    const poller = await this.beginGetSASToken(
       deviceName,
+      publisherName,
+      offerName,
+      skuName,
+      versionName,
       resourceGroupName,
       options
     );
@@ -116,28 +155,38 @@ export class SupportPackagesImpl implements SupportPackages {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const triggerSupportPackageOperationSpec: coreClient.OperationSpec = {
+const getSASTokenOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/triggerSupportPackage",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/publishers/{publisherName}/offers/{offerName}/skus/{skuName}/versions/{versionName}/generatesastoken",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.MarketplaceSasToken
+    },
+    201: {
+      bodyMapper: Mappers.MarketplaceSasToken
+    },
+    202: {
+      bodyMapper: Mappers.MarketplaceSasToken
+    },
+    204: {
+      bodyMapper: Mappers.MarketplaceSasToken
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.body17,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.publisherName,
+    Parameters.offerName,
+    Parameters.skuName,
+    Parameters.versionName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept1],
-  mediaType: "json",
+  headerParameters: [Parameters.accept1],
   serializer
 };

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Order,
   OrdersListByDataBoxEdgeDeviceNextOptionalParams,
@@ -165,17 +169,15 @@ export class OrdersImpl implements Orders {
    * Creates or updates an order.
    * @param deviceName The order details of a device.
    * @param resourceGroupName The resource group name.
-   * @param order The order to be created or updated.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     deviceName: string,
     resourceGroupName: string,
-    order: Order,
     options?: OrdersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<OrdersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OrdersCreateOrUpdateResponse>,
       OrdersCreateOrUpdateResponse
     >
   > {
@@ -185,7 +187,7 @@ export class OrdersImpl implements Orders {
     ): Promise<OrdersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -218,13 +220,16 @@ export class OrdersImpl implements Orders {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, resourceGroupName, order, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, resourceGroupName, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      OrdersCreateOrUpdateResponse,
+      OperationState<OrdersCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -235,19 +240,16 @@ export class OrdersImpl implements Orders {
    * Creates or updates an order.
    * @param deviceName The order details of a device.
    * @param resourceGroupName The resource group name.
-   * @param order The order to be created or updated.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     deviceName: string,
     resourceGroupName: string,
-    order: Order,
     options?: OrdersCreateOrUpdateOptionalParams
   ): Promise<OrdersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       deviceName,
       resourceGroupName,
-      order,
       options
     );
     return poller.pollUntilDone();
@@ -263,14 +265,14 @@ export class OrdersImpl implements Orders {
     deviceName: string,
     resourceGroupName: string,
     options?: OrdersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -303,13 +305,13 @@ export class OrdersImpl implements Orders {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, resourceGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, resourceGroupName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -390,9 +392,9 @@ const listByDataBoxEdgeDeviceOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -412,9 +414,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -440,13 +442,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.order,
+  requestBody: Parameters.body12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -468,11 +470,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.resourceGroupName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const listDCAccessCodeOperationSpec: coreClient.OperationSpec = {
@@ -490,9 +492,9 @@ const listDCAccessCodeOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -508,13 +510,12 @@ const listByDataBoxEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
+    Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

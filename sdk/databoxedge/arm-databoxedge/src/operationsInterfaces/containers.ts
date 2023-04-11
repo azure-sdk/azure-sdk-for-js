@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Container,
   ContainersListByStorageAccountOptionalParams,
@@ -56,7 +56,6 @@ export interface Containers {
    * @param storageAccountName The Storage Account Name
    * @param containerName The container name.
    * @param resourceGroupName The resource group name.
-   * @param container The container properties.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
@@ -64,11 +63,10 @@ export interface Containers {
     storageAccountName: string,
     containerName: string,
     resourceGroupName: string,
-    container: Container,
     options?: ContainersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ContainersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ContainersCreateOrUpdateResponse>,
       ContainersCreateOrUpdateResponse
     >
   >;
@@ -78,7 +76,6 @@ export interface Containers {
    * @param storageAccountName The Storage Account Name
    * @param containerName The container name.
    * @param resourceGroupName The resource group name.
-   * @param container The container properties.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
@@ -86,7 +83,6 @@ export interface Containers {
     storageAccountName: string,
     containerName: string,
     resourceGroupName: string,
-    container: Container,
     options?: ContainersCreateOrUpdateOptionalParams
   ): Promise<ContainersCreateOrUpdateResponse>;
   /**
@@ -103,7 +99,7 @@ export interface Containers {
     containerName: string,
     resourceGroupName: string,
     options?: ContainersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the container on the Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
@@ -133,7 +129,7 @@ export interface Containers {
     containerName: string,
     resourceGroupName: string,
     options?: ContainersRefreshOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Refreshes the container metadata with the data from the cloud.
    * @param deviceName The device name.

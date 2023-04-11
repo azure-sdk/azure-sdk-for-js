@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   StorageAccount,
   StorageAccountsListByDataBoxEdgeDeviceOptionalParams,
@@ -50,18 +50,16 @@ export interface StorageAccounts {
    * @param deviceName The device name.
    * @param storageAccountName The StorageAccount name.
    * @param resourceGroupName The resource group name.
-   * @param storageAccount The StorageAccount properties.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     deviceName: string,
     storageAccountName: string,
     resourceGroupName: string,
-    storageAccount: StorageAccount,
     options?: StorageAccountsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageAccountsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<StorageAccountsCreateOrUpdateResponse>,
       StorageAccountsCreateOrUpdateResponse
     >
   >;
@@ -70,14 +68,12 @@ export interface StorageAccounts {
    * @param deviceName The device name.
    * @param storageAccountName The StorageAccount name.
    * @param resourceGroupName The resource group name.
-   * @param storageAccount The StorageAccount properties.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     deviceName: string,
     storageAccountName: string,
     resourceGroupName: string,
-    storageAccount: StorageAccount,
     options?: StorageAccountsCreateOrUpdateOptionalParams
   ): Promise<StorageAccountsCreateOrUpdateResponse>;
   /**
@@ -92,7 +88,7 @@ export interface StorageAccounts {
     storageAccountName: string,
     resourceGroupName: string,
     options?: StorageAccountsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the StorageAccount on the Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.

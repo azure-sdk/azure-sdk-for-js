@@ -15,55 +15,69 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  OperationsImpl,
-  AvailableSkusImpl,
-  DevicesImpl,
+  AddonsImpl,
   AlertsImpl,
+  AvailableSkusImpl,
   BandwidthSchedulesImpl,
+  ContainersImpl,
+  DeviceCapacityCheckImpl,
+  DeviceCapacityInfoOperationsImpl,
+  DevicesImpl,
   DiagnosticSettingsImpl,
   JobsImpl,
+  MarketplaceImageOfferOperationsImpl,
+  MarketplaceImagePublisherOperationsImpl,
+  MarketplaceImageSasTokenImpl,
+  MarketplaceImageSkuOperationsImpl,
+  MarketplaceImageVersionOperationsImpl,
+  MonitoringConfigImpl,
   NodesImpl,
+  OperationsImpl,
   OperationsStatusImpl,
   OrdersImpl,
   RolesImpl,
-  AddonsImpl,
-  MonitoringConfigImpl,
   SharesImpl,
   StorageAccountCredentialsImpl,
   StorageAccountsImpl,
-  ContainersImpl,
-  TriggersImpl,
   SupportPackagesImpl,
+  TriggersImpl,
   UsersImpl
 } from "./operations";
 import {
-  Operations,
-  AvailableSkus,
-  Devices,
+  Addons,
   Alerts,
+  AvailableSkus,
   BandwidthSchedules,
+  Containers,
+  DeviceCapacityCheck,
+  DeviceCapacityInfoOperations,
+  Devices,
   DiagnosticSettings,
   Jobs,
+  MarketplaceImageOfferOperations,
+  MarketplaceImagePublisherOperations,
+  MarketplaceImageSasToken,
+  MarketplaceImageSkuOperations,
+  MarketplaceImageVersionOperations,
+  MonitoringConfig,
   Nodes,
+  Operations,
   OperationsStatus,
   Orders,
   Roles,
-  Addons,
-  MonitoringConfig,
   Shares,
   StorageAccountCredentials,
   StorageAccounts,
-  Containers,
-  Triggers,
   SupportPackages,
+  Triggers,
   Users
 } from "./operationsInterfaces";
 import { DataBoxEdgeManagementClientOptionalParams } from "./models";
 
 export class DataBoxEdgeManagementClient extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
   subscriptionId: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the DataBoxEdgeManagementClient class.
@@ -92,20 +106,22 @@ export class DataBoxEdgeManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-databoxedge/2.1.1`;
+    const packageDetails = `azsdk-js-arm-databoxedge/3.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      endpoint: options.endpoint ?? options.baseUri ?? "management.azure.com"
     };
     super(optionsWithDefaults);
 
@@ -144,27 +160,44 @@ export class DataBoxEdgeManagementClient extends coreClient.ServiceClient {
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
-    this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-06-01";
-    this.operations = new OperationsImpl(this);
-    this.availableSkus = new AvailableSkusImpl(this);
-    this.devices = new DevicesImpl(this);
+    this.$host = options.$host || "management.azure.com";
+    this.apiVersion = options.apiVersion || "2023-01-01-preview";
+    this.addons = new AddonsImpl(this);
     this.alerts = new AlertsImpl(this);
+    this.availableSkus = new AvailableSkusImpl(this);
     this.bandwidthSchedules = new BandwidthSchedulesImpl(this);
+    this.containers = new ContainersImpl(this);
+    this.deviceCapacityCheck = new DeviceCapacityCheckImpl(this);
+    this.deviceCapacityInfoOperations = new DeviceCapacityInfoOperationsImpl(
+      this
+    );
+    this.devices = new DevicesImpl(this);
     this.diagnosticSettings = new DiagnosticSettingsImpl(this);
     this.jobs = new JobsImpl(this);
+    this.marketplaceImageOfferOperations = new MarketplaceImageOfferOperationsImpl(
+      this
+    );
+    this.marketplaceImagePublisherOperations = new MarketplaceImagePublisherOperationsImpl(
+      this
+    );
+    this.marketplaceImageSasToken = new MarketplaceImageSasTokenImpl(this);
+    this.marketplaceImageSkuOperations = new MarketplaceImageSkuOperationsImpl(
+      this
+    );
+    this.marketplaceImageVersionOperations = new MarketplaceImageVersionOperationsImpl(
+      this
+    );
+    this.monitoringConfig = new MonitoringConfigImpl(this);
     this.nodes = new NodesImpl(this);
+    this.operations = new OperationsImpl(this);
     this.operationsStatus = new OperationsStatusImpl(this);
     this.orders = new OrdersImpl(this);
     this.roles = new RolesImpl(this);
-    this.addons = new AddonsImpl(this);
-    this.monitoringConfig = new MonitoringConfigImpl(this);
     this.shares = new SharesImpl(this);
     this.storageAccountCredentials = new StorageAccountCredentialsImpl(this);
     this.storageAccounts = new StorageAccountsImpl(this);
-    this.containers = new ContainersImpl(this);
-    this.triggers = new TriggersImpl(this);
     this.supportPackages = new SupportPackagesImpl(this);
+    this.triggers = new TriggersImpl(this);
     this.users = new UsersImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -197,24 +230,31 @@ export class DataBoxEdgeManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  operations: Operations;
-  availableSkus: AvailableSkus;
-  devices: Devices;
+  addons: Addons;
   alerts: Alerts;
+  availableSkus: AvailableSkus;
   bandwidthSchedules: BandwidthSchedules;
+  containers: Containers;
+  deviceCapacityCheck: DeviceCapacityCheck;
+  deviceCapacityInfoOperations: DeviceCapacityInfoOperations;
+  devices: Devices;
   diagnosticSettings: DiagnosticSettings;
   jobs: Jobs;
+  marketplaceImageOfferOperations: MarketplaceImageOfferOperations;
+  marketplaceImagePublisherOperations: MarketplaceImagePublisherOperations;
+  marketplaceImageSasToken: MarketplaceImageSasToken;
+  marketplaceImageSkuOperations: MarketplaceImageSkuOperations;
+  marketplaceImageVersionOperations: MarketplaceImageVersionOperations;
+  monitoringConfig: MonitoringConfig;
   nodes: Nodes;
+  operations: Operations;
   operationsStatus: OperationsStatus;
   orders: Orders;
   roles: Roles;
-  addons: Addons;
-  monitoringConfig: MonitoringConfig;
   shares: Shares;
   storageAccountCredentials: StorageAccountCredentials;
   storageAccounts: StorageAccounts;
-  containers: Containers;
-  triggers: Triggers;
   supportPackages: SupportPackages;
+  triggers: Triggers;
   users: Users;
 }

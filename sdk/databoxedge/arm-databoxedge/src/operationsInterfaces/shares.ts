@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Share,
   SharesListByDataBoxEdgeDeviceOptionalParams,
@@ -51,18 +51,16 @@ export interface Shares {
    * @param deviceName The device name.
    * @param name The share name.
    * @param resourceGroupName The resource group name.
-   * @param share The share properties.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    share: Share,
     options?: SharesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SharesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SharesCreateOrUpdateResponse>,
       SharesCreateOrUpdateResponse
     >
   >;
@@ -71,14 +69,12 @@ export interface Shares {
    * @param deviceName The device name.
    * @param name The share name.
    * @param resourceGroupName The resource group name.
-   * @param share The share properties.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    share: Share,
     options?: SharesCreateOrUpdateOptionalParams
   ): Promise<SharesCreateOrUpdateResponse>;
   /**
@@ -93,7 +89,7 @@ export interface Shares {
     name: string,
     resourceGroupName: string,
     options?: SharesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the share on the Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
@@ -119,7 +115,7 @@ export interface Shares {
     name: string,
     resourceGroupName: string,
     options?: SharesRefreshOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Refreshes the share metadata with the data from the cloud.
    * @param deviceName The device name.

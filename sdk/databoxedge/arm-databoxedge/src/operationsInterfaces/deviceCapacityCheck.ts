@@ -7,30 +7,30 @@
  */
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { SupportPackagesTriggerSupportPackageOptionalParams } from "../models";
+import { DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams } from "../models";
 
-/** Interface representing a SupportPackages. */
-export interface SupportPackages {
+/** Interface representing a DeviceCapacityCheck. */
+export interface DeviceCapacityCheck {
   /**
-   * Triggers support package on the device
+   * Posts the device capacity request info to check feasibility.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  beginTriggerSupportPackage(
+  beginCheckResourceCreationFeasibility(
     deviceName: string,
     resourceGroupName: string,
-    options?: SupportPackagesTriggerSupportPackageOptionalParams
+    options?: DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Triggers support package on the device
+   * Posts the device capacity request info to check feasibility.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  beginTriggerSupportPackageAndWait(
+  beginCheckResourceCreationFeasibilityAndWait(
     deviceName: string,
     resourceGroupName: string,
-    options?: SupportPackagesTriggerSupportPackageOptionalParams
+    options?: DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams
   ): Promise<void>;
 }

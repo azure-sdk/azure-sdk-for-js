@@ -7,50 +7,39 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DataBoxEdgeDevice,
-  DevicesListBySubscriptionOptionalParams,
   DevicesListByResourceGroupOptionalParams,
-  DevicesGetOptionalParams,
-  DevicesGetResponse,
+  DevicesListBySubscriptionOptionalParams,
   DevicesCreateOrUpdateOptionalParams,
   DevicesCreateOrUpdateResponse,
+  DevicesGetOptionalParams,
+  DevicesGetResponse,
   DevicesDeleteOptionalParams,
-  DataBoxEdgeDevicePatch,
   DevicesUpdateOptionalParams,
   DevicesUpdateResponse,
-  DevicesDownloadUpdatesOptionalParams,
-  DevicesGenerateCertificateOptionalParams,
-  DevicesGenerateCertificateResponse,
   DevicesGetExtendedInformationOptionalParams,
   DevicesGetExtendedInformationResponse,
-  DevicesInstallUpdatesOptionalParams,
-  DevicesGetNetworkSettingsOptionalParams,
-  DevicesGetNetworkSettingsResponse,
-  DevicesScanForUpdatesOptionalParams,
-  SecuritySettings,
-  DevicesCreateOrUpdateSecuritySettingsOptionalParams,
-  DataBoxEdgeDeviceExtendedInfoPatch,
   DevicesUpdateExtendedInformationOptionalParams,
   DevicesUpdateExtendedInformationResponse,
+  DevicesGetNetworkSettingsOptionalParams,
+  DevicesGetNetworkSettingsResponse,
+  DevicesCreateOrUpdateSecuritySettingsOptionalParams,
   DevicesGetUpdateSummaryOptionalParams,
   DevicesGetUpdateSummaryResponse,
-  UploadCertificateRequest,
+  DevicesScanForUpdatesOptionalParams,
+  DevicesDownloadUpdatesOptionalParams,
+  DevicesInstallUpdatesOptionalParams,
   DevicesUploadCertificateOptionalParams,
-  DevicesUploadCertificateResponse
+  DevicesUploadCertificateResponse,
+  DevicesGenerateCertificateOptionalParams,
+  DevicesGenerateCertificateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Devices. */
 export interface Devices {
-  /**
-   * Gets all the Data Box Edge/Data Box Gateway devices in a subscription.
-   * @param options The options parameters.
-   */
-  listBySubscription(
-    options?: DevicesListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<DataBoxEdgeDevice>;
   /**
    * Gets all the Data Box Edge/Data Box Gateway devices in a resource group.
    * @param resourceGroupName The resource group name.
@@ -60,6 +49,24 @@ export interface Devices {
     resourceGroupName: string,
     options?: DevicesListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<DataBoxEdgeDevice>;
+  /**
+   * Gets all the Data Box Edge/Data Box Gateway devices in a subscription.
+   * @param options The options parameters.
+   */
+  listBySubscription(
+    options?: DevicesListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<DataBoxEdgeDevice>;
+  /**
+   * Creates or updates a Data Box Edge/Data Box Gateway resource.
+   * @param deviceName The device name.
+   * @param resourceGroupName The resource group name.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: DevicesCreateOrUpdateOptionalParams
+  ): Promise<DevicesCreateOrUpdateResponse>;
   /**
    * Gets the properties of the Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
@@ -72,36 +79,12 @@ export interface Devices {
     options?: DevicesGetOptionalParams
   ): Promise<DevicesGetResponse>;
   /**
-   * Creates or updates a Data Box Edge/Data Box Gateway resource.
-   * @param deviceName The device name.
-   * @param resourceGroupName The resource group name.
-   * @param dataBoxEdgeDevice The resource object.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    deviceName: string,
-    resourceGroupName: string,
-    dataBoxEdgeDevice: DataBoxEdgeDevice,
-    options?: DevicesCreateOrUpdateOptionalParams
-  ): Promise<DevicesCreateOrUpdateResponse>;
-  /**
    * Deletes the Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  beginDelete(
-    deviceName: string,
-    resourceGroupName: string,
-    options?: DevicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Deletes the Data Box Edge/Data Box Gateway device.
-   * @param deviceName The device name.
-   * @param resourceGroupName The resource group name.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
+  delete(
     deviceName: string,
     resourceGroupName: string,
     options?: DevicesDeleteOptionalParams
@@ -110,48 +93,13 @@ export interface Devices {
    * Modifies a Data Box Edge/Data Box Gateway resource.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
-   * @param parameters The resource parameters.
    * @param options The options parameters.
    */
   update(
     deviceName: string,
     resourceGroupName: string,
-    parameters: DataBoxEdgeDevicePatch,
     options?: DevicesUpdateOptionalParams
   ): Promise<DevicesUpdateResponse>;
-  /**
-   * Downloads the updates on a Data Box Edge/Data Box Gateway device.
-   * @param deviceName The device name.
-   * @param resourceGroupName The resource group name.
-   * @param options The options parameters.
-   */
-  beginDownloadUpdates(
-    deviceName: string,
-    resourceGroupName: string,
-    options?: DevicesDownloadUpdatesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Downloads the updates on a Data Box Edge/Data Box Gateway device.
-   * @param deviceName The device name.
-   * @param resourceGroupName The resource group name.
-   * @param options The options parameters.
-   */
-  beginDownloadUpdatesAndWait(
-    deviceName: string,
-    resourceGroupName: string,
-    options?: DevicesDownloadUpdatesOptionalParams
-  ): Promise<void>;
-  /**
-   * Generates certificate for activation key.
-   * @param deviceName The device name.
-   * @param resourceGroupName The resource group name.
-   * @param options The options parameters.
-   */
-  generateCertificate(
-    deviceName: string,
-    resourceGroupName: string,
-    options?: DevicesGenerateCertificateOptionalParams
-  ): Promise<DevicesGenerateCertificateResponse>;
   /**
    * Gets additional information for the specified Azure Stack Edge/Data Box Gateway device.
    * @param deviceName The device name.
@@ -164,27 +112,16 @@ export interface Devices {
     options?: DevicesGetExtendedInformationOptionalParams
   ): Promise<DevicesGetExtendedInformationResponse>;
   /**
-   * Installs the updates on the Data Box Edge/Data Box Gateway device.
+   * Gets additional information for the specified Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  beginInstallUpdates(
+  updateExtendedInformation(
     deviceName: string,
     resourceGroupName: string,
-    options?: DevicesInstallUpdatesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Installs the updates on the Data Box Edge/Data Box Gateway device.
-   * @param deviceName The device name.
-   * @param resourceGroupName The resource group name.
-   * @param options The options parameters.
-   */
-  beginInstallUpdatesAndWait(
-    deviceName: string,
-    resourceGroupName: string,
-    options?: DevicesInstallUpdatesOptionalParams
-  ): Promise<void>;
+    options?: DevicesUpdateExtendedInformationOptionalParams
+  ): Promise<DevicesUpdateExtendedInformationResponse>;
   /**
    * Gets the network settings of the specified Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
@@ -197,66 +134,27 @@ export interface Devices {
     options?: DevicesGetNetworkSettingsOptionalParams
   ): Promise<DevicesGetNetworkSettingsResponse>;
   /**
-   * Scans for updates on a Data Box Edge/Data Box Gateway device.
-   * @param deviceName The device name.
-   * @param resourceGroupName The resource group name.
-   * @param options The options parameters.
-   */
-  beginScanForUpdates(
-    deviceName: string,
-    resourceGroupName: string,
-    options?: DevicesScanForUpdatesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Scans for updates on a Data Box Edge/Data Box Gateway device.
-   * @param deviceName The device name.
-   * @param resourceGroupName The resource group name.
-   * @param options The options parameters.
-   */
-  beginScanForUpdatesAndWait(
-    deviceName: string,
-    resourceGroupName: string,
-    options?: DevicesScanForUpdatesOptionalParams
-  ): Promise<void>;
-  /**
    * Updates the security settings on a Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
-   * @param securitySettings The security settings.
    * @param options The options parameters.
    */
   beginCreateOrUpdateSecuritySettings(
     deviceName: string,
     resourceGroupName: string,
-    securitySettings: SecuritySettings,
     options?: DevicesCreateOrUpdateSecuritySettingsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Updates the security settings on a Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
-   * @param securitySettings The security settings.
    * @param options The options parameters.
    */
   beginCreateOrUpdateSecuritySettingsAndWait(
     deviceName: string,
     resourceGroupName: string,
-    securitySettings: SecuritySettings,
     options?: DevicesCreateOrUpdateSecuritySettingsOptionalParams
   ): Promise<void>;
-  /**
-   * Gets additional information for the specified Data Box Edge/Data Box Gateway device.
-   * @param deviceName The device name.
-   * @param resourceGroupName The resource group name.
-   * @param parameters The patch object.
-   * @param options The options parameters.
-   */
-  updateExtendedInformation(
-    deviceName: string,
-    resourceGroupName: string,
-    parameters: DataBoxEdgeDeviceExtendedInfoPatch,
-    options?: DevicesUpdateExtendedInformationOptionalParams
-  ): Promise<DevicesUpdateExtendedInformationResponse>;
   /**
    * Gets information about the availability of updates based on the last scan of the device. It also
    * gets information about any ongoing download or install jobs on the device.
@@ -270,16 +168,91 @@ export interface Devices {
     options?: DevicesGetUpdateSummaryOptionalParams
   ): Promise<DevicesGetUpdateSummaryResponse>;
   /**
+   * Scans for updates on a Data Box Edge/Data Box Gateway device.
+   * @param deviceName The device name.
+   * @param resourceGroupName The resource group name.
+   * @param options The options parameters.
+   */
+  beginScanForUpdates(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: DevicesScanForUpdatesOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Scans for updates on a Data Box Edge/Data Box Gateway device.
+   * @param deviceName The device name.
+   * @param resourceGroupName The resource group name.
+   * @param options The options parameters.
+   */
+  beginScanForUpdatesAndWait(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: DevicesScanForUpdatesOptionalParams
+  ): Promise<void>;
+  /**
+   * Downloads the updates on a Data Box Edge/Data Box Gateway device.
+   * @param deviceName The device name.
+   * @param resourceGroupName The resource group name.
+   * @param options The options parameters.
+   */
+  beginDownloadUpdates(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: DevicesDownloadUpdatesOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Downloads the updates on a Data Box Edge/Data Box Gateway device.
+   * @param deviceName The device name.
+   * @param resourceGroupName The resource group name.
+   * @param options The options parameters.
+   */
+  beginDownloadUpdatesAndWait(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: DevicesDownloadUpdatesOptionalParams
+  ): Promise<void>;
+  /**
+   * Installs the updates on the Data Box Edge/Data Box Gateway device.
+   * @param deviceName The device name.
+   * @param resourceGroupName The resource group name.
+   * @param options The options parameters.
+   */
+  beginInstallUpdates(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: DevicesInstallUpdatesOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Installs the updates on the Data Box Edge/Data Box Gateway device.
+   * @param deviceName The device name.
+   * @param resourceGroupName The resource group name.
+   * @param options The options parameters.
+   */
+  beginInstallUpdatesAndWait(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: DevicesInstallUpdatesOptionalParams
+  ): Promise<void>;
+  /**
    * Uploads registration certificate for the device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
-   * @param parameters The upload certificate request.
    * @param options The options parameters.
    */
   uploadCertificate(
     deviceName: string,
     resourceGroupName: string,
-    parameters: UploadCertificateRequest,
     options?: DevicesUploadCertificateOptionalParams
   ): Promise<DevicesUploadCertificateResponse>;
+  /**
+   * Generates certificate for activation key.
+   * @param deviceName The device name.
+   * @param resourceGroupName The resource group name.
+   * @param options The options parameters.
+   */
+  generateCertificate(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: DevicesGenerateCertificateOptionalParams
+  ): Promise<DevicesGenerateCertificateResponse>;
 }

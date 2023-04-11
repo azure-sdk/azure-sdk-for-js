@@ -6,19 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Jobs } from "../operationsInterfaces";
+import { DeviceCapacityInfoOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
-import { JobsGetOptionalParams, JobsGetResponse } from "../models";
+import {
+  DeviceCapacityInfoGetDeviceCapacityInfoOptionalParams,
+  DeviceCapacityInfoGetDeviceCapacityInfoResponse
+} from "../models";
 
-/** Class containing Jobs operations. */
-export class JobsImpl implements Jobs {
+/** Class containing DeviceCapacityInfoOperations operations. */
+export class DeviceCapacityInfoOperationsImpl
+  implements DeviceCapacityInfoOperations {
   private readonly client: DataBoxEdgeManagementClient;
 
   /**
-   * Initialize a new instance of the class Jobs class.
+   * Initialize a new instance of the class DeviceCapacityInfoOperations class.
    * @param client Reference to the service client
    */
   constructor(client: DataBoxEdgeManagementClient) {
@@ -26,34 +30,32 @@ export class JobsImpl implements Jobs {
   }
 
   /**
-   * Gets the details of a specified job on a Data Box Edge/Data Box Gateway device.
+   * Gets the properties of the specified device capacity info.
    * @param deviceName The device name.
-   * @param name The job name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  get(
+  getDeviceCapacityInfo(
     deviceName: string,
-    name: string,
     resourceGroupName: string,
-    options?: JobsGetOptionalParams
-  ): Promise<JobsGetResponse> {
+    options?: DeviceCapacityInfoGetDeviceCapacityInfoOptionalParams
+  ): Promise<DeviceCapacityInfoGetDeviceCapacityInfoResponse> {
     return this.client.sendOperationRequest(
-      { deviceName, name, resourceGroupName, options },
-      getOperationSpec
+      { deviceName, resourceGroupName, options },
+      getDeviceCapacityInfoOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
+const getDeviceCapacityInfoOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/jobs/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/deviceCapacityInfo/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Job
+      bodyMapper: Mappers.DeviceCapacityInfo
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -64,8 +66,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   StorageAccount,
   StorageAccountsListByDataBoxEdgeDeviceNextOptionalParams,
@@ -166,18 +170,16 @@ export class StorageAccountsImpl implements StorageAccounts {
    * @param deviceName The device name.
    * @param storageAccountName The StorageAccount name.
    * @param resourceGroupName The resource group name.
-   * @param storageAccount The StorageAccount properties.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     deviceName: string,
     storageAccountName: string,
     resourceGroupName: string,
-    storageAccount: StorageAccount,
     options?: StorageAccountsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageAccountsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<StorageAccountsCreateOrUpdateResponse>,
       StorageAccountsCreateOrUpdateResponse
     >
   > {
@@ -187,7 +189,7 @@ export class StorageAccountsImpl implements StorageAccounts {
     ): Promise<StorageAccountsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -220,19 +222,16 @@ export class StorageAccountsImpl implements StorageAccounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        deviceName,
-        storageAccountName,
-        resourceGroupName,
-        storageAccount,
-        options
-      },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, storageAccountName, resourceGroupName, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      StorageAccountsCreateOrUpdateResponse,
+      OperationState<StorageAccountsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -244,21 +243,18 @@ export class StorageAccountsImpl implements StorageAccounts {
    * @param deviceName The device name.
    * @param storageAccountName The StorageAccount name.
    * @param resourceGroupName The resource group name.
-   * @param storageAccount The StorageAccount properties.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     deviceName: string,
     storageAccountName: string,
     resourceGroupName: string,
-    storageAccount: StorageAccount,
     options?: StorageAccountsCreateOrUpdateOptionalParams
   ): Promise<StorageAccountsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       deviceName,
       storageAccountName,
       resourceGroupName,
-      storageAccount,
       options
     );
     return poller.pollUntilDone();
@@ -276,14 +272,14 @@ export class StorageAccountsImpl implements StorageAccounts {
     storageAccountName: string,
     resourceGroupName: string,
     options?: StorageAccountsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -316,13 +312,13 @@ export class StorageAccountsImpl implements StorageAccounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, storageAccountName, resourceGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, storageAccountName, resourceGroupName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -389,9 +385,9 @@ const listByDataBoxEdgeDeviceOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -411,9 +407,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName,
     Parameters.storageAccountName
   ],
   headerParameters: [Parameters.accept],
@@ -440,13 +436,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.storageAccount,
+  requestBody: Parameters.body16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName,
     Parameters.storageAccountName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -469,12 +465,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName,
     Parameters.storageAccountName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const listByDataBoxEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
@@ -488,13 +484,12 @@ const listByDataBoxEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
+    Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

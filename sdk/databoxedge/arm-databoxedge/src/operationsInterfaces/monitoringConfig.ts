@@ -7,15 +7,15 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   MonitoringMetricConfiguration,
   MonitoringConfigListOptionalParams,
-  MonitoringConfigGetOptionalParams,
-  MonitoringConfigGetResponse,
   MonitoringConfigCreateOrUpdateOptionalParams,
   MonitoringConfigCreateOrUpdateResponse,
-  MonitoringConfigDeleteOptionalParams
+  MonitoringConfigDeleteOptionalParams,
+  MonitoringConfigGetOptionalParams,
+  MonitoringConfigGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,35 +35,20 @@ export interface MonitoringConfig {
     options?: MonitoringConfigListOptionalParams
   ): PagedAsyncIterableIterator<MonitoringMetricConfiguration>;
   /**
-   * Gets a  metric configuration of a role.
-   * @param deviceName The device name.
-   * @param roleName The role name.
-   * @param resourceGroupName The resource group name.
-   * @param options The options parameters.
-   */
-  get(
-    deviceName: string,
-    roleName: string,
-    resourceGroupName: string,
-    options?: MonitoringConfigGetOptionalParams
-  ): Promise<MonitoringConfigGetResponse>;
-  /**
    * Creates a new metric configuration or updates an existing one for a role.
    * @param deviceName The device name.
    * @param roleName The role name.
    * @param resourceGroupName The resource group name.
-   * @param monitoringMetricConfiguration The metric configuration.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     deviceName: string,
     roleName: string,
     resourceGroupName: string,
-    monitoringMetricConfiguration: MonitoringMetricConfiguration,
     options?: MonitoringConfigCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MonitoringConfigCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<MonitoringConfigCreateOrUpdateResponse>,
       MonitoringConfigCreateOrUpdateResponse
     >
   >;
@@ -72,14 +57,12 @@ export interface MonitoringConfig {
    * @param deviceName The device name.
    * @param roleName The role name.
    * @param resourceGroupName The resource group name.
-   * @param monitoringMetricConfiguration The metric configuration.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     deviceName: string,
     roleName: string,
     resourceGroupName: string,
-    monitoringMetricConfiguration: MonitoringMetricConfiguration,
     options?: MonitoringConfigCreateOrUpdateOptionalParams
   ): Promise<MonitoringConfigCreateOrUpdateResponse>;
   /**
@@ -94,7 +77,7 @@ export interface MonitoringConfig {
     roleName: string,
     resourceGroupName: string,
     options?: MonitoringConfigDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * deletes a new metric configuration for a role.
    * @param deviceName The device name.
@@ -108,4 +91,17 @@ export interface MonitoringConfig {
     resourceGroupName: string,
     options?: MonitoringConfigDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Gets a  metric configuration of a role.
+   * @param deviceName The device name.
+   * @param roleName The role name.
+   * @param resourceGroupName The resource group name.
+   * @param options The options parameters.
+   */
+  get(
+    deviceName: string,
+    roleName: string,
+    resourceGroupName: string,
+    options?: MonitoringConfigGetOptionalParams
+  ): Promise<MonitoringConfigGetResponse>;
 }
