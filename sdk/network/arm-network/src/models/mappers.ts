@@ -3248,8 +3248,8 @@ export const DdosProtectionPlan: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      virtualNetworks: {
-        serializedName: "properties.virtualNetworks",
+      publicIPAddresses: {
+        serializedName: "properties.publicIPAddresses",
         readOnly: true,
         type: {
           name: "Sequence",
@@ -3261,8 +3261,8 @@ export const DdosProtectionPlan: coreClient.CompositeMapper = {
           }
         }
       },
-      publicIpAddresses: {
-        serializedName: "properties.publicIpAddresses",
+      virtualNetworks: {
+        serializedName: "properties.virtualNetworks",
         readOnly: true,
         type: {
           name: "Sequence",
@@ -15305,27 +15305,6 @@ export const ListVirtualHubBgpConnectionResults: coreClient.CompositeMapper = {
   }
 };
 
-export const PeerRouteList: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PeerRouteList",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PeerRoute"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const PeerRoute: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -15664,6 +15643,22 @@ export const PolicySettings: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
+      requestBodyInspectLimitInKB: {
+        constraints: {
+          InclusiveMinimum: 8
+        },
+        serializedName: "requestBodyInspectLimitInKB",
+        type: {
+          name: "Number"
+        }
+      },
+      requestBodyEnforcement: {
+        defaultValue: true,
+        serializedName: "requestBodyEnforcement",
+        type: {
+          name: "Boolean"
+        }
+      },
       maxRequestBodySizeInKb: {
         constraints: {
           InclusiveMinimum: 8
@@ -15671,6 +15666,13 @@ export const PolicySettings: coreClient.CompositeMapper = {
         serializedName: "maxRequestBodySizeInKb",
         type: {
           name: "Number"
+        }
+      },
+      fileUploadEnforcement: {
+        defaultValue: true,
+        serializedName: "fileUploadEnforcement",
+        type: {
+          name: "Boolean"
         }
       },
       fileUploadLimitInMb: {
@@ -15733,12 +15735,6 @@ export const WebApplicationFirewallCustomRule: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Number"
-        }
-      },
-      state: {
-        serializedName: "state",
-        type: {
-          name: "String"
         }
       },
       ruleType: {
@@ -17209,6 +17205,13 @@ export const PrivateEndpointConnection: coreClient.CompositeMapper = {
       },
       linkIdentifier: {
         serializedName: "properties.linkIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      privateEndpointLocation: {
+        serializedName: "properties.privateEndpointLocation",
         readOnly: true,
         type: {
           name: "String"
@@ -25557,7 +25560,6 @@ export const ExpressRouteCircuit: coreClient.CompositeMapper = {
       },
       authorizationStatus: {
         serializedName: "properties.authorizationStatus",
-        readOnly: true,
         type: {
           name: "String"
         }
@@ -27043,19 +27045,6 @@ export const VirtualNetwork: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "SubResource"
-            }
-          }
-        }
-      },
-      flowLogs: {
-        serializedName: "properties.flowLogs",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "FlowLog"
             }
           }
         }

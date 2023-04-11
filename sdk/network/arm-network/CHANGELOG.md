@@ -1,15 +1,32 @@
 # Release History
+    
+## 31.0.0 (2023-04-11)
+    
+**Features**
 
-## 30.2.1 (Unreleased)
+  - Interface DdosProtectionPlan has a new optional parameter publicIPAddresses
+  - Interface PolicySettings has a new optional parameter fileUploadEnforcement
+  - Interface PolicySettings has a new optional parameter requestBodyEnforcement
+  - Interface PolicySettings has a new optional parameter requestBodyInspectLimitInKB
+  - Interface PrivateEndpointConnection has a new optional parameter privateEndpointLocation
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface DdosProtectionPlan no longer has parameter publicIpAddresses
+  - Interface VirtualNetwork no longer has parameter flowLogs
+  - Interface VpnGatewaysResetOptionalParams no longer has parameter ipConfigurationId
+  - Interface WebApplicationFirewallCustomRule no longer has parameter state
+  - Removed Enum KnownWebApplicationFirewallState
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus400
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus404
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus405
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus408
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus499
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus500
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus503
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus504
+    
+    
 ## 30.2.0 (2023-03-07)
     
 **Features**
