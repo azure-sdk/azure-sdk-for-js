@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Runbook,
   RunbookListByAutomationAccountOptionalParams,
@@ -53,8 +53,8 @@ export interface RunbookOperations {
     runbookName: string,
     options?: RunbookPublishOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RunbookPublishResponse>,
+    SimplePollerLike<
+      OperationState<RunbookPublishResponse>,
       RunbookPublishResponse
     >
   >;
