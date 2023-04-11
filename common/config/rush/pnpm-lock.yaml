@@ -734,6 +734,7 @@ packages:
   /@azure/ai-form-recognizer/3.1.0-beta.3:
     resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
     engines: {node: '>=8.0.0'}
+    deprecated: Please migrate to a supported (non-beta) version of this package
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 1.2.6
@@ -3998,7 +3999,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230410
+      typescript: 5.1.0-dev.20230411
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8861,8 +8862,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230410:
-    resolution: {integrity: sha512-7aQS6nNYt3XVJic6FBmnxasor6MZFwi5Odj0Z0UtHode4ID21KgCjFgJcdtiWrmSIZ/PLfrp6QiE179hwbB5tQ==}
+  /typescript/5.1.0-dev.20230411:
+    resolution: {integrity: sha512-3yO7RzC4rZID1/u1alMwKKAhp/kyDkFiR+73vsvK5z99GYRVbUJIy9f3w2pGNZI3K7YI5Hv1bN2XWkPgZhB2CA==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -14311,7 +14312,7 @@ packages:
     dev: false
 
   file:projects/arm-resourceconnector.tgz:
-    resolution: {integrity: sha512-w+RlU+Y/Bt4N6ZIFpMi2Q6Ozz6L1Y1PCy9tDox6M3ApE4DCjoKKTnAb2vlrCgtaIaYx7Y5odQWlT2wU0o+x28g==, tarball: file:projects/arm-resourceconnector.tgz}
+    resolution: {integrity: sha512-PClaL03qs9YHUk0aL94B3TPi69zsYeAdb+9Y5jYfVFqfwLPY+SbFPTlQbaNHsFNe2AsSANVnrj6mrZWSDSnu1Q==, tarball: file:projects/arm-resourceconnector.tgz}
     name: '@rush-temp/arm-resourceconnector'
     version: 0.0.0
     dependencies:
@@ -14325,8 +14326,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
