@@ -7470,16 +7470,92 @@ export class WebAppsImpl implements WebApps {
    * @param appSettings Application settings of the app.
    * @param options The options parameters.
    */
-  updateApplicationSettings(
+  async beginUpdateApplicationSettings(
+    resourceGroupName: string,
+    name: string,
+    appSettings: StringDictionary,
+    options?: WebAppsUpdateApplicationSettingsOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WebAppsUpdateApplicationSettingsResponse>,
+      WebAppsUpdateApplicationSettingsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<WebAppsUpdateApplicationSettingsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, appSettings, options },
+      spec: updateApplicationSettingsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WebAppsUpdateApplicationSettingsResponse,
+      OperationState<WebAppsUpdateApplicationSettingsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Description for Replaces the application settings of an app.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param appSettings Application settings of the app.
+   * @param options The options parameters.
+   */
+  async beginUpdateApplicationSettingsAndWait(
     resourceGroupName: string,
     name: string,
     appSettings: StringDictionary,
     options?: WebAppsUpdateApplicationSettingsOptionalParams
   ): Promise<WebAppsUpdateApplicationSettingsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, name, appSettings, options },
-      updateApplicationSettingsOperationSpec
+    const poller = await this.beginUpdateApplicationSettings(
+      resourceGroupName,
+      name,
+      appSettings,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -8029,15 +8105,89 @@ export class WebAppsImpl implements WebApps {
    * @param name Name of the app.
    * @param options The options parameters.
    */
-  getConfiguration(
+  async beginGetConfiguration(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsGetConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WebAppsGetConfigurationResponse>,
+      WebAppsGetConfigurationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<WebAppsGetConfigurationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, options },
+      spec: getConfigurationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WebAppsGetConfigurationResponse,
+      OperationState<WebAppsGetConfigurationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Description for Gets the configuration of an app, such as platform version and bitness, default
+   * documents, virtual applications, Always On, etc.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param options The options parameters.
+   */
+  async beginGetConfigurationAndWait(
     resourceGroupName: string,
     name: string,
     options?: WebAppsGetConfigurationOptionalParams
   ): Promise<WebAppsGetConfigurationResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, name, options },
-      getConfigurationOperationSpec
+    const poller = await this.beginGetConfiguration(
+      resourceGroupName,
+      name,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -20009,6 +20159,15 @@ const updateApplicationSettingsOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.StringDictionary
     },
+    201: {
+      bodyMapper: Mappers.StringDictionary
+    },
+    202: {
+      bodyMapper: Mappers.StringDictionary
+    },
+    204: {
+      bodyMapper: Mappers.StringDictionary
+    },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
@@ -20630,6 +20789,15 @@ const getConfigurationOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
+      bodyMapper: Mappers.SiteConfigResource
+    },
+    201: {
+      bodyMapper: Mappers.SiteConfigResource
+    },
+    202: {
+      bodyMapper: Mappers.SiteConfigResource
+    },
+    204: {
       bodyMapper: Mappers.SiteConfigResource
     },
     default: {
@@ -21319,9 +21487,7 @@ const getOneDeployStatusOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: Mappers.Deployment
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -21343,14 +21509,13 @@ const createOneDeployOperationOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: Mappers.Deployment
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
+  requestBody: Parameters.request3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -21358,7 +21523,8 @@ const createOneDeployOperationOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.name
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listFunctionsOperationSpec: coreClient.OperationSpec = {

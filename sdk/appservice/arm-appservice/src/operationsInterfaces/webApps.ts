@@ -1843,7 +1843,25 @@ export interface WebApps {
    * @param appSettings Application settings of the app.
    * @param options The options parameters.
    */
-  updateApplicationSettings(
+  beginUpdateApplicationSettings(
+    resourceGroupName: string,
+    name: string,
+    appSettings: StringDictionary,
+    options?: WebAppsUpdateApplicationSettingsOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WebAppsUpdateApplicationSettingsResponse>,
+      WebAppsUpdateApplicationSettingsResponse
+    >
+  >;
+  /**
+   * Description for Replaces the application settings of an app.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param appSettings Application settings of the app.
+   * @param options The options parameters.
+   */
+  beginUpdateApplicationSettingsAndWait(
     resourceGroupName: string,
     name: string,
     appSettings: StringDictionary,
@@ -2161,7 +2179,24 @@ export interface WebApps {
    * @param name Name of the app.
    * @param options The options parameters.
    */
-  getConfiguration(
+  beginGetConfiguration(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsGetConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WebAppsGetConfigurationResponse>,
+      WebAppsGetConfigurationResponse
+    >
+  >;
+  /**
+   * Description for Gets the configuration of an app, such as platform version and bitness, default
+   * documents, virtual applications, Always On, etc.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param options The options parameters.
+   */
+  beginGetConfigurationAndWait(
     resourceGroupName: string,
     name: string,
     options?: WebAppsGetConfigurationOptionalParams

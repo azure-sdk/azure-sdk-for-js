@@ -4325,6 +4325,16 @@ export enum KnownWorkflowSkuName {
 }
 
 // @public
+export enum KnownWorkflowState {
+    Completed = "Completed",
+    Deleted = "Deleted",
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    NotSpecified = "NotSpecified",
+    Suspended = "Suspended"
+}
+
+// @public
 export enum KnownWorkflowStatus {
     Aborted = "Aborted",
     Cancelled = "Cancelled",
@@ -4810,6 +4820,18 @@ export interface Nonce {
 
 // @public
 export type NotificationLevel = "Critical" | "Warning" | "Information" | "NonUrgentSuggestion";
+
+// @public
+export interface OneDeployRequest extends ProxyOnlyResource {
+    async?: boolean;
+    clean?: boolean;
+    ignoreStack?: boolean;
+    packageUri?: string;
+    path?: string;
+    reset?: boolean;
+    restart?: boolean;
+    trackDeploymentProgress?: boolean;
+}
 
 // @public
 export interface OpenAuthenticationAccessPolicies {
@@ -8104,6 +8126,8 @@ export interface WebApps {
     beginDeletePrivateEndpointConnectionAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: WebAppsDeletePrivateEndpointConnectionOptionalParams): Promise<WebAppsDeletePrivateEndpointConnectionResponse>;
     beginDeletePrivateEndpointConnectionSlot(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsDeletePrivateEndpointConnectionSlotResponse>, WebAppsDeletePrivateEndpointConnectionSlotResponse>>;
     beginDeletePrivateEndpointConnectionSlotAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams): Promise<WebAppsDeletePrivateEndpointConnectionSlotResponse>;
+    beginGetConfiguration(resourceGroupName: string, name: string, options?: WebAppsGetConfigurationOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsGetConfigurationResponse>, WebAppsGetConfigurationResponse>>;
+    beginGetConfigurationAndWait(resourceGroupName: string, name: string, options?: WebAppsGetConfigurationOptionalParams): Promise<WebAppsGetConfigurationResponse>;
     beginGetProductionSiteDeploymentStatus(resourceGroupName: string, name: string, deploymentStatusId: string, options?: WebAppsGetProductionSiteDeploymentStatusOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsGetProductionSiteDeploymentStatusResponse>, WebAppsGetProductionSiteDeploymentStatusResponse>>;
     beginGetProductionSiteDeploymentStatusAndWait(resourceGroupName: string, name: string, deploymentStatusId: string, options?: WebAppsGetProductionSiteDeploymentStatusOptionalParams): Promise<WebAppsGetProductionSiteDeploymentStatusResponse>;
     beginGetSlotSiteDeploymentStatusSlot(resourceGroupName: string, name: string, slot: string, deploymentStatusId: string, options?: WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsGetSlotSiteDeploymentStatusSlotResponse>, WebAppsGetSlotSiteDeploymentStatusSlotResponse>>;
@@ -8148,6 +8172,8 @@ export interface WebApps {
     beginSwapSlotAndWait(resourceGroupName: string, name: string, slot: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotOptionalParams): Promise<void>;
     beginSwapSlotWithProduction(resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotWithProductionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginSwapSlotWithProductionAndWait(resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotWithProductionOptionalParams): Promise<void>;
+    beginUpdateApplicationSettings(resourceGroupName: string, name: string, appSettings: StringDictionary, options?: WebAppsUpdateApplicationSettingsOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsUpdateApplicationSettingsResponse>, WebAppsUpdateApplicationSettingsResponse>>;
+    beginUpdateApplicationSettingsAndWait(resourceGroupName: string, name: string, appSettings: StringDictionary, options?: WebAppsUpdateApplicationSettingsOptionalParams): Promise<WebAppsUpdateApplicationSettingsResponse>;
     createDeployment(resourceGroupName: string, name: string, id: string, deployment: Deployment, options?: WebAppsCreateDeploymentOptionalParams): Promise<WebAppsCreateDeploymentResponse>;
     createDeploymentSlot(resourceGroupName: string, name: string, id: string, slot: string, deployment: Deployment, options?: WebAppsCreateDeploymentSlotOptionalParams): Promise<WebAppsCreateDeploymentSlotResponse>;
     createOneDeployOperation(resourceGroupName: string, name: string, options?: WebAppsCreateOneDeployOperationOptionalParams): Promise<WebAppsCreateOneDeployOperationResponse>;
@@ -8234,7 +8260,6 @@ export interface WebApps {
     getBackupConfigurationSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetBackupConfigurationSlotOptionalParams): Promise<WebAppsGetBackupConfigurationSlotResponse>;
     getBackupStatus(resourceGroupName: string, name: string, backupId: string, options?: WebAppsGetBackupStatusOptionalParams): Promise<WebAppsGetBackupStatusResponse>;
     getBackupStatusSlot(resourceGroupName: string, name: string, backupId: string, slot: string, options?: WebAppsGetBackupStatusSlotOptionalParams): Promise<WebAppsGetBackupStatusSlotResponse>;
-    getConfiguration(resourceGroupName: string, name: string, options?: WebAppsGetConfigurationOptionalParams): Promise<WebAppsGetConfigurationResponse>;
     getConfigurationSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetConfigurationSlotOptionalParams): Promise<WebAppsGetConfigurationSlotResponse>;
     getConfigurationSnapshot(resourceGroupName: string, name: string, snapshotId: string, options?: WebAppsGetConfigurationSnapshotOptionalParams): Promise<WebAppsGetConfigurationSnapshotResponse>;
     getConfigurationSnapshotSlot(resourceGroupName: string, name: string, snapshotId: string, slot: string, options?: WebAppsGetConfigurationSnapshotSlotOptionalParams): Promise<WebAppsGetConfigurationSnapshotSlotResponse>;
@@ -8469,7 +8494,6 @@ export interface WebApps {
     syncRepository(resourceGroupName: string, name: string, options?: WebAppsSyncRepositoryOptionalParams): Promise<void>;
     syncRepositorySlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsSyncRepositorySlotOptionalParams): Promise<void>;
     update(resourceGroupName: string, name: string, siteEnvelope: SitePatchResource, options?: WebAppsUpdateOptionalParams): Promise<WebAppsUpdateResponse>;
-    updateApplicationSettings(resourceGroupName: string, name: string, appSettings: StringDictionary, options?: WebAppsUpdateApplicationSettingsOptionalParams): Promise<WebAppsUpdateApplicationSettingsResponse>;
     updateApplicationSettingsSlot(resourceGroupName: string, name: string, slot: string, appSettings: StringDictionary, options?: WebAppsUpdateApplicationSettingsSlotOptionalParams): Promise<WebAppsUpdateApplicationSettingsSlotResponse>;
     updateAuthSettings(resourceGroupName: string, name: string, siteAuthSettings: SiteAuthSettings, options?: WebAppsUpdateAuthSettingsOptionalParams): Promise<WebAppsUpdateAuthSettingsResponse>;
     updateAuthSettingsSlot(resourceGroupName: string, name: string, slot: string, siteAuthSettings: SiteAuthSettings, options?: WebAppsUpdateAuthSettingsSlotOptionalParams): Promise<WebAppsUpdateAuthSettingsSlotResponse>;
@@ -8653,10 +8677,11 @@ export type WebAppsCreateMSDeployOperationSlotResponse = MSDeployStatus;
 
 // @public
 export interface WebAppsCreateOneDeployOperationOptionalParams extends coreClient.OperationOptions {
+    request?: OneDeployRequest;
 }
 
 // @public
-export type WebAppsCreateOneDeployOperationResponse = Record<string, unknown>;
+export type WebAppsCreateOneDeployOperationResponse = Deployment;
 
 // @public
 export interface WebAppsCreateOrUpdateConfigurationOptionalParams extends coreClient.OperationOptions {
@@ -9188,6 +9213,8 @@ export type WebAppsGetBackupStatusSlotResponse = BackupItem;
 
 // @public
 export interface WebAppsGetConfigurationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -9564,7 +9591,7 @@ export interface WebAppsGetOneDeployStatusOptionalParams extends coreClient.Oper
 }
 
 // @public
-export type WebAppsGetOneDeployStatusResponse = Record<string, unknown>;
+export type WebAppsGetOneDeployStatusResponse = Deployment;
 
 // @public
 export interface WebAppsGetOptionalParams extends coreClient.OperationOptions {
@@ -11438,6 +11465,8 @@ export interface WebAppStackCollection {
 
 // @public
 export interface WebAppsUpdateApplicationSettingsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -12301,7 +12330,7 @@ export interface WorkflowsRegenerateAccessKeyOptionalParams extends coreClient.O
 }
 
 // @public
-export type WorkflowState = "NotSpecified" | "Completed" | "Enabled" | "Disabled" | "Deleted" | "Suspended";
+export type WorkflowState = string;
 
 // @public
 export type WorkflowStatus = string;
