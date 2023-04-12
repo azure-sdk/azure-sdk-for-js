@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Cluster,
   RedisEnterpriseListByResourceGroupOptionalParams,
@@ -19,7 +19,9 @@ import {
   RedisEnterpriseUpdateResponse,
   RedisEnterpriseDeleteOptionalParams,
   RedisEnterpriseGetOptionalParams,
-  RedisEnterpriseGetResponse
+  RedisEnterpriseGetResponse,
+  CheckNameAvailabilityParameters,
+  RedisEnterpriseCheckNameAvailabilityOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,8 +56,8 @@ export interface RedisEnterprise {
     parameters: Cluster,
     options?: RedisEnterpriseCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RedisEnterpriseCreateResponse>,
+    SimplePollerLike<
+      OperationState<RedisEnterpriseCreateResponse>,
       RedisEnterpriseCreateResponse
     >
   >;
@@ -85,8 +87,8 @@ export interface RedisEnterprise {
     parameters: ClusterUpdate,
     options?: RedisEnterpriseUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RedisEnterpriseUpdateResponse>,
+    SimplePollerLike<
+      OperationState<RedisEnterpriseUpdateResponse>,
       RedisEnterpriseUpdateResponse
     >
   >;
@@ -113,7 +115,7 @@ export interface RedisEnterprise {
     resourceGroupName: string,
     clusterName: string,
     options?: RedisEnterpriseDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a RedisEnterprise cache cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -136,4 +138,14 @@ export interface RedisEnterprise {
     clusterName: string,
     options?: RedisEnterpriseGetOptionalParams
   ): Promise<RedisEnterpriseGetResponse>;
+  /**
+   * Checks that the Redis Enterprise cache name is valid and is not already in use.
+   * @param parameters Parameters supplied to the CheckNameAvailability Redis operation. The only
+   *                   supported resource type is 'Microsoft.Cache/redisenterprise'
+   * @param options The options parameters.
+   */
+  checkNameAvailability(
+    parameters: CheckNameAvailabilityParameters,
+    options?: RedisEnterpriseCheckNameAvailabilityOptionalParams
+  ): Promise<void>;
 }

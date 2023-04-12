@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { RedisEnterpriseManagementClient } from "../redisEnterpriseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Cluster,
   RedisEnterpriseListByResourceGroupNextOptionalParams,
@@ -31,6 +35,8 @@ import {
   RedisEnterpriseDeleteOptionalParams,
   RedisEnterpriseGetOptionalParams,
   RedisEnterpriseGetResponse,
+  CheckNameAvailabilityParameters,
+  RedisEnterpriseCheckNameAvailabilityOptionalParams,
   RedisEnterpriseListByResourceGroupNextResponse,
   RedisEnterpriseListNextResponse
 } from "../models";
@@ -184,8 +190,8 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
     parameters: Cluster,
     options?: RedisEnterpriseCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RedisEnterpriseCreateResponse>,
+    SimplePollerLike<
+      OperationState<RedisEnterpriseCreateResponse>,
       RedisEnterpriseCreateResponse
     >
   > {
@@ -195,7 +201,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
     ): Promise<RedisEnterpriseCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -228,15 +234,18 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, parameters, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, parameters, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RedisEnterpriseCreateResponse,
+      OperationState<RedisEnterpriseCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "original-uri"
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -277,8 +286,8 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
     parameters: ClusterUpdate,
     options?: RedisEnterpriseUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RedisEnterpriseUpdateResponse>,
+    SimplePollerLike<
+      OperationState<RedisEnterpriseUpdateResponse>,
       RedisEnterpriseUpdateResponse
     >
   > {
@@ -288,7 +297,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
     ): Promise<RedisEnterpriseUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -321,15 +330,18 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, parameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RedisEnterpriseUpdateResponse,
+      OperationState<RedisEnterpriseUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -367,14 +379,14 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
     resourceGroupName: string,
     clusterName: string,
     options?: RedisEnterpriseDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -407,15 +419,15 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -480,6 +492,22 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
     options?: RedisEnterpriseListOptionalParams
   ): Promise<RedisEnterpriseListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
+  }
+
+  /**
+   * Checks that the Redis Enterprise cache name is valid and is not already in use.
+   * @param parameters Parameters supplied to the CheckNameAvailability Redis operation. The only
+   *                   supported resource type is 'Microsoft.Cache/redisenterprise'
+   * @param options The options parameters.
+   */
+  checkNameAvailability(
+    parameters: CheckNameAvailabilityParameters,
+    options?: RedisEnterpriseCheckNameAvailabilityOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { parameters, options },
+      checkNameAvailabilityOperationSpec
+    );
   }
 
   /**
@@ -664,6 +692,18 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Cache/CheckNameAvailability",
+  httpMethod: "POST",
+  responses: { 200: {} },
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
