@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Addon,
   AddonsListNextOptionalParams,
@@ -172,8 +176,8 @@ export class AddonsImpl implements Addons {
     addon: Addon,
     options?: AddonsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AddonsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AddonsCreateOrUpdateResponse>,
       AddonsCreateOrUpdateResponse
     >
   > {
@@ -183,7 +187,7 @@ export class AddonsImpl implements Addons {
     ): Promise<AddonsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -216,13 +220,16 @@ export class AddonsImpl implements Addons {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, privateCloudName, addonName, addon, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, privateCloudName, addonName, addon, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AddonsCreateOrUpdateResponse,
+      OperationState<AddonsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -266,14 +273,14 @@ export class AddonsImpl implements Addons {
     privateCloudName: string,
     addonName: string,
     options?: AddonsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -306,13 +313,13 @@ export class AddonsImpl implements Addons {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, privateCloudName, addonName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, privateCloudName, addonName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

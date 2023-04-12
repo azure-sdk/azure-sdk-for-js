@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Datastore,
   DatastoresListNextOptionalParams,
@@ -197,8 +201,8 @@ export class DatastoresImpl implements Datastores {
     datastore: Datastore,
     options?: DatastoresCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DatastoresCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DatastoresCreateOrUpdateResponse>,
       DatastoresCreateOrUpdateResponse
     >
   > {
@@ -208,7 +212,7 @@ export class DatastoresImpl implements Datastores {
     ): Promise<DatastoresCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -241,9 +245,9 @@ export class DatastoresImpl implements Datastores {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         clusterName,
@@ -251,10 +255,13 @@ export class DatastoresImpl implements Datastores {
         datastore,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DatastoresCreateOrUpdateResponse,
+      OperationState<DatastoresCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -303,14 +310,14 @@ export class DatastoresImpl implements Datastores {
     clusterName: string,
     datastoreName: string,
     options?: DatastoresDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -343,19 +350,19 @@ export class DatastoresImpl implements Datastores {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         clusterName,
         datastoreName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

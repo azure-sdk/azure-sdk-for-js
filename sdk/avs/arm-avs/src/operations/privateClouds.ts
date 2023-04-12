@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   PrivateCloud,
   PrivateCloudsListNextOptionalParams,
@@ -226,8 +230,8 @@ export class PrivateCloudsImpl implements PrivateClouds {
     privateCloud: PrivateCloud,
     options?: PrivateCloudsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateCloudsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateCloudsCreateOrUpdateResponse>,
       PrivateCloudsCreateOrUpdateResponse
     >
   > {
@@ -237,7 +241,7 @@ export class PrivateCloudsImpl implements PrivateClouds {
     ): Promise<PrivateCloudsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -270,13 +274,16 @@ export class PrivateCloudsImpl implements PrivateClouds {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, privateCloudName, privateCloud, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, privateCloudName, privateCloud, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PrivateCloudsCreateOrUpdateResponse,
+      OperationState<PrivateCloudsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -318,8 +325,8 @@ export class PrivateCloudsImpl implements PrivateClouds {
     privateCloudUpdate: PrivateCloudUpdate,
     options?: PrivateCloudsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateCloudsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateCloudsUpdateResponse>,
       PrivateCloudsUpdateResponse
     >
   > {
@@ -329,7 +336,7 @@ export class PrivateCloudsImpl implements PrivateClouds {
     ): Promise<PrivateCloudsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -362,13 +369,21 @@ export class PrivateCloudsImpl implements PrivateClouds {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, privateCloudName, privateCloudUpdate, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        privateCloudName,
+        privateCloudUpdate,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PrivateCloudsUpdateResponse,
+      OperationState<PrivateCloudsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -407,14 +422,14 @@ export class PrivateCloudsImpl implements PrivateClouds {
     resourceGroupName: string,
     privateCloudName: string,
     options?: PrivateCloudsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -447,13 +462,13 @@ export class PrivateCloudsImpl implements PrivateClouds {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, privateCloudName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, privateCloudName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -489,14 +504,14 @@ export class PrivateCloudsImpl implements PrivateClouds {
     resourceGroupName: string,
     privateCloudName: string,
     options?: PrivateCloudsRotateVcenterPasswordOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -529,13 +544,13 @@ export class PrivateCloudsImpl implements PrivateClouds {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, privateCloudName, options },
-      rotateVcenterPasswordOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, privateCloudName, options },
+      spec: rotateVcenterPasswordOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -571,14 +586,14 @@ export class PrivateCloudsImpl implements PrivateClouds {
     resourceGroupName: string,
     privateCloudName: string,
     options?: PrivateCloudsRotateNsxtPasswordOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -611,13 +626,13 @@ export class PrivateCloudsImpl implements PrivateClouds {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, privateCloudName, options },
-      rotateNsxtPasswordOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, privateCloudName, options },
+      spec: rotateNsxtPasswordOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
