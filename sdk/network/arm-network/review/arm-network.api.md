@@ -2911,7 +2911,7 @@ export interface DdosProtectionPlan {
     location?: string;
     readonly name?: string;
     readonly provisioningState?: ProvisioningState;
-    readonly publicIpAddresses?: SubResource[];
+    readonly publicIPAddresses?: SubResource[];
     readonly resourceGuid?: string;
     tags?: {
         [propertyName: string]: string;
@@ -3439,7 +3439,7 @@ export interface ExpressRouteCircuit extends Resource {
     allowClassicOperations?: boolean;
     authorizationKey?: string;
     authorizations?: ExpressRouteCircuitAuthorization[];
-    readonly authorizationStatus?: string;
+    authorizationStatus?: string;
     bandwidthInGbps?: number;
     circuitProvisioningState?: string;
     readonly etag?: string;
@@ -5900,16 +5900,8 @@ export enum KnownApplicationGatewayCookieBasedAffinity {
 
 // @public
 export enum KnownApplicationGatewayCustomErrorStatusCode {
-    HttpStatus400 = "HttpStatus400",
     HttpStatus403 = "HttpStatus403",
-    HttpStatus404 = "HttpStatus404",
-    HttpStatus405 = "HttpStatus405",
-    HttpStatus408 = "HttpStatus408",
-    HttpStatus499 = "HttpStatus499",
-    HttpStatus500 = "HttpStatus500",
-    HttpStatus502 = "HttpStatus502",
-    HttpStatus503 = "HttpStatus503",
-    HttpStatus504 = "HttpStatus504"
+    HttpStatus502 = "HttpStatus502"
 }
 
 // @public
@@ -7207,7 +7199,9 @@ export enum KnownVirtualNetworkPeeringState {
 // @public
 export enum KnownVirtualNetworkPrivateEndpointNetworkPolicies {
     Disabled = "Disabled",
-    Enabled = "Enabled"
+    Enabled = "Enabled",
+    NetworkSecurityGroupEnabled = "NetworkSecurityGroupEnabled",
+    RouteTableEnabled = "RouteTableEnabled"
 }
 
 // @public
@@ -7356,12 +7350,6 @@ export enum KnownWebApplicationFirewallPolicyResourceState {
 export enum KnownWebApplicationFirewallRuleType {
     Invalid = "Invalid",
     MatchRule = "MatchRule"
-}
-
-// @public
-export enum KnownWebApplicationFirewallState {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
 }
 
 // @public
@@ -10327,21 +10315,19 @@ export interface PeerRoute {
 }
 
 // @public
-export interface PeerRouteList {
-    value?: PeerRoute[];
-}
-
-// @public
 export type PfsGroup = string;
 
 // @public
 export interface PolicySettings {
     customBlockResponseBody?: string;
     customBlockResponseStatusCode?: number;
+    fileUploadEnforcement?: boolean;
     fileUploadLimitInMb?: number;
     maxRequestBodySizeInKb?: number;
     mode?: WebApplicationFirewallMode;
     requestBodyCheck?: boolean;
+    requestBodyEnforcement?: boolean;
+    requestBodyInspectLimitInKB?: number;
     state?: WebApplicationFirewallEnabledState;
 }
 
@@ -10445,6 +10431,7 @@ export interface PrivateEndpointConnection extends SubResource {
     readonly linkIdentifier?: string;
     name?: string;
     readonly privateEndpoint?: PrivateEndpoint;
+    readonly privateEndpointLocation?: string;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: ProvisioningState;
     readonly type?: string;
@@ -12998,7 +12985,9 @@ export interface VirtualHubBgpConnectionsListAdvertisedRoutesOptionalParams exte
 }
 
 // @public
-export type VirtualHubBgpConnectionsListAdvertisedRoutesResponse = PeerRouteList;
+export type VirtualHubBgpConnectionsListAdvertisedRoutesResponse = {
+    [propertyName: string]: PeerRoute[];
+};
 
 // @public
 export interface VirtualHubBgpConnectionsListLearnedRoutesOptionalParams extends coreClient.OperationOptions {
@@ -13007,7 +12996,9 @@ export interface VirtualHubBgpConnectionsListLearnedRoutesOptionalParams extends
 }
 
 // @public
-export type VirtualHubBgpConnectionsListLearnedRoutesResponse = PeerRouteList;
+export type VirtualHubBgpConnectionsListLearnedRoutesResponse = {
+    [propertyName: string]: PeerRoute[];
+};
 
 // @public
 export interface VirtualHubBgpConnectionsListNextOptionalParams extends coreClient.OperationOptions {
@@ -13267,7 +13258,6 @@ export interface VirtualNetwork extends Resource {
     encryption?: VirtualNetworkEncryption;
     readonly etag?: string;
     extendedLocation?: ExtendedLocation;
-    readonly flowLogs?: FlowLog[];
     flowTimeoutInMinutes?: number;
     ipAllocations?: SubResource[];
     readonly provisioningState?: ProvisioningState;
@@ -14825,7 +14815,6 @@ export type VpnGatewaysListResponse = ListVpnGatewaysResult;
 
 // @public
 export interface VpnGatewaysResetOptionalParams extends coreClient.OperationOptions {
-    ipConfigurationId?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -15298,7 +15287,6 @@ export interface WebApplicationFirewallCustomRule {
     name?: string;
     priority: number;
     ruleType: WebApplicationFirewallRuleType;
-    state?: WebApplicationFirewallState;
 }
 
 // @public
@@ -15395,9 +15383,6 @@ export type WebApplicationFirewallPolicyResourceState = string;
 
 // @public
 export type WebApplicationFirewallRuleType = string;
-
-// @public
-export type WebApplicationFirewallState = string;
 
 // @public
 export type WebApplicationFirewallTransform = string;
