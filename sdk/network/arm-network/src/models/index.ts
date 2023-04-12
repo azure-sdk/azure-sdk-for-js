@@ -352,11 +352,11 @@ export interface ApplicationGatewayConnectionDraining {
   drainTimeoutInSec: number;
 }
 
-/** Custom error of an application gateway. */
+/** Customer error of an application gateway. */
 export interface ApplicationGatewayCustomError {
-  /** Status code of the application gateway custom error. */
+  /** Status code of the application gateway customer error. */
   statusCode?: ApplicationGatewayCustomErrorStatusCode;
-  /** Error page URL of the application gateway custom error. */
+  /** Error page URL of the application gateway customer error. */
   customErrorPageUrl?: string;
 }
 
@@ -1203,15 +1203,15 @@ export interface DdosProtectionPlan {
    */
   readonly provisioningState?: ProvisioningState;
   /**
+   * The list of public IPs associated with the DDoS protection plan resource. This list is read-only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicIPAddresses?: SubResource[];
+  /**
    * The list of virtual networks associated with the DDoS protection plan resource. This list is read-only.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly virtualNetworks?: SubResource[];
-  /**
-   * The list of public IPs associated with the DDoS protection plan resource. This list is read-only.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicIpAddresses?: SubResource[];
 }
 
 /** A list of DDoS protection plans. */
@@ -5423,12 +5423,6 @@ export interface ListVirtualHubBgpConnectionResults {
   nextLink?: string;
 }
 
-/** List of virtual router peer routes. */
-export interface PeerRouteList {
-  /** List of peer routes. */
-  value?: PeerRoute[];
-}
-
 /** Peer routing details. */
 export interface PeerRoute {
   /**
@@ -5562,8 +5556,14 @@ export interface PolicySettings {
   mode?: WebApplicationFirewallMode;
   /** Whether to allow WAF to check request Body. */
   requestBodyCheck?: boolean;
+  /** Max inspection limit in KB for request body inspection for WAF. */
+  requestBodyInspectLimitInKB?: number;
+  /** Whether allow WAF to enforce request body limits. */
+  requestBodyEnforcement?: boolean;
   /** Maximum request body size in Kb for WAF. */
   maxRequestBodySizeInKb?: number;
+  /** Whether allow WAF to enforce file upload limits. */
+  fileUploadEnforcement?: boolean;
   /** Maximum file upload size in Mb for WAF. */
   fileUploadLimitInMb?: number;
   /** If the action type is block, customer can override the response status code. */
@@ -5583,8 +5583,6 @@ export interface WebApplicationFirewallCustomRule {
   readonly etag?: string;
   /** Priority of the rule. Rules with a lower value will be evaluated before rules with a higher value. */
   priority: number;
-  /** Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified. */
-  state?: WebApplicationFirewallState;
   /** The rule type. */
   ruleType: WebApplicationFirewallRuleType;
   /** List of match conditions. */
@@ -6169,6 +6167,11 @@ export interface PrivateEndpointConnection extends SubResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly linkIdentifier?: string;
+  /**
+   * The location of the private endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointLocation?: string;
 }
 
 /** Route resource. */
@@ -8905,6 +8908,8 @@ export interface NetworkInterface extends Resource {
   migrationPhase?: NetworkInterfaceMigrationPhase;
   /** Auxiliary mode of Network Interface resource. */
   auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
+  /** Auxiliary sku of Network Interface resource. */
+  auxiliarySku?: NetworkInterfaceAuxiliarySku;
 }
 
 /** A flow log resource. */
@@ -9550,11 +9555,8 @@ export interface ExpressRouteCircuit extends Resource {
   globalReachEnabled?: boolean;
   /** The authorizationKey. */
   authorizationKey?: string;
-  /**
-   * The authorization status of the Circuit.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly authorizationStatus?: string;
+  /** The authorization status of the Circuit. */
+  authorizationStatus?: string;
 }
 
 /** A ExpressRouteResourceProvider object. */
@@ -10168,11 +10170,6 @@ export interface VirtualNetwork extends Resource {
   encryption?: VirtualNetworkEncryption;
   /** Array of IpAllocation which reference this VNET. */
   ipAllocations?: SubResource[];
-  /**
-   * A collection of references to flow log resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly flowLogs?: FlowLog[];
 }
 
 /** Network Intent Policy resource. */
@@ -11857,7 +11854,9 @@ export enum KnownNetworkInterfaceAuxiliaryMode {
   /** MaxConnections */
   MaxConnections = "MaxConnections",
   /** Floating */
-  Floating = "Floating"
+  Floating = "Floating",
+  /** AcceleratedConnections */
+  AcceleratedConnections = "AcceleratedConnections"
 }
 
 /**
@@ -11867,9 +11866,37 @@ export enum KnownNetworkInterfaceAuxiliaryMode {
  * ### Known values supported by the service
  * **None** \
  * **MaxConnections** \
- * **Floating**
+ * **Floating** \
+ * **AcceleratedConnections**
  */
 export type NetworkInterfaceAuxiliaryMode = string;
+
+/** Known values of {@link NetworkInterfaceAuxiliarySku} that the service accepts. */
+export enum KnownNetworkInterfaceAuxiliarySku {
+  /** None */
+  None = "None",
+  /** A1 */
+  A1 = "A1",
+  /** A2 */
+  A2 = "A2",
+  /** A4 */
+  A4 = "A4",
+  /** A8 */
+  A8 = "A8"
+}
+
+/**
+ * Defines values for NetworkInterfaceAuxiliarySku. \
+ * {@link KnownNetworkInterfaceAuxiliarySku} can be used interchangeably with NetworkInterfaceAuxiliarySku,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **A1** \
+ * **A2** \
+ * **A4** \
+ * **A8**
+ */
+export type NetworkInterfaceAuxiliarySku = string;
 
 /** Known values of {@link FlowLogFormatType} that the service accepts. */
 export enum KnownFlowLogFormatType {
@@ -12173,26 +12200,10 @@ export type ApplicationGatewayCookieBasedAffinity = string;
 
 /** Known values of {@link ApplicationGatewayCustomErrorStatusCode} that the service accepts. */
 export enum KnownApplicationGatewayCustomErrorStatusCode {
-  /** HttpStatus400 */
-  HttpStatus400 = "HttpStatus400",
   /** HttpStatus403 */
   HttpStatus403 = "HttpStatus403",
-  /** HttpStatus404 */
-  HttpStatus404 = "HttpStatus404",
-  /** HttpStatus405 */
-  HttpStatus405 = "HttpStatus405",
-  /** HttpStatus408 */
-  HttpStatus408 = "HttpStatus408",
-  /** HttpStatus499 */
-  HttpStatus499 = "HttpStatus499",
-  /** HttpStatus500 */
-  HttpStatus500 = "HttpStatus500",
   /** HttpStatus502 */
-  HttpStatus502 = "HttpStatus502",
-  /** HttpStatus503 */
-  HttpStatus503 = "HttpStatus503",
-  /** HttpStatus504 */
-  HttpStatus504 = "HttpStatus504"
+  HttpStatus502 = "HttpStatus502"
 }
 
 /**
@@ -12200,16 +12211,8 @@ export enum KnownApplicationGatewayCustomErrorStatusCode {
  * {@link KnownApplicationGatewayCustomErrorStatusCode} can be used interchangeably with ApplicationGatewayCustomErrorStatusCode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **HttpStatus400** \
  * **HttpStatus403** \
- * **HttpStatus404** \
- * **HttpStatus405** \
- * **HttpStatus408** \
- * **HttpStatus499** \
- * **HttpStatus500** \
- * **HttpStatus502** \
- * **HttpStatus503** \
- * **HttpStatus504**
+ * **HttpStatus502**
  */
 export type ApplicationGatewayCustomErrorStatusCode = string;
 
@@ -15398,24 +15401,6 @@ export enum KnownWebApplicationFirewallMode {
  * **Detection**
  */
 export type WebApplicationFirewallMode = string;
-
-/** Known values of {@link WebApplicationFirewallState} that the service accepts. */
-export enum KnownWebApplicationFirewallState {
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Enabled */
-  Enabled = "Enabled"
-}
-
-/**
- * Defines values for WebApplicationFirewallState. \
- * {@link KnownWebApplicationFirewallState} can be used interchangeably with WebApplicationFirewallState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Disabled** \
- * **Enabled**
- */
-export type WebApplicationFirewallState = string;
 
 /** Known values of {@link WebApplicationFirewallRuleType} that the service accepts. */
 export enum KnownWebApplicationFirewallRuleType {
@@ -21884,8 +21869,6 @@ export interface VpnGatewaysDeleteOptionalParams
 /** Optional parameters. */
 export interface VpnGatewaysResetOptionalParams
   extends coreClient.OperationOptions {
-  /** VpnGateway ipConfigurationId to specify the gateway instance. */
-  ipConfigurationId?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -22433,7 +22416,9 @@ export interface VirtualHubBgpConnectionsListLearnedRoutesOptionalParams
 }
 
 /** Contains response data for the listLearnedRoutes operation. */
-export type VirtualHubBgpConnectionsListLearnedRoutesResponse = PeerRouteList;
+export type VirtualHubBgpConnectionsListLearnedRoutesResponse = {
+  [propertyName: string]: PeerRoute[];
+};
 
 /** Optional parameters. */
 export interface VirtualHubBgpConnectionsListAdvertisedRoutesOptionalParams
@@ -22445,7 +22430,9 @@ export interface VirtualHubBgpConnectionsListAdvertisedRoutesOptionalParams
 }
 
 /** Contains response data for the listAdvertisedRoutes operation. */
-export type VirtualHubBgpConnectionsListAdvertisedRoutesResponse = PeerRouteList;
+export type VirtualHubBgpConnectionsListAdvertisedRoutesResponse = {
+  [propertyName: string]: PeerRoute[];
+};
 
 /** Optional parameters. */
 export interface VirtualHubBgpConnectionsListNextOptionalParams
