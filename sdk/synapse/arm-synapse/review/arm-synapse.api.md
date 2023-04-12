@@ -6,29 +6,12 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActualState = "Enabling" | "Enabled" | "Disabling" | "Disabled" | "Unknown";
-
-// @public
-export interface AttachedDatabaseConfiguration extends ProxyResource {
-    readonly attachedDatabaseNames?: string[];
-    databaseName?: string;
-    defaultPrincipalsModificationKind?: DefaultPrincipalsModificationKind;
-    kustoPoolResourceId?: string;
-    location?: string;
-    readonly provisioningState?: ResourceProvisioningState;
-    readonly systemData?: SystemData;
-    tableLevelSharingProperties?: TableLevelSharingProperties;
-}
-
-// @public
-export interface AttachedDatabaseConfigurationListResult {
-    value?: AttachedDatabaseConfiguration[];
-}
 
 // @public
 export interface AutoPauseProperties {
@@ -78,7 +61,7 @@ export type AzureADOnlyAuthenticationName = string;
 
 // @public
 export interface AzureADOnlyAuthentications {
-    beginCreate(resourceGroupName: string, workspaceName: string, azureADOnlyAuthenticationName: AzureADOnlyAuthenticationName, azureADOnlyAuthenticationInfo: AzureADOnlyAuthentication, options?: AzureADOnlyAuthenticationsCreateOptionalParams): Promise<PollerLike<PollOperationState<AzureADOnlyAuthenticationsCreateResponse>, AzureADOnlyAuthenticationsCreateResponse>>;
+    beginCreate(resourceGroupName: string, workspaceName: string, azureADOnlyAuthenticationName: AzureADOnlyAuthenticationName, azureADOnlyAuthenticationInfo: AzureADOnlyAuthentication, options?: AzureADOnlyAuthenticationsCreateOptionalParams): Promise<SimplePollerLike<OperationState<AzureADOnlyAuthenticationsCreateResponse>, AzureADOnlyAuthenticationsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, workspaceName: string, azureADOnlyAuthenticationName: AzureADOnlyAuthenticationName, azureADOnlyAuthenticationInfo: AzureADOnlyAuthentication, options?: AzureADOnlyAuthenticationsCreateOptionalParams): Promise<AzureADOnlyAuthenticationsCreateResponse>;
     get(resourceGroupName: string, workspaceName: string, azureADOnlyAuthenticationName: AzureADOnlyAuthenticationName, options?: AzureADOnlyAuthenticationsGetOptionalParams): Promise<AzureADOnlyAuthenticationsGetResponse>;
     list(resourceGroupName: string, workspaceName: string, options?: AzureADOnlyAuthenticationsListOptionalParams): PagedAsyncIterableIterator<AzureADOnlyAuthentication>;
@@ -115,33 +98,8 @@ export interface AzureADOnlyAuthenticationsListOptionalParams extends coreClient
 export type AzureADOnlyAuthenticationsListResponse = AzureADOnlyAuthenticationListResult;
 
 // @public
-export interface AzureCapacity {
-    default: number;
-    maximum: number;
-    minimum: number;
-    scaleType: AzureScaleType;
-}
-
-// @public
 export interface AzureEntityResource extends Resource {
     readonly etag?: string;
-}
-
-// @public
-export interface AzureResourceSku {
-    capacity?: AzureCapacity;
-    resourceType?: string;
-    sku?: AzureSku;
-}
-
-// @public
-export type AzureScaleType = string;
-
-// @public
-export interface AzureSku {
-    capacity?: number;
-    name: SkuName;
-    size: SkuSize;
 }
 
 // @public
@@ -155,7 +113,7 @@ export interface BigDataPoolPatchInfo {
 export interface BigDataPoolResourceInfo extends TrackedResource {
     autoPause?: AutoPauseProperties;
     autoScale?: AutoScaleProperties;
-    cacheSize?: number;
+    readonly cacheSize?: number;
     readonly creationDate?: Date;
     customLibraries?: LibraryInfo[];
     defaultSparkLogFolder?: string;
@@ -182,9 +140,9 @@ export interface BigDataPoolResourceInfoListResult {
 
 // @public
 export interface BigDataPools {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, bigDataPoolInfo: BigDataPoolResourceInfo, options?: BigDataPoolsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<BigDataPoolsCreateOrUpdateResponse>, BigDataPoolsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, bigDataPoolInfo: BigDataPoolResourceInfo, options?: BigDataPoolsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BigDataPoolsCreateOrUpdateResponse>, BigDataPoolsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, bigDataPoolInfo: BigDataPoolResourceInfo, options?: BigDataPoolsCreateOrUpdateOptionalParams): Promise<BigDataPoolsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, options?: BigDataPoolsDeleteOptionalParams): Promise<PollerLike<PollOperationState<BigDataPoolsDeleteResponse>, BigDataPoolsDeleteResponse>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, options?: BigDataPoolsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<BigDataPoolsDeleteResponse>, BigDataPoolsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, options?: BigDataPoolsDeleteOptionalParams): Promise<BigDataPoolsDeleteResponse>;
     get(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, options?: BigDataPoolsGetOptionalParams): Promise<BigDataPoolsGetResponse>;
     listByWorkspace(resourceGroupName: string, workspaceName: string, options?: BigDataPoolsListByWorkspaceOptionalParams): PagedAsyncIterableIterator<BigDataPoolResourceInfo>;
@@ -245,9 +203,6 @@ export type BlobAuditingPolicyName = string;
 export type BlobAuditingPolicyState = "Enabled" | "Disabled";
 
 // @public
-export type BlobStorageEventType = string;
-
-// @public
 export interface CheckNameAvailabilityRequest {
     name?: string;
     type?: string;
@@ -262,39 +217,12 @@ export interface CheckNameAvailabilityResponse {
 }
 
 // @public
-export interface CheckNameResult {
-    message?: string;
-    name?: string;
-    nameAvailable?: boolean;
-    reason?: Reason;
+export interface CloudError {
+    code: string;
+    details?: CloudError[];
+    message: string;
+    target?: string;
 }
-
-// @public
-export interface ClusterPrincipalAssignment extends ProxyResource {
-    readonly aadObjectId?: string;
-    principalId?: string;
-    readonly principalName?: string;
-    principalType?: PrincipalType;
-    readonly provisioningState?: ResourceProvisioningState;
-    role?: ClusterPrincipalRole;
-    readonly systemData?: SystemData;
-    tenantId?: string;
-    readonly tenantName?: string;
-}
-
-// @public
-export interface ClusterPrincipalAssignmentCheckNameRequest {
-    name: string;
-    type: "Microsoft.Synapse/workspaces/kustoPools/principalAssignments";
-}
-
-// @public
-export interface ClusterPrincipalAssignmentListResult {
-    value?: ClusterPrincipalAssignment[];
-}
-
-// @public
-export type ClusterPrincipalRole = string;
 
 // @public
 export interface CmdkeySetup extends CustomSetupBase {
@@ -315,16 +243,10 @@ export interface ComponentSetup extends CustomSetupBase {
 }
 
 // @public
-export type Compression = string;
-
-// @public
 export type ConfigurationType = string;
 
 // @public
 export type ConnectionPolicyName = string;
-
-// @public
-export type CreatedByType = string;
 
 // @public
 export type CreateMode = string;
@@ -353,99 +275,6 @@ export interface CustomSetupBase {
 
 // @public (undocumented)
 export type CustomSetupBaseUnion = CustomSetupBase | CmdkeySetup | EnvironmentVariableSetup | ComponentSetup;
-
-// @public
-export interface Database extends ProxyResource {
-    kind: Kind;
-    location?: string;
-    readonly systemData?: SystemData;
-}
-
-// @public
-export interface DatabaseCheckNameRequest {
-    name: string;
-    type: Type;
-}
-
-// @public
-export interface DatabaseListResult {
-    value?: DatabaseUnion[];
-}
-
-// @public
-export interface DatabasePrincipalAssignment extends ProxyResource {
-    readonly aadObjectId?: string;
-    principalId?: string;
-    readonly principalName?: string;
-    principalType?: PrincipalType;
-    readonly provisioningState?: ResourceProvisioningState;
-    role?: DatabasePrincipalRole;
-    readonly systemData?: SystemData;
-    tenantId?: string;
-    readonly tenantName?: string;
-}
-
-// @public
-export interface DatabasePrincipalAssignmentCheckNameRequest {
-    name: string;
-    type: "Microsoft.Synapse/workspaces/kustoPools/databases/principalAssignments";
-}
-
-// @public
-export interface DatabasePrincipalAssignmentListResult {
-    value?: DatabasePrincipalAssignment[];
-}
-
-// @public
-export type DatabasePrincipalRole = string;
-
-// @public
-export interface DatabaseStatistics {
-    size?: number;
-}
-
-// @public (undocumented)
-export type DatabaseUnion = Database | ReadWriteDatabase | ReadOnlyFollowingDatabase;
-
-// @public
-export interface DataConnection extends ProxyResource {
-    kind: DataConnectionKind;
-    location?: string;
-    readonly systemData?: SystemData;
-}
-
-// @public
-export interface DataConnectionCheckNameRequest {
-    name: string;
-    type: "Microsoft.Synapse/workspaces/kustoPools/databases/dataConnections";
-}
-
-// @public
-export type DataConnectionKind = string;
-
-// @public
-export interface DataConnectionListResult {
-    value?: DataConnectionUnion[];
-}
-
-// @public (undocumented)
-export type DataConnectionUnion = DataConnection | EventHubDataConnection | IotHubDataConnection | EventGridDataConnection;
-
-// @public
-export interface DataConnectionValidation {
-    dataConnectionName?: string;
-    properties?: DataConnectionUnion;
-}
-
-// @public
-export interface DataConnectionValidationListResult {
-    value?: DataConnectionValidationResult[];
-}
-
-// @public
-export interface DataConnectionValidationResult {
-    errorMessage?: string;
-}
 
 // @public
 export type DataFlowComputeType = string;
@@ -581,9 +410,6 @@ export interface DedicatedSQLminimalTlsSettingsPatchInfo {
 }
 
 // @public
-export type DefaultPrincipalsModificationKind = string;
-
-// @public
 export type DesiredState = "Enabled" | "Disabled";
 
 // @public
@@ -662,40 +488,6 @@ export interface ErrorResponseAutoGenerated {
 }
 
 // @public
-export interface EventGridDataConnection extends DataConnection {
-    blobStorageEventType?: BlobStorageEventType;
-    consumerGroup?: string;
-    dataFormat?: EventGridDataFormat;
-    eventHubResourceId?: string;
-    ignoreFirstRecord?: boolean;
-    kind: "EventGrid";
-    mappingRuleName?: string;
-    readonly provisioningState?: ResourceProvisioningState;
-    storageAccountResourceId?: string;
-    tableName?: string;
-}
-
-// @public
-export type EventGridDataFormat = string;
-
-// @public
-export interface EventHubDataConnection extends DataConnection {
-    compression?: Compression;
-    consumerGroup?: string;
-    dataFormat?: EventHubDataFormat;
-    eventHubResourceId?: string;
-    eventSystemProperties?: string[];
-    kind: "EventHub";
-    managedIdentityResourceId?: string;
-    mappingRuleName?: string;
-    readonly provisioningState?: ResourceProvisioningState;
-    tableName?: string;
-}
-
-// @public
-export type EventHubDataFormat = string;
-
-// @public
 export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
     auditActionsAndGroups?: string[];
     isAzureMonitorTargetEnabled?: boolean;
@@ -772,18 +564,6 @@ export interface ExtendedSqlPoolBlobAuditingPolicyListResult {
 }
 
 // @public
-export interface FollowerDatabaseDefinition {
-    attachedDatabaseConfigurationName: string;
-    readonly databaseName?: string;
-    kustoPoolResourceId: string;
-}
-
-// @public
-export interface FollowerDatabaseListResult {
-    value?: FollowerDatabaseDefinition[];
-}
-
-// @public
 export interface GeoBackupPolicy extends ProxyResource {
     readonly kind?: string;
     readonly location?: string;
@@ -803,35 +583,7 @@ export type GeoBackupPolicyName = string;
 export type GeoBackupPolicyState = "Disabled" | "Enabled";
 
 // @public
-export interface Get {
-    integrationRuntimeEnableInteractivequery(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, integrationRuntimeOperationId: string, options?: GetIntegrationRuntimeEnableInteractivequeryOptionalParams): Promise<GetIntegrationRuntimeEnableInteractivequeryResponse>;
-    integrationRuntimeStart(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, integrationRuntimeOperationId: string, options?: GetIntegrationRuntimeStartOptionalParams): Promise<GetIntegrationRuntimeStartResponse>;
-    integrationRuntimeStop(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, integrationRuntimeOperationId: string, options?: GetIntegrationRuntimeStopOptionalParams): Promise<GetIntegrationRuntimeStopResponse>;
-}
-
-// @public
 export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
-export interface GetIntegrationRuntimeEnableInteractivequeryOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GetIntegrationRuntimeEnableInteractivequeryResponse = IntegrationRuntimeEnableinteractivequery;
-
-// @public
-export interface GetIntegrationRuntimeStartOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GetIntegrationRuntimeStartResponse = IntegrationRuntimeOperationStatus;
-
-// @public
-export interface GetIntegrationRuntimeStopOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GetIntegrationRuntimeStopResponse = IntegrationRuntimeStopOperationStatus;
 
 // @public
 export interface GetSsisObjectMetadataRequest {
@@ -921,6 +673,11 @@ export interface IntegrationRuntimeCredentialsSyncOptionalParams extends coreCli
 }
 
 // @public
+export interface IntegrationRuntimeCustomerVirtualNetwork {
+    subnetId?: string;
+}
+
+// @public
 export interface IntegrationRuntimeCustomSetupScriptProperties {
     blobContainerUri?: string;
     sasToken?: SecureString;
@@ -929,7 +686,6 @@ export interface IntegrationRuntimeCustomSetupScriptProperties {
 // @public
 export interface IntegrationRuntimeDataFlowProperties {
     [property: string]: any;
-    cleanup?: boolean;
     computeType?: DataFlowComputeType;
     coreCount?: number;
     timeToLive?: number;
@@ -944,14 +700,6 @@ export interface IntegrationRuntimeDataProxyProperties {
 
 // @public
 export type IntegrationRuntimeEdition = string;
-
-// @public
-export interface IntegrationRuntimeEnableinteractivequery {
-    error?: string;
-    name?: string;
-    properties?: Record<string, unknown>;
-    status?: WorkspaceStatus;
-}
 
 // @public
 export type IntegrationRuntimeEntityReferenceType = string;
@@ -1043,7 +791,7 @@ export type IntegrationRuntimeNodesUpdateResponse = SelfHostedIntegrationRuntime
 
 // @public
 export interface IntegrationRuntimeObjectMetadata {
-    beginRefresh(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams): Promise<PollerLike<PollOperationState<IntegrationRuntimeObjectMetadataRefreshResponse>, IntegrationRuntimeObjectMetadataRefreshResponse>>;
+    beginRefresh(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams): Promise<SimplePollerLike<OperationState<IntegrationRuntimeObjectMetadataRefreshResponse>, IntegrationRuntimeObjectMetadataRefreshResponse>>;
     beginRefreshAndWait(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams): Promise<IntegrationRuntimeObjectMetadataRefreshResponse>;
     list(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: IntegrationRuntimeObjectMetadataListOptionalParams): Promise<IntegrationRuntimeObjectMetadataListResponse>;
 }
@@ -1064,14 +812,6 @@ export interface IntegrationRuntimeObjectMetadataRefreshOptionalParams extends c
 
 // @public
 export type IntegrationRuntimeObjectMetadataRefreshResponse = SsisObjectMetadataStatusResponse;
-
-// @public
-export interface IntegrationRuntimeOperationStatus {
-    error?: string;
-    name?: string;
-    properties?: Record<string, unknown>;
-    status?: WorkspaceStatus;
-}
 
 // @public
 export interface IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpoint {
@@ -1102,23 +842,22 @@ export interface IntegrationRuntimeRegenerateKeyParameters {
 
 // @public
 export interface IntegrationRuntimeResource extends SubResource {
-    description?: string;
-    typePropertiesType: IntegrationRuntimeType;
+    properties: IntegrationRuntimeUnion;
 }
 
 // @public
 export interface IntegrationRuntimes {
-    beginCreate(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, integrationRuntime: IntegrationRuntimeResource, options?: IntegrationRuntimesCreateOptionalParams): Promise<PollerLike<PollOperationState<IntegrationRuntimesCreateResponse>, IntegrationRuntimesCreateResponse>>;
+    beginCreate(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, integrationRuntime: IntegrationRuntimeResource, options?: IntegrationRuntimesCreateOptionalParams): Promise<SimplePollerLike<OperationState<IntegrationRuntimesCreateResponse>, IntegrationRuntimesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, integrationRuntime: IntegrationRuntimeResource, options?: IntegrationRuntimesCreateOptionalParams): Promise<IntegrationRuntimesCreateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: IntegrationRuntimesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: IntegrationRuntimesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: IntegrationRuntimesDeleteOptionalParams): Promise<void>;
-    beginDisableInteractiveQuery(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: IntegrationRuntimesDisableInteractiveQueryOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDisableInteractiveQuery(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: IntegrationRuntimesDisableInteractiveQueryOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDisableInteractiveQueryAndWait(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: IntegrationRuntimesDisableInteractiveQueryOptionalParams): Promise<void>;
-    beginEnableInteractiveQuery(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: IntegrationRuntimesEnableInteractiveQueryOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginEnableInteractiveQuery(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: IntegrationRuntimesEnableInteractiveQueryOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginEnableInteractiveQueryAndWait(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: IntegrationRuntimesEnableInteractiveQueryOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStartOptionalParams): Promise<PollerLike<PollOperationState<IntegrationRuntimesStartResponse>, IntegrationRuntimesStartResponse>>;
+    beginStart(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStartOptionalParams): Promise<SimplePollerLike<OperationState<IntegrationRuntimesStartResponse>, IntegrationRuntimesStartResponse>>;
     beginStartAndWait(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStartOptionalParams): Promise<IntegrationRuntimesStartResponse>;
-    beginStop(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStop(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStopOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: IntegrationRuntimesGetOptionalParams): Promise<IntegrationRuntimesGetResponse>;
     listByWorkspace(resourceGroupName: string, workspaceName: string, options?: IntegrationRuntimesListByWorkspaceOptionalParams): PagedAsyncIterableIterator<IntegrationRuntimeResource>;
@@ -1247,22 +986,12 @@ export interface IntegrationRuntimeStatusOperations {
 
 // @public
 export interface IntegrationRuntimeStatusResponse {
-    readonly dataFactoryName?: string;
     readonly name?: string;
-    readonly state?: IntegrationRuntimeState;
-    type: IntegrationRuntimeType;
+    properties: IntegrationRuntimeStatusUnion;
 }
 
 // @public (undocumented)
 export type IntegrationRuntimeStatusUnion = IntegrationRuntimeStatus | ManagedIntegrationRuntimeStatus | SelfHostedIntegrationRuntimeStatus;
-
-// @public
-export interface IntegrationRuntimeStopOperationStatus {
-    error?: string;
-    name?: string;
-    properties?: Record<string, unknown>;
-    status?: WorkspaceStatus;
-}
 
 // @public
 export interface IntegrationRuntimesUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1294,22 +1023,6 @@ export interface IntegrationRuntimeVNetProperties {
 }
 
 // @public
-export interface IotHubDataConnection extends DataConnection {
-    consumerGroup?: string;
-    dataFormat?: IotHubDataFormat;
-    eventSystemProperties?: string[];
-    iotHubResourceId?: string;
-    kind: "IotHub";
-    mappingRuleName?: string;
-    readonly provisioningState?: ResourceProvisioningState;
-    sharedAccessPolicyName?: string;
-    tableName?: string;
-}
-
-// @public
-export type IotHubDataFormat = string;
-
-// @public
 export interface IpFirewallRuleInfo extends ProxyResource {
     endIpAddress?: string;
     readonly provisioningState?: ProvisioningState;
@@ -1331,11 +1044,11 @@ export interface IpFirewallRuleProperties {
 
 // @public
 export interface IpFirewallRules {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, ruleName: string, ipFirewallRuleInfo: IpFirewallRuleInfo, options?: IpFirewallRulesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<IpFirewallRulesCreateOrUpdateResponse>, IpFirewallRulesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, ruleName: string, ipFirewallRuleInfo: IpFirewallRuleInfo, options?: IpFirewallRulesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IpFirewallRulesCreateOrUpdateResponse>, IpFirewallRulesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, ruleName: string, ipFirewallRuleInfo: IpFirewallRuleInfo, options?: IpFirewallRulesCreateOrUpdateOptionalParams): Promise<IpFirewallRulesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, ruleName: string, options?: IpFirewallRulesDeleteOptionalParams): Promise<PollerLike<PollOperationState<IpFirewallRulesDeleteResponse>, IpFirewallRulesDeleteResponse>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, ruleName: string, options?: IpFirewallRulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<IpFirewallRulesDeleteResponse>, IpFirewallRulesDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, ruleName: string, options?: IpFirewallRulesDeleteOptionalParams): Promise<IpFirewallRulesDeleteResponse>;
-    beginReplaceAll(resourceGroupName: string, workspaceName: string, request: ReplaceAllIpFirewallRulesRequest, options?: IpFirewallRulesReplaceAllOptionalParams): Promise<PollerLike<PollOperationState<IpFirewallRulesReplaceAllResponse>, IpFirewallRulesReplaceAllResponse>>;
+    beginReplaceAll(resourceGroupName: string, workspaceName: string, request: ReplaceAllIpFirewallRulesRequest, options?: IpFirewallRulesReplaceAllOptionalParams): Promise<SimplePollerLike<OperationState<IpFirewallRulesReplaceAllResponse>, IpFirewallRulesReplaceAllResponse>>;
     beginReplaceAllAndWait(resourceGroupName: string, workspaceName: string, request: ReplaceAllIpFirewallRulesRequest, options?: IpFirewallRulesReplaceAllOptionalParams): Promise<IpFirewallRulesReplaceAllResponse>;
     get(resourceGroupName: string, workspaceName: string, ruleName: string, options?: IpFirewallRulesGetOptionalParams): Promise<IpFirewallRulesGetResponse>;
     listByWorkspace(resourceGroupName: string, workspaceName: string, options?: IpFirewallRulesListByWorkspaceOptionalParams): PagedAsyncIterableIterator<IpFirewallRuleInfo>;
@@ -1451,35 +1164,13 @@ export interface KeysListByWorkspaceOptionalParams extends coreClient.OperationO
 export type KeysListByWorkspaceResponse = KeyInfoListResult;
 
 // @public
-export type Kind = string;
-
-// @public
 export enum KnownAzureADOnlyAuthenticationName {
     Default = "default"
 }
 
 // @public
-export enum KnownAzureScaleType {
-    Automatic = "automatic",
-    Manual = "manual",
-    None = "none"
-}
-
-// @public
 export enum KnownBlobAuditingPolicyName {
     Default = "default"
-}
-
-// @public
-export enum KnownBlobStorageEventType {
-    MicrosoftStorageBlobCreated = "Microsoft.Storage.BlobCreated",
-    MicrosoftStorageBlobRenamed = "Microsoft.Storage.BlobRenamed"
-}
-
-// @public
-export enum KnownClusterPrincipalRole {
-    AllDatabasesAdmin = "AllDatabasesAdmin",
-    AllDatabasesViewer = "AllDatabasesViewer"
 }
 
 // @public
@@ -1521,12 +1212,6 @@ export enum KnownColumnDataType {
 }
 
 // @public
-export enum KnownCompression {
-    GZip = "GZip",
-    None = "None"
-}
-
-// @public
 export enum KnownConfigurationType {
     Artifact = "Artifact",
     File = "File"
@@ -1538,36 +1223,11 @@ export enum KnownConnectionPolicyName {
 }
 
 // @public
-export enum KnownCreatedByType {
-    Application = "Application",
-    Key = "Key",
-    ManagedIdentity = "ManagedIdentity",
-    User = "User"
-}
-
-// @public
 export enum KnownCreateMode {
     Default = "Default",
     PointInTimeRestore = "PointInTimeRestore",
     Recovery = "Recovery",
     Restore = "Restore"
-}
-
-// @public
-export enum KnownDatabasePrincipalRole {
-    Admin = "Admin",
-    Ingestor = "Ingestor",
-    Monitor = "Monitor",
-    UnrestrictedViewer = "UnrestrictedViewer",
-    User = "User",
-    Viewer = "Viewer"
-}
-
-// @public
-export enum KnownDataConnectionKind {
-    EventGrid = "EventGrid",
-    EventHub = "EventHub",
-    IotHub = "IotHub"
 }
 
 // @public
@@ -1599,55 +1259,8 @@ export enum KnownDedicatedSQLMinimalTlsSettingsName {
 }
 
 // @public
-export enum KnownDefaultPrincipalsModificationKind {
-    None = "None",
-    Replace = "Replace",
-    Union = "Union"
-}
-
-// @public
 export enum KnownEncryptionProtectorName {
     Current = "current"
-}
-
-// @public
-export enum KnownEventGridDataFormat {
-    Apacheavro = "APACHEAVRO",
-    Avro = "AVRO",
-    CSV = "CSV",
-    Json = "JSON",
-    Multijson = "MULTIJSON",
-    ORC = "ORC",
-    Parquet = "PARQUET",
-    PSV = "PSV",
-    RAW = "RAW",
-    Scsv = "SCSV",
-    Singlejson = "SINGLEJSON",
-    Sohsv = "SOHSV",
-    TSV = "TSV",
-    Tsve = "TSVE",
-    TXT = "TXT",
-    W3Clogfile = "W3CLOGFILE"
-}
-
-// @public
-export enum KnownEventHubDataFormat {
-    Apacheavro = "APACHEAVRO",
-    Avro = "AVRO",
-    CSV = "CSV",
-    Json = "JSON",
-    Multijson = "MULTIJSON",
-    ORC = "ORC",
-    Parquet = "PARQUET",
-    PSV = "PSV",
-    RAW = "RAW",
-    Scsv = "SCSV",
-    Singlejson = "SINGLEJSON",
-    Sohsv = "SOHSV",
-    TSV = "TSV",
-    Tsve = "TSVE",
-    TXT = "TXT",
-    W3Clogfile = "W3CLOGFILE"
 }
 
 // @public
@@ -1728,39 +1341,6 @@ export enum KnownIntegrationRuntimeUpdateResult {
 }
 
 // @public
-export enum KnownIotHubDataFormat {
-    Apacheavro = "APACHEAVRO",
-    Avro = "AVRO",
-    CSV = "CSV",
-    Json = "JSON",
-    Multijson = "MULTIJSON",
-    ORC = "ORC",
-    Parquet = "PARQUET",
-    PSV = "PSV",
-    RAW = "RAW",
-    Scsv = "SCSV",
-    Singlejson = "SINGLEJSON",
-    Sohsv = "SOHSV",
-    TSV = "TSV",
-    Tsve = "TSVE",
-    TXT = "TXT",
-    W3Clogfile = "W3CLOGFILE"
-}
-
-// @public
-export enum KnownKind {
-    ReadOnlyFollowing = "ReadOnlyFollowing",
-    ReadWrite = "ReadWrite"
-}
-
-// @public
-export enum KnownLanguageExtensionName {
-    Python = "PYTHON",
-    // (undocumented)
-    R = "R"
-}
-
-// @public
 export enum KnownManagedIntegrationRuntimeNodeStatus {
     Available = "Available",
     Recycling = "Recycling",
@@ -1806,20 +1386,6 @@ export enum KnownOperationStatus {
 }
 
 // @public
-export enum KnownPrincipalsModificationKind {
-    None = "None",
-    Replace = "Replace",
-    Union = "Union"
-}
-
-// @public
-export enum KnownPrincipalType {
-    App = "App",
-    Group = "Group",
-    User = "User"
-}
-
-// @public
 export enum KnownProvisioningState {
     DeleteError = "DeleteError",
     Deleting = "Deleting",
@@ -1829,28 +1395,11 @@ export enum KnownProvisioningState {
 }
 
 // @public
-export enum KnownReason {
-    AlreadyExists = "AlreadyExists",
-    Invalid = "Invalid"
-}
-
-// @public
 export enum KnownReplicationState {
     CatchUP = "CATCH_UP",
     Pending = "PENDING",
     Seeding = "SEEDING",
     Suspended = "SUSPENDED"
-}
-
-// @public
-export enum KnownResourceProvisioningState {
-    Canceled = "Canceled",
-    Creating = "Creating",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Moving = "Moving",
-    Running = "Running",
-    Succeeded = "Succeeded"
 }
 
 // @public
@@ -1881,38 +1430,11 @@ export enum KnownServerKeyType {
 }
 
 // @public
-export enum KnownSkuName {
-    ComputeOptimized = "Compute optimized",
-    StorageOptimized = "Storage optimized"
-}
-
-// @public
-export enum KnownSkuSize {
-    ExtraSmall = "Extra small",
-    Large = "Large",
-    Medium = "Medium",
-    Small = "Small"
-}
-
-// @public
 export enum KnownSsisObjectMetadataType {
     Environment = "Environment",
     Folder = "Folder",
     Package = "Package",
     Project = "Project"
-}
-
-// @public
-export enum KnownState {
-    Creating = "Creating",
-    Deleted = "Deleted",
-    Deleting = "Deleting",
-    Running = "Running",
-    Starting = "Starting",
-    Stopped = "Stopped",
-    Stopping = "Stopping",
-    Unavailable = "Unavailable",
-    Updating = "Updating"
 }
 
 // @public
@@ -1959,509 +1481,6 @@ export enum KnownWorkspacePublicNetworkAccess {
 }
 
 // @public
-export enum KnownWorkspaceStatus {
-    Failed = "Failed",
-    InProgress = "InProgress",
-    Succeeded = "Succeeded"
-}
-
-// @public
-export interface KustoOperations {
-    list(options?: KustoOperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
-export interface KustoOperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoOperationsListNextResponse = OperationListResult;
-
-// @public
-export interface KustoOperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoOperationsListResponse = OperationListResult;
-
-// @public
-export interface KustoPool extends TrackedResource {
-    readonly dataIngestionUri?: string;
-    enablePurge?: boolean;
-    enableStreamingIngest?: boolean;
-    readonly etag?: string;
-    readonly languageExtensions?: LanguageExtensionsList;
-    optimizedAutoscale?: OptimizedAutoscale;
-    readonly provisioningState?: ResourceProvisioningState;
-    sku: AzureSku;
-    readonly state?: State;
-    readonly stateReason?: string;
-    readonly systemData?: SystemData;
-    readonly uri?: string;
-    workspaceUID?: string;
-}
-
-// @public
-export interface KustoPoolAttachedDatabaseConfigurations {
-    beginCreateOrUpdate(workspaceName: string, kustoPoolName: string, attachedDatabaseConfigurationName: string, resourceGroupName: string, parameters: AttachedDatabaseConfiguration, options?: KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateResponse>, KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(workspaceName: string, kustoPoolName: string, attachedDatabaseConfigurationName: string, resourceGroupName: string, parameters: AttachedDatabaseConfiguration, options?: KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateOptionalParams): Promise<KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateResponse>;
-    beginDelete(workspaceName: string, kustoPoolName: string, attachedDatabaseConfigurationName: string, resourceGroupName: string, options?: KustoPoolAttachedDatabaseConfigurationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(workspaceName: string, kustoPoolName: string, attachedDatabaseConfigurationName: string, resourceGroupName: string, options?: KustoPoolAttachedDatabaseConfigurationsDeleteOptionalParams): Promise<void>;
-    get(workspaceName: string, kustoPoolName: string, attachedDatabaseConfigurationName: string, resourceGroupName: string, options?: KustoPoolAttachedDatabaseConfigurationsGetOptionalParams): Promise<KustoPoolAttachedDatabaseConfigurationsGetResponse>;
-    listByKustoPool(workspaceName: string, kustoPoolName: string, resourceGroupName: string, options?: KustoPoolAttachedDatabaseConfigurationsListByKustoPoolOptionalParams): PagedAsyncIterableIterator<AttachedDatabaseConfiguration>;
-}
-
-// @public
-export interface KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateResponse = AttachedDatabaseConfiguration;
-
-// @public
-export interface KustoPoolAttachedDatabaseConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface KustoPoolAttachedDatabaseConfigurationsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolAttachedDatabaseConfigurationsGetResponse = AttachedDatabaseConfiguration;
-
-// @public
-export interface KustoPoolAttachedDatabaseConfigurationsListByKustoPoolOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolAttachedDatabaseConfigurationsListByKustoPoolResponse = AttachedDatabaseConfigurationListResult;
-
-// @public
-export interface KustoPoolCheckNameRequest {
-    name: string;
-    type: "Microsoft.Synapse/workspaces/kustoPools";
-}
-
-// @public
-export interface KustoPoolChildResource {
-    checkNameAvailability(workspaceName: string, kustoPoolName: string, resourceGroupName: string, resourceName: DatabaseCheckNameRequest, options?: KustoPoolChildResourceCheckNameAvailabilityOptionalParams): Promise<KustoPoolChildResourceCheckNameAvailabilityResponse>;
-}
-
-// @public
-export interface KustoPoolChildResourceCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolChildResourceCheckNameAvailabilityResponse = CheckNameResult;
-
-// @public
-export interface KustoPoolDatabasePrincipalAssignments {
-    beginCreateOrUpdate(workspaceName: string, kustoPoolName: string, databaseName: string, principalAssignmentName: string, resourceGroupName: string, parameters: DatabasePrincipalAssignment, options?: KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateResponse>, KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(workspaceName: string, kustoPoolName: string, databaseName: string, principalAssignmentName: string, resourceGroupName: string, parameters: DatabasePrincipalAssignment, options?: KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateOptionalParams): Promise<KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateResponse>;
-    beginDelete(workspaceName: string, kustoPoolName: string, databaseName: string, principalAssignmentName: string, resourceGroupName: string, options?: KustoPoolDatabasePrincipalAssignmentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(workspaceName: string, kustoPoolName: string, databaseName: string, principalAssignmentName: string, resourceGroupName: string, options?: KustoPoolDatabasePrincipalAssignmentsDeleteOptionalParams): Promise<void>;
-    checkNameAvailability(workspaceName: string, kustoPoolName: string, databaseName: string, resourceGroupName: string, principalAssignmentName: DatabasePrincipalAssignmentCheckNameRequest, options?: KustoPoolDatabasePrincipalAssignmentsCheckNameAvailabilityOptionalParams): Promise<KustoPoolDatabasePrincipalAssignmentsCheckNameAvailabilityResponse>;
-    get(workspaceName: string, kustoPoolName: string, databaseName: string, principalAssignmentName: string, resourceGroupName: string, options?: KustoPoolDatabasePrincipalAssignmentsGetOptionalParams): Promise<KustoPoolDatabasePrincipalAssignmentsGetResponse>;
-    list(workspaceName: string, kustoPoolName: string, databaseName: string, resourceGroupName: string, options?: KustoPoolDatabasePrincipalAssignmentsListOptionalParams): PagedAsyncIterableIterator<DatabasePrincipalAssignment>;
-}
-
-// @public
-export interface KustoPoolDatabasePrincipalAssignmentsCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolDatabasePrincipalAssignmentsCheckNameAvailabilityResponse = CheckNameResult;
-
-// @public
-export interface KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateResponse = DatabasePrincipalAssignment;
-
-// @public
-export interface KustoPoolDatabasePrincipalAssignmentsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface KustoPoolDatabasePrincipalAssignmentsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolDatabasePrincipalAssignmentsGetResponse = DatabasePrincipalAssignment;
-
-// @public
-export interface KustoPoolDatabasePrincipalAssignmentsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolDatabasePrincipalAssignmentsListResponse = DatabasePrincipalAssignmentListResult;
-
-// @public
-export interface KustoPoolDatabases {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, parameters: DatabaseUnion, options?: KustoPoolDatabasesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<KustoPoolDatabasesCreateOrUpdateResponse>, KustoPoolDatabasesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, parameters: DatabaseUnion, options?: KustoPoolDatabasesCreateOrUpdateOptionalParams): Promise<KustoPoolDatabasesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, options?: KustoPoolDatabasesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, options?: KustoPoolDatabasesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, parameters: DatabaseUnion, options?: KustoPoolDatabasesUpdateOptionalParams): Promise<PollerLike<PollOperationState<KustoPoolDatabasesUpdateResponse>, KustoPoolDatabasesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, parameters: DatabaseUnion, options?: KustoPoolDatabasesUpdateOptionalParams): Promise<KustoPoolDatabasesUpdateResponse>;
-    get(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, options?: KustoPoolDatabasesGetOptionalParams): Promise<KustoPoolDatabasesGetResponse>;
-    listByKustoPool(resourceGroupName: string, workspaceName: string, kustoPoolName: string, options?: KustoPoolDatabasesListByKustoPoolOptionalParams): PagedAsyncIterableIterator<DatabaseUnion>;
-}
-
-// @public
-export interface KustoPoolDatabasesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type KustoPoolDatabasesCreateOrUpdateResponse = DatabaseUnion;
-
-// @public
-export interface KustoPoolDatabasesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface KustoPoolDatabasesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolDatabasesGetResponse = DatabaseUnion;
-
-// @public
-export interface KustoPoolDatabasesListByKustoPoolOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolDatabasesListByKustoPoolResponse = DatabaseListResult;
-
-// @public
-export interface KustoPoolDatabasesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type KustoPoolDatabasesUpdateResponse = DatabaseUnion;
-
-// @public
-export interface KustoPoolDataConnections {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, dataConnectionName: string, parameters: DataConnectionUnion, options?: KustoPoolDataConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<KustoPoolDataConnectionsCreateOrUpdateResponse>, KustoPoolDataConnectionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, dataConnectionName: string, parameters: DataConnectionUnion, options?: KustoPoolDataConnectionsCreateOrUpdateOptionalParams): Promise<KustoPoolDataConnectionsCreateOrUpdateResponse>;
-    beginDataConnectionValidation(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, parameters: DataConnectionValidation, options?: KustoPoolDataConnectionsDataConnectionValidationOptionalParams): Promise<PollerLike<PollOperationState<KustoPoolDataConnectionsDataConnectionValidationResponse>, KustoPoolDataConnectionsDataConnectionValidationResponse>>;
-    beginDataConnectionValidationAndWait(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, parameters: DataConnectionValidation, options?: KustoPoolDataConnectionsDataConnectionValidationOptionalParams): Promise<KustoPoolDataConnectionsDataConnectionValidationResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, dataConnectionName: string, options?: KustoPoolDataConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, dataConnectionName: string, options?: KustoPoolDataConnectionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, dataConnectionName: string, parameters: DataConnectionUnion, options?: KustoPoolDataConnectionsUpdateOptionalParams): Promise<PollerLike<PollOperationState<KustoPoolDataConnectionsUpdateResponse>, KustoPoolDataConnectionsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, dataConnectionName: string, parameters: DataConnectionUnion, options?: KustoPoolDataConnectionsUpdateOptionalParams): Promise<KustoPoolDataConnectionsUpdateResponse>;
-    checkNameAvailability(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, dataConnectionName: DataConnectionCheckNameRequest, options?: KustoPoolDataConnectionsCheckNameAvailabilityOptionalParams): Promise<KustoPoolDataConnectionsCheckNameAvailabilityResponse>;
-    get(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, dataConnectionName: string, options?: KustoPoolDataConnectionsGetOptionalParams): Promise<KustoPoolDataConnectionsGetResponse>;
-    listByDatabase(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, options?: KustoPoolDataConnectionsListByDatabaseOptionalParams): PagedAsyncIterableIterator<DataConnectionUnion>;
-}
-
-// @public
-export interface KustoPoolDataConnectionsCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolDataConnectionsCheckNameAvailabilityResponse = CheckNameResult;
-
-// @public
-export interface KustoPoolDataConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type KustoPoolDataConnectionsCreateOrUpdateResponse = DataConnectionUnion;
-
-// @public
-export interface KustoPoolDataConnectionsDataConnectionValidationOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type KustoPoolDataConnectionsDataConnectionValidationResponse = DataConnectionValidationListResult;
-
-// @public
-export interface KustoPoolDataConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface KustoPoolDataConnectionsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolDataConnectionsGetResponse = DataConnectionUnion;
-
-// @public
-export interface KustoPoolDataConnectionsListByDatabaseOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolDataConnectionsListByDatabaseResponse = DataConnectionListResult;
-
-// @public
-export interface KustoPoolDataConnectionsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type KustoPoolDataConnectionsUpdateResponse = DataConnectionUnion;
-
-// @public
-export interface KustoPoolListResult {
-    value?: KustoPool[];
-}
-
-// @public
-export interface KustoPoolPrincipalAssignments {
-    beginCreateOrUpdate(workspaceName: string, kustoPoolName: string, principalAssignmentName: string, resourceGroupName: string, parameters: ClusterPrincipalAssignment, options?: KustoPoolPrincipalAssignmentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<KustoPoolPrincipalAssignmentsCreateOrUpdateResponse>, KustoPoolPrincipalAssignmentsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(workspaceName: string, kustoPoolName: string, principalAssignmentName: string, resourceGroupName: string, parameters: ClusterPrincipalAssignment, options?: KustoPoolPrincipalAssignmentsCreateOrUpdateOptionalParams): Promise<KustoPoolPrincipalAssignmentsCreateOrUpdateResponse>;
-    beginDelete(workspaceName: string, kustoPoolName: string, principalAssignmentName: string, resourceGroupName: string, options?: KustoPoolPrincipalAssignmentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(workspaceName: string, kustoPoolName: string, principalAssignmentName: string, resourceGroupName: string, options?: KustoPoolPrincipalAssignmentsDeleteOptionalParams): Promise<void>;
-    checkNameAvailability(workspaceName: string, kustoPoolName: string, resourceGroupName: string, principalAssignmentName: ClusterPrincipalAssignmentCheckNameRequest, options?: KustoPoolPrincipalAssignmentsCheckNameAvailabilityOptionalParams): Promise<KustoPoolPrincipalAssignmentsCheckNameAvailabilityResponse>;
-    get(workspaceName: string, kustoPoolName: string, principalAssignmentName: string, resourceGroupName: string, options?: KustoPoolPrincipalAssignmentsGetOptionalParams): Promise<KustoPoolPrincipalAssignmentsGetResponse>;
-    list(workspaceName: string, kustoPoolName: string, resourceGroupName: string, options?: KustoPoolPrincipalAssignmentsListOptionalParams): PagedAsyncIterableIterator<ClusterPrincipalAssignment>;
-}
-
-// @public
-export interface KustoPoolPrincipalAssignmentsCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolPrincipalAssignmentsCheckNameAvailabilityResponse = CheckNameResult;
-
-// @public
-export interface KustoPoolPrincipalAssignmentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type KustoPoolPrincipalAssignmentsCreateOrUpdateResponse = ClusterPrincipalAssignment;
-
-// @public
-export interface KustoPoolPrincipalAssignmentsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface KustoPoolPrincipalAssignmentsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolPrincipalAssignmentsGetResponse = ClusterPrincipalAssignment;
-
-// @public
-export interface KustoPoolPrincipalAssignmentsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolPrincipalAssignmentsListResponse = ClusterPrincipalAssignmentListResult;
-
-// @public
-export interface KustoPoolPrivateLinkResources extends ProxyResource {
-    readonly groupId?: string;
-    readonly provisioningState?: ResourceProvisioningState;
-    readonly requiredMembers?: string[];
-    readonly requiredZoneNames?: string[];
-    readonly systemData?: SystemData;
-}
-
-// @public
-export interface KustoPoolPrivateLinkResourcesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolPrivateLinkResourcesListResponse = PrivateLinkResources;
-
-// @public
-export interface KustoPoolPrivateLinkResourcesOperations {
-    list(resourceGroupName: string, workspaceName: string, kustoPoolName: string, options?: KustoPoolPrivateLinkResourcesListOptionalParams): PagedAsyncIterableIterator<KustoPoolPrivateLinkResources>;
-}
-
-// @public
-export interface KustoPools {
-    beginAddLanguageExtensions(workspaceName: string, kustoPoolName: string, resourceGroupName: string, languageExtensionsToAdd: LanguageExtensionsList, options?: KustoPoolsAddLanguageExtensionsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginAddLanguageExtensionsAndWait(workspaceName: string, kustoPoolName: string, resourceGroupName: string, languageExtensionsToAdd: LanguageExtensionsList, options?: KustoPoolsAddLanguageExtensionsOptionalParams): Promise<void>;
-    beginCreateOrUpdate(workspaceName: string, resourceGroupName: string, kustoPoolName: string, parameters: KustoPool, options?: KustoPoolsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<KustoPoolsCreateOrUpdateResponse>, KustoPoolsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(workspaceName: string, resourceGroupName: string, kustoPoolName: string, parameters: KustoPool, options?: KustoPoolsCreateOrUpdateOptionalParams): Promise<KustoPoolsCreateOrUpdateResponse>;
-    beginDelete(workspaceName: string, resourceGroupName: string, kustoPoolName: string, options?: KustoPoolsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(workspaceName: string, resourceGroupName: string, kustoPoolName: string, options?: KustoPoolsDeleteOptionalParams): Promise<void>;
-    beginDetachFollowerDatabases(workspaceName: string, kustoPoolName: string, resourceGroupName: string, followerDatabaseToRemove: FollowerDatabaseDefinition, options?: KustoPoolsDetachFollowerDatabasesOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDetachFollowerDatabasesAndWait(workspaceName: string, kustoPoolName: string, resourceGroupName: string, followerDatabaseToRemove: FollowerDatabaseDefinition, options?: KustoPoolsDetachFollowerDatabasesOptionalParams): Promise<void>;
-    beginRemoveLanguageExtensions(workspaceName: string, kustoPoolName: string, resourceGroupName: string, languageExtensionsToRemove: LanguageExtensionsList, options?: KustoPoolsRemoveLanguageExtensionsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginRemoveLanguageExtensionsAndWait(workspaceName: string, kustoPoolName: string, resourceGroupName: string, languageExtensionsToRemove: LanguageExtensionsList, options?: KustoPoolsRemoveLanguageExtensionsOptionalParams): Promise<void>;
-    beginStart(workspaceName: string, kustoPoolName: string, resourceGroupName: string, options?: KustoPoolsStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginStartAndWait(workspaceName: string, kustoPoolName: string, resourceGroupName: string, options?: KustoPoolsStartOptionalParams): Promise<void>;
-    beginStop(workspaceName: string, kustoPoolName: string, resourceGroupName: string, options?: KustoPoolsStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginStopAndWait(workspaceName: string, kustoPoolName: string, resourceGroupName: string, options?: KustoPoolsStopOptionalParams): Promise<void>;
-    beginUpdate(workspaceName: string, resourceGroupName: string, kustoPoolName: string, parameters: KustoPoolUpdate, options?: KustoPoolsUpdateOptionalParams): Promise<PollerLike<PollOperationState<KustoPoolsUpdateResponse>, KustoPoolsUpdateResponse>>;
-    beginUpdateAndWait(workspaceName: string, resourceGroupName: string, kustoPoolName: string, parameters: KustoPoolUpdate, options?: KustoPoolsUpdateOptionalParams): Promise<KustoPoolsUpdateResponse>;
-    checkNameAvailability(location: string, kustoPoolName: KustoPoolCheckNameRequest, options?: KustoPoolsCheckNameAvailabilityOptionalParams): Promise<KustoPoolsCheckNameAvailabilityResponse>;
-    get(workspaceName: string, kustoPoolName: string, resourceGroupName: string, options?: KustoPoolsGetOptionalParams): Promise<KustoPoolsGetResponse>;
-    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: KustoPoolsListByWorkspaceOptionalParams): Promise<KustoPoolsListByWorkspaceResponse>;
-    listFollowerDatabases(workspaceName: string, kustoPoolName: string, resourceGroupName: string, options?: KustoPoolsListFollowerDatabasesOptionalParams): PagedAsyncIterableIterator<FollowerDatabaseDefinition>;
-    listLanguageExtensions(workspaceName: string, kustoPoolName: string, resourceGroupName: string, options?: KustoPoolsListLanguageExtensionsOptionalParams): PagedAsyncIterableIterator<LanguageExtension>;
-    listSkus(options?: KustoPoolsListSkusOptionalParams): PagedAsyncIterableIterator<SkuDescription>;
-    listSkusByResource(workspaceName: string, kustoPoolName: string, resourceGroupName: string, options?: KustoPoolsListSkusByResourceOptionalParams): PagedAsyncIterableIterator<AzureResourceSku>;
-}
-
-// @public
-export interface KustoPoolsAddLanguageExtensionsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface KustoPoolsCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolsCheckNameAvailabilityResponse = CheckNameResult;
-
-// @public
-export interface KustoPoolsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    ifMatch?: string;
-    ifNoneMatch?: string;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type KustoPoolsCreateOrUpdateResponse = KustoPool;
-
-// @public
-export interface KustoPoolsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface KustoPoolsDetachFollowerDatabasesOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface KustoPoolsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolsGetResponse = KustoPool;
-
-// @public
-export interface KustoPoolsListByWorkspaceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolsListByWorkspaceResponse = KustoPoolListResult;
-
-// @public
-export interface KustoPoolsListFollowerDatabasesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolsListFollowerDatabasesResponse = FollowerDatabaseListResult;
-
-// @public
-export interface KustoPoolsListLanguageExtensionsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolsListLanguageExtensionsResponse = LanguageExtensionsList;
-
-// @public
-export interface KustoPoolsListSkusByResourceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolsListSkusByResourceResponse = ListResourceSkusResult;
-
-// @public
-export interface KustoPoolsListSkusOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KustoPoolsListSkusResponse = SkuDescriptionList;
-
-// @public
-export interface KustoPoolsRemoveLanguageExtensionsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface KustoPoolsStartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface KustoPoolsStopOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface KustoPoolsUpdateOptionalParams extends coreClient.OperationOptions {
-    ifMatch?: string;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type KustoPoolsUpdateResponse = KustoPool;
-
-// @public
-export interface KustoPoolUpdate extends Resource {
-    readonly dataIngestionUri?: string;
-    enablePurge?: boolean;
-    enableStreamingIngest?: boolean;
-    readonly languageExtensions?: LanguageExtensionsList;
-    optimizedAutoscale?: OptimizedAutoscale;
-    readonly provisioningState?: ResourceProvisioningState;
-    sku?: AzureSku;
-    readonly state?: State;
-    readonly stateReason?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly uri?: string;
-    workspaceUID?: string;
-}
-
-// @public
-export interface LanguageExtension {
-    languageExtensionName?: LanguageExtensionName;
-}
-
-// @public
-export type LanguageExtensionName = string;
-
-// @public
-export interface LanguageExtensionsList {
-    value?: LanguageExtension[];
-}
-
-// @public
 export interface Libraries {
     listByWorkspace(resourceGroupName: string, workspaceName: string, options?: LibrariesListByWorkspaceOptionalParams): PagedAsyncIterableIterator<LibraryResource>;
 }
@@ -2500,7 +1519,7 @@ export interface LibraryInfo {
     path?: string;
     readonly provisioningStatus?: string;
     type?: string;
-    uploadedTimestamp?: Date;
+    readonly uploadedTimestamp?: Date;
 }
 
 // @public
@@ -2524,7 +1543,7 @@ export interface LibraryResource extends SubResource {
     path?: string;
     readonly provisioningStatus?: string;
     typePropertiesType?: string;
-    uploadedTimestamp?: Date;
+    readonly uploadedTimestamp?: Date;
 }
 
 // @public
@@ -2557,14 +1576,14 @@ export interface LinkedIntegrationRuntimeType {
 export type LinkedIntegrationRuntimeTypeUnion = LinkedIntegrationRuntimeType | LinkedIntegrationRuntimeKeyAuthorization | LinkedIntegrationRuntimeRbacAuthorization;
 
 // @public
-export interface ListResourceSkusResult {
-    value?: AzureResourceSku[];
-}
-
-// @public
 export interface ListSqlPoolSecurityAlertPolicies {
     readonly nextLink?: string;
     readonly value?: SqlPoolSecurityAlertPolicy[];
+}
+
+// @public
+export interface ListUsagesResult {
+    value: Usage[];
 }
 
 // @public
@@ -2615,10 +1634,11 @@ export interface ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControl
 // @public
 export interface ManagedIntegrationRuntime extends IntegrationRuntime {
     computeProperties?: IntegrationRuntimeComputeProperties;
+    customerVirtualNetwork?: IntegrationRuntimeCustomerVirtualNetwork;
     id?: string;
+    readonly provisioningState?: IntegrationRuntimeState;
     referenceName?: string;
     ssisProperties?: IntegrationRuntimeSsisProperties;
-    readonly state?: IntegrationRuntimeState;
     type: "Managed";
     typeManagedVirtualNetworkType?: string;
 }
@@ -2686,28 +1706,6 @@ export type NodeSize = string;
 export type NodeSizeFamily = string;
 
 // @public
-export interface Operation {
-    display?: OperationDisplay;
-    name?: string;
-    origin?: string;
-    properties?: Record<string, unknown>;
-}
-
-// @public
-export interface OperationDisplay {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
-}
-
-// @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    value?: Operation[];
-}
-
-// @public
 export interface OperationMetaLogSpecification {
     blobDuration?: string;
     displayName?: string;
@@ -2759,6 +1757,8 @@ export interface Operations {
     checkNameAvailability(request: CheckNameAvailabilityRequest, options?: OperationsCheckNameAvailabilityOptionalParams): Promise<OperationsCheckNameAvailabilityResponse>;
     getAzureAsyncHeaderResult(resourceGroupName: string, workspaceName: string, operationId: string, options?: OperationsGetAzureAsyncHeaderResultOptionalParams): Promise<OperationsGetAzureAsyncHeaderResultResponse>;
     getLocationHeaderResult(resourceGroupName: string, workspaceName: string, operationId: string, options?: OperationsGetLocationHeaderResultOptionalParams): Promise<void>;
+    getSubscriptionQuotaAndUsage(location: string, options?: OperationsGetSubscriptionQuotaAndUsageOptionalParams): Promise<OperationsGetSubscriptionQuotaAndUsageResponse>;
+    getWorkspaceQuotaAndUsage(resourceGroupName: string, workspaceName: string, options?: OperationsGetWorkspaceQuotaAndUsageOptionalParams): Promise<OperationsGetWorkspaceQuotaAndUsageResponse>;
     list(options?: OperationsListOptionalParams): Promise<OperationsListResponse>;
 }
 
@@ -2781,6 +1781,20 @@ export interface OperationsGetLocationHeaderResultOptionalParams extends coreCli
 }
 
 // @public
+export interface OperationsGetSubscriptionQuotaAndUsageOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsGetSubscriptionQuotaAndUsageResponse = ListUsagesResult;
+
+// @public
+export interface OperationsGetWorkspaceQuotaAndUsageOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsGetWorkspaceQuotaAndUsageResponse = ListUsagesResult;
+
+// @public
 export interface OperationsListOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -2789,20 +1803,6 @@ export type OperationsListResponse = AvailableRpOperation[];
 
 // @public
 export type OperationStatus = string;
-
-// @public
-export interface OptimizedAutoscale {
-    isEnabled: boolean;
-    maximum: number;
-    minimum: number;
-    version: number;
-}
-
-// @public
-export type PrincipalsModificationKind = string;
-
-// @public
-export type PrincipalType = string;
 
 // @public
 export interface PrivateEndpoint {
@@ -2862,9 +1862,9 @@ export interface PrivateEndpointConnectionProperties {
 
 // @public
 export interface PrivateEndpointConnections {
-    beginCreate(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, request: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsCreateResponse>, PrivateEndpointConnectionsCreateResponse>>;
+    beginCreate(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, request: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateResponse>, PrivateEndpointConnectionsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, request: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<PrivateEndpointConnectionsCreateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
     list(resourceGroupName: string, workspaceName: string, options?: PrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
@@ -2981,7 +1981,7 @@ export type PrivateLinkHubPrivateLinkResourcesListResponse = PrivateLinkResource
 
 // @public
 export interface PrivateLinkHubs {
-    beginDelete(resourceGroupName: string, privateLinkHubName: string, options?: PrivateLinkHubsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, privateLinkHubName: string, options?: PrivateLinkHubsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, privateLinkHubName: string, options?: PrivateLinkHubsDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, privateLinkHubName: string, privateLinkHubInfo: PrivateLinkHub, options?: PrivateLinkHubsCreateOrUpdateOptionalParams): Promise<PrivateLinkHubsCreateOrUpdateResponse>;
     get(resourceGroupName: string, privateLinkHubName: string, options?: PrivateLinkHubsGetOptionalParams): Promise<PrivateLinkHubsGetResponse>;
@@ -3065,7 +2065,8 @@ export interface PrivateLinkResourceProperties {
 
 // @public
 export interface PrivateLinkResources {
-    value?: KustoPoolPrivateLinkResources[];
+    get(resourceGroupName: string, workspaceName: string, privateLinkResourceName: string, options?: PrivateLinkResourcesGetOptionalParams): Promise<PrivateLinkResourcesGetResponse>;
+    list(resourceGroupName: string, workspaceName: string, options?: PrivateLinkResourcesListOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
 }
 
 // @public
@@ -3088,12 +2089,6 @@ export interface PrivateLinkResourcesListOptionalParams extends coreClient.Opera
 
 // @public
 export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult;
-
-// @public
-export interface PrivateLinkResourcesOperations {
-    get(resourceGroupName: string, workspaceName: string, privateLinkResourceName: string, options?: PrivateLinkResourcesGetOptionalParams): Promise<PrivateLinkResourcesGetResponse>;
-    list(resourceGroupName: string, workspaceName: string, options?: PrivateLinkResourcesListOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
-}
 
 // @public
 export interface PrivateLinkServiceConnectionState {
@@ -3146,31 +2141,6 @@ export interface QueryStatistic {
     readonly intervals?: QueryInterval[];
     readonly queryId?: string;
 }
-
-// @public
-export interface ReadOnlyFollowingDatabase extends Database {
-    readonly attachedDatabaseConfigurationName?: string;
-    hotCachePeriod?: string;
-    kind: "ReadOnlyFollowing";
-    readonly leaderClusterResourceId?: string;
-    readonly principalsModificationKind?: PrincipalsModificationKind;
-    readonly provisioningState?: ResourceProvisioningState;
-    readonly softDeletePeriod?: string;
-    readonly statistics?: DatabaseStatistics;
-}
-
-// @public
-export interface ReadWriteDatabase extends Database {
-    hotCachePeriod?: string;
-    readonly isFollowed?: boolean;
-    kind: "ReadWrite";
-    readonly provisioningState?: ResourceProvisioningState;
-    softDeletePeriod?: string;
-    readonly statistics?: DatabaseStatistics;
-}
-
-// @public
-export type Reason = string;
 
 // @public
 export interface RecommendedSensitivityLabelUpdate extends ProxyResource {
@@ -3257,9 +2227,6 @@ export type ResourceIdentityType = "None" | "SystemAssigned" | "SystemAssigned,U
 export interface ResourceMoveDefinition {
     id: string;
 }
-
-// @public
-export type ResourceProvisioningState = string;
 
 // @public
 export interface RestorableDroppedSqlPool extends ProxyResource {
@@ -3386,12 +2353,10 @@ export interface SelfHostedIntegrationRuntimeStatus extends IntegrationRuntimeSt
     readonly latestVersion?: string;
     links?: LinkedIntegrationRuntime[];
     readonly localTimeZoneOffset?: string;
-    newerVersions?: string[];
     readonly nodeCommunicationChannelEncryptionMode?: string;
     nodes?: SelfHostedIntegrationRuntimeNode[];
     readonly pushedVersion?: string;
     readonly scheduledUpdateDate?: Date;
-    serviceRegion?: string;
     readonly serviceUrls?: string[];
     readonly taskQueueId?: string;
     type: "SelfHosted";
@@ -3506,7 +2471,7 @@ export interface ServerUsageListResult {
 
 // @public
 export interface ServerVulnerabilityAssessment extends ProxyResource {
-    recurringScans?: VulnerabilityAssessmentRecurringScansProperties;
+    recurringScans?: VulnerabilityAssessmentRecurringScansPropertiesAutoGenerated;
     storageAccountAccessKey?: string;
     storageContainerPath?: string;
     storageContainerSasKey?: string;
@@ -3526,91 +2491,12 @@ export interface Sku {
 }
 
 // @public
-export interface SkuDescription {
-    readonly locationInfo?: SkuLocationInfoItem[];
-    readonly locations?: string[];
-    readonly name?: string;
-    readonly resourceType?: string;
-    readonly restrictions?: Record<string, unknown>[];
-    readonly size?: string;
-}
-
-// @public
-export interface SkuDescriptionList {
-    readonly value?: SkuDescription[];
-}
-
-// @public
-export interface SkuLocationInfoItem {
-    location: string;
-    zones?: string[];
-}
-
-// @public
-export type SkuName = string;
-
-// @public
-export type SkuSize = string;
-
-// @public
 export interface SparkConfigProperties {
     configurationType?: ConfigurationType;
     content?: string;
     filename?: string;
     readonly time?: Date;
 }
-
-// @public
-export interface SparkConfiguration {
-    get(resourceGroupName: string, sparkConfigurationName: string, workspaceName: string, options?: SparkConfigurationGetOptionalParams): Promise<SparkConfigurationGetResponse>;
-}
-
-// @public
-export interface SparkConfigurationGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SparkConfigurationGetResponse = SparkConfigurationResource;
-
-// @public
-export interface SparkConfigurationListResponse {
-    nextLink?: string;
-    value: SparkConfigurationResource[];
-}
-
-// @public
-export interface SparkConfigurationResource extends SubResource {
-    annotations?: string[];
-    configMergeRule?: {
-        [propertyName: string]: string;
-    };
-    configs: {
-        [propertyName: string]: string;
-    };
-    created?: Date;
-    createdBy?: string;
-    description?: string;
-    notes?: string;
-}
-
-// @public
-export interface SparkConfigurations {
-    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: SparkConfigurationsListByWorkspaceOptionalParams): PagedAsyncIterableIterator<SparkConfigurationResource>;
-}
-
-// @public
-export interface SparkConfigurationsListByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SparkConfigurationsListByWorkspaceNextResponse = SparkConfigurationListResponse;
-
-// @public
-export interface SparkConfigurationsListByWorkspaceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SparkConfigurationsListByWorkspaceResponse = SparkConfigurationListResponse;
 
 // @public
 export interface SqlPool extends TrackedResource {
@@ -3852,7 +2738,7 @@ export interface SqlPoolOperation extends ProxyResource {
 
 // @public
 export interface SqlPoolOperationResults {
-    beginGetLocationHeaderResult(resourceGroupName: string, workspaceName: string, sqlPoolName: string, operationId: string, options?: SqlPoolOperationResultsGetLocationHeaderResultOptionalParams): Promise<PollerLike<PollOperationState<SqlPoolOperationResultsGetLocationHeaderResultResponse>, SqlPoolOperationResultsGetLocationHeaderResultResponse>>;
+    beginGetLocationHeaderResult(resourceGroupName: string, workspaceName: string, sqlPoolName: string, operationId: string, options?: SqlPoolOperationResultsGetLocationHeaderResultOptionalParams): Promise<SimplePollerLike<OperationState<SqlPoolOperationResultsGetLocationHeaderResultResponse>, SqlPoolOperationResultsGetLocationHeaderResultResponse>>;
     beginGetLocationHeaderResultAndWait(resourceGroupName: string, workspaceName: string, sqlPoolName: string, operationId: string, options?: SqlPoolOperationResultsGetLocationHeaderResultOptionalParams): Promise<SqlPoolOperationResultsGetLocationHeaderResultResponse>;
 }
 
@@ -3942,7 +2828,7 @@ export type SqlPoolReplicationLinksListResponse = ReplicationLinkListResult;
 
 // @public
 export interface SqlPoolRestorePoints {
-    beginCreate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: CreateSqlPoolRestorePointDefinition, options?: SqlPoolRestorePointsCreateOptionalParams): Promise<PollerLike<PollOperationState<SqlPoolRestorePointsCreateResponse>, SqlPoolRestorePointsCreateResponse>>;
+    beginCreate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: CreateSqlPoolRestorePointDefinition, options?: SqlPoolRestorePointsCreateOptionalParams): Promise<SimplePollerLike<OperationState<SqlPoolRestorePointsCreateResponse>, SqlPoolRestorePointsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: CreateSqlPoolRestorePointDefinition, options?: SqlPoolRestorePointsCreateOptionalParams): Promise<SqlPoolRestorePointsCreateResponse>;
     delete(resourceGroupName: string, workspaceName: string, sqlPoolName: string, restorePointName: string, options?: SqlPoolRestorePointsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, restorePointName: string, options?: SqlPoolRestorePointsGetOptionalParams): Promise<SqlPoolRestorePointsGetResponse>;
@@ -3985,15 +2871,15 @@ export type SqlPoolRestorePointsListResponse = RestorePointListResult;
 
 // @public
 export interface SqlPools {
-    beginCreate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, sqlPoolInfo: SqlPool, options?: SqlPoolsCreateOptionalParams): Promise<PollerLike<PollOperationState<SqlPoolsCreateResponse>, SqlPoolsCreateResponse>>;
+    beginCreate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, sqlPoolInfo: SqlPool, options?: SqlPoolsCreateOptionalParams): Promise<SimplePollerLike<OperationState<SqlPoolsCreateResponse>, SqlPoolsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, workspaceName: string, sqlPoolName: string, sqlPoolInfo: SqlPool, options?: SqlPoolsCreateOptionalParams): Promise<SqlPoolsCreateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: SqlPoolsDeleteOptionalParams): Promise<PollerLike<PollOperationState<SqlPoolsDeleteResponse>, SqlPoolsDeleteResponse>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: SqlPoolsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SqlPoolsDeleteResponse>, SqlPoolsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: SqlPoolsDeleteOptionalParams): Promise<SqlPoolsDeleteResponse>;
-    beginPause(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: SqlPoolsPauseOptionalParams): Promise<PollerLike<PollOperationState<SqlPoolsPauseResponse>, SqlPoolsPauseResponse>>;
+    beginPause(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: SqlPoolsPauseOptionalParams): Promise<SimplePollerLike<OperationState<SqlPoolsPauseResponse>, SqlPoolsPauseResponse>>;
     beginPauseAndWait(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: SqlPoolsPauseOptionalParams): Promise<SqlPoolsPauseResponse>;
-    beginResume(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: SqlPoolsResumeOptionalParams): Promise<PollerLike<PollOperationState<SqlPoolsResumeResponse>, SqlPoolsResumeResponse>>;
+    beginResume(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: SqlPoolsResumeOptionalParams): Promise<SimplePollerLike<OperationState<SqlPoolsResumeResponse>, SqlPoolsResumeResponse>>;
     beginResumeAndWait(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: SqlPoolsResumeOptionalParams): Promise<SqlPoolsResumeResponse>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, sqlPoolInfo: SqlPoolPatchInfo, options?: SqlPoolsUpdateOptionalParams): Promise<PollerLike<PollOperationState<SqlPoolsUpdateResponse>, SqlPoolsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, sqlPoolInfo: SqlPoolPatchInfo, options?: SqlPoolsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SqlPoolsUpdateResponse>, SqlPoolsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, workspaceName: string, sqlPoolName: string, sqlPoolInfo: SqlPoolPatchInfo, options?: SqlPoolsUpdateOptionalParams): Promise<SqlPoolsUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: SqlPoolsGetOptionalParams): Promise<SqlPoolsGetResponse>;
     listByWorkspace(resourceGroupName: string, workspaceName: string, options?: SqlPoolsListByWorkspaceOptionalParams): PagedAsyncIterableIterator<SqlPool>;
@@ -4417,7 +3303,7 @@ export interface SqlPoolVulnerabilityAssessments {
 
 // @public
 export interface SqlPoolVulnerabilityAssessmentScans {
-    beginInitiateScan(resourceGroupName: string, workspaceName: string, sqlPoolName: string, vulnerabilityAssessmentName: VulnerabilityAssessmentName, scanId: string, options?: SqlPoolVulnerabilityAssessmentScansInitiateScanOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginInitiateScan(resourceGroupName: string, workspaceName: string, sqlPoolName: string, vulnerabilityAssessmentName: VulnerabilityAssessmentName, scanId: string, options?: SqlPoolVulnerabilityAssessmentScansInitiateScanOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginInitiateScanAndWait(resourceGroupName: string, workspaceName: string, sqlPoolName: string, vulnerabilityAssessmentName: VulnerabilityAssessmentName, scanId: string, options?: SqlPoolVulnerabilityAssessmentScansInitiateScanOptionalParams): Promise<void>;
     export(resourceGroupName: string, workspaceName: string, sqlPoolName: string, vulnerabilityAssessmentName: VulnerabilityAssessmentName, scanId: string, options?: SqlPoolVulnerabilityAssessmentScansExportOptionalParams): Promise<SqlPoolVulnerabilityAssessmentScansExportResponse>;
     get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, vulnerabilityAssessmentName: VulnerabilityAssessmentName, scanId: string, options?: SqlPoolVulnerabilityAssessmentScansGetOptionalParams): Promise<SqlPoolVulnerabilityAssessmentScansGetResponse>;
@@ -4497,9 +3383,9 @@ export type SqlPoolVulnerabilityAssessmentsListResponse = SqlPoolVulnerabilityAs
 
 // @public
 export interface SqlPoolWorkloadClassifier {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, workloadClassifierName: string, parameters: WorkloadClassifier, options?: SqlPoolWorkloadClassifierCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SqlPoolWorkloadClassifierCreateOrUpdateResponse>, SqlPoolWorkloadClassifierCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, workloadClassifierName: string, parameters: WorkloadClassifier, options?: SqlPoolWorkloadClassifierCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SqlPoolWorkloadClassifierCreateOrUpdateResponse>, SqlPoolWorkloadClassifierCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, workloadClassifierName: string, parameters: WorkloadClassifier, options?: SqlPoolWorkloadClassifierCreateOrUpdateOptionalParams): Promise<SqlPoolWorkloadClassifierCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, workloadClassifierName: string, options?: SqlPoolWorkloadClassifierDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, workloadClassifierName: string, options?: SqlPoolWorkloadClassifierDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, workloadClassifierName: string, options?: SqlPoolWorkloadClassifierDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, workloadClassifierName: string, options?: SqlPoolWorkloadClassifierGetOptionalParams): Promise<SqlPoolWorkloadClassifierGetResponse>;
     list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, options?: SqlPoolWorkloadClassifierListOptionalParams): PagedAsyncIterableIterator<WorkloadClassifier>;
@@ -4543,9 +3429,9 @@ export type SqlPoolWorkloadClassifierListResponse = WorkloadClassifierListResult
 
 // @public
 export interface SqlPoolWorkloadGroup {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, parameters: WorkloadGroup, options?: SqlPoolWorkloadGroupCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SqlPoolWorkloadGroupCreateOrUpdateResponse>, SqlPoolWorkloadGroupCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, parameters: WorkloadGroup, options?: SqlPoolWorkloadGroupCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SqlPoolWorkloadGroupCreateOrUpdateResponse>, SqlPoolWorkloadGroupCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, parameters: WorkloadGroup, options?: SqlPoolWorkloadGroupCreateOrUpdateOptionalParams): Promise<SqlPoolWorkloadGroupCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, options?: SqlPoolWorkloadGroupDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, options?: SqlPoolWorkloadGroupDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, options?: SqlPoolWorkloadGroupDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, options?: SqlPoolWorkloadGroupGetOptionalParams): Promise<SqlPoolWorkloadGroupGetResponse>;
     list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: SqlPoolWorkloadGroupListOptionalParams): PagedAsyncIterableIterator<WorkloadGroup>;
@@ -4681,9 +3567,6 @@ export interface SsisVariable {
 }
 
 // @public
-export type State = string;
-
-// @public
 export type StateValue = string;
 
 // @public
@@ -4699,6 +3582,8 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: SynapseManagementClientOptionalParams);
     // (undocumented)
+    apiVersion: string;
+    // (undocumented)
     azureADOnlyAuthentications: AzureADOnlyAuthentications;
     // (undocumented)
     bigDataPools: BigDataPools;
@@ -4708,8 +3593,6 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     dataMaskingRules: DataMaskingRules;
     // (undocumented)
     extendedSqlPoolBlobAuditingPolicies: ExtendedSqlPoolBlobAuditingPolicies;
-    // (undocumented)
-    get: Get;
     // (undocumented)
     integrationRuntimeAuthKeysOperations: IntegrationRuntimeAuthKeysOperations;
     // (undocumented)
@@ -4733,24 +3616,6 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     keys: Keys;
     // (undocumented)
-    kustoOperations: KustoOperations;
-    // (undocumented)
-    kustoPoolAttachedDatabaseConfigurations: KustoPoolAttachedDatabaseConfigurations;
-    // (undocumented)
-    kustoPoolChildResource: KustoPoolChildResource;
-    // (undocumented)
-    kustoPoolDatabasePrincipalAssignments: KustoPoolDatabasePrincipalAssignments;
-    // (undocumented)
-    kustoPoolDatabases: KustoPoolDatabases;
-    // (undocumented)
-    kustoPoolDataConnections: KustoPoolDataConnections;
-    // (undocumented)
-    kustoPoolPrincipalAssignments: KustoPoolPrincipalAssignments;
-    // (undocumented)
-    kustoPoolPrivateLinkResourcesOperations: KustoPoolPrivateLinkResourcesOperations;
-    // (undocumented)
-    kustoPools: KustoPools;
-    // (undocumented)
     libraries: Libraries;
     // (undocumented)
     library: Library;
@@ -4765,13 +3630,9 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     privateLinkHubs: PrivateLinkHubs;
     // (undocumented)
-    privateLinkResourcesOperations: PrivateLinkResourcesOperations;
+    privateLinkResources: PrivateLinkResources;
     // (undocumented)
     restorableDroppedSqlPools: RestorableDroppedSqlPools;
-    // (undocumented)
-    sparkConfiguration: SparkConfiguration;
-    // (undocumented)
-    sparkConfigurations: SparkConfigurations;
     // (undocumented)
     sqlPoolBlobAuditingPolicies: SqlPoolBlobAuditingPolicies;
     // (undocumented)
@@ -4855,27 +3716,8 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
 // @public
 export interface SynapseManagementClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
+    apiVersion?: string;
     endpoint?: string;
-}
-
-// @public
-export interface SystemData {
-    createdAt?: Date;
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    lastModifiedAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
-}
-
-// @public
-export interface TableLevelSharingProperties {
-    externalTablesToExclude?: string[];
-    externalTablesToInclude?: string[];
-    materializedViewsToExclude?: string[];
-    materializedViewsToInclude?: string[];
-    tablesToExclude?: string[];
-    tablesToInclude?: string[];
 }
 
 // @public
@@ -4922,9 +3764,6 @@ export type TransparentDataEncryptionName = string;
 export type TransparentDataEncryptionStatus = "Enabled" | "Disabled";
 
 // @public
-export type Type = "Microsoft.Synapse/workspaces/kustoPools/databases" | "Microsoft.Synapse/workspaces/kustoPools/attachedDatabaseConfigurations";
-
-// @public
 export interface UpdateIntegrationRuntimeNodeRequest {
     concurrentJobsLimit?: number;
 }
@@ -4933,6 +3772,22 @@ export interface UpdateIntegrationRuntimeNodeRequest {
 export interface UpdateIntegrationRuntimeRequest {
     autoUpdate?: IntegrationRuntimeAutoUpdate;
     updateDelayOffset?: string;
+}
+
+// @public
+export interface Usage {
+    readonly currentValue?: number;
+    readonly limit?: number;
+    readonly name?: UsageName;
+    nextResetTime?: Date;
+    quotaPeriod?: string;
+    readonly unit?: string;
+}
+
+// @public
+export interface UsageName {
+    localizedValue?: string;
+    value?: string;
 }
 
 // @public
@@ -4954,6 +3809,13 @@ export type VulnerabilityAssessmentPolicyBaselineName = "master" | "default";
 
 // @public
 export interface VulnerabilityAssessmentRecurringScansProperties {
+    emails?: string[];
+    emailSubscriptionAdmins?: boolean;
+    isEnabled?: boolean;
+}
+
+// @public
+export interface VulnerabilityAssessmentRecurringScansPropertiesAutoGenerated {
     emails?: string[];
     emailSubscriptionAdmins?: boolean;
     isEnabled?: boolean;
@@ -5025,15 +3887,13 @@ export interface WorkloadGroupListResult {
 export interface Workspace extends TrackedResource {
     readonly adlaResourceId?: string;
     azureADOnlyAuthentication?: boolean;
-    connectivityEndpoints?: {
+    readonly connectivityEndpoints?: {
         [propertyName: string]: string;
     };
     cspWorkspaceAdminProperties?: CspWorkspaceAdminProperties;
     defaultDataLakeStorage?: DataLakeStorageAccountDetails;
     encryption?: EncryptionDetails;
-    readonly extraProperties?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
+    readonly extraProperties?: Record<string, unknown>;
     identity?: ManagedIdentity;
     managedResourceGroupName?: string;
     managedVirtualNetwork?: string;
@@ -5063,9 +3923,9 @@ export interface WorkspaceAadAdminInfo extends ProxyResource {
 
 // @public
 export interface WorkspaceAadAdmins {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, aadAdminInfo: WorkspaceAadAdminInfo, options?: WorkspaceAadAdminsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspaceAadAdminsCreateOrUpdateResponse>, WorkspaceAadAdminsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, aadAdminInfo: WorkspaceAadAdminInfo, options?: WorkspaceAadAdminsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspaceAadAdminsCreateOrUpdateResponse>, WorkspaceAadAdminsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, aadAdminInfo: WorkspaceAadAdminInfo, options?: WorkspaceAadAdminsCreateOrUpdateOptionalParams): Promise<WorkspaceAadAdminsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, options?: WorkspaceAadAdminsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, options?: WorkspaceAadAdminsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, options?: WorkspaceAadAdminsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, options?: WorkspaceAadAdminsGetOptionalParams): Promise<WorkspaceAadAdminsGetResponse>;
 }
@@ -5106,7 +3966,7 @@ export interface WorkspaceKeyDetails {
 
 // @public
 export interface WorkspaceManagedIdentitySqlControlSettings {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, managedIdentitySqlControlSettings: ManagedIdentitySqlControlSettingsModel, options?: WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse>, WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, managedIdentitySqlControlSettings: ManagedIdentitySqlControlSettingsModel, options?: WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse>, WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, managedIdentitySqlControlSettings: ManagedIdentitySqlControlSettingsModel, options?: WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateOptionalParams): Promise<WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, options?: WorkspaceManagedIdentitySqlControlSettingsGetOptionalParams): Promise<WorkspaceManagedIdentitySqlControlSettingsGetResponse>;
 }
@@ -5129,7 +3989,7 @@ export type WorkspaceManagedIdentitySqlControlSettingsGetResponse = ManagedIdent
 
 // @public
 export interface WorkspaceManagedSqlServerBlobAuditingPolicies {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, blobAuditingPolicyName: BlobAuditingPolicyName, parameters: ServerBlobAuditingPolicy, options?: WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateResponse>, WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, blobAuditingPolicyName: BlobAuditingPolicyName, parameters: ServerBlobAuditingPolicy, options?: WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateResponse>, WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, blobAuditingPolicyName: BlobAuditingPolicyName, parameters: ServerBlobAuditingPolicy, options?: WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateOptionalParams): Promise<WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, blobAuditingPolicyName: BlobAuditingPolicyName, options?: WorkspaceManagedSqlServerBlobAuditingPoliciesGetOptionalParams): Promise<WorkspaceManagedSqlServerBlobAuditingPoliciesGetResponse>;
     listByWorkspace(resourceGroupName: string, workspaceName: string, options?: WorkspaceManagedSqlServerBlobAuditingPoliciesListByWorkspaceOptionalParams): PagedAsyncIterableIterator<ServerBlobAuditingPolicy>;
@@ -5167,7 +4027,7 @@ export type WorkspaceManagedSqlServerBlobAuditingPoliciesListByWorkspaceResponse
 
 // @public
 export interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings {
-    beginUpdate(resourceGroupName: string, workspaceName: string, dedicatedSQLminimalTlsSettingsName: DedicatedSQLMinimalTlsSettingsName, parameters: DedicatedSQLminimalTlsSettings, options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse>, WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, dedicatedSQLminimalTlsSettingsName: DedicatedSQLMinimalTlsSettingsName, parameters: DedicatedSQLminimalTlsSettings, options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse>, WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, workspaceName: string, dedicatedSQLminimalTlsSettingsName: DedicatedSQLMinimalTlsSettingsName, parameters: DedicatedSQLminimalTlsSettings, options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams): Promise<WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, dedicatedSQLminimalTlsSettingsName: string, options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetOptionalParams): Promise<WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetResponse>;
     list(resourceGroupName: string, workspaceName: string, options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListOptionalParams): PagedAsyncIterableIterator<DedicatedSQLminimalTlsSettings>;
@@ -5205,9 +4065,9 @@ export type WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateRespons
 
 // @public
 export interface WorkspaceManagedSqlServerEncryptionProtector {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, encryptionProtectorName: EncryptionProtectorName, parameters: EncryptionProtector, options?: WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse>, WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, encryptionProtectorName: EncryptionProtectorName, parameters: EncryptionProtector, options?: WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse>, WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, encryptionProtectorName: EncryptionProtectorName, parameters: EncryptionProtector, options?: WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateOptionalParams): Promise<WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse>;
-    beginRevalidate(resourceGroupName: string, workspaceName: string, encryptionProtectorName: EncryptionProtectorName, options?: WorkspaceManagedSqlServerEncryptionProtectorRevalidateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRevalidate(resourceGroupName: string, workspaceName: string, encryptionProtectorName: EncryptionProtectorName, options?: WorkspaceManagedSqlServerEncryptionProtectorRevalidateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRevalidateAndWait(resourceGroupName: string, workspaceName: string, encryptionProtectorName: EncryptionProtectorName, options?: WorkspaceManagedSqlServerEncryptionProtectorRevalidateOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, encryptionProtectorName: EncryptionProtectorName, options?: WorkspaceManagedSqlServerEncryptionProtectorGetOptionalParams): Promise<WorkspaceManagedSqlServerEncryptionProtectorGetResponse>;
     list(resourceGroupName: string, workspaceName: string, options?: WorkspaceManagedSqlServerEncryptionProtectorListOptionalParams): PagedAsyncIterableIterator<EncryptionProtector>;
@@ -5251,7 +4111,7 @@ export interface WorkspaceManagedSqlServerEncryptionProtectorRevalidateOptionalP
 
 // @public
 export interface WorkspaceManagedSqlServerExtendedBlobAuditingPolicies {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, blobAuditingPolicyName: BlobAuditingPolicyName, parameters: ExtendedServerBlobAuditingPolicy, options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse>, WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, blobAuditingPolicyName: BlobAuditingPolicyName, parameters: ExtendedServerBlobAuditingPolicy, options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse>, WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, blobAuditingPolicyName: BlobAuditingPolicyName, parameters: ExtendedServerBlobAuditingPolicy, options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateOptionalParams): Promise<WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, blobAuditingPolicyName: BlobAuditingPolicyName, options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesGetOptionalParams): Promise<WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesGetResponse>;
     listByWorkspace(resourceGroupName: string, workspaceName: string, options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceOptionalParams): PagedAsyncIterableIterator<ExtendedServerBlobAuditingPolicy>;
@@ -5316,7 +4176,7 @@ export type WorkspaceManagedSqlServerRecoverableSqlPoolsListResponse = Recoverab
 
 // @public
 export interface WorkspaceManagedSqlServerSecurityAlertPolicy {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, securityAlertPolicyName: SecurityAlertPolicyNameAutoGenerated, parameters: ServerSecurityAlertPolicy, options?: WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdateResponse>, WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, securityAlertPolicyName: SecurityAlertPolicyNameAutoGenerated, parameters: ServerSecurityAlertPolicy, options?: WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdateResponse>, WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, securityAlertPolicyName: SecurityAlertPolicyNameAutoGenerated, parameters: ServerSecurityAlertPolicy, options?: WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdateOptionalParams): Promise<WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, securityAlertPolicyName: SecurityAlertPolicyNameAutoGenerated, options?: WorkspaceManagedSqlServerSecurityAlertPolicyGetOptionalParams): Promise<WorkspaceManagedSqlServerSecurityAlertPolicyGetResponse>;
     list(resourceGroupName: string, workspaceName: string, options?: WorkspaceManagedSqlServerSecurityAlertPolicyListOptionalParams): PagedAsyncIterableIterator<ServerSecurityAlertPolicy>;
@@ -5444,11 +4304,11 @@ export interface WorkspaceRepositoryConfiguration {
 
 // @public
 export interface Workspaces {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, workspaceInfo: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspacesCreateOrUpdateResponse>, WorkspacesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, workspaceInfo: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesCreateOrUpdateResponse>, WorkspacesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, workspaceInfo: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<WorkspacesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<PollerLike<PollOperationState<WorkspacesDeleteResponse>, WorkspacesDeleteResponse>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesDeleteResponse>, WorkspacesDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<WorkspacesDeleteResponse>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, workspacePatchInfo: WorkspacePatchInfo, options?: WorkspacesUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspacesUpdateResponse>, WorkspacesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, workspacePatchInfo: WorkspacePatchInfo, options?: WorkspacesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesUpdateResponse>, WorkspacesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, workspaceName: string, workspacePatchInfo: WorkspacePatchInfo, options?: WorkspacesUpdateOptionalParams): Promise<WorkspacesUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, options?: WorkspacesGetOptionalParams): Promise<WorkspacesGetResponse>;
     list(options?: WorkspacesListOptionalParams): PagedAsyncIterableIterator<Workspace>;
@@ -5510,9 +4370,9 @@ export type WorkspacesListResponse = WorkspaceInfoListResult;
 
 // @public
 export interface WorkspaceSqlAadAdmins {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, aadAdminInfo: WorkspaceAadAdminInfo, options?: WorkspaceSqlAadAdminsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspaceSqlAadAdminsCreateOrUpdateResponse>, WorkspaceSqlAadAdminsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, aadAdminInfo: WorkspaceAadAdminInfo, options?: WorkspaceSqlAadAdminsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspaceSqlAadAdminsCreateOrUpdateResponse>, WorkspaceSqlAadAdminsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, aadAdminInfo: WorkspaceAadAdminInfo, options?: WorkspaceSqlAadAdminsCreateOrUpdateOptionalParams): Promise<WorkspaceSqlAadAdminsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, options?: WorkspaceSqlAadAdminsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, options?: WorkspaceSqlAadAdminsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, options?: WorkspaceSqlAadAdminsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, options?: WorkspaceSqlAadAdminsGetOptionalParams): Promise<WorkspaceSqlAadAdminsGetResponse>;
 }
@@ -5538,9 +4398,6 @@ export interface WorkspaceSqlAadAdminsGetOptionalParams extends coreClient.Opera
 
 // @public
 export type WorkspaceSqlAadAdminsGetResponse = WorkspaceAadAdminInfo;
-
-// @public
-export type WorkspaceStatus = string;
 
 // @public
 export interface WorkspacesUpdateOptionalParams extends coreClient.OperationOptions {
