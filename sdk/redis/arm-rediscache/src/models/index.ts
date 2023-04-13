@@ -805,6 +805,22 @@ export interface RedisPatchSchedule extends ProxyResource {
   scheduleEntries: ScheduleEntry[];
 }
 
+/** Response to put/get patch schedules for Redis cache. */
+export interface RedisPatchScheduleWithProvisioningState extends ProxyResource {
+  /**
+   * The geo-location where the resource lives
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
+  /** List of patch schedules for a Redis cache. */
+  scheduleEntries: ScheduleEntry[];
+  /**
+   * Non-terminal state of the status of the schedule entry creation/updation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+}
+
 /** Response to put/get linked server (with properties) for Redis cache. */
 export interface RedisLinkedServerWithProperties extends ProxyResource {
   /** Fully qualified resourceId of the linked redis cache. */
@@ -832,6 +848,22 @@ export interface RedisLinkedServerWithProperties extends ProxyResource {
 
 /** Parameters required for creating a firewall rule on redis cache. (Note, you can just use the FirewallRule type instead now.) */
 export interface RedisFirewallRuleCreateParameters extends RedisFirewallRule {}
+
+/** Defines headers for PatchSchedules_createOrUpdate operation. */
+export interface PatchSchedulesCreateOrUpdateHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for PatchSchedules_delete operation. */
+export interface PatchSchedulesDeleteHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
@@ -1255,14 +1287,24 @@ export type PatchSchedulesListByRedisResourceResponse = RedisPatchScheduleListRe
 
 /** Optional parameters. */
 export interface PatchSchedulesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the createOrUpdate operation. */
 export type PatchSchedulesCreateOrUpdateResponse = RedisPatchSchedule;
 
 /** Optional parameters. */
 export interface PatchSchedulesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface PatchSchedulesGetOptionalParams

@@ -1,15 +1,26 @@
 # Release History
+    
+## 8.0.0 (2023-04-13)
+    
+**Features**
 
-## 7.1.2 (Unreleased)
+  - Added operation PatchSchedules.beginCreateOrUpdate
+  - Added operation PatchSchedules.beginCreateOrUpdateAndWait
+  - Added operation PatchSchedules.beginDelete
+  - Added operation PatchSchedules.beginDeleteAndWait
+  - Added Interface PatchSchedulesCreateOrUpdateHeaders
+  - Added Interface PatchSchedulesDeleteHeaders
+  - Added Interface RedisPatchScheduleWithProvisioningState
+  - Interface PatchSchedulesCreateOrUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface PatchSchedulesCreateOrUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface PatchSchedulesDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface PatchSchedulesDeleteOptionalParams has a new optional parameter updateIntervalInMs
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation PatchSchedules.createOrUpdate
+  - Removed operation PatchSchedules.delete
+    
 ## 7.1.1 (2023-01-31)
 
 **Features**

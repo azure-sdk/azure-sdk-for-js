@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RedisPatchSchedule,
   PatchSchedulesListByRedisResourceOptionalParams,
@@ -40,7 +41,27 @@ export interface PatchSchedules {
    * @param parameters Parameters to set the patching schedule for Redis cache.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    name: string,
+    defaultParam: DefaultName,
+    parameters: RedisPatchSchedule,
+    options?: PatchSchedulesCreateOrUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PatchSchedulesCreateOrUpdateResponse>,
+      PatchSchedulesCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Create or replace the patching schedule for Redis cache.
+   * @param resourceGroupName The name of the resource group.
+   * @param name The name of the Redis cache.
+   * @param defaultParam Default string modeled as parameter for auto generation to work correctly.
+   * @param parameters Parameters to set the patching schedule for Redis cache.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     name: string,
     defaultParam: DefaultName,
@@ -54,7 +75,20 @@ export interface PatchSchedules {
    * @param defaultParam Default string modeled as parameter for auto generation to work correctly.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
+    resourceGroupName: string,
+    name: string,
+    defaultParam: DefaultName,
+    options?: PatchSchedulesDeleteOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Deletes the patching schedule of a redis cache.
+   * @param resourceGroupName The name of the resource group.
+   * @param name The name of the redis cache.
+   * @param defaultParam Default string modeled as parameter for auto generation to work correctly.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
     resourceGroupName: string,
     name: string,
     defaultParam: DefaultName,

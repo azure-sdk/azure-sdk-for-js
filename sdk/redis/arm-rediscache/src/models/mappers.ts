@@ -1974,6 +1974,43 @@ export const RedisPatchSchedule: coreClient.CompositeMapper = {
   }
 };
 
+export const RedisPatchScheduleWithProvisioningState: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RedisPatchScheduleWithProvisioningState",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      location: {
+        serializedName: "location",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      scheduleEntries: {
+        serializedName: "properties.scheduleEntries",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ScheduleEntry"
+            }
+          }
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const RedisLinkedServerWithProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2030,6 +2067,48 @@ export const RedisFirewallRuleCreateParameters: coreClient.CompositeMapper = {
     className: "RedisFirewallRuleCreateParameters",
     modelProperties: {
       ...RedisFirewallRule.type.modelProperties
+    }
+  }
+};
+
+export const PatchSchedulesCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PatchSchedulesCreateOrUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PatchSchedulesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PatchSchedulesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
     }
   }
 };

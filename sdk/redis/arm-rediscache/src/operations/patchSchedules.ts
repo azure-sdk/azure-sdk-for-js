@@ -14,6 +14,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { RedisManagementClient } from "../redisManagementClient";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   RedisPatchSchedule,
   PatchSchedulesListByRedisResourceNextOptionalParams,
   PatchSchedulesListByRedisResourceOptionalParams,
@@ -149,17 +155,97 @@ export class PatchSchedulesImpl implements PatchSchedules {
    * @param parameters Parameters to set the patching schedule for Redis cache.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
+    resourceGroupName: string,
+    name: string,
+    defaultParam: DefaultName,
+    parameters: RedisPatchSchedule,
+    options?: PatchSchedulesCreateOrUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PatchSchedulesCreateOrUpdateResponse>,
+      PatchSchedulesCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<PatchSchedulesCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, defaultParam, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PatchSchedulesCreateOrUpdateResponse,
+      OperationState<PatchSchedulesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create or replace the patching schedule for Redis cache.
+   * @param resourceGroupName The name of the resource group.
+   * @param name The name of the Redis cache.
+   * @param defaultParam Default string modeled as parameter for auto generation to work correctly.
+   * @param parameters Parameters to set the patching schedule for Redis cache.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     name: string,
     defaultParam: DefaultName,
     parameters: RedisPatchSchedule,
     options?: PatchSchedulesCreateOrUpdateOptionalParams
   ): Promise<PatchSchedulesCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, name, defaultParam, parameters, options },
-      createOrUpdateOperationSpec
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      name,
+      defaultParam,
+      parameters,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -169,16 +255,85 @@ export class PatchSchedulesImpl implements PatchSchedules {
    * @param defaultParam Default string modeled as parameter for auto generation to work correctly.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
+    resourceGroupName: string,
+    name: string,
+    defaultParam: DefaultName,
+    options?: PatchSchedulesDeleteOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, defaultParam, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes the patching schedule of a redis cache.
+   * @param resourceGroupName The name of the resource group.
+   * @param name The name of the redis cache.
+   * @param defaultParam Default string modeled as parameter for auto generation to work correctly.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
     resourceGroupName: string,
     name: string,
     defaultParam: DefaultName,
     options?: PatchSchedulesDeleteOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, name, defaultParam, options },
-      deleteOperationSpec
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      name,
+      defaultParam,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -255,6 +410,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     201: {
       bodyMapper: Mappers.RedisPatchSchedule
     },
+    202: {
+      bodyMapper: Mappers.RedisPatchSchedule
+    },
+    204: {
+      bodyMapper: Mappers.RedisPatchSchedule
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -278,6 +439,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
+    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
