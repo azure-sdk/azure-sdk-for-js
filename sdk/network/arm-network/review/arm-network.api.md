@@ -468,6 +468,9 @@ export interface ApplicationGatewayFirewallManifestRuleSet {
 export type ApplicationGatewayFirewallMode = string;
 
 // @public
+export type ApplicationGatewayFirewallRateLimitDuration = string;
+
+// @public
 export interface ApplicationGatewayFirewallRule {
     action?: ApplicationGatewayWafRuleActionTypes;
     description?: string;
@@ -491,6 +494,9 @@ export interface ApplicationGatewayFirewallRuleSet extends Resource {
     ruleSetVersion?: string;
     tiers?: ApplicationGatewayTierTypes[];
 }
+
+// @public
+export type ApplicationGatewayFirewallUserSessionVariable = string;
 
 // @public
 export interface ApplicationGatewayFrontendIPConfiguration extends SubResource {
@@ -1214,6 +1220,7 @@ export interface ApplicationGatewayWebApplicationFirewallConfiguration {
 export interface ApplicationRule extends FirewallPolicyRule {
     destinationAddresses?: string[];
     fqdnTags?: string[];
+    httpHeadersToInsert?: FirewallPolicyHttpHeaderToInsert[];
     protocols?: FirewallPolicyRuleApplicationProtocol[];
     ruleType: "ApplicationRule";
     sourceAddresses?: string[];
@@ -1715,6 +1722,21 @@ export interface AzureFirewallNetworkRuleCollection extends SubResource {
 export type AzureFirewallNetworkRuleProtocol = string;
 
 // @public
+export interface AzureFirewallPacketCaptureFlags {
+    type?: AzureFirewallPacketCaptureFlagsType;
+}
+
+// @public
+export type AzureFirewallPacketCaptureFlagsType = string;
+
+// @public
+export interface AzureFirewallPacketCaptureRule {
+    destinationPorts?: string[];
+    destinations?: string[];
+    sources?: string[];
+}
+
+// @public
 export interface AzureFirewallPublicIPAddress {
     address?: string;
 }
@@ -1735,6 +1757,8 @@ export interface AzureFirewalls {
     beginDeleteAndWait(resourceGroupName: string, azureFirewallName: string, options?: AzureFirewallsDeleteOptionalParams): Promise<void>;
     beginListLearnedPrefixes(resourceGroupName: string, azureFirewallName: string, options?: AzureFirewallsListLearnedPrefixesOptionalParams): Promise<SimplePollerLike<OperationState<AzureFirewallsListLearnedPrefixesResponse>, AzureFirewallsListLearnedPrefixesResponse>>;
     beginListLearnedPrefixesAndWait(resourceGroupName: string, azureFirewallName: string, options?: AzureFirewallsListLearnedPrefixesOptionalParams): Promise<AzureFirewallsListLearnedPrefixesResponse>;
+    beginPacketCapture(resourceGroupName: string, azureFirewallName: string, parameters: FirewallPacketCaptureParameters, options?: AzureFirewallsPacketCaptureOptionalParams): Promise<SimplePollerLike<OperationState<AzureFirewallsPacketCaptureResponse>, AzureFirewallsPacketCaptureResponse>>;
+    beginPacketCaptureAndWait(resourceGroupName: string, azureFirewallName: string, parameters: FirewallPacketCaptureParameters, options?: AzureFirewallsPacketCaptureOptionalParams): Promise<AzureFirewallsPacketCaptureResponse>;
     beginUpdateTags(resourceGroupName: string, azureFirewallName: string, parameters: TagsObject, options?: AzureFirewallsUpdateTagsOptionalParams): Promise<SimplePollerLike<OperationState<AzureFirewallsUpdateTagsResponse>, AzureFirewallsUpdateTagsResponse>>;
     beginUpdateTagsAndWait(resourceGroupName: string, azureFirewallName: string, parameters: TagsObject, options?: AzureFirewallsUpdateTagsOptionalParams): Promise<AzureFirewallsUpdateTagsResponse>;
     get(resourceGroupName: string, azureFirewallName: string, options?: AzureFirewallsGetOptionalParams): Promise<AzureFirewallsGetResponse>;
@@ -1812,6 +1836,21 @@ export interface AzureFirewallsListOptionalParams extends coreClient.OperationOp
 
 // @public
 export type AzureFirewallsListResponse = AzureFirewallListResult;
+
+// @public
+export interface AzureFirewallsPacketCaptureHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface AzureFirewallsPacketCaptureOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AzureFirewallsPacketCaptureResponse = AzureFirewallsPacketCaptureHeaders;
 
 // @public
 export interface AzureFirewallsUpdateTagsOptionalParams extends coreClient.OperationOptions {
@@ -4614,6 +4653,17 @@ export interface FilterItems {
 }
 
 // @public
+export interface FirewallPacketCaptureParameters extends SubResource {
+    durationInSeconds?: number;
+    fileName?: string;
+    filters?: AzureFirewallPacketCaptureRule[];
+    flags?: AzureFirewallPacketCaptureFlags[];
+    numberOfPacketsToCapture?: number;
+    protocol?: AzureFirewallNetworkRuleProtocol;
+    sasUrl?: string;
+}
+
+// @public
 export interface FirewallPolicies {
     beginCreateOrUpdate(resourceGroupName: string, firewallPolicyName: string, parameters: FirewallPolicy, options?: FirewallPoliciesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FirewallPoliciesCreateOrUpdateResponse>, FirewallPoliciesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, firewallPolicyName: string, parameters: FirewallPolicy, options?: FirewallPoliciesCreateOrUpdateOptionalParams): Promise<FirewallPoliciesCreateOrUpdateResponse>;
@@ -4724,6 +4774,12 @@ export interface FirewallPolicyFilterRuleCollectionAction {
 
 // @public
 export type FirewallPolicyFilterRuleCollectionActionType = string;
+
+// @public
+export interface FirewallPolicyHttpHeaderToInsert {
+    headerName?: string;
+    headerValue?: string;
+}
 
 // @public
 export type FirewallPolicyIdpsQuerySortOrder = string;
@@ -5228,6 +5284,16 @@ export interface GetOutboundRoutesParameters {
 export interface GetVpnSitesConfigurationRequest {
     outputBlobSasUrl: string;
     vpnSites?: string[];
+}
+
+// @public
+export interface GroupByUserSession {
+    groupByVariables: GroupByVariable[];
+}
+
+// @public
+export interface GroupByVariable {
+    variableName: ApplicationGatewayFirewallUserSessionVariable;
 }
 
 // @public
@@ -5919,6 +5985,19 @@ export enum KnownApplicationGatewayFirewallMode {
 }
 
 // @public
+export enum KnownApplicationGatewayFirewallRateLimitDuration {
+    FiveMins = "FiveMins",
+    OneMin = "OneMin"
+}
+
+// @public
+export enum KnownApplicationGatewayFirewallUserSessionVariable {
+    ClientAddr = "ClientAddr",
+    GeoLocation = "GeoLocation",
+    None = "None"
+}
+
+// @public
 export enum KnownApplicationGatewayLoadDistributionAlgorithm {
     IpHash = "IpHash",
     LeastConnections = "LeastConnections",
@@ -6104,6 +6183,16 @@ export enum KnownAzureFirewallNetworkRuleProtocol {
     Icmp = "ICMP",
     TCP = "TCP",
     UDP = "UDP"
+}
+
+// @public
+export enum KnownAzureFirewallPacketCaptureFlagsType {
+    Ack = "ack",
+    Fin = "fin",
+    Push = "push",
+    Rst = "rst",
+    Syn = "syn",
+    Urg = "urg"
 }
 
 // @public
@@ -6681,7 +6770,6 @@ export enum KnownIsWorkloadProtected {
 // @public
 export enum KnownLoadBalancerBackendAddressAdminState {
     Down = "Down",
-    Drain = "Drain",
     None = "None",
     Up = "Up"
 }
@@ -6991,6 +7079,28 @@ export enum KnownScopeConnectionState {
     Pending = "Pending",
     Rejected = "Rejected",
     Revoked = "Revoked"
+}
+
+// @public
+export enum KnownScrubbingRuleEntryMatchOperator {
+    Equals = "Equals",
+    EqualsAny = "EqualsAny"
+}
+
+// @public
+export enum KnownScrubbingRuleEntryMatchVariable {
+    RequestArgNames = "RequestArgNames",
+    RequestCookieNames = "RequestCookieNames",
+    RequestHeaderNames = "RequestHeaderNames",
+    RequestIPAddress = "RequestIPAddress",
+    RequestJsonArgNames = "RequestJSONArgNames",
+    RequestPostArgNames = "RequestPostArgNames"
+}
+
+// @public
+export enum KnownScrubbingRuleEntryState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -7355,7 +7465,14 @@ export enum KnownWebApplicationFirewallPolicyResourceState {
 // @public
 export enum KnownWebApplicationFirewallRuleType {
     Invalid = "Invalid",
-    MatchRule = "MatchRule"
+    MatchRule = "MatchRule",
+    RateLimitRule = "RateLimitRule"
+}
+
+// @public
+export enum KnownWebApplicationFirewallScrubbingState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -9460,6 +9577,7 @@ export interface NetworkSecurityRulesEvaluationResult {
 
 // @public
 export interface NetworkVirtualAppliance extends Resource {
+    additionalNics?: VirtualApplianceAdditionalNicProperties[];
     readonly addressPrefix?: string;
     bootStrapConfigurationBlobs?: string[];
     cloudInitConfiguration?: string;
@@ -9498,6 +9616,11 @@ export interface NetworkVirtualAppliances {
 }
 
 // @public
+export interface NetworkVirtualAppliancesCreateOrUpdateHeaders {
+    location?: string;
+}
+
+// @public
 export interface NetworkVirtualAppliancesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -9505,6 +9628,11 @@ export interface NetworkVirtualAppliancesCreateOrUpdateOptionalParams extends co
 
 // @public
 export type NetworkVirtualAppliancesCreateOrUpdateResponse = NetworkVirtualAppliance;
+
+// @public
+export interface NetworkVirtualAppliancesDeleteHeaders {
+    location?: string;
+}
 
 // @public
 export interface NetworkVirtualAppliancesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -10339,10 +10467,17 @@ export interface PolicySettings {
     customBlockResponseBody?: string;
     customBlockResponseStatusCode?: number;
     fileUploadLimitInMb?: number;
+    logScrubbing?: PolicySettingsLogScrubbing;
     maxRequestBodySizeInKb?: number;
     mode?: WebApplicationFirewallMode;
     requestBodyCheck?: boolean;
     state?: WebApplicationFirewallEnabledState;
+}
+
+// @public
+export interface PolicySettingsLogScrubbing {
+    scrubbingRules?: WebApplicationFirewallScrubbingRules[];
+    state?: WebApplicationFirewallScrubbingState;
 }
 
 // @public
@@ -11776,6 +11911,15 @@ export type ScopeConnectionsListResponse = ScopeConnectionListResult;
 export type ScopeConnectionState = string;
 
 // @public
+export type ScrubbingRuleEntryMatchOperator = string;
+
+// @public
+export type ScrubbingRuleEntryMatchVariable = string;
+
+// @public
+export type ScrubbingRuleEntryState = string;
+
+// @public
 export interface SecurityAdminConfiguration extends ChildResource {
     applyOnNetworkIntentPolicyBasedServices?: NetworkIntentPolicyBasedService[];
     description?: string;
@@ -12439,7 +12583,7 @@ export interface StaticRoutesConfig {
 export interface Subnet extends SubResource {
     addressPrefix?: string;
     addressPrefixes?: string[];
-    applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
+    applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
     delegations?: Delegation[];
     readonly etag?: string;
     ipAllocations?: SubResource[];
@@ -12827,7 +12971,14 @@ export interface VipSwapListOptionalParams extends coreClient.OperationOptions {
 export type VipSwapListResponse = SwapResourceListResult;
 
 // @public
+export interface VirtualApplianceAdditionalNicProperties {
+    hasPublicIp?: boolean;
+    name?: string;
+}
+
+// @public
 export interface VirtualApplianceNicProperties {
+    readonly instanceName?: string;
     readonly name?: string;
     readonly privateIpAddress?: string;
     readonly publicIpAddress?: string;
@@ -15294,9 +15445,12 @@ export type WebApplicationFirewallAction = string;
 export interface WebApplicationFirewallCustomRule {
     action: WebApplicationFirewallAction;
     readonly etag?: string;
+    groupByUserSession?: GroupByUserSession[];
     matchConditions: MatchCondition[];
     name?: string;
     priority: number;
+    rateLimitDuration?: ApplicationGatewayFirewallRateLimitDuration;
+    rateLimitThreshold?: number;
     ruleType: WebApplicationFirewallRuleType;
     state?: WebApplicationFirewallState;
 }
@@ -15395,6 +15549,17 @@ export type WebApplicationFirewallPolicyResourceState = string;
 
 // @public
 export type WebApplicationFirewallRuleType = string;
+
+// @public
+export interface WebApplicationFirewallScrubbingRules {
+    matchVariable: ScrubbingRuleEntryMatchVariable;
+    selector?: string;
+    selectorMatchOperator: ScrubbingRuleEntryMatchOperator;
+    state?: ScrubbingRuleEntryState;
+}
+
+// @public
+export type WebApplicationFirewallScrubbingState = string;
 
 // @public
 export type WebApplicationFirewallState = string;
