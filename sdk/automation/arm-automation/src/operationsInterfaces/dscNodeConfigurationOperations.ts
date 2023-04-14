@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DscNodeConfiguration,
   DscNodeConfigurationListByAutomationAccountOptionalParams,
@@ -72,7 +72,7 @@ export interface DscNodeConfigurationOperations {
     nodeConfigurationName: string,
     parameters: DscNodeConfigurationCreateOrUpdateParameters,
     options?: DscNodeConfigurationCreateOrUpdateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Create the node configuration identified by node configuration name.
    * @param resourceGroupName Name of an Azure Resource group.
