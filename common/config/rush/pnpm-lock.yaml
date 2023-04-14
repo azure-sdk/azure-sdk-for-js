@@ -12,6 +12,7 @@ specifiers:
   '@rush-temp/ai-metrics-advisor': file:./projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-personalizer': file:./projects/ai-personalizer.tgz
   '@rush-temp/ai-text-analytics': file:./projects/ai-text-analytics.tgz
+  '@rush-temp/ai-translation-text': file:./projects/ai-translation-text.tgz
   '@rush-temp/api-management-custom-widgets-scaffolder': file:./projects/api-management-custom-widgets-scaffolder.tgz
   '@rush-temp/api-management-custom-widgets-tools': file:./projects/api-management-custom-widgets-tools.tgz
   '@rush-temp/app-configuration': file:./projects/app-configuration.tgz
@@ -217,7 +218,6 @@ specifiers:
   '@rush-temp/arm-workloads': file:./projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:./projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:./projects/attestation.tgz
-  '@rush-temp/ai-translation-text': file:./projects/ai-translation-text.tgz
   '@rush-temp/communication-alpha-ids': file:./projects/communication-alpha-ids.tgz
   '@rush-temp/communication-call-automation': file:./projects/communication-call-automation.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
@@ -350,6 +350,7 @@ dependencies:
   '@rush-temp/ai-metrics-advisor': file:projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-personalizer': file:projects/ai-personalizer.tgz
   '@rush-temp/ai-text-analytics': file:projects/ai-text-analytics.tgz
+  '@rush-temp/ai-translation-text': file:projects/ai-translation-text.tgz
   '@rush-temp/api-management-custom-widgets-scaffolder': file:projects/api-management-custom-widgets-scaffolder.tgz
   '@rush-temp/api-management-custom-widgets-tools': file:projects/api-management-custom-widgets-tools.tgz
   '@rush-temp/app-configuration': file:projects/app-configuration.tgz
@@ -555,7 +556,6 @@ dependencies:
   '@rush-temp/arm-workloads': file:projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:projects/attestation.tgz
-  '@rush-temp/ai-translation-text': file:projects/ai-translation-text.tgz
   '@rush-temp/communication-alpha-ids': file:projects/communication-alpha-ids.tgz
   '@rush-temp/communication-call-automation': file:projects/communication-call-automation.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
@@ -738,6 +738,7 @@ packages:
   /@azure/ai-form-recognizer/3.1.0-beta.3:
     resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
     engines: {node: '>=8.0.0'}
+    deprecated: Please migrate to a supported (non-beta) version of this package
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 1.2.6
@@ -4002,7 +4003,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230412
+      typescript: 5.1.0-dev.20230413
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8865,8 +8866,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230412:
-    resolution: {integrity: sha512-O7UY8wd8wEa6pd6CpVFbS9u+DArm73B4rRz8dwm6SDORvEF7rbuNzJ6GTTnBvGavlVkWT5/cYstySs5uhj0vPg==}
+  /typescript/5.1.0-dev.20230413:
+    resolution: {integrity: sha512-+FsnRiizPqZGzW9HVveiTiotGSso+FhN3eT/l5Hh+sRIKH7b40N7gB4Di0l0ZUw/Q0WGdjn6UPCRVV2yxy1qXw==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -9866,6 +9867,47 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/ai-translation-text.tgz:
+    resolution: {integrity: sha512-+LZrnKC6WEXktJx5OM7vSu4A3EwsBCcnX3xS4R5x1MYKUzTkgXoC1xDrXPfX/fX/98de+6s5yKkX+bWeFoOt8Q==, tarball: file:projects/ai-translation-text.tgz}
+    name: '@rush-temp/ai-translation-text'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
+      '@types/chai': 4.3.4
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.42
+      autorest: 3.6.3
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      eslint: 8.37.0
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.8.7
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.5.0
+      typescript: 4.8.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/api-management-custom-widgets-scaffolder.tgz:
     resolution: {integrity: sha512-QNlFQJsk/3ET4caCJxXBWooRMGlyglbYaCmZDQL28eE8fjHX62lkGweUlMvBZKspVE6UaaDrl3ddDJVJeybv8g==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
     name: '@rush-temp/api-management-custom-widgets-scaffolder'
@@ -10648,7 +10690,7 @@ packages:
     dev: false
 
   file:projects/arm-billingbenefits.tgz:
-    resolution: {integrity: sha512-SgY6c8hg7BL26Ar1ADMvzSWTi/nBSNZba5zjjDBH7VYehENlLQwKvIisMCBd6Um7/2nZMG+cl8ZvO+cBbCGLDw==, tarball: file:projects/arm-billingbenefits.tgz}
+    resolution: {integrity: sha512-6aiEfFyMtw85zSO0+b8cavJPOkwMVxeQS9HcOEUhBo7ZCAgPJ0DlOB8Yx+jPqnPy/xh6ME5vyuHUJBoVD0qnoA==, tarball: file:projects/arm-billingbenefits.tgz}
     name: '@rush-temp/arm-billingbenefits'
     version: 0.0.0
     dependencies:
@@ -10662,7 +10704,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -15674,47 +15717,6 @@ packages:
       - utf-8-validate
     dev: false
 
-  file:projects/ai-translation-text.tgz:
-    resolution: {integrity: sha512-t1vY6CnSsEovNxSSUxRia/62S0MvizhtA8sqFxpbQYqmk369JA3RcADZgFIJybT0nlOybtuI8IK7XjF33LGYdQ==, tarball: file:projects/ai-translation-text.tgz}
-    name: '@rush-temp/ai-translation-text'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
-      '@types/chai': 4.3.4
-      '@types/mocha': 7.0.2
-      '@types/node': 14.18.36
-      autorest: 3.6.3
-      chai: 4.3.7
-      cross-env: 7.0.3
-      dotenv: 16.0.3
-      eslint: 8.33.0
-      karma: 6.4.1
-      karma-chrome-launcher: 3.1.1
-      karma-coverage: 2.2.0
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-junit-reporter: 2.0.1_karma@6.4.1
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.4.1
-      karma-source-map-support: 1.4.0
-      karma-sourcemap-loader: 0.3.8
-      mkdirp: 2.1.3
-      mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 15.1.0
-      prettier: 2.8.3
-      rimraf: 3.0.2
-      source-map-support: 0.5.21
-      tslib: 2.5.0
-      typescript: 4.8.4
-    transitivePeerDependencies:
-      - bufferutil
-      - debug
-      - supports-color
-      - utf-8-validate
-    dev: false
-
   file:projects/communication-alpha-ids.tgz:
     resolution: {integrity: sha512-gFfNaey5SYHtam8H0afb4emCX5xnhR6Ox3K+kzSJUVtrNC4fakIPOWaks0YtFd96toLk6vqIafa+cGdqdRrPPQ==, tarball: file:projects/communication-alpha-ids.tgz}
     name: '@rush-temp/communication-alpha-ids'
@@ -16374,7 +16376,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-pWipLCUwNNpKjqh/MmLBG9lS3mgIXHq09E0+XAfodzcWd4Y1qcNqryKbK+qFLSs9objuHa9HO6t0k8x3CI7okA==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-iW6S5CQK5+wHaxT4yGBXFzEkOkPQ4dS23kw1n3B+MZOltDDVe7oZXlv2Y9r0KA780hKzZ9+yVyJNIyHR+luZQA==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:

@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { BillingBenefitsRP } from "../billingBenefitsRP";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SavingsPlanOrderAliasModel,
   SavingsPlanOrderAliasCreateOptionalParams,
@@ -45,8 +49,8 @@ export class SavingsPlanOrderAliasImpl implements SavingsPlanOrderAlias {
     body: SavingsPlanOrderAliasModel,
     options?: SavingsPlanOrderAliasCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SavingsPlanOrderAliasCreateResponse>,
+    SimplePollerLike<
+      OperationState<SavingsPlanOrderAliasCreateResponse>,
       SavingsPlanOrderAliasCreateResponse
     >
   > {
@@ -56,7 +60,7 @@ export class SavingsPlanOrderAliasImpl implements SavingsPlanOrderAlias {
     ): Promise<SavingsPlanOrderAliasCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -89,15 +93,18 @@ export class SavingsPlanOrderAliasImpl implements SavingsPlanOrderAlias {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { savingsPlanOrderAliasName, body, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { savingsPlanOrderAliasName, body, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SavingsPlanOrderAliasCreateResponse,
+      OperationState<SavingsPlanOrderAliasCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;

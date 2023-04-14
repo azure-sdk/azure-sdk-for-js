@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
@@ -329,7 +329,7 @@ export interface RenewProperties {
 
 // @public
 export interface ReservationOrderAlias {
-    beginCreate(reservationOrderAliasName: string, body: ReservationOrderAliasRequest, options?: ReservationOrderAliasCreateOptionalParams): Promise<PollerLike<PollOperationState<ReservationOrderAliasCreateResponse>, ReservationOrderAliasCreateResponse>>;
+    beginCreate(reservationOrderAliasName: string, body: ReservationOrderAliasRequest, options?: ReservationOrderAliasCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReservationOrderAliasCreateResponse>, ReservationOrderAliasCreateResponse>>;
     beginCreateAndWait(reservationOrderAliasName: string, body: ReservationOrderAliasRequest, options?: ReservationOrderAliasCreateOptionalParams): Promise<ReservationOrderAliasCreateResponse>;
     get(reservationOrderAliasName: string, options?: ReservationOrderAliasGetOptionalParams): Promise<ReservationOrderAliasGetResponse>;
 }
@@ -525,7 +525,7 @@ export interface SavingsPlanOrder {
 
 // @public
 export interface SavingsPlanOrderAlias {
-    beginCreate(savingsPlanOrderAliasName: string, body: SavingsPlanOrderAliasModel, options?: SavingsPlanOrderAliasCreateOptionalParams): Promise<PollerLike<PollOperationState<SavingsPlanOrderAliasCreateResponse>, SavingsPlanOrderAliasCreateResponse>>;
+    beginCreate(savingsPlanOrderAliasName: string, body: SavingsPlanOrderAliasModel, options?: SavingsPlanOrderAliasCreateOptionalParams): Promise<SimplePollerLike<OperationState<SavingsPlanOrderAliasCreateResponse>, SavingsPlanOrderAliasCreateResponse>>;
     beginCreateAndWait(savingsPlanOrderAliasName: string, body: SavingsPlanOrderAliasModel, options?: SavingsPlanOrderAliasCreateOptionalParams): Promise<SavingsPlanOrderAliasCreateResponse>;
     get(savingsPlanOrderAliasName: string, options?: SavingsPlanOrderAliasGetOptionalParams): Promise<SavingsPlanOrderAliasGetResponse>;
 }
