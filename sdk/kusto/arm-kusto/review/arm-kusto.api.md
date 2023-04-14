@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AcceptedAudiences {
@@ -35,9 +35,9 @@ export interface AttachedDatabaseConfigurationListResult {
 
 // @public
 export interface AttachedDatabaseConfigurations {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, parameters: AttachedDatabaseConfiguration, options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AttachedDatabaseConfigurationsCreateOrUpdateResponse>, AttachedDatabaseConfigurationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, parameters: AttachedDatabaseConfiguration, options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AttachedDatabaseConfigurationsCreateOrUpdateResponse>, AttachedDatabaseConfigurationsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, parameters: AttachedDatabaseConfiguration, options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams): Promise<AttachedDatabaseConfigurationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, options?: AttachedDatabaseConfigurationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, options?: AttachedDatabaseConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, options?: AttachedDatabaseConfigurationsDeleteOptionalParams): Promise<void>;
     checkNameAvailability(resourceGroupName: string, clusterName: string, resourceName: AttachedDatabaseConfigurationsCheckNameRequest, options?: AttachedDatabaseConfigurationsCheckNameAvailabilityOptionalParams): Promise<AttachedDatabaseConfigurationsCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, options?: AttachedDatabaseConfigurationsGetOptionalParams): Promise<AttachedDatabaseConfigurationsGetResponse>;
@@ -222,9 +222,9 @@ export interface ClusterPrincipalAssignmentListResult {
 
 // @public
 export interface ClusterPrincipalAssignments {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, principalAssignmentName: string, parameters: ClusterPrincipalAssignment, options?: ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClusterPrincipalAssignmentsCreateOrUpdateResponse>, ClusterPrincipalAssignmentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, principalAssignmentName: string, parameters: ClusterPrincipalAssignment, options?: ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClusterPrincipalAssignmentsCreateOrUpdateResponse>, ClusterPrincipalAssignmentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, principalAssignmentName: string, parameters: ClusterPrincipalAssignment, options?: ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams): Promise<ClusterPrincipalAssignmentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, principalAssignmentName: string, options?: ClusterPrincipalAssignmentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, principalAssignmentName: string, options?: ClusterPrincipalAssignmentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, principalAssignmentName: string, options?: ClusterPrincipalAssignmentsDeleteOptionalParams): Promise<void>;
     checkNameAvailability(resourceGroupName: string, clusterName: string, principalAssignmentName: ClusterPrincipalAssignmentCheckNameRequest, options?: ClusterPrincipalAssignmentsCheckNameAvailabilityOptionalParams): Promise<ClusterPrincipalAssignmentsCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, clusterName: string, principalAssignmentName: string, options?: ClusterPrincipalAssignmentsGetOptionalParams): Promise<ClusterPrincipalAssignmentsGetResponse>;
@@ -272,23 +272,23 @@ export type ClusterPrincipalRole = string;
 
 // @public
 export interface Clusters {
-    beginAddLanguageExtensions(resourceGroupName: string, clusterName: string, languageExtensionsToAdd: LanguageExtensionsList, options?: ClustersAddLanguageExtensionsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginAddLanguageExtensions(resourceGroupName: string, clusterName: string, languageExtensionsToAdd: LanguageExtensionsList, options?: ClustersAddLanguageExtensionsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginAddLanguageExtensionsAndWait(resourceGroupName: string, clusterName: string, languageExtensionsToAdd: LanguageExtensionsList, options?: ClustersAddLanguageExtensionsOptionalParams): Promise<void>;
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<ClustersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
-    beginDetachFollowerDatabases(resourceGroupName: string, clusterName: string, followerDatabaseToRemove: FollowerDatabaseDefinition, options?: ClustersDetachFollowerDatabasesOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDetachFollowerDatabases(resourceGroupName: string, clusterName: string, followerDatabaseToRemove: FollowerDatabaseDefinition, options?: ClustersDetachFollowerDatabasesOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDetachFollowerDatabasesAndWait(resourceGroupName: string, clusterName: string, followerDatabaseToRemove: FollowerDatabaseDefinition, options?: ClustersDetachFollowerDatabasesOptionalParams): Promise<void>;
-    beginDiagnoseVirtualNetwork(resourceGroupName: string, clusterName: string, options?: ClustersDiagnoseVirtualNetworkOptionalParams): Promise<PollerLike<PollOperationState<ClustersDiagnoseVirtualNetworkResponse>, ClustersDiagnoseVirtualNetworkResponse>>;
+    beginDiagnoseVirtualNetwork(resourceGroupName: string, clusterName: string, options?: ClustersDiagnoseVirtualNetworkOptionalParams): Promise<SimplePollerLike<OperationState<ClustersDiagnoseVirtualNetworkResponse>, ClustersDiagnoseVirtualNetworkResponse>>;
     beginDiagnoseVirtualNetworkAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDiagnoseVirtualNetworkOptionalParams): Promise<ClustersDiagnoseVirtualNetworkResponse>;
-    beginRemoveLanguageExtensions(resourceGroupName: string, clusterName: string, languageExtensionsToRemove: LanguageExtensionsList, options?: ClustersRemoveLanguageExtensionsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRemoveLanguageExtensions(resourceGroupName: string, clusterName: string, languageExtensionsToRemove: LanguageExtensionsList, options?: ClustersRemoveLanguageExtensionsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRemoveLanguageExtensionsAndWait(resourceGroupName: string, clusterName: string, languageExtensionsToRemove: LanguageExtensionsList, options?: ClustersRemoveLanguageExtensionsOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, clusterName: string, options?: ClustersStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStart(resourceGroupName: string, clusterName: string, options?: ClustersStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, clusterName: string, options?: ClustersStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, clusterName: string, options?: ClustersStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStop(resourceGroupName: string, clusterName: string, options?: ClustersStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, clusterName: string, options?: ClustersStopOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterName: string, parameters: ClusterUpdate, options?: ClustersUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterName: string, parameters: ClusterUpdate, options?: ClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: ClusterUpdate, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
     checkNameAvailability(location: string, clusterName: ClusterCheckNameRequest, options?: ClustersCheckNameAvailabilityOptionalParams): Promise<ClustersCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
@@ -549,9 +549,9 @@ export interface DatabasePrincipalAssignmentListResult {
 
 // @public
 export interface DatabasePrincipalAssignments {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, principalAssignmentName: string, parameters: DatabasePrincipalAssignment, options?: DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DatabasePrincipalAssignmentsCreateOrUpdateResponse>, DatabasePrincipalAssignmentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, principalAssignmentName: string, parameters: DatabasePrincipalAssignment, options?: DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DatabasePrincipalAssignmentsCreateOrUpdateResponse>, DatabasePrincipalAssignmentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, principalAssignmentName: string, parameters: DatabasePrincipalAssignment, options?: DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams): Promise<DatabasePrincipalAssignmentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, databaseName: string, principalAssignmentName: string, options?: DatabasePrincipalAssignmentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, databaseName: string, principalAssignmentName: string, options?: DatabasePrincipalAssignmentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, databaseName: string, principalAssignmentName: string, options?: DatabasePrincipalAssignmentsDeleteOptionalParams): Promise<void>;
     checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: string, principalAssignmentName: DatabasePrincipalAssignmentCheckNameRequest, options?: DatabasePrincipalAssignmentsCheckNameAvailabilityOptionalParams): Promise<DatabasePrincipalAssignmentsCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, clusterName: string, databaseName: string, principalAssignmentName: string, options?: DatabasePrincipalAssignmentsGetOptionalParams): Promise<DatabasePrincipalAssignmentsGetResponse>;
@@ -616,11 +616,11 @@ export type DatabaseRouting = string;
 // @public
 export interface Databases {
     addPrincipals(resourceGroupName: string, clusterName: string, databaseName: string, databasePrincipalsToAdd: DatabasePrincipalListRequest, options?: DatabasesAddPrincipalsOptionalParams): Promise<DatabasesAddPrincipalsResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUnion, options?: DatabasesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DatabasesCreateOrUpdateResponse>, DatabasesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUnion, options?: DatabasesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DatabasesCreateOrUpdateResponse>, DatabasesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUnion, options?: DatabasesCreateOrUpdateOptionalParams): Promise<DatabasesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUnion, options?: DatabasesUpdateOptionalParams): Promise<PollerLike<PollOperationState<DatabasesUpdateResponse>, DatabasesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUnion, options?: DatabasesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DatabasesUpdateResponse>, DatabasesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUnion, options?: DatabasesUpdateOptionalParams): Promise<DatabasesUpdateResponse>;
     checkNameAvailability(resourceGroupName: string, clusterName: string, resourceName: CheckNameRequest, options?: DatabasesCheckNameAvailabilityOptionalParams): Promise<DatabasesCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesGetOptionalParams): Promise<DatabasesGetResponse>;
@@ -735,13 +735,13 @@ export interface DataConnectionListResult {
 
 // @public
 export interface DataConnections {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, parameters: DataConnectionUnion, options?: DataConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DataConnectionsCreateOrUpdateResponse>, DataConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, parameters: DataConnectionUnion, options?: DataConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DataConnectionsCreateOrUpdateResponse>, DataConnectionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, parameters: DataConnectionUnion, options?: DataConnectionsCreateOrUpdateOptionalParams): Promise<DataConnectionsCreateOrUpdateResponse>;
-    beginDataConnectionValidation(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DataConnectionValidation, options?: DataConnectionsDataConnectionValidationOptionalParams): Promise<PollerLike<PollOperationState<DataConnectionsDataConnectionValidationResponse>, DataConnectionsDataConnectionValidationResponse>>;
+    beginDataConnectionValidation(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DataConnectionValidation, options?: DataConnectionsDataConnectionValidationOptionalParams): Promise<SimplePollerLike<OperationState<DataConnectionsDataConnectionValidationResponse>, DataConnectionsDataConnectionValidationResponse>>;
     beginDataConnectionValidationAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DataConnectionValidation, options?: DataConnectionsDataConnectionValidationOptionalParams): Promise<DataConnectionsDataConnectionValidationResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, options?: DataConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, options?: DataConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, options?: DataConnectionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, parameters: DataConnectionUnion, options?: DataConnectionsUpdateOptionalParams): Promise<PollerLike<PollOperationState<DataConnectionsUpdateResponse>, DataConnectionsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, parameters: DataConnectionUnion, options?: DataConnectionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DataConnectionsUpdateResponse>, DataConnectionsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, parameters: DataConnectionUnion, options?: DataConnectionsUpdateOptionalParams): Promise<DataConnectionsUpdateResponse>;
     checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: DataConnectionCheckNameRequest, options?: DataConnectionsCheckNameAvailabilityOptionalParams): Promise<DataConnectionsCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, options?: DataConnectionsGetOptionalParams): Promise<DataConnectionsGetResponse>;
@@ -1196,8 +1196,6 @@ export enum KnownKind {
 export enum KnownLanguageExtensionImageName {
     Python3108 = "Python3_10_8",
     Python365 = "Python3_6_5",
-    Python3912 = "Python3_9_12",
-    Python3912IncludeDeepLearning = "Python3_9_12IncludeDeepLearning",
     // (undocumented)
     R = "R"
 }
@@ -1358,11 +1356,11 @@ export interface ManagedPrivateEndpointListResult {
 
 // @public
 export interface ManagedPrivateEndpoints {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, managedPrivateEndpointName: string, parameters: ManagedPrivateEndpoint, options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ManagedPrivateEndpointsCreateOrUpdateResponse>, ManagedPrivateEndpointsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, managedPrivateEndpointName: string, parameters: ManagedPrivateEndpoint, options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedPrivateEndpointsCreateOrUpdateResponse>, ManagedPrivateEndpointsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, managedPrivateEndpointName: string, parameters: ManagedPrivateEndpoint, options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams): Promise<ManagedPrivateEndpointsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterName: string, managedPrivateEndpointName: string, parameters: ManagedPrivateEndpoint, options?: ManagedPrivateEndpointsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ManagedPrivateEndpointsUpdateResponse>, ManagedPrivateEndpointsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterName: string, managedPrivateEndpointName: string, parameters: ManagedPrivateEndpoint, options?: ManagedPrivateEndpointsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedPrivateEndpointsUpdateResponse>, ManagedPrivateEndpointsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, managedPrivateEndpointName: string, parameters: ManagedPrivateEndpoint, options?: ManagedPrivateEndpointsUpdateOptionalParams): Promise<ManagedPrivateEndpointsUpdateResponse>;
     checkNameAvailability(resourceGroupName: string, clusterName: string, resourceName: ManagedPrivateEndpointsCheckNameRequest, options?: ManagedPrivateEndpointsCheckNameAvailabilityOptionalParams): Promise<ManagedPrivateEndpointsCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, clusterName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointsGetOptionalParams): Promise<ManagedPrivateEndpointsGetResponse>;
@@ -1546,9 +1544,9 @@ export interface PrivateEndpointConnectionListResult {
 
 // @public
 export interface PrivateEndpointConnections {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
     list(resourceGroupName: string, clusterName: string, options?: PrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
@@ -1712,11 +1710,11 @@ export interface ScriptListResult {
 
 // @public
 export interface Scripts {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, parameters: Script, options?: ScriptsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ScriptsCreateOrUpdateResponse>, ScriptsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, parameters: Script, options?: ScriptsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ScriptsCreateOrUpdateResponse>, ScriptsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, parameters: Script, options?: ScriptsCreateOrUpdateOptionalParams): Promise<ScriptsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, options?: ScriptsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, options?: ScriptsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, options?: ScriptsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, parameters: Script, options?: ScriptsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ScriptsUpdateResponse>, ScriptsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, parameters: Script, options?: ScriptsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ScriptsUpdateResponse>, ScriptsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, parameters: Script, options?: ScriptsUpdateOptionalParams): Promise<ScriptsUpdateResponse>;
     checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: ScriptCheckNameRequest, options?: ScriptsCheckNameAvailabilityOptionalParams): Promise<ScriptsCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, options?: ScriptsGetOptionalParams): Promise<ScriptsGetResponse>;
