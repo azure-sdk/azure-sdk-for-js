@@ -108,6 +108,7 @@ export interface CapabilityType extends Resource {
     readonly kind?: string;
     location?: string;
     readonly parametersSchema?: string;
+    readonly permissionsNecessary?: CapabilityTypePropertiesPermissionsNecessary;
     readonly publisher?: string;
     runtimeProperties?: CapabilityTypePropertiesRuntimeProperties;
     readonly systemData?: SystemData;
@@ -119,6 +120,12 @@ export interface CapabilityType extends Resource {
 export interface CapabilityTypeListResult {
     readonly nextLink?: string;
     readonly value?: CapabilityType[];
+}
+
+// @public
+export interface CapabilityTypePropertiesPermissionsNecessary {
+    actions?: string[];
+    dataActions?: string[];
 }
 
 // @public
@@ -185,6 +192,12 @@ export interface ChaosManagementClientOptionalParams extends coreClient.ServiceC
 }
 
 // @public
+export interface ComponentsEwb5TmSchemasUserassignedidentitiesAdditionalproperties {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
 export interface ContinuousAction extends Action {
     duration: string;
     parameters: KeyValuePair[];
@@ -231,7 +244,7 @@ export interface ErrorResponse {
 // @public
 export interface Experiment extends TrackedResource {
     identity?: ResourceIdentity;
-    selectors: Selector[];
+    selectors: SelectorUnion[];
     startOnCreation?: boolean;
     steps: Step[];
     readonly systemData?: SystemData;
@@ -303,6 +316,7 @@ export interface Experiments {
     listAllStatuses(resourceGroupName: string, experimentName: string, options?: ExperimentsListAllStatusesOptionalParams): PagedAsyncIterableIterator<ExperimentStatus>;
     listExecutionDetails(resourceGroupName: string, experimentName: string, options?: ExperimentsListExecutionDetailsOptionalParams): PagedAsyncIterableIterator<ExperimentExecutionDetails>;
     start(resourceGroupName: string, experimentName: string, options?: ExperimentsStartOptionalParams): Promise<ExperimentsStartResponse>;
+    update(resourceGroupName: string, experimentName: string, experiment: ExperimentUpdate, options?: ExperimentsUpdateOptionalParams): Promise<ExperimentsUpdateResponse>;
 }
 
 // @public
@@ -434,6 +448,18 @@ export interface ExperimentStatusListResult {
 }
 
 // @public
+export interface ExperimentsUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExperimentsUpdateResponse = Experiment;
+
+// @public
+export interface ExperimentUpdate {
+    identity?: ResourceIdentity;
+}
+
+// @public
 export interface Filter {
     type: "Simple";
 }
@@ -476,6 +502,23 @@ export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownSelectorType {
+    List = "List",
+    Query = "Query"
+}
+
+// @public
+export enum KnownTargetReferenceType {
+    ChaosTarget = "ChaosTarget"
+}
+
+// @public
+export interface ListSelector extends Selector {
+    targets: TargetReference[];
+    type: "List";
 }
 
 // @public
@@ -524,6 +567,13 @@ export type OperationsListAllResponse = OperationListResult;
 export type Origin = string;
 
 // @public
+export interface QuerySelector extends Selector {
+    queryString: string;
+    subscriptionIds: string[];
+    type: "Query";
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -535,21 +585,27 @@ export interface ResourceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ResourceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: ComponentsEwb5TmSchemasUserassignedidentitiesAdditionalproperties;
+    };
 }
 
 // @public
-export type ResourceIdentityType = "None" | "SystemAssigned";
+export type ResourceIdentityType = "None" | "SystemAssigned" | "UserAssigned";
 
 // @public
 export interface Selector {
+    [property: string]: any;
     filter?: FilterUnion;
     id: string;
-    targets: TargetReference[];
-    type: SelectorType;
+    type: "List" | "Query";
 }
 
 // @public
-export type SelectorType = "Percent" | "Random" | "Tag" | "List";
+export type SelectorType = string;
+
+// @public (undocumented)
+export type SelectorUnion = Selector | ListSelector | QuerySelector;
 
 // @public
 export interface SimpleFilter extends Filter {
@@ -604,8 +660,11 @@ export interface TargetListResult {
 // @public
 export interface TargetReference {
     id: string;
-    type: "ChaosTarget";
+    type: TargetReferenceType;
 }
+
+// @public
+export type TargetReferenceType = string;
 
 // @public
 export interface Targets {

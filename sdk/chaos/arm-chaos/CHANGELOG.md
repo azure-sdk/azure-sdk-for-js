@@ -1,15 +1,32 @@
 # Release History
+    
+## 1.0.0-beta.4 (2023-04-14)
+    
+**Features**
 
-## 1.0.0-beta.4 (Unreleased)
+  - Added operation Experiments.update
+  - Added Interface CapabilityTypePropertiesPermissionsNecessary
+  - Added Interface ComponentsEwb5TmSchemasUserassignedidentitiesAdditionalproperties
+  - Added Interface ExperimentsUpdateOptionalParams
+  - Added Interface ExperimentUpdate
+  - Added Interface ListSelector
+  - Added Interface QuerySelector
+  - Added Type Alias ExperimentsUpdateResponse
+  - Added Type Alias SelectorUnion
+  - Added Type Alias TargetReferenceType
+  - Interface CapabilityType has a new optional parameter permissionsNecessary
+  - Interface ResourceIdentity has a new optional parameter userAssignedIdentities
+  - Added Enum KnownSelectorType
+  - Added Enum KnownTargetReferenceType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface Selector no longer has parameter targets
+  - Type of parameter selectors of interface Experiment is changed from Selector[] to SelectorUnion[]
+  - Type of parameter type of interface Selector is changed from SelectorType to "List" | "Query"
+  - Type of parameter type of interface TargetReference is changed from "ChaosTarget" to TargetReferenceType
+    
+    
 ## 1.0.0-beta.3 (2023-01-12)
     
 **Features**
