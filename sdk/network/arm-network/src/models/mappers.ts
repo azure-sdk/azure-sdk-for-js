@@ -2601,6 +2601,63 @@ export const IPPrefixesList: coreClient.CompositeMapper = {
   }
 };
 
+export const AzureFirewallPacketCaptureFlags: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureFirewallPacketCaptureFlags",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureFirewallPacketCaptureRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureFirewallPacketCaptureRule",
+    modelProperties: {
+      sources: {
+        serializedName: "sources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      destinations: {
+        serializedName: "destinations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      destinationPorts: {
+        serializedName: "destinationPorts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const AzureFirewallFqdnTagListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7347,6 +7404,34 @@ export const VirtualApplianceNicProperties: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      instanceName: {
+        serializedName: "instanceName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualApplianceAdditionalNicProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualApplianceAdditionalNicProperties",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      hasPublicIp: {
+        serializedName: "hasPublicIp",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -15305,27 +15390,6 @@ export const ListVirtualHubBgpConnectionResults: coreClient.CompositeMapper = {
   }
 };
 
-export const PeerRouteList: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PeerRouteList",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PeerRoute"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const PeerRoute: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -15664,6 +15728,22 @@ export const PolicySettings: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
+      requestBodyInspectLimitInKB: {
+        constraints: {
+          InclusiveMinimum: 8
+        },
+        serializedName: "requestBodyInspectLimitInKB",
+        type: {
+          name: "Number"
+        }
+      },
+      requestBodyEnforcement: {
+        defaultValue: true,
+        serializedName: "requestBodyEnforcement",
+        type: {
+          name: "Boolean"
+        }
+      },
       maxRequestBodySizeInKb: {
         constraints: {
           InclusiveMinimum: 8
@@ -15671,6 +15751,13 @@ export const PolicySettings: coreClient.CompositeMapper = {
         serializedName: "maxRequestBodySizeInKb",
         type: {
           name: "Number"
+        }
+      },
+      fileUploadEnforcement: {
+        defaultValue: true,
+        serializedName: "fileUploadEnforcement",
+        type: {
+          name: "Boolean"
         }
       },
       fileUploadLimitInMb: {
@@ -15699,6 +15786,75 @@ export const PolicySettings: coreClient.CompositeMapper = {
           MaxLength: 32768
         },
         serializedName: "customBlockResponseBody",
+        type: {
+          name: "String"
+        }
+      },
+      logScrubbing: {
+        serializedName: "logScrubbing",
+        type: {
+          name: "Composite",
+          className: "PolicySettingsLogScrubbing"
+        }
+      }
+    }
+  }
+};
+
+export const PolicySettingsLogScrubbing: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicySettingsLogScrubbing",
+    modelProperties: {
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
+      scrubbingRules: {
+        serializedName: "scrubbingRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "WebApplicationFirewallScrubbingRules"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const WebApplicationFirewallScrubbingRules: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebApplicationFirewallScrubbingRules",
+    modelProperties: {
+      matchVariable: {
+        serializedName: "matchVariable",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      selectorMatchOperator: {
+        serializedName: "selectorMatchOperator",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      selector: {
+        serializedName: "selector",
+        type: {
+          name: "String"
+        }
+      },
+      state: {
+        serializedName: "state",
         type: {
           name: "String"
         }
@@ -15741,6 +15897,21 @@ export const WebApplicationFirewallCustomRule: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      rateLimitDuration: {
+        serializedName: "rateLimitDuration",
+        type: {
+          name: "String"
+        }
+      },
+      rateLimitThreshold: {
+        constraints: {
+          InclusiveMinimum: 1
+        },
+        serializedName: "rateLimitThreshold",
+        type: {
+          name: "Number"
+        }
+      },
       ruleType: {
         serializedName: "ruleType",
         required: true,
@@ -15757,6 +15928,18 @@ export const WebApplicationFirewallCustomRule: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "MatchCondition"
+            }
+          }
+        }
+      },
+      groupByUserSession: {
+        serializedName: "groupByUserSession",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GroupByUserSession"
             }
           }
         }
@@ -15844,6 +16027,44 @@ export const MatchVariable: coreClient.CompositeMapper = {
       },
       selector: {
         serializedName: "selector",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GroupByUserSession: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupByUserSession",
+    modelProperties: {
+      groupByVariables: {
+        serializedName: "groupByVariables",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GroupByVariable"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const GroupByVariable: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupByVariable",
+    modelProperties: {
+      variableName: {
+        serializedName: "variableName",
+        required: true,
         type: {
           name: "String"
         }
@@ -16180,6 +16401,27 @@ export const FirewallPolicyRuleApplicationProtocol: coreClient.CompositeMapper =
         serializedName: "port",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const FirewallPolicyHttpHeaderToInsert: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FirewallPolicyHttpHeaderToInsert",
+    modelProperties: {
+      headerName: {
+        serializedName: "headerName",
+        type: {
+          name: "String"
+        }
+      },
+      headerValue: {
+        serializedName: "headerValue",
+        type: {
+          name: "String"
         }
       }
     }
@@ -17213,6 +17455,13 @@ export const PrivateEndpointConnection: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      privateEndpointLocation: {
+        serializedName: "properties.privateEndpointLocation",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -17810,8 +18059,8 @@ export const Subnet: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      applicationGatewayIpConfigurations: {
-        serializedName: "properties.applicationGatewayIpConfigurations",
+      applicationGatewayIPConfigurations: {
+        serializedName: "properties.applicationGatewayIPConfigurations",
         type: {
           name: "Sequence",
           element: {
@@ -19972,6 +20221,78 @@ export const AzureFirewallIPConfiguration: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FirewallPacketCaptureParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FirewallPacketCaptureParameters",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      durationInSeconds: {
+        constraints: {
+          InclusiveMaximum: 1800,
+          InclusiveMinimum: 30
+        },
+        serializedName: "properties.durationInSeconds",
+        type: {
+          name: "Number"
+        }
+      },
+      numberOfPacketsToCapture: {
+        constraints: {
+          InclusiveMaximum: 90000,
+          InclusiveMinimum: 100
+        },
+        serializedName: "properties.numberOfPacketsToCapture",
+        type: {
+          name: "Number"
+        }
+      },
+      sasUrl: {
+        serializedName: "properties.sasUrl",
+        type: {
+          name: "String"
+        }
+      },
+      fileName: {
+        serializedName: "properties.fileName",
+        type: {
+          name: "String"
+        }
+      },
+      protocol: {
+        serializedName: "properties.protocol",
+        type: {
+          name: "String"
+        }
+      },
+      flags: {
+        serializedName: "properties.flags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzureFirewallPacketCaptureFlags"
+            }
+          }
+        }
+      },
+      filters: {
+        serializedName: "properties.filters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzureFirewallPacketCaptureRule"
+            }
+          }
         }
       }
     }
@@ -23725,6 +24046,12 @@ export const NetworkInterface: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      auxiliarySku: {
+        serializedName: "properties.auxiliarySku",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -26533,6 +26860,18 @@ export const NetworkVirtualAppliance: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "VirtualApplianceNicProperties"
+            }
+          }
+        }
+      },
+      additionalNics: {
+        serializedName: "properties.additionalNics",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VirtualApplianceAdditionalNicProperties"
             }
           }
         }
@@ -29708,6 +30047,18 @@ export const ApplicationRule: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      httpHeadersToInsert: {
+        serializedName: "httpHeadersToInsert",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FirewallPolicyHttpHeaderToInsert"
+            }
+          }
+        }
       }
     }
   }
@@ -30100,6 +30451,21 @@ export const DefaultAdminRule: coreClient.CompositeMapper = {
   }
 };
 
+export const AzureFirewallsPacketCaptureHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureFirewallsPacketCaptureHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PublicIPAddressesDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -30254,6 +30620,36 @@ export const AdminRulesDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AdminRulesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkVirtualAppliancesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkVirtualAppliancesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkVirtualAppliancesCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkVirtualAppliancesCreateOrUpdateHeaders",
     modelProperties: {
       location: {
         serializedName: "location",

@@ -910,6 +910,22 @@ export interface IPPrefixesList {
   ipPrefixes?: string[];
 }
 
+/** Properties of the AzureFirewallRCAction. */
+export interface AzureFirewallPacketCaptureFlags {
+  /** Flags to capture */
+  type?: AzureFirewallPacketCaptureFlagsType;
+}
+
+/** Group of src/dest ips and ports to be captured. */
+export interface AzureFirewallPacketCaptureRule {
+  /** List of source IP addresses/subnets to be captured. */
+  sources?: string[];
+  /** List of destination IP addresses/subnets to be captured. */
+  destinations?: string[];
+  /** List of ports to be captured. */
+  destinationPorts?: string[];
+}
+
 /** Response for ListAzureFirewallFqdnTags API service call. */
 export interface AzureFirewallFqdnTagListResult {
   /** List of Azure Firewall FQDN Tags in a resource group. */
@@ -2587,6 +2603,19 @@ export interface VirtualApplianceNicProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateIpAddress?: string;
+  /**
+   * Instance on which nic is attached.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceName?: string;
+}
+
+/** Network Virtual Appliance Additional NIC properties. */
+export interface VirtualApplianceAdditionalNicProperties {
+  /** Customer Name for additional nic */
+  name?: string;
+  /** Customer Intent for Public Ip on additional nic */
+  hasPublicIp?: boolean;
 }
 
 /** Properties of the delegation. */
@@ -5423,12 +5452,6 @@ export interface ListVirtualHubBgpConnectionResults {
   nextLink?: string;
 }
 
-/** List of virtual router peer routes. */
-export interface PeerRouteList {
-  /** List of peer routes. */
-  value?: PeerRoute[];
-}
-
 /** Peer routing details. */
 export interface PeerRoute {
   /**
@@ -5562,14 +5585,42 @@ export interface PolicySettings {
   mode?: WebApplicationFirewallMode;
   /** Whether to allow WAF to check request Body. */
   requestBodyCheck?: boolean;
+  /** Max inspection limit in KB for request body inspection for WAF. */
+  requestBodyInspectLimitInKB?: number;
+  /** Whether allow WAF to enforce request body limits. */
+  requestBodyEnforcement?: boolean;
   /** Maximum request body size in Kb for WAF. */
   maxRequestBodySizeInKb?: number;
+  /** Whether allow WAF to enforce file upload limits. */
+  fileUploadEnforcement?: boolean;
   /** Maximum file upload size in Mb for WAF. */
   fileUploadLimitInMb?: number;
   /** If the action type is block, customer can override the response status code. */
   customBlockResponseStatusCode?: number;
   /** If the action type is block, customer can override the response body. The body must be specified in base64 encoding. */
   customBlockResponseBody?: string;
+  /** To scrub sensitive log fields */
+  logScrubbing?: PolicySettingsLogScrubbing;
+}
+
+/** To scrub sensitive log fields */
+export interface PolicySettingsLogScrubbing {
+  /** State of the log scrubbing config. Default value is Enabled. */
+  state?: WebApplicationFirewallScrubbingState;
+  /** The rules that are applied to the logs for scrubbing. */
+  scrubbingRules?: WebApplicationFirewallScrubbingRules[];
+}
+
+/** Allow certain variables to be scrubbed on WAF logs */
+export interface WebApplicationFirewallScrubbingRules {
+  /** The variable to be scrubbed from the logs. */
+  matchVariable: ScrubbingRuleEntryMatchVariable;
+  /** When matchVariable is a collection, operate on the selector to specify which elements in the collection this rule applies to. */
+  selectorMatchOperator: ScrubbingRuleEntryMatchOperator;
+  /** When matchVariable is a collection, operator used to specify which elements in the collection this rule applies to. */
+  selector?: string;
+  /** Defines the state of log scrubbing rule. Default value is Enabled. */
+  state?: ScrubbingRuleEntryState;
 }
 
 /** Defines contents of a web application rule. */
@@ -5585,10 +5636,16 @@ export interface WebApplicationFirewallCustomRule {
   priority: number;
   /** Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified. */
   state?: WebApplicationFirewallState;
+  /** Duration over which Rate Limit policy will be applied. Applies only when ruleType is RateLimitRule. */
+  rateLimitDuration?: ApplicationGatewayFirewallRateLimitDuration;
+  /** Rate Limit threshold to apply in case ruleType is RateLimitRule. Must be greater than or equal to 1 */
+  rateLimitThreshold?: number;
   /** The rule type. */
   ruleType: WebApplicationFirewallRuleType;
   /** List of match conditions. */
   matchConditions: MatchCondition[];
+  /** List of user session identifier group by clauses. */
+  groupByUserSession?: GroupByUserSession[];
   /** Type of Actions. */
   action: WebApplicationFirewallAction;
 }
@@ -5613,6 +5670,18 @@ export interface MatchVariable {
   variableName: WebApplicationFirewallMatchVariable;
   /** The selector of match variable. */
   selector?: string;
+}
+
+/** Define user session identifier group by clauses. */
+export interface GroupByUserSession {
+  /** List of group by clause variables. */
+  groupByVariables: GroupByVariable[];
+}
+
+/** Define user session group by clause variables. */
+export interface GroupByVariable {
+  /** User Session clause variable. */
+  variableName: ApplicationGatewayFirewallUserSessionVariable;
 }
 
 /** Allow to exclude some variable satisfy the condition for the WAF check. */
@@ -5715,6 +5784,14 @@ export interface FirewallPolicyRuleApplicationProtocol {
   protocolType?: FirewallPolicyRuleApplicationProtocolType;
   /** Port number for the protocol, cannot be greater than 64000. */
   port?: number;
+}
+
+/** name and value of HTTP/S header to insert */
+export interface FirewallPolicyHttpHeaderToInsert {
+  /** Contains the name of the header */
+  headerName?: string;
+  /** Contains the value of the header */
+  headerValue?: string;
 }
 
 /** The response body contains the status of the specified asynchronous operation, indicating whether it has succeeded, is in progress, or has failed. Note that this status is distinct from the HTTP status code returned for the Get Operation Status operation itself. If the asynchronous operation succeeded, the response body includes the HTTP status code for the successful request. If the asynchronous operation failed, the response body includes the HTTP status code for the failed request and error information regarding the failure. */
@@ -6169,6 +6246,11 @@ export interface PrivateEndpointConnection extends SubResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly linkIdentifier?: string;
+  /**
+   * The location of the private endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointLocation?: string;
 }
 
 /** Route resource. */
@@ -6416,7 +6498,7 @@ export interface Subnet extends SubResource {
   /** Enable or Disable apply network policies on private link service in the subnet. */
   privateLinkServiceNetworkPolicies?: VirtualNetworkPrivateLinkServiceNetworkPolicies;
   /** Application gateway IP configurations of virtual network resource. */
-  applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
+  applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
 }
 
 /** Frontend IP address of the load balancer. */
@@ -7287,6 +7369,24 @@ export interface AzureFirewallIPConfiguration extends SubResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+}
+
+/** Azure Firewall Packet Capture Parameters resource. */
+export interface FirewallPacketCaptureParameters extends SubResource {
+  /** Duration of packet capture in seconds. */
+  durationInSeconds?: number;
+  /** Number of packets to be captured. */
+  numberOfPacketsToCapture?: number;
+  /** Upload capture location */
+  sasUrl?: string;
+  /** Name of file to be uploaded to sasURL */
+  fileName?: string;
+  /** The protocol of packets to capture */
+  protocol?: AzureFirewallNetworkRuleProtocol;
+  /** The tcp-flag type to be captured. Used with protocol TCP */
+  flags?: AzureFirewallPacketCaptureFlags[];
+  /** Rules to filter packet captures. */
+  filters?: AzureFirewallPacketCaptureRule[];
 }
 
 /** IP configuration of an Bastion Host. */
@@ -8905,6 +9005,8 @@ export interface NetworkInterface extends Resource {
   migrationPhase?: NetworkInterfaceMigrationPhase;
   /** Auxiliary mode of Network Interface resource. */
   auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
+  /** Auxiliary sku of Network Interface resource. */
+  auxiliarySku?: NetworkInterfaceAuxiliarySku;
 }
 
 /** A flow log resource. */
@@ -9959,6 +10061,8 @@ export interface NetworkVirtualAppliance extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly virtualApplianceNics?: VirtualApplianceNicProperties[];
+  /** Details required for Additional Network Interface. */
+  additionalNics?: VirtualApplianceAdditionalNicProperties[];
   /**
    * List of references to VirtualApplianceSite.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -11194,6 +11298,8 @@ export interface ApplicationRule extends FirewallPolicyRule {
   terminateTLS?: boolean;
   /** List of destination azure web categories. */
   webCategories?: string[];
+  /** List of HTTP/S headers to insert. */
+  httpHeadersToInsert?: FirewallPolicyHttpHeaderToInsert[];
 }
 
 /** Rule of type nat. */
@@ -11325,6 +11431,11 @@ export interface DefaultAdminRule extends BaseAdminRule {
   readonly provisioningState?: ProvisioningState;
 }
 
+/** Defines headers for AzureFirewalls_packetCapture operation. */
+export interface AzureFirewallsPacketCaptureHeaders {
+  location?: string;
+}
+
 /** Defines headers for PublicIPAddresses_delete operation. */
 export interface PublicIPAddressesDeleteHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
@@ -11387,6 +11498,18 @@ export interface AdminRuleCollectionsDeleteHeaders {
 
 /** Defines headers for AdminRules_delete operation. */
 export interface AdminRulesDeleteHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkVirtualAppliances_delete operation. */
+export interface NetworkVirtualAppliancesDeleteHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkVirtualAppliances_createOrUpdate operation. */
+export interface NetworkVirtualAppliancesCreateOrUpdateHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
   location?: string;
 }
@@ -11857,7 +11980,9 @@ export enum KnownNetworkInterfaceAuxiliaryMode {
   /** MaxConnections */
   MaxConnections = "MaxConnections",
   /** Floating */
-  Floating = "Floating"
+  Floating = "Floating",
+  /** AcceleratedConnections */
+  AcceleratedConnections = "AcceleratedConnections"
 }
 
 /**
@@ -11867,9 +11992,37 @@ export enum KnownNetworkInterfaceAuxiliaryMode {
  * ### Known values supported by the service
  * **None** \
  * **MaxConnections** \
- * **Floating**
+ * **Floating** \
+ * **AcceleratedConnections**
  */
 export type NetworkInterfaceAuxiliaryMode = string;
+
+/** Known values of {@link NetworkInterfaceAuxiliarySku} that the service accepts. */
+export enum KnownNetworkInterfaceAuxiliarySku {
+  /** None */
+  None = "None",
+  /** A1 */
+  A1 = "A1",
+  /** A2 */
+  A2 = "A2",
+  /** A4 */
+  A4 = "A4",
+  /** A8 */
+  A8 = "A8"
+}
+
+/**
+ * Defines values for NetworkInterfaceAuxiliarySku. \
+ * {@link KnownNetworkInterfaceAuxiliarySku} can be used interchangeably with NetworkInterfaceAuxiliarySku,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **A1** \
+ * **A2** \
+ * **A4** \
+ * **A8**
+ */
+export type NetworkInterfaceAuxiliarySku = string;
 
 /** Known values of {@link FlowLogFormatType} that the service accepts. */
 export enum KnownFlowLogFormatType {
@@ -12115,9 +12268,7 @@ export enum KnownLoadBalancerBackendAddressAdminState {
   /** Up */
   Up = "Up",
   /** Down */
-  Down = "Down",
-  /** Drain */
-  Drain = "Drain"
+  Down = "Down"
 }
 
 /**
@@ -12127,8 +12278,7 @@ export enum KnownLoadBalancerBackendAddressAdminState {
  * ### Known values supported by the service
  * **None** \
  * **Up** \
- * **Down** \
- * **Drain**
+ * **Down**
  */
 export type LoadBalancerBackendAddressAdminState = string;
 
@@ -12572,6 +12722,36 @@ export enum KnownAzureFirewallSkuTier {
  * **Basic**
  */
 export type AzureFirewallSkuTier = string;
+
+/** Known values of {@link AzureFirewallPacketCaptureFlagsType} that the service accepts. */
+export enum KnownAzureFirewallPacketCaptureFlagsType {
+  /** Fin */
+  Fin = "fin",
+  /** Syn */
+  Syn = "syn",
+  /** Rst */
+  Rst = "rst",
+  /** Push */
+  Push = "push",
+  /** Ack */
+  Ack = "ack",
+  /** Urg */
+  Urg = "urg"
+}
+
+/**
+ * Defines values for AzureFirewallPacketCaptureFlagsType. \
+ * {@link KnownAzureFirewallPacketCaptureFlagsType} can be used interchangeably with AzureFirewallPacketCaptureFlagsType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **fin** \
+ * **syn** \
+ * **rst** \
+ * **push** \
+ * **ack** \
+ * **urg**
+ */
+export type AzureFirewallPacketCaptureFlagsType = string;
 
 /** Known values of {@link BastionHostSkuName} that the service accepts. */
 export enum KnownBastionHostSkuName {
@@ -15399,6 +15579,90 @@ export enum KnownWebApplicationFirewallMode {
  */
 export type WebApplicationFirewallMode = string;
 
+/** Known values of {@link WebApplicationFirewallScrubbingState} that the service accepts. */
+export enum KnownWebApplicationFirewallScrubbingState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled"
+}
+
+/**
+ * Defines values for WebApplicationFirewallScrubbingState. \
+ * {@link KnownWebApplicationFirewallScrubbingState} can be used interchangeably with WebApplicationFirewallScrubbingState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type WebApplicationFirewallScrubbingState = string;
+
+/** Known values of {@link ScrubbingRuleEntryMatchVariable} that the service accepts. */
+export enum KnownScrubbingRuleEntryMatchVariable {
+  /** RequestHeaderNames */
+  RequestHeaderNames = "RequestHeaderNames",
+  /** RequestCookieNames */
+  RequestCookieNames = "RequestCookieNames",
+  /** RequestArgNames */
+  RequestArgNames = "RequestArgNames",
+  /** RequestPostArgNames */
+  RequestPostArgNames = "RequestPostArgNames",
+  /** RequestJsonArgNames */
+  RequestJsonArgNames = "RequestJSONArgNames",
+  /** RequestIPAddress */
+  RequestIPAddress = "RequestIPAddress"
+}
+
+/**
+ * Defines values for ScrubbingRuleEntryMatchVariable. \
+ * {@link KnownScrubbingRuleEntryMatchVariable} can be used interchangeably with ScrubbingRuleEntryMatchVariable,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RequestHeaderNames** \
+ * **RequestCookieNames** \
+ * **RequestArgNames** \
+ * **RequestPostArgNames** \
+ * **RequestJSONArgNames** \
+ * **RequestIPAddress**
+ */
+export type ScrubbingRuleEntryMatchVariable = string;
+
+/** Known values of {@link ScrubbingRuleEntryMatchOperator} that the service accepts. */
+export enum KnownScrubbingRuleEntryMatchOperator {
+  /** Equals */
+  Equals = "Equals",
+  /** EqualsAny */
+  EqualsAny = "EqualsAny"
+}
+
+/**
+ * Defines values for ScrubbingRuleEntryMatchOperator. \
+ * {@link KnownScrubbingRuleEntryMatchOperator} can be used interchangeably with ScrubbingRuleEntryMatchOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Equals** \
+ * **EqualsAny**
+ */
+export type ScrubbingRuleEntryMatchOperator = string;
+
+/** Known values of {@link ScrubbingRuleEntryState} that the service accepts. */
+export enum KnownScrubbingRuleEntryState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for ScrubbingRuleEntryState. \
+ * {@link KnownScrubbingRuleEntryState} can be used interchangeably with ScrubbingRuleEntryState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ScrubbingRuleEntryState = string;
+
 /** Known values of {@link WebApplicationFirewallState} that the service accepts. */
 export enum KnownWebApplicationFirewallState {
   /** Disabled */
@@ -15417,10 +15681,30 @@ export enum KnownWebApplicationFirewallState {
  */
 export type WebApplicationFirewallState = string;
 
+/** Known values of {@link ApplicationGatewayFirewallRateLimitDuration} that the service accepts. */
+export enum KnownApplicationGatewayFirewallRateLimitDuration {
+  /** OneMin */
+  OneMin = "OneMin",
+  /** FiveMins */
+  FiveMins = "FiveMins"
+}
+
+/**
+ * Defines values for ApplicationGatewayFirewallRateLimitDuration. \
+ * {@link KnownApplicationGatewayFirewallRateLimitDuration} can be used interchangeably with ApplicationGatewayFirewallRateLimitDuration,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **OneMin** \
+ * **FiveMins**
+ */
+export type ApplicationGatewayFirewallRateLimitDuration = string;
+
 /** Known values of {@link WebApplicationFirewallRuleType} that the service accepts. */
 export enum KnownWebApplicationFirewallRuleType {
   /** MatchRule */
   MatchRule = "MatchRule",
+  /** RateLimitRule */
+  RateLimitRule = "RateLimitRule",
   /** Invalid */
   Invalid = "Invalid"
 }
@@ -15431,6 +15715,7 @@ export enum KnownWebApplicationFirewallRuleType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **MatchRule** \
+ * **RateLimitRule** \
  * **Invalid**
  */
 export type WebApplicationFirewallRuleType = string;
@@ -15551,6 +15836,27 @@ export enum KnownWebApplicationFirewallTransform {
  * **HtmlEntityDecode**
  */
 export type WebApplicationFirewallTransform = string;
+
+/** Known values of {@link ApplicationGatewayFirewallUserSessionVariable} that the service accepts. */
+export enum KnownApplicationGatewayFirewallUserSessionVariable {
+  /** ClientAddr */
+  ClientAddr = "ClientAddr",
+  /** GeoLocation */
+  GeoLocation = "GeoLocation",
+  /** None */
+  None = "None"
+}
+
+/**
+ * Defines values for ApplicationGatewayFirewallUserSessionVariable. \
+ * {@link KnownApplicationGatewayFirewallUserSessionVariable} can be used interchangeably with ApplicationGatewayFirewallUserSessionVariable,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ClientAddr** \
+ * **GeoLocation** \
+ * **None**
+ */
+export type ApplicationGatewayFirewallUserSessionVariable = string;
 
 /** Known values of {@link WebApplicationFirewallAction} that the service accepts. */
 export enum KnownWebApplicationFirewallAction {
@@ -16414,6 +16720,18 @@ export interface AzureFirewallsListLearnedPrefixesOptionalParams
 
 /** Contains response data for the listLearnedPrefixes operation. */
 export type AzureFirewallsListLearnedPrefixesResponse = IPPrefixesList;
+
+/** Optional parameters. */
+export interface AzureFirewallsPacketCaptureOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the packetCapture operation. */
+export type AzureFirewallsPacketCaptureResponse = AzureFirewallsPacketCaptureHeaders;
 
 /** Optional parameters. */
 export interface AzureFirewallsListNextOptionalParams
@@ -22433,7 +22751,9 @@ export interface VirtualHubBgpConnectionsListLearnedRoutesOptionalParams
 }
 
 /** Contains response data for the listLearnedRoutes operation. */
-export type VirtualHubBgpConnectionsListLearnedRoutesResponse = PeerRouteList;
+export type VirtualHubBgpConnectionsListLearnedRoutesResponse = {
+  [propertyName: string]: PeerRoute[];
+};
 
 /** Optional parameters. */
 export interface VirtualHubBgpConnectionsListAdvertisedRoutesOptionalParams
@@ -22445,7 +22765,9 @@ export interface VirtualHubBgpConnectionsListAdvertisedRoutesOptionalParams
 }
 
 /** Contains response data for the listAdvertisedRoutes operation. */
-export type VirtualHubBgpConnectionsListAdvertisedRoutesResponse = PeerRouteList;
+export type VirtualHubBgpConnectionsListAdvertisedRoutesResponse = {
+  [propertyName: string]: PeerRoute[];
+};
 
 /** Optional parameters. */
 export interface VirtualHubBgpConnectionsListNextOptionalParams
