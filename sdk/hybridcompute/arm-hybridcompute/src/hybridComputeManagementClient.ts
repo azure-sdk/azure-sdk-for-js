@@ -14,12 +14,20 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "./lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "./lroImpl";
 import {
   MachinesImpl,
   MachineExtensionsImpl,
+  ExtensionMetadataImpl,
   OperationsImpl,
+  NetworkProfileOperationsImpl,
+  HybridIdentityMetadataOperationsImpl,
+  AgentVersionOperationsImpl,
   PrivateLinkScopesImpl,
   PrivateLinkResourcesImpl,
   PrivateEndpointConnectionsImpl
@@ -27,7 +35,11 @@ import {
 import {
   Machines,
   MachineExtensions,
+  ExtensionMetadata,
   Operations,
+  NetworkProfileOperations,
+  HybridIdentityMetadataOperations,
+  AgentVersionOperations,
   PrivateLinkScopes,
   PrivateLinkResources,
   PrivateEndpointConnections
@@ -72,7 +84,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-hybridcompute/3.1.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-hybridcompute/4.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -125,10 +137,16 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-06-10-preview";
+    this.apiVersion = options.apiVersion || "2023-03-15-preview";
     this.machines = new MachinesImpl(this);
     this.machineExtensions = new MachineExtensionsImpl(this);
+    this.extensionMetadata = new ExtensionMetadataImpl(this);
     this.operations = new OperationsImpl(this);
+    this.networkProfileOperations = new NetworkProfileOperationsImpl(this);
+    this.hybridIdentityMetadataOperations = new HybridIdentityMetadataOperationsImpl(
+      this
+    );
+    this.agentVersionOperations = new AgentVersionOperationsImpl(this);
     this.privateLinkScopes = new PrivateLinkScopesImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
@@ -175,14 +193,14 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
     machineName: string,
     extensionUpgradeParameters: MachineExtensionUpgrade,
     options?: UpgradeExtensionsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -215,13 +233,18 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, machineName, extensionUpgradeParameters, options },
-      upgradeExtensionsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        machineName,
+        extensionUpgradeParameters,
+        options
+      },
+      spec: upgradeExtensionsOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -252,7 +275,11 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
 
   machines: Machines;
   machineExtensions: MachineExtensions;
+  extensionMetadata: ExtensionMetadata;
   operations: Operations;
+  networkProfileOperations: NetworkProfileOperations;
+  hybridIdentityMetadataOperations: HybridIdentityMetadataOperations;
+  agentVersionOperations: AgentVersionOperations;
   privateLinkScopes: PrivateLinkScopes;
   privateLinkResources: PrivateLinkResources;
   privateEndpointConnections: PrivateEndpointConnections;

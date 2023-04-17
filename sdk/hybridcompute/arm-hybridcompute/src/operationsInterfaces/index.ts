@@ -8,7 +8,11 @@
 
 export * from "./machines";
 export * from "./machineExtensions";
+export * from "./extensionMetadata";
 export * from "./operations";
+export * from "./networkProfileOperations";
+export * from "./hybridIdentityMetadataOperations";
+export * from "./agentVersionOperations";
 export * from "./privateLinkScopes";
 export * from "./privateLinkResources";
 export * from "./privateEndpointConnections";
