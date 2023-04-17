@@ -6,34 +6,4 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./autoscaleSettings";
-export * from "./predictiveMetric";
-export * from "./operations";
-export * from "./alertRuleIncidents";
-export * from "./alertRules";
-export * from "./logProfiles";
-export * from "./diagnosticSettings";
-export * from "./diagnosticSettingsCategory";
-export * from "./actionGroups";
-export * from "./activityLogs";
-export * from "./eventCategories";
-export * from "./tenantActivityLogs";
-export * from "./metricDefinitions";
-export * from "./metricsOperations";
-export * from "./baselines";
-export * from "./metricAlerts";
-export * from "./metricAlertsStatus";
-export * from "./scheduledQueryRules";
-export * from "./metricNamespaces";
-export * from "./vMInsights";
-export * from "./privateLinkScopes";
-export * from "./privateLinkScopeOperationStatus";
-export * from "./privateLinkResources";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkScopedResources";
-export * from "./activityLogAlerts";
-export * from "./dataCollectionEndpoints";
-export * from "./dataCollectionRuleAssociations";
-export * from "./dataCollectionRules";
-export * from "./azureMonitorWorkspaces";
-export * from "./monitorOperations";
+export * from "./tenantActionGroups";
