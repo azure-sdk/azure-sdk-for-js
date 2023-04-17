@@ -439,7 +439,7 @@ export interface ActiveDirectoryProperties {
   /** Specifies the Active Directory forest to get. */
   forestName?: string;
   /** Specifies the domain GUID. */
-  domainGuid: string;
+  domainGuid?: string;
   /** Specifies the security identifier (SID). */
   domainSid?: string;
   /** Specifies the security identifier (SID) for Azure Storage. */
@@ -470,7 +470,7 @@ export interface ImmutableStorageAccount {
 
 /** This defines account-level immutability policy properties. */
 export interface AccountImmutabilityPolicyProperties {
-  /** The immutability period for the blobs in the container since the policy creation, in days. */
+  /** The immutability period for the blobs in the container since the policy creation in days. 0 is returned when state is disabled. */
   immutabilityPeriodSinceCreationInDays?: number;
   /** The ImmutabilityPolicy state defines the mode of the policy. Disabled state disables the policy, Unlocked state allows increase and decrease of immutability retention time and also allows toggling allowProtectedAppendWrites property, Locked state only allows the increase of the immutability retention time. A policy can only be created in a Disabled or Unlocked state and can be toggled between the two states. Only a policy in an Unlocked state can transition to a Locked state which cannot be reverted. */
   state?: AccountImmutabilityPolicyState;
@@ -1317,7 +1317,7 @@ export interface CorsRule {
 export interface DeleteRetentionPolicy {
   /** Indicates whether DeleteRetentionPolicy is enabled. */
   enabled?: boolean;
-  /** Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and the maximum value can be 365. */
+  /** Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and the maximum value can be 365. 0 will be returned when policy is disabled. */
   days?: number;
   /** This property when set to true allows deletion of the soft deleted blob versions and snapshots. This property cannot be used blob restore policy. This property only applies to blob service and does not apply to containers or file share. */
   allowPermanentDelete?: boolean;
@@ -1335,7 +1335,7 @@ export interface ChangeFeed {
 export interface RestorePolicyProperties {
   /** Blob restore is enabled if set to true. */
   enabled: boolean;
-  /** how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days. */
+  /** how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days. 0 will be retruned when policy is disabled */
   days?: number;
   /**
    * Deprecated in favor of minRestoreTime property.
@@ -3979,14 +3979,7 @@ export type EncryptionScopesListResponse = EncryptionScopeListResult;
 
 /** Optional parameters. */
 export interface EncryptionScopesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Optional, specifies the maximum number of encryption scopes that will be included in the list response. */
-  maxpagesize?: number;
-  /** Optional. When specified, only encryption scope names starting with the filter will be listed. */
-  filter?: string;
-  /** Optional, when specified, will list encryption scopes with the specific state. Defaults to All */
-  include?: ListEncryptionScopesInclude;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type EncryptionScopesListNextResponse = EncryptionScopeListResult;
@@ -4137,14 +4130,7 @@ export interface BlobContainersObjectLevelWormOptionalParams
 
 /** Optional parameters. */
 export interface BlobContainersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Optional. When specified, only container names starting with the filter will be listed. */
-  filter?: string;
-  /** Optional. Specified maximum number of containers that can be included in the list. */
-  maxpagesize?: string;
-  /** Optional, used to include the properties for soft deleted blob containers. */
-  include?: ListContainersInclude;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BlobContainersListNextResponse = ListContainerItems;
@@ -4241,14 +4227,7 @@ export type FileSharesLeaseResponse = FileSharesLeaseHeaders &
 
 /** Optional parameters. */
 export interface FileSharesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Optional. When specified, only share names starting with the filter will be listed. */
-  filter?: string;
-  /** Optional. Specified maximum number of shares that can be included in the list. */
-  maxpagesize?: string;
-  /** Optional, used to expand the properties within share's properties. Valid values are: deleted, snapshots. Should be passed as a string with delimiter ',' */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type FileSharesListNextResponse = FileShareItems;
@@ -4311,12 +4290,7 @@ export type QueueListResponse = ListQueueResource;
 
 /** Optional parameters. */
 export interface QueueListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Optional, When specified, only the queues with a name starting with the given filter will be listed. */
-  filter?: string;
-  /** Optional, a maximum number of queues that should be included in a list queue response */
-  maxpagesize?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type QueueListNextResponse = ListQueueResource;

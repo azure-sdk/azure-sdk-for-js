@@ -1152,7 +1152,6 @@ export const ActiveDirectoryProperties: coreClient.CompositeMapper = {
       },
       domainGuid: {
         serializedName: "domainGuid",
-        required: true,
         type: {
           name: "String"
         }
@@ -1242,7 +1241,7 @@ export const AccountImmutabilityPolicyProperties: coreClient.CompositeMapper = {
       immutabilityPeriodSinceCreationInDays: {
         constraints: {
           InclusiveMaximum: 146000,
-          InclusiveMinimum: 1
+          InclusiveMinimum: 0
         },
         serializedName: "immutabilityPeriodSinceCreationInDays",
         type: {
@@ -3454,7 +3453,7 @@ export const DeleteRetentionPolicy: coreClient.CompositeMapper = {
       days: {
         constraints: {
           InclusiveMaximum: 365,
-          InclusiveMinimum: 1
+          InclusiveMinimum: 0
         },
         serializedName: "days",
         type: {
@@ -3511,7 +3510,7 @@ export const RestorePolicyProperties: coreClient.CompositeMapper = {
       days: {
         constraints: {
           InclusiveMaximum: 365,
-          InclusiveMinimum: 1
+          InclusiveMinimum: 0
         },
         serializedName: "days",
         type: {
