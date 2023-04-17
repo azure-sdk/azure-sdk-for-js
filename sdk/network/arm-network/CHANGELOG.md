@@ -1,15 +1,63 @@
 # Release History
+    
+## 31.0.0 (2023-04-17)
+    
+**Features**
 
-## 30.2.1 (Unreleased)
+  - Added operation AzureFirewalls.beginPacketCapture
+  - Added operation AzureFirewalls.beginPacketCaptureAndWait
+  - Added Interface AzureFirewallPacketCaptureFlags
+  - Added Interface AzureFirewallPacketCaptureRule
+  - Added Interface AzureFirewallsPacketCaptureHeaders
+  - Added Interface AzureFirewallsPacketCaptureOptionalParams
+  - Added Interface FirewallPacketCaptureParameters
+  - Added Interface FirewallPolicyHttpHeaderToInsert
+  - Added Interface GroupByUserSession
+  - Added Interface GroupByVariable
+  - Added Interface NetworkVirtualAppliancesCreateOrUpdateHeaders
+  - Added Interface NetworkVirtualAppliancesDeleteHeaders
+  - Added Interface PolicySettingsLogScrubbing
+  - Added Interface VirtualApplianceAdditionalNicProperties
+  - Added Interface WebApplicationFirewallScrubbingRules
+  - Added Type Alias ApplicationGatewayFirewallRateLimitDuration
+  - Added Type Alias ApplicationGatewayFirewallUserSessionVariable
+  - Added Type Alias AzureFirewallPacketCaptureFlagsType
+  - Added Type Alias AzureFirewallsPacketCaptureResponse
+  - Added Type Alias NetworkInterfaceAuxiliarySku
+  - Added Type Alias ScrubbingRuleEntryMatchOperator
+  - Added Type Alias ScrubbingRuleEntryMatchVariable
+  - Added Type Alias ScrubbingRuleEntryState
+  - Added Type Alias WebApplicationFirewallScrubbingState
+  - Interface ApplicationRule has a new optional parameter httpHeadersToInsert
+  - Interface BastionHost has a new optional parameter enableKerberos
+  - Interface NetworkInterface has a new optional parameter auxiliarySku
+  - Interface NetworkVirtualAppliance has a new optional parameter additionalNics
+  - Interface PolicySettings has a new optional parameter fileUploadEnforcement
+  - Interface PolicySettings has a new optional parameter logScrubbing
+  - Interface PolicySettings has a new optional parameter requestBodyEnforcement
+  - Interface PolicySettings has a new optional parameter requestBodyInspectLimitInKB
+  - Interface Subnet has a new optional parameter applicationGatewayIPConfigurations
+  - Interface VirtualApplianceNicProperties has a new optional parameter instanceName
+  - Interface WebApplicationFirewallCustomRule has a new optional parameter groupByUserSession
+  - Interface WebApplicationFirewallCustomRule has a new optional parameter rateLimitDuration
+  - Interface WebApplicationFirewallCustomRule has a new optional parameter rateLimitThreshold
+  - Added Enum KnownApplicationGatewayFirewallRateLimitDuration
+  - Added Enum KnownApplicationGatewayFirewallUserSessionVariable
+  - Added Enum KnownAzureFirewallPacketCaptureFlagsType
+  - Added Enum KnownNetworkInterfaceAuxiliarySku
+  - Added Enum KnownScrubbingRuleEntryMatchOperator
+  - Added Enum KnownScrubbingRuleEntryMatchVariable
+  - Added Enum KnownScrubbingRuleEntryState
+  - Added Enum KnownWebApplicationFirewallScrubbingState
+  - Enum KnownNetworkInterfaceAuxiliaryMode has a new value AcceleratedConnections
+  - Enum KnownWebApplicationFirewallRuleType has a new value RateLimitRule
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface Subnet no longer has parameter applicationGatewayIpConfigurations
+  - Enum KnownLoadBalancerBackendAddressAdminState no longer has value Drain
+    
+    
 ## 30.2.0 (2023-03-07)
     
 **Features**
