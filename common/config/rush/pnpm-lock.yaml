@@ -10986,7 +10986,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-Wo7QcOadvBoR5vbeXSNYdwkIDmtRMlbeJLc+VM/gTSeju8z7NQ0/01SpkeOb/SHHejAyuDkHXtl9vrMT6mKnsQ==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-usDapy5bugy1wEZbGyM9czPanvc40ENzlJFYlgYTid1mXl755OWJTKdVMthKsPDL4rAvxljMO80cFkeCIGF76w==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -11002,7 +11002,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
