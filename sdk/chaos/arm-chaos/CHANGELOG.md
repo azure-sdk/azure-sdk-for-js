@@ -1,15 +1,19 @@
 # Release History
+    
+## 1.0.0-beta.4 (2023-04-18)
+    
+**Features**
 
-## 1.0.0-beta.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation Experiments.update
+  - Added Interface CapabilityTypePropertiesPermissionsNecessary
+  - Added Interface ComponentsEwb5TmSchemasUserassignedidentitiesAdditionalproperties
+  - Added Interface ExperimentsUpdateOptionalParams
+  - Added Interface ExperimentUpdate
+  - Added Type Alias ExperimentsUpdateResponse
+  - Interface CapabilityType has a new optional parameter permissionsNecessary
+  - Interface ResourceIdentity has a new optional parameter userAssignedIdentities
+    
+    
 ## 1.0.0-beta.3 (2023-01-12)
     
 **Features**

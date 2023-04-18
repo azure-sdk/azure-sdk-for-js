@@ -127,6 +127,14 @@ export interface CapabilityTypeListResult {
   readonly nextLink?: string;
 }
 
+/** Array of control and data plane actions necessary to execute capability type. */
+export interface CapabilityTypePropertiesPermissionsNecessary {
+  /** Control plane actions necessary to execute capability type. */
+  actions?: string[];
+  /** Control plane actions necessary to execute capability type. */
+  dataActions?: string[];
+}
+
 /** Runtime properties of this Capability Type. */
 export interface CapabilityTypePropertiesRuntimeProperties {
   /**
@@ -150,10 +158,14 @@ export interface ExperimentListResult {
   readonly nextLink?: string;
 }
 
-/** The managed identity of a resource. */
+/** The identity of a resource. */
 export interface ResourceIdentity {
   /** String of the resource identity type. */
   type: ResourceIdentityType;
+  /** The list of user identities associated with the experiment. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: {
+    [propertyName: string]: ComponentsEwb5TmSchemasUserassignedidentitiesAdditionalproperties;
+  };
   /**
    * GUID that represents the principal ID of this resource identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -164,6 +176,20 @@ export interface ResourceIdentity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
+}
+
+/** The list of user identities associated with the experiment. */
+export interface ComponentsEwb5TmSchemasUserassignedidentitiesAdditionalproperties {
+  /**
+   * The principal id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 /** Model that represents a step in the Experiment resource. */
@@ -214,6 +240,12 @@ export interface TargetReference {
 export interface Filter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Simple";
+}
+
+/** Describes an experiment update. */
+export interface ExperimentUpdate {
+  /** The identity of the experiment resource. */
+  identity?: ResourceIdentity;
 }
 
 /** Model that represents the result of a cancel Experiment operation. */
@@ -683,6 +715,11 @@ export interface CapabilityType extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly kind?: string;
+  /**
+   * Array of control and data plane actions necessary to execute capability type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly permissionsNecessary?: CapabilityTypePropertiesPermissionsNecessary;
   /** Runtime properties of this Capability Type. */
   runtimeProperties?: CapabilityTypePropertiesRuntimeProperties;
 }
@@ -869,7 +906,7 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 /** Defines values for ResourceIdentityType. */
-export type ResourceIdentityType = "None" | "SystemAssigned";
+export type ResourceIdentityType = "None" | "SystemAssigned" | "UserAssigned";
 /** Defines values for SelectorType. */
 export type SelectorType = "Percent" | "Random" | "Tag" | "List";
 
@@ -973,6 +1010,13 @@ export interface ExperimentsCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type ExperimentsCreateOrUpdateResponse = Experiment;
+
+/** Optional parameters. */
+export interface ExperimentsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type ExperimentsUpdateResponse = Experiment;
 
 /** Optional parameters. */
 export interface ExperimentsCancelOptionalParams

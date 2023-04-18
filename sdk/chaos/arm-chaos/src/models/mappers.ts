@@ -245,6 +245,37 @@ export const CapabilityTypeListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const CapabilityTypePropertiesPermissionsNecessary: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapabilityTypePropertiesPermissionsNecessary",
+    modelProperties: {
+      actions: {
+        serializedName: "actions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      dataActions: {
+        serializedName: "dataActions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const CapabilityTypePropertiesRuntimeProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -304,7 +335,20 @@ export const ResourceIdentity: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Enum",
-          allowedValues: ["None", "SystemAssigned"]
+          allowedValues: ["None", "SystemAssigned", "UserAssigned"]
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className:
+                "ComponentsEwb5TmSchemasUserassignedidentitiesAdditionalproperties"
+            }
+          }
         }
       },
       principalId: {
@@ -326,6 +370,30 @@ export const ResourceIdentity: coreClient.CompositeMapper = {
           )
         },
         serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ComponentsEwb5TmSchemasUserassignedidentitiesAdditionalproperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "ComponentsEwb5TmSchemasUserassignedidentitiesAdditionalproperties",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
         readOnly: true,
         type: {
           name: "String"
@@ -530,6 +598,22 @@ export const Filter: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExperimentUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExperimentUpdate",
+    modelProperties: {
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ResourceIdentity"
         }
       }
     }
@@ -1383,6 +1467,13 @@ export const CapabilityType: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      permissionsNecessary: {
+        serializedName: "properties.permissionsNecessary",
+        type: {
+          name: "Composite",
+          className: "CapabilityTypePropertiesPermissionsNecessary"
+        }
+      },
       runtimeProperties: {
         serializedName: "properties.runtimeProperties",
         type: {
@@ -1518,15 +1609,10 @@ export const DelayAction: coreClient.CompositeMapper = {
     modelProperties: {
       ...Action.type.modelProperties,
       duration: {
-        constraints: {
-          Pattern: new RegExp(
-            "^P(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+(\\.\\d+)?S)?)?$"
-          )
-        },
         serializedName: "duration",
         required: true,
         type: {
-          name: "String"
+          name: "TimeSpan"
         }
       }
     }
@@ -1579,15 +1665,10 @@ export const ContinuousAction: coreClient.CompositeMapper = {
     modelProperties: {
       ...Action.type.modelProperties,
       duration: {
-        constraints: {
-          Pattern: new RegExp(
-            "^P(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+(\\.\\d+)?S)?)?$"
-          )
-        },
         serializedName: "duration",
         required: true,
         type: {
-          name: "String"
+          name: "TimeSpan"
         }
       },
       parameters: {
