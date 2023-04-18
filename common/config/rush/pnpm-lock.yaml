@@ -11841,7 +11841,7 @@ packages:
     dev: false
 
   file:projects/arm-devspaces.tgz:
-    resolution: {integrity: sha512-P23BlLJL56rBBQdq6oxkc1bfmrbNnetp1bDqrZ5ttWwqxfpnnHbHEaI7Nx2n+36qbSDYnZL7Ge5B9kg0pur9CQ==, tarball: file:projects/arm-devspaces.tgz}
+    resolution: {integrity: sha512-XYmYsNq3WdLg0QUrmt0nu+/kwNNpYXkn8FjbRhp6AxW2osWzNbFveMp/8qi85AX7RI5V4qGby/92mCKR4+48gQ==, tarball: file:projects/arm-devspaces.tgz}
     name: '@rush-temp/arm-devspaces'
     version: 0.0.0
     dependencies:
@@ -11855,7 +11855,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1

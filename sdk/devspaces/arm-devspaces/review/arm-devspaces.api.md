@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface ContainerHostMapping {
@@ -57,9 +57,9 @@ export interface ControllerList {
 
 // @public
 export interface Controllers {
-    beginCreate(resourceGroupName: string, name: string, controller: Controller, options?: ControllersCreateOptionalParams): Promise<PollerLike<PollOperationState<ControllersCreateResponse>, ControllersCreateResponse>>;
+    beginCreate(resourceGroupName: string, name: string, controller: Controller, options?: ControllersCreateOptionalParams): Promise<SimplePollerLike<OperationState<ControllersCreateResponse>, ControllersCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, name: string, controller: Controller, options?: ControllersCreateOptionalParams): Promise<ControllersCreateResponse>;
-    beginDelete(resourceGroupName: string, name: string, options?: ControllersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, name: string, options?: ControllersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, name: string, options?: ControllersDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, name: string, options?: ControllersGetOptionalParams): Promise<ControllersGetResponse>;
     list(options?: ControllersListOptionalParams): PagedAsyncIterableIterator<Controller>;

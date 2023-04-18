@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Controller,
   ControllersListByResourceGroupOptionalParams,
@@ -69,8 +69,8 @@ export interface Controllers {
     controller: Controller,
     options?: ControllersCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ControllersCreateResponse>,
+    SimplePollerLike<
+      OperationState<ControllersCreateResponse>,
       ControllersCreateResponse
     >
   >;
@@ -97,7 +97,7 @@ export interface Controllers {
     resourceGroupName: string,
     name: string,
     options?: ControllersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing Azure Dev Spaces Controller.
    * @param resourceGroupName Resource group to which the resource belongs.
