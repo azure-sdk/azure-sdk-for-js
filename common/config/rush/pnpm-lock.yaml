@@ -10200,7 +10200,7 @@ packages:
     dev: false
 
   file:projects/arm-appcontainers.tgz:
-    resolution: {integrity: sha512-IYNJde9wPxRg9Nkfu3/H19N6iK5xLgO6Bw1Zau6hDNuAUL7ZSWRLprgzsGxUSfB9LoYqg9CUA84A+JgVIt8qLw==, tarball: file:projects/arm-appcontainers.tgz}
+    resolution: {integrity: sha512-uAOkD27upohdOThqbIl2os/xM2JDD25U06JwRsJUy3yyRkXQ1ST2ts8mUFZBlabjjAuzHXnXEn0KdAocezLytA==, tarball: file:projects/arm-appcontainers.tgz}
     name: '@rush-temp/arm-appcontainers'
     version: 0.0.0
     dependencies:
@@ -10214,7 +10214,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -17334,7 +17335,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-table.tgz:
-    resolution: {integrity: sha512-s+y533Q2EpfZxfJpFeF5tqgHGnq/3SFE7nnvqr7CX0VMLuDq2cjASwN1xYGUvLjkV5uPgZ9Hs7/g4qztuS4biw==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-urAQ0u61PEQM4E3/xBdpOiDXyXn9U9oXDR2j3xRVXxxHMrxk9WMwVSR72Z5A+F6JksvYjoYWR6mxWE5TmuWCcQ==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-table'
     version: 0.0.0
     dependencies:
