@@ -20,6 +20,7 @@ import {
   AlertRuleTemplatesImpl,
   AutomationRulesImpl,
   IncidentsImpl,
+  BillingStatisticsImpl,
   BookmarksImpl,
   BookmarkRelationsImpl,
   BookmarkOperationsImpl,
@@ -34,9 +35,13 @@ import {
   FileImportsImpl,
   IncidentCommentsImpl,
   IncidentRelationsImpl,
+  IncidentTasksImpl,
   MetadataImpl,
   OfficeConsentsImpl,
   SentinelOnboardingStatesImpl,
+  GetRecommendationsImpl,
+  GetImpl,
+  UpdateImpl,
   SecurityMLAnalyticsSettingsImpl,
   ProductSettingsImpl,
   SourceControlOperationsImpl,
@@ -44,6 +49,9 @@ import {
   ThreatIntelligenceIndicatorImpl,
   ThreatIntelligenceIndicatorsImpl,
   ThreatIntelligenceIndicatorMetricsImpl,
+  TriggeredAnalyticsRuleRunOperationsImpl,
+  GetTriggeredAnalyticsRuleRunsImpl,
+  AlertRuleOperationsImpl,
   WatchlistsImpl,
   WatchlistItemsImpl,
   DataConnectorsImpl,
@@ -56,6 +64,7 @@ import {
   AlertRuleTemplates,
   AutomationRules,
   Incidents,
+  BillingStatistics,
   Bookmarks,
   BookmarkRelations,
   BookmarkOperations,
@@ -70,9 +79,13 @@ import {
   FileImports,
   IncidentComments,
   IncidentRelations,
+  IncidentTasks,
   Metadata,
   OfficeConsents,
   SentinelOnboardingStates,
+  GetRecommendations,
+  Get,
+  Update,
   SecurityMLAnalyticsSettings,
   ProductSettings,
   SourceControlOperations,
@@ -80,6 +93,9 @@ import {
   ThreatIntelligenceIndicator,
   ThreatIntelligenceIndicators,
   ThreatIntelligenceIndicatorMetrics,
+  TriggeredAnalyticsRuleRunOperations,
+  GetTriggeredAnalyticsRuleRuns,
+  AlertRuleOperations,
   Watchlists,
   WatchlistItems,
   DataConnectors,
@@ -173,12 +189,13 @@ export class SecurityInsights extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-01-preview";
+    this.apiVersion = options.apiVersion || "2023-05-01-preview";
     this.alertRules = new AlertRulesImpl(this);
     this.actions = new ActionsImpl(this);
     this.alertRuleTemplates = new AlertRuleTemplatesImpl(this);
     this.automationRules = new AutomationRulesImpl(this);
     this.incidents = new IncidentsImpl(this);
+    this.billingStatistics = new BillingStatisticsImpl(this);
     this.bookmarks = new BookmarksImpl(this);
     this.bookmarkRelations = new BookmarkRelationsImpl(this);
     this.bookmarkOperations = new BookmarkOperationsImpl(this);
@@ -193,9 +210,13 @@ export class SecurityInsights extends coreClient.ServiceClient {
     this.fileImports = new FileImportsImpl(this);
     this.incidentComments = new IncidentCommentsImpl(this);
     this.incidentRelations = new IncidentRelationsImpl(this);
+    this.incidentTasks = new IncidentTasksImpl(this);
     this.metadata = new MetadataImpl(this);
     this.officeConsents = new OfficeConsentsImpl(this);
     this.sentinelOnboardingStates = new SentinelOnboardingStatesImpl(this);
+    this.getRecommendations = new GetRecommendationsImpl(this);
+    this.get = new GetImpl(this);
+    this.update = new UpdateImpl(this);
     this.securityMLAnalyticsSettings = new SecurityMLAnalyticsSettingsImpl(
       this
     );
@@ -211,6 +232,13 @@ export class SecurityInsights extends coreClient.ServiceClient {
     this.threatIntelligenceIndicatorMetrics = new ThreatIntelligenceIndicatorMetricsImpl(
       this
     );
+    this.triggeredAnalyticsRuleRunOperations = new TriggeredAnalyticsRuleRunOperationsImpl(
+      this
+    );
+    this.getTriggeredAnalyticsRuleRuns = new GetTriggeredAnalyticsRuleRunsImpl(
+      this
+    );
+    this.alertRuleOperations = new AlertRuleOperationsImpl(this);
     this.watchlists = new WatchlistsImpl(this);
     this.watchlistItems = new WatchlistItemsImpl(this);
     this.dataConnectors = new DataConnectorsImpl(this);
@@ -254,6 +282,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
   alertRuleTemplates: AlertRuleTemplates;
   automationRules: AutomationRules;
   incidents: Incidents;
+  billingStatistics: BillingStatistics;
   bookmarks: Bookmarks;
   bookmarkRelations: BookmarkRelations;
   bookmarkOperations: BookmarkOperations;
@@ -268,9 +297,13 @@ export class SecurityInsights extends coreClient.ServiceClient {
   fileImports: FileImports;
   incidentComments: IncidentComments;
   incidentRelations: IncidentRelations;
+  incidentTasks: IncidentTasks;
   metadata: Metadata;
   officeConsents: OfficeConsents;
   sentinelOnboardingStates: SentinelOnboardingStates;
+  getRecommendations: GetRecommendations;
+  get: Get;
+  update: Update;
   securityMLAnalyticsSettings: SecurityMLAnalyticsSettings;
   productSettings: ProductSettings;
   sourceControlOperations: SourceControlOperations;
@@ -278,6 +311,9 @@ export class SecurityInsights extends coreClient.ServiceClient {
   threatIntelligenceIndicator: ThreatIntelligenceIndicator;
   threatIntelligenceIndicators: ThreatIntelligenceIndicators;
   threatIntelligenceIndicatorMetrics: ThreatIntelligenceIndicatorMetrics;
+  triggeredAnalyticsRuleRunOperations: TriggeredAnalyticsRuleRunOperations;
+  getTriggeredAnalyticsRuleRuns: GetTriggeredAnalyticsRuleRuns;
+  alertRuleOperations: AlertRuleOperations;
   watchlists: Watchlists;
   watchlistItems: WatchlistItems;
   dataConnectors: DataConnectors;

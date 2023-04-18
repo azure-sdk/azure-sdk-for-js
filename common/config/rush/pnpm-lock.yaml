@@ -14677,7 +14677,7 @@ packages:
     dev: false
 
   file:projects/arm-securityinsight.tgz:
-    resolution: {integrity: sha512-EGJtHHI56L+yUltRwDYq/toy0a6WqvIypC88WhojX/XJXuLsEwO/Cyn7ryo/bXD9BQKdsF7BjQCEIPhQbBN3RQ==, tarball: file:projects/arm-securityinsight.tgz}
+    resolution: {integrity: sha512-siy2bX/cICza7AI6UkGPZoGm8rAdexoeXY4HtHb/jnkFwUJt9cNWOU0APs0+ZIbX56au0JKEXfrkFy39hehrJQ==, tarball: file:projects/arm-securityinsight.tgz}
     name: '@rush-temp/arm-securityinsight'
     version: 0.0.0
     dependencies:
@@ -14691,8 +14691,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -17334,7 +17334,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-table.tgz:
-    resolution: {integrity: sha512-s+y533Q2EpfZxfJpFeF5tqgHGnq/3SFE7nnvqr7CX0VMLuDq2cjASwN1xYGUvLjkV5uPgZ9Hs7/g4qztuS4biw==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-urAQ0u61PEQM4E3/xBdpOiDXyXn9U9oXDR2j3xRVXxxHMrxk9WMwVSR72Z5A+F6JksvYjoYWR6mxWE5TmuWCcQ==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-table'
     version: 0.0.0
     dependencies:
