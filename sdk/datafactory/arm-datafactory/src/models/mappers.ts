@@ -4356,6 +4356,40 @@ export const IntegrationRuntimeDataFlowProperties: coreClient.CompositeMapper = 
         type: {
           name: "Boolean"
         }
+      },
+      customProperties: {
+        serializedName: "customProperties",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className:
+                "IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -18907,7 +18941,7 @@ export const AzureBlobFSReadSettings: coreClient.CompositeMapper = {
       enablePartitionDiscovery: {
         serializedName: "enablePartitionDiscovery",
         type: {
-          name: "Boolean"
+          name: "any"
         }
       },
       partitionRootPath: {
@@ -18987,7 +19021,7 @@ export const AzureDataLakeStoreReadSettings: coreClient.CompositeMapper = {
       enablePartitionDiscovery: {
         serializedName: "enablePartitionDiscovery",
         type: {
-          name: "Boolean"
+          name: "any"
         }
       },
       partitionRootPath: {
@@ -23237,6 +23271,12 @@ export const SetVariableActivity: coreClient.CompositeMapper = {
         serializedName: "typeProperties.value",
         type: {
           name: "any"
+        }
+      },
+      setSystemVariable: {
+        serializedName: "typeProperties.setSystemVariable",
+        type: {
+          name: "Boolean"
         }
       }
     }

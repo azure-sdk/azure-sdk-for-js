@@ -1,15 +1,19 @@
 # Release History
+    
+## 12.0.0 (2023-04-18)
+    
+**Features**
 
-## 11.1.1 (Unreleased)
+  - Added Interface IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem
+  - Interface IntegrationRuntimeDataFlowProperties has a new optional parameter customProperties
+  - Interface SetVariableActivity has a new optional parameter setSystemVariable
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter enablePartitionDiscovery of interface AzureBlobFSReadSettings is changed from boolean to any
+  - Type of parameter enablePartitionDiscovery of interface AzureDataLakeStoreReadSettings is changed from boolean to any
+    
+    
 ## 11.1.0 (2023-03-02)
     
 **Features**
