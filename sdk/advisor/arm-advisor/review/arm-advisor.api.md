@@ -14,11 +14,14 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AdvisorManagementClientOptionalParams);
     // (undocumented)
+    advisorScores: AdvisorScores;
+    // (undocumented)
     apiVersion: string;
     // (undocumented)
     configurations: Configurations;
     // (undocumented)
     operations: Operations;
+    predict(predictionRequest: PredictionRequest, options?: PredictOptionalParams): Promise<PredictResponse>;
     // (undocumented)
     recommendationMetadata: RecommendationMetadata;
     // (undocumented)
@@ -35,6 +38,45 @@ export interface AdvisorManagementClientOptionalParams extends coreClient.Servic
     apiVersion?: string;
     endpoint?: string;
 }
+
+// @public
+export interface AdvisorScoreEntity extends ProxyResource {
+    properties?: AdvisorScoreEntityProperties;
+}
+
+// @public
+export interface AdvisorScoreEntityProperties {
+    lastRefreshedScore?: ScoreEntity;
+    timeSeries?: TimeSeriesEntityItem[];
+}
+
+// @public (undocumented)
+export interface AdvisorScoreResponse {
+    value?: AdvisorScoreEntity[];
+}
+
+// @public
+export interface AdvisorScores {
+    get(name: string, options?: AdvisorScoresGetOptionalParams): Promise<AdvisorScoresGetResponse>;
+    list(options?: AdvisorScoresListOptionalParams): Promise<AdvisorScoresListResponse>;
+}
+
+// @public
+export interface AdvisorScoresGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AdvisorScoresGetResponse = AdvisorScoreEntity;
+
+// @public
+export interface AdvisorScoresListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AdvisorScoresListResponse = AdvisorScoreResponse;
+
+// @public
+export type Aggregated = string;
 
 // @public (undocumented)
 export interface ArmErrorResponse {
@@ -53,6 +95,7 @@ export type Category = string;
 // @public
 export interface ConfigData extends Resource {
     digests?: DigestConfig[];
+    duration?: Duration;
     exclude?: boolean;
     lowCpuThreshold?: CpuThreshold;
 }
@@ -113,6 +156,9 @@ export type ConfigurationsListBySubscriptionResponse = ConfigurationListResult;
 export type CpuThreshold = string;
 
 // @public
+export type CreatedByType = string;
+
+// @public
 export interface DigestConfig {
     actionGroupResourceId?: string;
     categories?: Category[];
@@ -126,10 +172,20 @@ export interface DigestConfig {
 export type DigestConfigState = string;
 
 // @public
+export type Duration = string;
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export type Impact = string;
+
+// @public
+export enum KnownAggregated {
+    Day = "day",
+    Month = "month",
+    Week = "week"
+}
 
 // @public
 export enum KnownCategory {
@@ -149,8 +205,17 @@ export enum KnownConfigurationName {
 export enum KnownCpuThreshold {
     Fifteen = "15",
     Five = "5",
+    OneHundred = "100",
     Ten = "10",
     Twenty = "20"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
@@ -160,10 +225,25 @@ export enum KnownDigestConfigState {
 }
 
 // @public
+export enum KnownDuration {
+    Fourteen = "14",
+    Ninety = "90",
+    Seven = "7",
+    Sixty = "60",
+    Thirty = "30",
+    TwentyOne = "21"
+}
+
+// @public
 export enum KnownImpact {
     High = "High",
     Low = "Low",
     Medium = "Medium"
+}
+
+// @public
+export enum KnownPredictionType {
+    PredictiveRightsizing = "PredictiveRightsizing"
 }
 
 // @public
@@ -241,6 +321,37 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationEntityListResult;
 
 // @public
+export interface PredictionRequest {
+    extendedProperties?: Record<string, unknown>;
+    predictionType?: PredictionType;
+}
+
+// @public
+export interface PredictionResponse {
+    category?: Category;
+    extendedProperties?: Record<string, unknown>;
+    impact?: Impact;
+    impactedField?: string;
+    lastUpdated?: Date;
+    predictionType?: PredictionType;
+    shortDescription?: ShortDescription;
+}
+
+// @public
+export type PredictionType = string;
+
+// @public
+export interface PredictOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PredictResponse = PredictionResponse;
+
+// @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export interface RecommendationMetadata {
     get(name: string, options?: RecommendationMetadataGetOptionalParams): Promise<RecommendationMetadataGetResponse>;
     list(options?: RecommendationMetadataListOptionalParams): PagedAsyncIterableIterator<MetadataEntity>;
@@ -301,9 +412,6 @@ export type RecommendationsGetResponse = ResourceRecommendationBase;
 
 // @public
 export interface RecommendationsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -323,6 +431,7 @@ export type RecommendationsListResponse = ResourceRecommendationBaseListResult;
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -383,6 +492,16 @@ export type Risk = string;
 export type Scenario = string;
 
 // @public
+export interface ScoreEntity {
+    readonly categoryCount?: number;
+    consumptionUnits?: number;
+    date?: string;
+    impactedResourceCount?: number;
+    potentialScoreIncrease?: number;
+    score?: number;
+}
+
+// @public
 export interface ShortDescription {
     problem?: string;
     solution?: string;
@@ -429,8 +548,6 @@ export type SuppressionsGetResponse = SuppressionContract;
 
 // @public
 export interface SuppressionsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -444,6 +561,22 @@ export interface SuppressionsListOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type SuppressionsListResponse = SuppressionContractListResult;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TimeSeriesEntityItem {
+    aggregationLevel?: Aggregated;
+    scoreHistory?: ScoreEntity[];
+}
 
 // (No @packageDocumentation comment for this package)
 
