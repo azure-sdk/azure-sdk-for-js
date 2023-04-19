@@ -1059,7 +1059,7 @@ export interface NetworkSecurityPerimeter {
 }
 
 // @public
-export interface NetworkSecurityPerimeterConfiguration extends Resource {
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
     readonly networkSecurityPerimeter?: NetworkSecurityPerimeter;
     readonly profile?: NetworkSecurityPerimeterConfigurationPropertiesProfile;
     provisioningIssues?: ProvisioningIssue[];
@@ -1365,11 +1365,8 @@ export interface SchemaGroupListResult {
 
 // @public
 export interface SchemaRegistry {
-    // (undocumented)
     createOrUpdate(resourceGroupName: string, namespaceName: string, schemaGroupName: string, parameters: SchemaGroup, options?: SchemaRegistryCreateOrUpdateOptionalParams): Promise<SchemaRegistryCreateOrUpdateResponse>;
-    // (undocumented)
     delete(resourceGroupName: string, namespaceName: string, schemaGroupName: string, options?: SchemaRegistryDeleteOptionalParams): Promise<void>;
-    // (undocumented)
     get(resourceGroupName: string, namespaceName: string, schemaGroupName: string, options?: SchemaRegistryGetOptionalParams): Promise<SchemaRegistryGetResponse>;
     listByNamespace(resourceGroupName: string, namespaceName: string, options?: SchemaRegistryListByNamespaceOptionalParams): PagedAsyncIterableIterator<SchemaGroup>;
 }

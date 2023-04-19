@@ -3991,7 +3991,7 @@ packages:
     dependencies:
       semver: 7.4.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230418
+      typescript: 5.1.0-dev.20230419
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8859,8 +8859,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230418:
-    resolution: {integrity: sha512-BfA/KV0xddF8ZCAQZxZ0FoS8p+nWKXVaa5fctXW6WNGfcYF04cXlLB6F6uf3uCVbd0iad4YdHchz3KR0722QLg==}
+  /typescript/5.1.0-dev.20230419:
+    resolution: {integrity: sha512-J8QfDyJDC/8fpA7fzlVBx4zSR+dGVd6afEpu6nEtplA98lcW3NHA7v9KcQ0AJ8SZGoCDLIl+8BVfiI/CkFS2fg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12203,7 +12203,7 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-M2EkUXHgp0LzE//xajOY16d0mVPD3IYIFD2w2GoqjMhdqK9eabYMo6Qni2VBZhon5lSrYKh/yttsX8tCzZyLtA==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-rtxJ4Prtd8pxuy3542XRTj6Wvba15pduyiNQbLtsai/c/dsbwP0Y9HM2BKIY6rjYvs8zUjefslETyuYLViA1Dw==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
@@ -12226,7 +12226,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_c43y4oaxxwie3ialrfuzfwwhqq
       tslib: 2.5.0
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
