@@ -2384,6 +2384,7 @@ export interface ConnectionMonitorResult {
     notes?: string;
     outputs?: ConnectionMonitorOutput[];
     readonly provisioningState?: ProvisioningState;
+    resourceGuid?: string;
     source?: ConnectionMonitorSource;
     readonly startTime?: Date;
     tags?: {
@@ -2399,6 +2400,7 @@ export interface ConnectionMonitorResultProperties extends ConnectionMonitorPara
     readonly connectionMonitorType?: ConnectionMonitorType;
     readonly monitoringStatus?: string;
     readonly provisioningState?: ProvisioningState;
+    resourceGuid?: string;
     readonly startTime?: Date;
 }
 
@@ -9585,6 +9587,7 @@ export type NetworkVirtualAppliancesUpdateTagsResponse = NetworkVirtualAppliance
 export interface NetworkWatcher extends Resource {
     readonly etag?: string;
     readonly provisioningState?: ProvisioningState;
+    runningOperationIds?: string[];
 }
 
 // @public
@@ -10075,6 +10078,7 @@ export interface P2SVpnProfileParameters {
 export interface PacketCapture {
     bytesToCapturePerPacket?: number;
     filters?: PacketCaptureFilter[];
+    queryPacketCaptureLastOperationId?: string;
     scope?: PacketCaptureMachineScope;
     storageLocation: PacketCaptureStorageLocation;
     target: string;
@@ -10107,6 +10111,7 @@ export interface PacketCaptureMachineScope {
 export interface PacketCaptureParameters {
     bytesToCapturePerPacket?: number;
     filters?: PacketCaptureFilter[];
+    queryPacketCaptureLastOperationId?: string;
     scope?: PacketCaptureMachineScope;
     storageLocation: PacketCaptureStorageLocation;
     target: string;
@@ -10133,6 +10138,7 @@ export interface PacketCaptureResult {
     readonly id?: string;
     readonly name?: string;
     readonly provisioningState?: ProvisioningState;
+    queryPacketCaptureLastOperationId?: string;
     scope?: PacketCaptureMachineScope;
     storageLocation?: PacketCaptureStorageLocation;
     target?: string;
@@ -12439,7 +12445,7 @@ export interface StaticRoutesConfig {
 export interface Subnet extends SubResource {
     addressPrefix?: string;
     addressPrefixes?: string[];
-    applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
+    applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
     delegations?: Delegation[];
     readonly etag?: string;
     ipAllocations?: SubResource[];

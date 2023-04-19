@@ -1,15 +1,22 @@
 # Release History
+    
+## 31.0.0 (2023-04-19)
+    
+**Features**
 
-## 30.2.1 (Unreleased)
+  - Interface ConnectionMonitorResult has a new optional parameter resourceGuid
+  - Interface ConnectionMonitorResultProperties has a new optional parameter resourceGuid
+  - Interface NetworkWatcher has a new optional parameter runningOperationIds
+  - Interface PacketCapture has a new optional parameter queryPacketCaptureLastOperationId
+  - Interface PacketCaptureParameters has a new optional parameter queryPacketCaptureLastOperationId
+  - Interface PacketCaptureResult has a new optional parameter queryPacketCaptureLastOperationId
+  - Interface Subnet has a new optional parameter applicationGatewayIPConfigurations
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface Subnet no longer has parameter applicationGatewayIpConfigurations
+    
+    
 ## 30.2.0 (2023-03-07)
     
 **Features**

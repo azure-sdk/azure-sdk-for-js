@@ -8144,6 +8144,12 @@ export const PacketCapture: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      queryPacketCaptureLastOperationId: {
+        serializedName: "properties.queryPacketCaptureLastOperationId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -8225,6 +8231,12 @@ export const PacketCaptureParameters: coreClient.CompositeMapper = {
               className: "PacketCaptureFilter"
             }
           }
+        }
+      },
+      queryPacketCaptureLastOperationId: {
+        serializedName: "queryPacketCaptureLastOperationId",
+        type: {
+          name: "String"
         }
       }
     }
@@ -8425,6 +8437,12 @@ export const PacketCaptureResult: coreClient.CompositeMapper = {
               className: "PacketCaptureFilter"
             }
           }
+        }
+      },
+      queryPacketCaptureLastOperationId: {
+        serializedName: "properties.queryPacketCaptureLastOperationId",
+        type: {
+          name: "String"
         }
       },
       provisioningState: {
@@ -10629,6 +10647,12 @@ export const ConnectionMonitorResult: coreClient.CompositeMapper = {
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
         type: {
           name: "String"
         }
@@ -17810,8 +17834,8 @@ export const Subnet: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      applicationGatewayIpConfigurations: {
-        serializedName: "properties.applicationGatewayIpConfigurations",
+      applicationGatewayIPConfigurations: {
+        serializedName: "properties.applicationGatewayIPConfigurations",
         type: {
           name: "Sequence",
           element: {
@@ -26662,6 +26686,17 @@ export const NetworkWatcher: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      runningOperationIds: {
+        serializedName: "properties.runningOperationIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -29576,6 +29611,12 @@ export const ConnectionMonitorResultProperties: coreClient.CompositeMapper = {
       provisioningState: {
         serializedName: "provisioningState",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceGuid: {
+        serializedName: "resourceGuid",
         type: {
           name: "String"
         }

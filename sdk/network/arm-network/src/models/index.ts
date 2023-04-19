@@ -2870,6 +2870,8 @@ export interface PacketCapture {
   storageLocation: PacketCaptureStorageLocation;
   /** A list of packet capture filters. */
   filters?: PacketCaptureFilter[];
+  /** The last operation Id of querying packet capture. */
+  queryPacketCaptureLastOperationId?: string;
 }
 
 /** Parameters that define the create packet capture operation. */
@@ -2890,6 +2892,8 @@ export interface PacketCaptureParameters {
   storageLocation: PacketCaptureStorageLocation;
   /** A list of packet capture filters. */
   filters?: PacketCaptureFilter[];
+  /** The last operation Id of querying packet capture. */
+  queryPacketCaptureLastOperationId?: string;
 }
 
 /** A list of AzureVMSS instances which can be included or excluded to run packet capture. If both included and excluded are empty, then the packet capture will run on all instances of AzureVMSS. */
@@ -2957,6 +2961,8 @@ export interface PacketCaptureResult {
   storageLocation?: PacketCaptureStorageLocation;
   /** A list of packet capture filters. */
   filters?: PacketCaptureFilter[];
+  /** The last operation Id of querying packet capture. */
+  queryPacketCaptureLastOperationId?: string;
   /**
    * The provisioning state of the packet capture session.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3714,6 +3720,8 @@ export interface ConnectionMonitorResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /** This is unique guid mapping to a resource. */
+  resourceGuid?: string;
   /**
    * The date and time when the connection monitor was started.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -6416,7 +6424,7 @@ export interface Subnet extends SubResource {
   /** Enable or Disable apply network policies on private link service in the subnet. */
   privateLinkServiceNetworkPolicies?: VirtualNetworkPrivateLinkServiceNetworkPolicies;
   /** Application gateway IP configurations of virtual network resource. */
-  applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
+  applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
 }
 
 /** Frontend IP address of the load balancer. */
@@ -10018,6 +10026,8 @@ export interface NetworkWatcher extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /** List of running operation GUIDs. */
+  runningOperationIds?: string[];
 }
 
 /** Public IP prefix resource. */
@@ -11155,6 +11165,8 @@ export interface ConnectionMonitorResultProperties
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /** This is unique guid mapping to a resource. */
+  resourceGuid?: string;
   /**
    * The date and time when the connection monitor was started.
    * NOTE: This property will not be serialized. It can only be populated by the server.
