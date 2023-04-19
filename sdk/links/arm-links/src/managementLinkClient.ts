@@ -50,7 +50,7 @@ export class ManagementLinkClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-links/2.0.2`;
+    const packageDetails = `azsdk-js-arm-links/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
