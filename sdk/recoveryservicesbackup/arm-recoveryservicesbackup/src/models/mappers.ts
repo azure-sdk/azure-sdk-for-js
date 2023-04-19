@@ -828,6 +828,17 @@ export const PrivateEndpointConnection: coreClient.CompositeMapper = {
           className: "PrivateEndpoint"
         }
       },
+      groupIds: {
+        serializedName: "groupIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       privateLinkServiceConnectionState: {
         serializedName: "privateLinkServiceConnectionState",
         type: {
@@ -871,8 +882,8 @@ export const PrivateLinkServiceConnectionState: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      actionRequired: {
-        serializedName: "actionRequired",
+      actionsRequired: {
+        serializedName: "actionsRequired",
         type: {
           name: "String"
         }
@@ -9178,11 +9189,11 @@ export const AzureVmWorkloadSAPHanaDBInstance: coreClient.CompositeMapper = {
   }
 };
 
-export const AzureVmWorkloadSAPHanaHSR: coreClient.CompositeMapper = {
-  serializedName: "SAPHanaHSR",
+export const AzureVmWorkloadSAPHanaHSRProtectableItem: coreClient.CompositeMapper = {
+  serializedName: "HanaHSRContainer",
   type: {
     name: "Composite",
-    className: "AzureVmWorkloadSAPHanaHSR",
+    className: "AzureVmWorkloadSAPHanaHSRProtectableItem",
     uberParent: "AzureVmWorkloadProtectableItem",
     polymorphicDiscriminator:
       AzureVmWorkloadProtectableItem.type.polymorphicDiscriminator,
@@ -9542,7 +9553,7 @@ export let discriminators = {
   "AzureVmWorkloadProtectableItem.SAPHanaDatabase": AzureVmWorkloadSAPHanaDatabaseProtectableItem,
   "AzureVmWorkloadProtectableItem.SAPHanaSystem": AzureVmWorkloadSAPHanaSystemProtectableItem,
   "AzureVmWorkloadProtectableItem.SAPHanaDBInstance": AzureVmWorkloadSAPHanaDBInstance,
-  "AzureVmWorkloadProtectableItem.SAPHanaHSR": AzureVmWorkloadSAPHanaHSR,
+  "AzureVmWorkloadProtectableItem.HanaHSRContainer": AzureVmWorkloadSAPHanaHSRProtectableItem,
   "AzureVmWorkloadProtectableItem.SQLAvailabilityGroupContainer": AzureVmWorkloadSQLAvailabilityGroupProtectableItem,
   "AzureVmWorkloadProtectableItem.SQLDataBase": AzureVmWorkloadSQLDatabaseProtectableItem,
   "AzureVmWorkloadProtectableItem.SQLInstance": AzureVmWorkloadSQLInstanceProtectableItem,

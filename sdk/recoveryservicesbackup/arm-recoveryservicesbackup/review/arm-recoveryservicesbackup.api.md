@@ -380,14 +380,14 @@ export interface AzureVmWorkloadProtectableItem extends WorkloadProtectableItem 
     parentName?: string;
     parentUniqueName?: string;
     prebackupvalidation?: PreBackupValidation;
-    protectableItemType: "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "SAPHanaHSR" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
+    protectableItemType: "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
     serverName?: string;
     subinquireditemcount?: number;
     subprotectableitemcount?: number;
 }
 
 // @public (undocumented)
-export type AzureVmWorkloadProtectableItemUnion = AzureVmWorkloadProtectableItem | AzureVmWorkloadSAPAseSystemProtectableItem | AzureVmWorkloadSAPHanaDatabaseProtectableItem | AzureVmWorkloadSAPHanaSystemProtectableItem | AzureVmWorkloadSAPHanaDBInstance | AzureVmWorkloadSAPHanaHSR | AzureVmWorkloadSQLAvailabilityGroupProtectableItem | AzureVmWorkloadSQLDatabaseProtectableItem | AzureVmWorkloadSQLInstanceProtectableItem;
+export type AzureVmWorkloadProtectableItemUnion = AzureVmWorkloadProtectableItem | AzureVmWorkloadSAPAseSystemProtectableItem | AzureVmWorkloadSAPHanaDatabaseProtectableItem | AzureVmWorkloadSAPHanaSystemProtectableItem | AzureVmWorkloadSAPHanaDBInstance | AzureVmWorkloadSAPHanaHSRProtectableItem | AzureVmWorkloadSQLAvailabilityGroupProtectableItem | AzureVmWorkloadSQLDatabaseProtectableItem | AzureVmWorkloadSQLInstanceProtectableItem;
 
 // @public
 export interface AzureVmWorkloadProtectedItem extends ProtectedItem {
@@ -478,8 +478,8 @@ export interface AzureVmWorkloadSAPHanaDBInstanceProtectedItem extends AzureVmWo
 }
 
 // @public
-export interface AzureVmWorkloadSAPHanaHSR extends AzureVmWorkloadProtectableItem {
-    protectableItemType: "SAPHanaHSR";
+export interface AzureVmWorkloadSAPHanaHSRProtectableItem extends AzureVmWorkloadProtectableItem {
+    protectableItemType: "HanaHSRContainer";
 }
 
 // @public
@@ -2507,6 +2507,13 @@ export enum KnownValidationStatus {
 }
 
 // @public
+export enum KnownVaultSubResourceType {
+    AzureBackup = "AzureBackup",
+    AzureBackupSecondary = "AzureBackup_secondary",
+    AzureSiteRecovery = "AzureSiteRecovery"
+}
+
+// @public
 export enum KnownWorkloadItemType {
     Invalid = "Invalid",
     SAPAseDatabase = "SAPAseDatabase",
@@ -2900,6 +2907,7 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection {
+    groupIds?: VaultSubResourceType[];
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     provisioningState?: ProvisioningState;
@@ -2958,7 +2966,7 @@ export interface PrivateEndpointOperations {
 
 // @public
 export interface PrivateLinkServiceConnectionState {
-    actionRequired?: string;
+    actionsRequired?: string;
     description?: string;
     status?: PrivateEndpointConnectionStatus;
 }
@@ -4042,6 +4050,9 @@ export interface VaultStorageConfigOperationResultResponse {
 export type VaultStorageConfigOperationResultResponseUnion = VaultStorageConfigOperationResultResponse | PrepareDataMoveResponse;
 
 // @public
+export type VaultSubResourceType = string;
+
+// @public
 export interface WeeklyRetentionFormat {
     daysOfTheWeek?: DayOfWeek[];
     weeksOfTheMonth?: WeekOfMonth[];
@@ -4100,7 +4111,7 @@ export type WorkloadItemUnion = WorkloadItem | AzureVmWorkloadItemUnion;
 export interface WorkloadProtectableItem {
     backupManagementType?: string;
     friendlyName?: string;
-    protectableItemType: "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "SAPHanaHSR" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
+    protectableItemType: "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
     protectionState?: ProtectionStatus;
     workloadType?: string;
 }
