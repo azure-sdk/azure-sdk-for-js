@@ -164,6 +164,15 @@ export type UnplannedFailoverProviderSpecificInputUnion =
 export type UpdateApplianceForReplicationProtectedItemProviderSpecificInputUnion =
   | UpdateApplianceForReplicationProtectedItemProviderSpecificInput
   | InMageRcmUpdateApplianceForReplicationProtectedItemInput;
+export type ReplicationClusterProviderSpecificSettingsUnion =
+  | ReplicationClusterProviderSpecificSettings
+  | A2AReplicationProtectionClusterDetails;
+export type SharedDiskReplicationProviderSpecificSettingsUnion =
+  | SharedDiskReplicationProviderSpecificSettings
+  | A2ASharedDiskReplicationDetails;
+export type ClusterUnplannedFailoverProviderSpecificInputUnion =
+  | ClusterUnplannedFailoverProviderSpecificInput
+  | A2AClusterUnplannedFailoverInput;
 export type ProtectionContainerMappingProviderSpecificDetailsUnion =
   | ProtectionContainerMappingProviderSpecificDetails
   | A2AProtectionContainerMappingDetails
@@ -1779,6 +1788,208 @@ export interface UpdateMobilityServiceRequestProperties {
   runAsAccountId?: string;
 }
 
+/** Replication protected item collection. */
+export interface ReplicationProtectionClusterCollection {
+  /** The Replication protection cluster details. */
+  value?: ReplicationProtectionCluster[];
+  /** The value of next link. */
+  nextLink?: string;
+}
+
+/** Replication protection Cluster. */
+export interface ReplicationProtectionCluster {
+  /**
+   * The Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The Type of the object.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The custom data. */
+  properties?: ReplicationProtectionClusterProperties;
+}
+
+/** Replication protection cluster custom data details. */
+export interface ReplicationProtectionClusterProperties {
+  /** The type of protection cluster type. */
+  protectionClusterType?: string;
+  /** The friendly name of the primary fabric. */
+  primaryFabricFriendlyName?: string;
+  /** The fabric provider of the primary fabric. */
+  primaryFabricProvider?: string;
+  /** The friendly name of recovery fabric. */
+  recoveryFabricFriendlyName?: string;
+  /** The Arm Id of recovery fabric. */
+  recoveryFabricId?: string;
+  /** The name of primary protection container friendly name. */
+  primaryProtectionContainerFriendlyName?: string;
+  /** The name of recovery container friendly name. */
+  recoveryProtectionContainerFriendlyName?: string;
+  /** The protection status. */
+  protectionState?: string;
+  /** The protection state description. */
+  protectionStateDescription?: string;
+  /** The Current active location of the Protection cluster. */
+  activeLocation?: string;
+  /** The allowed operations on the Replication protection cluster. */
+  allowedOperations?: string[];
+  /** The consolidated protection health for the VM taking any issues with SRS as well as all the replication units associated with the VM's replication group into account. This is a string representation of the ProtectionHealth enumeration. */
+  replicationHealth?: string;
+  /** List of health errors. */
+  healthErrors?: HealthError[];
+  /** The last successful failover time. */
+  lastSuccessfulFailoverTime?: Date;
+  /** The last successful test failover time. */
+  lastSuccessfulTestFailoverTime?: Date;
+  /** The name of Policy governing this PE. */
+  policyFriendlyName?: string;
+  /** The current scenario. */
+  currentScenario?: CurrentScenarioDetails;
+  /** The recovery container Id. */
+  recoveryContainerId?: string;
+  /** The Agent cluster Id. */
+  agentClusterId?: string;
+  /** The cluster FQDN. */
+  clusterFqdn?: string;
+  /** The List of cluster Node FQDNs. */
+  clusterNodeFqdns?: string[];
+  /** The List of Protected Item Id's. */
+  clusterProtectedItemIds?: string[];
+  /** The status. */
+  protectionClusterStatus?: string;
+  /** A value indicating whether all nodes of the cluster are registered or not. */
+  areAllClusterNodesRegistered?: boolean;
+  /** The registered node details. */
+  clusterRegisteredNodes?: RegisteredClusterNodes[];
+  /** The Replication cluster provider custom settings. */
+  providerSpecificDetails?: ReplicationClusterProviderSpecificSettingsUnion;
+  /** The shared disk properties. */
+  sharedDiskProperties?: SharedDiskReplicationItemProperties;
+  /** The Policy Id. */
+  policyId?: string;
+}
+
+/** Extended location of the resource. */
+export interface RegisteredClusterNodes {
+  /** The cluster node name. */
+  clusterNodeFqdn?: string;
+  /** The machine ID. */
+  machineId?: string;
+  /** The BIOS ID. */
+  biosId?: string;
+  /** A value indicating whether this represents virtual entity hosting all the shared disks. */
+  isSharedDiskVirtualNode?: boolean;
+}
+
+/** Replication cluster provider specific settings. */
+export interface ReplicationClusterProviderSpecificSettings {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  instanceType: "A2A";
+}
+
+/** Shared Disk Replication item custom data details. */
+export interface SharedDiskReplicationItemProperties {
+  /** The protection state of shared disk. */
+  protectionState?: string;
+  /** The Current active location of the PE. */
+  activeLocation?: string;
+  /** The allowed operations on the Replication protected item. */
+  allowedOperations?: string[];
+  /** The consolidated protection health for the VM taking any issues with SRS as well as all the replication units associated with the VM's replication group into account. This is a string representation of the ProtectionHealth enumeration. */
+  replicationHealth?: string;
+  /** List of health errors. */
+  healthErrors?: HealthError[];
+  /** The current scenario. */
+  currentScenario?: CurrentScenarioDetails;
+  /** The Replication provider custom settings. */
+  sharedDiskProviderSpecificDetails?: SharedDiskReplicationProviderSpecificSettingsUnion;
+}
+
+/** Replication provider specific settings. */
+export interface SharedDiskReplicationProviderSpecificSettings {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  instanceType: "A2A";
+}
+
+/** The resource management error response. */
+export interface ServiceDefaultError {
+  /** ASR error model. */
+  error?: ServiceDefaultErrorError;
+}
+
+/** ASR error model. */
+export interface ServiceDefaultErrorError {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ServiceDefaultError[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** Input definition for unplanned cluster failover. */
+export interface ClusterUnplannedFailoverInput {
+  /** Unplanned failover input properties. */
+  properties: ClusterUnplannedFailoverInputProperties;
+}
+
+/** Input definition for unplanned failover input properties. */
+export interface ClusterUnplannedFailoverInputProperties {
+  /** Failover direction. */
+  failoverDirection?: string;
+  /** Source site operations status. */
+  sourceSiteOperations?: string;
+  /** Provider specific settings. */
+  providerSpecificDetails?: ClusterUnplannedFailoverProviderSpecificInputUnion;
+}
+
+/** Provider specific unplanned cluster failover input. */
+export interface ClusterUnplannedFailoverProviderSpecificInput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  instanceType: "A2A";
+}
+
 /** Protection container mapping collection class. */
 export interface ProtectionContainerMappingCollection {
   /** List of container mappings. */
@@ -2872,6 +3083,34 @@ export interface A2AExtendedLocationDetails {
   recoveryExtendedLocation?: ExtendedLocation;
 }
 
+/** ExtendedLocation details data. */
+export interface A2AFabricSpecificLocationDetails {
+  /** The initial source zone info. */
+  initialPrimaryZone?: string;
+  /** The initial target zone info. */
+  initialRecoveryZone?: string;
+  /** The initial primary ExtendedLocation. */
+  initialPrimaryExtendedLocation?: ExtendedLocation;
+  /** The initial recovery ExtendedLocation. */
+  initialRecoveryExtendedLocation?: ExtendedLocation;
+  /** Initial primary fabric location info. */
+  initialPrimaryFabricLocation?: string;
+  /** The initial recovery fabric location info. */
+  initialRecoveryFabricLocation?: string;
+  /** Source zone info. */
+  primaryZone?: string;
+  /** The target zone info. */
+  recoveryZone?: string;
+  /** The primary ExtendedLocation. */
+  primaryExtendedLocation?: ExtendedLocation;
+  /** The recovery ExtendedLocation. */
+  recoveryExtendedLocation?: ExtendedLocation;
+  /** Primary fabric location info. */
+  primaryFabricLocation?: string;
+  /** The recovery fabric location info. */
+  recoveryFabricLocation?: string;
+}
+
 /** A2A protected disk details. */
 export interface A2AProtectedDiskDetails {
   /** The disk uri. */
@@ -3063,6 +3302,35 @@ export interface InputEndpoint {
   privatePort?: number;
   publicPort?: number;
   protocol?: string;
+}
+
+/** Extended location of the resource. */
+export interface A2ASharedDiskIRErrorDetails {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorCode?: string;
+  /**
+   * The error code enum.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorCodeEnum?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorMessage?: string;
+  /**
+   * The possible causes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly possibleCauses?: string;
+  /**
+   * The recommended action.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendedAction?: string;
 }
 
 /** A2A Vm managed disk update details. */
@@ -3296,6 +3564,10 @@ export interface EventQueryParameter {
 export interface FabricQueryParameter {
   /** A value indicating whether the zone to zone mappings are to be returned. */
   zoneToZoneMappings?: string;
+  /** A value indicating whether the Extended Location mappings are to be returned. */
+  extendedLocationMappings?: string;
+  /** A value indicating whether the location details are to be returned. */
+  locationDetails?: string;
   /** A value indicating whether the agent details are to be fetched. */
   fetchAgentDetails?: string;
   /** The BIOS Id to be used for fetching agent details. */
@@ -5064,6 +5336,20 @@ export interface VMwareCbtDiskInput {
   diskEncryptionSetId?: string;
 }
 
+/** VMwareCbt security profile input. */
+export interface VMwareCbtSecurityProfileProperties {
+  /** The target VM security type. */
+  targetVmSecurityType?: SecurityType;
+  /** A value indicating whether secure boot to be enabled. */
+  isTargetVmSecureBootEnabled?: string;
+  /** A value indicating whether trusted platform module to be enabled. */
+  isTargetVmTpmEnabled?: string;
+  /** A value indicating whether integrity monitoring to be enabled. */
+  isTargetVmIntegrityMonitoringEnabled?: string;
+  /** A value indicating whether confidential compute encryption to be enabled. */
+  isTargetVmConfidentialEncryptionEnabled?: string;
+}
+
 /** VMwareCbt protected disk details. */
 export interface VMwareCbtProtectedDiskDetails {
   /**
@@ -5574,6 +5860,8 @@ export interface AzureFabricSpecificDetails extends FabricSpecificDetails {
   zones?: A2AZoneDetails[];
   /** The ExtendedLocations. */
   extendedLocations?: A2AExtendedLocationDetails[];
+  /** The location details. */
+  locationDetails?: A2AFabricSpecificLocationDetails[];
 }
 
 /** HyperVSite fabric specific details. */
@@ -5928,6 +6216,11 @@ export interface VMwareCbtMigrationDetails
    */
   readonly osType?: string;
   /**
+   * The name of the OS on the VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly osName?: string;
+  /**
    * The firmware type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -5973,6 +6266,10 @@ export interface VMwareCbtMigrationDetails
   targetAvailabilityZone?: string;
   /** The target proximity placement group Id. */
   targetProximityPlacementGroupId?: string;
+  /** The confidential VM key vault Id for ADE installation. */
+  confidentialVmKeyVaultId?: string;
+  /** The target VM security profile. */
+  targetVmSecurityProfile?: VMwareCbtSecurityProfileProperties;
   /** The target boot diagnostics storage account ARM Id. */
   targetBootDiagnosticsStorageAccountId?: string;
   /** The target VM tags. */
@@ -6053,6 +6350,8 @@ export interface VMwareCbtMigrationDetails
   seedDiskTags?: { [propertyName: string]: string };
   /** The tags for the target disks. */
   targetDiskTags?: { [propertyName: string]: string };
+  /** List of supported inplace OS Upgrade versions. */
+  supportedOSVersions?: string[];
 }
 
 /** VMwareCbt specific enable migration input. */
@@ -6094,6 +6393,10 @@ export interface VMwareCbtEnableMigrationInput
   targetAvailabilityZone?: string;
   /** The target proximity placement group ARM Id. */
   targetProximityPlacementGroupId?: string;
+  /** The confidential VM key vault Id for ADE installation. */
+  confidentialVmKeyVaultId?: string;
+  /** The target VM security profile. */
+  targetVmSecurityProfile?: VMwareCbtSecurityProfileProperties;
   /** The target boot diagnostics storage account ARM Id. */
   targetBootDiagnosticsStorageAccountId?: string;
   /** A value indicating whether auto resync is to be done. */
@@ -6155,6 +6458,8 @@ export interface VMwareCbtMigrateInput extends MigrateProviderSpecificInput {
   instanceType: "VMwareCbt";
   /** A value indicating whether VM is to be shutdown. */
   performShutdown: string;
+  /** A value indicating the inplace OS Upgrade version. */
+  osUpgradeVersion?: string;
 }
 
 /** VMwareCbt specific resume replication input. */
@@ -6185,6 +6490,8 @@ export interface VMwareCbtTestMigrateInput
   networkId: string;
   /** The list of NIC details. */
   vmNics?: VMwareCbtNicInput[];
+  /** A value indicating the inplace OS Upgrade version. */
+  osUpgradeVersion?: string;
 }
 
 /** Single Host fabric provider specific VM settings. */
@@ -6299,6 +6606,10 @@ export interface A2AReplicationDetails
   multiVmGroupCreateOption?: MultiVmGroupCreateOption;
   /** The management Id. */
   managementId?: string;
+  /** The replication protection cluster Id. */
+  protectionClusterId?: string;
+  /** A value indicating if the cluster infra is ready or not. */
+  isClusterInfraReady?: boolean;
   /** The list of protected disks. */
   protectedDisks?: A2AProtectedDiskDetails[];
   /** The list of unprotected disks. */
@@ -7156,6 +7467,8 @@ export interface A2AEnableProtectionInput
   multiVmGroupName?: string;
   /** The multi vm group id. */
   multiVmGroupId?: string;
+  /** The replication protection cluster Id. */
+  protectionClusterId?: string;
   /** The boot diagnostic storage account. */
   recoveryBootDiagStorageAccountId?: string;
   /** The recovery disk encryption information (for two pass flows). */
@@ -7856,6 +8169,93 @@ export interface InMageRcmUpdateApplianceForReplicationProtectedItemInput
 }
 
 /** A2A provider specific settings. */
+export interface A2AReplicationProtectionClusterDetails
+  extends ReplicationClusterProviderSpecificSettings {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  instanceType: "A2A";
+  /** The multi vm group Id. */
+  multiVmGroupId?: string;
+  /** The multi vm group name. */
+  multiVmGroupName?: string;
+  /** Whether Multi VM group is auto created or specified by user. */
+  multiVmGroupCreateOption?: MultiVmGroupCreateOption;
+  /** Primary fabric location. */
+  primaryFabricLocation?: string;
+  /** The recovery fabric location. */
+  recoveryFabricLocation?: string;
+  /** The recovery point Id to which the cluster was failed over. */
+  failoverRecoveryPointId?: string;
+  /** The cluster management Id. */
+  clusterManagementId?: string;
+  /** The last RPO value in seconds. */
+  rpoInSeconds?: number;
+  /** The time (in UTC) when the last RPO value was calculated by Protection Service. */
+  lastRpoCalculatedTime?: Date;
+  /** The initial primary availability zone. */
+  initialPrimaryZone?: string;
+  /** The initial primary fabric location. */
+  initialPrimaryFabricLocation?: string;
+  /** The initial recovery availability zone. */
+  initialRecoveryZone?: string;
+  /** The initial recovery fabric location. */
+  initialRecoveryFabricLocation?: string;
+  /** The initial primary extended location. */
+  initialPrimaryExtendedLocation?: ExtendedLocation;
+  /** The initial recovery extended location. */
+  initialRecoveryExtendedLocation?: ExtendedLocation;
+  /** The primary availability zone. */
+  primaryAvailabilityZone?: string;
+  /** The recovery availability zone. */
+  recoveryAvailabilityZone?: string;
+  /** The primary Extended Location. */
+  primaryExtendedLocation?: ExtendedLocation;
+  /** The recovery Extended Location. */
+  recoveryExtendedLocation?: ExtendedLocation;
+  /** An id that survives actions like switch protection which change the backing PE/CPE objects internally.The lifecycle id gets carried forward to have a link/continuity in being able to have an Id that denotes the "same" protected cluster even though other internal Ids/ARM Id might be changing. */
+  lifecycleId?: string;
+}
+
+/** A2A provider specific settings. */
+export interface A2ASharedDiskReplicationDetails
+  extends SharedDiskReplicationProviderSpecificSettings {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  instanceType: "A2A";
+  /** The management Id. */
+  managementId?: string;
+  /** The list of unprotected disks. */
+  unprotectedDisks?: A2AUnprotectedDiskDetails[];
+  /** The list of protected managed disks. */
+  protectedManagedDisks?: A2AProtectedManagedDiskDetails[];
+  /** Primary fabric location. */
+  primaryFabricLocation?: string;
+  /** The recovery fabric location. */
+  recoveryFabricLocation?: string;
+  /** The recovery point id to which the Virtual node was failed over. */
+  failoverRecoveryPointId?: string;
+  /** The percentage of the monitoring job. The type of the monitoring job is defined by MonitoringJobType property. */
+  monitoringPercentageCompletion?: number;
+  /** The type of the monitoring job. The progress is contained in MonitoringPercentageCompletion property. */
+  monitoringJobType?: string;
+  /** The last RPO value in seconds. */
+  rpoInSeconds?: number;
+  /** The time (in UTC) when the last RPO value was calculated by Protection Service. */
+  lastRpoCalculatedTime?: Date;
+  /** The IR Errors. */
+  sharedDiskIRErrors?: A2ASharedDiskIRErrorDetails[];
+}
+
+/** A2A provider specific input for unplanned cluster failover. */
+export interface A2AClusterUnplannedFailoverInput
+  extends ClusterUnplannedFailoverProviderSpecificInput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  instanceType: "A2A";
+  /** The cluster recovery point id to be passed to failover to a particular recovery point. */
+  clusterRecoveryPointId?: string;
+  /** The list of individual node recovery points. */
+  individualNodeRecoveryPoints?: string[];
+}
+
+/** A2A provider specific settings. */
 export interface A2AProtectionContainerMappingDetails
   extends ProtectionContainerMappingProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -7924,6 +8324,8 @@ export interface VMwareCbtProtectionContainerMappingDetails
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly roleSizeToNicCountMap?: { [propertyName: string]: number };
+  /** The SKUs to be excluded. */
+  excludedSkus?: string[];
 }
 
 /** A2A container mapping input. */
@@ -8871,6 +9273,34 @@ export interface HyperVReplicaBluePolicyInput extends HyperVReplicaPolicyInput {
 /** Defines headers for ReplicationProtectedItems_updateMobilityService operation. */
 export interface ReplicationProtectedItemsUpdateMobilityServiceHeaders {
   location?: string;
+}
+
+/** Defines headers for ReplicationProtectionClusters_create operation. */
+export interface ReplicationProtectionClustersCreateHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+  retryAfter?: string;
+}
+
+/** Defines headers for ReplicationProtectionClusters_purge operation. */
+export interface ReplicationProtectionClustersPurgeHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+  retryAfter?: string;
+}
+
+/** Defines headers for ReplicationProtectionClusters_repairReplication operation. */
+export interface ReplicationProtectionClustersRepairReplicationHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+  retryAfter?: string;
+}
+
+/** Defines headers for ReplicationProtectionClusters_unplannedFailover operation. */
+export interface ReplicationProtectionClustersUnplannedFailoverHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+  retryAfter?: string;
 }
 
 /** Known values of {@link HealthErrorCustomerResolvability} that the service accepts. */
@@ -10025,6 +10455,27 @@ export enum KnownRecoveryPlanPointType {
  */
 export type RecoveryPlanPointType = string;
 
+/** Known values of {@link SecurityType} that the service accepts. */
+export enum KnownSecurityType {
+  /** None */
+  None = "None",
+  /** TrustedLaunch */
+  TrustedLaunch = "TrustedLaunch",
+  /** ConfidentialVM */
+  ConfidentialVM = "ConfidentialVM"
+}
+
+/**
+ * Defines values for SecurityType. \
+ * {@link KnownSecurityType} can be used interchangeably with SecurityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **TrustedLaunch** \
+ * **ConfidentialVM**
+ */
+export type SecurityType = string;
+
 /** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
@@ -10926,6 +11377,92 @@ export interface TargetComputeSizesListByReplicationProtectedItemsNextOptionalPa
 
 /** Contains response data for the listByReplicationProtectedItemsNext operation. */
 export type TargetComputeSizesListByReplicationProtectedItemsNextResponse = TargetComputeSizeCollection;
+
+/** Optional parameters. */
+export interface ReplicationProtectionClustersListByReplicationProtectionContainersOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByReplicationProtectionContainers operation. */
+export type ReplicationProtectionClustersListByReplicationProtectionContainersResponse = ReplicationProtectionClusterCollection;
+
+/** Optional parameters. */
+export interface ReplicationProtectionClustersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ReplicationProtectionClustersGetResponse = ReplicationProtectionCluster;
+
+/** Optional parameters. */
+export interface ReplicationProtectionClustersCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type ReplicationProtectionClustersCreateResponse = ReplicationProtectionCluster;
+
+/** Optional parameters. */
+export interface ReplicationProtectionClustersPurgeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ReplicationProtectionClustersGetOperationResultsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getOperationResults operation. */
+export type ReplicationProtectionClustersGetOperationResultsResponse = ReplicationProtectionCluster;
+
+/** Optional parameters. */
+export interface ReplicationProtectionClustersRepairReplicationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ReplicationProtectionClustersUnplannedFailoverOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ReplicationProtectionClustersListOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter options. */
+  filter?: string;
+  /** The pagination token. Possible values: "FabricId" or "FabricId_CloudId" or null. */
+  skipToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ReplicationProtectionClustersListResponse = ReplicationProtectionClusterCollection;
+
+/** Optional parameters. */
+export interface ReplicationProtectionClustersListByReplicationProtectionContainersNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByReplicationProtectionContainersNext operation. */
+export type ReplicationProtectionClustersListByReplicationProtectionContainersNextResponse = ReplicationProtectionClusterCollection;
+
+/** Optional parameters. */
+export interface ReplicationProtectionClustersListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ReplicationProtectionClustersListNextResponse = ReplicationProtectionClusterCollection;
 
 /** Optional parameters. */
 export interface ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams

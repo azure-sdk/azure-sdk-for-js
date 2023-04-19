@@ -31,6 +31,7 @@ import {
   ReplicationProtectedItemsImpl,
   RecoveryPointsImpl,
   TargetComputeSizesImpl,
+  ReplicationProtectionClustersImpl,
   ReplicationProtectionContainerMappingsImpl,
   ReplicationRecoveryServicesProvidersImpl,
   ReplicationStorageClassificationsImpl,
@@ -61,6 +62,7 @@ import {
   ReplicationProtectedItems,
   RecoveryPoints,
   TargetComputeSizes,
+  ReplicationProtectionClusters,
   ReplicationProtectionContainerMappings,
   ReplicationRecoveryServicesProviders,
   ReplicationStorageClassifications,
@@ -108,7 +110,7 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-recoveryservices-siterecovery/5.0.2`;
+    const packageDetails = `azsdk-js-arm-recoveryservices-siterecovery/5.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -161,7 +163,7 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-10-01";
+    this.apiVersion = options.apiVersion || "2023-03-01";
     this.operations = new OperationsImpl(this);
     this.replicationAlertSettings = new ReplicationAlertSettingsImpl(this);
     this.replicationAppliances = new ReplicationAppliancesImpl(this);
@@ -184,6 +186,9 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
     this.replicationProtectedItems = new ReplicationProtectedItemsImpl(this);
     this.recoveryPoints = new RecoveryPointsImpl(this);
     this.targetComputeSizes = new TargetComputeSizesImpl(this);
+    this.replicationProtectionClusters = new ReplicationProtectionClustersImpl(
+      this
+    );
     this.replicationProtectionContainerMappings = new ReplicationProtectionContainerMappingsImpl(
       this
     );
@@ -255,6 +260,7 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
   replicationProtectedItems: ReplicationProtectedItems;
   recoveryPoints: RecoveryPoints;
   targetComputeSizes: TargetComputeSizes;
+  replicationProtectionClusters: ReplicationProtectionClusters;
   replicationProtectionContainerMappings: ReplicationProtectionContainerMappings;
   replicationRecoveryServicesProviders: ReplicationRecoveryServicesProviders;
   replicationStorageClassifications: ReplicationStorageClassifications;

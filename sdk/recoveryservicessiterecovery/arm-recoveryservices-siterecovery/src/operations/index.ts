@@ -22,6 +22,7 @@ export * from "./replicationProtectableItems";
 export * from "./replicationProtectedItems";
 export * from "./recoveryPoints";
 export * from "./targetComputeSizes";
+export * from "./replicationProtectionClusters";
 export * from "./replicationProtectionContainerMappings";
 export * from "./replicationRecoveryServicesProviders";
 export * from "./replicationStorageClassifications";

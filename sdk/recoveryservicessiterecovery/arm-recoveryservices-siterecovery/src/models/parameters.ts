@@ -44,6 +44,8 @@ import {
   UnplannedFailoverInput as UnplannedFailoverInputMapper,
   UpdateApplianceForReplicationProtectedItemInput as UpdateApplianceForReplicationProtectedItemInputMapper,
   UpdateMobilityServiceRequest as UpdateMobilityServiceRequestMapper,
+  ReplicationProtectionCluster as ReplicationProtectionClusterMapper,
+  ClusterUnplannedFailoverInput as ClusterUnplannedFailoverInputMapper,
   CreateProtectionContainerMappingInput as CreateProtectionContainerMappingInputMapper,
   UpdateProtectionContainerMappingInput as UpdateProtectionContainerMappingInputMapper,
   RemoveProtectionContainerMappingInput as RemoveProtectionContainerMappingInputMapper,
@@ -92,7 +94,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-10-01",
+    defaultValue: "2023-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -138,6 +140,9 @@ export const nextLink: OperationURLParameter = {
 export const resourceName: OperationURLParameter = {
   parameterPath: "resourceName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9]$")
+    },
     serializedName: "resourceName",
     required: true,
     type: {
@@ -519,6 +524,72 @@ export const recoveryPointName: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const fabricName1: OperationURLParameter = {
+  parameterPath: "fabricName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9]$")
+    },
+    serializedName: "fabricName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const protectionContainerName1: OperationURLParameter = {
+  parameterPath: "protectionContainerName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9]$")
+    },
+    serializedName: "protectionContainerName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const replicationProtectionClusterName: OperationURLParameter = {
+  parameterPath: "replicationProtectionClusterName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9]$")
+    },
+    serializedName: "replicationProtectionClusterName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const replicationProtectionCluster: OperationParameter = {
+  parameterPath: "replicationProtectionCluster",
+  mapper: ReplicationProtectionClusterMapper
+};
+
+export const jobId: OperationURLParameter = {
+  parameterPath: "jobId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9]$")
+    },
+    serializedName: "jobId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const failoverInput2: OperationParameter = {
+  parameterPath: "failoverInput",
+  mapper: ClusterUnplannedFailoverInputMapper
 };
 
 export const mappingName: OperationURLParameter = {

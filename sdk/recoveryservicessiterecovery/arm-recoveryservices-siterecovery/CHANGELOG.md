@@ -1,15 +1,71 @@
 # Release History
+    
+## 5.1.0 (2023-04-19)
+    
+**Features**
 
-## 5.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group ReplicationProtectionClusters
+  - Added Interface A2AClusterUnplannedFailoverInput
+  - Added Interface A2AFabricSpecificLocationDetails
+  - Added Interface A2AReplicationProtectionClusterDetails
+  - Added Interface A2ASharedDiskIRErrorDetails
+  - Added Interface A2ASharedDiskReplicationDetails
+  - Added Interface ClusterUnplannedFailoverInput
+  - Added Interface ClusterUnplannedFailoverInputProperties
+  - Added Interface ClusterUnplannedFailoverProviderSpecificInput
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface RegisteredClusterNodes
+  - Added Interface ReplicationClusterProviderSpecificSettings
+  - Added Interface ReplicationProtectionCluster
+  - Added Interface ReplicationProtectionClusterCollection
+  - Added Interface ReplicationProtectionClusterProperties
+  - Added Interface ReplicationProtectionClustersCreateHeaders
+  - Added Interface ReplicationProtectionClustersCreateOptionalParams
+  - Added Interface ReplicationProtectionClustersGetOperationResultsOptionalParams
+  - Added Interface ReplicationProtectionClustersGetOptionalParams
+  - Added Interface ReplicationProtectionClustersListByReplicationProtectionContainersNextOptionalParams
+  - Added Interface ReplicationProtectionClustersListByReplicationProtectionContainersOptionalParams
+  - Added Interface ReplicationProtectionClustersListNextOptionalParams
+  - Added Interface ReplicationProtectionClustersListOptionalParams
+  - Added Interface ReplicationProtectionClustersPurgeHeaders
+  - Added Interface ReplicationProtectionClustersPurgeOptionalParams
+  - Added Interface ReplicationProtectionClustersRepairReplicationHeaders
+  - Added Interface ReplicationProtectionClustersRepairReplicationOptionalParams
+  - Added Interface ReplicationProtectionClustersUnplannedFailoverHeaders
+  - Added Interface ReplicationProtectionClustersUnplannedFailoverOptionalParams
+  - Added Interface ServiceDefaultError
+  - Added Interface ServiceDefaultErrorError
+  - Added Interface SharedDiskReplicationItemProperties
+  - Added Interface SharedDiskReplicationProviderSpecificSettings
+  - Added Interface VMwareCbtSecurityProfileProperties
+  - Added Type Alias ClusterUnplannedFailoverProviderSpecificInputUnion
+  - Added Type Alias ReplicationClusterProviderSpecificSettingsUnion
+  - Added Type Alias ReplicationProtectionClustersCreateResponse
+  - Added Type Alias ReplicationProtectionClustersGetOperationResultsResponse
+  - Added Type Alias ReplicationProtectionClustersGetResponse
+  - Added Type Alias ReplicationProtectionClustersListByReplicationProtectionContainersNextResponse
+  - Added Type Alias ReplicationProtectionClustersListByReplicationProtectionContainersResponse
+  - Added Type Alias ReplicationProtectionClustersListNextResponse
+  - Added Type Alias ReplicationProtectionClustersListResponse
+  - Added Type Alias SecurityType
+  - Added Type Alias SharedDiskReplicationProviderSpecificSettingsUnion
+  - Interface A2AEnableProtectionInput has a new optional parameter protectionClusterId
+  - Interface A2AReplicationDetails has a new optional parameter isClusterInfraReady
+  - Interface A2AReplicationDetails has a new optional parameter protectionClusterId
+  - Interface AzureFabricSpecificDetails has a new optional parameter locationDetails
+  - Interface FabricQueryParameter has a new optional parameter extendedLocationMappings
+  - Interface FabricQueryParameter has a new optional parameter locationDetails
+  - Interface VMwareCbtEnableMigrationInput has a new optional parameter confidentialVmKeyVaultId
+  - Interface VMwareCbtEnableMigrationInput has a new optional parameter targetVmSecurityProfile
+  - Interface VMwareCbtMigrateInput has a new optional parameter osUpgradeVersion
+  - Interface VMwareCbtMigrationDetails has a new optional parameter confidentialVmKeyVaultId
+  - Interface VMwareCbtMigrationDetails has a new optional parameter osName
+  - Interface VMwareCbtMigrationDetails has a new optional parameter supportedOSVersions
+  - Interface VMwareCbtMigrationDetails has a new optional parameter targetVmSecurityProfile
+  - Interface VMwareCbtProtectionContainerMappingDetails has a new optional parameter excludedSkus
+  - Interface VMwareCbtTestMigrateInput has a new optional parameter osUpgradeVersion
+  - Added Enum KnownSecurityType
+    
 ## 5.0.1 (2023-01-05)
 
 **Migration Guide**

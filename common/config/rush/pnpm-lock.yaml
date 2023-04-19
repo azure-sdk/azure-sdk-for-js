@@ -14178,7 +14178,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices-siterecovery.tgz:
-    resolution: {integrity: sha512-CburLVfm8RTB0DPRJAnrvOo7Pixk8dmFxw2lMp75az3K3YwhXJIDVSYmnqkLj8BMfzepQSxXXFQnR676O8Acig==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
+    resolution: {integrity: sha512-emURALr6kDJam4Qy1euPvIBRHq8WB2eE34ETxIXeG276xoHMy2g42zwmVz8Fnu5hSLQDf3Tx0WkuNaoixVZP5Q==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
     name: '@rush-temp/arm-recoveryservices-siterecovery'
     version: 0.0.0
     dependencies:
@@ -14192,13 +14192,14 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_c43y4oaxxwie3ialrfuzfwwhqq
       tslib: 2.5.0
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
