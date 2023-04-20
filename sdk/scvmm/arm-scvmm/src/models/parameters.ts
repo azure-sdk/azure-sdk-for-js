@@ -24,7 +24,11 @@ import {
   VirtualMachineRestoreCheckpoint as VirtualMachineRestoreCheckpointMapper,
   VirtualMachineTemplate as VirtualMachineTemplateMapper,
   AvailabilitySet as AvailabilitySetMapper,
-  InventoryItem as InventoryItemMapper
+  InventoryItem as InventoryItemMapper,
+  HybridIdentityMetadata as HybridIdentityMetadataMapper,
+  MachineExtension as MachineExtensionMapper,
+  MachineExtensionUpdate as MachineExtensionUpdateMapper,
+  GuestAgent as GuestAgentMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -87,7 +91,7 @@ export const vmmServerName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-06-05-preview",
+    defaultValue: "2022-05-21-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -198,6 +202,16 @@ export const retain: OperationQueryParameter = {
   }
 };
 
+export const deleteFromHost: OperationQueryParameter = {
+  parameterPath: ["options", "deleteFromHost"],
+  mapper: {
+    serializedName: "deleteFromHost",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
 export const body5: OperationParameter = {
   parameterPath: "body",
   mapper: VirtualMachineUpdateMapper
@@ -264,6 +278,69 @@ export const inventoryItemName: OperationURLParameter = {
   parameterPath: "inventoryItemName",
   mapper: {
     serializedName: "inventoryItemName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body13: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: HybridIdentityMetadataMapper
+};
+
+export const metadataName: OperationURLParameter = {
+  parameterPath: "metadataName",
+  mapper: {
+    serializedName: "metadataName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const extensionParameters: OperationParameter = {
+  parameterPath: "extensionParameters",
+  mapper: MachineExtensionMapper
+};
+
+export const extensionName: OperationURLParameter = {
+  parameterPath: "extensionName",
+  mapper: {
+    serializedName: "extensionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const extensionParameters1: OperationParameter = {
+  parameterPath: "extensionParameters",
+  mapper: MachineExtensionUpdateMapper
+};
+
+export const expand: OperationQueryParameter = {
+  parameterPath: ["options", "expand"],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body14: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: GuestAgentMapper
+};
+
+export const guestAgentName: OperationURLParameter = {
+  parameterPath: "guestAgentName",
+  mapper: {
+    serializedName: "guestAgentName",
     required: true,
     type: {
       name: "String"

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { Scvmm } from "../scvmm";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VirtualMachineTemplate,
   VirtualMachineTemplatesListByResourceGroupNextOptionalParams,
@@ -201,8 +205,8 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
     body: VirtualMachineTemplate,
     options?: VirtualMachineTemplatesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineTemplatesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineTemplatesCreateOrUpdateResponse>,
       VirtualMachineTemplatesCreateOrUpdateResponse
     >
   > {
@@ -212,7 +216,7 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
     ): Promise<VirtualMachineTemplatesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -245,15 +249,18 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualMachineTemplateName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualMachineTemplateName, body, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualMachineTemplatesCreateOrUpdateResponse,
+      OperationState<VirtualMachineTemplatesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -291,14 +298,14 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
     resourceGroupName: string,
     virtualMachineTemplateName: string,
     options?: VirtualMachineTemplatesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -331,15 +338,15 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualMachineTemplateName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualMachineTemplateName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -377,8 +384,8 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
     body: ResourcePatch,
     options?: VirtualMachineTemplatesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineTemplatesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineTemplatesUpdateResponse>,
       VirtualMachineTemplatesUpdateResponse
     >
   > {
@@ -388,7 +395,7 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
     ): Promise<VirtualMachineTemplatesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -421,15 +428,18 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualMachineTemplateName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualMachineTemplateName, body, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualMachineTemplatesUpdateResponse,
+      OperationState<VirtualMachineTemplatesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;

@@ -22,7 +22,10 @@ import {
   VirtualMachinesImpl,
   VirtualMachineTemplatesImpl,
   AvailabilitySetsImpl,
-  InventoryItemsImpl
+  InventoryItemsImpl,
+  HybridIdentityMetadatasImpl,
+  MachineExtensionsImpl,
+  GuestAgentsImpl
 } from "./operations";
 import {
   VmmServers,
@@ -32,7 +35,10 @@ import {
   VirtualMachines,
   VirtualMachineTemplates,
   AvailabilitySets,
-  InventoryItems
+  InventoryItems,
+  HybridIdentityMetadatas,
+  MachineExtensions,
+  GuestAgents
 } from "./operationsInterfaces";
 import { ScvmmOptionalParams } from "./models";
 
@@ -122,7 +128,7 @@ export class Scvmm extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-06-05-preview";
+    this.apiVersion = options.apiVersion || "2022-05-21-preview";
     this.vmmServers = new VmmServersImpl(this);
     this.operations = new OperationsImpl(this);
     this.clouds = new CloudsImpl(this);
@@ -131,6 +137,9 @@ export class Scvmm extends coreClient.ServiceClient {
     this.virtualMachineTemplates = new VirtualMachineTemplatesImpl(this);
     this.availabilitySets = new AvailabilitySetsImpl(this);
     this.inventoryItems = new InventoryItemsImpl(this);
+    this.hybridIdentityMetadatas = new HybridIdentityMetadatasImpl(this);
+    this.machineExtensions = new MachineExtensionsImpl(this);
+    this.guestAgents = new GuestAgentsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -170,4 +179,7 @@ export class Scvmm extends coreClient.ServiceClient {
   virtualMachineTemplates: VirtualMachineTemplates;
   availabilitySets: AvailabilitySets;
   inventoryItems: InventoryItems;
+  hybridIdentityMetadatas: HybridIdentityMetadatas;
+  machineExtensions: MachineExtensions;
+  guestAgents: GuestAgents;
 }

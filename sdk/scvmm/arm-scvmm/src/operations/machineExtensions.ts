@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Clouds } from "../operationsInterfaces";
+import { MachineExtensions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,32 +20,28 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Cloud,
-  CloudsListByResourceGroupNextOptionalParams,
-  CloudsListByResourceGroupOptionalParams,
-  CloudsListByResourceGroupResponse,
-  CloudsListBySubscriptionNextOptionalParams,
-  CloudsListBySubscriptionOptionalParams,
-  CloudsListBySubscriptionResponse,
-  CloudsGetOptionalParams,
-  CloudsGetResponse,
-  CloudsCreateOrUpdateOptionalParams,
-  CloudsCreateOrUpdateResponse,
-  CloudsDeleteOptionalParams,
-  ResourcePatch,
-  CloudsUpdateOptionalParams,
-  CloudsUpdateResponse,
-  CloudsListByResourceGroupNextResponse,
-  CloudsListBySubscriptionNextResponse
+  MachineExtension,
+  MachineExtensionsListNextOptionalParams,
+  MachineExtensionsListOptionalParams,
+  MachineExtensionsListResponse,
+  MachineExtensionsCreateOrUpdateOptionalParams,
+  MachineExtensionsCreateOrUpdateResponse,
+  MachineExtensionUpdate,
+  MachineExtensionsUpdateOptionalParams,
+  MachineExtensionsUpdateResponse,
+  MachineExtensionsDeleteOptionalParams,
+  MachineExtensionsGetOptionalParams,
+  MachineExtensionsGetResponse,
+  MachineExtensionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Clouds operations. */
-export class CloudsImpl implements Clouds {
+/** Class containing MachineExtensions operations. */
+export class MachineExtensionsImpl implements MachineExtensions {
   private readonly client: Scvmm;
 
   /**
-   * Initialize a new instance of the class Clouds class.
+   * Initialize a new instance of the class MachineExtensions class.
    * @param client Reference to the service client
    */
   constructor(client: Scvmm) {
@@ -53,15 +49,21 @@ export class CloudsImpl implements Clouds {
   }
 
   /**
-   * List of Clouds in a resource group.
+   * The operation to get all extensions of a non-Azure machine
    * @param resourceGroupName The name of the resource group.
+   * @param virtualMachineName The name of the machine where the extension should be created or updated.
    * @param options The options parameters.
    */
-  public listByResourceGroup(
+  public list(
     resourceGroupName: string,
-    options?: CloudsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<Cloud> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+    virtualMachineName: string,
+    options?: MachineExtensionsListOptionalParams
+  ): PagedAsyncIterableIterator<MachineExtension> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      virtualMachineName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -73,8 +75,9 @@ export class CloudsImpl implements Clouds {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
+        return this.listPagingPage(
           resourceGroupName,
+          virtualMachineName,
           options,
           settings
         );
@@ -82,23 +85,25 @@ export class CloudsImpl implements Clouds {
     };
   }
 
-  private async *listByResourceGroupPagingPage(
+  private async *listPagingPage(
     resourceGroupName: string,
-    options?: CloudsListByResourceGroupOptionalParams,
+    virtualMachineName: string,
+    options?: MachineExtensionsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Cloud[]> {
-    let result: CloudsListByResourceGroupResponse;
+  ): AsyncIterableIterator<MachineExtension[]> {
+    let result: MachineExtensionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
+      result = await this._list(resourceGroupName, virtualMachineName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
+      result = await this._listNext(
         resourceGroupName,
+        virtualMachineName,
         continuationToken,
         options
       );
@@ -109,12 +114,14 @@ export class CloudsImpl implements Clouds {
     }
   }
 
-  private async *listByResourceGroupPagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
-    options?: CloudsListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<Cloud> {
-    for await (const page of this.listByResourceGroupPagingPage(
+    virtualMachineName: string,
+    options?: MachineExtensionsListOptionalParams
+  ): AsyncIterableIterator<MachineExtension> {
+    for await (const page of this.listPagingPage(
       resourceGroupName,
+      virtualMachineName,
       options
     )) {
       yield* page;
@@ -122,98 +129,29 @@ export class CloudsImpl implements Clouds {
   }
 
   /**
-   * List of Clouds in a subscription.
-   * @param options The options parameters.
-   */
-  public listBySubscription(
-    options?: CloudsListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<Cloud> {
-    const iter = this.listBySubscriptionPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
-      }
-    };
-  }
-
-  private async *listBySubscriptionPagingPage(
-    options?: CloudsListBySubscriptionOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<Cloud[]> {
-    let result: CloudsListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listBySubscriptionNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listBySubscriptionPagingAll(
-    options?: CloudsListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<Cloud> {
-    for await (const page of this.listBySubscriptionPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Implements Cloud GET method.
+   * The operation to create or update the extension.
    * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    cloudName: string,
-    options?: CloudsGetOptionalParams
-  ): Promise<CloudsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, cloudName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * Onboards the ScVmm fabric cloud as an Azure cloud resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
-   * @param body Request payload.
+   * @param virtualMachineName The name of the machine where the extension should be created or updated.
+   * @param extensionName The name of the machine extension.
+   * @param extensionParameters Parameters supplied to the Create Machine Extension operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    cloudName: string,
-    body: Cloud,
-    options?: CloudsCreateOrUpdateOptionalParams
+    virtualMachineName: string,
+    extensionName: string,
+    extensionParameters: MachineExtension,
+    options?: MachineExtensionsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<CloudsCreateOrUpdateResponse>,
-      CloudsCreateOrUpdateResponse
+      OperationState<MachineExtensionsCreateOrUpdateResponse>,
+      MachineExtensionsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<CloudsCreateOrUpdateResponse> => {
+    ): Promise<MachineExtensionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -251,12 +189,18 @@ export class CloudsImpl implements Clouds {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, cloudName, body, options },
+      args: {
+        resourceGroupName,
+        virtualMachineName,
+        extensionName,
+        extensionParameters,
+        options
+      },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      CloudsCreateOrUpdateResponse,
-      OperationState<CloudsCreateOrUpdateResponse>
+      MachineExtensionsCreateOrUpdateResponse,
+      OperationState<MachineExtensionsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -267,37 +211,148 @@ export class CloudsImpl implements Clouds {
   }
 
   /**
-   * Onboards the ScVmm fabric cloud as an Azure cloud resource.
+   * The operation to create or update the extension.
    * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
-   * @param body Request payload.
+   * @param virtualMachineName The name of the machine where the extension should be created or updated.
+   * @param extensionName The name of the machine extension.
+   * @param extensionParameters Parameters supplied to the Create Machine Extension operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    cloudName: string,
-    body: Cloud,
-    options?: CloudsCreateOrUpdateOptionalParams
-  ): Promise<CloudsCreateOrUpdateResponse> {
+    virtualMachineName: string,
+    extensionName: string,
+    extensionParameters: MachineExtension,
+    options?: MachineExtensionsCreateOrUpdateOptionalParams
+  ): Promise<MachineExtensionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      cloudName,
-      body,
+      virtualMachineName,
+      extensionName,
+      extensionParameters,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deregisters the ScVmm fabric cloud from Azure.
+   * The operation to update the extension.
    * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
+   * @param virtualMachineName The name of the machine where the extension should be created or updated.
+   * @param extensionName The name of the machine extension.
+   * @param extensionParameters Parameters supplied to the Create Machine Extension operation.
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    virtualMachineName: string,
+    extensionName: string,
+    extensionParameters: MachineExtensionUpdate,
+    options?: MachineExtensionsUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MachineExtensionsUpdateResponse>,
+      MachineExtensionsUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<MachineExtensionsUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        virtualMachineName,
+        extensionName,
+        extensionParameters,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MachineExtensionsUpdateResponse,
+      OperationState<MachineExtensionsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * The operation to update the extension.
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualMachineName The name of the machine where the extension should be created or updated.
+   * @param extensionName The name of the machine extension.
+   * @param extensionParameters Parameters supplied to the Create Machine Extension operation.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    virtualMachineName: string,
+    extensionName: string,
+    extensionParameters: MachineExtensionUpdate,
+    options?: MachineExtensionsUpdateOptionalParams
+  ): Promise<MachineExtensionsUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      virtualMachineName,
+      extensionName,
+      extensionParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * The operation to delete the extension.
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualMachineName The name of the machine where the extension should be created or updated.
+   * @param extensionName The name of the machine extension.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    cloudName: string,
-    options?: CloudsDeleteOptionalParams
+    virtualMachineName: string,
+    extensionName: string,
+    options?: MachineExtensionsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -340,243 +395,160 @@ export class CloudsImpl implements Clouds {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, cloudName, options },
+      args: { resourceGroupName, virtualMachineName, extensionName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deregisters the ScVmm fabric cloud from Azure.
+   * The operation to delete the extension.
    * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
+   * @param virtualMachineName The name of the machine where the extension should be created or updated.
+   * @param extensionName The name of the machine extension.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    cloudName: string,
-    options?: CloudsDeleteOptionalParams
+    virtualMachineName: string,
+    extensionName: string,
+    options?: MachineExtensionsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      cloudName,
+      virtualMachineName,
+      extensionName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Updates the Clouds resource.
+   * The operation to get the extension.
    * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
-   * @param body Clouds patch payload.
+   * @param virtualMachineName The name of the machine where the extension should be created or updated.
+   * @param extensionName The name of the machine extension.
    * @param options The options parameters.
    */
-  async beginUpdate(
+  get(
     resourceGroupName: string,
-    cloudName: string,
-    body: ResourcePatch,
-    options?: CloudsUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<OperationState<CloudsUpdateResponse>, CloudsUpdateResponse>
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<CloudsUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, cloudName, body, options },
-      spec: updateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      CloudsUpdateResponse,
-      OperationState<CloudsUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Updates the Clouds resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
-   * @param body Clouds patch payload.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    cloudName: string,
-    body: ResourcePatch,
-    options?: CloudsUpdateOptionalParams
-  ): Promise<CloudsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      cloudName,
-      body,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * List of Clouds in a resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: CloudsListByResourceGroupOptionalParams
-  ): Promise<CloudsListByResourceGroupResponse> {
+    virtualMachineName: string,
+    extensionName: string,
+    options?: MachineExtensionsGetOptionalParams
+  ): Promise<MachineExtensionsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      { resourceGroupName, virtualMachineName, extensionName, options },
+      getOperationSpec
     );
   }
 
   /**
-   * List of Clouds in a subscription.
-   * @param options The options parameters.
-   */
-  private _listBySubscription(
-    options?: CloudsListBySubscriptionOptionalParams
-  ): Promise<CloudsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec
-    );
-  }
-
-  /**
-   * ListByResourceGroupNext
+   * The operation to get all extensions of a non-Azure machine
    * @param resourceGroupName The name of the resource group.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param virtualMachineName The name of the machine where the extension should be created or updated.
    * @param options The options parameters.
    */
-  private _listByResourceGroupNext(
+  private _list(
     resourceGroupName: string,
+    virtualMachineName: string,
+    options?: MachineExtensionsListOptionalParams
+  ): Promise<MachineExtensionsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, virtualMachineName, options },
+      listOperationSpec
+    );
+  }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualMachineName The name of the machine where the extension should be created or updated.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    virtualMachineName: string,
     nextLink: string,
-    options?: CloudsListByResourceGroupNextOptionalParams
-  ): Promise<CloudsListByResourceGroupNextResponse> {
+    options?: MachineExtensionsListNextOptionalParams
+  ): Promise<MachineExtensionsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
-    );
-  }
-
-  /**
-   * ListBySubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
-   * @param options The options parameters.
-   */
-  private _listBySubscriptionNext(
-    nextLink: string,
-    options?: CloudsListBySubscriptionNextOptionalParams
-  ): Promise<CloudsListBySubscriptionNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      { resourceGroupName, virtualMachineName, nextLink, options },
+      listNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Cloud
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.cloudName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachines/{virtualMachineName}/extensions/{extensionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Cloud
+      bodyMapper: Mappers.MachineExtension
     },
     201: {
-      bodyMapper: Mappers.Cloud
+      bodyMapper: Mappers.MachineExtension
     },
     202: {
-      bodyMapper: Mappers.Cloud
+      bodyMapper: Mappers.MachineExtension
     },
     204: {
-      bodyMapper: Mappers.Cloud
+      bodyMapper: Mappers.MachineExtension
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body2,
+  requestBody: Parameters.extensionParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudName
+    Parameters.virtualMachineName,
+    Parameters.extensionName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachines/{virtualMachineName}/extensions/{extensionName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MachineExtension
+    },
+    201: {
+      bodyMapper: Mappers.MachineExtension
+    },
+    202: {
+      bodyMapper: Mappers.MachineExtension
+    },
+    204: {
+      bodyMapper: Mappers.MachineExtension
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.extensionParameters1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.virtualMachineName,
+    Parameters.extensionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -584,7 +556,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachines/{virtualMachineName}/extensions/{extensionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -595,56 +567,24 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.force],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.cloudName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Cloud
-    },
-    201: {
-      bodyMapper: Mappers.Cloud
-    },
-    202: {
-      bodyMapper: Mappers.Cloud
-    },
-    204: {
-      bodyMapper: Mappers.Cloud
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudName
+    Parameters.virtualMachineName,
+    Parameters.extensionName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer
 };
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachines/{virtualMachineName}/extensions/{extensionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudListResult
+      bodyMapper: Mappers.MachineExtension
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -654,33 +594,41 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.virtualMachineName,
+    Parameters.extensionName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/clouds",
+const listOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachines/{virtualMachineName}/extensions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudListResult
+      bodyMapper: Mappers.MachineExtensionsListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.virtualMachineName
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudListResult
+      bodyMapper: Mappers.MachineExtensionsListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -690,26 +638,8 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CloudListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.virtualMachineName
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Cloud,
   CloudsListByResourceGroupOptionalParams,
@@ -65,8 +65,8 @@ export interface Clouds {
     body: Cloud,
     options?: CloudsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CloudsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CloudsCreateOrUpdateResponse>,
       CloudsCreateOrUpdateResponse
     >
   >;
@@ -93,7 +93,7 @@ export interface Clouds {
     resourceGroupName: string,
     cloudName: string,
     options?: CloudsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deregisters the ScVmm fabric cloud from Azure.
    * @param resourceGroupName The name of the resource group.
@@ -118,7 +118,7 @@ export interface Clouds {
     body: ResourcePatch,
     options?: CloudsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<CloudsUpdateResponse>, CloudsUpdateResponse>
+    SimplePollerLike<OperationState<CloudsUpdateResponse>, CloudsUpdateResponse>
   >;
   /**
    * Updates the Clouds resource.
