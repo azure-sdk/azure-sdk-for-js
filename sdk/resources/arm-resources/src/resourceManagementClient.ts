@@ -68,7 +68,7 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-resources/5.2.1`;
+    const packageDetails = `azsdk-js-arm-resources/6.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -121,7 +121,7 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-04-01";
+    this.apiVersion = options.apiVersion || "2022-09-01";
     this.operations = new OperationsImpl(this);
     this.deployments = new DeploymentsImpl(this);
     this.providers = new ProvidersImpl(this);
