@@ -17810,8 +17810,8 @@ export const Subnet: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      applicationGatewayIpConfigurations: {
-        serializedName: "properties.applicationGatewayIpConfigurations",
+      applicationGatewayIPConfigurations: {
+        serializedName: "properties.applicationGatewayIPConfigurations",
         type: {
           name: "Sequence",
           element: {
