@@ -3991,7 +3991,7 @@ packages:
     dependencies:
       semver: 7.4.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230418
+      typescript: 5.1.0-dev.20230420
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8859,8 +8859,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230418:
-    resolution: {integrity: sha512-BfA/KV0xddF8ZCAQZxZ0FoS8p+nWKXVaa5fctXW6WNGfcYF04cXlLB6F6uf3uCVbd0iad4YdHchz3KR0722QLg==}
+  /typescript/5.1.0-dev.20230420:
+    resolution: {integrity: sha512-ytvKM7THT08QHjFP6v8kF3RtJWMQ/wWeQTIbe3kveVDcmstVrS5IZ47c9Y9GIYI2WaFVVjNu2YNLwSwIt82Fzg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12757,7 +12757,7 @@ packages:
     dev: false
 
   file:projects/arm-kubernetesconfiguration.tgz:
-    resolution: {integrity: sha512-lK1pQ154AbvHnZ2T/GOAs2YCTO44ZOuj2SPlv6oQ9OTdyKdjrSxO/pMiwURxK9QqENCXDdnCEW7xJ04qREq0Kg==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
+    resolution: {integrity: sha512-gztxFB5lkzElOm8+78cziVLY6F/CXeyRgqcBkl72/8beybFl1RwqsdWxLmZEu/jrBwoyJ5xmoGdWJUjE/JYb1Q==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
     name: '@rush-temp/arm-kubernetesconfiguration'
     version: 0.0.0
     dependencies:
@@ -12771,13 +12771,14 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_c43y4oaxxwie3ialrfuzfwwhqq
       tslib: 2.5.0
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
