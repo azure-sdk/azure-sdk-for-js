@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { LinkedServer } from "../operationsInterfaces";
+import { AccessPolicy } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,26 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  RedisLinkedServerWithProperties,
-  LinkedServerListNextOptionalParams,
-  LinkedServerListOptionalParams,
-  LinkedServerListResponse,
-  RedisLinkedServerCreateParameters,
-  LinkedServerCreateOptionalParams,
-  LinkedServerCreateResponse,
-  LinkedServerDeleteOptionalParams,
-  LinkedServerGetOptionalParams,
-  LinkedServerGetResponse,
-  LinkedServerListNextResponse
+  RedisCacheAccessPolicy,
+  AccessPolicyListNextOptionalParams,
+  AccessPolicyListOptionalParams,
+  AccessPolicyListResponse,
+  AccessPolicyCreateUpdateOptionalParams,
+  AccessPolicyCreateUpdateResponse,
+  AccessPolicyDeleteOptionalParams,
+  AccessPolicyGetOptionalParams,
+  AccessPolicyGetResponse,
+  AccessPolicyListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing LinkedServer operations. */
-export class LinkedServerImpl implements LinkedServer {
+/** Class containing AccessPolicy operations. */
+export class AccessPolicyImpl implements AccessPolicy {
   private readonly client: RedisManagementClient;
 
   /**
-   * Initialize a new instance of the class LinkedServer class.
+   * Initialize a new instance of the class AccessPolicy class.
    * @param client Reference to the service client
    */
   constructor(client: RedisManagementClient) {
@@ -47,17 +46,17 @@ export class LinkedServerImpl implements LinkedServer {
   }
 
   /**
-   * Gets the list of linked servers associated with this redis cache (requires Premium SKU).
+   * Gets the list of access policies associated with this redis cache
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name The name of the redis cache.
+   * @param cacheName The name of the Redis cache.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
-    name: string,
-    options?: LinkedServerListOptionalParams
-  ): PagedAsyncIterableIterator<RedisLinkedServerWithProperties> {
-    const iter = this.listPagingAll(resourceGroupName, name, options);
+    cacheName: string,
+    options?: AccessPolicyListOptionalParams
+  ): PagedAsyncIterableIterator<RedisCacheAccessPolicy> {
+    const iter = this.listPagingAll(resourceGroupName, cacheName, options);
     return {
       next() {
         return iter.next();
@@ -69,21 +68,26 @@ export class LinkedServerImpl implements LinkedServer {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(resourceGroupName, name, options, settings);
+        return this.listPagingPage(
+          resourceGroupName,
+          cacheName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    name: string,
-    options?: LinkedServerListOptionalParams,
+    cacheName: string,
+    options?: AccessPolicyListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<RedisLinkedServerWithProperties[]> {
-    let result: LinkedServerListResponse;
+  ): AsyncIterableIterator<RedisCacheAccessPolicy[]> {
+    let result: AccessPolicyListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, name, options);
+      result = await this._list(resourceGroupName, cacheName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -92,7 +96,7 @@ export class LinkedServerImpl implements LinkedServer {
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
-        name,
+        cacheName,
         continuationToken,
         options
       );
@@ -105,12 +109,12 @@ export class LinkedServerImpl implements LinkedServer {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    name: string,
-    options?: LinkedServerListOptionalParams
-  ): AsyncIterableIterator<RedisLinkedServerWithProperties> {
+    cacheName: string,
+    options?: AccessPolicyListOptionalParams
+  ): AsyncIterableIterator<RedisCacheAccessPolicy> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
-      name,
+      cacheName,
       options
     )) {
       yield* page;
@@ -118,29 +122,29 @@ export class LinkedServerImpl implements LinkedServer {
   }
 
   /**
-   * Adds a linked server to the Redis cache (requires Premium SKU).
+   * Adds an access policy to the redis cache
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name The name of the Redis cache.
-   * @param linkedServerName The name of the linked server that is being added to the Redis cache.
-   * @param parameters Parameters supplied to the Create Linked server operation.
+   * @param cacheName The name of the Redis cache.
+   * @param accessPolicyName The name of the access policy that is being added to the Redis cache.
+   * @param parameters Parameters supplied to the Create Update Access Policy operation.
    * @param options The options parameters.
    */
-  async beginCreate(
+  async beginCreateUpdate(
     resourceGroupName: string,
-    name: string,
-    linkedServerName: string,
-    parameters: RedisLinkedServerCreateParameters,
-    options?: LinkedServerCreateOptionalParams
+    cacheName: string,
+    accessPolicyName: string,
+    parameters: RedisCacheAccessPolicy,
+    options?: AccessPolicyCreateUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<LinkedServerCreateResponse>,
-      LinkedServerCreateResponse
+      OperationState<AccessPolicyCreateUpdateResponse>,
+      AccessPolicyCreateUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<LinkedServerCreateResponse> => {
+    ): Promise<AccessPolicyCreateUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -178,12 +182,18 @@ export class LinkedServerImpl implements LinkedServer {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, name, linkedServerName, parameters, options },
-      spec: createOperationSpec
+      args: {
+        resourceGroupName,
+        cacheName,
+        accessPolicyName,
+        parameters,
+        options
+      },
+      spec: createUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      LinkedServerCreateResponse,
-      OperationState<LinkedServerCreateResponse>
+      AccessPolicyCreateUpdateResponse,
+      OperationState<AccessPolicyCreateUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
@@ -193,24 +203,24 @@ export class LinkedServerImpl implements LinkedServer {
   }
 
   /**
-   * Adds a linked server to the Redis cache (requires Premium SKU).
+   * Adds an access policy to the redis cache
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name The name of the Redis cache.
-   * @param linkedServerName The name of the linked server that is being added to the Redis cache.
-   * @param parameters Parameters supplied to the Create Linked server operation.
+   * @param cacheName The name of the Redis cache.
+   * @param accessPolicyName The name of the access policy that is being added to the Redis cache.
+   * @param parameters Parameters supplied to the Create Update Access Policy operation.
    * @param options The options parameters.
    */
-  async beginCreateAndWait(
+  async beginCreateUpdateAndWait(
     resourceGroupName: string,
-    name: string,
-    linkedServerName: string,
-    parameters: RedisLinkedServerCreateParameters,
-    options?: LinkedServerCreateOptionalParams
-  ): Promise<LinkedServerCreateResponse> {
-    const poller = await this.beginCreate(
+    cacheName: string,
+    accessPolicyName: string,
+    parameters: RedisCacheAccessPolicy,
+    options?: AccessPolicyCreateUpdateOptionalParams
+  ): Promise<AccessPolicyCreateUpdateResponse> {
+    const poller = await this.beginCreateUpdate(
       resourceGroupName,
-      name,
-      linkedServerName,
+      cacheName,
+      accessPolicyName,
       parameters,
       options
     );
@@ -218,17 +228,17 @@ export class LinkedServerImpl implements LinkedServer {
   }
 
   /**
-   * Deletes the linked server from a redis cache (requires Premium SKU).
+   * Deletes the access policy from a redis cache
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name The name of the redis cache.
-   * @param linkedServerName The name of the linked server that is being added to the Redis cache.
+   * @param cacheName The name of the Redis cache.
+   * @param accessPolicyName The name of the access policy that is being deleted from the Redis cache.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    name: string,
-    linkedServerName: string,
-    options?: LinkedServerDeleteOptionalParams
+    cacheName: string,
+    accessPolicyName: string,
+    options?: AccessPolicyDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -271,71 +281,72 @@ export class LinkedServerImpl implements LinkedServer {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, name, linkedServerName, options },
+      args: { resourceGroupName, cacheName, accessPolicyName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes the linked server from a redis cache (requires Premium SKU).
+   * Deletes the access policy from a redis cache
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name The name of the redis cache.
-   * @param linkedServerName The name of the linked server that is being added to the Redis cache.
+   * @param cacheName The name of the Redis cache.
+   * @param accessPolicyName The name of the access policy that is being deleted from the Redis cache.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    name: string,
-    linkedServerName: string,
-    options?: LinkedServerDeleteOptionalParams
+    cacheName: string,
+    accessPolicyName: string,
+    options?: AccessPolicyDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      name,
-      linkedServerName,
+      cacheName,
+      accessPolicyName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets the detailed information about a linked server of a redis cache (requires Premium SKU).
+   * Gets the detailed information about an access policy of a redis cache
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name The name of the redis cache.
-   * @param linkedServerName The name of the linked server.
+   * @param cacheName The name of the Redis cache.
+   * @param accessPolicyName The name of the access policy that is being deleted from the Redis cache.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    name: string,
-    linkedServerName: string,
-    options?: LinkedServerGetOptionalParams
-  ): Promise<LinkedServerGetResponse> {
+    cacheName: string,
+    accessPolicyName: string,
+    options?: AccessPolicyGetOptionalParams
+  ): Promise<AccessPolicyGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, name, linkedServerName, options },
+      { resourceGroupName, cacheName, accessPolicyName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Gets the list of linked servers associated with this redis cache (requires Premium SKU).
+   * Gets the list of access policies associated with this redis cache
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name The name of the redis cache.
+   * @param cacheName The name of the Redis cache.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
-    name: string,
-    options?: LinkedServerListOptionalParams
-  ): Promise<LinkedServerListResponse> {
+    cacheName: string,
+    options?: AccessPolicyListOptionalParams
+  ): Promise<AccessPolicyListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, name, options },
+      { resourceGroupName, cacheName, options },
       listOperationSpec
     );
   }
@@ -343,18 +354,18 @@ export class LinkedServerImpl implements LinkedServer {
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name The name of the redis cache.
+   * @param cacheName The name of the Redis cache.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
-    name: string,
+    cacheName: string,
     nextLink: string,
-    options?: LinkedServerListNextOptionalParams
-  ): Promise<LinkedServerListNextResponse> {
+    options?: AccessPolicyListNextOptionalParams
+  ): Promise<AccessPolicyListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, name, nextLink, options },
+      { resourceGroupName, cacheName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -362,35 +373,35 @@ export class LinkedServerImpl implements LinkedServer {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOperationSpec: coreClient.OperationSpec = {
+const createUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies/{accessPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisLinkedServerWithProperties
+      bodyMapper: Mappers.RedisCacheAccessPolicy
     },
     201: {
-      bodyMapper: Mappers.RedisLinkedServerWithProperties
+      bodyMapper: Mappers.RedisCacheAccessPolicy
     },
     202: {
-      bodyMapper: Mappers.RedisLinkedServerWithProperties
+      bodyMapper: Mappers.RedisCacheAccessPolicy
     },
     204: {
-      bodyMapper: Mappers.RedisLinkedServerWithProperties
+      bodyMapper: Mappers.RedisCacheAccessPolicy
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.linkedServerName
+    Parameters.cacheName,
+    Parameters.accessPolicyName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -398,7 +409,7 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies/{accessPolicyName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -414,19 +425,19 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.linkedServerName
+    Parameters.cacheName,
+    Parameters.accessPolicyName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies/{accessPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisLinkedServerWithProperties
+      bodyMapper: Mappers.RedisCacheAccessPolicy
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -437,19 +448,19 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.linkedServerName
+    Parameters.cacheName,
+    Parameters.accessPolicyName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisLinkedServerWithPropertiesList
+      bodyMapper: Mappers.RedisCacheAccessPolicyList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -460,7 +471,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.cacheName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -470,7 +481,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisLinkedServerWithPropertiesList
+      bodyMapper: Mappers.RedisCacheAccessPolicyList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -481,7 +492,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.cacheName
   ],
   headerParameters: [Parameters.accept],
   serializer
