@@ -51,11 +51,11 @@ import {
   SecureScoreControlDefinitionsImpl,
   SecuritySolutionsImpl,
   ConnectorsImpl,
+  SensitivitySettingsImpl,
   AlertsImpl,
   SettingsImpl,
   IngestionSettingsImpl,
   SoftwareInventoriesImpl,
-  SecurityConnectorsImpl,
   GovernanceRulesImpl,
   GovernanceAssignmentsImpl,
   ApplicationsImpl,
@@ -69,7 +69,9 @@ import {
   HealthReportOperationsImpl,
   SqlVulnerabilityAssessmentScansImpl,
   SqlVulnerabilityAssessmentScanResultsImpl,
-  SqlVulnerabilityAssessmentBaselineRulesImpl
+  SqlVulnerabilityAssessmentBaselineRulesImpl,
+  SecurityConnectorsImpl,
+  SecurityOperatorsImpl
 } from "./operations";
 import {
   MdeOnboardings,
@@ -113,11 +115,11 @@ import {
   SecureScoreControlDefinitions,
   SecuritySolutions,
   Connectors,
+  SensitivitySettings,
   Alerts,
   Settings,
   IngestionSettings,
   SoftwareInventories,
-  SecurityConnectors,
   GovernanceRules,
   GovernanceAssignments,
   Applications,
@@ -131,9 +133,20 @@ import {
   HealthReportOperations,
   SqlVulnerabilityAssessmentScans,
   SqlVulnerabilityAssessmentScanResults,
-  SqlVulnerabilityAssessmentBaselineRules
+  SqlVulnerabilityAssessmentBaselineRules,
+  SecurityConnectors,
+  SecurityOperators
 } from "./operationsInterfaces";
-import { SecurityCenterOptionalParams } from "./models";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
+import {
+  SecurityCenterOptionalParams,
+  UpdateSensitivitySettingsRequest,
+  UpdateSensitivitySettingsOptionalParams,
+  UpdateSensitivitySettingsResponse,
+  GetSensitivitySettingsOptionalParams,
+  GetSensitivitySettingsOperationResponse
+} from "./models";
 
 export class SecurityCenter extends coreClient.ServiceClient {
   $host: string;
@@ -288,11 +301,11 @@ export class SecurityCenter extends coreClient.ServiceClient {
     );
     this.securitySolutions = new SecuritySolutionsImpl(this);
     this.connectors = new ConnectorsImpl(this);
+    this.sensitivitySettings = new SensitivitySettingsImpl(this);
     this.alerts = new AlertsImpl(this);
     this.settings = new SettingsImpl(this);
     this.ingestionSettings = new IngestionSettingsImpl(this);
     this.softwareInventories = new SoftwareInventoriesImpl(this);
-    this.securityConnectors = new SecurityConnectorsImpl(this);
     this.governanceRules = new GovernanceRulesImpl(this);
     this.governanceAssignments = new GovernanceAssignmentsImpl(this);
     this.applications = new ApplicationsImpl(this);
@@ -316,6 +329,36 @@ export class SecurityCenter extends coreClient.ServiceClient {
     );
     this.sqlVulnerabilityAssessmentBaselineRules = new SqlVulnerabilityAssessmentBaselineRulesImpl(
       this
+    );
+    this.securityConnectors = new SecurityConnectorsImpl(this);
+    this.securityOperators = new SecurityOperatorsImpl(this);
+  }
+
+  /**
+   * Updates data sensitivity settings for sensitive data discovery
+   * @param sensitivitySettings The data sensitivity settings to update
+   * @param options The options parameters.
+   */
+  updateSensitivitySettings(
+    sensitivitySettings: UpdateSensitivitySettingsRequest,
+    options?: UpdateSensitivitySettingsOptionalParams
+  ): Promise<UpdateSensitivitySettingsResponse> {
+    return this.sendOperationRequest(
+      { sensitivitySettings, options },
+      updateSensitivitySettingsOperationSpec
+    );
+  }
+
+  /**
+   * Gets data sensitivity settings for sensitive data discovery
+   * @param options The options parameters.
+   */
+  getSensitivitySettings(
+    options?: GetSensitivitySettingsOptionalParams
+  ): Promise<GetSensitivitySettingsOperationResponse> {
+    return this.sendOperationRequest(
+      { options },
+      getSensitivitySettingsOperationSpec
     );
   }
 
@@ -360,11 +403,11 @@ export class SecurityCenter extends coreClient.ServiceClient {
   secureScoreControlDefinitions: SecureScoreControlDefinitions;
   securitySolutions: SecuritySolutions;
   connectors: Connectors;
+  sensitivitySettings: SensitivitySettings;
   alerts: Alerts;
   settings: Settings;
   ingestionSettings: IngestionSettings;
   softwareInventories: SoftwareInventories;
-  securityConnectors: SecurityConnectors;
   governanceRules: GovernanceRules;
   governanceAssignments: GovernanceAssignments;
   applications: Applications;
@@ -379,4 +422,43 @@ export class SecurityCenter extends coreClient.ServiceClient {
   sqlVulnerabilityAssessmentScans: SqlVulnerabilityAssessmentScans;
   sqlVulnerabilityAssessmentScanResults: SqlVulnerabilityAssessmentScanResults;
   sqlVulnerabilityAssessmentBaselineRules: SqlVulnerabilityAssessmentBaselineRules;
+  securityConnectors: SecurityConnectors;
+  securityOperators: SecurityOperators;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const updateSensitivitySettingsOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Security/sensitivitySettings/current",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GetSensitivitySettingsResponse
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.sensitivitySettings,
+  queryParameters: [Parameters.apiVersion12],
+  urlParameters: [Parameters.$host],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getSensitivitySettingsOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Security/sensitivitySettings/current",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GetSensitivitySettingsResponse
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion12],
+  urlParameters: [Parameters.$host],
+  headerParameters: [Parameters.accept],
+  serializer
+};
