@@ -6582,6 +6582,13 @@ export const EffectiveConnectivityConfiguration: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       deleteExistingPeering: {
         serializedName: "properties.deleteExistingPeering",
         type: {
@@ -6667,6 +6674,13 @@ export const ConfigurationGroup: coreClient.CompositeMapper = {
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
         readOnly: true,
         type: {
           name: "String"
@@ -17810,8 +17824,8 @@ export const Subnet: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      applicationGatewayIpConfigurations: {
-        serializedName: "properties.applicationGatewayIpConfigurations",
+      applicationGatewayIPConfigurations: {
+        serializedName: "properties.applicationGatewayIPConfigurations",
         type: {
           name: "Sequence",
           element: {
@@ -26378,6 +26392,13 @@ export const NetworkManager: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -28890,6 +28911,13 @@ export const ActiveSecurityAdminRule: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -29002,6 +29030,13 @@ export const ActiveDefaultSecurityAdminRule: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -29105,6 +29140,13 @@ export const ConnectivityConfiguration: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       deleteExistingPeering: {
         serializedName: "properties.deleteExistingPeering",
         type: {
@@ -29136,6 +29178,13 @@ export const NetworkGroup: coreClient.CompositeMapper = {
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
         readOnly: true,
         type: {
           name: "String"
@@ -29260,6 +29309,13 @@ export const SecurityAdminConfiguration: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -29298,6 +29354,13 @@ export const AdminRuleCollection: coreClient.CompositeMapper = {
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
         readOnly: true,
         type: {
           name: "String"
@@ -29433,6 +29496,13 @@ export const EffectiveSecurityAdminRule: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -29541,6 +29611,13 @@ export const EffectiveDefaultSecurityAdminRule: coreClient.CompositeMapper = {
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
         readOnly: true,
         type: {
           name: "String"
@@ -29984,6 +30061,13 @@ export const AdminRule: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -30091,6 +30175,13 @@ export const DefaultAdminRule: coreClient.CompositeMapper = {
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
         readOnly: true,
         type: {
           name: "String"
