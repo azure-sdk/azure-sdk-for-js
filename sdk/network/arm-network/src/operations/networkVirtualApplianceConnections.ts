@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { FlowLogs } from "../operationsInterfaces";
+import { NetworkVirtualApplianceConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,28 +20,26 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  FlowLog,
-  FlowLogsListNextOptionalParams,
-  FlowLogsListOptionalParams,
-  FlowLogsListResponse,
-  FlowLogsCreateOrUpdateOptionalParams,
-  FlowLogsCreateOrUpdateResponse,
-  TagsObject,
-  FlowLogsUpdateTagsOptionalParams,
-  FlowLogsUpdateTagsResponse,
-  FlowLogsGetOptionalParams,
-  FlowLogsGetResponse,
-  FlowLogsDeleteOptionalParams,
-  FlowLogsListNextResponse
+  NetworkVirtualApplianceConnection,
+  NetworkVirtualApplianceConnectionsListNextOptionalParams,
+  NetworkVirtualApplianceConnectionsListOptionalParams,
+  NetworkVirtualApplianceConnectionsListResponse,
+  NetworkVirtualApplianceConnectionsCreateOrUpdateOptionalParams,
+  NetworkVirtualApplianceConnectionsCreateOrUpdateResponse,
+  NetworkVirtualApplianceConnectionsGetOptionalParams,
+  NetworkVirtualApplianceConnectionsGetResponse,
+  NetworkVirtualApplianceConnectionsDeleteOptionalParams,
+  NetworkVirtualApplianceConnectionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing FlowLogs operations. */
-export class FlowLogsImpl implements FlowLogs {
+/** Class containing NetworkVirtualApplianceConnections operations. */
+export class NetworkVirtualApplianceConnectionsImpl
+  implements NetworkVirtualApplianceConnections {
   private readonly client: NetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class FlowLogs class.
+   * Initialize a new instance of the class NetworkVirtualApplianceConnections class.
    * @param client Reference to the service client
    */
   constructor(client: NetworkManagementClient) {
@@ -49,19 +47,19 @@ export class FlowLogsImpl implements FlowLogs {
   }
 
   /**
-   * Lists all flow log resources for the specified Network Watcher.
-   * @param resourceGroupName The name of the resource group containing Network Watcher.
-   * @param networkWatcherName The name of the Network Watcher resource.
+   * Lists NetworkVirtualApplianceConnections under the NVA.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
-    networkWatcherName: string,
-    options?: FlowLogsListOptionalParams
-  ): PagedAsyncIterableIterator<FlowLog> {
+    networkVirtualApplianceName: string,
+    options?: NetworkVirtualApplianceConnectionsListOptionalParams
+  ): PagedAsyncIterableIterator<NetworkVirtualApplianceConnection> {
     const iter = this.listPagingAll(
       resourceGroupName,
-      networkWatcherName,
+      networkVirtualApplianceName,
       options
     );
     return {
@@ -77,7 +75,7 @@ export class FlowLogsImpl implements FlowLogs {
         }
         return this.listPagingPage(
           resourceGroupName,
-          networkWatcherName,
+          networkVirtualApplianceName,
           options,
           settings
         );
@@ -87,14 +85,18 @@ export class FlowLogsImpl implements FlowLogs {
 
   private async *listPagingPage(
     resourceGroupName: string,
-    networkWatcherName: string,
-    options?: FlowLogsListOptionalParams,
+    networkVirtualApplianceName: string,
+    options?: NetworkVirtualApplianceConnectionsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<FlowLog[]> {
-    let result: FlowLogsListResponse;
+  ): AsyncIterableIterator<NetworkVirtualApplianceConnection[]> {
+    let result: NetworkVirtualApplianceConnectionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, networkWatcherName, options);
+      result = await this._list(
+        resourceGroupName,
+        networkVirtualApplianceName,
+        options
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -103,7 +105,7 @@ export class FlowLogsImpl implements FlowLogs {
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
-        networkWatcherName,
+        networkVirtualApplianceName,
         continuationToken,
         options
       );
@@ -116,12 +118,12 @@ export class FlowLogsImpl implements FlowLogs {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    networkWatcherName: string,
-    options?: FlowLogsListOptionalParams
-  ): AsyncIterableIterator<FlowLog> {
+    networkVirtualApplianceName: string,
+    options?: NetworkVirtualApplianceConnectionsListOptionalParams
+  ): AsyncIterableIterator<NetworkVirtualApplianceConnection> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
-      networkWatcherName,
+      networkVirtualApplianceName,
       options
     )) {
       yield* page;
@@ -129,29 +131,31 @@ export class FlowLogsImpl implements FlowLogs {
   }
 
   /**
-   * Create or update a flow log for the specified network security group.
+   * Creates a connection to Network Virtual Appliance, if it doesn't exist else updates the existing NVA
+   * connection'
    * @param resourceGroupName The name of the resource group.
-   * @param networkWatcherName The name of the network watcher.
-   * @param flowLogName The name of the flow log.
-   * @param parameters Parameters that define the create or update flow log resource.
+   * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
+   * @param connectionName The name of the NVA connection.
+   * @param networkVirtualApplianceConnectionParameters Parameters supplied in an
+   *                                                    NetworkVirtualApplianceConnection PUT operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    networkWatcherName: string,
-    flowLogName: string,
-    parameters: FlowLog,
-    options?: FlowLogsCreateOrUpdateOptionalParams
+    networkVirtualApplianceName: string,
+    connectionName: string,
+    networkVirtualApplianceConnectionParameters: NetworkVirtualApplianceConnection,
+    options?: NetworkVirtualApplianceConnectionsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<FlowLogsCreateOrUpdateResponse>,
-      FlowLogsCreateOrUpdateResponse
+      OperationState<NetworkVirtualApplianceConnectionsCreateOrUpdateResponse>,
+      NetworkVirtualApplianceConnectionsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<FlowLogsCreateOrUpdateResponse> => {
+    ): Promise<NetworkVirtualApplianceConnectionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -191,16 +195,16 @@ export class FlowLogsImpl implements FlowLogs {
       sendOperationFn,
       args: {
         resourceGroupName,
-        networkWatcherName,
-        flowLogName,
-        parameters,
+        networkVirtualApplianceName,
+        connectionName,
+        networkVirtualApplianceConnectionParameters,
         options
       },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      FlowLogsCreateOrUpdateResponse,
-      OperationState<FlowLogsCreateOrUpdateResponse>
+      NetworkVirtualApplianceConnectionsCreateOrUpdateResponse,
+      OperationState<NetworkVirtualApplianceConnectionsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -211,88 +215,68 @@ export class FlowLogsImpl implements FlowLogs {
   }
 
   /**
-   * Create or update a flow log for the specified network security group.
+   * Creates a connection to Network Virtual Appliance, if it doesn't exist else updates the existing NVA
+   * connection'
    * @param resourceGroupName The name of the resource group.
-   * @param networkWatcherName The name of the network watcher.
-   * @param flowLogName The name of the flow log.
-   * @param parameters Parameters that define the create or update flow log resource.
+   * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
+   * @param connectionName The name of the NVA connection.
+   * @param networkVirtualApplianceConnectionParameters Parameters supplied in an
+   *                                                    NetworkVirtualApplianceConnection PUT operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    networkWatcherName: string,
-    flowLogName: string,
-    parameters: FlowLog,
-    options?: FlowLogsCreateOrUpdateOptionalParams
-  ): Promise<FlowLogsCreateOrUpdateResponse> {
+    networkVirtualApplianceName: string,
+    connectionName: string,
+    networkVirtualApplianceConnectionParameters: NetworkVirtualApplianceConnection,
+    options?: NetworkVirtualApplianceConnectionsCreateOrUpdateOptionalParams
+  ): Promise<NetworkVirtualApplianceConnectionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      networkWatcherName,
-      flowLogName,
-      parameters,
+      networkVirtualApplianceName,
+      connectionName,
+      networkVirtualApplianceConnectionParameters,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Update tags of the specified flow log.
+   * Retrieves the details of specified NVA connection.
    * @param resourceGroupName The name of the resource group.
-   * @param networkWatcherName The name of the network watcher.
-   * @param flowLogName The name of the flow log.
-   * @param parameters Parameters supplied to update flow log tags.
-   * @param options The options parameters.
-   */
-  updateTags(
-    resourceGroupName: string,
-    networkWatcherName: string,
-    flowLogName: string,
-    parameters: TagsObject,
-    options?: FlowLogsUpdateTagsOptionalParams
-  ): Promise<FlowLogsUpdateTagsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        networkWatcherName,
-        flowLogName,
-        parameters,
-        options
-      },
-      updateTagsOperationSpec
-    );
-  }
-
-  /**
-   * Gets a flow log resource by name.
-   * @param resourceGroupName The name of the resource group.
-   * @param networkWatcherName The name of the network watcher.
-   * @param flowLogName The name of the flow log resource.
+   * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
+   * @param connectionName The name of the NVA connection.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    networkWatcherName: string,
-    flowLogName: string,
-    options?: FlowLogsGetOptionalParams
-  ): Promise<FlowLogsGetResponse> {
+    networkVirtualApplianceName: string,
+    connectionName: string,
+    options?: NetworkVirtualApplianceConnectionsGetOptionalParams
+  ): Promise<NetworkVirtualApplianceConnectionsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, networkWatcherName, flowLogName, options },
+      {
+        resourceGroupName,
+        networkVirtualApplianceName,
+        connectionName,
+        options
+      },
       getOperationSpec
     );
   }
 
   /**
-   * Deletes the specified flow log resource.
+   * Deletes a NVA connection.
    * @param resourceGroupName The name of the resource group.
-   * @param networkWatcherName The name of the network watcher.
-   * @param flowLogName The name of the flow log resource.
+   * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
+   * @param connectionName The name of the NVA connection.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    networkWatcherName: string,
-    flowLogName: string,
-    options?: FlowLogsDeleteOptionalParams
+    networkVirtualApplianceName: string,
+    connectionName: string,
+    options?: NetworkVirtualApplianceConnectionsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -335,7 +319,12 @@ export class FlowLogsImpl implements FlowLogs {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, networkWatcherName, flowLogName, options },
+      args: {
+        resourceGroupName,
+        networkVirtualApplianceName,
+        connectionName,
+        options
+      },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -348,59 +337,59 @@ export class FlowLogsImpl implements FlowLogs {
   }
 
   /**
-   * Deletes the specified flow log resource.
+   * Deletes a NVA connection.
    * @param resourceGroupName The name of the resource group.
-   * @param networkWatcherName The name of the network watcher.
-   * @param flowLogName The name of the flow log resource.
+   * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
+   * @param connectionName The name of the NVA connection.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    networkWatcherName: string,
-    flowLogName: string,
-    options?: FlowLogsDeleteOptionalParams
+    networkVirtualApplianceName: string,
+    connectionName: string,
+    options?: NetworkVirtualApplianceConnectionsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      networkWatcherName,
-      flowLogName,
+      networkVirtualApplianceName,
+      connectionName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Lists all flow log resources for the specified Network Watcher.
-   * @param resourceGroupName The name of the resource group containing Network Watcher.
-   * @param networkWatcherName The name of the Network Watcher resource.
+   * Lists NetworkVirtualApplianceConnections under the NVA.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
-    networkWatcherName: string,
-    options?: FlowLogsListOptionalParams
-  ): Promise<FlowLogsListResponse> {
+    networkVirtualApplianceName: string,
+    options?: NetworkVirtualApplianceConnectionsListOptionalParams
+  ): Promise<NetworkVirtualApplianceConnectionsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, networkWatcherName, options },
+      { resourceGroupName, networkVirtualApplianceName, options },
       listOperationSpec
     );
   }
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group containing Network Watcher.
-   * @param networkWatcherName The name of the Network Watcher resource.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
-    networkWatcherName: string,
+    networkVirtualApplianceName: string,
     nextLink: string,
-    options?: FlowLogsListNextOptionalParams
-  ): Promise<FlowLogsListNextResponse> {
+    options?: NetworkVirtualApplianceConnectionsListNextOptionalParams
+  ): Promise<NetworkVirtualApplianceConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, networkWatcherName, nextLink, options },
+      { resourceGroupName, networkVirtualApplianceName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -410,58 +399,33 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/networkVirtualApplianceConnections/{connectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.FlowLog
+      bodyMapper: Mappers.NetworkVirtualApplianceConnection
     },
     201: {
-      bodyMapper: Mappers.FlowLog
+      bodyMapper: Mappers.NetworkVirtualApplianceConnection
     },
     202: {
-      bodyMapper: Mappers.FlowLog
+      bodyMapper: Mappers.NetworkVirtualApplianceConnection
     },
     204: {
-      bodyMapper: Mappers.FlowLog
+      bodyMapper: Mappers.NetworkVirtualApplianceConnection
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters59,
+  requestBody: Parameters.networkVirtualApplianceConnectionParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkWatcherName,
-    Parameters.flowLogName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FlowLog
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.networkWatcherName,
-    Parameters.flowLogName
+    Parameters.networkVirtualApplianceName1,
+    Parameters.connectionName1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -469,14 +433,14 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/networkVirtualApplianceConnections/{connectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FlowLog
+      bodyMapper: Mappers.NetworkVirtualApplianceConnection
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -484,15 +448,15 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkWatcherName,
-    Parameters.flowLogName
+    Parameters.connectionName,
+    Parameters.networkVirtualApplianceName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/networkVirtualApplianceConnections/{connectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -500,7 +464,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -508,22 +472,22 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkWatcherName,
-    Parameters.flowLogName
+    Parameters.connectionName,
+    Parameters.networkVirtualApplianceName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/networkVirtualApplianceConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FlowLogListResult
+      bodyMapper: Mappers.NetworkVirtualApplianceConnectionList
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -531,7 +495,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkWatcherName
+    Parameters.networkVirtualApplianceName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -541,10 +505,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FlowLogListResult
+      bodyMapper: Mappers.NetworkVirtualApplianceConnectionList
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   urlParameters: [
@@ -552,7 +516,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.networkWatcherName
+    Parameters.networkVirtualApplianceName1
   ],
   headerParameters: [Parameters.accept],
   serializer
