@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ServerBlobAuditingPolicy,
   WorkspaceManagedSqlServerBlobAuditingPoliciesListByWorkspaceNextOptionalParams,
@@ -160,8 +164,8 @@ export class WorkspaceManagedSqlServerBlobAuditingPoliciesImpl
     parameters: ServerBlobAuditingPolicy,
     options?: WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateResponse
       >,
       WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateResponse
@@ -173,7 +177,7 @@ export class WorkspaceManagedSqlServerBlobAuditingPoliciesImpl
     ): Promise<WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -206,19 +210,24 @@ export class WorkspaceManagedSqlServerBlobAuditingPoliciesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         blobAuditingPolicyName,
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateResponse,
+      OperationState<
+        WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

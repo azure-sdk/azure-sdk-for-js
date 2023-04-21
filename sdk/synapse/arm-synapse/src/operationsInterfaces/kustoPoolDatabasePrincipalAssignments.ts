@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DatabasePrincipalAssignment,
   KustoPoolDatabasePrincipalAssignmentsListOptionalParams,
@@ -94,8 +94,8 @@ export interface KustoPoolDatabasePrincipalAssignments {
     parameters: DatabasePrincipalAssignment,
     options?: KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateResponse
       >,
       KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateResponse
@@ -136,7 +136,7 @@ export interface KustoPoolDatabasePrincipalAssignments {
     principalAssignmentName: string,
     resourceGroupName: string,
     options?: KustoPoolDatabasePrincipalAssignmentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Kusto pool principalAssignment.
    * @param workspaceName The name of the workspace.
