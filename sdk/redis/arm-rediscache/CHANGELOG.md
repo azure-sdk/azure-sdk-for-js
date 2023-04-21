@@ -1,15 +1,45 @@
 # Release History
+    
+## 7.2.0 (2023-04-21)
+    
+**Features**
 
-## 7.1.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group AccessPolicy
+  - Added operation group AccessPolicyAssignment
+  - Added Interface AccessPolicyAssignmentCreateUpdateOptionalParams
+  - Added Interface AccessPolicyAssignmentDeleteHeaders
+  - Added Interface AccessPolicyAssignmentDeleteOptionalParams
+  - Added Interface AccessPolicyAssignmentGetOptionalParams
+  - Added Interface AccessPolicyAssignmentListNextOptionalParams
+  - Added Interface AccessPolicyAssignmentListOptionalParams
+  - Added Interface AccessPolicyCreateUpdateOptionalParams
+  - Added Interface AccessPolicyDeleteHeaders
+  - Added Interface AccessPolicyDeleteOptionalParams
+  - Added Interface AccessPolicyGetOptionalParams
+  - Added Interface AccessPolicyListNextOptionalParams
+  - Added Interface AccessPolicyListOptionalParams
+  - Added Interface LinkedServerDeleteHeaders
+  - Added Interface RedisCacheAccessPolicy
+  - Added Interface RedisCacheAccessPolicyAssignment
+  - Added Interface RedisCacheAccessPolicyAssignmentList
+  - Added Interface RedisCacheAccessPolicyAssignmentSet
+  - Added Interface RedisCacheAccessPolicyList
+  - Added Type Alias AccessPolicyAssignmentCreateUpdateResponse
+  - Added Type Alias AccessPolicyAssignmentGetResponse
+  - Added Type Alias AccessPolicyAssignmentListNextResponse
+  - Added Type Alias AccessPolicyAssignmentListResponse
+  - Added Type Alias AccessPolicyAssignmentProvisioningState
+  - Added Type Alias AccessPolicyCreateUpdateResponse
+  - Added Type Alias AccessPolicyGetResponse
+  - Added Type Alias AccessPolicyListNextResponse
+  - Added Type Alias AccessPolicyListResponse
+  - Added Type Alias AccessPolicyProvisioningState
+  - Added Type Alias AccessPolicyType
+  - Interface RedisCommonPropertiesRedisConfiguration has a new optional parameter aadEnabled
+  - Added Enum KnownAccessPolicyAssignmentProvisioningState
+  - Added Enum KnownAccessPolicyProvisioningState
+  - Added Enum KnownAccessPolicyType
+    
 ## 7.1.1 (2023-01-31)
 
 **Features**

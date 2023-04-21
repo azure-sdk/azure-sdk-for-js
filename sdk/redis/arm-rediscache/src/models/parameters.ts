@@ -22,7 +22,9 @@ import {
   RedisFirewallRule as RedisFirewallRuleMapper,
   RedisPatchSchedule as RedisPatchScheduleMapper,
   RedisLinkedServerCreateParameters as RedisLinkedServerCreateParametersMapper,
-  PrivateEndpointConnection as PrivateEndpointConnectionMapper
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
+  RedisCacheAccessPolicy as RedisCacheAccessPolicyMapper,
+  RedisCacheAccessPolicyAssignmentSet as RedisCacheAccessPolicyAssignmentSetMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -52,7 +54,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-06-01",
+    defaultValue: "2023-05-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -93,6 +95,9 @@ export const parameters: OperationParameter = {
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
+    constraints: {
+      MinLength: 1
+    },
     serializedName: "subscriptionId",
     required: true,
     type: {
@@ -104,6 +109,10 @@ export const subscriptionId: OperationURLParameter = {
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
+    },
     serializedName: "resourceGroupName",
     required: true,
     type: {
@@ -167,6 +176,9 @@ export const parameters6: OperationParameter = {
 export const cacheName: OperationURLParameter = {
   parameterPath: "cacheName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]|[a-zA-Z0-9])$")
+    },
     serializedName: "cacheName",
     required: true,
     type: {
@@ -259,4 +271,28 @@ export const operationId: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const parameters10: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: RedisCacheAccessPolicyMapper
+};
+
+export const accessPolicyName: OperationURLParameter = {
+  parameterPath: "accessPolicyName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]+$")
+    },
+    serializedName: "accessPolicyName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters11: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: RedisCacheAccessPolicyAssignmentSetMapper
 };
