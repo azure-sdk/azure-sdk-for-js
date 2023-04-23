@@ -1,15 +1,48 @@
 # Release History
+    
+## 10.0.0 (2023-04-23)
+    
+**Features**
 
-## 9.1.1 (Unreleased)
+  - Added operation CloudEndpoints.afsShareMetadataCertificatePublicKeys
+  - Added operation RegisteredServers.beginUpdate
+  - Added operation RegisteredServers.beginUpdateAndWait
+  - Added Interface CloudEndpointAfsShareMetadataCertificatePublicKeys
+  - Added Interface CloudEndpointsAfsShareMetadataCertificatePublicKeysHeaders
+  - Added Interface CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams
+  - Added Interface CloudTieringLowDiskMode
+  - Added Interface ManagedServiceIdentity
+  - Added Interface RegisteredServersUpdateHeaders
+  - Added Interface RegisteredServersUpdateOptionalParams
+  - Added Interface RegisteredServerUpdateParameters
+  - Added Interface SystemData
+  - Added Interface UserAssignedIdentity
+  - Added Type Alias CloudEndpointsAfsShareMetadataCertificatePublicKeysResponse
+  - Added Type Alias CloudTieringLowDiskModeState
+  - Added Type Alias CreatedByType
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias RegisteredServersUpdateResponse
+  - Interface OperationResourceMetricSpecification has a new optional parameter lockAggregationType
+  - Interface OperationResourceMetricSpecification has a new optional parameter supportedAggregationTypes
+  - Interface RegisteredServer has a new optional parameter applicationId
+  - Interface RegisteredServerCreateParameters has a new optional parameter applicationId
+  - Interface Resource has a new optional parameter systemData
+  - Interface ServerEndpointCloudTieringStatus has a new optional parameter lowDiskMode
+  - Interface StorageSyncApiError has a new optional parameter innererror
+  - Interface StorageSyncService has a new optional parameter identity
+  - Interface StorageSyncService has a new optional parameter useIdentity
+  - Interface StorageSyncServiceCreateParameters has a new optional parameter identity
+  - Interface StorageSyncServiceUpdateParameters has a new optional parameter identity
+  - Interface StorageSyncServiceUpdateParameters has a new optional parameter useIdentity
+  - Added Enum KnownCloudTieringLowDiskModeState
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownManagedServiceIdentityType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface StorageSyncApiError no longer has parameter innerError
+    
+    
 ## 9.1.0 (2022-12-12)
     
 **Features**

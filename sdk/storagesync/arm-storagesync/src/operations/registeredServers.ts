@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MicrosoftStorageSync } from "../microsoftStorageSync";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   RegisteredServer,
   RegisteredServersListByStorageSyncServiceOptionalParams,
@@ -23,6 +27,9 @@ import {
   RegisteredServerCreateParameters,
   RegisteredServersCreateOptionalParams,
   RegisteredServersCreateResponse,
+  RegisteredServerUpdateParameters,
+  RegisteredServersUpdateOptionalParams,
+  RegisteredServersUpdateResponse,
   RegisteredServersDeleteOptionalParams,
   RegisteredServersDeleteResponse,
   TriggerRolloverRequest,
@@ -160,8 +167,8 @@ export class RegisteredServersImpl implements RegisteredServers {
     parameters: RegisteredServerCreateParameters,
     options?: RegisteredServersCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RegisteredServersCreateResponse>,
+    SimplePollerLike<
+      OperationState<RegisteredServersCreateResponse>,
       RegisteredServersCreateResponse
     >
   > {
@@ -171,7 +178,7 @@ export class RegisteredServersImpl implements RegisteredServers {
     ): Promise<RegisteredServersCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -204,19 +211,22 @@ export class RegisteredServersImpl implements RegisteredServers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         serverId,
         parameters,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RegisteredServersCreateResponse,
+      OperationState<RegisteredServersCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -249,30 +259,32 @@ export class RegisteredServersImpl implements RegisteredServers {
   }
 
   /**
-   * Delete the given registered server.
+   * Update registered server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
    * @param serverId GUID identifying the on-premises server.
+   * @param parameters Body of Registered Server object.
    * @param options The options parameters.
    */
-  async beginDelete(
+  async beginUpdate(
     resourceGroupName: string,
     storageSyncServiceName: string,
     serverId: string,
-    options?: RegisteredServersDeleteOptionalParams
+    parameters: RegisteredServerUpdateParameters,
+    options?: RegisteredServersUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RegisteredServersDeleteResponse>,
-      RegisteredServersDeleteResponse
+    SimplePollerLike<
+      OperationState<RegisteredServersUpdateResponse>,
+      RegisteredServersUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<RegisteredServersDeleteResponse> => {
+    ): Promise<RegisteredServersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -305,13 +317,120 @@ export class RegisteredServersImpl implements RegisteredServers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, storageSyncServiceName, serverId, options },
-      deleteOperationSpec
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        storageSyncServiceName,
+        serverId,
+        parameters,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RegisteredServersUpdateResponse,
+      OperationState<RegisteredServersUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update registered server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageSyncServiceName Name of Storage Sync Service resource.
+   * @param serverId GUID identifying the on-premises server.
+   * @param parameters Body of Registered Server object.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    serverId: string,
+    parameters: RegisteredServerUpdateParameters,
+    options?: RegisteredServersUpdateOptionalParams
+  ): Promise<RegisteredServersUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      storageSyncServiceName,
+      serverId,
+      parameters,
+      options
     );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Delete the given registered server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageSyncServiceName Name of Storage Sync Service resource.
+   * @param serverId GUID identifying the on-premises server.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    serverId: string,
+    options?: RegisteredServersDeleteOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<RegisteredServersDeleteResponse>,
+      RegisteredServersDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<RegisteredServersDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, storageSyncServiceName, serverId, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RegisteredServersDeleteResponse,
+      OperationState<RegisteredServersDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -355,8 +474,8 @@ export class RegisteredServersImpl implements RegisteredServers {
     parameters: TriggerRolloverRequest,
     options?: RegisteredServersTriggerRolloverOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RegisteredServersTriggerRolloverResponse>,
+    SimplePollerLike<
+      OperationState<RegisteredServersTriggerRolloverResponse>,
       RegisteredServersTriggerRolloverResponse
     >
   > {
@@ -366,7 +485,7 @@ export class RegisteredServersImpl implements RegisteredServers {
     ): Promise<RegisteredServersTriggerRolloverResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -399,19 +518,22 @@ export class RegisteredServersImpl implements RegisteredServers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         serverId,
         parameters,
         options
       },
-      triggerRolloverOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: triggerRolloverOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RegisteredServersTriggerRolloverResponse,
+      OperationState<RegisteredServersTriggerRolloverResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -531,6 +653,44 @@ const createOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/registeredServers/{serverId}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RegisteredServer,
+      headersMapper: Mappers.RegisteredServersUpdateHeaders
+    },
+    201: {
+      bodyMapper: Mappers.RegisteredServer,
+      headersMapper: Mappers.RegisteredServersUpdateHeaders
+    },
+    202: {
+      bodyMapper: Mappers.RegisteredServer,
+      headersMapper: Mappers.RegisteredServersUpdateHeaders
+    },
+    204: {
+      bodyMapper: Mappers.RegisteredServer,
+      headersMapper: Mappers.RegisteredServersUpdateHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageSyncError
+    }
+  },
+  requestBody: Parameters.parameters13,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.storageSyncServiceName,
+    Parameters.serverId
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/registeredServers/{serverId}",
@@ -584,7 +744,7 @@ const triggerRolloverOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.StorageSyncError
     }
   },
-  requestBody: Parameters.parameters13,
+  requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
