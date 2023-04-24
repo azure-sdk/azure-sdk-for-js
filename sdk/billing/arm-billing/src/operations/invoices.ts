@@ -13,35 +13,39 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { BillingManagementClient } from "../billingManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Invoice,
-  InvoicesListByBillingAccountNextOptionalParams,
-  InvoicesListByBillingAccountOptionalParams,
-  InvoicesListByBillingAccountResponse,
   InvoicesListByBillingProfileNextOptionalParams,
   InvoicesListByBillingProfileOptionalParams,
   InvoicesListByBillingProfileResponse,
+  InvoicesListByBillingAccountNextOptionalParams,
+  InvoicesListByBillingAccountOptionalParams,
+  InvoicesListByBillingAccountResponse,
   InvoicesListByBillingSubscriptionNextOptionalParams,
   InvoicesListByBillingSubscriptionOptionalParams,
   InvoicesListByBillingSubscriptionResponse,
-  InvoicesGetOptionalParams,
-  InvoicesGetResponse,
-  InvoicesGetByIdOptionalParams,
-  InvoicesGetByIdResponse,
-  InvoicesDownloadInvoiceOptionalParams,
-  InvoicesDownloadInvoiceResponse,
   InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams,
   InvoicesDownloadMultipleBillingProfileInvoicesResponse,
+  InvoicesGetOptionalParams,
+  InvoicesGetResponse,
+  InvoicesDownloadInvoiceOptionalParams,
+  InvoicesDownloadInvoiceResponse,
+  InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams,
+  InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse,
   InvoicesGetBySubscriptionAndInvoiceIdOptionalParams,
   InvoicesGetBySubscriptionAndInvoiceIdResponse,
   InvoicesDownloadBillingSubscriptionInvoiceOptionalParams,
   InvoicesDownloadBillingSubscriptionInvoiceResponse,
-  InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams,
-  InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse,
-  InvoicesListByBillingAccountNextResponse,
+  InvoicesGetByIdOptionalParams,
+  InvoicesGetByIdResponse,
   InvoicesListByBillingProfileNextResponse,
+  InvoicesListByBillingAccountNextResponse,
   InvoicesListByBillingSubscriptionNextResponse
 } from "../models";
 
@@ -56,103 +60,6 @@ export class InvoicesImpl implements Invoices {
    */
   constructor(client: BillingManagementClient) {
     this.client = client;
-  }
-
-  /**
-   * Lists the invoices for a billing account for a given start date and end date. The operation is
-   * supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer
-   * Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param periodStartDate The start date to fetch the invoices. The date should be specified in
-   *                        MM-DD-YYYY format.
-   * @param periodEndDate The end date to fetch the invoices. The date should be specified in MM-DD-YYYY
-   *                      format.
-   * @param options The options parameters.
-   */
-  public listByBillingAccount(
-    billingAccountName: string,
-    periodStartDate: string,
-    periodEndDate: string,
-    options?: InvoicesListByBillingAccountOptionalParams
-  ): PagedAsyncIterableIterator<Invoice> {
-    const iter = this.listByBillingAccountPagingAll(
-      billingAccountName,
-      periodStartDate,
-      periodEndDate,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByBillingAccountPagingPage(
-          billingAccountName,
-          periodStartDate,
-          periodEndDate,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listByBillingAccountPagingPage(
-    billingAccountName: string,
-    periodStartDate: string,
-    periodEndDate: string,
-    options?: InvoicesListByBillingAccountOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<Invoice[]> {
-    let result: InvoicesListByBillingAccountResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByBillingAccount(
-        billingAccountName,
-        periodStartDate,
-        periodEndDate,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByBillingAccountNext(
-        billingAccountName,
-        periodStartDate,
-        periodEndDate,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listByBillingAccountPagingAll(
-    billingAccountName: string,
-    periodStartDate: string,
-    periodEndDate: string,
-    options?: InvoicesListByBillingAccountOptionalParams
-  ): AsyncIterableIterator<Invoice> {
-    for await (const page of this.listByBillingAccountPagingPage(
-      billingAccountName,
-      periodStartDate,
-      periodEndDate,
-      options
-    )) {
-      yield* page;
-    }
   }
 
   /**
@@ -231,8 +138,6 @@ export class InvoicesImpl implements Invoices {
       result = await this._listByBillingProfileNext(
         billingAccountName,
         billingProfileName,
-        periodStartDate,
-        periodEndDate,
         continuationToken,
         options
       );
@@ -253,6 +158,101 @@ export class InvoicesImpl implements Invoices {
     for await (const page of this.listByBillingProfilePagingPage(
       billingAccountName,
       billingProfileName,
+      periodStartDate,
+      periodEndDate,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the invoices for a billing account for a given start date and end date. The operation is
+   * supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer
+   * Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param periodStartDate The start date to fetch the invoices. The date should be specified in
+   *                        MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the invoices. The date should be specified in MM-DD-YYYY
+   *                      format.
+   * @param options The options parameters.
+   */
+  public listByBillingAccount(
+    billingAccountName: string,
+    periodStartDate: string,
+    periodEndDate: string,
+    options?: InvoicesListByBillingAccountOptionalParams
+  ): PagedAsyncIterableIterator<Invoice> {
+    const iter = this.listByBillingAccountPagingAll(
+      billingAccountName,
+      periodStartDate,
+      periodEndDate,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByBillingAccountPagingPage(
+          billingAccountName,
+          periodStartDate,
+          periodEndDate,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listByBillingAccountPagingPage(
+    billingAccountName: string,
+    periodStartDate: string,
+    periodEndDate: string,
+    options?: InvoicesListByBillingAccountOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<Invoice[]> {
+    let result: InvoicesListByBillingAccountResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByBillingAccount(
+        billingAccountName,
+        periodStartDate,
+        periodEndDate,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByBillingAccountNext(
+        billingAccountName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByBillingAccountPagingAll(
+    billingAccountName: string,
+    periodStartDate: string,
+    periodEndDate: string,
+    options?: InvoicesListByBillingAccountOptionalParams
+  ): AsyncIterableIterator<Invoice> {
+    for await (const page of this.listByBillingAccountPagingPage(
+      billingAccountName,
       periodStartDate,
       periodEndDate,
       options
@@ -319,8 +319,6 @@ export class InvoicesImpl implements Invoices {
     }
     while (continuationToken) {
       result = await this._listByBillingSubscriptionNext(
-        periodStartDate,
-        periodEndDate,
         continuationToken,
         options
       );
@@ -343,29 +341,6 @@ export class InvoicesImpl implements Invoices {
     )) {
       yield* page;
     }
-  }
-
-  /**
-   * Lists the invoices for a billing account for a given start date and end date. The operation is
-   * supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer
-   * Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param periodStartDate The start date to fetch the invoices. The date should be specified in
-   *                        MM-DD-YYYY format.
-   * @param periodEndDate The end date to fetch the invoices. The date should be specified in MM-DD-YYYY
-   *                      format.
-   * @param options The options parameters.
-   */
-  private _listByBillingAccount(
-    billingAccountName: string,
-    periodStartDate: string,
-    periodEndDate: string,
-    options?: InvoicesListByBillingAccountOptionalParams
-  ): Promise<InvoicesListByBillingAccountResponse> {
-    return this.client.sendOperationRequest(
-      { billingAccountName, periodStartDate, periodEndDate, options },
-      listByBillingAccountOperationSpec
-    );
   }
 
   /**
@@ -400,65 +375,30 @@ export class InvoicesImpl implements Invoices {
   }
 
   /**
-   * Gets an invoice by billing account name and ID. The operation is supported for billing accounts with
-   * agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+   * Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a zip
+   * file. The operation is supported for billing accounts with agreement type Microsoft Partner
+   * Agreement or Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param invoiceName The ID that uniquely identifies an invoice.
+   * @param downloadUrls An array of download urls for individual documents
    * @param options The options parameters.
    */
-  get(
+  async beginDownloadMultipleBillingProfileInvoices(
     billingAccountName: string,
-    invoiceName: string,
-    options?: InvoicesGetOptionalParams
-  ): Promise<InvoicesGetResponse> {
-    return this.client.sendOperationRequest(
-      { billingAccountName, invoiceName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * Gets an invoice by ID. The operation is supported for billing accounts with agreement type Microsoft
-   * Partner Agreement or Microsoft Customer Agreement.
-   * @param invoiceName The ID that uniquely identifies an invoice.
-   * @param options The options parameters.
-   */
-  getById(
-    invoiceName: string,
-    options?: InvoicesGetByIdOptionalParams
-  ): Promise<InvoicesGetByIdResponse> {
-    return this.client.sendOperationRequest(
-      { invoiceName, options },
-      getByIdOperationSpec
-    );
-  }
-
-  /**
-   * Gets a URL to download an invoice. The operation is supported for billing accounts with agreement
-   * type Microsoft Partner Agreement or Microsoft Customer Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param invoiceName The ID that uniquely identifies an invoice.
-   * @param downloadToken Download token with document source and document ID.
-   * @param options The options parameters.
-   */
-  async beginDownloadInvoice(
-    billingAccountName: string,
-    invoiceName: string,
-    downloadToken: string,
-    options?: InvoicesDownloadInvoiceOptionalParams
+    downloadUrls: string[],
+    options?: InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<InvoicesDownloadInvoiceResponse>,
-      InvoicesDownloadInvoiceResponse
+    SimplePollerLike<
+      OperationState<InvoicesDownloadMultipleBillingProfileInvoicesResponse>,
+      InvoicesDownloadMultipleBillingProfileInvoicesResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<InvoicesDownloadInvoiceResponse> => {
+    ): Promise<InvoicesDownloadMultipleBillingProfileInvoicesResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -491,15 +431,155 @@ export class InvoicesImpl implements Invoices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { billingAccountName, invoiceName, downloadToken, options },
-      downloadInvoiceOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { billingAccountName, downloadUrls, options },
+      spec: downloadMultipleBillingProfileInvoicesOperationSpec
+    });
+    const poller = await createHttpPoller<
+      InvoicesDownloadMultipleBillingProfileInvoicesResponse,
+      OperationState<InvoicesDownloadMultipleBillingProfileInvoicesResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a zip
+   * file. The operation is supported for billing accounts with agreement type Microsoft Partner
+   * Agreement or Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param downloadUrls An array of download urls for individual documents
+   * @param options The options parameters.
+   */
+  async beginDownloadMultipleBillingProfileInvoicesAndWait(
+    billingAccountName: string,
+    downloadUrls: string[],
+    options?: InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams
+  ): Promise<InvoicesDownloadMultipleBillingProfileInvoicesResponse> {
+    const poller = await this.beginDownloadMultipleBillingProfileInvoices(
+      billingAccountName,
+      downloadUrls,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Lists the invoices for a billing account for a given start date and end date. The operation is
+   * supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer
+   * Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param periodStartDate The start date to fetch the invoices. The date should be specified in
+   *                        MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the invoices. The date should be specified in MM-DD-YYYY
+   *                      format.
+   * @param options The options parameters.
+   */
+  private _listByBillingAccount(
+    billingAccountName: string,
+    periodStartDate: string,
+    periodEndDate: string,
+    options?: InvoicesListByBillingAccountOptionalParams
+  ): Promise<InvoicesListByBillingAccountResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, periodStartDate, periodEndDate, options },
+      listByBillingAccountOperationSpec
+    );
+  }
+
+  /**
+   * Gets an invoice by billing account name and ID. The operation is supported for billing accounts with
+   * agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param invoiceName The ID that uniquely identifies an invoice.
+   * @param options The options parameters.
+   */
+  get(
+    billingAccountName: string,
+    invoiceName: string,
+    options?: InvoicesGetOptionalParams
+  ): Promise<InvoicesGetResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, invoiceName, options },
+      getOperationSpec
+    );
+  }
+
+  /**
+   * Gets a URL to download an invoice. The operation is supported for billing accounts with agreement
+   * type Microsoft Partner Agreement or Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param invoiceName The ID that uniquely identifies an invoice.
+   * @param downloadToken Download token with document source and document ID.
+   * @param options The options parameters.
+   */
+  async beginDownloadInvoice(
+    billingAccountName: string,
+    invoiceName: string,
+    downloadToken: string,
+    options?: InvoicesDownloadInvoiceOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<InvoicesDownloadInvoiceResponse>,
+      InvoicesDownloadInvoiceResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<InvoicesDownloadInvoiceResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { billingAccountName, invoiceName, downloadToken, options },
+      spec: downloadInvoiceOperationSpec
+    });
+    const poller = await createHttpPoller<
+      InvoicesDownloadInvoiceResponse,
+      OperationState<InvoicesDownloadInvoiceResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -530,31 +610,28 @@ export class InvoicesImpl implements Invoices {
 
   /**
    * Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a zip
-   * file. The operation is supported for billing accounts with agreement type Microsoft Partner
-   * Agreement or Microsoft Customer Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * file.
    * @param downloadUrls An array of download urls for individual documents
    * @param options The options parameters.
    */
-  async beginDownloadMultipleBillingProfileInvoices(
-    billingAccountName: string,
+  async beginDownloadMultipleBillingSubscriptionInvoices(
     downloadUrls: string[],
-    options?: InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams
+    options?: InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        InvoicesDownloadMultipleBillingProfileInvoicesResponse
+    SimplePollerLike<
+      OperationState<
+        InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse
       >,
-      InvoicesDownloadMultipleBillingProfileInvoicesResponse
+      InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<InvoicesDownloadMultipleBillingProfileInvoicesResponse> => {
+    ): Promise<InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -587,15 +664,20 @@ export class InvoicesImpl implements Invoices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { billingAccountName, downloadUrls, options },
-      downloadMultipleBillingProfileInvoicesOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { downloadUrls, options },
+      spec: downloadMultipleBillingSubscriptionInvoicesOperationSpec
+    });
+    const poller = await createHttpPoller<
+      InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse,
+      OperationState<
+        InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -603,19 +685,15 @@ export class InvoicesImpl implements Invoices {
 
   /**
    * Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a zip
-   * file. The operation is supported for billing accounts with agreement type Microsoft Partner
-   * Agreement or Microsoft Customer Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * file.
    * @param downloadUrls An array of download urls for individual documents
    * @param options The options parameters.
    */
-  async beginDownloadMultipleBillingProfileInvoicesAndWait(
-    billingAccountName: string,
+  async beginDownloadMultipleBillingSubscriptionInvoicesAndWait(
     downloadUrls: string[],
-    options?: InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams
-  ): Promise<InvoicesDownloadMultipleBillingProfileInvoicesResponse> {
-    const poller = await this.beginDownloadMultipleBillingProfileInvoices(
-      billingAccountName,
+    options?: InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams
+  ): Promise<InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse> {
+    const poller = await this.beginDownloadMultipleBillingSubscriptionInvoices(
       downloadUrls,
       options
     );
@@ -665,8 +743,8 @@ export class InvoicesImpl implements Invoices {
     downloadToken: string,
     options?: InvoicesDownloadBillingSubscriptionInvoiceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<InvoicesDownloadBillingSubscriptionInvoiceResponse>,
+    SimplePollerLike<
+      OperationState<InvoicesDownloadBillingSubscriptionInvoiceResponse>,
       InvoicesDownloadBillingSubscriptionInvoiceResponse
     >
   > {
@@ -676,7 +754,7 @@ export class InvoicesImpl implements Invoices {
     ): Promise<InvoicesDownloadBillingSubscriptionInvoiceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -709,15 +787,18 @@ export class InvoicesImpl implements Invoices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { invoiceName, downloadToken, options },
-      downloadBillingSubscriptionInvoiceOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { invoiceName, downloadToken, options },
+      spec: downloadBillingSubscriptionInvoiceOperationSpec
+    });
+    const poller = await createHttpPoller<
+      InvoicesDownloadBillingSubscriptionInvoiceResponse,
+      OperationState<InvoicesDownloadBillingSubscriptionInvoiceResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -743,112 +824,18 @@ export class InvoicesImpl implements Invoices {
   }
 
   /**
-   * Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a zip
-   * file.
-   * @param downloadUrls An array of download urls for individual documents
+   * Gets an invoice by ID. The operation is supported for billing accounts with agreement type Microsoft
+   * Partner Agreement or Microsoft Customer Agreement.
+   * @param invoiceName The ID that uniquely identifies an invoice.
    * @param options The options parameters.
    */
-  async beginDownloadMultipleBillingSubscriptionInvoices(
-    downloadUrls: string[],
-    options?: InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<
-        InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse
-      >,
-      InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { downloadUrls, options },
-      downloadMultipleBillingSubscriptionInvoicesOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a zip
-   * file.
-   * @param downloadUrls An array of download urls for individual documents
-   * @param options The options parameters.
-   */
-  async beginDownloadMultipleBillingSubscriptionInvoicesAndWait(
-    downloadUrls: string[],
-    options?: InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams
-  ): Promise<InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse> {
-    const poller = await this.beginDownloadMultipleBillingSubscriptionInvoices(
-      downloadUrls,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * ListByBillingAccountNext
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param periodStartDate The start date to fetch the invoices. The date should be specified in
-   *                        MM-DD-YYYY format.
-   * @param periodEndDate The end date to fetch the invoices. The date should be specified in MM-DD-YYYY
-   *                      format.
-   * @param nextLink The nextLink from the previous successful call to the ListByBillingAccount method.
-   * @param options The options parameters.
-   */
-  private _listByBillingAccountNext(
-    billingAccountName: string,
-    periodStartDate: string,
-    periodEndDate: string,
-    nextLink: string,
-    options?: InvoicesListByBillingAccountNextOptionalParams
-  ): Promise<InvoicesListByBillingAccountNextResponse> {
+  getById(
+    invoiceName: string,
+    options?: InvoicesGetByIdOptionalParams
+  ): Promise<InvoicesGetByIdResponse> {
     return this.client.sendOperationRequest(
-      { billingAccountName, periodStartDate, periodEndDate, nextLink, options },
-      listByBillingAccountNextOperationSpec
+      { invoiceName, options },
+      getByIdOperationSpec
     );
   }
 
@@ -856,50 +843,50 @@ export class InvoicesImpl implements Invoices {
    * ListByBillingProfileNext
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param periodStartDate The start date to fetch the invoices. The date should be specified in
-   *                        MM-DD-YYYY format.
-   * @param periodEndDate The end date to fetch the invoices. The date should be specified in MM-DD-YYYY
-   *                      format.
    * @param nextLink The nextLink from the previous successful call to the ListByBillingProfile method.
    * @param options The options parameters.
    */
   private _listByBillingProfileNext(
     billingAccountName: string,
     billingProfileName: string,
-    periodStartDate: string,
-    periodEndDate: string,
     nextLink: string,
     options?: InvoicesListByBillingProfileNextOptionalParams
   ): Promise<InvoicesListByBillingProfileNextResponse> {
     return this.client.sendOperationRequest(
-      {
-        billingAccountName,
-        billingProfileName,
-        periodStartDate,
-        periodEndDate,
-        nextLink,
-        options
-      },
+      { billingAccountName, billingProfileName, nextLink, options },
       listByBillingProfileNextOperationSpec
     );
   }
 
   /**
+   * ListByBillingAccountNext
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param nextLink The nextLink from the previous successful call to the ListByBillingAccount method.
+   * @param options The options parameters.
+   */
+  private _listByBillingAccountNext(
+    billingAccountName: string,
+    nextLink: string,
+    options?: InvoicesListByBillingAccountNextOptionalParams
+  ): Promise<InvoicesListByBillingAccountNextResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, nextLink, options },
+      listByBillingAccountNextOperationSpec
+    );
+  }
+
+  /**
    * ListByBillingSubscriptionNext
-   * @param periodStartDate Invoice period start date.
-   * @param periodEndDate Invoice period end date.
    * @param nextLink The nextLink from the previous successful call to the ListByBillingSubscription
    *                 method.
    * @param options The options parameters.
    */
   private _listByBillingSubscriptionNext(
-    periodStartDate: string,
-    periodEndDate: string,
     nextLink: string,
     options?: InvoicesListByBillingSubscriptionNextOptionalParams
   ): Promise<InvoicesListByBillingSubscriptionNextResponse> {
     return this.client.sendOperationRequest(
-      { periodStartDate, periodEndDate, nextLink, options },
+      { nextLink, options },
       listByBillingSubscriptionNextOperationSpec
     );
   }
@@ -907,27 +894,6 @@ export class InvoicesImpl implements Invoices {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.InvoiceListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.periodStartDate,
-    Parameters.periodEndDate
-  ],
-  urlParameters: [Parameters.$host, Parameters.billingAccountName],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
   path:
     "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoices",
@@ -937,7 +903,7 @@ const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.InvoiceListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [
@@ -949,74 +915,6 @@ const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.billingProfileName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices/{invoiceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Invoice
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.invoiceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getByIdOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/default/invoices/{invoiceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Invoice
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.invoiceName],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const downloadInvoiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices/{invoiceName}/download",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DownloadUrl
-    },
-    201: {
-      bodyMapper: Mappers.DownloadUrl
-    },
-    202: {
-      bodyMapper: Mappers.DownloadUrl
-    },
-    204: {
-      bodyMapper: Mappers.DownloadUrl
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.downloadToken],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.invoiceName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1039,12 +937,112 @@ const downloadMultipleBillingProfileInvoicesOperationSpec: coreClient.OperationS
       bodyMapper: Mappers.DownloadUrl
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   requestBody: Parameters.downloadUrls,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.billingAccountName],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.InvoiceListResult
+    },
+    default: {
+      bodyMapper: Mappers.ArmError
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.periodStartDate,
+    Parameters.periodEndDate
+  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices/{invoiceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Invoice
+    },
+    default: {
+      bodyMapper: Mappers.ArmError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.invoiceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const downloadInvoiceOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices/{invoiceName}/download",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DownloadUrl
+    },
+    201: {
+      bodyMapper: Mappers.DownloadUrl
+    },
+    202: {
+      bodyMapper: Mappers.DownloadUrl
+    },
+    204: {
+      bodyMapper: Mappers.DownloadUrl
+    },
+    default: {
+      bodyMapper: Mappers.ArmError
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.downloadToken],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.invoiceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const downloadMultipleBillingSubscriptionInvoicesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/default/billingSubscriptions/{subscriptionId}/downloadDocuments",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DownloadUrl
+    },
+    201: {
+      bodyMapper: Mappers.DownloadUrl
+    },
+    202: {
+      bodyMapper: Mappers.DownloadUrl
+    },
+    204: {
+      bodyMapper: Mappers.DownloadUrl
+    },
+    default: {
+      bodyMapper: Mappers.ArmError
+    }
+  },
+  requestBody: Parameters.downloadUrls,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
@@ -1058,7 +1056,7 @@ const listByBillingSubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.InvoiceListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [
@@ -1079,7 +1077,7 @@ const getBySubscriptionAndInvoiceIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Invoice
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -1109,7 +1107,7 @@ const downloadBillingSubscriptionInvoiceOperationSpec: coreClient.OperationSpec 
       bodyMapper: Mappers.DownloadUrl
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.downloadToken],
@@ -1121,55 +1119,20 @@ const downloadBillingSubscriptionInvoiceOperationSpec: coreClient.OperationSpec 
   headerParameters: [Parameters.accept],
   serializer
 };
-const downloadMultipleBillingSubscriptionInvoicesOperationSpec: coreClient.OperationSpec = {
+const getByIdOperationSpec: coreClient.OperationSpec = {
   path:
-    "/providers/Microsoft.Billing/billingAccounts/default/billingSubscriptions/{subscriptionId}/downloadDocuments",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DownloadUrl
-    },
-    201: {
-      bodyMapper: Mappers.DownloadUrl
-    },
-    202: {
-      bodyMapper: Mappers.DownloadUrl
-    },
-    204: {
-      bodyMapper: Mappers.DownloadUrl
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.downloadUrls,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+    "/providers/Microsoft.Billing/billingAccounts/default/invoices/{invoiceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InvoiceListResult
+      bodyMapper: Mappers.Invoice
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.periodStartDate,
-    Parameters.periodEndDate
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.nextLink
-  ],
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.invoiceName],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -1181,19 +1144,33 @@ const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.InvoiceListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.periodStartDate,
-    Parameters.periodEndDate
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.nextLink,
     Parameters.billingProfileName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.InvoiceListResult
+    },
+    default: {
+      bodyMapper: Mappers.ArmError
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1206,14 +1183,9 @@ const listByBillingSubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.InvoiceListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.periodStartDate,
-    Parameters.periodEndDate
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

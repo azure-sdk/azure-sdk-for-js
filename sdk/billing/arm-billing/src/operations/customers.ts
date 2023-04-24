@@ -298,7 +298,7 @@ const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CustomerListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [
@@ -323,7 +323,7 @@ const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CustomerListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [
@@ -344,7 +344,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Customer
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
@@ -364,14 +364,9 @@ const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CustomerListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.search,
-    Parameters.filter
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
@@ -389,14 +384,9 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CustomerListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.search,
-    Parameters.filter
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,

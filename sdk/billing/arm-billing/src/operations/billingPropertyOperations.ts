@@ -71,7 +71,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BillingProperty
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -88,10 +88,10 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BillingProperty
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
