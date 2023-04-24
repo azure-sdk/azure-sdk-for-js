@@ -1,15 +1,27 @@
 # Release History
+    
+## 3.2.0 (2023-04-24)
+    
+**Features**
 
-## 3.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface DataPlaneAadOrApiKeyAuthOption
+  - Added Interface DataPlaneAuthOptions
+  - Added Interface EncryptionWithCmk
+  - Added Type Alias AadAuthFailureMode
+  - Added Type Alias PrivateLinkServiceConnectionProvisioningState
+  - Added Type Alias SearchEncryptionComplianceStatus
+  - Added Type Alias SearchEncryptionWithCmk
+  - Interface PrivateEndpointConnectionProperties has a new optional parameter groupId
+  - Interface PrivateEndpointConnectionProperties has a new optional parameter provisioningState
+  - Interface SearchService has a new optional parameter authOptions
+  - Interface SearchService has a new optional parameter disableLocalAuth
+  - Interface SearchService has a new optional parameter encryptionWithCmk
+  - Interface SearchServiceUpdate has a new optional parameter authOptions
+  - Interface SearchServiceUpdate has a new optional parameter disableLocalAuth
+  - Interface SearchServiceUpdate has a new optional parameter encryptionWithCmk
+  - Added Enum KnownPrivateLinkServiceConnectionProvisioningState
+    
+    
 ## 3.1.0 (2022-12-07)
     
 **Features**

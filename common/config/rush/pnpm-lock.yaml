@@ -3991,7 +3991,7 @@ packages:
     dependencies:
       semver: 7.4.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230420
+      typescript: 5.1.0-dev.20230423
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8859,8 +8859,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230420:
-    resolution: {integrity: sha512-ytvKM7THT08QHjFP6v8kF3RtJWMQ/wWeQTIbe3kveVDcmstVrS5IZ47c9Y9GIYI2WaFVVjNu2YNLwSwIt82Fzg==}
+  /typescript/5.1.0-dev.20230423:
+    resolution: {integrity: sha512-WfMjpk8/hc0HGzFMGZcef08plCo/XirSMUlT6r6FfTLw0wIwrdcGDqHkYVaOV/F0EKirZNGpwYEJ30iIausB7g==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -14627,7 +14627,7 @@ packages:
     dev: false
 
   file:projects/arm-search.tgz:
-    resolution: {integrity: sha512-sxxGWJZ5k8lwroSyoYBTLN9Gea/7C0vvxTFH230e6n54+Nzuap4s2lK+xu5vReifXQx+6qVQFP32H3/BCyMTHA==, tarball: file:projects/arm-search.tgz}
+    resolution: {integrity: sha512-0wUR5UYeRoWmm2HncZluEaR09ZCKbz9Rl1fVH7bd3Bu8CjvsnMm2K2H6qNGGlymh1CV5I/5qsqmdohcB4gR9yA==, tarball: file:projects/arm-search.tgz}
     name: '@rush-temp/arm-search'
     version: 0.0.0
     dependencies:
@@ -14641,13 +14641,14 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_c43y4oaxxwie3ialrfuzfwwhqq
       tslib: 2.5.0
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -18508,7 +18509,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-W+4bDz+P9sQyIAoCpexjQEi5ojYMCroT9iQzznP0ikqajy0gPIxYpzFYjVu7ebeq+Xi4k+Uo8TihjfGiTVF2sw==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-f8UQv7K6vv7GvgXMrU6c4bAQ2ZbQiYPX/qUUrBBpzEVN70FT/oAwjCWzXKgT1S9qbZihbWv88DxUu6rm11nrPQ==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
     name: '@rush-temp/perf-ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -18524,7 +18525,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
