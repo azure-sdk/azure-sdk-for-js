@@ -11,3 +11,4 @@ export * from "./configurations";
 export * from "./recommendations";
 export * from "./operations";
 export * from "./suppressions";
+export * from "./advisorScores";
