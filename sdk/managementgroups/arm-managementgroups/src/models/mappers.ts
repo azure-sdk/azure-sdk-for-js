@@ -26,7 +26,7 @@ export const ManagementGroupListResult: coreClient.CompositeMapper = {
         }
       },
       nextLink: {
-        serializedName: "nextLink",
+        serializedName: "@nextLink",
         readOnly: true,
         type: {
           name: "String"
@@ -311,7 +311,11 @@ export const ManagementGroupChildInfo: coreClient.CompositeMapper = {
       type: {
         serializedName: "type",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "Microsoft.Management/managementGroups",
+            "/subscriptions"
+          ]
         }
       },
       id: {
@@ -487,7 +491,11 @@ export const CreateManagementGroupChildInfo: coreClient.CompositeMapper = {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "Microsoft.Management/managementGroups",
+            "/subscriptions"
+          ]
         }
       },
       id: {
@@ -790,7 +798,7 @@ export const HierarchySettingsList: coreClient.CompositeMapper = {
         }
       },
       nextLink: {
-        serializedName: "nextLink",
+        serializedName: "@nextLink",
         readOnly: true,
         type: {
           name: "String"
@@ -1148,14 +1156,16 @@ export const EntityInfo: coreClient.CompositeMapper = {
         serializedName: "properties.permissions",
         nullable: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["noaccess", "view", "edit", "delete"]
         }
       },
       inheritedPermissions: {
         serializedName: "properties.inheritedPermissions",
         nullable: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["noaccess", "view", "edit", "delete"]
         }
       },
       numberOfDescendants: {
@@ -1330,7 +1340,8 @@ export const EntityHierarchyItem: coreClient.CompositeMapper = {
       permissions: {
         serializedName: "properties.permissions",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["noaccess", "view", "edit", "delete"]
         }
       },
       children: {
