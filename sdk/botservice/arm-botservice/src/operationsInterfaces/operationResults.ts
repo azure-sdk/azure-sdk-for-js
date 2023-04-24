@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   OperationResultsGetOptionalParams,
   OperationResultsGetResponse
@@ -23,8 +23,8 @@ export interface OperationResults {
     operationResultId: string,
     options?: OperationResultsGetOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<OperationResultsGetResponse>,
+    SimplePollerLike<
+      OperationState<OperationResultsGetResponse>,
       OperationResultsGetResponse
     >
   >;

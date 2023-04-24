@@ -191,7 +191,7 @@ export interface Resource {
   sku?: Sku;
   /** Required. Gets or sets the Kind of the resource. */
   kind?: Kind;
-  /** Entity Tag */
+  /** Entity Tag. */
   etag?: string;
   /**
    * Entity zones
@@ -554,6 +554,10 @@ export interface QnAMakerEndpointKeysResponse {
 
 /** Properties for a Connection Setting Item */
 export interface ConnectionSettingProperties {
+  /** Id of the Connection Setting. */
+  id?: string;
+  /** Name of the Connection Setting. */
+  name?: string;
   /** Client Id associated with the Connection Setting. */
   clientId?: string;
   /**
@@ -1388,7 +1392,7 @@ export interface BotsUpdateOptionalParams extends coreClient.OperationOptions {
   sku?: Sku;
   /** Required. Gets or sets the Kind of the resource. */
   kind?: Kind;
-  /** Entity Tag */
+  /** Entity Tag. */
   etag?: string;
   /** The set of properties specific to bot resource */
   properties?: BotProperties;
@@ -1458,7 +1462,7 @@ export interface ChannelsUpdateOptionalParams
   sku?: Sku;
   /** Required. Gets or sets the Kind of the resource. */
   kind?: Kind;
-  /** Entity Tag */
+  /** Entity Tag. */
   etag?: string;
   /** The set of properties specific to bot channel resource */
   properties?: ChannelUnion;
