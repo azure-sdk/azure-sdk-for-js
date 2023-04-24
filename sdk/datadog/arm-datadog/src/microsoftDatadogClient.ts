@@ -115,7 +115,7 @@ export class MicrosoftDatadogClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-03-01";
+    this.apiVersion = options.apiVersion || "2022-06-01";
     this.marketplaceAgreements = new MarketplaceAgreementsImpl(this);
     this.monitors = new MonitorsImpl(this);
     this.operations = new OperationsImpl(this);

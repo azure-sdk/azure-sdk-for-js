@@ -319,16 +319,10 @@ export interface MonitorProperties {
 
 /** Datadog organization properties */
 export interface DatadogOrganizationProperties {
-  /**
-   * Name of the Datadog organization.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Id of the Datadog organization.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
+  /** Name of the Datadog organization. */
+  name?: string;
+  /** Id of the Datadog organization. */
+  id?: string;
   /** The auth code used to linking to an existing datadog organization. */
   linkingAuthCode?: string;
   /** The client_id from an existing in exchange for an auth token to link organization. */
