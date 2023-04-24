@@ -2686,7 +2686,7 @@ export interface InboundSecurityRules {
 /** The error object. */
 export interface ErrorResponse {
   /** The error details object. */
-  error?: ErrorDetails;
+  error?: ErrorModel;
 }
 
 /** Response for ListNetworkWatchers API service call. */
@@ -6416,7 +6416,7 @@ export interface Subnet extends SubResource {
   /** Enable or Disable apply network policies on private link service in the subnet. */
   privateLinkServiceNetworkPolicies?: VirtualNetworkPrivateLinkServiceNetworkPolicies;
   /** Application gateway IP configurations of virtual network resource. */
-  applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
+  applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
 }
 
 /** Frontend IP address of the load balancer. */

@@ -3392,7 +3392,7 @@ export interface ErrorModel {
 
 // @public
 export interface ErrorResponse {
-    error?: ErrorDetails;
+    error?: ErrorModel;
 }
 
 // @public
@@ -12439,7 +12439,7 @@ export interface StaticRoutesConfig {
 export interface Subnet extends SubResource {
     addressPrefix?: string;
     addressPrefixes?: string[];
-    applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
+    applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
     delegations?: Delegation[];
     readonly etag?: string;
     ipAllocations?: SubResource[];
