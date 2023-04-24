@@ -650,8 +650,23 @@ export interface TrackedResource extends Resource {
   tags?: { [propertyName: string]: string };
 }
 
+/** Properties of the PrivateEndpointConnection. */
+export interface PrivateEndpointConnection extends ProxyResource {
+  /**
+   * The system meta data relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The Private Endpoint resource for this Connection. */
+  privateEndpoint?: PrivateEndpoint;
+  /** Details about the state of the connection. */
+  privateLinkServiceConnectionState?: ConnectionState;
+  /** Provisioning state of the Private Endpoint Connection. */
+  provisioningState?: EndPointProvisioningState;
+}
+
 /** Network Security Perimeter related configurations of a given namespace */
-export interface NetworkSecurityPerimeterConfiguration extends Resource {
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
   /** Provisioning state of NetworkSecurityPerimeter configuration propagation */
   provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
   /** List of Provisioning Issues if any */
@@ -671,21 +686,6 @@ export interface NetworkSecurityPerimeterConfiguration extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly profile?: NetworkSecurityPerimeterConfigurationPropertiesProfile;
-}
-
-/** Properties of the PrivateEndpointConnection. */
-export interface PrivateEndpointConnection extends ProxyResource {
-  /**
-   * The system meta data relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The Private Endpoint resource for this Connection. */
-  privateEndpoint?: PrivateEndpoint;
-  /** Details about the state of the connection. */
-  privateLinkServiceConnectionState?: ConnectionState;
-  /** Provisioning state of the Private Endpoint Connection. */
-  provisioningState?: EndPointProvisioningState;
 }
 
 /** Description of topic resource. */
