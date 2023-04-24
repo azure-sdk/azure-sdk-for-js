@@ -10,6 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   EntityUnion,
   EntitiesListOptionalParams,
+  EntitiesRunPlaybookOptionalParams,
   EntitiesGetOptionalParams,
   EntitiesGetResponse,
   EntityExpandParameters,
@@ -37,6 +38,19 @@ export interface Entities {
     workspaceName: string,
     options?: EntitiesListOptionalParams
   ): PagedAsyncIterableIterator<EntityUnion>;
+  /**
+   * Triggers playbook on a specific entity.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param entityIdentifier Entity identifier.
+   * @param options The options parameters.
+   */
+  runPlaybook(
+    resourceGroupName: string,
+    workspaceName: string,
+    entityIdentifier: string,
+    options?: EntitiesRunPlaybookOptionalParams
+  ): Promise<void>;
   /**
    * Gets an entity.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
