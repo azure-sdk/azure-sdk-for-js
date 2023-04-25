@@ -21,7 +21,6 @@ export type AcceleratorAuthSettingUnion = AcceleratorAuthSetting | AcceleratorPu
 // @public
 export interface AcceleratorBasicAuthSetting extends AcceleratorAuthSetting {
     authType: "BasicAuth";
-    caCertResourceId?: string;
     password?: string;
     username: string;
 }
@@ -39,7 +38,6 @@ export interface AcceleratorGitRepository {
 // @public
 export interface AcceleratorPublicSetting extends AcceleratorAuthSetting {
     authType: "Public";
-    caCertResourceId?: string;
 }
 
 // @public
@@ -429,8 +427,6 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     configServers: ConfigServers;
     // (undocumented)
     configurationServices: ConfigurationServices;
-    // (undocumented)
-    containerRegistries: ContainerRegistries;
     // (undocumented)
     customDomains: CustomDomains;
     // (undocumented)
@@ -882,7 +878,6 @@ export interface BuildResultProperties {
     buildPodName?: string;
     readonly buildStages?: BuildStageProperties[];
     error?: ErrorModel;
-    readonly image?: string;
     name?: string;
     readonly provisioningState?: BuildResultProvisioningState;
 }
@@ -1031,27 +1026,6 @@ export interface BuildServiceCreateOrUpdateBuildOptionalParams extends coreClien
 export type BuildServiceCreateOrUpdateBuildResponse = Build;
 
 // @public
-export interface BuildServiceCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type BuildServiceCreateOrUpdateResponse = BuildService;
-
-// @public
-export interface BuildServiceDeleteBuildHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface BuildServiceDeleteBuildOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface BuildServiceGetBuildOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -1158,10 +1132,6 @@ export type BuildServiceListSupportedStacksResponse = SupportedStacksCollection;
 
 // @public
 export interface BuildServiceOperations {
-    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, buildServiceName: string, buildService: BuildService, options?: BuildServiceCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BuildServiceCreateOrUpdateResponse>, BuildServiceCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, buildServiceName: string, buildService: BuildService, options?: BuildServiceCreateOrUpdateOptionalParams): Promise<BuildServiceCreateOrUpdateResponse>;
-    beginDeleteBuild(resourceGroupName: string, serviceName: string, buildServiceName: string, buildName: string, options?: BuildServiceDeleteBuildOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteBuildAndWait(resourceGroupName: string, serviceName: string, buildServiceName: string, buildName: string, options?: BuildServiceDeleteBuildOptionalParams): Promise<void>;
     createOrUpdateBuild(resourceGroupName: string, serviceName: string, buildServiceName: string, buildName: string, build: Build, options?: BuildServiceCreateOrUpdateBuildOptionalParams): Promise<BuildServiceCreateOrUpdateBuildResponse>;
     getBuild(resourceGroupName: string, serviceName: string, buildServiceName: string, buildName: string, options?: BuildServiceGetBuildOptionalParams): Promise<BuildServiceGetBuildResponse>;
     getBuildResult(resourceGroupName: string, serviceName: string, buildServiceName: string, buildName: string, buildResultName: string, options?: BuildServiceGetBuildResultOptionalParams): Promise<BuildServiceGetBuildResultResponse>;
@@ -1179,8 +1149,7 @@ export interface BuildServiceOperations {
 
 // @public
 export interface BuildServiceProperties {
-    containerRegistry?: string;
-    readonly kPackVersion?: string;
+    kPackVersion?: string;
     readonly provisioningState?: BuildServiceProvisioningState;
     resourceRequests?: BuildServicePropertiesResourceRequests;
 }
@@ -1530,80 +1499,6 @@ export type ConfigurationServicesValidateResponse = ConfigurationServiceSettings
 // @public
 export interface ContainerProbeSettings {
     disableProbe?: boolean;
-}
-
-// @public
-export interface ContainerRegistries {
-    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, containerRegistryName: string, containerRegistryResource: ContainerRegistryResource, options?: ContainerRegistriesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerRegistriesCreateOrUpdateResponse>, ContainerRegistriesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, containerRegistryName: string, containerRegistryResource: ContainerRegistryResource, options?: ContainerRegistriesCreateOrUpdateOptionalParams): Promise<ContainerRegistriesCreateOrUpdateResponse>;
-    get(resourceGroupName: string, serviceName: string, containerRegistryName: string, options?: ContainerRegistriesGetOptionalParams): Promise<ContainerRegistriesGetResponse>;
-    list(resourceGroupName: string, serviceName: string, options?: ContainerRegistriesListOptionalParams): PagedAsyncIterableIterator<ContainerRegistryResource>;
-}
-
-// @public
-export interface ContainerRegistriesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ContainerRegistriesCreateOrUpdateResponse = ContainerRegistryResource;
-
-// @public
-export interface ContainerRegistriesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerRegistriesGetResponse = ContainerRegistryResource;
-
-// @public
-export interface ContainerRegistriesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerRegistriesListNextResponse = ContainerRegistryResourceCollection;
-
-// @public
-export interface ContainerRegistriesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerRegistriesListResponse = ContainerRegistryResourceCollection;
-
-// @public
-export interface ContainerRegistryBasicCredentials extends ContainerRegistryCredentials {
-    password: string;
-    server: string;
-    type: "BasicAuth";
-    username: string;
-}
-
-// @public
-export interface ContainerRegistryCredentials {
-    type: "BasicAuth";
-}
-
-// @public (undocumented)
-export type ContainerRegistryCredentialsUnion = ContainerRegistryCredentials | ContainerRegistryBasicCredentials;
-
-// @public
-export interface ContainerRegistryProperties {
-    credentials: ContainerRegistryCredentialsUnion;
-    readonly provisioningState?: ContainerRegistryProvisioningState;
-}
-
-// @public
-export type ContainerRegistryProvisioningState = string;
-
-// @public
-export interface ContainerRegistryResource extends ProxyResource {
-    properties?: ContainerRegistryProperties;
-}
-
-// @public
-export interface ContainerRegistryResourceCollection {
-    nextLink?: string;
-    value?: ContainerRegistryResource[];
 }
 
 // @public
@@ -2213,9 +2108,6 @@ export interface GatewayApiRoute {
 }
 
 // @public
-export type GatewayCertificateVerification = string;
-
-// @public
 export interface GatewayCorsProperties {
     allowCredentials?: boolean;
     allowedHeaders?: string[];
@@ -2310,7 +2202,6 @@ export interface GatewayOperatorResourceRequests {
 export interface GatewayProperties {
     apiMetadataProperties?: GatewayApiMetadataProperties;
     apmTypes?: ApmType[];
-    clientAuth?: GatewayPropertiesClientAuth;
     corsProperties?: GatewayCorsProperties;
     environmentVariables?: GatewayPropertiesEnvironmentVariables;
     httpsOnly?: boolean;
@@ -2321,12 +2212,6 @@ export interface GatewayProperties {
     resourceRequests?: GatewayResourceRequests;
     ssoProperties?: SsoProperties;
     readonly url?: string;
-}
-
-// @public
-export interface GatewayPropertiesClientAuth {
-    certificates?: string[];
-    certificateVerification?: GatewayCertificateVerification;
 }
 
 // @public
@@ -2443,8 +2328,6 @@ export interface Gateways {
     beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, gatewayName: string, gatewayResource: GatewayResource, options?: GatewaysCreateOrUpdateOptionalParams): Promise<GatewaysCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewaysDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewaysDeleteOptionalParams): Promise<void>;
-    beginRestart(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewaysRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestartAndWait(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewaysRestartOptionalParams): Promise<void>;
     beginUpdateCapacity(resourceGroupName: string, serviceName: string, gatewayName: string, gatewayCapacityResource: SkuObject, options?: GatewaysUpdateCapacityOptionalParams): Promise<SimplePollerLike<OperationState<GatewaysUpdateCapacityResponse>, GatewaysUpdateCapacityResponse>>;
     beginUpdateCapacityAndWait(resourceGroupName: string, serviceName: string, gatewayName: string, gatewayCapacityResource: SkuObject, options?: GatewaysUpdateCapacityOptionalParams): Promise<GatewaysUpdateCapacityResponse>;
     get(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewaysGetOptionalParams): Promise<GatewaysGetResponse>;
@@ -2497,18 +2380,6 @@ export interface GatewaysListOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type GatewaysListResponse = GatewayResourceCollection;
-
-// @public
-export interface GatewaysRestartHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface GatewaysRestartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
 
 // @public
 export interface GatewaysUpdateCapacityHeaders {
@@ -2751,15 +2622,6 @@ export enum KnownConfigurationServiceProvisioningState {
 }
 
 // @public
-export enum KnownContainerRegistryProvisioningState {
-    Canceled = "Canceled",
-    Creating = "Creating",
-    Failed = "Failed",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
-}
-
-// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -2819,12 +2681,6 @@ export enum KnownDevToolPortalProvisioningState {
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
-}
-
-// @public
-export enum KnownGatewayCertificateVerification {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
 }
 
 // @public
@@ -3675,7 +3531,6 @@ export type ServicesUpdateResponse = ServiceResource;
 
 // @public
 export interface ServiceVNetAddons {
-    dataPlanePublicEndpoint?: boolean;
     logStreamPublicEndpoint?: boolean;
 }
 

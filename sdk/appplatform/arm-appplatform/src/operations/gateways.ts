@@ -34,7 +34,6 @@ import {
   GatewaysDeleteOptionalParams,
   GatewaysListEnvSecretsOptionalParams,
   GatewaysListEnvSecretsResponse,
-  GatewaysRestartOptionalParams,
   CustomDomainValidatePayload,
   GatewaysValidateDomainOptionalParams,
   GatewaysValidateDomainResponse,
@@ -478,96 +477,6 @@ export class GatewaysImpl implements Gateways {
   }
 
   /**
-   * Restart the Spring Cloud Gateway.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param gatewayName The name of Spring Cloud Gateway.
-   * @param options The options parameters.
-   */
-  async beginRestart(
-    resourceGroupName: string,
-    serviceName: string,
-    gatewayName: string,
-    options?: GatewaysRestartOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, serviceName, gatewayName, options },
-      spec: restartOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Restart the Spring Cloud Gateway.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param gatewayName The name of Spring Cloud Gateway.
-   * @param options The options parameters.
-   */
-  async beginRestartAndWait(
-    resourceGroupName: string,
-    serviceName: string,
-    gatewayName: string,
-    options?: GatewaysRestartOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginRestart(
-      resourceGroupName,
-      serviceName,
-      gatewayName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * Handles requests to list all resources in a Service.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -755,30 +664,6 @@ const listEnvSecretsOperationSpec: coreClient.OperationSpec = {
         type: { name: "Dictionary", value: { type: { name: "String" } } }
       }
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.gatewayName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const restartOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/restart",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

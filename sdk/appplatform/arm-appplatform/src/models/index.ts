@@ -8,9 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-export type ContainerRegistryCredentialsUnion =
-  | ContainerRegistryCredentials
-  | ContainerRegistryBasicCredentials;
 export type CustomPersistentDiskPropertiesUnion =
   | CustomPersistentDiskProperties
   | AzureFileVolume;
@@ -156,8 +153,6 @@ export interface IngressConfig {
 export interface ServiceVNetAddons {
   /** Indicates whether the log stream in vnet injection instance could be accessed from internet. */
   logStreamPublicEndpoint?: boolean;
-  /** Indicates whether the data plane components(log stream, app connect, remote debugging) in vnet injection instance could be accessed from internet. */
-  dataPlanePublicEndpoint?: boolean;
 }
 
 /** Purchasing 3rd Party product for one Azure Spring Apps instance */
@@ -723,31 +718,6 @@ export interface DevToolPortalFeatureDetail {
   readonly route?: string;
 }
 
-/** Collection compose of container registry resources list and a possible link for next page. */
-export interface ContainerRegistryResourceCollection {
-  /** The container registry resources list. */
-  value?: ContainerRegistryResource[];
-  /** The link to next page of storage list. */
-  nextLink?: string;
-}
-
-/** Container registry resource payload. */
-export interface ContainerRegistryProperties {
-  /** The credentials of the container registry resource. */
-  credentials: ContainerRegistryCredentialsUnion;
-  /**
-   * State of the Container Registry.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ContainerRegistryProvisioningState;
-}
-
-/** The credential for the container registry resource. */
-export interface ContainerRegistryCredentials {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "BasicAuth";
-}
-
 /** Object that includes an array of Build service resources and a possible link for next set */
 export interface BuildServiceCollection {
   /** Collection of Build service resources */
@@ -761,15 +731,10 @@ export interface BuildServiceCollection {
 
 /** Build service resource properties payload */
 export interface BuildServiceProperties {
-  /** The resource id of the container registry used in this build service. */
-  containerRegistry?: string;
+  /** The installed KPack version in this build service. */
+  kPackVersion?: string;
   /**
-   * The installed KPack version in this build service.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly kPackVersion?: string;
-  /**
-   * Provisioning state of the KPack build service
+   * Provisioning state of the KPack build result
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: BuildServiceProvisioningState;
@@ -907,11 +872,6 @@ export interface BuildResultProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly buildStages?: BuildStageProperties[];
-  /**
-   * The container registry image of this build result.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly image?: string;
 }
 
 /** The build stage (init-container and container) resources in build pod. */
@@ -1952,8 +1912,6 @@ export interface GatewayProperties {
   apiMetadataProperties?: GatewayApiMetadataProperties;
   /** Cross-Origin Resource Sharing property */
   corsProperties?: GatewayCorsProperties;
-  /** Client-Certification Authentication. */
-  clientAuth?: GatewayPropertiesClientAuth;
   /** Collection of APM type used in Spring Cloud Gateway */
   apmTypes?: ApmType[];
   /** Environment variables of Spring Cloud Gateway */
@@ -2012,14 +1970,6 @@ export interface GatewayCorsProperties {
   allowCredentials?: boolean;
   /** HTTP response headers to expose for cross-site requests. */
   exposedHeaders?: string[];
-}
-
-/** Client-Certification Authentication. */
-export interface GatewayPropertiesClientAuth {
-  /** Collection of certificate resource Ids in Azure Spring Apps. */
-  certificates?: string[];
-  /** Whether to enable certificate verification or not */
-  certificateVerification?: GatewayCertificateVerification;
 }
 
 /** Environment variables of Spring Cloud Gateway */
@@ -2442,19 +2392,6 @@ export interface TrackedResource extends Resource {
 /** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags. */
 export interface ProxyResource extends Resource {}
 
-/** The basic authentication properties for the container registry resource. */
-export interface ContainerRegistryBasicCredentials
-  extends ContainerRegistryCredentials {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "BasicAuth";
-  /** The login server of the Container Registry. */
-  server: string;
-  /** The username of the Container Registry. */
-  username: string;
-  /** The password of the Container Registry. */
-  password: string;
-}
-
 /** The properties of the Azure File volume. Azure File shares are mounted as volumes. */
 export interface AzureFileVolume extends CustomPersistentDiskProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -2553,16 +2490,12 @@ export interface TCPSocketAction extends ProbeAction {
 export interface AcceleratorPublicSetting extends AcceleratorAuthSetting {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "Public";
-  /** Resource Id of CA certificate for https URL of Git repository. */
-  caCertResourceId?: string;
 }
 
 /** Auth setting for basic auth. */
 export interface AcceleratorBasicAuthSetting extends AcceleratorAuthSetting {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "BasicAuth";
-  /** Resource Id of CA certificate for https URL of Git repository. */
-  caCertResourceId?: string;
   /** Username of git repository basic auth. */
   username: string;
   /** Password of git repository basic auth. */
@@ -2617,12 +2550,6 @@ export interface ApplicationLiveViewResource extends ProxyResource {
 export interface DevToolPortalResource extends ProxyResource {
   /** Dev Tool Portal properties payload */
   properties?: DevToolPortalProperties;
-}
-
-/** Container registry resource payload. */
-export interface ContainerRegistryResource extends ProxyResource {
-  /** Properties of the container registry resource payload. */
-  properties?: ContainerRegistryProperties;
 }
 
 /** Build service resource payload */
@@ -2813,18 +2740,8 @@ export interface NetCoreZipUploadedUserSourceInfo
   runtimeVersion?: string;
 }
 
-/** Defines headers for BuildService_deleteBuild operation. */
-export interface BuildServiceDeleteBuildHeaders {
-  location?: string;
-}
-
 /** Defines headers for Gateways_updateCapacity operation. */
 export interface GatewaysUpdateCapacityHeaders {
-  location?: string;
-}
-
-/** Defines headers for Gateways_restart operation. */
-export interface GatewaysRestartHeaders {
   location?: string;
 }
 
@@ -3133,33 +3050,6 @@ export enum KnownDevToolPortalFeatureState {
  * **Disabled**: Disable the plugin in Dev Tool Portal.
  */
 export type DevToolPortalFeatureState = string;
-
-/** Known values of {@link ContainerRegistryProvisioningState} that the service accepts. */
-export enum KnownContainerRegistryProvisioningState {
-  /** Creating */
-  Creating = "Creating",
-  /** Updating */
-  Updating = "Updating",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled"
-}
-
-/**
- * Defines values for ContainerRegistryProvisioningState. \
- * {@link KnownContainerRegistryProvisioningState} can be used interchangeably with ContainerRegistryProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Creating** \
- * **Updating** \
- * **Succeeded** \
- * **Failed** \
- * **Canceled**
- */
-export type ContainerRegistryProvisioningState = string;
 
 /** Known values of {@link BuildServiceProvisioningState} that the service accepts. */
 export enum KnownBuildServiceProvisioningState {
@@ -3752,24 +3642,6 @@ export enum KnownGatewayProvisioningState {
  */
 export type GatewayProvisioningState = string;
 
-/** Known values of {@link GatewayCertificateVerification} that the service accepts. */
-export enum KnownGatewayCertificateVerification {
-  /** Enable certificate verification in Spring Cloud Gateway. */
-  Enabled = "Enabled",
-  /** Disable certificate verification in Spring Cloud Gateway. */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for GatewayCertificateVerification. \
- * {@link KnownGatewayCertificateVerification} can be used interchangeably with GatewayCertificateVerification,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled**: Enable certificate verification in Spring Cloud Gateway. \
- * **Disabled**: Disable certificate verification in Spring Cloud Gateway.
- */
-export type GatewayCertificateVerification = string;
-
 /** Known values of {@link ApmType} that the service accepts. */
 export enum KnownApmType {
   /** ApplicationInsights */
@@ -4316,39 +4188,6 @@ export interface DevToolPortalsListNextOptionalParams
 export type DevToolPortalsListNextResponse = DevToolPortalResourceCollection;
 
 /** Optional parameters. */
-export interface ContainerRegistriesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ContainerRegistriesListResponse = ContainerRegistryResourceCollection;
-
-/** Optional parameters. */
-export interface ContainerRegistriesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ContainerRegistriesGetResponse = ContainerRegistryResource;
-
-/** Optional parameters. */
-export interface ContainerRegistriesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ContainerRegistriesCreateOrUpdateResponse = ContainerRegistryResource;
-
-/** Optional parameters. */
-export interface ContainerRegistriesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ContainerRegistriesListNextResponse = ContainerRegistryResourceCollection;
-
-/** Optional parameters. */
 export interface BuildServiceListBuildServicesOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4361,18 +4200,6 @@ export interface BuildServiceGetBuildServiceOptionalParams
 
 /** Contains response data for the getBuildService operation. */
 export type BuildServiceGetBuildServiceResponse = BuildService;
-
-/** Optional parameters. */
-export interface BuildServiceCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type BuildServiceCreateOrUpdateResponse = BuildService;
 
 /** Optional parameters. */
 export interface BuildServiceListBuildsOptionalParams
@@ -4394,15 +4221,6 @@ export interface BuildServiceCreateOrUpdateBuildOptionalParams
 
 /** Contains response data for the createOrUpdateBuild operation. */
 export type BuildServiceCreateOrUpdateBuildResponse = Build;
-
-/** Optional parameters. */
-export interface BuildServiceDeleteBuildOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
 
 /** Optional parameters. */
 export interface BuildServiceListBuildResultsOptionalParams
@@ -5169,15 +4987,6 @@ export interface GatewaysListEnvSecretsOptionalParams
 
 /** Contains response data for the listEnvSecrets operation. */
 export type GatewaysListEnvSecretsResponse = { [propertyName: string]: string };
-
-/** Optional parameters. */
-export interface GatewaysRestartOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
 
 /** Optional parameters. */
 export interface GatewaysListOptionalParams

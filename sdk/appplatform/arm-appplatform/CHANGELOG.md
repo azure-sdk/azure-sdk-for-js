@@ -1,16 +1,6 @@
 # Release History
-
-## 3.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 3.0.0-beta.1 (2023-03-28)
+    
+## 3.0.0-beta.2 (2023-04-25)
     
 **Features**
 
@@ -18,7 +8,6 @@
   - Added operation group ApiPortals
   - Added operation group ApplicationAccelerators
   - Added operation group ApplicationLiveViews
-  - Added operation group ContainerRegistries
   - Added operation group CustomizedAccelerators
   - Added operation group DevToolPortals
   - Added operation group GatewayCustomDomains
@@ -28,10 +17,6 @@
   - Added operation group Storages
   - Added operation BuildpackBinding.listForCluster
   - Added operation BuildServiceBuilder.listDeployments
-  - Added operation BuildServiceOperations.beginCreateOrUpdate
-  - Added operation BuildServiceOperations.beginCreateOrUpdateAndWait
-  - Added operation BuildServiceOperations.beginDeleteBuild
-  - Added operation BuildServiceOperations.beginDeleteBuildAndWait
   - Added operation Deployments.beginDisableRemoteDebugging
   - Added operation Deployments.beginDisableRemoteDebuggingAndWait
   - Added operation Deployments.beginEnableRemoteDebugging
@@ -102,22 +87,10 @@
   - Added Interface BuildService
   - Added Interface BuildServiceAgentPoolResource
   - Added Interface BuildServiceBuilderListDeploymentsOptionalParams
-  - Added Interface BuildServiceCreateOrUpdateOptionalParams
-  - Added Interface BuildServiceDeleteBuildHeaders
-  - Added Interface BuildServiceDeleteBuildOptionalParams
   - Added Interface CertificateResource
   - Added Interface ConfigServerResource
   - Added Interface ConfigurationServiceResource
   - Added Interface ContainerProbeSettings
-  - Added Interface ContainerRegistriesCreateOrUpdateOptionalParams
-  - Added Interface ContainerRegistriesGetOptionalParams
-  - Added Interface ContainerRegistriesListNextOptionalParams
-  - Added Interface ContainerRegistriesListOptionalParams
-  - Added Interface ContainerRegistryBasicCredentials
-  - Added Interface ContainerRegistryCredentials
-  - Added Interface ContainerRegistryProperties
-  - Added Interface ContainerRegistryResource
-  - Added Interface ContainerRegistryResourceCollection
   - Added Interface ContentCertificateProperties
   - Added Interface CustomContainer
   - Added Interface CustomContainerUserSourceInfo
@@ -169,7 +142,6 @@
   - Added Interface GatewayOperatorProperties
   - Added Interface GatewayOperatorResourceRequests
   - Added Interface GatewayProperties
-  - Added Interface GatewayPropertiesClientAuth
   - Added Interface GatewayPropertiesEnvironmentVariables
   - Added Interface GatewayResource
   - Added Interface GatewayResourceCollection
@@ -189,8 +161,6 @@
   - Added Interface GatewaysListEnvSecretsOptionalParams
   - Added Interface GatewaysListNextOptionalParams
   - Added Interface GatewaysListOptionalParams
-  - Added Interface GatewaysRestartHeaders
-  - Added Interface GatewaysRestartOptionalParams
   - Added Interface GatewaysUpdateCapacityHeaders
   - Added Interface GatewaysUpdateCapacityOptionalParams
   - Added Interface GatewaysValidateDomainOptionalParams
@@ -273,14 +243,7 @@
   - Added Type Alias BuildpackBindingListForClusterNextResponse
   - Added Type Alias BuildpackBindingListForClusterResponse
   - Added Type Alias BuildServiceBuilderListDeploymentsResponse
-  - Added Type Alias BuildServiceCreateOrUpdateResponse
   - Added Type Alias CertificateResourceProvisioningState
-  - Added Type Alias ContainerRegistriesCreateOrUpdateResponse
-  - Added Type Alias ContainerRegistriesGetResponse
-  - Added Type Alias ContainerRegistriesListNextResponse
-  - Added Type Alias ContainerRegistriesListResponse
-  - Added Type Alias ContainerRegistryCredentialsUnion
-  - Added Type Alias ContainerRegistryProvisioningState
   - Added Type Alias CustomDomainResourceProvisioningState
   - Added Type Alias CustomizedAcceleratorProvisioningState
   - Added Type Alias CustomizedAcceleratorsCreateOrUpdateResponse
@@ -299,7 +262,6 @@
   - Added Type Alias DevToolPortalsGetResponse
   - Added Type Alias DevToolPortalsListNextResponse
   - Added Type Alias DevToolPortalsListResponse
-  - Added Type Alias GatewayCertificateVerification
   - Added Type Alias GatewayCustomDomainsCreateOrUpdateResponse
   - Added Type Alias GatewayCustomDomainsGetResponse
   - Added Type Alias GatewayCustomDomainsListNextResponse
@@ -340,8 +302,6 @@
   - Interface AppResourceProperties has a new optional parameter vnetAddons
   - Interface BuildProperties has a new optional parameter resourceRequests
   - Interface BuildResultProperties has a new optional parameter error
-  - Interface BuildResultProperties has a new optional parameter image
-  - Interface BuildServiceProperties has a new optional parameter containerRegistry
   - Interface BuildStageProperties has a new optional parameter exitCode
   - Interface BuildStageProperties has a new optional parameter reason
   - Interface CertificateProperties has a new optional parameter provisioningState
@@ -367,13 +327,11 @@
   - Added Enum KnownApplicationLiveViewProvisioningState
   - Added Enum KnownBackendProtocol
   - Added Enum KnownCertificateResourceProvisioningState
-  - Added Enum KnownContainerRegistryProvisioningState
   - Added Enum KnownCustomDomainResourceProvisioningState
   - Added Enum KnownCustomizedAcceleratorProvisioningState
   - Added Enum KnownCustomizedAcceleratorValidateResultState
   - Added Enum KnownDevToolPortalFeatureState
   - Added Enum KnownDevToolPortalProvisioningState
-  - Added Enum KnownGatewayCertificateVerification
   - Added Enum KnownGatewayProvisioningState
   - Added Enum KnownGatewayRouteConfigProtocol
   - Added Enum KnownHttpSchemeType
@@ -386,11 +344,11 @@
   - Added Enum KnownType
   - Enum KnownBindingType has a new value CACertificates
   - Added function getContinuationToken
-  - Interface DeploymentsListForClusterNextOptionalParams no longer has parameter version
-  - Interface DeploymentsListNextOptionalParams no longer has parameter version
 
 **Breaking Changes**
 
+  - Interface DeploymentsListForClusterNextOptionalParams no longer has parameter version
+  - Interface DeploymentsListNextOptionalParams no longer has parameter version
   - Type of parameter addonConfigs of interface AppResourceProperties is changed from {
         [propertyName: string]: {
             [propertyName: string]: Record<string, unknown>;

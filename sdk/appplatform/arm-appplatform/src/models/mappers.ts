@@ -265,13 +265,6 @@ export const ServiceVNetAddons: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
-      },
-      dataPlanePublicEndpoint: {
-        defaultValue: false,
-        serializedName: "dataPlanePublicEndpoint",
-        type: {
-          name: "Boolean"
-        }
       }
     }
   }
@@ -1626,77 +1619,6 @@ export const DevToolPortalFeatureDetail: coreClient.CompositeMapper = {
   }
 };
 
-export const ContainerRegistryResourceCollection: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ContainerRegistryResourceCollection",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ContainerRegistryResource"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ContainerRegistryProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ContainerRegistryProperties",
-    modelProperties: {
-      credentials: {
-        serializedName: "credentials",
-        type: {
-          name: "Composite",
-          className: "ContainerRegistryCredentials"
-        }
-      },
-      provisioningState: {
-        serializedName: "provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ContainerRegistryCredentials: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ContainerRegistryCredentials",
-    uberParent: "ContainerRegistryCredentials",
-    polymorphicDiscriminator: {
-      serializedName: "type",
-      clientName: "type"
-    },
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const BuildServiceCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1729,15 +1651,8 @@ export const BuildServiceProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "BuildServiceProperties",
     modelProperties: {
-      containerRegistry: {
-        serializedName: "containerRegistry",
-        type: {
-          name: "String"
-        }
-      },
       kPackVersion: {
         serializedName: "kPackVersion",
-        readOnly: true,
         type: {
           name: "String"
         }
@@ -2051,13 +1966,6 @@ export const BuildResultProperties: coreClient.CompositeMapper = {
               className: "BuildStageProperties"
             }
           }
-        }
-      },
-      image: {
-        serializedName: "image",
-        readOnly: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -4786,13 +4694,6 @@ export const GatewayProperties: coreClient.CompositeMapper = {
           className: "GatewayCorsProperties"
         }
       },
-      clientAuth: {
-        serializedName: "clientAuth",
-        type: {
-          name: "Composite",
-          className: "GatewayPropertiesClientAuth"
-        }
-      },
       apmTypes: {
         constraints: {
           UniqueItems: true
@@ -4981,36 +4882,6 @@ export const GatewayCorsProperties: coreClient.CompositeMapper = {
               name: "String"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const GatewayPropertiesClientAuth: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "GatewayPropertiesClientAuth",
-    modelProperties: {
-      certificates: {
-        constraints: {
-          UniqueItems: true
-        },
-        serializedName: "certificates",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      certificateVerification: {
-        defaultValue: "Disabled",
-        serializedName: "certificateVerification",
-        type: {
-          name: "String"
         }
       }
     }
@@ -6134,41 +6005,6 @@ export const ProxyResource: coreClient.CompositeMapper = {
   }
 };
 
-export const ContainerRegistryBasicCredentials: coreClient.CompositeMapper = {
-  serializedName: "BasicAuth",
-  type: {
-    name: "Composite",
-    className: "ContainerRegistryBasicCredentials",
-    uberParent: "ContainerRegistryCredentials",
-    polymorphicDiscriminator:
-      ContainerRegistryCredentials.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ContainerRegistryCredentials.type.modelProperties,
-      server: {
-        serializedName: "server",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      username: {
-        serializedName: "username",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      password: {
-        serializedName: "password",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const AzureFileVolume: coreClient.CompositeMapper = {
   serializedName: "AzureFileVolume",
   type: {
@@ -6409,13 +6245,7 @@ export const AcceleratorPublicSetting: coreClient.CompositeMapper = {
     polymorphicDiscriminator:
       AcceleratorAuthSetting.type.polymorphicDiscriminator,
     modelProperties: {
-      ...AcceleratorAuthSetting.type.modelProperties,
-      caCertResourceId: {
-        serializedName: "caCertResourceId",
-        type: {
-          name: "String"
-        }
-      }
+      ...AcceleratorAuthSetting.type.modelProperties
     }
   }
 };
@@ -6430,12 +6260,6 @@ export const AcceleratorBasicAuthSetting: coreClient.CompositeMapper = {
       AcceleratorAuthSetting.type.polymorphicDiscriminator,
     modelProperties: {
       ...AcceleratorAuthSetting.type.modelProperties,
-      caCertResourceId: {
-        serializedName: "caCertResourceId",
-        type: {
-          name: "String"
-        }
-      },
       username: {
         serializedName: "username",
         required: true,
@@ -6588,23 +6412,6 @@ export const DevToolPortalResource: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DevToolPortalProperties"
-        }
-      }
-    }
-  }
-};
-
-export const ContainerRegistryResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ContainerRegistryResource",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "ContainerRegistryProperties"
         }
       }
     }
@@ -7135,21 +6942,6 @@ export const NetCoreZipUploadedUserSourceInfo: coreClient.CompositeMapper = {
   }
 };
 
-export const BuildServiceDeleteBuildHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BuildServiceDeleteBuildHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const GatewaysUpdateCapacityHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7165,30 +6957,13 @@ export const GatewaysUpdateCapacityHeaders: coreClient.CompositeMapper = {
   }
 };
 
-export const GatewaysRestartHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "GatewaysRestartHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export let discriminators = {
-  ContainerRegistryCredentials: ContainerRegistryCredentials,
   CustomPersistentDiskProperties: CustomPersistentDiskProperties,
   StorageProperties: StorageProperties,
   CertificateProperties: CertificateProperties,
   UserSourceInfo: UserSourceInfo,
   ProbeAction: ProbeAction,
   AcceleratorAuthSetting: AcceleratorAuthSetting,
-  "ContainerRegistryCredentials.BasicAuth": ContainerRegistryBasicCredentials,
   "CustomPersistentDiskProperties.AzureFileVolume": AzureFileVolume,
   "StorageProperties.StorageAccount": StorageAccount,
   "CertificateProperties.KeyVaultCertificate": KeyVaultCertificateProperties,
