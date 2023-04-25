@@ -1211,90 +1211,6 @@ export const DeletedConfigurationStore: coreClient.CompositeMapper = {
   }
 };
 
-export const ReplicaListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ReplicaListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Replica"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Replica: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Replica",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
-      endpoint: {
-        serializedName: "properties.endpoint",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const KeyValueListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1446,21 +1362,6 @@ export const ConfigurationStore: coreClient.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: ["Recover", "Default"]
-        }
-      }
-    }
-  }
-};
-
-export const ReplicasDeleteHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ReplicasDeleteHeaders",
-    modelProperties: {
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
         }
       }
     }

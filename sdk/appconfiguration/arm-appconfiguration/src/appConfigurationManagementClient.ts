@@ -19,16 +19,14 @@ import {
   OperationsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
-  KeyValuesImpl,
-  ReplicasImpl
+  KeyValuesImpl
 } from "./operations";
 import {
   ConfigurationStores,
   Operations,
   PrivateEndpointConnections,
   PrivateLinkResources,
-  KeyValues,
-  Replicas
+  KeyValues
 } from "./operationsInterfaces";
 import { AppConfigurationManagementClientOptionalParams } from "./models";
 
@@ -117,13 +115,12 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-03-01";
+    this.apiVersion = options.apiVersion || "2022-05-01";
     this.configurationStores = new ConfigurationStoresImpl(this);
     this.operations = new OperationsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.keyValues = new KeyValuesImpl(this);
-    this.replicas = new ReplicasImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -160,5 +157,4 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   keyValues: KeyValues;
-  replicas: Replicas;
 }
