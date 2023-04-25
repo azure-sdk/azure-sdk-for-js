@@ -1,15 +1,32 @@
 # Release History
+    
+## 6.0.0 (2023-04-25)
+    
+**Features**
 
-## 5.2.1 (Unreleased)
+  - Added operation TagsOperations.beginCreateOrUpdateAtScope
+  - Added operation TagsOperations.beginCreateOrUpdateAtScopeAndWait
+  - Added operation TagsOperations.beginDeleteAtScope
+  - Added operation TagsOperations.beginDeleteAtScopeAndWait
+  - Added operation TagsOperations.beginUpdateAtScope
+  - Added operation TagsOperations.beginUpdateAtScopeAndWait
+  - Added Interface TagsCreateOrUpdateAtScopeHeaders
+  - Added Interface TagsDeleteAtScopeHeaders
+  - Added Interface TagsUpdateAtScopeHeaders
+  - Interface TagsCreateOrUpdateAtScopeOptionalParams has a new optional parameter resumeFrom
+  - Interface TagsCreateOrUpdateAtScopeOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface TagsDeleteAtScopeOptionalParams has a new optional parameter resumeFrom
+  - Interface TagsDeleteAtScopeOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface TagsUpdateAtScopeOptionalParams has a new optional parameter resumeFrom
+  - Interface TagsUpdateAtScopeOptionalParams has a new optional parameter updateIntervalInMs
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation TagsOperations.createOrUpdateAtScope
+  - Removed operation TagsOperations.deleteAtScope
+  - Removed operation TagsOperations.updateAtScope
+    
+    
 ## 5.2.0 (2023-03-13)
     
 **Features**
