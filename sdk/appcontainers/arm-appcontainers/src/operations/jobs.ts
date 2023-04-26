@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ContainerApps } from "../operationsInterfaces";
+import { Jobs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,37 +20,41 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  ContainerApp,
-  ContainerAppsListBySubscriptionNextOptionalParams,
-  ContainerAppsListBySubscriptionOptionalParams,
-  ContainerAppsListBySubscriptionResponse,
-  ContainerAppsListByResourceGroupNextOptionalParams,
-  ContainerAppsListByResourceGroupOptionalParams,
-  ContainerAppsListByResourceGroupResponse,
-  ContainerAppsGetOptionalParams,
-  ContainerAppsGetResponse,
-  ContainerAppsCreateOrUpdateOptionalParams,
-  ContainerAppsCreateOrUpdateResponse,
-  ContainerAppsDeleteOptionalParams,
-  ContainerAppsUpdateOptionalParams,
-  ContainerAppsUpdateResponse,
-  ContainerAppsListCustomHostNameAnalysisOptionalParams,
-  ContainerAppsListCustomHostNameAnalysisResponse,
-  ContainerAppsListSecretsOptionalParams,
-  ContainerAppsListSecretsResponse,
-  ContainerAppsGetAuthTokenOptionalParams,
-  ContainerAppsGetAuthTokenResponse,
-  ContainerAppsListBySubscriptionNextResponse,
-  ContainerAppsListByResourceGroupNextResponse
+  Job,
+  JobsListBySubscriptionNextOptionalParams,
+  JobsListBySubscriptionOptionalParams,
+  JobsListBySubscriptionResponse,
+  JobsListByResourceGroupNextOptionalParams,
+  JobsListByResourceGroupOptionalParams,
+  JobsListByResourceGroupResponse,
+  JobsGetOptionalParams,
+  JobsGetResponse,
+  JobsCreateOrUpdateOptionalParams,
+  JobsCreateOrUpdateResponse,
+  JobsDeleteOptionalParams,
+  JobPatchProperties,
+  JobsUpdateOptionalParams,
+  JobsUpdateResponse,
+  JobExecutionTemplate,
+  JobsStartOptionalParams,
+  JobsStartResponse,
+  JobsStopExecutionOptionalParams,
+  JobExecutionNamesCollection,
+  JobsStopMultipleExecutionsOptionalParams,
+  JobsStopMultipleExecutionsResponse,
+  JobsListSecretsOptionalParams,
+  JobsListSecretsResponse,
+  JobsListBySubscriptionNextResponse,
+  JobsListByResourceGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ContainerApps operations. */
-export class ContainerAppsImpl implements ContainerApps {
+/** Class containing Jobs operations. */
+export class JobsImpl implements Jobs {
   private readonly client: ContainerAppsAPIClient;
 
   /**
-   * Initialize a new instance of the class ContainerApps class.
+   * Initialize a new instance of the class Jobs class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerAppsAPIClient) {
@@ -58,12 +62,12 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   /**
-   * Get the Container Apps in a given subscription.
+   * Get the Container Apps Jobs in a given subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: ContainerAppsListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<ContainerApp> {
+    options?: JobsListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<Job> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -82,10 +86,10 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: ContainerAppsListBySubscriptionOptionalParams,
+    options?: JobsListBySubscriptionOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<ContainerApp[]> {
-    let result: ContainerAppsListBySubscriptionResponse;
+  ): AsyncIterableIterator<Job[]> {
+    let result: JobsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -104,22 +108,22 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: ContainerAppsListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<ContainerApp> {
+    options?: JobsListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<Job> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Get the Container Apps in a given resource group.
+   * Get the Container Apps Jobs in a given resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ContainerAppsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<ContainerApp> {
+    options?: JobsListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<Job> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -143,10 +147,10 @@ export class ContainerAppsImpl implements ContainerApps {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ContainerAppsListByResourceGroupOptionalParams,
+    options?: JobsListByResourceGroupOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<ContainerApp[]> {
-    let result: ContainerAppsListByResourceGroupResponse;
+  ): AsyncIterableIterator<Job[]> {
+    let result: JobsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -170,8 +174,8 @@ export class ContainerAppsImpl implements ContainerApps {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ContainerAppsListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<ContainerApp> {
+    options?: JobsListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<Job> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options
@@ -181,12 +185,12 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   /**
-   * Get the Container Apps in a given subscription.
+   * Get the Container Apps Jobs in a given subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: ContainerAppsListBySubscriptionOptionalParams
-  ): Promise<ContainerAppsListBySubscriptionResponse> {
+    options?: JobsListBySubscriptionOptionalParams
+  ): Promise<JobsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec
@@ -194,14 +198,14 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   /**
-   * Get the Container Apps in a given resource group.
+   * Get the Container Apps Jobs in a given resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: ContainerAppsListByResourceGroupOptionalParams
-  ): Promise<ContainerAppsListByResourceGroupResponse> {
+    options?: JobsListByResourceGroupOptionalParams
+  ): Promise<JobsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
@@ -209,44 +213,44 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   /**
-   * Get the properties of a Container App.
+   * Get the properties of a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
+   * @param jobName Name of the Container Apps Job.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    containerAppName: string,
-    options?: ContainerAppsGetOptionalParams
-  ): Promise<ContainerAppsGetResponse> {
+    jobName: string,
+    options?: JobsGetOptionalParams
+  ): Promise<JobsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, containerAppName, options },
+      { resourceGroupName, jobName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or update a Container App.
+   * Create or Update a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param containerAppEnvelope Properties used to create a container app
+   * @param jobName Name of the Container Apps Job.
+   * @param jobEnvelope Properties used to create a container apps job
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    containerAppName: string,
-    containerAppEnvelope: ContainerApp,
-    options?: ContainerAppsCreateOrUpdateOptionalParams
+    jobName: string,
+    jobEnvelope: Job,
+    options?: JobsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ContainerAppsCreateOrUpdateResponse>,
-      ContainerAppsCreateOrUpdateResponse
+      OperationState<JobsCreateOrUpdateResponse>,
+      JobsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ContainerAppsCreateOrUpdateResponse> => {
+    ): Promise<JobsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -284,17 +288,12 @@ export class ContainerAppsImpl implements ContainerApps {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        containerAppName,
-        containerAppEnvelope,
-        options
-      },
+      args: { resourceGroupName, jobName, jobEnvelope, options },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      ContainerAppsCreateOrUpdateResponse,
-      OperationState<ContainerAppsCreateOrUpdateResponse>
+      JobsCreateOrUpdateResponse,
+      OperationState<JobsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -305,37 +304,37 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   /**
-   * Create or update a Container App.
+   * Create or Update a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param containerAppEnvelope Properties used to create a container app
+   * @param jobName Name of the Container Apps Job.
+   * @param jobEnvelope Properties used to create a container apps job
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    containerAppName: string,
-    containerAppEnvelope: ContainerApp,
-    options?: ContainerAppsCreateOrUpdateOptionalParams
-  ): Promise<ContainerAppsCreateOrUpdateResponse> {
+    jobName: string,
+    jobEnvelope: Job,
+    options?: JobsCreateOrUpdateOptionalParams
+  ): Promise<JobsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      containerAppName,
-      containerAppEnvelope,
+      jobName,
+      jobEnvelope,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete a Container App.
+   * Delete a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
+   * @param jobName Name of the Container Apps Job.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    containerAppName: string,
-    options?: ContainerAppsDeleteOptionalParams
+    jobName: string,
+    options?: JobsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -378,7 +377,7 @@ export class ContainerAppsImpl implements ContainerApps {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, containerAppName, options },
+      args: { resourceGroupName, jobName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -391,46 +390,39 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   /**
-   * Delete a Container App.
+   * Delete a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
+   * @param jobName Name of the Container Apps Job.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    containerAppName: string,
-    options?: ContainerAppsDeleteOptionalParams
+    jobName: string,
+    options?: JobsDeleteOptionalParams
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      containerAppName,
-      options
-    );
+    const poller = await this.beginDelete(resourceGroupName, jobName, options);
     return poller.pollUntilDone();
   }
 
   /**
-   * Patches a Container App using JSON Merge Patch
+   * Patches a Container Apps Job using JSON Merge Patch
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param containerAppEnvelope Properties of a Container App that need to be updated
+   * @param jobName Name of the Container Apps Job.
+   * @param jobEnvelope Properties used to create a container apps job
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    containerAppName: string,
-    containerAppEnvelope: ContainerApp,
-    options?: ContainerAppsUpdateOptionalParams
+    jobName: string,
+    jobEnvelope: JobPatchProperties,
+    options?: JobsUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<ContainerAppsUpdateResponse>,
-      ContainerAppsUpdateResponse
-    >
+    SimplePollerLike<OperationState<JobsUpdateResponse>, JobsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ContainerAppsUpdateResponse> => {
+    ): Promise<JobsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -468,17 +460,12 @@ export class ContainerAppsImpl implements ContainerApps {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        containerAppName,
-        containerAppEnvelope,
-        options
-      },
+      args: { resourceGroupName, jobName, jobEnvelope, options },
       spec: updateOperationSpec
     });
     const poller = await createHttpPoller<
-      ContainerAppsUpdateResponse,
-      OperationState<ContainerAppsUpdateResponse>
+      JobsUpdateResponse,
+      OperationState<JobsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
@@ -488,75 +475,318 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   /**
-   * Patches a Container App using JSON Merge Patch
+   * Patches a Container Apps Job using JSON Merge Patch
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param containerAppEnvelope Properties of a Container App that need to be updated
+   * @param jobName Name of the Container Apps Job.
+   * @param jobEnvelope Properties used to create a container apps job
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    containerAppName: string,
-    containerAppEnvelope: ContainerApp,
-    options?: ContainerAppsUpdateOptionalParams
-  ): Promise<ContainerAppsUpdateResponse> {
+    jobName: string,
+    jobEnvelope: JobPatchProperties,
+    options?: JobsUpdateOptionalParams
+  ): Promise<JobsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      containerAppName,
-      containerAppEnvelope,
+      jobName,
+      jobEnvelope,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Analyzes a custom hostname for a Container App
+   * Start a Container Apps Job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
+   * @param jobName Name of the Container Apps Job.
+   * @param template Properties used to start a job instance.
    * @param options The options parameters.
    */
-  listCustomHostNameAnalysis(
+  async beginStart(
     resourceGroupName: string,
-    containerAppName: string,
-    options?: ContainerAppsListCustomHostNameAnalysisOptionalParams
-  ): Promise<ContainerAppsListCustomHostNameAnalysisResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, containerAppName, options },
-      listCustomHostNameAnalysisOperationSpec
-    );
+    jobName: string,
+    template: JobExecutionTemplate,
+    options?: JobsStartOptionalParams
+  ): Promise<
+    SimplePollerLike<OperationState<JobsStartResponse>, JobsStartResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<JobsStartResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, jobName, template, options },
+      spec: startOperationSpec
+    });
+    const poller = await createHttpPoller<
+      JobsStartResponse,
+      OperationState<JobsStartResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * List secrets for a container app
+   * Start a Container Apps Job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
+   * @param jobName Name of the Container Apps Job.
+   * @param template Properties used to start a job instance.
+   * @param options The options parameters.
+   */
+  async beginStartAndWait(
+    resourceGroupName: string,
+    jobName: string,
+    template: JobExecutionTemplate,
+    options?: JobsStartOptionalParams
+  ): Promise<JobsStartResponse> {
+    const poller = await this.beginStart(
+      resourceGroupName,
+      jobName,
+      template,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Terminates execution of a running container apps job
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Name of the Container Apps Job.
+   * @param jobExecutionName Job execution name.
+   * @param options The options parameters.
+   */
+  async beginStopExecution(
+    resourceGroupName: string,
+    jobName: string,
+    jobExecutionName: string,
+    options?: JobsStopExecutionOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, jobName, jobExecutionName, options },
+      spec: stopExecutionOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Terminates execution of a running container apps job
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Name of the Container Apps Job.
+   * @param jobExecutionName Job execution name.
+   * @param options The options parameters.
+   */
+  async beginStopExecutionAndWait(
+    resourceGroupName: string,
+    jobName: string,
+    jobExecutionName: string,
+    options?: JobsStopExecutionOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginStopExecution(
+      resourceGroupName,
+      jobName,
+      jobExecutionName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Terminates execution of a running container apps job
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Name of the Container Apps Job.
+   * @param jobExecutionName List of all job executions that should be stopped.
+   * @param options The options parameters.
+   */
+  async beginStopMultipleExecutions(
+    resourceGroupName: string,
+    jobName: string,
+    jobExecutionName: JobExecutionNamesCollection,
+    options?: JobsStopMultipleExecutionsOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<JobsStopMultipleExecutionsResponse>,
+      JobsStopMultipleExecutionsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<JobsStopMultipleExecutionsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, jobName, jobExecutionName, options },
+      spec: stopMultipleExecutionsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      JobsStopMultipleExecutionsResponse,
+      OperationState<JobsStopMultipleExecutionsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Terminates execution of a running container apps job
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Name of the Container Apps Job.
+   * @param jobExecutionName List of all job executions that should be stopped.
+   * @param options The options parameters.
+   */
+  async beginStopMultipleExecutionsAndWait(
+    resourceGroupName: string,
+    jobName: string,
+    jobExecutionName: JobExecutionNamesCollection,
+    options?: JobsStopMultipleExecutionsOptionalParams
+  ): Promise<JobsStopMultipleExecutionsResponse> {
+    const poller = await this.beginStopMultipleExecutions(
+      resourceGroupName,
+      jobName,
+      jobExecutionName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * List secrets for a container apps job
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Name of the Container Apps Job.
    * @param options The options parameters.
    */
   listSecrets(
     resourceGroupName: string,
-    containerAppName: string,
-    options?: ContainerAppsListSecretsOptionalParams
-  ): Promise<ContainerAppsListSecretsResponse> {
+    jobName: string,
+    options?: JobsListSecretsOptionalParams
+  ): Promise<JobsListSecretsResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, containerAppName, options },
+      { resourceGroupName, jobName, options },
       listSecretsOperationSpec
-    );
-  }
-
-  /**
-   * Get auth token for a container app
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param options The options parameters.
-   */
-  getAuthToken(
-    resourceGroupName: string,
-    containerAppName: string,
-    options?: ContainerAppsGetAuthTokenOptionalParams
-  ): Promise<ContainerAppsGetAuthTokenResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, containerAppName, options },
-      getAuthTokenOperationSpec
     );
   }
 
@@ -567,8 +797,8 @@ export class ContainerAppsImpl implements ContainerApps {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: ContainerAppsListBySubscriptionNextOptionalParams
-  ): Promise<ContainerAppsListBySubscriptionNextResponse> {
+    options?: JobsListBySubscriptionNextOptionalParams
+  ): Promise<JobsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec
@@ -584,8 +814,8 @@ export class ContainerAppsImpl implements ContainerApps {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ContainerAppsListByResourceGroupNextOptionalParams
-  ): Promise<ContainerAppsListByResourceGroupNextResponse> {
+    options?: JobsListByResourceGroupNextOptionalParams
+  ): Promise<JobsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
@@ -596,11 +826,11 @@ export class ContainerAppsImpl implements ContainerApps {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.App/containerApps",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.App/jobs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerAppCollection
+      bodyMapper: Mappers.JobsCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -613,11 +843,11 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerAppCollection
+      bodyMapper: Mappers.JobsCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -634,14 +864,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerApp
-    },
-    404: {
-      isError: true
+      bodyMapper: Mappers.Job
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -652,39 +879,39 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
+    Parameters.jobName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.Job
     },
     201: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.Job
     },
     202: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.Job
     },
     204: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.Job
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.containerAppEnvelope,
+  requestBody: Parameters.jobEnvelope,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
+    Parameters.jobName1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -692,7 +919,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -708,73 +935,141 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
+    Parameters.jobName1
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.Job
     },
     201: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.Job
     },
     202: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.Job
     },
     204: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.Job
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.containerAppEnvelope,
+  requestBody: Parameters.jobEnvelope1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
+    Parameters.jobName1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const listCustomHostNameAnalysisOperationSpec: coreClient.OperationSpec = {
+const startOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/listCustomHostNameAnalysis",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/start",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomHostnameAnalysisResult
+      bodyMapper: Mappers.JobExecutionBase
+    },
+    201: {
+      bodyMapper: Mappers.JobExecutionBase
+    },
+    202: {
+      bodyMapper: Mappers.JobExecutionBase
+    },
+    204: {
+      bodyMapper: Mappers.JobExecutionBase
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.customHostname],
+  requestBody: Parameters.template,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
+    Parameters.jobName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const stopExecutionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/executions/{jobExecutionName}/stop",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.jobName,
+    Parameters.jobExecutionName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const stopMultipleExecutionsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/stop",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ContainerAppJobExecutions
+    },
+    201: {
+      bodyMapper: Mappers.ContainerAppJobExecutions
+    },
+    202: {
+      bodyMapper: Mappers.ContainerAppJobExecutions
+    },
+    204: {
+      bodyMapper: Mappers.ContainerAppJobExecutions
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.jobExecutionName1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.jobName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listSecretsOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/listSecrets",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/listSecrets",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SecretsCollection
+      bodyMapper: Mappers.JobSecretsCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -785,32 +1080,7 @@ const listSecretsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getAuthTokenOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/getAuthtoken",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ContainerAppAuthToken
-    },
-    404: {
-      isError: true
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.containerAppName
+    Parameters.jobName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -820,7 +1090,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerAppCollection
+      bodyMapper: Mappers.JobsCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -839,7 +1109,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerAppCollection
+      bodyMapper: Mappers.JobsCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
