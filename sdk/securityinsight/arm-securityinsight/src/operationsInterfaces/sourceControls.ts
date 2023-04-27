@@ -12,9 +12,9 @@ import {
   SourceControlsListOptionalParams,
   SourceControlsGetOptionalParams,
   SourceControlsGetResponse,
-  SourceControlsDeleteOptionalParams,
   SourceControlsCreateOptionalParams,
-  SourceControlsCreateResponse
+  SourceControlsCreateResponse,
+  SourceControlsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,19 +45,6 @@ export interface SourceControls {
     options?: SourceControlsGetOptionalParams
   ): Promise<SourceControlsGetResponse>;
   /**
-   * Delete a source control.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param sourceControlId Source control Id
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    workspaceName: string,
-    sourceControlId: string,
-    options?: SourceControlsDeleteOptionalParams
-  ): Promise<void>;
-  /**
    * Creates a source control.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -72,4 +59,17 @@ export interface SourceControls {
     sourceControl: SourceControl,
     options?: SourceControlsCreateOptionalParams
   ): Promise<SourceControlsCreateResponse>;
+  /**
+   * Delete a source control.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param sourceControlId Source control Id
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    workspaceName: string,
+    sourceControlId: string,
+    options?: SourceControlsDeleteOptionalParams
+  ): Promise<void>;
 }
