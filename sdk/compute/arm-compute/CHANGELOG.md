@@ -1,15 +1,27 @@
 # Release History
+    
+## 20.1.0 (2023-04-27)
+    
+**Features**
 
-## 20.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface CommunityGalleryMetadata
+  - Interface CommunityGallery has a new optional parameter artifactTags
+  - Interface CommunityGallery has a new optional parameter communityMetadata
+  - Interface CommunityGallery has a new optional parameter disclaimer
+  - Interface CommunityGalleryImage has a new optional parameter artifactTags
+  - Interface CommunityGalleryImage has a new optional parameter disclaimer
+  - Interface CommunityGalleryImageVersion has a new optional parameter artifactTags
+  - Interface CommunityGalleryImageVersion has a new optional parameter disclaimer
+  - Interface SharedGallery has a new optional parameter artifactTags
+  - Interface SharedGalleryImage has a new optional parameter artifactTags
+  - Interface SharedGalleryImageVersion has a new optional parameter artifactTags
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter computerName
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter hyperVGeneration
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter osName
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter osVersion
+  - Enum KnownStorageAccountType has a new value StandardSSDLRS
+    
+    
 ## 20.0.0 (2023-01-05)
     
 **Features**

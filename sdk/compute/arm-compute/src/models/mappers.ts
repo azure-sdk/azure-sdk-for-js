@@ -1488,6 +1488,84 @@ export const ApiEntityReference: coreClient.CompositeMapper = {
   }
 };
 
+export const VirtualMachineScaleSetNetworkConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualMachineScaleSetNetworkConfiguration",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      primary: {
+        serializedName: "properties.primary",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableAcceleratedNetworking: {
+        serializedName: "properties.enableAcceleratedNetworking",
+        type: {
+          name: "Boolean"
+        }
+      },
+      disableTcpStateTracking: {
+        serializedName: "properties.disableTcpStateTracking",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableFpga: {
+        serializedName: "properties.enableFpga",
+        type: {
+          name: "Boolean"
+        }
+      },
+      networkSecurityGroup: {
+        serializedName: "properties.networkSecurityGroup",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      },
+      dnsSettings: {
+        serializedName: "properties.dnsSettings",
+        type: {
+          name: "Composite",
+          className: "VirtualMachineScaleSetNetworkConfigurationDnsSettings"
+        }
+      },
+      ipConfigurations: {
+        serializedName: "properties.ipConfigurations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VirtualMachineScaleSetIPConfiguration"
+            }
+          }
+        }
+      },
+      enableIPForwarding: {
+        serializedName: "properties.enableIPForwarding",
+        type: {
+          name: "Boolean"
+        }
+      },
+      deleteOption: {
+        serializedName: "properties.deleteOption",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const VirtualMachineScaleSetNetworkConfigurationDnsSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1500,6 +1578,96 @@ export const VirtualMachineScaleSetNetworkConfigurationDnsSettings: coreClient.C
           element: {
             type: {
               name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const VirtualMachineScaleSetIPConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualMachineScaleSetIPConfiguration",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      subnet: {
+        serializedName: "properties.subnet",
+        type: {
+          name: "Composite",
+          className: "ApiEntityReference"
+        }
+      },
+      primary: {
+        serializedName: "properties.primary",
+        type: {
+          name: "Boolean"
+        }
+      },
+      publicIPAddressConfiguration: {
+        serializedName: "properties.publicIPAddressConfiguration",
+        type: {
+          name: "Composite",
+          className: "VirtualMachineScaleSetPublicIPAddressConfiguration"
+        }
+      },
+      privateIPAddressVersion: {
+        serializedName: "properties.privateIPAddressVersion",
+        type: {
+          name: "String"
+        }
+      },
+      applicationGatewayBackendAddressPools: {
+        serializedName: "properties.applicationGatewayBackendAddressPools",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource"
+            }
+          }
+        }
+      },
+      applicationSecurityGroups: {
+        serializedName: "properties.applicationSecurityGroups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource"
+            }
+          }
+        }
+      },
+      loadBalancerBackendAddressPools: {
+        serializedName: "properties.loadBalancerBackendAddressPools",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource"
+            }
+          }
+        }
+      },
+      loadBalancerInboundNatPools: {
+        serializedName: "properties.loadBalancerInboundNatPools",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource"
             }
           }
         }
@@ -3458,6 +3626,30 @@ export const VirtualMachineScaleSetVMInstanceView: coreClient.CompositeMapper = 
       },
       placementGroupId: {
         serializedName: "placementGroupId",
+        type: {
+          name: "String"
+        }
+      },
+      computerName: {
+        serializedName: "computerName",
+        type: {
+          name: "String"
+        }
+      },
+      osName: {
+        serializedName: "osName",
+        type: {
+          name: "String"
+        }
+      },
+      osVersion: {
+        serializedName: "osVersion",
+        type: {
+          name: "String"
+        }
+      },
+      hyperVGeneration: {
+        serializedName: "hyperVGeneration",
         type: {
           name: "String"
         }
@@ -9861,6 +10053,50 @@ export const SharedGalleryDiskImage: coreClient.CompositeMapper = {
   }
 };
 
+export const CommunityGalleryMetadata: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunityGalleryMetadata",
+    modelProperties: {
+      publisherUri: {
+        serializedName: "publisherUri",
+        type: {
+          name: "String"
+        }
+      },
+      publisherContact: {
+        serializedName: "publisherContact",
+        type: {
+          name: "String"
+        }
+      },
+      eula: {
+        serializedName: "eula",
+        type: {
+          name: "String"
+        }
+      },
+      publicNames: {
+        serializedName: "publicNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      privacyStatementUri: {
+        serializedName: "privacyStatementUri",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PirCommunityGalleryResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -11470,176 +11706,6 @@ export const DiskEncryptionSetParameters: coreClient.CompositeMapper = {
     className: "DiskEncryptionSetParameters",
     modelProperties: {
       ...SubResource.type.modelProperties
-    }
-  }
-};
-
-export const VirtualMachineScaleSetIPConfiguration: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VirtualMachineScaleSetIPConfiguration",
-    modelProperties: {
-      ...SubResource.type.modelProperties,
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      subnet: {
-        serializedName: "properties.subnet",
-        type: {
-          name: "Composite",
-          className: "ApiEntityReference"
-        }
-      },
-      primary: {
-        serializedName: "properties.primary",
-        type: {
-          name: "Boolean"
-        }
-      },
-      publicIPAddressConfiguration: {
-        serializedName: "properties.publicIPAddressConfiguration",
-        type: {
-          name: "Composite",
-          className: "VirtualMachineScaleSetPublicIPAddressConfiguration"
-        }
-      },
-      privateIPAddressVersion: {
-        serializedName: "properties.privateIPAddressVersion",
-        type: {
-          name: "String"
-        }
-      },
-      applicationGatewayBackendAddressPools: {
-        serializedName: "properties.applicationGatewayBackendAddressPools",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SubResource"
-            }
-          }
-        }
-      },
-      applicationSecurityGroups: {
-        serializedName: "properties.applicationSecurityGroups",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SubResource"
-            }
-          }
-        }
-      },
-      loadBalancerBackendAddressPools: {
-        serializedName: "properties.loadBalancerBackendAddressPools",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SubResource"
-            }
-          }
-        }
-      },
-      loadBalancerInboundNatPools: {
-        serializedName: "properties.loadBalancerInboundNatPools",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SubResource"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const VirtualMachineScaleSetNetworkConfiguration: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VirtualMachineScaleSetNetworkConfiguration",
-    modelProperties: {
-      ...SubResource.type.modelProperties,
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      primary: {
-        serializedName: "properties.primary",
-        type: {
-          name: "Boolean"
-        }
-      },
-      enableAcceleratedNetworking: {
-        serializedName: "properties.enableAcceleratedNetworking",
-        type: {
-          name: "Boolean"
-        }
-      },
-      disableTcpStateTracking: {
-        serializedName: "properties.disableTcpStateTracking",
-        type: {
-          name: "Boolean"
-        }
-      },
-      enableFpga: {
-        serializedName: "properties.enableFpga",
-        type: {
-          name: "Boolean"
-        }
-      },
-      networkSecurityGroup: {
-        serializedName: "properties.networkSecurityGroup",
-        type: {
-          name: "Composite",
-          className: "SubResource"
-        }
-      },
-      dnsSettings: {
-        serializedName: "properties.dnsSettings",
-        type: {
-          name: "Composite",
-          className: "VirtualMachineScaleSetNetworkConfigurationDnsSettings"
-        }
-      },
-      ipConfigurations: {
-        serializedName: "properties.ipConfigurations",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VirtualMachineScaleSetIPConfiguration"
-            }
-          }
-        }
-      },
-      enableIPForwarding: {
-        serializedName: "properties.enableIPForwarding",
-        type: {
-          name: "Boolean"
-        }
-      },
-      deleteOption: {
-        serializedName: "properties.deleteOption",
-        type: {
-          name: "String"
-        }
-      }
     }
   }
 };
@@ -16387,7 +16453,27 @@ export const CommunityGallery: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CommunityGallery",
     modelProperties: {
-      ...PirCommunityGalleryResource.type.modelProperties
+      ...PirCommunityGalleryResource.type.modelProperties,
+      disclaimer: {
+        serializedName: "properties.disclaimer",
+        type: {
+          name: "String"
+        }
+      },
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      communityMetadata: {
+        serializedName: "properties.communityMetadata",
+        type: {
+          name: "Composite",
+          className: "CommunityGalleryMetadata"
+        }
+      }
     }
   }
 };
@@ -16481,6 +16567,19 @@ export const CommunityGalleryImage: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      disclaimer: {
+        serializedName: "properties.disclaimer",
+        type: {
+          name: "String"
+        }
+      },
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -16515,6 +16614,19 @@ export const CommunityGalleryImageVersion: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SharedGalleryImageVersionStorageProfile"
+        }
+      },
+      disclaimer: {
+        serializedName: "properties.disclaimer",
+        type: {
+          name: "String"
+        }
+      },
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -16628,7 +16740,15 @@ export const SharedGallery: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SharedGallery",
     modelProperties: {
-      ...PirSharedGalleryResource.type.modelProperties
+      ...PirSharedGalleryResource.type.modelProperties,
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
     }
   }
 };
@@ -16722,6 +16842,13 @@ export const SharedGalleryImage: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -16756,6 +16883,13 @@ export const SharedGalleryImageVersion: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SharedGalleryImageVersionStorageProfile"
+        }
+      },
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
