@@ -3777,7 +3777,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230426
+      typescript: 5.1.0-dev.20230428
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8437,8 +8437,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230426:
-    resolution: {integrity: sha512-zQ4BsUQeM5CFScIVsyY0XOMCn/VYav7z5CT6nlOSqI/CJ3DVn86JWE/DwkK44c39RyKCmtwB9hz+BWcb7bem/g==}
+  /typescript/5.1.0-dev.20230428:
+    resolution: {integrity: sha512-Z4EBOQZOfz/5XOQrvEbzqtBBVIm5/Ha2hQ6AgDECgfkBq6zZbQSItUgvxP1a5TeyZk3Wcw7/uJUvyhvlJESc7g==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -13846,7 +13846,7 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-cVPVS4kYq6n83VLO8Cl95K5TkE63nlvYvZeEoUMOp5wGVvwgR+UA8xSlSg1/eMqQ1jeaTuiyHoFa5n+slIYnTw==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-EO2zPTIB4RsmBQlVdJ22sHB7w2x2WqDGiCWSvoO9ded2UtbSm8sEzFDxGkG9RtX8ymVaww1dDhU9m3c0/AQF0w==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
@@ -13861,14 +13861,14 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_c43y4oaxxwie3ialrfuzfwwhqq
       tslib: 2.5.0
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
