@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AvailableServiceSku,
   ServicesListSkusOptionalParams,
@@ -85,8 +85,8 @@ export interface Services {
     parameters: DataMigrationService,
     options?: ServicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServicesCreateOrUpdateResponse>,
       ServicesCreateOrUpdateResponse
     >
   >;
@@ -133,7 +133,7 @@ export interface Services {
     groupName: string,
     serviceName: string,
     options?: ServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The services resource is the top-level resource that represents the Database Migration Service. The
    * DELETE method deletes a service. Any running tasks will be canceled.
@@ -162,8 +162,8 @@ export interface Services {
     parameters: DataMigrationService,
     options?: ServicesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServicesUpdateResponse>,
       ServicesUpdateResponse
     >
   >;
@@ -206,7 +206,7 @@ export interface Services {
     groupName: string,
     serviceName: string,
     options?: ServicesStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The services resource is the top-level resource that represents the Database Migration Service. This
    * action starts the service and the service can be used for data migration.
@@ -231,7 +231,7 @@ export interface Services {
     groupName: string,
     serviceName: string,
     options?: ServicesStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The services resource is the top-level resource that represents the Database Migration Service. This
    * action stops the service and the service cannot be used for data migration. The service owner won't

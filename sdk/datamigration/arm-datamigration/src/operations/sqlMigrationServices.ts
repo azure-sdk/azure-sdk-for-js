@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataMigrationManagementClient } from "../dataMigrationManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SqlMigrationService,
   SqlMigrationServicesListByResourceGroupNextOptionalParams,
@@ -273,7 +277,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Retrieve the Migration Service.
+   * Retrieve the Database Migration Service
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -291,7 +295,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Create or Update SQL Migration Service.
+   * Create or Update Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -304,8 +308,8 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
     parameters: SqlMigrationService,
     options?: SqlMigrationServicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlMigrationServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlMigrationServicesCreateOrUpdateResponse>,
       SqlMigrationServicesCreateOrUpdateResponse
     >
   > {
@@ -315,7 +319,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
     ): Promise<SqlMigrationServicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -348,13 +352,16 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sqlMigrationServiceName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, sqlMigrationServiceName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SqlMigrationServicesCreateOrUpdateResponse,
+      OperationState<SqlMigrationServicesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -362,7 +369,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Create or Update SQL Migration Service.
+   * Create or Update Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -385,7 +392,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Delete SQL Migration Service.
+   * Delete Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -395,14 +402,14 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
     resourceGroupName: string,
     sqlMigrationServiceName: string,
     options?: SqlMigrationServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -435,13 +442,13 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sqlMigrationServiceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, sqlMigrationServiceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -449,7 +456,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Delete SQL Migration Service.
+   * Delete Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -469,7 +476,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Update SQL Migration Service.
+   * Update Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -482,8 +489,8 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
     parameters: SqlMigrationServiceUpdate,
     options?: SqlMigrationServicesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlMigrationServicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlMigrationServicesUpdateResponse>,
       SqlMigrationServicesUpdateResponse
     >
   > {
@@ -493,7 +500,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
     ): Promise<SqlMigrationServicesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -526,13 +533,16 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sqlMigrationServiceName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, sqlMigrationServiceName, parameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SqlMigrationServicesUpdateResponse,
+      OperationState<SqlMigrationServicesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -540,7 +550,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Update SQL Migration Service.
+   * Update Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -655,7 +665,8 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Retrieve the Monitoring Data.
+   * Retrieve the registered Integration Runtime nodes and their monitoring data for a given Database
+   * Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -780,7 +791,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -825,7 +836,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -886,7 +897,7 @@ const regenerateAuthKeysOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -908,7 +919,7 @@ const deleteNodeOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -984,7 +995,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1003,7 +1013,6 @@ const listMigrationsNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1023,7 +1032,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

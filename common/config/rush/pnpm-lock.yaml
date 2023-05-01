@@ -11444,7 +11444,7 @@ packages:
     dev: false
 
   file:projects/arm-datamigration.tgz:
-    resolution: {integrity: sha512-w3AfWtamq1BL/FQLJqT23iKTDZMlBXs2jVSCNJN81RFR6VMM4tlII9ppAdxDg94evqDGgabFGJwLqHdJ+7n8TA==, tarball: file:projects/arm-datamigration.tgz}
+    resolution: {integrity: sha512-FOq1blKfsp3UbJUskENLGZHNmV9YmpKb3XpGDbc1NrjjiTLCXFL3pDbrNbDmgGgIxLHkmka4FHIiiHD3BayULA==, tarball: file:projects/arm-datamigration.tgz}
     name: '@rush-temp/arm-datamigration'
     version: 0.0.0
     dependencies:
@@ -11458,13 +11458,14 @@ packages:
       '@types/node': 14.18.43
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_mn2f3gd3jpedkkr23obcmzv5eq
       tslib: 2.5.0
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color

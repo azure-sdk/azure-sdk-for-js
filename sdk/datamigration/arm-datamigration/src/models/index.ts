@@ -10,6 +10,7 @@ import * as coreClient from "@azure/core-client";
 
 export type DatabaseMigrationPropertiesUnion =
   | DatabaseMigrationProperties
+  | DatabaseMigrationPropertiesSqlDb
   | DatabaseMigrationPropertiesSqlMi
   | DatabaseMigrationPropertiesSqlVm;
 export type ProjectTaskPropertiesUnion =
@@ -42,6 +43,7 @@ export type ProjectTaskPropertiesUnion =
   | MigrateSqlServerSqlDbTaskProperties
   | MigrateSqlServerSqlDbSyncTaskProperties
   | MigrateMySqlAzureDbForMySqlSyncTaskProperties
+  | MigrateMySqlAzureDbForMySqlReplicateChangesTaskProperties
   | MigrateMySqlAzureDbForMySqlOfflineTaskProperties
   | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties
   | MigrateOracleAzureDbForPostgreSqlSyncTaskProperties
@@ -61,45 +63,48 @@ export type CommandPropertiesUnion =
   | MongoDbRestartCommand;
 export type ConnectionInfoUnion =
   | ConnectionInfo
-  | MongoDbConnectionInfo
   | SqlConnectionInfo
+  | MongoDbConnectionInfo
   | MySqlConnectionInfo
   | OracleConnectionInfo
   | PostgreSqlConnectionInfo
   | MiSqlConnectionInfo;
-export type ConnectToSourceSqlServerTaskOutputUnion =
-  | ConnectToSourceSqlServerTaskOutput
-  | ConnectToSourceSqlServerTaskOutputTaskLevel
-  | ConnectToSourceSqlServerTaskOutputDatabaseLevel
-  | ConnectToSourceSqlServerTaskOutputLoginLevel
-  | ConnectToSourceSqlServerTaskOutputAgentJobLevel;
 export type MigrateSchemaSqlServerSqlDbTaskOutputUnion =
   | MigrateSchemaSqlServerSqlDbTaskOutput
   | MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel
   | MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel
   | MigrateSchemaSqlServerSqlDbTaskOutputError
   | MigrateSchemaSqlTaskOutputError;
-export type MigrateMySqlAzureDbForMySqlSyncTaskOutputUnion =
-  | MigrateMySqlAzureDbForMySqlSyncTaskOutput
-  | MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel
-  | MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel
-  | MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel
-  | MigrateMySqlAzureDbForMySqlSyncTaskOutputError
-  | MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError;
-export type MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputUnion =
-  | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput
-  | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel
-  | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel
-  | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel
-  | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError
-  | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError;
-export type MigrateSqlServerSqlDbSyncTaskOutputUnion =
-  | MigrateSqlServerSqlDbSyncTaskOutput
-  | MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel
-  | MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel
-  | MigrateSqlServerSqlDbSyncTaskOutputTableLevel
-  | MigrateSqlServerSqlDbSyncTaskOutputError
-  | MigrateSqlServerSqlDbSyncTaskOutputDatabaseError;
+export type MongoDbProgressUnion =
+  | MongoDbProgress
+  | MongoDbCollectionProgress
+  | MongoDbDatabaseProgress
+  | MongoDbMigrationProgress;
+export type ConnectToSourceSqlServerTaskOutputUnion =
+  | ConnectToSourceSqlServerTaskOutput
+  | ConnectToSourceSqlServerTaskOutputTaskLevel
+  | ConnectToSourceSqlServerTaskOutputDatabaseLevel
+  | ConnectToSourceSqlServerTaskOutputLoginLevel
+  | ConnectToSourceSqlServerTaskOutputAgentJobLevel;
+export type MigrateOracleAzureDbPostgreSqlSyncTaskOutputUnion =
+  | MigrateOracleAzureDbPostgreSqlSyncTaskOutput
+  | MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel
+  | MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel
+  | MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel
+  | MigrateOracleAzureDbPostgreSqlSyncTaskOutputError
+  | MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError;
+export type MigrateSqlServerSqlMITaskOutputUnion =
+  | MigrateSqlServerSqlMITaskOutput
+  | MigrateSqlServerSqlMITaskOutputMigrationLevel
+  | MigrateSqlServerSqlMITaskOutputDatabaseLevel
+  | MigrateSqlServerSqlMITaskOutputAgentJobLevel
+  | MigrateSqlServerSqlMITaskOutputLoginLevel
+  | MigrateSqlServerSqlMITaskOutputError;
+export type MigrateSqlServerSqlMISyncTaskOutputUnion =
+  | MigrateSqlServerSqlMISyncTaskOutput
+  | MigrateSqlServerSqlMISyncTaskOutputMigrationLevel
+  | MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel
+  | MigrateSqlServerSqlMISyncTaskOutputError;
 export type MigrateSqlServerSqlDbTaskOutputUnion =
   | MigrateSqlServerSqlDbTaskOutput
   | MigrateSqlServerSqlDbTaskOutputMigrationLevel
@@ -108,40 +113,44 @@ export type MigrateSqlServerSqlDbTaskOutputUnion =
   | MigrateSqlServerSqlDbTaskOutputError
   | MigrateSqlServerSqlDbTaskOutputValidationResult
   | MigrateSqlServerSqlDbTaskOutputDatabaseLevelValidationResult;
-export type MigrateSqlServerSqlMISyncTaskOutputUnion =
-  | MigrateSqlServerSqlMISyncTaskOutput
-  | MigrateSqlServerSqlMISyncTaskOutputMigrationLevel
-  | MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel
-  | MigrateSqlServerSqlMISyncTaskOutputError;
-export type MigrateSqlServerSqlMITaskOutputUnion =
-  | MigrateSqlServerSqlMITaskOutput
-  | MigrateSqlServerSqlMITaskOutputMigrationLevel
-  | MigrateSqlServerSqlMITaskOutputDatabaseLevel
-  | MigrateSqlServerSqlMITaskOutputAgentJobLevel
-  | MigrateSqlServerSqlMITaskOutputLoginLevel
-  | MigrateSqlServerSqlMITaskOutputError;
-export type MigrateSsisTaskOutputUnion =
-  | MigrateSsisTaskOutput
-  | MigrateSsisTaskOutputMigrationLevel
-  | MigrateSsisTaskOutputProjectLevel;
-export type MongoDbProgressUnion =
-  | MongoDbProgress
-  | MongoDbCollectionProgress
-  | MongoDbDatabaseProgress
-  | MongoDbMigrationProgress;
-export type MigrateOracleAzureDbPostgreSqlSyncTaskOutputUnion =
-  | MigrateOracleAzureDbPostgreSqlSyncTaskOutput
-  | MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel
-  | MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel
-  | MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel
-  | MigrateOracleAzureDbPostgreSqlSyncTaskOutputError
-  | MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError;
+export type MigrateSqlServerSqlDbSyncTaskOutputUnion =
+  | MigrateSqlServerSqlDbSyncTaskOutput
+  | MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel
+  | MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel
+  | MigrateSqlServerSqlDbSyncTaskOutputTableLevel
+  | MigrateSqlServerSqlDbSyncTaskOutputError
+  | MigrateSqlServerSqlDbSyncTaskOutputDatabaseError;
+export type MigrateMySqlAzureDbForMySqlSyncTaskOutputUnion =
+  | MigrateMySqlAzureDbForMySqlSyncTaskOutput
+  | MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel
+  | MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel
+  | MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel
+  | MigrateMySqlAzureDbForMySqlSyncTaskOutputError
+  | MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError
+  | MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevelV2;
+export type MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutputUnion =
+  | MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutput
+  | MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutputMigrationLevelUnion;
 export type MigrateMySqlAzureDbForMySqlOfflineTaskOutputUnion =
   | MigrateMySqlAzureDbForMySqlOfflineTaskOutput
   | MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel
   | MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel
   | MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel
   | MigrateMySqlAzureDbForMySqlOfflineTaskOutputError;
+export type MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputUnion =
+  | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput
+  | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel
+  | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel
+  | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel
+  | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError
+  | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError;
+export type MigrateSsisTaskOutputUnion =
+  | MigrateSsisTaskOutput
+  | MigrateSsisTaskOutputMigrationLevel
+  | MigrateSsisTaskOutputProjectLevel;
+export type MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutputMigrationLevelUnion =
+  | MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutputMigrationLevel
+  | MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevelV2;
 
 export interface SystemData {
   createdBy?: string;
@@ -150,6 +159,191 @@ export interface SystemData {
   lastModifiedBy?: string;
   lastModifiedByType?: CreatedByType;
   lastModifiedAt?: Date;
+}
+
+/** Detailed status of current Sql Db migration. */
+export interface SqlDbMigrationStatusDetails {
+  /**
+   * Current State of Migration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationState?: string;
+  /**
+   * Sql Data Copy errors, if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sqlDataCopyErrors?: string[];
+  /**
+   * Details on progress of ADF copy activities.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly listOfCopyProgressDetails?: CopyProgressDetails[];
+}
+
+/** Details on progress of ADF copy activity */
+export interface CopyProgressDetails {
+  /**
+   * Table Name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tableName?: string;
+  /**
+   * Status of the Copy activity (InProgress, Succeeded, Failed, Canceled).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * Type of parallel copy (Dynamic range, Physical partition, none).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly parallelCopyType?: string;
+  /**
+   * The degree of parallelization.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly usedParallelCopies?: number;
+  /**
+   * Bytes read
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataRead?: number;
+  /**
+   * Bytes written
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataWritten?: number;
+  /**
+   * Rows read
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rowsRead?: number;
+  /**
+   * Rows Copied
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rowsCopied?: number;
+  /**
+   * Copy Start
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly copyStart?: Date;
+  /**
+   * Copy throughput in KBps
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly copyThroughput?: number;
+  /**
+   * Copy Duration in seconds
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly copyDuration?: number;
+}
+
+/** Source SQL Connection */
+export interface SqlConnectionInformation {
+  /** Data source. */
+  dataSource?: string;
+  /** Authentication type. */
+  authentication?: string;
+  /** User name to connect to source SQL. */
+  userName?: string;
+  /**
+   * Password to connect to source SQL.
+   * This value contains a credential. Consider obscuring before showing to users
+   */
+  password?: string;
+  /** Whether to encrypt connection or not. */
+  encryptConnection?: boolean;
+  /** Whether to trust server certificate or not. */
+  trustServerCertificate?: boolean;
+}
+
+/** Offline configuration */
+export interface SqlDbOfflineConfiguration {
+  /**
+   * Offline migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly offline?: boolean;
+}
+
+/** Database Migration Resource properties. */
+export interface DatabaseMigrationProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "SqlDb" | "SqlMi" | "SqlVm";
+  /** Resource Id of the target resource (SQL VM or SQL Managed Instance). */
+  scope?: string;
+  /**
+   * Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * Migration status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationStatus?: string;
+  /**
+   * Database migration start time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Database migration end time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /** Source SQL Server connection details. */
+  sourceSqlConnection?: SqlConnectionInformation;
+  /** Name of the source database. */
+  sourceDatabaseName?: string;
+  /**
+   * Name of the source sql server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceServerName?: string;
+  /** Resource Id of the Migration Service. */
+  migrationService?: string;
+  /** ID tracking current migration operation. */
+  migrationOperationId?: string;
+  /**
+   * Error details in case of migration failure.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationFailureError?: ErrorInfo;
+  /** Database collation to be used for the target database. */
+  targetDatabaseCollation?: string;
+  /** Error message for migration provisioning failure, if any. */
+  provisioningError?: string;
+}
+
+/** Error details */
+export interface ErrorInfo {
+  /**
+   * Error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+export interface ProxyResource {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly id?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly name?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly type?: string;
+}
+
+/** Migration Operation Input */
+export interface MigrationOperationInput {
+  /** ID tracking migration operation. */
+  migrationOperationId?: string;
 }
 
 /** Detailed status of current migration. */
@@ -338,6 +532,11 @@ export interface SourceLocation {
   fileShare?: SqlFileShare;
   /** Source Azure Blob. */
   azureBlob?: AzureBlob;
+  /**
+   * Backup storage Type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fileStorageType?: string;
 }
 
 /** File share */
@@ -346,7 +545,10 @@ export interface SqlFileShare {
   path?: string;
   /** Username to access the file share location for backups. */
   username?: string;
-  /** Password for username to access file share location. */
+  /**
+   * Password for username to access file share location.
+   * This value contains a credential. Consider obscuring before showing to users
+   */
   password?: string;
 }
 
@@ -374,92 +576,6 @@ export interface OfflineConfiguration {
   offline?: boolean;
   /** Last backup name for offline migration. This is optional for migrations from file share. If it is not provided, then the service will determine the last backup file name based on latest backup files present in file share. */
   lastBackupName?: string;
-}
-
-/** Database Migration Resource properties. */
-export interface DatabaseMigrationProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "SqlMi" | "SqlVm";
-  /** Scope of the database. */
-  scope?: string;
-  /**
-   * Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /**
-   * Migration status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly migrationStatus?: string;
-  /**
-   * Database migration start time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Database migration end time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /** Source SQL Server connection details. */
-  sourceSqlConnection?: SqlConnectionInformation;
-  /** Name of the source database. */
-  sourceDatabaseName?: string;
-  /** Resource Id of the Migration Service. */
-  migrationService?: string;
-  /** ID tracking current migration operation. */
-  migrationOperationId?: string;
-  /**
-   * Error details in case of migration failure.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly migrationFailureError?: ErrorInfo;
-}
-
-/** Source SQL Connection */
-export interface SqlConnectionInformation {
-  /** Data source. */
-  dataSource?: string;
-  /** Authentication type. */
-  authentication?: string;
-  /** User name to connect to source SQL. */
-  userName?: string;
-  /** Password to connect to source SQL. */
-  password?: string;
-  /** Whether to encrypt connection or not. */
-  encryptConnection?: boolean;
-  /** Whether to trust server certificate or not. */
-  trustServerCertificate?: boolean;
-}
-
-/** Error details */
-export interface ErrorInfo {
-  /**
-   * Error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * Error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-}
-
-export interface ProxyResource {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly id?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly name?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly type?: string;
-}
-
-/** Migration Operation Input */
-export interface MigrationOperationInput {
-  /** ID tracking migration operation. */
-  migrationOperationId?: string;
 }
 
 /** Result of the request to list SQL operations. */
@@ -810,6 +926,8 @@ export interface ServiceSku {
 export interface DataMigrationServiceStatusResponse {
   /** The DMS instance agent version */
   agentVersion?: string;
+  /** Agent Configuration */
+  agentConfiguration?: Record<string, unknown>;
   /** The machine-readable status, such as 'Initializing', 'Offline', 'Online', 'Deploying', 'Deleting', 'Stopped', 'Stopping', 'Starting', 'FailedToStart', 'FailedToStop' or 'Failed' */
   status?: string;
   /** The services virtual machine size, such as 'Standard_D2_v2' */
@@ -900,6 +1018,7 @@ export interface ProjectTaskProperties {
     | "Migrate.SqlServer.SqlDb"
     | "Migrate.SqlServer.AzureSqlDb.Sync"
     | "Migrate.MySql.AzureDbForMySql.Sync"
+    | "Migrate.MySql.AzureDbForMySql.ReplicateChanges"
     | "Migrate.MySql.AzureDbForMySql"
     | "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2"
     | "Migrate.Oracle.AzureDbForPostgreSql.Sync"
@@ -1003,12 +1122,24 @@ export interface ProjectList {
   nextLink?: string;
 }
 
+/** Azure Active Directory Application */
+export interface AzureActiveDirectoryApp {
+  /** Application ID of the Azure Active Directory Application */
+  applicationId?: string;
+  /** Key used to authenticate to the Azure Active Directory Application */
+  appKey?: string;
+  /** Tenant id of the customer */
+  tenantId?: string;
+  /** Ignore checking azure permissions on the AAD app */
+  ignoreAzurePermissions?: boolean;
+}
+
 /** Defines the connection properties of a server */
 export interface ConnectionInfo {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type:
-    | "MongoDbConnectionInfo"
     | "SqlConnectionInfo"
+    | "MongoDbConnectionInfo"
     | "MySqlConnectionInfo"
     | "OracleConnectionInfo"
     | "PostgreSqlConnectionInfo"
@@ -1091,553 +1222,6 @@ export interface FileStorageInfo {
   headers?: { [propertyName: string]: string };
 }
 
-/** Input for command that completes sync migration for a database. */
-export interface MigrateSyncCompleteCommandInput {
-  /** Name of database */
-  databaseName: string;
-  /** Time stamp to complete */
-  commitTimeStamp?: Date;
-}
-
-/** Output for command that completes sync migration for a database. */
-export interface MigrateSyncCompleteCommandOutput {
-  /**
-   * Result identifier
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * List of errors that happened during the command execution
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errors?: ReportableException[];
-}
-
-/** Exception object for all custom exceptions */
-export interface ReportableException {
-  /** Error message */
-  message?: string;
-  /** Actionable steps for this exception */
-  actionableMessage?: string;
-  /** The path to the file where exception occurred */
-  filePath?: string;
-  /** The line number where exception occurred */
-  lineNumber?: string;
-  /** Coded numerical value that is assigned to a specific exception */
-  hResult?: number;
-  /** Stack trace */
-  stackTrace?: string;
-}
-
-/** Input for command that completes online migration for an Azure SQL Database Managed Instance. */
-export interface MigrateMISyncCompleteCommandInput {
-  /** Name of managed instance database */
-  sourceDatabaseName: string;
-}
-
-/** Output for command that completes online migration for an Azure SQL Database Managed Instance. */
-export interface MigrateMISyncCompleteCommandOutput {
-  /** List of errors that happened during the command execution */
-  errors?: ReportableException[];
-}
-
-/** Azure Active Directory Application */
-export interface AzureActiveDirectoryApp {
-  /** Application ID of the Azure Active Directory Application */
-  applicationId: string;
-  /** Key used to authenticate to the Azure Active Directory Application */
-  appKey: string;
-  /** Tenant id of the customer */
-  tenantId: string;
-}
-
-/** Information of backup set */
-export interface BackupSetInfo {
-  /** Id for the set of backup files */
-  backupSetId?: string;
-  /** First log sequence number of the backup file */
-  firstLsn?: string;
-  /** Last log sequence number of the backup file */
-  lastLsn?: string;
-  /** Last modified time of the backup file in share location */
-  lastModifiedTime?: Date;
-  /** Enum of the different backup types */
-  backupType?: BackupType;
-  /** List of files in the backup set */
-  listOfBackupFiles?: BackupFileInfo[];
-  /** Name of the database to which the backup set belongs */
-  databaseName?: string;
-  /** Date and time that the backup operation began */
-  backupStartDate?: Date;
-  /** Date and time that the backup operation finished */
-  backupFinishedDate?: Date;
-  /** Whether the backup set is restored or not */
-  isBackupRestored?: boolean;
-}
-
-/** Information of the backup file */
-export interface BackupFileInfo {
-  /** Location of the backup file in shared folder */
-  fileLocation?: string;
-  /** Sequence number of the backup file in the backup set */
-  familySequenceNumber?: number;
-  /** Status of the backup file during migration */
-  status?: BackupFileStatus;
-}
-
-/** Information of orphaned users on the SQL server database. */
-export interface OrphanedUserInfo {
-  /** Name of the orphaned user */
-  name?: string;
-  /** Parent database of the user */
-  databaseName?: string;
-}
-
-/** Input for the task that validates MySQL database connection */
-export interface ConnectToSourceMySqlTaskInput {
-  /** Information for connecting to MySQL source */
-  sourceConnectionInfo: MySqlConnectionInfo;
-  /** Target Platform for the migration */
-  targetPlatform?: MySqlTargetPlatformType;
-  /** Permission group for validations */
-  checkPermissionsGroup?: ServerLevelPermissionsGroup;
-  /** Flag for whether or not the migration is offline */
-  isOfflineMigration?: boolean;
-}
-
-/** Input for the task that validates connection to SQL Server and also validates source server requirements */
-export interface ConnectToSourceSqlServerTaskInput {
-  /** Connection information for Source SQL Server */
-  sourceConnectionInfo: SqlConnectionInfo;
-  /** Permission group for validations */
-  checkPermissionsGroup?: ServerLevelPermissionsGroup;
-  /** Flag for whether to collect databases from source server. */
-  collectDatabases?: boolean;
-  /** Flag for whether to collect logins from source server. */
-  collectLogins?: boolean;
-  /** Flag for whether to collect agent jobs from source server. */
-  collectAgentJobs?: boolean;
-  /** Flag for whether to collect TDE Certificate names from source server. */
-  collectTdeCertificateInfo?: boolean;
-  /** Flag for whether to validate SSIS catalog is reachable on the source server. */
-  validateSsisCatalogOnly?: boolean;
-}
-
-/** Output for the task that validates connection to SQL Server and also validates source server requirements */
-export interface ConnectToSourceSqlServerTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType:
-    | "TaskLevelOutput"
-    | "DatabaseLevelOutput"
-    | "LoginLevelOutput"
-    | "AgentJobLevelOutput";
-  /**
-   * Result identifier
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-}
-
-/** Database file specific information */
-export interface DatabaseFileInfo {
-  /** Name of the database */
-  databaseName?: string;
-  /** Unique identifier for database file */
-  id?: string;
-  /** Logical name of the file */
-  logicalName?: string;
-  /** Operating-system full path of the file */
-  physicalFullName?: string;
-  /** Suggested full path of the file for restoring */
-  restoreFullName?: string;
-  /** Database file type */
-  fileType?: DatabaseFileType;
-  /** Size of the file in megabytes */
-  sizeMB?: number;
-}
-
-/** Information about migration eligibility of a server object */
-export interface MigrationEligibilityInfo {
-  /**
-   * Whether object is eligible for migration or not.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isEligibleForMigration?: boolean;
-  /**
-   * Information about eligibility failure for the server object.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly validationMessages?: string[];
-}
-
-/** Input for the task that validates connection to PostgreSQL and source server requirements */
-export interface ConnectToSourcePostgreSqlSyncTaskInput {
-  /** Connection information for source PostgreSQL server */
-  sourceConnectionInfo: PostgreSqlConnectionInfo;
-}
-
-/** Output for the task that validates connection to PostgreSQL and source server requirements */
-export interface ConnectToSourcePostgreSqlSyncTaskOutput {
-  /**
-   * Result identifier
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Version of the source server
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceServerVersion?: string;
-  /**
-   * List of databases on source server
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databases?: string[];
-  /**
-   * Source server brand version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceServerBrandVersion?: string;
-  /**
-   * Validation errors associated with the task
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly validationErrors?: ReportableException[];
-}
-
-/** Input for the task that validates connection to Azure Database for MySQL and target server requirements */
-export interface ConnectToTargetAzureDbForMySqlTaskInput {
-  /** Connection information for source MySQL server */
-  sourceConnectionInfo: MySqlConnectionInfo;
-  /** Connection information for target Azure Database for MySQL server */
-  targetConnectionInfo: MySqlConnectionInfo;
-  /** Flag for whether or not the migration is offline */
-  isOfflineMigration?: boolean;
-}
-
-/** Output for the task that validates connection to Azure Database for MySQL and target server requirements */
-export interface ConnectToTargetAzureDbForMySqlTaskOutput {
-  /**
-   * Result identifier
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Version of the target server
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverVersion?: string;
-  /**
-   * List of databases on target server
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databases?: string[];
-  /**
-   * Target server brand version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerBrandVersion?: string;
-  /**
-   * Validation errors associated with the task
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly validationErrors?: ReportableException[];
-}
-
-/** Input for the task that validates connection to SQL DB and target server requirements */
-export interface ConnectToTargetSqlDbTaskInput {
-  /** Connection information for target SQL DB */
-  targetConnectionInfo: SqlConnectionInfo;
-}
-
-/** Output for the task that validates connection to SQL DB and target server requirements */
-export interface ConnectToTargetSqlDbTaskOutput {
-  /**
-   * Result identifier
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Source databases as a map from database name to database id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databases?: string;
-  /**
-   * Version of the target server
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerVersion?: string;
-  /**
-   * Target server brand version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerBrandVersion?: string;
-}
-
-/** Input for the task that validates connection to Azure SQL Database Managed Instance online scenario. */
-export interface ConnectToTargetSqlMISyncTaskInput {
-  /** Connection information for Azure SQL Database Managed Instance */
-  targetConnectionInfo: MiSqlConnectionInfo;
-  /** Azure Active Directory Application the DMS instance will use to connect to the target instance of Azure SQL Database Managed Instance and the Azure Storage Account */
-  azureApp: AzureActiveDirectoryApp;
-}
-
-/** Output for the task that validates connection to Azure SQL Database Managed Instance. */
-export interface ConnectToTargetSqlMISyncTaskOutput {
-  /**
-   * Target server version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerVersion?: string;
-  /**
-   * Target server brand version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerBrandVersion?: string;
-  /**
-   * Validation errors
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly validationErrors?: ReportableException[];
-}
-
-/** Input for the task that validates connection to Azure SQL Database Managed Instance. */
-export interface ConnectToTargetSqlMITaskInput {
-  /** Connection information for target SQL Server */
-  targetConnectionInfo: SqlConnectionInfo;
-  /** Flag for whether to collect logins from target SQL MI server. */
-  collectLogins?: boolean;
-  /** Flag for whether to collect agent jobs from target SQL MI server. */
-  collectAgentJobs?: boolean;
-  /** Flag for whether to validate SSIS catalog is reachable on the target SQL MI server. */
-  validateSsisCatalogOnly?: boolean;
-}
-
-/** Output for the task that validates connection to Azure SQL Database Managed Instance. */
-export interface ConnectToTargetSqlMITaskOutput {
-  /**
-   * Result identifier
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Target server version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerVersion?: string;
-  /**
-   * Target server brand version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerBrandVersion?: string;
-  /**
-   * List of logins on the target server.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly logins?: string[];
-  /**
-   * List of agent jobs on the target server.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly agentJobs?: string[];
-  /**
-   * Validation errors
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly validationErrors?: ReportableException[];
-}
-
-/** Input for the task that validates connection to Azure SQL DB and target server requirements */
-export interface ConnectToTargetSqlDbSyncTaskInput {
-  /** Connection information for source SQL Server */
-  sourceConnectionInfo: SqlConnectionInfo;
-  /** Connection information for target SQL DB */
-  targetConnectionInfo: SqlConnectionInfo;
-}
-
-/** Input for the task that validates connection to Azure Database for PostgreSQL and target server requirements */
-export interface ConnectToTargetAzureDbForPostgreSqlSyncTaskInput {
-  /** Connection information for source PostgreSQL server */
-  sourceConnectionInfo: PostgreSqlConnectionInfo;
-  /** Connection information for target Azure Database for PostgreSQL server */
-  targetConnectionInfo: PostgreSqlConnectionInfo;
-}
-
-/** Output for the task that validates connection to Azure Database for PostgreSQL and target server requirements */
-export interface ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput {
-  /**
-   * Result identifier
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Version of the target server
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerVersion?: string;
-  /**
-   * List of databases on target server
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databases?: string[];
-  /**
-   * Target server brand version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerBrandVersion?: string;
-  /**
-   * Validation errors associated with the task
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly validationErrors?: ReportableException[];
-}
-
-/** Input for the task that collects user tables for the given list of databases */
-export interface GetUserTablesMySqlTaskInput {
-  /** Connection information for SQL Server */
-  connectionInfo: MySqlConnectionInfo;
-  /** List of database names to collect tables for */
-  selectedDatabases: string[];
-}
-
-/** Output of the task that collects user tables for the given list of databases */
-export interface GetUserTablesMySqlTaskOutput {
-  /**
-   * Result identifier
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Mapping from database name to list of tables
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databasesToTables?: string;
-  /**
-   * Validation errors
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly validationErrors?: ReportableException[];
-}
-
-/** Table properties */
-export interface DatabaseTable {
-  /**
-   * Indicates whether table is empty or not
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hasRows?: boolean;
-  /**
-   * Schema-qualified name of the table
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-}
-
-/** Input for the task that gets TDE certificates in Base64 encoded format. */
-export interface GetTdeCertificatesSqlTaskInput {
-  /** Connection information for SQL Server */
-  connectionInfo: SqlConnectionInfo;
-  /** Backup file share information for file share to be used for temporarily storing files. */
-  backupFileShare: FileShare;
-  /** List containing certificate names and corresponding password to use for encrypting the exported certificate. */
-  selectedCertificates: SelectedCertificateInput[];
-}
-
-/** File share information with Path, Username, and Password. */
-export interface FileShare {
-  /** User name credential to connect to the share location */
-  userName?: string;
-  /** Password credential used to connect to the share location. */
-  password?: string;
-  /** The folder path for this share. */
-  path: string;
-}
-
-/** Info for certificate to be exported for TDE enabled databases. */
-export interface SelectedCertificateInput {
-  /** Name of certificate to be exported. */
-  certificateName: string;
-  /** Password to use for encrypting the exported certificate. */
-  password: string;
-}
-
-/** Output of the task that gets TDE certificates in Base64 encoded format. */
-export interface GetTdeCertificatesSqlTaskOutput {
-  /**
-   * Mapping from certificate name to base 64 encoded format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly base64EncodedCertificates?: string;
-  /**
-   * Validation errors
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly validationErrors?: ReportableException[];
-}
-
-/** Input for the task that collects user tables for the given list of databases */
-export interface GetUserTablesSqlSyncTaskInput {
-  /** Connection information for SQL Server */
-  sourceConnectionInfo: SqlConnectionInfo;
-  /** Connection information for SQL DB */
-  targetConnectionInfo: SqlConnectionInfo;
-  /** List of source database names to collect tables for */
-  selectedSourceDatabases: string[];
-  /** List of target database names to collect tables for */
-  selectedTargetDatabases: string[];
-}
-
-/** Output of the task that collects user tables for the given list of databases */
-export interface GetUserTablesSqlSyncTaskOutput {
-  /**
-   * Mapping from database name to list of source tables
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databasesToSourceTables?: string;
-  /**
-   * Mapping from database name to list of target tables
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databasesToTargetTables?: string;
-  /**
-   * Mapping from database name to list of validation errors
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tableValidationErrors?: string;
-  /**
-   * Validation errors
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly validationErrors?: ReportableException[];
-}
-
-/** Input for the task that collects user tables for the given list of databases */
-export interface GetUserTablesSqlTaskInput {
-  /** Connection information for SQL Server */
-  connectionInfo: SqlConnectionInfo;
-  /** List of database names to collect tables for */
-  selectedDatabases: string[];
-}
-
-/** Output of the task that collects user tables for the given list of databases */
-export interface GetUserTablesSqlTaskOutput {
-  /**
-   * Result identifier
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Mapping from database name to list of tables
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databasesToTables?: string;
-  /**
-   * Validation errors
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly validationErrors?: ReportableException[];
-}
-
 /** Database input for migrate schema Sql Server to Azure SQL Server scenario */
 export interface MigrateSchemaSqlServerSqlDbDatabaseInput {
   /** Name of source database */
@@ -1683,264 +1267,192 @@ export interface MigrateSchemaSqlServerSqlDbTaskOutput {
   readonly id?: string;
 }
 
-/** Input for the task that migrates MySQL databases to Azure Database for MySQL for online migrations */
-export interface MigrateMySqlAzureDbForMySqlSyncTaskInput {
-  /** Connection information for source MySQL */
-  sourceConnectionInfo: MySqlConnectionInfo;
-  /** Connection information for target Azure Database for MySQL */
-  targetConnectionInfo: MySqlConnectionInfo;
-  /** Databases to migrate */
-  selectedDatabases: MigrateMySqlAzureDbForMySqlSyncDatabaseInput[];
+/** Exception object for all custom exceptions */
+export interface ReportableException {
+  /** Error message */
+  message?: string;
+  /** Actionable steps for this exception */
+  actionableMessage?: string;
+  /** The path to the file where exception occurred */
+  filePath?: string;
+  /** The line number where exception occurred */
+  lineNumber?: string;
+  /** Coded numerical value that is assigned to a specific exception */
+  hResult?: number;
+  /** Stack trace */
+  stackTrace?: string;
 }
 
-/** Database specific information for MySQL to Azure Database for MySQL migration task inputs */
-export interface MigrateMySqlAzureDbForMySqlSyncDatabaseInput {
-  /** Name of the database */
+/** Information about an Oracle OCI driver. */
+export interface OracleOCIDriverInfo {
+  /**
+   * The name of the driver package
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly driverName?: string;
+  /**
+   * The size in bytes of the driver package
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly driverSize?: string;
+  /**
+   * The MD5 Base64 encoded checksum for the driver package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly archiveChecksum?: string;
+  /**
+   * The checksum for the driver package provided by Oracle.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly oracleChecksum?: string;
+  /**
+   * Version listed in the OCI assembly 'oci.dll'
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly assemblyVersion?: string;
+  /**
+   * List of Oracle database versions supported by this driver. Only major minor of the version is listed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly supportedOracleVersions?: string[];
+}
+
+/** Input for the service task to check for OCI drivers. */
+export interface CheckOCIDriverTaskInput {
+  /** Version of the source server to check against.  Optional. */
+  serverVersion?: string;
+}
+
+/** Output for the service task to check for OCI drivers. */
+export interface CheckOCIDriverTaskOutput {
+  /** Information about the installed driver if found and valid. */
+  installedDriver?: OracleOCIDriverInfo;
+  /**
+   * Validation errors
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validationErrors?: ReportableException[];
+}
+
+/** Input for the service task to upload an OCI driver. */
+export interface UploadOCIDriverTaskInput {
+  /** File share information for the OCI driver archive. */
+  driverShare?: FileShare;
+}
+
+/** File share information with Path, Username, and Password. */
+export interface FileShare {
+  /** User name credential to connect to the share location */
+  userName?: string;
+  /** Password credential used to connect to the share location. */
+  password?: string;
+  /** The folder path for this share. */
+  path: string;
+}
+
+/** Output for the service task to upload an OCI driver. */
+export interface UploadOCIDriverTaskOutput {
+  /**
+   * The name of the driver package that was validated and uploaded.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly driverPackageName?: string;
+  /**
+   * Validation errors
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validationErrors?: ReportableException[];
+}
+
+/** Input for the service task to install an OCI driver. */
+export interface InstallOCIDriverTaskInput {
+  /** Name of the uploaded driver package to install. */
+  driverPackageName?: string;
+}
+
+/** Output for the service task to install an OCI driver. */
+export interface InstallOCIDriverTaskOutput {
+  /**
+   * Validation errors
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validationErrors?: ReportableException[];
+}
+
+/** Information of backup set */
+export interface BackupSetInfo {
+  /** Id for the set of backup files */
+  backupSetId?: string;
+  /** First log sequence number of the backup file */
+  firstLsn?: string;
+  /** Last log sequence number of the backup file */
+  lastLsn?: string;
+  /** Last modified time of the backup file in share location */
+  lastModifiedTime?: Date;
+  /** Enum of the different backup types */
+  backupType?: BackupType;
+  /** List of files in the backup set */
+  listOfBackupFiles?: BackupFileInfo[];
+  /** Name of the database to which the backup set belongs */
+  databaseName?: string;
+  /** Date and time that the backup operation began */
+  backupStartDate?: Date;
+  /** Date and time that the backup operation finished */
+  backupFinishedDate?: Date;
+  /** Whether the backup set is restored or not */
+  isBackupRestored?: boolean;
+}
+
+/** Information of the backup file */
+export interface BackupFileInfo {
+  /** Location of the backup file in shared folder */
+  fileLocation?: string;
+  /** Sequence number of the backup file in the backup set */
+  familySequenceNumber?: number;
+  /** Status of the backup file during migration */
+  status?: BackupFileStatus;
+}
+
+/** Information of orphaned users on the SQL server database. */
+export interface OrphanedUserInfo {
+  /** Name of the orphaned user */
   name?: string;
-  /** Name of target database. Note: Target database will be truncated before starting migration. */
-  targetDatabaseName?: string;
-  /** Migration settings which tune the migration behavior */
-  migrationSetting?: { [propertyName: string]: string };
-  /** Source settings to tune source endpoint migration behavior */
-  sourceSetting?: { [propertyName: string]: string };
-  /** Target settings to tune target endpoint migration behavior */
-  targetSetting?: { [propertyName: string]: string };
-  /** Mapping of source to target tables */
-  tableMap?: { [propertyName: string]: string };
+  /** Parent database of the user */
+  databaseName?: string;
 }
 
-/** Output for the task that migrates MySQL databases to Azure Database for MySQL for online migrations */
-export interface MigrateMySqlAzureDbForMySqlSyncTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType:
-    | "MigrationLevelOutput"
-    | "DatabaseLevelOutput"
-    | "TableLevelOutput"
-    | "ErrorOutput"
-    | "DatabaseLevelErrorOutput";
-  /**
-   * Result identifier
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-}
-
-/** Database migration errors for online migration */
-export interface SyncMigrationDatabaseErrorEvent {
-  /**
-   * String value of timestamp.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timestampString?: string;
-  /**
-   * Event type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly eventTypeString?: string;
-  /**
-   * Event text.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly eventText?: string;
-}
-
-/** Input for the task that migrates PostgreSQL databases to Azure Database for PostgreSQL for online migrations */
-export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput {
-  /** Databases to migrate */
-  selectedDatabases: MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput[];
-  /** Connection information for target Azure Database for PostgreSQL */
-  targetConnectionInfo: PostgreSqlConnectionInfo;
-  /** Connection information for source PostgreSQL */
-  sourceConnectionInfo: PostgreSqlConnectionInfo;
-  /** encrypted key for secure fields */
-  encryptedKeyForSecureFields?: string;
-}
-
-/** Database specific information for PostgreSQL to Azure Database for PostgreSQL migration task inputs */
-export interface MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput {
-  /** Name of the database */
-  name?: string;
-  /** Name of target database. Note: Target database will be truncated before starting migration. */
-  targetDatabaseName?: string;
-  /** Migration settings which tune the migration behavior */
-  migrationSetting?: { [propertyName: string]: string };
-  /** Source settings to tune source endpoint migration behavior */
-  sourceSetting?: { [propertyName: string]: string };
-  /** Target settings to tune target endpoint migration behavior */
-  targetSetting?: { [propertyName: string]: string };
-  /** Tables selected for migration */
-  selectedTables?: MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseTableInput[];
-}
-
-/** Selected tables for the migration */
-export interface MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseTableInput {
-  /** Name of the table to migrate */
-  name?: string;
-}
-
-/** Output for the task that migrates PostgreSQL databases to Azure Database for PostgreSQL for online migrations */
-export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType:
-    | "MigrationLevelOutput"
-    | "DatabaseLevelOutput"
-    | "TableLevelOutput"
-    | "ErrorOutput"
-    | "DatabaseLevelErrorOutput";
-  /**
-   * Result identifier
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-}
-
-/** Database specific information for SQL to Azure SQL DB sync migration task inputs */
-export interface MigrateSqlServerSqlDbSyncDatabaseInput {
-  /** Unique identifier for database */
-  id?: string;
+/** Input for command that completes sync migration for a database. */
+export interface MigrateSyncCompleteCommandInput {
   /** Name of database */
-  name?: string;
-  /** Target database name */
-  targetDatabaseName?: string;
-  /** Schema name to be migrated */
-  schemaName?: string;
-  /** Mapping of source to target tables */
-  tableMap?: { [propertyName: string]: string };
-  /** Migration settings which tune the migration behavior */
-  migrationSetting?: { [propertyName: string]: string };
-  /** Source settings to tune source endpoint migration behavior */
-  sourceSetting?: { [propertyName: string]: string };
-  /** Target settings to tune target endpoint migration behavior */
-  targetSetting?: { [propertyName: string]: string };
+  databaseName: string;
+  /** Time stamp to complete */
+  commitTimeStamp?: Date;
 }
 
-/** Types of validations to run after the migration */
-export interface MigrationValidationOptions {
-  /** Allows to compare the schema information between source and target. */
-  enableSchemaValidation?: boolean;
-  /** Allows to perform a checksum based data integrity validation between source and target for the selected database / tables . */
-  enableDataIntegrityValidation?: boolean;
-  /** Allows to perform a quick and intelligent query analysis by retrieving queries from the source database and executes them in the target. The result will have execution statistics for executions in source and target databases for the extracted queries. */
-  enableQueryAnalysisValidation?: boolean;
-}
-
-/** Output for the task that migrates on-prem SQL Server databases to Azure SQL Database for online migrations */
-export interface MigrateSqlServerSqlDbSyncTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType:
-    | "MigrationLevelOutput"
-    | "DatabaseLevelOutput"
-    | "TableLevelOutput"
-    | "ErrorOutput"
-    | "DatabaseLevelErrorOutput";
-  /**
-   * Result identifier
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-}
-
-/** Database specific information for SQL to Azure SQL DB migration task inputs */
-export interface MigrateSqlServerSqlDbDatabaseInput {
-  /** Name of the database */
-  name?: string;
-  /** Name of target database. Note: Target database will be truncated before starting migration. */
-  targetDatabaseName?: string;
-  /** Whether to set database read only before migration */
-  makeSourceDbReadOnly?: boolean;
-  /** Mapping of source to target tables */
-  tableMap?: { [propertyName: string]: string };
-  /** Settings selected for DB schema migration. */
-  schemaSetting?: Record<string, unknown>;
-  /** id of the database */
-  id?: string;
-}
-
-/** Output for the task that migrates on-prem SQL Server databases to Azure SQL Database */
-export interface MigrateSqlServerSqlDbTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType:
-    | "MigrationLevelOutput"
-    | "DatabaseLevelOutput"
-    | "TableLevelOutput"
-    | "ErrorOutput"
-    | "MigrationValidationOutput"
-    | "MigrationDatabaseLevelValidationOutput";
-  /**
-   * Result identifier
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-}
-
-/** Migration Validation Result */
-export interface MigrationValidationResult {
-  /**
-   * Migration validation result identifier
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Migration Identifier
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly migrationId?: string;
-  /** Validation summary results for each database */
-  summaryResults?: {
-    [propertyName: string]: MigrationValidationDatabaseSummaryResult;
-  };
-  /**
-   * Current status of validation at the migration level. Status from the database validation result status will be aggregated here.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: ValidationStatus;
-}
-
-/** Migration Validation Database level summary result */
-export interface MigrationValidationDatabaseSummaryResult {
+/** Output for command that completes sync migration for a database. */
+export interface MigrateSyncCompleteCommandOutput {
   /**
    * Result identifier
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
-   * Migration Identifier
+   * List of errors that happened during the command execution
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly migrationId?: string;
-  /**
-   * Name of the source database
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceDatabaseName?: string;
-  /**
-   * Name of the target database
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetDatabaseName?: string;
-  /**
-   * Validation start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Validation end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /**
-   * Current status of validation at the database level
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: ValidationStatus;
+  readonly errors?: ReportableException[];
 }
 
-/** Migration validation report result, contains the url for downloading the generated report. */
-export interface MigrationReportResult {
-  /** Migration validation result identifier */
-  id?: string;
-  /** The url of the report. */
-  reportUrl?: string;
+/** Input for command that completes online migration for an Azure SQL Database Managed Instance. */
+export interface MigrateMISyncCompleteCommandInput {
+  /** Name of managed instance database */
+  sourceDatabaseName: string;
+}
+
+/** Output for command that completes online migration for an Azure SQL Database Managed Instance. */
+export interface MigrateMISyncCompleteCommandOutput {
+  /** List of errors that happened during the command execution */
+  errors?: ReportableException[];
 }
 
 /** Basic summary of a data item migration */
@@ -1992,142 +1504,18 @@ export interface DataItemMigrationSummaryResult {
   readonly resultPrefix?: string;
 }
 
-/** Database level validation results */
-export interface MigrationValidationDatabaseLevelResult {
+/** Table properties */
+export interface DatabaseTable {
   /**
-   * Result identifier
+   * Indicates whether table is empty or not
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: string;
+  readonly hasRows?: boolean;
   /**
-   * Migration Identifier
+   * Schema-qualified name of the table
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly migrationId?: string;
-  /**
-   * Name of the source database
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceDatabaseName?: string;
-  /**
-   * Name of the target database
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetDatabaseName?: string;
-  /**
-   * Validation start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Validation end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /**
-   * Provides data integrity validation result between the source and target tables that are migrated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dataIntegrityValidationResult?: DataIntegrityValidationResult;
-  /**
-   * Provides schema comparison result between source and target database
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly schemaValidationResult?: SchemaComparisonValidationResult;
-  /**
-   * Results of some of the query execution result between source and target database
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly queryAnalysisValidationResult?: QueryAnalysisValidationResult;
-  /**
-   * Current status of validation at the database level
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: ValidationStatus;
-}
-
-/** Results for checksum based Data Integrity validation results */
-export interface DataIntegrityValidationResult {
-  /** List of failed table names of source and target pair */
-  failedObjects?: { [propertyName: string]: string };
-  /** List of errors that happened while performing data integrity validation */
-  validationErrors?: ValidationError;
-}
-
-/** Description about the errors happen while performing migration validation */
-export interface ValidationError {
-  /** Error Text */
-  text?: string;
-  /** Severity of the error */
-  severity?: Severity;
-}
-
-/** Results for schema comparison between the source and target */
-export interface SchemaComparisonValidationResult {
-  /** List of schema differences between the source and target databases */
-  schemaDifferences?: SchemaComparisonValidationResultType;
-  /** List of errors that happened while performing schema compare validation */
-  validationErrors?: ValidationError;
-  /** Count of source database objects */
-  sourceDatabaseObjectCount?: { [propertyName: string]: number };
-  /** Count of target database objects */
-  targetDatabaseObjectCount?: { [propertyName: string]: number };
-}
-
-/** Description about the errors happen while performing migration validation */
-export interface SchemaComparisonValidationResultType {
-  /** Name of the object that has the difference */
-  objectName?: string;
-  /** Type of the object that has the difference. e.g (Table/View/StoredProcedure) */
-  objectType?: ObjectType;
-  /** Update action type with respect to target */
-  updateAction?: UpdateActionType;
-}
-
-/** Results for query analysis comparison between the source and target */
-export interface QueryAnalysisValidationResult {
-  /** List of queries executed and it's execution results in source and target */
-  queryResults?: QueryExecutionResult;
-  /** Errors that are part of the execution */
-  validationErrors?: ValidationError;
-}
-
-/** Describes query analysis results for execution in source and target */
-export interface QueryExecutionResult {
-  /** Query text retrieved from the source server */
-  queryText?: string;
-  /** Total no. of statements in the batch */
-  statementsInBatch?: number;
-  /** Query analysis result from the source */
-  sourceResult?: ExecutionStatistics;
-  /** Query analysis result from the target */
-  targetResult?: ExecutionStatistics;
-}
-
-/** Description about the errors happen while performing migration validation */
-export interface ExecutionStatistics {
-  /** No. of query executions */
-  executionCount?: number;
-  /** CPU Time in millisecond(s) for the query execution */
-  cpuTimeMs?: number;
-  /** Time taken in millisecond(s) for executing the query */
-  elapsedTimeMs?: number;
-  /** Dictionary of sql query execution wait types and the respective statistics */
-  waitStats?: { [propertyName: string]: WaitStatistics };
-  /** Indicates whether the query resulted in an error */
-  hasErrors?: boolean;
-  /** List of sql Errors */
-  sqlErrors?: string[];
-}
-
-/** Wait statistics gathered during query batch execution */
-export interface WaitStatistics {
-  /** Type of the Wait */
-  waitType?: string;
-  /** Total wait time in millisecond(s) */
-  waitTimeMs?: number;
-  /** Total no. of waits */
-  waitCount?: number;
+  readonly name?: string;
 }
 
 /** Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance online scenario. */
@@ -2160,37 +1548,223 @@ export interface MigrateSqlServerSqlMIDatabaseInput {
   id?: string;
 }
 
-/** Output for task that migrates SQL Server databases to Azure SQL Database Managed Instance using Log Replay Service. */
-export interface MigrateSqlServerSqlMISyncTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "MigrationLevelOutput" | "DatabaseLevelOutput" | "ErrorOutput";
+/** Database specific information for SQL to Azure SQL DB migration task inputs */
+export interface MigrateSqlServerSqlDbDatabaseInput {
+  /** Name of the database */
+  name?: string;
+  /** Name of target database. Note: Target database will be truncated before starting migration. */
+  targetDatabaseName?: string;
+  /** Whether to set database read only before migration */
+  makeSourceDbReadOnly?: boolean;
+  /** Mapping of source to target tables */
+  tableMap?: { [propertyName: string]: string };
+  /** Settings selected for DB schema migration. */
+  schemaSetting?: Record<string, unknown>;
+  /** id of the database */
+  id?: string;
+}
+
+/** Database specific information for SQL to Azure SQL DB sync migration task inputs */
+export interface MigrateSqlServerSqlDbSyncDatabaseInput {
+  /** Unique identifier for database */
+  id?: string;
+  /** Name of database */
+  name?: string;
+  /** Target database name */
+  targetDatabaseName?: string;
+  /** Schema name to be migrated */
+  schemaName?: string;
+  /** Mapping of source to target tables */
+  tableMap?: { [propertyName: string]: string };
+  /** Migration settings which tune the migration behavior */
+  migrationSetting?: { [propertyName: string]: string };
+  /** Source settings to tune source endpoint migration behavior */
+  sourceSetting?: { [propertyName: string]: string };
+  /** Target settings to tune target endpoint migration behavior */
+  targetSetting?: { [propertyName: string]: string };
+}
+
+/** Database file specific information */
+export interface DatabaseFileInfo {
+  /** Name of the database */
+  databaseName?: string;
+  /** Unique identifier for database file */
+  id?: string;
+  /** Logical name of the file */
+  logicalName?: string;
+  /** Operating-system full path of the file */
+  physicalFullName?: string;
+  /** Suggested full path of the file for restoring */
+  restoreFullName?: string;
+  /** Database file type */
+  fileType?: DatabaseFileType;
+  /** Size of the file in megabytes */
+  sizeMB?: number;
+}
+
+/** Output for connect to MySQL type source */
+export interface ConnectToSourceNonSqlTaskOutput {
   /**
    * Result identifier
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
+  /**
+   * Server brand version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceServerBrandVersion?: string;
+  /**
+   * Server properties
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverProperties?: ServerProperties;
+  /**
+   * List of databases on the server
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databases?: string[];
+  /**
+   * Validation errors associated with the task
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validationErrors?: ReportableException[];
+}
+
+/** Server properties for MySQL type source */
+export interface ServerProperties {
+  /**
+   * Name of the server platform
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverPlatform?: string;
+  /**
+   * Name of the server
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverName?: string;
+  /**
+   * Version of the database server
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverVersion?: string;
+  /**
+   * Edition of the database server
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverEdition?: string;
+  /**
+   * Version of the operating system
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverOperatingSystemVersion?: string;
+  /**
+   * Number of databases in the server
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverDatabaseCount?: number;
 }
 
 /** Blob container storage information. */
 export interface BlobShare {
   /** SAS URI of Azure Storage Account Container. */
-  sasUri: string;
+  sasUri?: string;
 }
 
-/** Output for task that migrates SQL Server databases to Azure SQL Database Managed Instance. */
-export interface MigrateSqlServerSqlMITaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType:
-    | "MigrationLevelOutput"
-    | "DatabaseLevelOutput"
-    | "AgentJobLevelOutput"
-    | "LoginLevelOutput"
-    | "ErrorOutput";
+/** Server role migration result */
+export interface StartMigrationScenarioServerRoleResult {
   /**
-   * Result identifier
+   * Name of server role.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: string;
+  readonly name?: string;
+  /**
+   * Current state of migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: MigrationState;
+  /**
+   * Migration exceptions and warnings.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly exceptionsAndWarnings?: ReportableException[];
+}
+
+/** Information about migration eligibility of a server object */
+export interface MigrationEligibilityInfo {
+  /**
+   * Whether object is eligible for migration or not.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isEligibleForMigration?: boolean;
+  /**
+   * Information about eligibility failure for the server object.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validationMessages?: string[];
+}
+
+/** Database migration errors for online migration */
+export interface SyncMigrationDatabaseErrorEvent {
+  /**
+   * String value of timestamp.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timestampString?: string;
+  /**
+   * Event type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eventTypeString?: string;
+  /**
+   * Event text.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eventText?: string;
+}
+
+/** Information about backup files when existing backup mode is used. */
+export interface DatabaseBackupInfo {
+  /**
+   * Database name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseName?: string;
+  /**
+   * Backup Type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly backupType?: BackupType;
+  /**
+   * The list of backup files for the current database.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly backupFiles?: string[];
+  /**
+   * Position of current database backup in the file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly position?: number;
+  /**
+   * Database was damaged when backed up, but the backup operation was requested to continue despite errors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDamaged?: boolean;
+  /**
+   * Whether the backup set is compressed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isCompressed?: boolean;
+  /**
+   * Number of files in the backup set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly familyCount?: number;
+  /**
+   * Date and time when the backup operation finished.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly backupFinishDate?: Date;
 }
 
 /** SSIS migration info with SSIS store type, overwrite policy. */
@@ -2201,17 +1775,6 @@ export interface SsisMigrationInfo {
   projectOverwriteOption?: SsisMigrationOverwriteOption;
   /** The overwrite option for the SSIS environment migration */
   environmentOverwriteOption?: SsisMigrationOverwriteOption;
-}
-
-/** Output for task that migrates SSIS packages from SQL Server to Azure SQL Database Managed Instance. */
-export interface MigrateSsisTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "MigrationLevelOutput" | "SsisProjectLevelOutput";
-  /**
-   * Result identifier
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
 }
 
 /** Describes the input to the 'cancel' and 'restart' MongoDB migration commands */
@@ -2320,7 +1883,7 @@ export interface MongoDbShardKeySetting {
   /** The fields within the shard key */
   fields: MongoDbShardKeyField[];
   /** Whether the shard key is unique */
-  isUnique: boolean;
+  isUnique?: boolean;
 }
 
 /** Describes how an individual MongoDB database should be migrated */
@@ -2355,6 +1918,88 @@ export interface MongoDbThrottlingSettings {
   minFreeMemoryMb?: number;
   /** The maximum number of work items (e.g. collection copies) that will be processed in parallel */
   maxParallelism?: number;
+}
+
+/** Input for the task that validates connection to SQL Server and also validates source server requirements */
+export interface ConnectToSourceSqlServerTaskInput {
+  /** Connection information for Source SQL Server */
+  sourceConnectionInfo: SqlConnectionInfo;
+  /** Permission group for validations */
+  checkPermissionsGroup?: ServerLevelPermissionsGroup;
+  /** Flag for whether to collect databases from source server. */
+  collectDatabases?: boolean;
+  /** Flag for whether to collect logins from source server. */
+  collectLogins?: boolean;
+  /** Flag for whether to collect agent jobs from source server. */
+  collectAgentJobs?: boolean;
+  /** Flag for whether to collect TDE Certificate names from source server. */
+  collectTdeCertificateInfo?: boolean;
+  /** Flag for whether to validate SSIS catalog is reachable on the source server. */
+  validateSsisCatalogOnly?: boolean;
+  /** encrypted key for secure fields */
+  encryptedKeyForSecureFields?: string;
+}
+
+/** Output for the task that validates connection to SQL Server and also validates source server requirements */
+export interface ConnectToSourceSqlServerTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType:
+    | "TaskLevelOutput"
+    | "DatabaseLevelOutput"
+    | "LoginLevelOutput"
+    | "AgentJobLevelOutput";
+  /**
+   * Result identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** Input for the task that validates connection to PostgreSQL and source server requirements */
+export interface ConnectToSourcePostgreSqlSyncTaskInput {
+  /** Connection information for source PostgreSQL server */
+  sourceConnectionInfo: PostgreSqlConnectionInfo;
+}
+
+/** Output for the task that validates connection to PostgreSQL and source server requirements */
+export interface ConnectToSourcePostgreSqlSyncTaskOutput {
+  /**
+   * Result identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Version of the source server
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceServerVersion?: string;
+  /**
+   * List of databases on source server
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databases?: string[];
+  /**
+   * Source server brand version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceServerBrandVersion?: string;
+  /**
+   * Validation errors associated with the task
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validationErrors?: ReportableException[];
+}
+
+/** Input for the task that validates MySQL database connection */
+export interface ConnectToSourceMySqlTaskInput {
+  /** Information for connecting to MySQL source */
+  sourceConnectionInfo: MySqlConnectionInfo;
+  /** Target Platform for the migration */
+  targetPlatform?: MySqlTargetPlatformType;
+  /** Permission group for validations */
+  checkPermissionsGroup?: ServerLevelPermissionsGroup;
+  /** Flag for whether or not the migration is offline */
+  isOfflineMigration?: boolean;
 }
 
 /** Input for the task that validates Oracle database connection */
@@ -2533,142 +2178,76 @@ export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
   readonly id?: string;
 }
 
-/** Information about an Oracle OCI driver. */
-export interface OracleOCIDriverInfo {
-  /**
-   * The name of the driver package
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly driverName?: string;
-  /**
-   * The size in bytes of the driver package
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly driverSize?: string;
-  /**
-   * The MD5 Base64 encoded checksum for the driver package.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly archiveChecksum?: string;
-  /**
-   * The checksum for the driver package provided by Oracle.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly oracleChecksum?: string;
-  /**
-   * Version listed in the OCI assembly 'oci.dll'
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly assemblyVersion?: string;
-  /**
-   * List of Oracle database versions supported by this driver. Only major minor of the version is listed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly supportedOracleVersions?: string[];
+/** Input for the task that validates connection to SQL DB and target server requirements */
+export interface ConnectToTargetSqlDbTaskInput {
+  /** Connection information for target SQL DB */
+  targetConnectionInfo: SqlConnectionInfo;
+  /** Boolean flag indicating whether to query object counts for each database on the target server */
+  queryObjectCounts?: boolean;
 }
 
-/** Input for the service task to check for OCI drivers. */
-export interface CheckOCIDriverTaskInput {
-  /** Version of the source server to check against.  Optional. */
-  serverVersion?: string;
-}
-
-/** Output for the service task to check for OCI drivers. */
-export interface CheckOCIDriverTaskOutput {
-  /** Information about the installed driver if found and valid. */
-  installedDriver?: OracleOCIDriverInfo;
-  /**
-   * Validation errors
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly validationErrors?: ReportableException[];
-}
-
-/** Input for the service task to upload an OCI driver. */
-export interface UploadOCIDriverTaskInput {
-  /** File share information for the OCI driver archive. */
-  driverShare?: FileShare;
-}
-
-/** Output for the service task to upload an OCI driver. */
-export interface UploadOCIDriverTaskOutput {
-  /**
-   * The name of the driver package that was validated and uploaded.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly driverPackageName?: string;
-  /**
-   * Validation errors
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly validationErrors?: ReportableException[];
-}
-
-/** Input for the service task to install an OCI driver. */
-export interface InstallOCIDriverTaskInput {
-  /** Name of the uploaded driver package to install. */
-  driverPackageName?: string;
-}
-
-/** Output for the service task to install an OCI driver. */
-export interface InstallOCIDriverTaskOutput {
-  /**
-   * Validation errors
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly validationErrors?: ReportableException[];
-}
-
-/** Description of an action supported by the Database Migration Service */
-export interface ServiceOperation {
-  /** The fully qualified action name, e.g. Microsoft.DataMigration/services/read */
-  name?: string;
-  /** Localized display text */
-  display?: ServiceOperationDisplay;
-}
-
-/** Localized display text */
-export interface ServiceOperationDisplay {
-  /** The localized resource provider name */
-  provider?: string;
-  /** The localized resource type name */
-  resource?: string;
-  /** The localized operation name */
-  operation?: string;
-  /** The localized operation description */
-  description?: string;
-}
-
-/** OData page of action (operation) objects */
-export interface ServiceOperationList {
-  /** List of actions */
-  value?: ServiceOperation[];
-  /** URL to load the next page of actions */
-  nextLink?: string;
-}
-
-/** Output for connect to MySQL type source */
-export interface ConnectToSourceNonSqlTaskOutput {
+/** Output for the task that validates connection to SQL DB and target server requirements */
+export interface ConnectToTargetSqlDbTaskOutput {
   /**
    * Result identifier
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
-   * Server brand version
+   * Source databases as a map from database name to database id
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly sourceServerBrandVersion?: string;
+  readonly databases?: string;
   /**
-   * Server properties
+   * Version of the target server
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly serverProperties?: ServerProperties;
+  readonly targetServerVersion?: string;
   /**
-   * List of databases on the server
+   * Target server brand version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServerBrandVersion?: string;
+}
+
+/** Input for the task that validates connection to Azure SQL DB and target server requirements */
+export interface ConnectToTargetSqlDbSyncTaskInput {
+  /** Connection information for source SQL Server */
+  sourceConnectionInfo: SqlConnectionInfo;
+  /** Connection information for target SQL DB */
+  targetConnectionInfo: SqlConnectionInfo;
+}
+
+/** Input for the task that validates connection to Azure Database for PostgreSQL and target server requirements */
+export interface ConnectToTargetAzureDbForPostgreSqlSyncTaskInput {
+  /** Connection information for source PostgreSQL server */
+  sourceConnectionInfo: PostgreSqlConnectionInfo;
+  /** Connection information for target Azure Database for PostgreSQL server */
+  targetConnectionInfo: PostgreSqlConnectionInfo;
+}
+
+/** Output for the task that validates connection to Azure Database for PostgreSQL and target server requirements */
+export interface ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput {
+  /**
+   * Result identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Version of the target server
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServerVersion?: string;
+  /**
+   * List of databases on target server
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly databases?: string[];
+  /**
+   * Target server brand version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServerBrandVersion?: string;
   /**
    * Validation errors associated with the task
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2676,38 +2255,684 @@ export interface ConnectToSourceNonSqlTaskOutput {
   readonly validationErrors?: ReportableException[];
 }
 
-/** Server properties for MySQL type source */
-export interface ServerProperties {
+/** Input for the task that collects user tables for the given list of databases */
+export interface GetUserTablesSqlTaskInput {
+  /** Connection information for SQL Server */
+  connectionInfo: SqlConnectionInfo;
+  /** List of database names to collect tables for */
+  selectedDatabases: string[];
+  /** encrypted key for secure fields */
+  encryptedKeyForSecureFields?: string;
+}
+
+/** Output of the task that collects user tables for the given list of databases */
+export interface GetUserTablesSqlTaskOutput {
   /**
-   * Name of the server platform
+   * Result identifier
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly serverPlatform?: string;
+  readonly id?: string;
   /**
-   * Name of the server
+   * Mapping from database name to list of tables
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly serverName?: string;
+  readonly databasesToTables?: string;
   /**
-   * Version of the database server
+   * Validation errors
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validationErrors?: ReportableException[];
+}
+
+/** Input for the task that collects user tables for the given list of databases */
+export interface GetUserTablesSqlSyncTaskInput {
+  /** Connection information for SQL Server */
+  sourceConnectionInfo: SqlConnectionInfo;
+  /** Connection information for SQL DB */
+  targetConnectionInfo: SqlConnectionInfo;
+  /** List of source database names to collect tables for */
+  selectedSourceDatabases: string[];
+  /** List of target database names to collect tables for */
+  selectedTargetDatabases: string[];
+}
+
+/** Output of the task that collects user tables for the given list of databases */
+export interface GetUserTablesSqlSyncTaskOutput {
+  /**
+   * Mapping from database name to list of source tables
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databasesToSourceTables?: string;
+  /**
+   * Mapping from database name to list of target tables
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databasesToTargetTables?: string;
+  /**
+   * Mapping from database name to list of validation errors
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tableValidationErrors?: string;
+  /**
+   * Validation errors
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validationErrors?: ReportableException[];
+}
+
+/** Input for the task that collects user tables for the given list of databases */
+export interface GetUserTablesMySqlTaskInput {
+  /** Connection information for SQL Server */
+  connectionInfo: MySqlConnectionInfo;
+  /** List of database names to collect tables for */
+  selectedDatabases: string[];
+}
+
+/** Output of the task that collects user tables for the given list of databases */
+export interface GetUserTablesMySqlTaskOutput {
+  /**
+   * Result identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Mapping from database name to list of tables
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databasesToTables?: string;
+  /**
+   * Validation errors
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validationErrors?: ReportableException[];
+}
+
+/** Input for the task that validates connection to Azure SQL Database Managed Instance. */
+export interface ConnectToTargetSqlMITaskInput {
+  /** Connection information for target SQL Server */
+  targetConnectionInfo: SqlConnectionInfo;
+  /** Flag for whether to collect logins from target SQL MI server. */
+  collectLogins?: boolean;
+  /** Flag for whether to collect agent jobs from target SQL MI server. */
+  collectAgentJobs?: boolean;
+  /** Flag for whether to validate SSIS catalog is reachable on the target SQL MI server. */
+  validateSsisCatalogOnly?: boolean;
+}
+
+/** Output for the task that validates connection to Azure SQL Database Managed Instance. */
+export interface ConnectToTargetSqlMITaskOutput {
+  /**
+   * Result identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Target server version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServerVersion?: string;
+  /**
+   * Target server brand version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServerBrandVersion?: string;
+  /**
+   * List of logins on the target server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly logins?: string[];
+  /**
+   * List of agent jobs on the target server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly agentJobs?: string[];
+  /**
+   * Validation errors
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validationErrors?: ReportableException[];
+}
+
+/** Input for the task that validates connection to Azure SQL Database Managed Instance online scenario. */
+export interface ConnectToTargetSqlMISyncTaskInput {
+  /** Connection information for Azure SQL Database Managed Instance */
+  targetConnectionInfo: MiSqlConnectionInfo;
+  /** Azure Active Directory Application the DMS instance will use to connect to the target instance of Azure SQL Database Managed Instance and the Azure Storage Account */
+  azureApp: AzureActiveDirectoryApp;
+}
+
+/** Output for the task that validates connection to Azure SQL Database Managed Instance. */
+export interface ConnectToTargetSqlMISyncTaskOutput {
+  /**
+   * Target server version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServerVersion?: string;
+  /**
+   * Target server brand version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServerBrandVersion?: string;
+  /**
+   * Validation errors
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validationErrors?: ReportableException[];
+}
+
+/** Input for the task that validates connection to Azure Database for MySQL and target server requirements */
+export interface ConnectToTargetAzureDbForMySqlTaskInput {
+  /** Connection information for source MySQL server */
+  sourceConnectionInfo: MySqlConnectionInfo;
+  /** Connection information for target Azure Database for MySQL server */
+  targetConnectionInfo: MySqlConnectionInfo;
+  /** Flag for whether or not the migration is offline */
+  isOfflineMigration?: boolean;
+}
+
+/** Output for the task that validates connection to Azure Database for MySQL and target server requirements */
+export interface ConnectToTargetAzureDbForMySqlTaskOutput {
+  /**
+   * Result identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Version of the target server
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly serverVersion?: string;
   /**
-   * Edition of the database server
+   * List of databases on target server
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly serverEdition?: string;
+  readonly databases?: string[];
   /**
-   * Version of the operating system
+   * Target server brand version
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly serverOperatingSystemVersion?: string;
+  readonly targetServerBrandVersion?: string;
   /**
-   * Number of databases in the server
+   * Validation errors associated with the task
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly serverDatabaseCount?: number;
+  readonly validationErrors?: ReportableException[];
+}
+
+/** Output for task that migrates SQL Server databases to Azure SQL Database Managed Instance. */
+export interface MigrateSqlServerSqlMITaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType:
+    | "MigrationLevelOutput"
+    | "DatabaseLevelOutput"
+    | "AgentJobLevelOutput"
+    | "LoginLevelOutput"
+    | "ErrorOutput";
+  /**
+   * Result identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** Output for task that migrates SQL Server databases to Azure SQL Database Managed Instance using Log Replay Service. */
+export interface MigrateSqlServerSqlMISyncTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "MigrationLevelOutput" | "DatabaseLevelOutput" | "ErrorOutput";
+  /**
+   * Result identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** Types of validations to run after the migration */
+export interface MigrationValidationOptions {
+  /** Allows to compare the schema information between source and target. */
+  enableSchemaValidation?: boolean;
+  /** Allows to perform a checksum based data integrity validation between source and target for the selected database / tables . */
+  enableDataIntegrityValidation?: boolean;
+  /** Allows to perform a quick and intelligent query analysis by retrieving queries from the source database and executes them in the target. The result will have execution statistics for executions in source and target databases for the extracted queries. */
+  enableQueryAnalysisValidation?: boolean;
+}
+
+/** Output for the task that migrates on-prem SQL Server databases to Azure SQL Database */
+export interface MigrateSqlServerSqlDbTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType:
+    | "MigrationLevelOutput"
+    | "DatabaseLevelOutput"
+    | "TableLevelOutput"
+    | "ErrorOutput"
+    | "MigrationValidationOutput"
+    | "MigrationDatabaseLevelValidationOutput";
+  /**
+   * Result identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** Migration Validation Result */
+export interface MigrationValidationResult {
+  /**
+   * Migration validation result identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Migration Identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationId?: string;
+  /** Validation summary results for each database */
+  summaryResults?: {
+    [propertyName: string]: MigrationValidationDatabaseSummaryResult;
+  };
+  /**
+   * Current status of validation at the migration level. Status from the database validation result status will be aggregated here.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: ValidationStatus;
+}
+
+/** Migration Validation Database level summary result */
+export interface MigrationValidationDatabaseSummaryResult {
+  /**
+   * Result identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Migration Identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationId?: string;
+  /**
+   * Name of the source database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceDatabaseName?: string;
+  /**
+   * Name of the target database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetDatabaseName?: string;
+  /**
+   * Validation start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Validation end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /**
+   * Current status of validation at the database level
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: ValidationStatus;
+}
+
+/** Migration validation report result, contains the url for downloading the generated report. */
+export interface MigrationReportResult {
+  /** Migration validation result identifier */
+  id?: string;
+  /** The url of the report. */
+  reportUrl?: string;
+}
+
+/** Database level validation results */
+export interface MigrationValidationDatabaseLevelResult {
+  /**
+   * Result identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Migration Identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationId?: string;
+  /**
+   * Name of the source database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceDatabaseName?: string;
+  /**
+   * Name of the target database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetDatabaseName?: string;
+  /**
+   * Validation start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Validation end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /**
+   * Provides data integrity validation result between the source and target tables that are migrated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataIntegrityValidationResult?: DataIntegrityValidationResult;
+  /**
+   * Provides schema comparison result between source and target database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly schemaValidationResult?: SchemaComparisonValidationResult;
+  /**
+   * Results of some of the query execution result between source and target database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly queryAnalysisValidationResult?: QueryAnalysisValidationResult;
+  /**
+   * Current status of validation at the database level
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: ValidationStatus;
+}
+
+/** Results for checksum based Data Integrity validation results */
+export interface DataIntegrityValidationResult {
+  /** List of failed table names of source and target pair */
+  failedObjects?: { [propertyName: string]: string };
+  /** List of errors that happened while performing data integrity validation */
+  validationErrors?: ValidationError;
+}
+
+/** Description about the errors happen while performing migration validation */
+export interface ValidationError {
+  /** Error Text */
+  text?: string;
+  /** Severity of the error */
+  severity?: Severity;
+}
+
+/** Results for schema comparison between the source and target */
+export interface SchemaComparisonValidationResult {
+  /** List of schema differences between the source and target databases */
+  schemaDifferences?: SchemaComparisonValidationResultType;
+  /** List of errors that happened while performing schema compare validation */
+  validationErrors?: ValidationError;
+  /** Count of source database objects */
+  sourceDatabaseObjectCount?: { [propertyName: string]: number };
+  /** Count of target database objects */
+  targetDatabaseObjectCount?: { [propertyName: string]: number };
+}
+
+/** Description about the errors happen while performing migration validation */
+export interface SchemaComparisonValidationResultType {
+  /** Name of the object that has the difference */
+  objectName?: string;
+  /** Type of the object that has the difference. e.g (Table/View/StoredProcedure) */
+  objectType?: ObjectType;
+  /** Update action type with respect to target */
+  updateAction?: UpdateActionType;
+}
+
+/** Results for query analysis comparison between the source and target */
+export interface QueryAnalysisValidationResult {
+  /** List of queries executed and it's execution results in source and target */
+  queryResults?: QueryExecutionResult;
+  /** Errors that are part of the execution */
+  validationErrors?: ValidationError;
+}
+
+/** Describes query analysis results for execution in source and target */
+export interface QueryExecutionResult {
+  /** Query text retrieved from the source server */
+  queryText?: string;
+  /** Total no. of statements in the batch */
+  statementsInBatch?: number;
+  /** Query analysis result from the source */
+  sourceResult?: ExecutionStatistics;
+  /** Query analysis result from the target */
+  targetResult?: ExecutionStatistics;
+}
+
+/** Description about the errors happen while performing migration validation */
+export interface ExecutionStatistics {
+  /** No. of query executions */
+  executionCount?: number;
+  /** CPU Time in millisecond(s) for the query execution */
+  cpuTimeMs?: number;
+  /** Time taken in millisecond(s) for executing the query */
+  elapsedTimeMs?: number;
+  /** Dictionary of sql query execution wait types and the respective statistics */
+  waitStats?: { [propertyName: string]: WaitStatistics };
+  /** Indicates whether the query resulted in an error */
+  hasErrors?: boolean;
+  /** List of sql Errors */
+  sqlErrors?: string[];
+}
+
+/** Wait statistics gathered during query batch execution */
+export interface WaitStatistics {
+  /** Type of the Wait */
+  waitType?: string;
+  /** Total wait time in millisecond(s) */
+  waitTimeMs?: number;
+  /** Total no. of waits */
+  waitCount?: number;
+}
+
+/** Output for the task that migrates on-prem SQL Server databases to Azure SQL Database for online migrations */
+export interface MigrateSqlServerSqlDbSyncTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType:
+    | "MigrationLevelOutput"
+    | "DatabaseLevelOutput"
+    | "TableLevelOutput"
+    | "ErrorOutput"
+    | "DatabaseLevelErrorOutput";
+  /**
+   * Result identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** Input for the task that migrates MySQL databases to Azure Database for MySQL for online migrations */
+export interface MigrateMySqlAzureDbForMySqlSyncTaskInput {
+  /** Connection information for source MySQL */
+  sourceConnectionInfo: MySqlConnectionInfo;
+  /** Connection information for target Azure Database for MySQL */
+  targetConnectionInfo: MySqlConnectionInfo;
+  /** Databases to migrate */
+  selectedDatabases: MigrateMySqlAzureDbForMySqlSyncDatabaseInput[];
+  /** Parameter to specify when the migration started */
+  startedOn?: Date;
+  /** Optional resource Id of the source server if it is an azure instance */
+  sourceServerResourceId?: string;
+  /** Optional resource Id of the target server */
+  targetServerResourceId?: string;
+  /** Optional parameters for fine tuning the data migration */
+  optionalAgentSettings?: { [propertyName: string]: string };
+  /** If true, all view definitions will be migrated in the selected databases */
+  migrateAllViews?: boolean;
+  /** If true, all trigger definitions will be migrated in the selected databases */
+  migrateAllTriggers?: boolean;
+  /** If true, all event definitions will be migrated in the selected databases */
+  migrateAllEvents?: boolean;
+  /** If true, all routine definitions will be migrated in the selected databases */
+  migrateAllRoutines?: boolean;
+  /** If true, all table's schemas will be migrated */
+  migrateAllTablesSchema?: boolean;
+  /** If true, all users/grants will be migrated */
+  migrateUserSystemTables?: boolean;
+  /** encrypted key for secure fields */
+  encryptedKeyForSecureFields?: string;
+}
+
+/** Database specific information for MySQL to Azure Database for MySQL migration task inputs */
+export interface MigrateMySqlAzureDbForMySqlSyncDatabaseInput {
+  /** Name of the database */
+  name?: string;
+  /** Name of target database. Note: Target database will be truncated before starting migration. */
+  targetDatabaseName?: string;
+  /** Migration settings which tune the migration behavior */
+  migrationSetting?: { [propertyName: string]: string };
+  /** Source settings to tune source endpoint migration behavior */
+  sourceSetting?: { [propertyName: string]: string };
+  /** Target settings to tune target endpoint migration behavior */
+  targetSetting?: { [propertyName: string]: string };
+  /** Mapping of source to target tables */
+  tableMap?: { [propertyName: string]: string };
+  /** Mapping of source to target tables for schema migration */
+  tablesToMigrateSchema?: { [propertyName: string]: string };
+  /** List of views to migrate */
+  selectedViews?: string[];
+  /** List of triggers to migrate */
+  selectedTriggers?: string[];
+  /** List of routines to migrate */
+  selectedRoutines?: string[];
+  /** List of events to migrate */
+  selectedEvents?: string[];
+}
+
+/** MySQL to Azure Database for MySQL online migration task output */
+export interface MigrateMySqlAzureDbForMySqlSyncTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType:
+    | "MigrationLevelOutput"
+    | "DatabaseLevelOutput"
+    | "TableLevelOutput"
+    | "ErrorOutput"
+    | "DatabaseLevelErrorOutput"
+    | "MigrationLevelOutput";
+  /**
+   * Result identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+export interface MySqlContinuousDataMovementProgress {
+  /**
+   * Current binlog position of the last event committed at target
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly binlogPosition?: MySqlBinlogPositionOutput;
+  /**
+   * The timestamp exposed by the last binlog event that has been committed at target
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timestamp?: Date;
+  /**
+   * The total number of rows inserted at target
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfRowsInserted?: number;
+  /**
+   * The total number of rows updated at target
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfRowsUpdated?: number;
+  /**
+   * The total number of rows deleted at target
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfRowsDeleted?: number;
+  /**
+   * The total number of query events executed at target, such as DDL, or DML when using mixed binlog mode
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfQueryEventsProcessed?: number;
+  /**
+   * The the total number of the WRITE_ROWS_EVENTs processed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfWriteRowsEventsProcessed?: number;
+  /**
+   * The the total number of the UPDATE_ROWS_EVENTs processed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfUpdateRowsEventsProcessed?: number;
+  /**
+   * The total number of the DELETE_ROWS_EVENTs processed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfDeleteRowsEventsProcessed?: number;
+  /**
+   * The number of seconds the target server is behind the source server
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secondsBehindSource?: number;
+}
+
+/** MySQL binlog reference */
+export interface MySqlBinlogPositionOutput {
+  /**
+   * Specifies the MySQL binlog file name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Specifies the position in the binlog file
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly position?: number;
+  /**
+   * Specifies the the sequential number of the binlog fie, extracted from the file name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fileSeqNum?: number;
+}
+
+/** Output for the task that migrates MySQL databases to Azure Database for MySQL for the replicate changes migrations */
+export interface MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "MigrationLevelOutput" | "MigrationLevelOutput";
+  /**
+   * Result identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** Input for the task that migrates MySQL databases to Azure Database for MySQL for the replicate changes migrations */
+export interface MigrateMySqlAzureDbForMySqlReplicateChangesTaskInput {
+  /** Connection information for source MySQL */
+  sourceConnectionInfo: MySqlConnectionInfo;
+  /** Connection information for target Azure Database for MySQL */
+  targetConnectionInfo: MySqlConnectionInfo;
+  /** Databases to migrate */
+  selectedDatabases: MigrateMySqlAzureDbForMySqlReplicateChangesDatabaseInput[];
+  /** Parameter to specify when the migration started */
+  startedOn?: Date;
+  /** Optional resource Id of the source server if it is an azure instance */
+  sourceServerResourceId?: string;
+  /** Optional resource Id of the target server */
+  targetServerResourceId?: string;
+  /** Optional parameters for fine tuning the data migration */
+  optionalAgentSettings?: { [propertyName: string]: string };
+  /** The binlog position to start replicating the changes at */
+  binLogInfo: MySqlBinlogPositionInput;
+  /** encrypted key for secure fields */
+  encryptedKeyForSecureFields?: string;
+}
+
+/** Database specific information for MySQL to Azure Database for MySQL migration task inputs */
+export interface MigrateMySqlAzureDbForMySqlReplicateChangesDatabaseInput {
+  /** Name of the database */
+  name: string;
+  /** Name of the target database. */
+  targetDatabaseName: string;
+  /** Mapping of source to target tables */
+  tableMap?: { [propertyName: string]: string };
+}
+
+/** MySQL binlog reference */
+export interface MySqlBinlogPositionInput {
+  /** Specifies the MySQL binlog file name */
+  filename?: string;
+  /** Specifies the position in the binlog file */
+  position?: number;
 }
 
 /** Input for the task that migrates MySQL databases to Azure Database for MySQL for offline migrations */
@@ -2722,8 +2947,26 @@ export interface MigrateMySqlAzureDbForMySqlOfflineTaskInput {
   makeSourceServerReadOnly?: boolean;
   /** Parameter to specify when the migration started */
   startedOn?: Date;
-  /** Optional parameters for fine tuning the data transfer rate during migration */
-  optionalAgentSettings?: { [propertyName: string]: string };
+  /** Optional resource Id of the source server if it is an azure instance */
+  sourceServerResourceId?: string;
+  /** Optional resource Id of the target server */
+  targetServerResourceId?: string;
+  /** Optional parameters for fine tuning the data migration */
+  optionalAgentSettings?: MigrateMySqlAzureDbForMySqlOfflineTaskInputOptionalAgentSettings;
+  /** If true, all view definitions will be migrated in the selected databases */
+  migrateAllViews?: boolean;
+  /** If true, all trigger definitions will be migrated in the selected databases */
+  migrateAllTriggers?: boolean;
+  /** If true, all event definitions will be migrated in the selected databases */
+  migrateAllEvents?: boolean;
+  /** If true, all routine definitions will be migrated in the selected databases */
+  migrateAllRoutines?: boolean;
+  /** If true, all table's schemas will be migrated */
+  migrateAllTablesSchema?: boolean;
+  /** If true, all users/grants will be migrated */
+  migrateUserSystemTables?: boolean;
+  /** encrypted key for secure fields */
+  encryptedKeyForSecureFields?: string;
 }
 
 /** Database specific information for offline MySQL to Azure Database for MySQL migration task inputs */
@@ -2734,9 +2977,27 @@ export interface MigrateMySqlAzureDbForMySqlOfflineDatabaseInput {
   targetDatabaseName?: string;
   /** Mapping of source to target tables */
   tableMap?: { [propertyName: string]: string };
+  /** Mapping of source to target tables for schema migration */
+  tablesToMigrateSchema?: { [propertyName: string]: string };
+  /** List of views to migrate */
+  selectedViews?: string[];
+  /** List of triggers to migrate */
+  selectedTriggers?: string[];
+  /** List of routines to migrate */
+  selectedRoutines?: string[];
+  /** List of events to migrate */
+  selectedEvents?: string[];
 }
 
-/** Output for the task that migrates MySQL databases to Azure Database for MySQL for offline migrations */
+/** Optional parameters for fine tuning the data migration */
+export interface MigrateMySqlAzureDbForMySqlOfflineTaskInputOptionalAgentSettings {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** Setting to enable transactional consistency */
+  enableConsistentBackup?: boolean;
+}
+
+/** MySQL to Azure Database for MySQL offline migration task output */
 export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType:
@@ -2744,6 +3005,66 @@ export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
     | "DatabaseLevelOutput"
     | "TableLevelOutput"
     | "ErrorOutput";
+  /**
+   * Result identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** Input for the task that migrates PostgreSQL databases to Azure Database for PostgreSQL for online migrations */
+export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput {
+  /** Databases to migrate */
+  selectedDatabases: MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput[];
+  /** Connection information for target Azure Database for PostgreSQL */
+  targetConnectionInfo: PostgreSqlConnectionInfo;
+  /** Connection information for source PostgreSQL */
+  sourceConnectionInfo: PostgreSqlConnectionInfo;
+  /** encrypted key for secure fields */
+  encryptedKeyForSecureFields?: string;
+  /**
+   * Migration start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+}
+
+/** Database specific information for PostgreSQL to Azure Database for PostgreSQL migration task inputs */
+export interface MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput {
+  /** Name of the database */
+  name?: string;
+  /**
+   * Result identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** Name of target database. Note: Target database will be truncated before starting migration. */
+  targetDatabaseName?: string;
+  /** Migration settings which tune the migration behavior */
+  migrationSetting?: { [propertyName: string]: any };
+  /** Source settings to tune source endpoint migration behavior */
+  sourceSetting?: { [propertyName: string]: string };
+  /** Target settings to tune target endpoint migration behavior */
+  targetSetting?: { [propertyName: string]: string };
+  /** Tables selected for migration */
+  selectedTables?: MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseTableInput[];
+}
+
+/** Selected tables for the migration */
+export interface MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseTableInput {
+  /** Name of the table to migrate */
+  name?: string;
+}
+
+/** Output for the task that migrates PostgreSQL databases to Azure Database for PostgreSQL for online migrations */
+export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType:
+    | "MigrationLevelOutput"
+    | "DatabaseLevelOutput"
+    | "TableLevelOutput"
+    | "ErrorOutput"
+    | "DatabaseLevelErrorOutput";
   /**
    * Result identifier
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2839,50 +3160,6 @@ export interface ValidateMigrationInputSqlServerSqlMITaskOutput {
   databaseBackupInfo?: DatabaseBackupInfo;
 }
 
-/** Information about backup files when existing backup mode is used. */
-export interface DatabaseBackupInfo {
-  /**
-   * Database name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseName?: string;
-  /**
-   * Backup Type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly backupType?: BackupType;
-  /**
-   * The list of backup files for the current database.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly backupFiles?: string[];
-  /**
-   * Position of current database backup in the file.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly position?: number;
-  /**
-   * Database was damaged when backed up, but the backup operation was requested to continue despite errors.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isDamaged?: boolean;
-  /**
-   * Whether the backup set is compressed
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isCompressed?: boolean;
-  /**
-   * Number of files in the backup set.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly familyCount?: number;
-  /**
-   * Date and time when the backup operation finished.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly backupFinishDate?: Date;
-}
-
 /** Output for task that validates migration input for Azure SQL Database Managed Instance online migration */
 export interface ValidateMigrationInputSqlServerSqlMISyncTaskOutput {
   /**
@@ -2902,288 +3179,68 @@ export interface ValidateMigrationInputSqlServerSqlMISyncTaskOutput {
   readonly validationErrors?: ReportableException[];
 }
 
-/** Information about a single database */
-export interface Database {
-  /** Unique identifier for the database */
-  id?: string;
-  /** Name of the database */
-  name?: string;
-  /** SQL Server compatibility level of database */
-  compatibilityLevel?: DatabaseCompatLevel;
-  /** Collation name of the database */
-  collation?: string;
-  /** Name of the server */
-  serverName?: string;
-  /** Fully qualified name */
-  fqdn?: string;
-  /** Install id of the database */
-  installId?: string;
-  /** Version of the server */
-  serverVersion?: string;
-  /** Edition of the server */
-  serverEdition?: string;
-  /** Product level of the server (RTM, SP, CTP). */
-  serverLevel?: string;
-  /** Default path of the data files */
-  serverDefaultDataPath?: string;
-  /** Default path of the log files */
-  serverDefaultLogPath?: string;
-  /** Default path of the backup folder */
-  serverDefaultBackupPath?: string;
-  /** Number of cores on the server */
-  serverCoreCount?: number;
-  /** Number of cores on the server that have VISIBLE ONLINE status */
-  serverVisibleOnlineCoreCount?: number;
-  /** State of the database */
-  databaseState?: DatabaseState;
-  /** The unique Server Id */
-  serverId?: string;
+/** Input for the task that gets TDE certificates in Base64 encoded format. */
+export interface GetTdeCertificatesSqlTaskInput {
+  /** Connection information for SQL Server */
+  connectionInfo: SqlConnectionInfo;
+  /** Backup file share information for file share to be used for temporarily storing files. */
+  backupFileShare: FileShare;
+  /** List containing certificate names and corresponding password to use for encrypting the exported certificate. */
+  selectedCertificates: SelectedCertificateInput[];
 }
 
-/** A representation of the name of an object in a database */
-export interface DatabaseObjectName {
-  /**
-   * The unescaped name of the database containing the object
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseName?: string;
-  /**
-   * The unescaped name of the object
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly objectName?: string;
-  /**
-   * The unescaped name of the schema containing the object
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly schemaName?: string;
-  /** Type of the object in the database */
-  objectType?: ObjectType;
+/** Info for certificate to be exported for TDE enabled databases. */
+export interface SelectedCertificateInput {
+  /** Name of certificate to be exported. */
+  certificateName: string;
+  /** Password to use for encrypting the exported certificate. */
+  password: string;
 }
 
-/** Common metadata for migration projects */
-export interface DataMigrationProjectMetadata {
+/** Output of the task that gets TDE certificates in Base64 encoded format. */
+export interface GetTdeCertificatesSqlTaskOutput {
   /**
-   * Source server name
+   * Mapping from certificate name to base 64 encoded format.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly sourceServerName?: string;
+  readonly base64EncodedCertificates?: string;
   /**
-   * Source server port number
+   * Validation errors
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly sourceServerPort?: string;
-  /**
-   * Source username
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceUsername?: string;
-  /**
-   * Target server name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerName?: string;
-  /**
-   * Target username
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetUsername?: string;
-  /**
-   * Target database name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetDbName?: string;
-  /**
-   * Whether target connection is Windows authentication
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetUsingWinAuth?: boolean;
-  /**
-   * List of tables selected for migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly selectedMigrationTables?: MigrationTableMetadata[];
+  readonly validationErrors?: ReportableException[];
 }
 
-/** Metadata for tables selected in migration project */
-export interface MigrationTableMetadata {
-  /**
-   * Source table name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceTableName?: string;
-  /**
-   * Target table name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetTableName?: string;
-}
-
-/** Input for the task that reads configuration from project artifacts */
-export interface GetProjectDetailsNonSqlTaskInput {
-  /** Name of the migration project */
-  projectName: string;
-  /** A URL that points to the location to access project artifacts */
-  projectLocation: string;
-}
-
-/** Base class for non sql migration task input */
-export interface NonSqlMigrationTaskInput {
-  /** Information for connecting to target */
-  targetConnectionInfo: SqlConnectionInfo;
-  /** Target database name */
-  targetDatabaseName: string;
-  /** Name of the migration project */
-  projectName: string;
-  /** A URL that points to the drop location to access project artifacts */
-  projectLocation: string;
-  /** Metadata of the tables selected for migration */
-  selectedTables: NonSqlDataMigrationTable[];
-}
-
-/** Defines metadata for table to be migrated */
-export interface NonSqlDataMigrationTable {
-  /** Source table name */
-  sourceName?: string;
-}
-
-/** Base class for non sql migration task output */
-export interface NonSqlMigrationTaskOutput {
+/** Output for task that migrates SSIS packages from SQL Server to Azure SQL Database Managed Instance. */
+export interface MigrateSsisTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "MigrationLevelOutput" | "SsisProjectLevelOutput";
   /**
    * Result identifier
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
-  /**
-   * Migration start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Migration end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /**
-   * Current state of migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: MigrationStatus;
-  /**
-   * Results of the migration. The key contains the table name and the value the table result object
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dataMigrationTableResults?: string;
-  /**
-   * Message about the progress of the migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly progressMessage?: string;
-  /**
-   * Name of source server
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceServerName?: string;
-  /**
-   * Name of target server
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerName?: string;
 }
 
-/** Object used to report the data migration results of a table */
-export interface NonSqlDataMigrationTableResult {
+/** Database Migration Resource properties for SQL database. */
+export interface DatabaseMigrationPropertiesSqlDb
+  extends DatabaseMigrationProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "SqlDb";
   /**
-   * Result code of the data migration
+   * Detailed migration status. Not included by default.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resultCode?: DataMigrationResultCode;
+  readonly migrationStatusDetails?: SqlDbMigrationStatusDetails;
+  /** Target SQL DB connection details. */
+  targetSqlConnection?: SqlConnectionInformation;
   /**
-   * Name of the source table
+   * Offline configuration.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly sourceName?: string;
-  /**
-   * Name of the target table
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetName?: string;
-  /**
-   * Number of rows in the source table
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceRowCount?: number;
-  /**
-   * Number of rows in the target table
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetRowCount?: number;
-  /**
-   * Time taken to migrate the data
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly elapsedTimeInMiliseconds?: number;
-  /**
-   * List of errors, if any, during migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errors?: DataMigrationError[];
-}
-
-/** Migration Task errors */
-export interface DataMigrationError {
-  /**
-   * Error description
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /** Error type */
-  type?: ErrorType;
-}
-
-/** Database specific information for SQL to SQL migration task inputs */
-export interface MigrateSqlServerDatabaseInput {
-  /** Name of the database */
-  name?: string;
-  /** Name of the database at destination */
-  restoreDatabaseName?: string;
-  /** The backup and restore folder */
-  backupAndRestoreFolder?: string;
-  /** The list of database files */
-  databaseFiles?: DatabaseFileInput[];
-}
-
-/** Database file specific information for input */
-export interface DatabaseFileInput {
-  /** Unique identifier for database file */
-  id?: string;
-  /** Logical name of the file */
-  logicalName?: string;
-  /** Operating-system full path of the file */
-  physicalFullName?: string;
-  /** Suggested full path of the file for restoring */
-  restoreFullName?: string;
-  /** Database file type */
-  fileType?: DatabaseFileType;
-}
-
-/** Server role migration result */
-export interface StartMigrationScenarioServerRoleResult {
-  /**
-   * Name of server role.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Current state of migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: MigrationState;
-  /**
-   * Migration exceptions and warnings.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly exceptionsAndWarnings?: ReportableException[];
+  readonly offlineConfiguration?: SqlDbOfflineConfiguration;
+  /** List of tables to copy. */
+  tableList?: string[];
 }
 
 /** Database Migration Resource properties for SQL Managed Instance. */
@@ -3196,10 +3253,6 @@ export interface DatabaseMigrationPropertiesSqlMi
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly migrationStatusDetails?: MigrationStatusDetails;
-  /** Database collation to be used for the target database. */
-  targetDatabaseCollation?: string;
-  /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
   /** Backup configuration info. */
   backupConfiguration?: BackupConfiguration;
   /** Offline configuration. */
@@ -3216,14 +3269,21 @@ export interface DatabaseMigrationPropertiesSqlVm
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly migrationStatusDetails?: MigrationStatusDetails;
-  /** Database collation to be used for the target database. */
-  targetDatabaseCollation?: string;
-  /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
   /** Backup configuration info. */
   backupConfiguration?: BackupConfiguration;
   /** Offline configuration. */
   offlineConfiguration?: OfflineConfiguration;
+}
+
+/** Database Migration Resource for SQL Database. */
+export interface DatabaseMigrationSqlDb extends ProxyResource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Database Migration Resource properties for SQL database. */
+  properties?: DatabaseMigrationPropertiesSqlDb;
 }
 
 /** Database Migration Resource for SQL Managed Instance. */
@@ -3301,11 +3361,11 @@ export interface DataMigrationService extends TrackedResource {
 /** A project resource */
 export interface Project extends TrackedResource {
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  eTag?: string;
+  etag?: string;
   /** Source platform for the project */
   sourcePlatform?: ProjectSourcePlatform;
   /** Field that defines the Azure active directory application info, used to connect to the target Azure resource */
-  azureAuthenticationInfo?: string;
+  azureAuthenticationInfo?: AzureActiveDirectoryApp;
   /** Target platform for the project */
   targetPlatform?: ProjectTargetPlatform;
   /**
@@ -3342,6 +3402,8 @@ export interface MigrateSchemaSqlServerSqlDbTaskProperties
   createdOn?: string;
   /** Task id */
   taskId?: string;
+  /** whether the task can be cloned or not */
+  isCloneable?: boolean;
 }
 
 /** Properties for the task that checks for OCI drivers. */
@@ -3408,6 +3470,8 @@ export interface ConnectToSourceSqlServerTaskProperties
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly output?: ConnectToSourceSqlServerTaskOutputUnion[];
+  /** Task id */
+  taskId?: string;
 }
 
 /** Properties for the task that validates connection to SQL Server and source server requirements for online migration */
@@ -3478,6 +3542,8 @@ export interface ConnectToTargetSqlDbTaskProperties
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly output?: ConnectToTargetSqlDbTaskOutput[];
+  /** DateTime in UTC when the task was created */
+  createdOn?: string;
 }
 
 /** Properties for the task that validates connection to SQL DB and target server requirements for online migration */
@@ -3533,6 +3599,8 @@ export interface GetUserTablesSqlTaskProperties extends ProjectTaskProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly output?: GetUserTablesSqlTaskOutput[];
+  /** Task id */
+  taskId?: string;
 }
 
 /** Properties for the task that collects user tables for the given list of databases */
@@ -3657,6 +3725,12 @@ export interface MigrateSqlServerSqlMITaskProperties
   readonly output?: MigrateSqlServerSqlMITaskOutputUnion[];
   /** task id */
   taskId?: string;
+  /** DateTime in UTC when the task was created */
+  createdOn?: string;
+  /** parent task id */
+  parentTaskId?: string;
+  /** whether the task can be cloned or not */
+  isCloneable?: boolean;
 }
 
 /** Properties for task that migrates SQL Server databases to Azure SQL Database Managed Instance sync scenario */
@@ -3671,6 +3745,8 @@ export interface MigrateSqlServerSqlMISyncTaskProperties
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly output?: MigrateSqlServerSqlMISyncTaskOutputUnion[];
+  /** DateTime in UTC when the task was created */
+  createdOn?: string;
 }
 
 /** Properties for the task that migrates on-prem SQL Server databases to Azure SQL Database */
@@ -3689,6 +3765,8 @@ export interface MigrateSqlServerSqlDbTaskProperties
   taskId?: string;
   /** whether the task can be cloned or not */
   isCloneable?: boolean;
+  /** DateTime in UTC when the task was created */
+  createdOn?: string;
 }
 
 /** Properties for the task that migrates on-prem SQL Server databases to Azure SQL Database for online migrations */
@@ -3719,6 +3797,24 @@ export interface MigrateMySqlAzureDbForMySqlSyncTaskProperties
   readonly output?: MigrateMySqlAzureDbForMySqlSyncTaskOutputUnion[];
 }
 
+/** Properties for the task that migrates MySQL databases to Azure Database for MySQL for replicate changes migrations */
+export interface MigrateMySqlAzureDbForMySqlReplicateChangesTaskProperties
+  extends ProjectTaskProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  taskType: "Migrate.MySql.AzureDbForMySql.ReplicateChanges";
+  /** Task input */
+  input?: MigrateMySqlAzureDbForMySqlReplicateChangesTaskInput;
+  /**
+   * Task output. This is ignored if submitted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly output?: MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutputUnion[];
+  /** whether the task can be cloned or not */
+  isCloneable?: boolean;
+  /** Task id */
+  taskId?: string;
+}
+
 /** Properties for the task that migrates MySQL databases to Azure Database for MySQL for offline migrations */
 export interface MigrateMySqlAzureDbForMySqlOfflineTaskProperties
   extends ProjectTaskProperties {
@@ -3731,6 +3827,10 @@ export interface MigrateMySqlAzureDbForMySqlOfflineTaskProperties
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly output?: MigrateMySqlAzureDbForMySqlOfflineTaskOutputUnion[];
+  /** whether the task can be cloned or not */
+  isCloneable?: boolean;
+  /** Task id */
+  taskId?: string;
 }
 
 /** Properties for the task that migrates PostgreSQL databases to Azure Database for PostgreSQL for online migrations */
@@ -3749,6 +3849,8 @@ export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties
   taskId?: string;
   /** DateTime in UTC when the task was created */
   createdOn?: string;
+  /** whether the task can be cloned or not */
+  isCloneable?: boolean;
 }
 
 /** Properties for the task that migrates Oracle to Azure Database for PostgreSQL for online migrations */
@@ -3873,6 +3975,8 @@ export interface MigrateSyncCompleteCommandProperties
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly output?: MigrateSyncCompleteCommandOutput;
+  /** Command id */
+  commandId?: string;
 }
 
 /** Properties for the command that completes online migration for an Azure SQL Database Managed Instance. */
@@ -3939,25 +4043,6 @@ export interface ProjectFile extends Resource {
   readonly systemData?: SystemData;
 }
 
-/** Describes a connection to a MongoDB data source */
-export interface MongoDbConnectionInfo extends ConnectionInfo {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "MongoDbConnectionInfo";
-  /** A MongoDB connection string or blob container URL. The user name and password can be specified here or in the userName and password properties */
-  connectionString: string;
-  /** Data source */
-  dataSource?: string;
-  /** Whether to encrypt the connection */
-  encryptConnection?: boolean;
-  /** server brand version */
-  serverBrandVersion?: string;
-  enforceSSL?: boolean;
-  /** port for server */
-  port?: number;
-  /** Additional connection settings */
-  additionalSettings?: string;
-}
-
 /** Information for connecting to SQL database server */
 export interface SqlConnectionInfo extends ConnectionInfo {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -3966,8 +4051,12 @@ export interface SqlConnectionInfo extends ConnectionInfo {
   dataSource: string;
   /** name of the server */
   serverName?: string;
-  /** port for server */
-  port?: string;
+  /** Port for Server */
+  port?: number;
+  /** server version */
+  serverVersion?: string;
+  /** server brand version */
+  serverBrandVersion?: string;
   /** Represents the ID of an HTTP resource represented by an Azure resource provider. */
   resourceId?: string;
   /** Authentication type to use for connection */
@@ -3982,6 +4071,33 @@ export interface SqlConnectionInfo extends ConnectionInfo {
   platform?: SqlSourcePlatform;
 }
 
+/** Describes a connection to a MongoDB data source */
+export interface MongoDbConnectionInfo extends ConnectionInfo {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "MongoDbConnectionInfo";
+  /** A MongoDB connection string or blob container URL. The user name and password can be specified here or in the userName and password properties */
+  connectionString: string;
+  /** Data source */
+  dataSource?: string;
+  /** Whether to encrypt the connection */
+  encryptConnection?: boolean;
+  /** server brand version */
+  serverBrandVersion?: string;
+  /** server version */
+  serverVersion?: string;
+  /** name of the server */
+  serverName?: string;
+  /** Whether to trust the server certificate */
+  trustServerCertificate?: boolean;
+  enforceSSL?: boolean;
+  /** port for server */
+  port?: number;
+  /** Additional connection settings */
+  additionalSettings?: string;
+  /** Authentication type to use for connection */
+  authentication?: AuthenticationType;
+}
+
 /** Information for connecting to MySQL server */
 export interface MySqlConnectionInfo extends ConnectionInfo {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -3994,6 +4110,10 @@ export interface MySqlConnectionInfo extends ConnectionInfo {
   port: number;
   /** Whether to encrypt the connection */
   encryptConnection?: boolean;
+  /** Authentication type to use for connection */
+  authentication?: AuthenticationType;
+  /** Additional connection settings */
+  additionalSettings?: string;
 }
 
 /** Information for connecting to Oracle server */
@@ -4002,6 +4122,14 @@ export interface OracleConnectionInfo extends ConnectionInfo {
   type: "OracleConnectionInfo";
   /** EZConnect or TNSName connection string. */
   dataSource: string;
+  /** name of the server */
+  serverName?: string;
+  /** server version */
+  serverVersion?: string;
+  /** port for server */
+  port?: number;
+  /** Authentication type to use for connection */
+  authentication?: AuthenticationType;
 }
 
 /** Information for connecting to PostgreSQL server */
@@ -4022,6 +4150,12 @@ export interface PostgreSqlConnectionInfo extends ConnectionInfo {
   encryptConnection?: boolean;
   /** Whether to trust the server certificate */
   trustServerCertificate?: boolean;
+  /** Additional connection settings */
+  additionalSettings?: string;
+  /** server brand version */
+  serverBrandVersion?: string;
+  /** Authentication type to use for connection */
+  authentication?: AuthenticationType;
 }
 
 /** Properties required to create a connection to Azure SQL database Managed instance */
@@ -4030,6 +4164,268 @@ export interface MiSqlConnectionInfo extends ConnectionInfo {
   type: "MiSqlConnectionInfo";
   /** Resource id for Azure SQL database Managed instance */
   managedInstanceResourceId: string;
+}
+
+/** Input for task that migrates Schema for SQL Server databases to Azure SQL databases */
+export interface MigrateSchemaSqlServerSqlDbTaskInput
+  extends SqlMigrationTaskInput {
+  /** Databases to migrate */
+  selectedDatabases: MigrateSchemaSqlServerSqlDbDatabaseInput[];
+  /** encrypted key for secure fields */
+  encryptedKeyForSecureFields?: string;
+  /** Migration start time */
+  startedOn?: string;
+}
+
+/** Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance. */
+export interface MigrateSqlServerSqlMITaskInput extends SqlMigrationTaskInput {
+  /** Databases to migrate */
+  selectedDatabases: MigrateSqlServerSqlMIDatabaseInput[];
+  /** Date and time relative to UTC when the migration was started on */
+  startedOn?: string;
+  /** Logins to migrate. */
+  selectedLogins?: string[];
+  /** Agent Jobs to migrate. */
+  selectedAgentJobs?: string[];
+  /** Backup file share information for all selected databases. */
+  backupFileShare?: FileShare;
+  /** SAS URI of Azure Storage Account Container to be used for storing backup files. */
+  backupBlobShare: BlobShare;
+  /** Backup Mode to specify whether to use existing backup or create new backup. If using existing backups, backup file paths are required to be provided in selectedDatabases. */
+  backupMode?: BackupMode;
+  /** Azure Active Directory domain name in the format of 'contoso.com' for federated Azure AD or 'contoso.onmicrosoft.com' for managed domain, required if and only if Windows logins are selected */
+  aadDomainName?: string;
+  /** encrypted key for secure fields */
+  encryptedKeyForSecureFields?: string;
+}
+
+/** Input for the task that migrates on-prem SQL Server databases to Azure SQL Database */
+export interface MigrateSqlServerSqlDbTaskInput extends SqlMigrationTaskInput {
+  /** Databases to migrate */
+  selectedDatabases: MigrateSqlServerSqlDbDatabaseInput[];
+  /**
+   * Options for enabling various post migration validations. Available options,
+   *  1.) Data Integrity Check: Performs a checksum based comparison on source and target tables after the migration to ensure the correctness of the data.
+   *  2.) Schema Validation: Performs a thorough schema comparison between the source and target tables and provides a list of differences between the source and target database, 3.) Query Analysis: Executes a set of queries picked up automatically either from the Query Plan Cache or Query Store and execute them and compares the execution time between the source and target database.
+   */
+  validationOptions?: MigrationValidationOptions;
+  /** Date and time relative to UTC when the migration was started on */
+  startedOn?: string;
+  /** encrypted key for secure fields */
+  encryptedKeyForSecureFields?: string;
+}
+
+/** Input for the task that migrates on-prem SQL Server databases to Azure SQL Database for online migrations */
+export interface MigrateSqlServerSqlDbSyncTaskInput
+  extends SqlMigrationTaskInput {
+  /** Databases to migrate */
+  selectedDatabases: MigrateSqlServerSqlDbSyncDatabaseInput[];
+  /** Validation options */
+  validationOptions?: MigrationValidationOptions;
+}
+
+/** Input for task that migrates SSIS packages from SQL Server to Azure SQL Database Managed Instance. */
+export interface MigrateSsisTaskInput extends SqlMigrationTaskInput {
+  /** SSIS package migration information. */
+  ssisMigrationInfo: SsisMigrationInfo;
+}
+
+export interface MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel
+  extends MigrateSchemaSqlServerSqlDbTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "MigrationLevelOutput";
+  /**
+   * Overall state of the schema migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: MigrationState;
+  /**
+   * Migration start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Migration end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /**
+   * Source server version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceServerVersion?: string;
+  /**
+   * Source server brand version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceServerBrandVersion?: string;
+  /**
+   * Target server version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServerVersion?: string;
+  /**
+   * Target server brand version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServerBrandVersion?: string;
+}
+
+export interface MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel
+  extends MigrateSchemaSqlServerSqlDbTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "DatabaseLevelOutput";
+  /**
+   * The name of the database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseName?: string;
+  /**
+   * State of the schema migration for this database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: MigrationState;
+  /**
+   * Schema migration stage for this database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly stage?: SchemaMigrationStage;
+  /**
+   * Migration start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Migration end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /**
+   * Prefix string to use for querying errors for this database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseErrorResultPrefix?: string;
+  /**
+   * Prefix string to use for querying schema errors for this database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly schemaErrorResultPrefix?: string;
+  /**
+   * Number of successful operations for this database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfSuccessfulOperations?: number;
+  /**
+   * Number of failed operations for this database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfFailedOperations?: number;
+  /**
+   * Identifier for the file resource containing the schema of this database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fileId?: string;
+}
+
+export interface MigrateSchemaSqlServerSqlDbTaskOutputError
+  extends MigrateSchemaSqlServerSqlDbTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "SchemaErrorOutput";
+  /**
+   * Schema command which failed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly commandText?: string;
+  /**
+   * Reason of failure
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorText?: string;
+}
+
+export interface MigrateSchemaSqlTaskOutputError
+  extends MigrateSchemaSqlServerSqlDbTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "ErrorOutput";
+  /**
+   * Migration error
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ReportableException;
+}
+
+/** Summary of database results in the migration */
+export interface DatabaseSummaryResult extends DataItemMigrationSummaryResult {
+  /**
+   * Size of the database in megabytes
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sizeMB?: number;
+}
+
+/** Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance online scenario. */
+export interface MigrateSqlServerSqlMISyncTaskInput
+  extends SqlServerSqlMISyncTaskInput {
+  /** Number of database migrations to start in parallel */
+  numberOfParallelDatabaseMigrations?: number;
+}
+
+/** Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance online scenario. */
+export interface ValidateMigrationInputSqlServerSqlMISyncTaskInput
+  extends SqlServerSqlMISyncTaskInput {}
+
+/** Describes the input to the 'finish' MongoDB migration command */
+export interface MongoDbFinishCommandInput extends MongoDbCommandInput {
+  /** If true, replication for the affected objects will be stopped immediately. If false, the migrator will finish replaying queued events before finishing the replication. */
+  immediate: boolean;
+}
+
+/** Describes a supported collection within a MongoDB database */
+export interface MongoDbCollectionInfo extends MongoDbObjectInfo {
+  /** The name of the database containing the collection */
+  databaseName: string;
+  /** Whether the collection is a capped collection (i.e. whether it has a fixed size and acts like a circular buffer) */
+  isCapped: boolean;
+  /** Whether the collection is system collection */
+  isSystemCollection: boolean;
+  /** Whether the collection is a view of another collection */
+  isView: boolean;
+  /** The shard key on the collection, or null if the collection is not sharded */
+  shardKey?: MongoDbShardKeyInfo;
+  /** Whether the database has sharding enabled. Note that the migration task will enable sharding on the target if necessary. */
+  supportsSharding: boolean;
+  /** The name of the collection that this is a view of, if IsView is true */
+  viewOf?: string;
+}
+
+/** Describes a database within a MongoDB data source */
+export interface MongoDbDatabaseInfo extends MongoDbObjectInfo {
+  /** A list of supported collections in a MongoDB database */
+  collections: MongoDbCollectionInfo[];
+  /** Whether the database has sharding enabled. Note that the migration task will enable sharding on the target if necessary. */
+  supportsSharding: boolean;
+}
+
+/** Describes the progress of a collection */
+export interface MongoDbCollectionProgress extends MongoDbProgress {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "Collection";
+}
+
+/** Describes the progress of a database */
+export interface MongoDbDatabaseProgress extends MongoDbProgress {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "Database";
+  /** The progress of the collections in the database. The keys are the unqualified names of the collections */
+  collections?: { [propertyName: string]: MongoDbCollectionProgress };
+}
+
+/** Describes the progress of the overall migration */
+export interface MongoDbMigrationProgress extends MongoDbProgress {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "Migration";
+  /** The progress of the databases in the migration. The keys are the names of the databases */
+  databases?: { [propertyName: string]: MongoDbDatabaseProgress };
 }
 
 /** Task level output for the task that validates connection to SQL Server and also validates source server requirements */
@@ -4180,77 +4576,10 @@ export interface ConnectToSourceSqlServerTaskOutputAgentJobLevel
   readonly migrationEligibility?: MigrationEligibilityInfo;
 }
 
-/** Input for task that migrates Schema for SQL Server databases to Azure SQL databases */
-export interface MigrateSchemaSqlServerSqlDbTaskInput
-  extends SqlMigrationTaskInput {
-  /** Databases to migrate */
-  selectedDatabases: MigrateSchemaSqlServerSqlDbDatabaseInput[];
-  /** encrypted key for secure fields */
-  encryptedKeyForSecureFields?: string;
-  /** Migration start time */
-  startedOn?: string;
-}
-
-/** Input for the task that migrates on-prem SQL Server databases to Azure SQL Database for online migrations */
-export interface MigrateSqlServerSqlDbSyncTaskInput
-  extends SqlMigrationTaskInput {
-  /** Databases to migrate */
-  selectedDatabases: MigrateSqlServerSqlDbSyncDatabaseInput[];
-  /** Validation options */
-  validationOptions?: MigrationValidationOptions;
-}
-
-/** Input for the task that migrates on-prem SQL Server databases to Azure SQL Database */
-export interface MigrateSqlServerSqlDbTaskInput extends SqlMigrationTaskInput {
-  /** Databases to migrate */
-  selectedDatabases: MigrateSqlServerSqlDbDatabaseInput[];
-  /**
-   * Options for enabling various post migration validations. Available options,
-   *  1.) Data Integrity Check: Performs a checksum based comparison on source and target tables after the migration to ensure the correctness of the data.
-   *  2.) Schema Validation: Performs a thorough schema comparison between the source and target tables and provides a list of differences between the source and target database, 3.) Query Analysis: Executes a set of queries picked up automatically either from the Query Plan Cache or Query Store and execute them and compares the execution time between the source and target database.
-   */
-  validationOptions?: MigrationValidationOptions;
-  /** Date and time relative to UTC when the migration was started on */
-  startedOn?: string;
-  /** encrypted key for secure fields */
-  encryptedKeyForSecureFields?: string;
-}
-
-/** Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance. */
-export interface MigrateSqlServerSqlMITaskInput extends SqlMigrationTaskInput {
-  /** Databases to migrate */
-  selectedDatabases: MigrateSqlServerSqlMIDatabaseInput[];
-  /** Date and time relative to UTC when the migration was started on */
-  startedOn?: string;
-  /** Logins to migrate. */
-  selectedLogins?: string[];
-  /** Agent Jobs to migrate. */
-  selectedAgentJobs?: string[];
-  /** Backup file share information for all selected databases. */
-  backupFileShare?: FileShare;
-  /** SAS URI of Azure Storage Account Container to be used for storing backup files. */
-  backupBlobShare: BlobShare;
-  /** Backup Mode to specify whether to use existing backup or create new backup. If using existing backups, backup file paths are required to be provided in selectedDatabases. */
-  backupMode?: BackupMode;
-  /** Azure Active Directory domain name in the format of 'contoso.com' for federated Azure AD or 'contoso.onmicrosoft.com' for managed domain, required if and only if Windows logins are selected */
-  aadDomainName?: string;
-}
-
-/** Input for task that migrates SSIS packages from SQL Server to Azure SQL Database Managed Instance. */
-export interface MigrateSsisTaskInput extends SqlMigrationTaskInput {
-  /** SSIS package migration information. */
-  ssisMigrationInfo: SsisMigrationInfo;
-}
-
-export interface MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel
-  extends MigrateSchemaSqlServerSqlDbTaskOutput {
+export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel
+  extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "MigrationLevelOutput";
-  /**
-   * Overall state of the schema migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: MigrationState;
   /**
    * Migration start time
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4261,6 +4590,255 @@ export interface MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly endedOn?: Date;
+  /**
+   * Source server version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceServerVersion?: string;
+  /**
+   * Source server name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceServer?: string;
+  /**
+   * Target server version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServerVersion?: string;
+  /**
+   * Target server name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServer?: string;
+}
+
+export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel
+  extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "DatabaseLevelOutput";
+  /**
+   * Name of the database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseName?: string;
+  /**
+   * Migration start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Migration end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /**
+   * Migration state that this database is in
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationState?: SyncDatabaseMigrationReportingState;
+  /**
+   * Number of incoming changes
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly incomingChanges?: number;
+  /**
+   * Number of applied changes
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly appliedChanges?: number;
+  /**
+   * Number of cdc inserts
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cdcInsertCounter?: number;
+  /**
+   * Number of cdc deletes
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cdcDeleteCounter?: number;
+  /**
+   * Number of cdc updates
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cdcUpdateCounter?: number;
+  /**
+   * Number of tables completed in full load
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullLoadCompletedTables?: number;
+  /**
+   * Number of tables loading in full load
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullLoadLoadingTables?: number;
+  /**
+   * Number of tables queued in full load
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullLoadQueuedTables?: number;
+  /**
+   * Number of tables errored in full load
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullLoadErroredTables?: number;
+  /**
+   * Indicates if initial load (full load) has been completed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly initializationCompleted?: boolean;
+  /**
+   * CDC apply latency
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly latency?: number;
+}
+
+export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel
+  extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "TableLevelOutput";
+  /**
+   * Name of the table
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tableName?: string;
+  /**
+   * Name of the database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseName?: string;
+  /**
+   * Number of applied inserts
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cdcInsertCounter?: number;
+  /**
+   * Number of applied updates
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cdcUpdateCounter?: number;
+  /**
+   * Number of applied deletes
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cdcDeleteCounter?: number;
+  /**
+   * Estimate to finish full load
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullLoadEstFinishTime?: Date;
+  /**
+   * Full load start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullLoadStartedOn?: Date;
+  /**
+   * Full load end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullLoadEndedOn?: Date;
+  /**
+   * Number of rows applied in full load
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullLoadTotalRows?: number;
+  /**
+   * Current state of the table migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: SyncTableMigrationState;
+  /**
+   * Total number of applied changes
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalChangesApplied?: number;
+  /**
+   * Number of data errors occurred
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataErrorsCounter?: number;
+  /**
+   * Last modified time on target
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedTime?: Date;
+}
+
+export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputError
+  extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "ErrorOutput";
+  /**
+   * Migration error
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ReportableException;
+}
+
+export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError
+  extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "DatabaseLevelErrorOutput";
+  /** Error message */
+  errorMessage?: string;
+  /** List of error events. */
+  events?: SyncMigrationDatabaseErrorEvent[];
+}
+
+export interface MigrateSqlServerSqlMITaskOutputMigrationLevel
+  extends MigrateSqlServerSqlMITaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "MigrationLevelOutput";
+  /**
+   * Migration start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Migration end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /**
+   * Current status of migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: MigrationStatus;
+  /**
+   * Current state of migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: MigrationState;
+  /**
+   * Selected agent jobs as a map from name to id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly agentJobs?: string;
+  /**
+   * Selected logins as a map from name to id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly logins?: string;
+  /**
+   * Migration progress message
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Map of server role migration results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverRoleResults?: string;
+  /**
+   * List of orphaned users.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly orphanedUsersInfo?: OrphanedUserInfo[];
+  /**
+   * Selected databases as a map from database name to database id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databases?: string;
   /**
    * Source server version
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4281,27 +4859,37 @@ export interface MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly targetServerBrandVersion?: string;
+  /**
+   * Migration exceptions and warnings.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly exceptionsAndWarnings?: ReportableException[];
 }
 
-export interface MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel
-  extends MigrateSchemaSqlServerSqlDbTaskOutput {
+export interface MigrateSqlServerSqlMITaskOutputDatabaseLevel
+  extends MigrateSqlServerSqlMITaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "DatabaseLevelOutput";
   /**
-   * The name of the database
+   * Name of the database
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly databaseName?: string;
   /**
-   * State of the schema migration for this database
+   * Size of the database in megabytes
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sizeMB?: number;
+  /**
+   * Current state of migration
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly state?: MigrationState;
   /**
-   * Schema migration stage for this database
+   * Current stage of migration
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly stage?: SchemaMigrationStage;
+  readonly stage?: DatabaseMigrationStage;
   /**
    * Migration start time
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4313,50 +4901,101 @@ export interface MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel
    */
   readonly endedOn?: Date;
   /**
-   * Prefix string to use for querying errors for this database
+   * Migration progress message
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly databaseErrorResultPrefix?: string;
+  readonly message?: string;
   /**
-   * Prefix string to use for querying schema errors for this database
+   * Migration exceptions and warnings
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly schemaErrorResultPrefix?: string;
-  /**
-   * Number of successful operations for this database
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly numberOfSuccessfulOperations?: number;
-  /**
-   * Number of failed operations for this database
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly numberOfFailedOperations?: number;
-  /**
-   * Identifier for the file resource containing the schema of this database
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fileId?: string;
+  readonly exceptionsAndWarnings?: ReportableException[];
 }
 
-export interface MigrateSchemaSqlServerSqlDbTaskOutputError
-  extends MigrateSchemaSqlServerSqlDbTaskOutput {
+export interface MigrateSqlServerSqlMITaskOutputAgentJobLevel
+  extends MigrateSqlServerSqlMITaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "SchemaErrorOutput";
+  resultType: "AgentJobLevelOutput";
   /**
-   * Schema command which failed
+   * Agent Job name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly commandText?: string;
+  readonly name?: string;
   /**
-   * Reason of failure
+   * The state of the original Agent Job.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly errorText?: string;
+  readonly isEnabled?: boolean;
+  /**
+   * Current state of migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: MigrationState;
+  /**
+   * Migration start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Migration end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /**
+   * Migration progress message
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Migration errors and warnings per job
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly exceptionsAndWarnings?: ReportableException[];
 }
 
-export interface MigrateSchemaSqlTaskOutputError
-  extends MigrateSchemaSqlServerSqlDbTaskOutput {
+export interface MigrateSqlServerSqlMITaskOutputLoginLevel
+  extends MigrateSqlServerSqlMITaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "LoginLevelOutput";
+  /**
+   * Login name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly loginName?: string;
+  /**
+   * Current state of login
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: MigrationState;
+  /**
+   * Current stage of login
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly stage?: LoginMigrationStage;
+  /**
+   * Login migration start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Login migration end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /**
+   * Login migration progress message
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Login migration errors and warnings per login
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly exceptionsAndWarnings?: ReportableException[];
+}
+
+export interface MigrateSqlServerSqlMITaskOutputError
+  extends MigrateSqlServerSqlMITaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "ErrorOutput";
   /**
@@ -4366,10 +5005,586 @@ export interface MigrateSchemaSqlTaskOutputError
   readonly error?: ReportableException;
 }
 
+export interface MigrateSqlServerSqlMISyncTaskOutputMigrationLevel
+  extends MigrateSqlServerSqlMISyncTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "MigrationLevelOutput";
+  /**
+   * Count of databases
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseCount?: number;
+  /**
+   * Current state of migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: MigrationState;
+  /**
+   * Migration start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Migration end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /**
+   * Source server name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceServerName?: string;
+  /**
+   * Source server version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceServerVersion?: string;
+  /**
+   * Source server brand version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceServerBrandVersion?: string;
+  /**
+   * Target server name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServerName?: string;
+  /**
+   * Target server version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServerVersion?: string;
+  /**
+   * Target server brand version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServerBrandVersion?: string;
+  /**
+   * Number of database level errors
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseErrorCount?: number;
+}
+
+export interface MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel
+  extends MigrateSqlServerSqlMISyncTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "DatabaseLevelOutput";
+  /**
+   * Name of the database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceDatabaseName?: string;
+  /**
+   * Current state of database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationState?: DatabaseMigrationState;
+  /**
+   * Database migration start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Database migration end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /**
+   * Details of full backup set
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullBackupSetInfo?: BackupSetInfo;
+  /**
+   * Last applied backup set information
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastRestoredBackupSetInfo?: BackupSetInfo;
+  /**
+   * Backup sets that are currently active (Either being uploaded or getting restored)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly activeBackupSets?: BackupSetInfo[];
+  /**
+   * Name of container created in the Azure Storage account where backups are copied to
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly containerName?: string;
+  /**
+   * prefix string to use for querying errors for this database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorPrefix?: string;
+  /**
+   * Whether full backup has been applied to the target database or not
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isFullBackupRestored?: boolean;
+  /**
+   * Migration exceptions and warnings
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly exceptionsAndWarnings?: ReportableException[];
+}
+
+export interface MigrateSqlServerSqlMISyncTaskOutputError
+  extends MigrateSqlServerSqlMISyncTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "ErrorOutput";
+  /**
+   * Migration error
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ReportableException;
+}
+
+export interface MigrateSqlServerSqlDbTaskOutputMigrationLevel
+  extends MigrateSqlServerSqlDbTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "MigrationLevelOutput";
+  /**
+   * Migration start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Migration end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /**
+   * Duration of task execution in seconds.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly durationInSeconds?: number;
+  /**
+   * Current status of migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: MigrationStatus;
+  /**
+   * Migration status message
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusMessage?: string;
+  /**
+   * Migration progress message
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Selected databases as a map from database name to database id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databases?: string;
+  /**
+   * Summary of database results in the migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseSummary?: string;
+  /** Migration Validation Results */
+  migrationValidationResult?: MigrationValidationResult;
+  /** Migration Report Result, provides unique url for downloading your migration report. */
+  migrationReportResult?: MigrationReportResult;
+  /**
+   * Source server version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceServerVersion?: string;
+  /**
+   * Source server brand version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceServerBrandVersion?: string;
+  /**
+   * Target server version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServerVersion?: string;
+  /**
+   * Target server brand version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServerBrandVersion?: string;
+  /**
+   * Migration exceptions and warnings.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly exceptionsAndWarnings?: ReportableException[];
+}
+
+export interface MigrateSqlServerSqlDbTaskOutputDatabaseLevel
+  extends MigrateSqlServerSqlDbTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "DatabaseLevelOutput";
+  /**
+   * Name of the item
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseName?: string;
+  /**
+   * Migration start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Migration end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /**
+   * Current state of migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: MigrationState;
+  /**
+   * Migration stage that this database is in
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly stage?: DatabaseMigrationStage;
+  /**
+   * Status message
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusMessage?: string;
+  /**
+   * Migration progress message
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Number of objects
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfObjects?: number;
+  /**
+   * Number of successfully completed objects
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfObjectsCompleted?: number;
+  /**
+   * Number of database/object errors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorCount?: number;
+  /**
+   * Wildcard string prefix to use for querying all errors of the item
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorPrefix?: string;
+  /**
+   * Wildcard string prefix to use for querying all sub-tem results of the item
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultPrefix?: string;
+  /**
+   * Migration exceptions and warnings.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly exceptionsAndWarnings?: ReportableException[];
+  /**
+   * Summary of object results in the migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly objectSummary?: string;
+}
+
+export interface MigrateSqlServerSqlDbTaskOutputTableLevel
+  extends MigrateSqlServerSqlDbTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "TableLevelOutput";
+  /**
+   * Name of the item
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly objectName?: string;
+  /**
+   * Migration start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Migration end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /**
+   * Current state of migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: MigrationState;
+  /**
+   * Status message
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusMessage?: string;
+  /**
+   * Number of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly itemsCount?: number;
+  /**
+   * Number of successfully completed items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly itemsCompletedCount?: number;
+  /**
+   * Wildcard string prefix to use for querying all errors of the item
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorPrefix?: string;
+  /**
+   * Wildcard string prefix to use for querying all sub-tem results of the item
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultPrefix?: string;
+}
+
+export interface MigrateSqlServerSqlDbTaskOutputError
+  extends MigrateSqlServerSqlDbTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "ErrorOutput";
+  /**
+   * Migration error
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ReportableException;
+}
+
+export interface MigrateSqlServerSqlDbTaskOutputValidationResult
+  extends MigrateSqlServerSqlDbTaskOutput,
+    MigrationValidationResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "MigrationValidationOutput";
+}
+
+export interface MigrateSqlServerSqlDbTaskOutputDatabaseLevelValidationResult
+  extends MigrateSqlServerSqlDbTaskOutput,
+    MigrationValidationDatabaseLevelResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "MigrationDatabaseLevelValidationOutput";
+}
+
+export interface MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel
+  extends MigrateSqlServerSqlDbSyncTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "MigrationLevelOutput";
+  /**
+   * Migration start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Migration end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /**
+   * Source server version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceServerVersion?: string;
+  /**
+   * Source server name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceServer?: string;
+  /**
+   * Target server version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServerVersion?: string;
+  /**
+   * Target server name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServer?: string;
+  /**
+   * Count of databases
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseCount?: number;
+}
+
+export interface MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel
+  extends MigrateSqlServerSqlDbSyncTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "DatabaseLevelOutput";
+  /**
+   * Name of the database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseName?: string;
+  /**
+   * Migration start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Migration end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /**
+   * Migration state that this database is in
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationState?: SyncDatabaseMigrationReportingState;
+  /**
+   * Number of incoming changes
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly incomingChanges?: number;
+  /**
+   * Number of applied changes
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly appliedChanges?: number;
+  /**
+   * Number of cdc inserts
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cdcInsertCounter?: number;
+  /**
+   * Number of cdc deletes
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cdcDeleteCounter?: number;
+  /**
+   * Number of cdc updates
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cdcUpdateCounter?: number;
+  /**
+   * Number of tables completed in full load
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullLoadCompletedTables?: number;
+  /**
+   * Number of tables loading in full load
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullLoadLoadingTables?: number;
+  /**
+   * Number of tables queued in full load
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullLoadQueuedTables?: number;
+  /**
+   * Number of tables errored in full load
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullLoadErroredTables?: number;
+  /**
+   * Indicates if initial load (full load) has been completed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly initializationCompleted?: boolean;
+  /**
+   * CDC apply latency
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly latency?: number;
+}
+
+export interface MigrateSqlServerSqlDbSyncTaskOutputTableLevel
+  extends MigrateSqlServerSqlDbSyncTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "TableLevelOutput";
+  /**
+   * Name of the table
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tableName?: string;
+  /**
+   * Name of the database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseName?: string;
+  /**
+   * Number of applied inserts
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cdcInsertCounter?: number;
+  /**
+   * Number of applied updates
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cdcUpdateCounter?: number;
+  /**
+   * Number of applied deletes
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cdcDeleteCounter?: number;
+  /**
+   * Estimate to finish full load
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullLoadEstFinishTime?: Date;
+  /**
+   * Full load start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullLoadStartedOn?: Date;
+  /**
+   * Full load end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullLoadEndedOn?: Date;
+  /**
+   * Number of rows applied in full load
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullLoadTotalRows?: number;
+  /**
+   * Current state of the table migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: SyncTableMigrationState;
+  /**
+   * Total number of applied changes
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalChangesApplied?: number;
+  /**
+   * Number of data errors occurred
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataErrorsCounter?: number;
+  /**
+   * Last modified time on target
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedTime?: Date;
+}
+
+export interface MigrateSqlServerSqlDbSyncTaskOutputError
+  extends MigrateSqlServerSqlDbSyncTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "ErrorOutput";
+  /**
+   * Migration error
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ReportableException;
+}
+
+export interface MigrateSqlServerSqlDbSyncTaskOutputDatabaseError
+  extends MigrateSqlServerSqlDbSyncTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "DatabaseLevelErrorOutput";
+  /** Error message */
+  errorMessage?: string;
+  /** List of error events. */
+  events?: SyncMigrationDatabaseErrorEvent[];
+}
+
 export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel
   extends MigrateMySqlAzureDbForMySqlSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "MigrationLevelOutput";
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly migrationType?: "InitialLoad";
   /**
    * Migration start time
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4573,6 +5788,321 @@ export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError
   errorMessage?: string;
   /** List of error events. */
   events?: SyncMigrationDatabaseErrorEvent[];
+}
+
+export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevelV2
+  extends MigrateMySqlAzureDbForMySqlSyncTaskOutput,
+    MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutputMigrationLevel {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "MigrationLevelOutput";
+}
+
+export interface MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutputMigrationLevel
+  extends MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "MigrationLevelOutput" | "MigrationLevelOutput";
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly migrationType?: "Cdc";
+  /**
+   * Migration start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Migration end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /**
+   * Current status of migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: MigrationStatus;
+  /**
+   * Source server version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceServerVersion?: string;
+  /**
+   * Target server version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServerVersion?: string;
+  /**
+   * Last time the migration status storage was updated
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastStorageUpdate?: Date;
+  /**
+   * Migration Identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationId?: string;
+  /**
+   * Indicates that the migration has server level error
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hasServerLevelError?: boolean;
+  /**
+   * Retrying summary
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly retryingSummary?: Record<string, unknown>;
+  /**
+   * Total amount of time during the migration where operations were impacted by transient errors
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalRetryingTime?: string;
+  /**
+   * Total number of retries that have occurred due to transient errors raised by the source server
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalSourceRetryCount?: number;
+  /**
+   * Total number of retries that have occurred due to transient errors raised by the target server
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalTargetRetryCount?: number;
+  /**
+   * Total number of retries that have occurred due to transient errors raised by the unknown source
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalOtherRetryCount?: number;
+  /**
+   * Migration progress
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly continuousDataMovementProgress?: MySqlContinuousDataMovementProgress;
+}
+
+export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel
+  extends MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "MigrationLevelOutput";
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly migrationType?: "InitialLoad";
+  /**
+   * Migration start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Migration end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /**
+   * Duration of task execution in seconds.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly durationInSeconds?: number;
+  /**
+   * Current status of migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: MigrationStatus;
+  /**
+   * Migration status message
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusMessage?: string;
+  /**
+   * Migration progress message
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /** Selected databases as a map from database name to database id */
+  databases?: string;
+  /**
+   * Summary of database results in the migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseSummary?: string;
+  /** Migration Report Result, provides unique url for downloading your migration report. */
+  migrationReportResult?: MigrationReportResult;
+  /**
+   * Source server version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceServerVersion?: string;
+  /**
+   * Source server brand version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceServerBrandVersion?: string;
+  /**
+   * Target server version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServerVersion?: string;
+  /**
+   * Target server brand version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetServerBrandVersion?: string;
+  /**
+   * Migration exceptions and warnings.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly exceptionsAndWarnings?: ReportableException[];
+  /**
+   * Last time the storage was updated
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastStorageUpdate?: Date;
+  /**
+   * The binlog position when the consistent snapshot was taken. Only returned when consistent backup is enabled in the migration inputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceBinlogPosition?: MySqlBinlogPositionOutput;
+}
+
+export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel
+  extends MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "DatabaseLevelOutput";
+  /**
+   * Name of the database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseName?: string;
+  /**
+   * Database migration start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Database migration end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /**
+   * Current state of migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: MigrationState;
+  /**
+   * Migration stage that this database is in
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly stage?: DatabaseMigrationStage;
+  /**
+   * Status message
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusMessage?: string;
+  /**
+   * Migration progress message
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Number of objects
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfObjects?: number;
+  /**
+   * Number of successfully completed objects
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfObjectsCompleted?: number;
+  /**
+   * Number of database/object errors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorCount?: number;
+  /**
+   * Wildcard string prefix to use for querying all errors of the item
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorPrefix?: string;
+  /**
+   * Wildcard string prefix to use for querying all sub-tem results of the item
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultPrefix?: string;
+  /**
+   * Migration exceptions and warnings.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly exceptionsAndWarnings?: ReportableException[];
+  /**
+   * Last time the storage was updated
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastStorageUpdate?: Date;
+  /**
+   * Summary of object results in the migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly objectSummary?: string;
+}
+
+export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel
+  extends MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "TableLevelOutput";
+  /**
+   * Table name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly objectName?: string;
+  /**
+   * Table migration start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedOn?: Date;
+  /**
+   * Table migration end time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endedOn?: Date;
+  /**
+   * Current state of migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: MigrationState;
+  /**
+   * Status message
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusMessage?: string;
+  /**
+   * Number of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly itemsCount?: number;
+  /**
+   * Number of successfully completed items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly itemsCompletedCount?: number;
+  /**
+   * Wildcard string prefix to use for querying all errors of the item
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorPrefix?: string;
+  /**
+   * Wildcard string prefix to use for querying all sub-tem results of the item
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultPrefix?: string;
+  /**
+   * Last time the storage was updated
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastStorageUpdate?: Date;
+}
+
+export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputError
+  extends MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resultType: "ErrorOutput";
+  /**
+   * Migration error
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ReportableException;
 }
 
 export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel
@@ -4803,817 +6333,6 @@ export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseErro
   events?: SyncMigrationDatabaseErrorEvent[];
 }
 
-export interface MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel
-  extends MigrateSqlServerSqlDbSyncTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "MigrationLevelOutput";
-  /**
-   * Migration start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Migration end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /**
-   * Source server version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceServerVersion?: string;
-  /**
-   * Source server name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceServer?: string;
-  /**
-   * Target server version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerVersion?: string;
-  /**
-   * Target server name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServer?: string;
-  /**
-   * Count of databases
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseCount?: number;
-}
-
-export interface MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel
-  extends MigrateSqlServerSqlDbSyncTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "DatabaseLevelOutput";
-  /**
-   * Name of the database
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseName?: string;
-  /**
-   * Migration start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Migration end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /**
-   * Migration state that this database is in
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly migrationState?: SyncDatabaseMigrationReportingState;
-  /**
-   * Number of incoming changes
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly incomingChanges?: number;
-  /**
-   * Number of applied changes
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly appliedChanges?: number;
-  /**
-   * Number of cdc inserts
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cdcInsertCounter?: number;
-  /**
-   * Number of cdc deletes
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cdcDeleteCounter?: number;
-  /**
-   * Number of cdc updates
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cdcUpdateCounter?: number;
-  /**
-   * Number of tables completed in full load
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fullLoadCompletedTables?: number;
-  /**
-   * Number of tables loading in full load
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fullLoadLoadingTables?: number;
-  /**
-   * Number of tables queued in full load
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fullLoadQueuedTables?: number;
-  /**
-   * Number of tables errored in full load
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fullLoadErroredTables?: number;
-  /**
-   * Indicates if initial load (full load) has been completed
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly initializationCompleted?: boolean;
-  /**
-   * CDC apply latency
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly latency?: number;
-}
-
-export interface MigrateSqlServerSqlDbSyncTaskOutputTableLevel
-  extends MigrateSqlServerSqlDbSyncTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "TableLevelOutput";
-  /**
-   * Name of the table
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tableName?: string;
-  /**
-   * Name of the database
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseName?: string;
-  /**
-   * Number of applied inserts
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cdcInsertCounter?: number;
-  /**
-   * Number of applied updates
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cdcUpdateCounter?: number;
-  /**
-   * Number of applied deletes
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cdcDeleteCounter?: number;
-  /**
-   * Estimate to finish full load
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fullLoadEstFinishTime?: Date;
-  /**
-   * Full load start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fullLoadStartedOn?: Date;
-  /**
-   * Full load end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fullLoadEndedOn?: Date;
-  /**
-   * Number of rows applied in full load
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fullLoadTotalRows?: number;
-  /**
-   * Current state of the table migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: SyncTableMigrationState;
-  /**
-   * Total number of applied changes
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalChangesApplied?: number;
-  /**
-   * Number of data errors occurred
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dataErrorsCounter?: number;
-  /**
-   * Last modified time on target
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastModifiedTime?: Date;
-}
-
-export interface MigrateSqlServerSqlDbSyncTaskOutputError
-  extends MigrateSqlServerSqlDbSyncTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "ErrorOutput";
-  /**
-   * Migration error
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly error?: ReportableException;
-}
-
-export interface MigrateSqlServerSqlDbSyncTaskOutputDatabaseError
-  extends MigrateSqlServerSqlDbSyncTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "DatabaseLevelErrorOutput";
-  /** Error message */
-  errorMessage?: string;
-  /** List of error events. */
-  events?: SyncMigrationDatabaseErrorEvent[];
-}
-
-export interface MigrateSqlServerSqlDbTaskOutputMigrationLevel
-  extends MigrateSqlServerSqlDbTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "MigrationLevelOutput";
-  /**
-   * Migration start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Migration end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /**
-   * Duration of task execution in seconds.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly durationInSeconds?: number;
-  /**
-   * Current status of migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: MigrationStatus;
-  /**
-   * Migration status message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusMessage?: string;
-  /**
-   * Migration progress message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * Selected databases as a map from database name to database id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databases?: string;
-  /**
-   * Summary of database results in the migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseSummary?: string;
-  /** Migration Validation Results */
-  migrationValidationResult?: MigrationValidationResult;
-  /** Migration Report Result, provides unique url for downloading your migration report. */
-  migrationReportResult?: MigrationReportResult;
-  /**
-   * Source server version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceServerVersion?: string;
-  /**
-   * Source server brand version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceServerBrandVersion?: string;
-  /**
-   * Target server version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerVersion?: string;
-  /**
-   * Target server brand version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerBrandVersion?: string;
-  /**
-   * Migration exceptions and warnings.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly exceptionsAndWarnings?: ReportableException[];
-}
-
-export interface MigrateSqlServerSqlDbTaskOutputDatabaseLevel
-  extends MigrateSqlServerSqlDbTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "DatabaseLevelOutput";
-  /**
-   * Name of the item
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseName?: string;
-  /**
-   * Migration start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Migration end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /**
-   * Current state of migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: MigrationState;
-  /**
-   * Migration stage that this database is in
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly stage?: DatabaseMigrationStage;
-  /**
-   * Status message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusMessage?: string;
-  /**
-   * Migration progress message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * Number of objects
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly numberOfObjects?: number;
-  /**
-   * Number of successfully completed objects
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly numberOfObjectsCompleted?: number;
-  /**
-   * Number of database/object errors.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errorCount?: number;
-  /**
-   * Wildcard string prefix to use for querying all errors of the item
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errorPrefix?: string;
-  /**
-   * Wildcard string prefix to use for querying all sub-tem results of the item
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultPrefix?: string;
-  /**
-   * Migration exceptions and warnings.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly exceptionsAndWarnings?: ReportableException[];
-  /**
-   * Summary of object results in the migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly objectSummary?: string;
-}
-
-export interface MigrateSqlServerSqlDbTaskOutputTableLevel
-  extends MigrateSqlServerSqlDbTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "TableLevelOutput";
-  /**
-   * Name of the item
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly objectName?: string;
-  /**
-   * Migration start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Migration end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /**
-   * Current state of migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: MigrationState;
-  /**
-   * Status message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusMessage?: string;
-  /**
-   * Number of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly itemsCount?: number;
-  /**
-   * Number of successfully completed items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly itemsCompletedCount?: number;
-  /**
-   * Wildcard string prefix to use for querying all errors of the item
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errorPrefix?: string;
-  /**
-   * Wildcard string prefix to use for querying all sub-tem results of the item
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultPrefix?: string;
-}
-
-export interface MigrateSqlServerSqlDbTaskOutputError
-  extends MigrateSqlServerSqlDbTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "ErrorOutput";
-  /**
-   * Migration error
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly error?: ReportableException;
-}
-
-export interface MigrateSqlServerSqlDbTaskOutputValidationResult
-  extends MigrateSqlServerSqlDbTaskOutput,
-    MigrationValidationResult {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "MigrationValidationOutput";
-}
-
-export interface MigrateSqlServerSqlDbTaskOutputDatabaseLevelValidationResult
-  extends MigrateSqlServerSqlDbTaskOutput,
-    MigrationValidationDatabaseLevelResult {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "MigrationDatabaseLevelValidationOutput";
-}
-
-/** Summary of database results in the migration */
-export interface DatabaseSummaryResult extends DataItemMigrationSummaryResult {
-  /**
-   * Size of the database in megabytes
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sizeMB?: number;
-}
-
-/** Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance online scenario. */
-export interface MigrateSqlServerSqlMISyncTaskInput
-  extends SqlServerSqlMISyncTaskInput {}
-
-/** Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance online scenario. */
-export interface ValidateMigrationInputSqlServerSqlMISyncTaskInput
-  extends SqlServerSqlMISyncTaskInput {}
-
-export interface MigrateSqlServerSqlMISyncTaskOutputMigrationLevel
-  extends MigrateSqlServerSqlMISyncTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "MigrationLevelOutput";
-  /**
-   * Count of databases
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseCount?: number;
-  /**
-   * Current state of migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: MigrationState;
-  /**
-   * Migration start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Migration end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /**
-   * Source server name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceServerName?: string;
-  /**
-   * Source server version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceServerVersion?: string;
-  /**
-   * Source server brand version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceServerBrandVersion?: string;
-  /**
-   * Target server name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerName?: string;
-  /**
-   * Target server version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerVersion?: string;
-  /**
-   * Target server brand version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerBrandVersion?: string;
-  /**
-   * Number of database level errors
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseErrorCount?: number;
-}
-
-export interface MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel
-  extends MigrateSqlServerSqlMISyncTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "DatabaseLevelOutput";
-  /**
-   * Name of the database
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceDatabaseName?: string;
-  /**
-   * Current state of database
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly migrationState?: DatabaseMigrationState;
-  /**
-   * Database migration start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Database migration end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /**
-   * Details of full backup set
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fullBackupSetInfo?: BackupSetInfo;
-  /**
-   * Last applied backup set information
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastRestoredBackupSetInfo?: BackupSetInfo;
-  /**
-   * Backup sets that are currently active (Either being uploaded or getting restored)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly activeBackupSets?: BackupSetInfo[];
-  /**
-   * Name of container created in the Azure Storage account where backups are copied to
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly containerName?: string;
-  /**
-   * prefix string to use for querying errors for this database
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errorPrefix?: string;
-  /**
-   * Whether full backup has been applied to the target database or not
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isFullBackupRestored?: boolean;
-  /**
-   * Migration exceptions and warnings
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly exceptionsAndWarnings?: ReportableException[];
-}
-
-export interface MigrateSqlServerSqlMISyncTaskOutputError
-  extends MigrateSqlServerSqlMISyncTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "ErrorOutput";
-  /**
-   * Migration error
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly error?: ReportableException;
-}
-
-export interface MigrateSqlServerSqlMITaskOutputMigrationLevel
-  extends MigrateSqlServerSqlMITaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "MigrationLevelOutput";
-  /**
-   * Migration start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Migration end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /**
-   * Current status of migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: MigrationStatus;
-  /**
-   * Current state of migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: MigrationState;
-  /**
-   * Selected agent jobs as a map from name to id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly agentJobs?: string;
-  /**
-   * Selected logins as a map from name to id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly logins?: string;
-  /**
-   * Migration progress message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * Map of server role migration results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverRoleResults?: string;
-  /**
-   * List of orphaned users.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly orphanedUsersInfo?: OrphanedUserInfo[];
-  /**
-   * Selected databases as a map from database name to database id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databases?: string;
-  /**
-   * Source server version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceServerVersion?: string;
-  /**
-   * Source server brand version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceServerBrandVersion?: string;
-  /**
-   * Target server version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerVersion?: string;
-  /**
-   * Target server brand version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerBrandVersion?: string;
-  /**
-   * Migration exceptions and warnings.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly exceptionsAndWarnings?: ReportableException[];
-}
-
-export interface MigrateSqlServerSqlMITaskOutputDatabaseLevel
-  extends MigrateSqlServerSqlMITaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "DatabaseLevelOutput";
-  /**
-   * Name of the database
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseName?: string;
-  /**
-   * Size of the database in megabytes
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sizeMB?: number;
-  /**
-   * Current state of migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: MigrationState;
-  /**
-   * Current stage of migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly stage?: DatabaseMigrationStage;
-  /**
-   * Migration start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Migration end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /**
-   * Migration progress message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * Migration exceptions and warnings
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly exceptionsAndWarnings?: ReportableException[];
-}
-
-export interface MigrateSqlServerSqlMITaskOutputAgentJobLevel
-  extends MigrateSqlServerSqlMITaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "AgentJobLevelOutput";
-  /**
-   * Agent Job name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The state of the original Agent Job.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isEnabled?: boolean;
-  /**
-   * Current state of migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: MigrationState;
-  /**
-   * Migration start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Migration end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /**
-   * Migration progress message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * Migration errors and warnings per job
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly exceptionsAndWarnings?: ReportableException[];
-}
-
-export interface MigrateSqlServerSqlMITaskOutputLoginLevel
-  extends MigrateSqlServerSqlMITaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "LoginLevelOutput";
-  /**
-   * Login name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly loginName?: string;
-  /**
-   * Current state of login
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: MigrationState;
-  /**
-   * Current stage of login
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly stage?: LoginMigrationStage;
-  /**
-   * Login migration start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Login migration end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /**
-   * Login migration progress message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * Login migration errors and warnings per login
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly exceptionsAndWarnings?: ReportableException[];
-}
-
-export interface MigrateSqlServerSqlMITaskOutputError
-  extends MigrateSqlServerSqlMITaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "ErrorOutput";
-  /**
-   * Migration error
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly error?: ReportableException;
-}
-
 export interface MigrateSsisTaskOutputMigrationLevel
   extends MigrateSsisTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -5716,492 +6435,6 @@ export interface MigrateSsisTaskOutputProjectLevel
   readonly exceptionsAndWarnings?: ReportableException[];
 }
 
-/** Describes the input to the 'finish' MongoDB migration command */
-export interface MongoDbFinishCommandInput extends MongoDbCommandInput {
-  /** If true, replication for the affected objects will be stopped immediately. If false, the migrator will finish replaying queued events before finishing the replication. */
-  immediate: boolean;
-}
-
-/** Describes a supported collection within a MongoDB database */
-export interface MongoDbCollectionInfo extends MongoDbObjectInfo {
-  /** The name of the database containing the collection */
-  databaseName: string;
-  /** Whether the collection is a capped collection (i.e. whether it has a fixed size and acts like a circular buffer) */
-  isCapped: boolean;
-  /** Whether the collection is system collection */
-  isSystemCollection: boolean;
-  /** Whether the collection is a view of another collection */
-  isView: boolean;
-  /** The shard key on the collection, or null if the collection is not sharded */
-  shardKey?: MongoDbShardKeyInfo;
-  /** Whether the database has sharding enabled. Note that the migration task will enable sharding on the target if necessary. */
-  supportsSharding: boolean;
-  /** The name of the collection that this is a view of, if IsView is true */
-  viewOf?: string;
-}
-
-/** Describes a database within a MongoDB data source */
-export interface MongoDbDatabaseInfo extends MongoDbObjectInfo {
-  /** A list of supported collections in a MongoDB database */
-  collections: MongoDbCollectionInfo[];
-  /** Whether the database has sharding enabled. Note that the migration task will enable sharding on the target if necessary. */
-  supportsSharding: boolean;
-}
-
-/** Describes the progress of a collection */
-export interface MongoDbCollectionProgress extends MongoDbProgress {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "Collection";
-}
-
-/** Describes the progress of a database */
-export interface MongoDbDatabaseProgress extends MongoDbProgress {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "Database";
-  /** The progress of the collections in the database. The keys are the unqualified names of the collections */
-  collections?: { [propertyName: string]: MongoDbCollectionProgress };
-}
-
-/** Describes the progress of the overall migration */
-export interface MongoDbMigrationProgress extends MongoDbProgress {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "Migration";
-  /** The progress of the databases in the migration. The keys are the names of the databases */
-  databases?: { [propertyName: string]: MongoDbDatabaseProgress };
-}
-
-export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel
-  extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "MigrationLevelOutput";
-  /**
-   * Migration start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Migration end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /**
-   * Source server version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceServerVersion?: string;
-  /**
-   * Source server name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceServer?: string;
-  /**
-   * Target server version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerVersion?: string;
-  /**
-   * Target server name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServer?: string;
-}
-
-export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel
-  extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "DatabaseLevelOutput";
-  /**
-   * Name of the database
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseName?: string;
-  /**
-   * Migration start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Migration end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /**
-   * Migration state that this database is in
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly migrationState?: SyncDatabaseMigrationReportingState;
-  /**
-   * Number of incoming changes
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly incomingChanges?: number;
-  /**
-   * Number of applied changes
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly appliedChanges?: number;
-  /**
-   * Number of cdc inserts
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cdcInsertCounter?: number;
-  /**
-   * Number of cdc deletes
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cdcDeleteCounter?: number;
-  /**
-   * Number of cdc updates
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cdcUpdateCounter?: number;
-  /**
-   * Number of tables completed in full load
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fullLoadCompletedTables?: number;
-  /**
-   * Number of tables loading in full load
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fullLoadLoadingTables?: number;
-  /**
-   * Number of tables queued in full load
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fullLoadQueuedTables?: number;
-  /**
-   * Number of tables errored in full load
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fullLoadErroredTables?: number;
-  /**
-   * Indicates if initial load (full load) has been completed
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly initializationCompleted?: boolean;
-  /**
-   * CDC apply latency
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly latency?: number;
-}
-
-export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel
-  extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "TableLevelOutput";
-  /**
-   * Name of the table
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tableName?: string;
-  /**
-   * Name of the database
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseName?: string;
-  /**
-   * Number of applied inserts
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cdcInsertCounter?: number;
-  /**
-   * Number of applied updates
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cdcUpdateCounter?: number;
-  /**
-   * Number of applied deletes
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cdcDeleteCounter?: number;
-  /**
-   * Estimate to finish full load
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fullLoadEstFinishTime?: Date;
-  /**
-   * Full load start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fullLoadStartedOn?: Date;
-  /**
-   * Full load end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fullLoadEndedOn?: Date;
-  /**
-   * Number of rows applied in full load
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fullLoadTotalRows?: number;
-  /**
-   * Current state of the table migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: SyncTableMigrationState;
-  /**
-   * Total number of applied changes
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalChangesApplied?: number;
-  /**
-   * Number of data errors occurred
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dataErrorsCounter?: number;
-  /**
-   * Last modified time on target
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastModifiedTime?: Date;
-}
-
-export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputError
-  extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "ErrorOutput";
-  /**
-   * Migration error
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly error?: ReportableException;
-}
-
-export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError
-  extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "DatabaseLevelErrorOutput";
-  /** Error message */
-  errorMessage?: string;
-  /** List of error events. */
-  events?: SyncMigrationDatabaseErrorEvent[];
-}
-
-export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel
-  extends MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "MigrationLevelOutput";
-  /**
-   * Migration start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Migration end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /**
-   * Duration of task execution in seconds.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly durationInSeconds?: number;
-  /**
-   * Current status of migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: MigrationStatus;
-  /**
-   * Migration status message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusMessage?: string;
-  /**
-   * Migration progress message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /** Selected databases as a map from database name to database id */
-  databases?: string;
-  /**
-   * Summary of database results in the migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseSummary?: string;
-  /** Migration Report Result, provides unique url for downloading your migration report. */
-  migrationReportResult?: MigrationReportResult;
-  /**
-   * Source server version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceServerVersion?: string;
-  /**
-   * Source server brand version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceServerBrandVersion?: string;
-  /**
-   * Target server version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerVersion?: string;
-  /**
-   * Target server brand version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetServerBrandVersion?: string;
-  /**
-   * Migration exceptions and warnings.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly exceptionsAndWarnings?: ReportableException[];
-  /**
-   * Last time the storage was updated
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastStorageUpdate?: Date;
-}
-
-export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel
-  extends MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "DatabaseLevelOutput";
-  /**
-   * Name of the database
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseName?: string;
-  /**
-   * Migration start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Migration end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /**
-   * Current state of migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: MigrationState;
-  /**
-   * Migration stage that this database is in
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly stage?: DatabaseMigrationStage;
-  /**
-   * Status message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusMessage?: string;
-  /**
-   * Migration progress message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * Number of objects
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly numberOfObjects?: number;
-  /**
-   * Number of successfully completed objects
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly numberOfObjectsCompleted?: number;
-  /**
-   * Number of database/object errors.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errorCount?: number;
-  /**
-   * Wildcard string prefix to use for querying all errors of the item
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errorPrefix?: string;
-  /**
-   * Wildcard string prefix to use for querying all sub-tem results of the item
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultPrefix?: string;
-  /**
-   * Migration exceptions and warnings.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly exceptionsAndWarnings?: ReportableException[];
-  /**
-   * Last time the storage was updated
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastStorageUpdate?: Date;
-  /**
-   * Summary of object results in the migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly objectSummary?: string;
-}
-
-export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel
-  extends MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "TableLevelOutput";
-  /**
-   * Name of the item
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly objectName?: string;
-  /**
-   * Migration start time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedOn?: Date;
-  /**
-   * Migration end time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endedOn?: Date;
-  /**
-   * Current state of migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: MigrationState;
-  /**
-   * Status message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusMessage?: string;
-  /**
-   * Number of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly itemsCount?: number;
-  /**
-   * Number of successfully completed items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly itemsCompletedCount?: number;
-  /**
-   * Wildcard string prefix to use for querying all errors of the item
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errorPrefix?: string;
-  /**
-   * Wildcard string prefix to use for querying all sub-tem results of the item
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultPrefix?: string;
-  /**
-   * Last time the storage was updated
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastStorageUpdate?: Date;
-}
-
-export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputError
-  extends MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resultType: "ErrorOutput";
-  /**
-   * Migration error
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly error?: ReportableException;
-}
-
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -6231,7 +6464,9 @@ export enum KnownResourceType {
   /** SqlMi */
   SqlMi = "SqlMi",
   /** SqlVm */
-  SqlVm = "SqlVm"
+  SqlVm = "SqlVm",
+  /** SqlDb */
+  SqlDb = "SqlDb"
 }
 
 /**
@@ -6240,7 +6475,8 @@ export enum KnownResourceType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **SqlMi** \
- * **SqlVm**
+ * **SqlVm** \
+ * **SqlDb**
  */
 export type ResourceType = string;
 
@@ -6427,6 +6663,8 @@ export enum KnownTaskType {
   MigrateSqlServerSqlDb = "Migrate.SqlServer.SqlDb",
   /** MigrateSqlServerAzureSqlDbSync */
   MigrateSqlServerAzureSqlDbSync = "Migrate.SqlServer.AzureSqlDb.Sync",
+  /** MigrateMySqlAzureDbForMySqlReplicateChanges */
+  MigrateMySqlAzureDbForMySqlReplicateChanges = "Migrate.MySql.AzureDbForMySql.ReplicateChanges",
   /** MigrateMySqlAzureDbForMySqlSync */
   MigrateMySqlAzureDbForMySqlSync = "Migrate.MySql.AzureDbForMySql.Sync",
   /** MigrateMySqlAzureDbForMySql */
@@ -6487,6 +6725,7 @@ export enum KnownTaskType {
  * **Migrate.SqlServer.AzureSqlDbMI.Sync.LRS** \
  * **Migrate.SqlServer.SqlDb** \
  * **Migrate.SqlServer.AzureSqlDb.Sync** \
+ * **Migrate.MySql.AzureDbForMySql.ReplicateChanges** \
  * **Migrate.MySql.AzureDbForMySql.Sync** \
  * **Migrate.MySql.AzureDbForMySql** \
  * **Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2** \
@@ -6688,6 +6927,27 @@ export enum KnownProjectProvisioningState {
  */
 export type ProjectProvisioningState = string;
 
+/** Known values of {@link SchemaMigrationOption} that the service accepts. */
+export enum KnownSchemaMigrationOption {
+  /** None */
+  None = "None",
+  /** ExtractFromSource */
+  ExtractFromSource = "ExtractFromSource",
+  /** UseStorageFile */
+  UseStorageFile = "UseStorageFile"
+}
+
+/**
+ * Defines values for SchemaMigrationOption. \
+ * {@link KnownSchemaMigrationOption} can be used interchangeably with SchemaMigrationOption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **ExtractFromSource** \
+ * **UseStorageFile**
+ */
+export type SchemaMigrationOption = string;
+
 /** Known values of {@link AuthenticationType} that the service accepts. */
 export enum KnownAuthenticationType {
   /** None */
@@ -6729,243 +6989,6 @@ export enum KnownSqlSourcePlatform {
  * **SqlOnPrem**
  */
 export type SqlSourcePlatform = string;
-
-/** Known values of {@link BackupType} that the service accepts. */
-export enum KnownBackupType {
-  /** Database */
-  Database = "Database",
-  /** TransactionLog */
-  TransactionLog = "TransactionLog",
-  /** File */
-  File = "File",
-  /** DifferentialDatabase */
-  DifferentialDatabase = "DifferentialDatabase",
-  /** DifferentialFile */
-  DifferentialFile = "DifferentialFile",
-  /** Partial */
-  Partial = "Partial",
-  /** DifferentialPartial */
-  DifferentialPartial = "DifferentialPartial"
-}
-
-/**
- * Defines values for BackupType. \
- * {@link KnownBackupType} can be used interchangeably with BackupType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Database** \
- * **TransactionLog** \
- * **File** \
- * **DifferentialDatabase** \
- * **DifferentialFile** \
- * **Partial** \
- * **DifferentialPartial**
- */
-export type BackupType = string;
-
-/** Known values of {@link BackupFileStatus} that the service accepts. */
-export enum KnownBackupFileStatus {
-  /** Arrived */
-  Arrived = "Arrived",
-  /** Queued */
-  Queued = "Queued",
-  /** Uploading */
-  Uploading = "Uploading",
-  /** Uploaded */
-  Uploaded = "Uploaded",
-  /** Restoring */
-  Restoring = "Restoring",
-  /** Restored */
-  Restored = "Restored",
-  /** Cancelled */
-  Cancelled = "Cancelled"
-}
-
-/**
- * Defines values for BackupFileStatus. \
- * {@link KnownBackupFileStatus} can be used interchangeably with BackupFileStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Arrived** \
- * **Queued** \
- * **Uploading** \
- * **Uploaded** \
- * **Restoring** \
- * **Restored** \
- * **Cancelled**
- */
-export type BackupFileStatus = string;
-
-/** Known values of {@link MySqlTargetPlatformType} that the service accepts. */
-export enum KnownMySqlTargetPlatformType {
-  /** SqlServer */
-  SqlServer = "SqlServer",
-  /** AzureDbForMySQL */
-  AzureDbForMySQL = "AzureDbForMySQL"
-}
-
-/**
- * Defines values for MySqlTargetPlatformType. \
- * {@link KnownMySqlTargetPlatformType} can be used interchangeably with MySqlTargetPlatformType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SqlServer** \
- * **AzureDbForMySQL**
- */
-export type MySqlTargetPlatformType = string;
-
-/** Known values of {@link DatabaseFileType} that the service accepts. */
-export enum KnownDatabaseFileType {
-  /** Rows */
-  Rows = "Rows",
-  /** Log */
-  Log = "Log",
-  /** Filestream */
-  Filestream = "Filestream",
-  /** NotSupported */
-  NotSupported = "NotSupported",
-  /** Fulltext */
-  Fulltext = "Fulltext"
-}
-
-/**
- * Defines values for DatabaseFileType. \
- * {@link KnownDatabaseFileType} can be used interchangeably with DatabaseFileType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Rows** \
- * **Log** \
- * **Filestream** \
- * **NotSupported** \
- * **Fulltext**
- */
-export type DatabaseFileType = string;
-
-/** Known values of {@link DatabaseCompatLevel} that the service accepts. */
-export enum KnownDatabaseCompatLevel {
-  /** CompatLevel80 */
-  CompatLevel80 = "CompatLevel80",
-  /** CompatLevel90 */
-  CompatLevel90 = "CompatLevel90",
-  /** CompatLevel100 */
-  CompatLevel100 = "CompatLevel100",
-  /** CompatLevel110 */
-  CompatLevel110 = "CompatLevel110",
-  /** CompatLevel120 */
-  CompatLevel120 = "CompatLevel120",
-  /** CompatLevel130 */
-  CompatLevel130 = "CompatLevel130",
-  /** CompatLevel140 */
-  CompatLevel140 = "CompatLevel140"
-}
-
-/**
- * Defines values for DatabaseCompatLevel. \
- * {@link KnownDatabaseCompatLevel} can be used interchangeably with DatabaseCompatLevel,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **CompatLevel80** \
- * **CompatLevel90** \
- * **CompatLevel100** \
- * **CompatLevel110** \
- * **CompatLevel120** \
- * **CompatLevel130** \
- * **CompatLevel140**
- */
-export type DatabaseCompatLevel = string;
-
-/** Known values of {@link DatabaseState} that the service accepts. */
-export enum KnownDatabaseState {
-  /** Online */
-  Online = "Online",
-  /** Restoring */
-  Restoring = "Restoring",
-  /** Recovering */
-  Recovering = "Recovering",
-  /** RecoveryPending */
-  RecoveryPending = "RecoveryPending",
-  /** Suspect */
-  Suspect = "Suspect",
-  /** Emergency */
-  Emergency = "Emergency",
-  /** Offline */
-  Offline = "Offline",
-  /** Copying */
-  Copying = "Copying",
-  /** OfflineSecondary */
-  OfflineSecondary = "OfflineSecondary"
-}
-
-/**
- * Defines values for DatabaseState. \
- * {@link KnownDatabaseState} can be used interchangeably with DatabaseState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Online** \
- * **Restoring** \
- * **Recovering** \
- * **RecoveryPending** \
- * **Suspect** \
- * **Emergency** \
- * **Offline** \
- * **Copying** \
- * **OfflineSecondary**
- */
-export type DatabaseState = string;
-
-/** Known values of {@link LoginType} that the service accepts. */
-export enum KnownLoginType {
-  /** WindowsUser */
-  WindowsUser = "WindowsUser",
-  /** WindowsGroup */
-  WindowsGroup = "WindowsGroup",
-  /** SqlLogin */
-  SqlLogin = "SqlLogin",
-  /** Certificate */
-  Certificate = "Certificate",
-  /** AsymmetricKey */
-  AsymmetricKey = "AsymmetricKey",
-  /** ExternalUser */
-  ExternalUser = "ExternalUser",
-  /** ExternalGroup */
-  ExternalGroup = "ExternalGroup"
-}
-
-/**
- * Defines values for LoginType. \
- * {@link KnownLoginType} can be used interchangeably with LoginType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **WindowsUser** \
- * **WindowsGroup** \
- * **SqlLogin** \
- * **Certificate** \
- * **AsymmetricKey** \
- * **ExternalUser** \
- * **ExternalGroup**
- */
-export type LoginType = string;
-
-/** Known values of {@link SchemaMigrationOption} that the service accepts. */
-export enum KnownSchemaMigrationOption {
-  /** None */
-  None = "None",
-  /** ExtractFromSource */
-  ExtractFromSource = "ExtractFromSource",
-  /** UseStorageFile */
-  UseStorageFile = "UseStorageFile"
-}
-
-/**
- * Defines values for SchemaMigrationOption. \
- * {@link KnownSchemaMigrationOption} can be used interchangeably with SchemaMigrationOption,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **ExtractFromSource** \
- * **UseStorageFile**
- */
-export type SchemaMigrationOption = string;
 
 /** Known values of {@link MigrationState} that the service accepts. */
 export enum KnownMigrationState {
@@ -7042,485 +7065,98 @@ export enum KnownSchemaMigrationStage {
  */
 export type SchemaMigrationStage = string;
 
-/** Known values of {@link SyncDatabaseMigrationReportingState} that the service accepts. */
-export enum KnownSyncDatabaseMigrationReportingState {
-  /** Undefined */
-  Undefined = "UNDEFINED",
-  /** Configuring */
-  Configuring = "CONFIGURING",
-  /** Initialiazing */
-  Initialiazing = "INITIALIAZING",
-  /** Starting */
-  Starting = "STARTING",
-  /** Running */
-  Running = "RUNNING",
-  /** ReadyTOComplete */
-  ReadyTOComplete = "READY_TO_COMPLETE",
-  /** Completing */
-  Completing = "COMPLETING",
-  /** Complete */
-  Complete = "COMPLETE",
-  /** Cancelling */
-  Cancelling = "CANCELLING",
+/** Known values of {@link BackupType} that the service accepts. */
+export enum KnownBackupType {
+  /** Database */
+  Database = "Database",
+  /** TransactionLog */
+  TransactionLog = "TransactionLog",
+  /** File */
+  File = "File",
+  /** DifferentialDatabase */
+  DifferentialDatabase = "DifferentialDatabase",
+  /** DifferentialFile */
+  DifferentialFile = "DifferentialFile",
+  /** Partial */
+  Partial = "Partial",
+  /** DifferentialPartial */
+  DifferentialPartial = "DifferentialPartial"
+}
+
+/**
+ * Defines values for BackupType. \
+ * {@link KnownBackupType} can be used interchangeably with BackupType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Database** \
+ * **TransactionLog** \
+ * **File** \
+ * **DifferentialDatabase** \
+ * **DifferentialFile** \
+ * **Partial** \
+ * **DifferentialPartial**
+ */
+export type BackupType = string;
+
+/** Known values of {@link BackupFileStatus} that the service accepts. */
+export enum KnownBackupFileStatus {
+  /** Arrived */
+  Arrived = "Arrived",
+  /** Queued */
+  Queued = "Queued",
+  /** Uploading */
+  Uploading = "Uploading",
+  /** Uploaded */
+  Uploaded = "Uploaded",
+  /** Restoring */
+  Restoring = "Restoring",
+  /** Restored */
+  Restored = "Restored",
   /** Cancelled */
-  Cancelled = "CANCELLED",
-  /** Failed */
-  Failed = "FAILED",
-  /** Validating */
-  Validating = "VALIDATING",
-  /** ValidationComplete */
-  ValidationComplete = "VALIDATION_COMPLETE",
-  /** ValidationFailed */
-  ValidationFailed = "VALIDATION_FAILED",
-  /** RestoreINProgress */
-  RestoreINProgress = "RESTORE_IN_PROGRESS",
-  /** RestoreCompleted */
-  RestoreCompleted = "RESTORE_COMPLETED",
-  /** BackupINProgress */
-  BackupINProgress = "BACKUP_IN_PROGRESS",
-  /** BackupCompleted */
-  BackupCompleted = "BACKUP_COMPLETED"
+  Cancelled = "Cancelled"
 }
 
 /**
- * Defines values for SyncDatabaseMigrationReportingState. \
- * {@link KnownSyncDatabaseMigrationReportingState} can be used interchangeably with SyncDatabaseMigrationReportingState,
+ * Defines values for BackupFileStatus. \
+ * {@link KnownBackupFileStatus} can be used interchangeably with BackupFileStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **UNDEFINED** \
- * **CONFIGURING** \
- * **INITIALIAZING** \
- * **STARTING** \
- * **RUNNING** \
- * **READY_TO_COMPLETE** \
- * **COMPLETING** \
- * **COMPLETE** \
- * **CANCELLING** \
- * **CANCELLED** \
- * **FAILED** \
- * **VALIDATING** \
- * **VALIDATION_COMPLETE** \
- * **VALIDATION_FAILED** \
- * **RESTORE_IN_PROGRESS** \
- * **RESTORE_COMPLETED** \
- * **BACKUP_IN_PROGRESS** \
- * **BACKUP_COMPLETED**
+ * **Arrived** \
+ * **Queued** \
+ * **Uploading** \
+ * **Uploaded** \
+ * **Restoring** \
+ * **Restored** \
+ * **Cancelled**
  */
-export type SyncDatabaseMigrationReportingState = string;
+export type BackupFileStatus = string;
 
-/** Known values of {@link SyncTableMigrationState} that the service accepts. */
-export enum KnownSyncTableMigrationState {
-  /** BeforeLoad */
-  BeforeLoad = "BEFORE_LOAD",
-  /** FullLoad */
-  FullLoad = "FULL_LOAD",
-  /** Completed */
-  Completed = "COMPLETED",
-  /** Canceled */
-  Canceled = "CANCELED",
-  /** Error */
-  Error = "ERROR",
-  /** Failed */
-  Failed = "FAILED"
+/** Known values of {@link DatabaseFileType} that the service accepts. */
+export enum KnownDatabaseFileType {
+  /** Rows */
+  Rows = "Rows",
+  /** Log */
+  Log = "Log",
+  /** Filestream */
+  Filestream = "Filestream",
+  /** NotSupported */
+  NotSupported = "NotSupported",
+  /** Fulltext */
+  Fulltext = "Fulltext"
 }
 
 /**
- * Defines values for SyncTableMigrationState. \
- * {@link KnownSyncTableMigrationState} can be used interchangeably with SyncTableMigrationState,
+ * Defines values for DatabaseFileType. \
+ * {@link KnownDatabaseFileType} can be used interchangeably with DatabaseFileType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **BEFORE_LOAD** \
- * **FULL_LOAD** \
- * **COMPLETED** \
- * **CANCELED** \
- * **ERROR** \
- * **FAILED**
+ * **Rows** \
+ * **Log** \
+ * **Filestream** \
+ * **NotSupported** \
+ * **Fulltext**
  */
-export type SyncTableMigrationState = string;
-
-/** Known values of {@link ScenarioSource} that the service accepts. */
-export enum KnownScenarioSource {
-  /** Access */
-  Access = "Access",
-  /** DB2 */
-  DB2 = "DB2",
-  /** MySQL */
-  MySQL = "MySQL",
-  /** Oracle */
-  Oracle = "Oracle",
-  /** SQL */
-  SQL = "SQL",
-  /** Sybase */
-  Sybase = "Sybase",
-  /** PostgreSQL */
-  PostgreSQL = "PostgreSQL",
-  /** MongoDB */
-  MongoDB = "MongoDB",
-  /** Sqlrds */
-  Sqlrds = "SQLRDS",
-  /** MySqlrds */
-  MySqlrds = "MySQLRDS",
-  /** PostgreSqlrds */
-  PostgreSqlrds = "PostgreSQLRDS"
-}
-
-/**
- * Defines values for ScenarioSource. \
- * {@link KnownScenarioSource} can be used interchangeably with ScenarioSource,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Access** \
- * **DB2** \
- * **MySQL** \
- * **Oracle** \
- * **SQL** \
- * **Sybase** \
- * **PostgreSQL** \
- * **MongoDB** \
- * **SQLRDS** \
- * **MySQLRDS** \
- * **PostgreSQLRDS**
- */
-export type ScenarioSource = string;
-
-/** Known values of {@link ScenarioTarget} that the service accepts. */
-export enum KnownScenarioTarget {
-  /** SQLServer */
-  SQLServer = "SQLServer",
-  /** Sqldb */
-  Sqldb = "SQLDB",
-  /** Sqldw */
-  Sqldw = "SQLDW",
-  /** Sqlmi */
-  Sqlmi = "SQLMI",
-  /** AzureDBForMySql */
-  AzureDBForMySql = "AzureDBForMySql",
-  /** AzureDBForPostgresSQL */
-  AzureDBForPostgresSQL = "AzureDBForPostgresSQL",
-  /** MongoDB */
-  MongoDB = "MongoDB"
-}
-
-/**
- * Defines values for ScenarioTarget. \
- * {@link KnownScenarioTarget} can be used interchangeably with ScenarioTarget,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SQLServer** \
- * **SQLDB** \
- * **SQLDW** \
- * **SQLMI** \
- * **AzureDBForMySql** \
- * **AzureDBForPostgresSQL** \
- * **MongoDB**
- */
-export type ScenarioTarget = string;
-
-/** Known values of {@link ReplicateMigrationState} that the service accepts. */
-export enum KnownReplicateMigrationState {
-  /** Undefined */
-  Undefined = "UNDEFINED",
-  /** Validating */
-  Validating = "VALIDATING",
-  /** Pending */
-  Pending = "PENDING",
-  /** Complete */
-  Complete = "COMPLETE",
-  /** ActionRequired */
-  ActionRequired = "ACTION_REQUIRED",
-  /** Failed */
-  Failed = "FAILED"
-}
-
-/**
- * Defines values for ReplicateMigrationState. \
- * {@link KnownReplicateMigrationState} can be used interchangeably with ReplicateMigrationState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **UNDEFINED** \
- * **VALIDATING** \
- * **PENDING** \
- * **COMPLETE** \
- * **ACTION_REQUIRED** \
- * **FAILED**
- */
-export type ReplicateMigrationState = string;
-
-/** Known values of {@link MigrationStatus} that the service accepts. */
-export enum KnownMigrationStatus {
-  /** Default */
-  Default = "Default",
-  /** Connecting */
-  Connecting = "Connecting",
-  /** SourceAndTargetSelected */
-  SourceAndTargetSelected = "SourceAndTargetSelected",
-  /** SelectLogins */
-  SelectLogins = "SelectLogins",
-  /** Configured */
-  Configured = "Configured",
-  /** Running */
-  Running = "Running",
-  /** Error */
-  Error = "Error",
-  /** Stopped */
-  Stopped = "Stopped",
-  /** Completed */
-  Completed = "Completed",
-  /** CompletedWithWarnings */
-  CompletedWithWarnings = "CompletedWithWarnings"
-}
-
-/**
- * Defines values for MigrationStatus. \
- * {@link KnownMigrationStatus} can be used interchangeably with MigrationStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Default** \
- * **Connecting** \
- * **SourceAndTargetSelected** \
- * **SelectLogins** \
- * **Configured** \
- * **Running** \
- * **Error** \
- * **Stopped** \
- * **Completed** \
- * **CompletedWithWarnings**
- */
-export type MigrationStatus = string;
-
-/** Known values of {@link ValidationStatus} that the service accepts. */
-export enum KnownValidationStatus {
-  /** Default */
-  Default = "Default",
-  /** NotStarted */
-  NotStarted = "NotStarted",
-  /** Initialized */
-  Initialized = "Initialized",
-  /** InProgress */
-  InProgress = "InProgress",
-  /** Completed */
-  Completed = "Completed",
-  /** CompletedWithIssues */
-  CompletedWithIssues = "CompletedWithIssues",
-  /** Stopped */
-  Stopped = "Stopped",
-  /** Failed */
-  Failed = "Failed"
-}
-
-/**
- * Defines values for ValidationStatus. \
- * {@link KnownValidationStatus} can be used interchangeably with ValidationStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Default** \
- * **NotStarted** \
- * **Initialized** \
- * **InProgress** \
- * **Completed** \
- * **CompletedWithIssues** \
- * **Stopped** \
- * **Failed**
- */
-export type ValidationStatus = string;
-
-/** Known values of {@link DatabaseMigrationStage} that the service accepts. */
-export enum KnownDatabaseMigrationStage {
-  /** None */
-  None = "None",
-  /** Initialize */
-  Initialize = "Initialize",
-  /** Backup */
-  Backup = "Backup",
-  /** FileCopy */
-  FileCopy = "FileCopy",
-  /** Restore */
-  Restore = "Restore",
-  /** Completed */
-  Completed = "Completed"
-}
-
-/**
- * Defines values for DatabaseMigrationStage. \
- * {@link KnownDatabaseMigrationStage} can be used interchangeably with DatabaseMigrationStage,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **Initialize** \
- * **Backup** \
- * **FileCopy** \
- * **Restore** \
- * **Completed**
- */
-export type DatabaseMigrationStage = string;
-
-/** Known values of {@link Severity} that the service accepts. */
-export enum KnownSeverity {
-  /** Message */
-  Message = "Message",
-  /** Warning */
-  Warning = "Warning",
-  /** Error */
-  Error = "Error"
-}
-
-/**
- * Defines values for Severity. \
- * {@link KnownSeverity} can be used interchangeably with Severity,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Message** \
- * **Warning** \
- * **Error**
- */
-export type Severity = string;
-
-/** Known values of {@link ObjectType} that the service accepts. */
-export enum KnownObjectType {
-  /** StoredProcedures */
-  StoredProcedures = "StoredProcedures",
-  /** Table */
-  Table = "Table",
-  /** User */
-  User = "User",
-  /** View */
-  View = "View",
-  /** Function */
-  Function = "Function"
-}
-
-/**
- * Defines values for ObjectType. \
- * {@link KnownObjectType} can be used interchangeably with ObjectType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **StoredProcedures** \
- * **Table** \
- * **User** \
- * **View** \
- * **Function**
- */
-export type ObjectType = string;
-
-/** Known values of {@link UpdateActionType} that the service accepts. */
-export enum KnownUpdateActionType {
-  /** DeletedOnTarget */
-  DeletedOnTarget = "DeletedOnTarget",
-  /** ChangedOnTarget */
-  ChangedOnTarget = "ChangedOnTarget",
-  /** AddedOnTarget */
-  AddedOnTarget = "AddedOnTarget"
-}
-
-/**
- * Defines values for UpdateActionType. \
- * {@link KnownUpdateActionType} can be used interchangeably with UpdateActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **DeletedOnTarget** \
- * **ChangedOnTarget** \
- * **AddedOnTarget**
- */
-export type UpdateActionType = string;
-
-/** Known values of {@link DatabaseMigrationState} that the service accepts. */
-export enum KnownDatabaseMigrationState {
-  /** Undefined */
-  Undefined = "UNDEFINED",
-  /** Initial */
-  Initial = "INITIAL",
-  /** FullBackupUploadStart */
-  FullBackupUploadStart = "FULL_BACKUP_UPLOAD_START",
-  /** LOGShippingStart */
-  LOGShippingStart = "LOG_SHIPPING_START",
-  /** UploadLOGFilesStart */
-  UploadLOGFilesStart = "UPLOAD_LOG_FILES_START",
-  /** CutoverStart */
-  CutoverStart = "CUTOVER_START",
-  /** PostCutoverComplete */
-  PostCutoverComplete = "POST_CUTOVER_COMPLETE",
-  /** Completed */
-  Completed = "COMPLETED",
-  /** Cancelled */
-  Cancelled = "CANCELLED",
-  /** Failed */
-  Failed = "FAILED"
-}
-
-/**
- * Defines values for DatabaseMigrationState. \
- * {@link KnownDatabaseMigrationState} can be used interchangeably with DatabaseMigrationState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **UNDEFINED** \
- * **INITIAL** \
- * **FULL_BACKUP_UPLOAD_START** \
- * **LOG_SHIPPING_START** \
- * **UPLOAD_LOG_FILES_START** \
- * **CUTOVER_START** \
- * **POST_CUTOVER_COMPLETE** \
- * **COMPLETED** \
- * **CANCELLED** \
- * **FAILED**
- */
-export type DatabaseMigrationState = string;
-
-/** Known values of {@link BackupMode} that the service accepts. */
-export enum KnownBackupMode {
-  /** CreateBackup */
-  CreateBackup = "CreateBackup",
-  /** ExistingBackup */
-  ExistingBackup = "ExistingBackup"
-}
-
-/**
- * Defines values for BackupMode. \
- * {@link KnownBackupMode} can be used interchangeably with BackupMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **CreateBackup** \
- * **ExistingBackup**
- */
-export type BackupMode = string;
-
-/** Known values of {@link LoginMigrationStage} that the service accepts. */
-export enum KnownLoginMigrationStage {
-  /** None */
-  None = "None",
-  /** Initialize */
-  Initialize = "Initialize",
-  /** LoginMigration */
-  LoginMigration = "LoginMigration",
-  /** EstablishUserMapping */
-  EstablishUserMapping = "EstablishUserMapping",
-  /** AssignRoleMembership */
-  AssignRoleMembership = "AssignRoleMembership",
-  /** AssignRoleOwnership */
-  AssignRoleOwnership = "AssignRoleOwnership",
-  /** EstablishServerPermissions */
-  EstablishServerPermissions = "EstablishServerPermissions",
-  /** EstablishObjectPermissions */
-  EstablishObjectPermissions = "EstablishObjectPermissions",
-  /** Completed */
-  Completed = "Completed"
-}
-
-/**
- * Defines values for LoginMigrationStage. \
- * {@link KnownLoginMigrationStage} can be used interchangeably with LoginMigrationStage,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **Initialize** \
- * **LoginMigration** \
- * **EstablishUserMapping** \
- * **AssignRoleMembership** \
- * **AssignRoleOwnership** \
- * **EstablishServerPermissions** \
- * **EstablishObjectPermissions** \
- * **Completed**
- */
-export type LoginMigrationStage = string;
+export type DatabaseFileType = string;
 
 /** Known values of {@link SsisStoreType} that the service accepts. */
 export enum KnownSsisStoreType {
@@ -7554,30 +7190,6 @@ export enum KnownSsisMigrationOverwriteOption {
  * **Overwrite**
  */
 export type SsisMigrationOverwriteOption = string;
-
-/** Known values of {@link SsisMigrationStage} that the service accepts. */
-export enum KnownSsisMigrationStage {
-  /** None */
-  None = "None",
-  /** Initialize */
-  Initialize = "Initialize",
-  /** InProgress */
-  InProgress = "InProgress",
-  /** Completed */
-  Completed = "Completed"
-}
-
-/**
- * Defines values for SsisMigrationStage. \
- * {@link KnownSsisMigrationStage} can be used interchangeably with SsisMigrationStage,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **Initialize** \
- * **InProgress** \
- * **Completed**
- */
-export type SsisMigrationStage = string;
 
 /** Known values of {@link MongoDbShardKeyOrder} that the service accepts. */
 export enum KnownMongoDbShardKeyOrder {
@@ -7729,40 +7341,436 @@ export enum KnownMongoDbReplication {
  */
 export type MongoDbReplication = string;
 
-/** Known values of {@link DataMigrationResultCode} that the service accepts. */
-export enum KnownDataMigrationResultCode {
-  /** Initial */
-  Initial = "Initial",
-  /** Completed */
-  Completed = "Completed",
-  /** ObjectNotExistsInSource */
-  ObjectNotExistsInSource = "ObjectNotExistsInSource",
-  /** ObjectNotExistsInTarget */
-  ObjectNotExistsInTarget = "ObjectNotExistsInTarget",
-  /** TargetObjectIsInaccessible */
-  TargetObjectIsInaccessible = "TargetObjectIsInaccessible",
-  /** FatalError */
-  FatalError = "FatalError"
+/** Known values of {@link DatabaseCompatLevel} that the service accepts. */
+export enum KnownDatabaseCompatLevel {
+  /** CompatLevel80 */
+  CompatLevel80 = "CompatLevel80",
+  /** CompatLevel90 */
+  CompatLevel90 = "CompatLevel90",
+  /** CompatLevel100 */
+  CompatLevel100 = "CompatLevel100",
+  /** CompatLevel110 */
+  CompatLevel110 = "CompatLevel110",
+  /** CompatLevel120 */
+  CompatLevel120 = "CompatLevel120",
+  /** CompatLevel130 */
+  CompatLevel130 = "CompatLevel130",
+  /** CompatLevel140 */
+  CompatLevel140 = "CompatLevel140"
 }
 
 /**
- * Defines values for DataMigrationResultCode. \
- * {@link KnownDataMigrationResultCode} can be used interchangeably with DataMigrationResultCode,
+ * Defines values for DatabaseCompatLevel. \
+ * {@link KnownDatabaseCompatLevel} can be used interchangeably with DatabaseCompatLevel,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Initial** \
- * **Completed** \
- * **ObjectNotExistsInSource** \
- * **ObjectNotExistsInTarget** \
- * **TargetObjectIsInaccessible** \
- * **FatalError**
+ * **CompatLevel80** \
+ * **CompatLevel90** \
+ * **CompatLevel100** \
+ * **CompatLevel110** \
+ * **CompatLevel120** \
+ * **CompatLevel130** \
+ * **CompatLevel140**
  */
-export type DataMigrationResultCode = string;
+export type DatabaseCompatLevel = string;
 
-/** Known values of {@link ErrorType} that the service accepts. */
-export enum KnownErrorType {
+/** Known values of {@link DatabaseState} that the service accepts. */
+export enum KnownDatabaseState {
+  /** Online */
+  Online = "Online",
+  /** Restoring */
+  Restoring = "Restoring",
+  /** Recovering */
+  Recovering = "Recovering",
+  /** RecoveryPending */
+  RecoveryPending = "RecoveryPending",
+  /** Suspect */
+  Suspect = "Suspect",
+  /** Emergency */
+  Emergency = "Emergency",
+  /** Offline */
+  Offline = "Offline",
+  /** Copying */
+  Copying = "Copying",
+  /** OfflineSecondary */
+  OfflineSecondary = "OfflineSecondary"
+}
+
+/**
+ * Defines values for DatabaseState. \
+ * {@link KnownDatabaseState} can be used interchangeably with DatabaseState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Online** \
+ * **Restoring** \
+ * **Recovering** \
+ * **RecoveryPending** \
+ * **Suspect** \
+ * **Emergency** \
+ * **Offline** \
+ * **Copying** \
+ * **OfflineSecondary**
+ */
+export type DatabaseState = string;
+
+/** Known values of {@link LoginType} that the service accepts. */
+export enum KnownLoginType {
+  /** WindowsUser */
+  WindowsUser = "WindowsUser",
+  /** WindowsGroup */
+  WindowsGroup = "WindowsGroup",
+  /** SqlLogin */
+  SqlLogin = "SqlLogin",
+  /** Certificate */
+  Certificate = "Certificate",
+  /** AsymmetricKey */
+  AsymmetricKey = "AsymmetricKey",
+  /** ExternalUser */
+  ExternalUser = "ExternalUser",
+  /** ExternalGroup */
+  ExternalGroup = "ExternalGroup"
+}
+
+/**
+ * Defines values for LoginType. \
+ * {@link KnownLoginType} can be used interchangeably with LoginType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **WindowsUser** \
+ * **WindowsGroup** \
+ * **SqlLogin** \
+ * **Certificate** \
+ * **AsymmetricKey** \
+ * **ExternalUser** \
+ * **ExternalGroup**
+ */
+export type LoginType = string;
+
+/** Known values of {@link MySqlTargetPlatformType} that the service accepts. */
+export enum KnownMySqlTargetPlatformType {
+  /** SqlServer */
+  SqlServer = "SqlServer",
+  /** AzureDbForMySQL */
+  AzureDbForMySQL = "AzureDbForMySQL"
+}
+
+/**
+ * Defines values for MySqlTargetPlatformType. \
+ * {@link KnownMySqlTargetPlatformType} can be used interchangeably with MySqlTargetPlatformType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SqlServer** \
+ * **AzureDbForMySQL**
+ */
+export type MySqlTargetPlatformType = string;
+
+/** Known values of {@link SyncDatabaseMigrationReportingState} that the service accepts. */
+export enum KnownSyncDatabaseMigrationReportingState {
+  /** Undefined */
+  Undefined = "UNDEFINED",
+  /** Configuring */
+  Configuring = "CONFIGURING",
+  /** Initialiazing */
+  Initialiazing = "INITIALIAZING",
+  /** Starting */
+  Starting = "STARTING",
+  /** Running */
+  Running = "RUNNING",
+  /** ReadyTOComplete */
+  ReadyTOComplete = "READY_TO_COMPLETE",
+  /** Completing */
+  Completing = "COMPLETING",
+  /** Complete */
+  Complete = "COMPLETE",
+  /** Cancelling */
+  Cancelling = "CANCELLING",
+  /** Cancelled */
+  Cancelled = "CANCELLED",
+  /** Failed */
+  Failed = "FAILED",
+  /** Validating */
+  Validating = "VALIDATING",
+  /** ValidationComplete */
+  ValidationComplete = "VALIDATION_COMPLETE",
+  /** ValidationFailed */
+  ValidationFailed = "VALIDATION_FAILED",
+  /** RestoreINProgress */
+  RestoreINProgress = "RESTORE_IN_PROGRESS",
+  /** RestoreCompleted */
+  RestoreCompleted = "RESTORE_COMPLETED",
+  /** BackupINProgress */
+  BackupINProgress = "BACKUP_IN_PROGRESS",
+  /** BackupCompleted */
+  BackupCompleted = "BACKUP_COMPLETED"
+}
+
+/**
+ * Defines values for SyncDatabaseMigrationReportingState. \
+ * {@link KnownSyncDatabaseMigrationReportingState} can be used interchangeably with SyncDatabaseMigrationReportingState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **UNDEFINED** \
+ * **CONFIGURING** \
+ * **INITIALIAZING** \
+ * **STARTING** \
+ * **RUNNING** \
+ * **READY_TO_COMPLETE** \
+ * **COMPLETING** \
+ * **COMPLETE** \
+ * **CANCELLING** \
+ * **CANCELLED** \
+ * **FAILED** \
+ * **VALIDATING** \
+ * **VALIDATION_COMPLETE** \
+ * **VALIDATION_FAILED** \
+ * **RESTORE_IN_PROGRESS** \
+ * **RESTORE_COMPLETED** \
+ * **BACKUP_IN_PROGRESS** \
+ * **BACKUP_COMPLETED**
+ */
+export type SyncDatabaseMigrationReportingState = string;
+
+/** Known values of {@link SyncTableMigrationState} that the service accepts. */
+export enum KnownSyncTableMigrationState {
+  /** BeforeLoad */
+  BeforeLoad = "BEFORE_LOAD",
+  /** FullLoad */
+  FullLoad = "FULL_LOAD",
+  /** Completed */
+  Completed = "COMPLETED",
+  /** Canceled */
+  Canceled = "CANCELED",
+  /** Error */
+  Error = "ERROR",
+  /** Failed */
+  Failed = "FAILED"
+}
+
+/**
+ * Defines values for SyncTableMigrationState. \
+ * {@link KnownSyncTableMigrationState} can be used interchangeably with SyncTableMigrationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BEFORE_LOAD** \
+ * **FULL_LOAD** \
+ * **COMPLETED** \
+ * **CANCELED** \
+ * **ERROR** \
+ * **FAILED**
+ */
+export type SyncTableMigrationState = string;
+
+/** Known values of {@link BackupMode} that the service accepts. */
+export enum KnownBackupMode {
+  /** CreateBackup */
+  CreateBackup = "CreateBackup",
+  /** ExistingBackup */
+  ExistingBackup = "ExistingBackup"
+}
+
+/**
+ * Defines values for BackupMode. \
+ * {@link KnownBackupMode} can be used interchangeably with BackupMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CreateBackup** \
+ * **ExistingBackup**
+ */
+export type BackupMode = string;
+
+/** Known values of {@link MigrationStatus} that the service accepts. */
+export enum KnownMigrationStatus {
   /** Default */
   Default = "Default",
+  /** Connecting */
+  Connecting = "Connecting",
+  /** SourceAndTargetSelected */
+  SourceAndTargetSelected = "SourceAndTargetSelected",
+  /** SelectLogins */
+  SelectLogins = "SelectLogins",
+  /** Configured */
+  Configured = "Configured",
+  /** Running */
+  Running = "Running",
+  /** Error */
+  Error = "Error",
+  /** Stopped */
+  Stopped = "Stopped",
+  /** Completed */
+  Completed = "Completed",
+  /** CompletedWithWarnings */
+  CompletedWithWarnings = "CompletedWithWarnings"
+}
+
+/**
+ * Defines values for MigrationStatus. \
+ * {@link KnownMigrationStatus} can be used interchangeably with MigrationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **Connecting** \
+ * **SourceAndTargetSelected** \
+ * **SelectLogins** \
+ * **Configured** \
+ * **Running** \
+ * **Error** \
+ * **Stopped** \
+ * **Completed** \
+ * **CompletedWithWarnings**
+ */
+export type MigrationStatus = string;
+
+/** Known values of {@link DatabaseMigrationStage} that the service accepts. */
+export enum KnownDatabaseMigrationStage {
+  /** None */
+  None = "None",
+  /** Initialize */
+  Initialize = "Initialize",
+  /** Backup */
+  Backup = "Backup",
+  /** FileCopy */
+  FileCopy = "FileCopy",
+  /** Restore */
+  Restore = "Restore",
+  /** Completed */
+  Completed = "Completed"
+}
+
+/**
+ * Defines values for DatabaseMigrationStage. \
+ * {@link KnownDatabaseMigrationStage} can be used interchangeably with DatabaseMigrationStage,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Initialize** \
+ * **Backup** \
+ * **FileCopy** \
+ * **Restore** \
+ * **Completed**
+ */
+export type DatabaseMigrationStage = string;
+
+/** Known values of {@link LoginMigrationStage} that the service accepts. */
+export enum KnownLoginMigrationStage {
+  /** None */
+  None = "None",
+  /** Initialize */
+  Initialize = "Initialize",
+  /** LoginMigration */
+  LoginMigration = "LoginMigration",
+  /** EstablishUserMapping */
+  EstablishUserMapping = "EstablishUserMapping",
+  /** AssignRoleMembership */
+  AssignRoleMembership = "AssignRoleMembership",
+  /** AssignRoleOwnership */
+  AssignRoleOwnership = "AssignRoleOwnership",
+  /** EstablishServerPermissions */
+  EstablishServerPermissions = "EstablishServerPermissions",
+  /** EstablishObjectPermissions */
+  EstablishObjectPermissions = "EstablishObjectPermissions",
+  /** Completed */
+  Completed = "Completed"
+}
+
+/**
+ * Defines values for LoginMigrationStage. \
+ * {@link KnownLoginMigrationStage} can be used interchangeably with LoginMigrationStage,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Initialize** \
+ * **LoginMigration** \
+ * **EstablishUserMapping** \
+ * **AssignRoleMembership** \
+ * **AssignRoleOwnership** \
+ * **EstablishServerPermissions** \
+ * **EstablishObjectPermissions** \
+ * **Completed**
+ */
+export type LoginMigrationStage = string;
+
+/** Known values of {@link DatabaseMigrationState} that the service accepts. */
+export enum KnownDatabaseMigrationState {
+  /** Undefined */
+  Undefined = "UNDEFINED",
+  /** Initial */
+  Initial = "INITIAL",
+  /** FullBackupUploadStart */
+  FullBackupUploadStart = "FULL_BACKUP_UPLOAD_START",
+  /** LOGShippingStart */
+  LOGShippingStart = "LOG_SHIPPING_START",
+  /** UploadLOGFilesStart */
+  UploadLOGFilesStart = "UPLOAD_LOG_FILES_START",
+  /** CutoverStart */
+  CutoverStart = "CUTOVER_START",
+  /** PostCutoverComplete */
+  PostCutoverComplete = "POST_CUTOVER_COMPLETE",
+  /** Completed */
+  Completed = "COMPLETED",
+  /** Cancelled */
+  Cancelled = "CANCELLED",
+  /** Failed */
+  Failed = "FAILED"
+}
+
+/**
+ * Defines values for DatabaseMigrationState. \
+ * {@link KnownDatabaseMigrationState} can be used interchangeably with DatabaseMigrationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **UNDEFINED** \
+ * **INITIAL** \
+ * **FULL_BACKUP_UPLOAD_START** \
+ * **LOG_SHIPPING_START** \
+ * **UPLOAD_LOG_FILES_START** \
+ * **CUTOVER_START** \
+ * **POST_CUTOVER_COMPLETE** \
+ * **COMPLETED** \
+ * **CANCELLED** \
+ * **FAILED**
+ */
+export type DatabaseMigrationState = string;
+
+/** Known values of {@link ValidationStatus} that the service accepts. */
+export enum KnownValidationStatus {
+  /** Default */
+  Default = "Default",
+  /** NotStarted */
+  NotStarted = "NotStarted",
+  /** Initialized */
+  Initialized = "Initialized",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Completed */
+  Completed = "Completed",
+  /** CompletedWithIssues */
+  CompletedWithIssues = "CompletedWithIssues",
+  /** Stopped */
+  Stopped = "Stopped",
+  /** Failed */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for ValidationStatus. \
+ * {@link KnownValidationStatus} can be used interchangeably with ValidationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **NotStarted** \
+ * **Initialized** \
+ * **InProgress** \
+ * **Completed** \
+ * **CompletedWithIssues** \
+ * **Stopped** \
+ * **Failed**
+ */
+export type ValidationStatus = string;
+
+/** Known values of {@link Severity} that the service accepts. */
+export enum KnownSeverity {
+  /** Message */
+  Message = "Message",
   /** Warning */
   Warning = "Warning",
   /** Error */
@@ -7770,28 +7778,253 @@ export enum KnownErrorType {
 }
 
 /**
- * Defines values for ErrorType. \
- * {@link KnownErrorType} can be used interchangeably with ErrorType,
+ * Defines values for Severity. \
+ * {@link KnownSeverity} can be used interchangeably with Severity,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Default** \
+ * **Message** \
  * **Warning** \
  * **Error**
  */
-export type ErrorType = string;
+export type Severity = string;
+
+/** Known values of {@link ObjectType} that the service accepts. */
+export enum KnownObjectType {
+  /** StoredProcedures */
+  StoredProcedures = "StoredProcedures",
+  /** Table */
+  Table = "Table",
+  /** User */
+  User = "User",
+  /** View */
+  View = "View",
+  /** Function */
+  Function = "Function"
+}
+
+/**
+ * Defines values for ObjectType. \
+ * {@link KnownObjectType} can be used interchangeably with ObjectType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **StoredProcedures** \
+ * **Table** \
+ * **User** \
+ * **View** \
+ * **Function**
+ */
+export type ObjectType = string;
+
+/** Known values of {@link UpdateActionType} that the service accepts. */
+export enum KnownUpdateActionType {
+  /** DeletedOnTarget */
+  DeletedOnTarget = "DeletedOnTarget",
+  /** ChangedOnTarget */
+  ChangedOnTarget = "ChangedOnTarget",
+  /** AddedOnTarget */
+  AddedOnTarget = "AddedOnTarget"
+}
+
+/**
+ * Defines values for UpdateActionType. \
+ * {@link KnownUpdateActionType} can be used interchangeably with UpdateActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DeletedOnTarget** \
+ * **ChangedOnTarget** \
+ * **AddedOnTarget**
+ */
+export type UpdateActionType = string;
+
+/** Known values of {@link ScenarioSource} that the service accepts. */
+export enum KnownScenarioSource {
+  /** Access */
+  Access = "Access",
+  /** DB2 */
+  DB2 = "DB2",
+  /** MySQL */
+  MySQL = "MySQL",
+  /** Oracle */
+  Oracle = "Oracle",
+  /** SQL */
+  SQL = "SQL",
+  /** Sybase */
+  Sybase = "Sybase",
+  /** PostgreSQL */
+  PostgreSQL = "PostgreSQL",
+  /** MongoDB */
+  MongoDB = "MongoDB",
+  /** Sqlrds */
+  Sqlrds = "SQLRDS",
+  /** MySqlrds */
+  MySqlrds = "MySQLRDS",
+  /** PostgreSqlrds */
+  PostgreSqlrds = "PostgreSQLRDS"
+}
+
+/**
+ * Defines values for ScenarioSource. \
+ * {@link KnownScenarioSource} can be used interchangeably with ScenarioSource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Access** \
+ * **DB2** \
+ * **MySQL** \
+ * **Oracle** \
+ * **SQL** \
+ * **Sybase** \
+ * **PostgreSQL** \
+ * **MongoDB** \
+ * **SQLRDS** \
+ * **MySQLRDS** \
+ * **PostgreSQLRDS**
+ */
+export type ScenarioSource = string;
+
+/** Known values of {@link ScenarioTarget} that the service accepts. */
+export enum KnownScenarioTarget {
+  /** SQLServer */
+  SQLServer = "SQLServer",
+  /** Sqldb */
+  Sqldb = "SQLDB",
+  /** Sqldw */
+  Sqldw = "SQLDW",
+  /** Sqlmi */
+  Sqlmi = "SQLMI",
+  /** AzureDBForMySql */
+  AzureDBForMySql = "AzureDBForMySql",
+  /** AzureDBForPostgresSQL */
+  AzureDBForPostgresSQL = "AzureDBForPostgresSQL",
+  /** MongoDB */
+  MongoDB = "MongoDB"
+}
+
+/**
+ * Defines values for ScenarioTarget. \
+ * {@link KnownScenarioTarget} can be used interchangeably with ScenarioTarget,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SQLServer** \
+ * **SQLDB** \
+ * **SQLDW** \
+ * **SQLMI** \
+ * **AzureDBForMySql** \
+ * **AzureDBForPostgresSQL** \
+ * **MongoDB**
+ */
+export type ScenarioTarget = string;
+
+/** Known values of {@link ReplicateMigrationState} that the service accepts. */
+export enum KnownReplicateMigrationState {
+  /** Undefined */
+  Undefined = "UNDEFINED",
+  /** Validating */
+  Validating = "VALIDATING",
+  /** Pending */
+  Pending = "PENDING",
+  /** Complete */
+  Complete = "COMPLETE",
+  /** ActionRequired */
+  ActionRequired = "ACTION_REQUIRED",
+  /** Failed */
+  Failed = "FAILED"
+}
+
+/**
+ * Defines values for ReplicateMigrationState. \
+ * {@link KnownReplicateMigrationState} can be used interchangeably with ReplicateMigrationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **UNDEFINED** \
+ * **VALIDATING** \
+ * **PENDING** \
+ * **COMPLETE** \
+ * **ACTION_REQUIRED** \
+ * **FAILED**
+ */
+export type ReplicateMigrationState = string;
+
+/** Known values of {@link SsisMigrationStage} that the service accepts. */
+export enum KnownSsisMigrationStage {
+  /** None */
+  None = "None",
+  /** Initialize */
+  Initialize = "Initialize",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Completed */
+  Completed = "Completed"
+}
+
+/**
+ * Defines values for SsisMigrationStage. \
+ * {@link KnownSsisMigrationStage} can be used interchangeably with SsisMigrationStage,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Initialize** \
+ * **InProgress** \
+ * **Completed**
+ */
+export type SsisMigrationStage = string;
 /** Defines values for ServerLevelPermissionsGroup. */
 export type ServerLevelPermissionsGroup =
   | "Default"
   | "MigrationFromSqlServerToAzureDB"
   | "MigrationFromSqlServerToAzureMI"
-  | "MigrationFromMySQLToAzureDBForMySQL";
+  | "MigrationFromMySQLToAzureDBForMySQL"
+  | "MigrationFromSqlServerToAzureVM";
+
+/** Optional parameters. */
+export interface DatabaseMigrationsSqlDbGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional migration operation ID. If this is provided, then details of migration operation for that ID are retrieved. If not provided (default), then details related to most recent or current operation are retrieved. */
+  migrationOperationId?: string;
+  /** Complete migration details be included in the response. */
+  expand?: string;
+}
+
+/** Contains response data for the get operation. */
+export type DatabaseMigrationsSqlDbGetResponse = DatabaseMigrationSqlDb;
+
+/** Optional parameters. */
+export interface DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DatabaseMigrationsSqlDbCreateOrUpdateResponse = DatabaseMigrationSqlDb;
+
+/** Optional parameters. */
+export interface DatabaseMigrationsSqlDbDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional force delete boolean. If this is provided as true, migration will be deleted even if active. */
+  force?: boolean;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DatabaseMigrationsSqlDbCancelOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface DatabaseMigrationsSqlMiGetOptionalParams
   extends coreClient.OperationOptions {
   /** Optional migration operation ID. If this is provided, then details of migration operation for that ID are retrieved. If not provided (default), then details related to most recent or current operation are retrieved. */
   migrationOperationId?: string;
-  /** The child resources to include in the response. */
+  /** Complete migration details be included in the response. */
   expand?: string;
 }
 
@@ -7833,7 +8066,7 @@ export interface DatabaseMigrationsSqlVmGetOptionalParams
   extends coreClient.OperationOptions {
   /** Optional migration operation ID. If this is provided, then details of migration operation for that ID are retrieved. If not provided (default), then details related to most recent or current operation are retrieved. */
   migrationOperationId?: string;
-  /** The child resources to include in the response. */
+  /** Complete migration details be included in the response. */
   expand?: string;
 }
 
@@ -8185,10 +8418,7 @@ export type TasksCommandResponse = CommandPropertiesUnion;
 
 /** Optional parameters. */
 export interface TasksListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filter tasks by task type */
-  taskType?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type TasksListNextResponse = TaskList;
@@ -8243,10 +8473,7 @@ export type ServiceTasksCancelResponse = ProjectTask;
 
 /** Optional parameters. */
 export interface ServiceTasksListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filter tasks by task type */
-  taskType?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ServiceTasksListNextResponse = TaskList;
