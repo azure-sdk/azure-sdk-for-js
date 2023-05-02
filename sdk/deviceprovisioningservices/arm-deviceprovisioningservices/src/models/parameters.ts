@@ -17,6 +17,7 @@ import {
   ProvisioningServiceDescription as ProvisioningServiceDescriptionMapper,
   TagsResource as TagsResourceMapper,
   OperationInputs as OperationInputsMapper,
+  CustomerInitiatedFailoverInput as CustomerInitiatedFailoverInputMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper
 } from "../models/mappers";
 
@@ -47,7 +48,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-02-05",
+    defaultValue: "2023-04-13-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -291,6 +292,25 @@ export const keyName: OperationURLParameter = {
   parameterPath: "keyName",
   mapper: {
     serializedName: "keyName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const dpsFailoverDescription: OperationParameter = {
+  parameterPath: "dpsFailoverDescription",
+  mapper: CustomerInitiatedFailoverInputMapper
+};
+
+export const provisioningServiceName1: OperationURLParameter = {
+  parameterPath: "provisioningServiceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]+$")
+    },
+    serializedName: "provisioningServiceName",
     required: true,
     type: {
       name: "String"

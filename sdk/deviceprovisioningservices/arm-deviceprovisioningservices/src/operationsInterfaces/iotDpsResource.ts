@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ProvisioningServiceDescription,
   IotDpsResourceListBySubscriptionOptionalParams,
@@ -31,6 +31,8 @@ import {
   IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse,
   IotDpsResourceListKeysForKeyNameOptionalParams,
   IotDpsResourceListKeysForKeyNameResponse,
+  CustomerInitiatedFailoverInput,
+  IotDpsResourceFailoverOptionalParams,
   IotDpsResourceListPrivateLinkResourcesOptionalParams,
   IotDpsResourceListPrivateLinkResourcesResponse,
   IotDpsResourceGetPrivateLinkResourcesOptionalParams,
@@ -115,8 +117,8 @@ export interface IotDpsResource {
     iotDpsDescription: ProvisioningServiceDescription,
     options?: IotDpsResourceCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotDpsResourceCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotDpsResourceCreateOrUpdateResponse>,
       IotDpsResourceCreateOrUpdateResponse
     >
   >;
@@ -149,8 +151,8 @@ export interface IotDpsResource {
     provisioningServiceTags: TagsResource,
     options?: IotDpsResourceUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotDpsResourceUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotDpsResourceUpdateResponse>,
       IotDpsResourceUpdateResponse
     >
   >;
@@ -178,7 +180,7 @@ export interface IotDpsResource {
     provisioningServiceName: string,
     resourceGroupName: string,
     options?: IotDpsResourceDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the Provisioning Service.
    * @param provisioningServiceName Name of provisioning service to delete.
@@ -232,6 +234,19 @@ export interface IotDpsResource {
     resourceGroupName: string,
     options?: IotDpsResourceListKeysForKeyNameOptionalParams
   ): Promise<IotDpsResourceListKeysForKeyNameResponse>;
+  /**
+   * Start Customer Initiated Failover for the given provisioning service
+   * @param resourceGroupName The name of the resource group that contains the provisioning service.
+   * @param provisioningServiceName The provisioning service name to start customer initiated failover.
+   * @param dpsFailoverDescription Failover description
+   * @param options The options parameters.
+   */
+  failover(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    dpsFailoverDescription: CustomerInitiatedFailoverInput,
+    options?: IotDpsResourceFailoverOptionalParams
+  ): Promise<void>;
   /**
    * List private link resources for the given provisioning service
    * @param resourceGroupName The name of the resource group that contains the provisioning service.
@@ -295,8 +310,8 @@ export interface IotDpsResource {
     privateEndpointConnection: PrivateEndpointConnection,
     options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse
       >,
       IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse
@@ -330,8 +345,8 @@ export interface IotDpsResource {
     privateEndpointConnectionName: string,
     options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotDpsResourceDeletePrivateEndpointConnectionResponse>,
+    SimplePollerLike<
+      OperationState<IotDpsResourceDeletePrivateEndpointConnectionResponse>,
       IotDpsResourceDeletePrivateEndpointConnectionResponse
     >
   >;

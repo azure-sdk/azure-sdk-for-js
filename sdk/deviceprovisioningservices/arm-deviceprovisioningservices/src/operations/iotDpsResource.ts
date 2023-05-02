@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { IotDpsClient } from "../iotDpsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ProvisioningServiceDescription,
   IotDpsResourceListBySubscriptionNextOptionalParams,
@@ -46,6 +50,8 @@ import {
   IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse,
   IotDpsResourceListKeysForKeyNameOptionalParams,
   IotDpsResourceListKeysForKeyNameResponse,
+  CustomerInitiatedFailoverInput,
+  IotDpsResourceFailoverOptionalParams,
   IotDpsResourceListPrivateLinkResourcesOptionalParams,
   IotDpsResourceListPrivateLinkResourcesResponse,
   IotDpsResourceGetPrivateLinkResourcesOptionalParams,
@@ -407,8 +413,8 @@ export class IotDpsResourceImpl implements IotDpsResource {
     iotDpsDescription: ProvisioningServiceDescription,
     options?: IotDpsResourceCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotDpsResourceCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotDpsResourceCreateOrUpdateResponse>,
       IotDpsResourceCreateOrUpdateResponse
     >
   > {
@@ -418,7 +424,7 @@ export class IotDpsResourceImpl implements IotDpsResource {
     ): Promise<IotDpsResourceCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -451,18 +457,21 @@ export class IotDpsResourceImpl implements IotDpsResource {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         provisioningServiceName,
         iotDpsDescription,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      IotDpsResourceCreateOrUpdateResponse,
+      OperationState<IotDpsResourceCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -507,8 +516,8 @@ export class IotDpsResourceImpl implements IotDpsResource {
     provisioningServiceTags: TagsResource,
     options?: IotDpsResourceUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotDpsResourceUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotDpsResourceUpdateResponse>,
       IotDpsResourceUpdateResponse
     >
   > {
@@ -518,7 +527,7 @@ export class IotDpsResourceImpl implements IotDpsResource {
     ): Promise<IotDpsResourceUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -551,18 +560,21 @@ export class IotDpsResourceImpl implements IotDpsResource {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         provisioningServiceName,
         provisioningServiceTags,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      IotDpsResourceUpdateResponse,
+      OperationState<IotDpsResourceUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -602,14 +614,14 @@ export class IotDpsResourceImpl implements IotDpsResource {
     provisioningServiceName: string,
     resourceGroupName: string,
     options?: IotDpsResourceDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -642,13 +654,13 @@ export class IotDpsResourceImpl implements IotDpsResource {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { provisioningServiceName, resourceGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { provisioningServiceName, resourceGroupName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -803,6 +815,30 @@ export class IotDpsResourceImpl implements IotDpsResource {
   }
 
   /**
+   * Start Customer Initiated Failover for the given provisioning service
+   * @param resourceGroupName The name of the resource group that contains the provisioning service.
+   * @param provisioningServiceName The provisioning service name to start customer initiated failover.
+   * @param dpsFailoverDescription Failover description
+   * @param options The options parameters.
+   */
+  failover(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    dpsFailoverDescription: CustomerInitiatedFailoverInput,
+    options?: IotDpsResourceFailoverOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        provisioningServiceName,
+        dpsFailoverDescription,
+        options
+      },
+      failoverOperationSpec
+    );
+  }
+
+  /**
    * List private link resources for the given provisioning service
    * @param resourceGroupName The name of the resource group that contains the provisioning service.
    * @param resourceName The name of the provisioning service.
@@ -894,8 +930,8 @@ export class IotDpsResourceImpl implements IotDpsResource {
     privateEndpointConnection: PrivateEndpointConnection,
     options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse
       >,
       IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse
@@ -907,7 +943,7 @@ export class IotDpsResourceImpl implements IotDpsResource {
     ): Promise<IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -940,19 +976,24 @@ export class IotDpsResourceImpl implements IotDpsResource {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         resourceName,
         privateEndpointConnectionName,
         privateEndpointConnection,
         options
       },
-      createOrUpdatePrivateEndpointConnectionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdatePrivateEndpointConnectionOperationSpec
+    });
+    const poller = await createHttpPoller<
+      IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse,
+      OperationState<
+        IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -997,8 +1038,8 @@ export class IotDpsResourceImpl implements IotDpsResource {
     privateEndpointConnectionName: string,
     options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotDpsResourceDeletePrivateEndpointConnectionResponse>,
+    SimplePollerLike<
+      OperationState<IotDpsResourceDeletePrivateEndpointConnectionResponse>,
       IotDpsResourceDeletePrivateEndpointConnectionResponse
     >
   > {
@@ -1008,7 +1049,7 @@ export class IotDpsResourceImpl implements IotDpsResource {
     ): Promise<IotDpsResourceDeletePrivateEndpointConnectionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1041,18 +1082,21 @@ export class IotDpsResourceImpl implements IotDpsResource {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         resourceName,
         privateEndpointConnectionName,
         options
       },
-      deletePrivateEndpointConnectionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deletePrivateEndpointConnectionOperationSpec
+    });
+    const poller = await createHttpPoller<
+      IotDpsResourceDeletePrivateEndpointConnectionResponse,
+      OperationState<IotDpsResourceDeletePrivateEndpointConnectionResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1408,6 +1452,28 @@ const listKeysForKeyNameOperationSpec: coreClient.OperationSpec = {
     Parameters.keyName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const failoverOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/failover",
+  httpMethod: "POST",
+  responses: {
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetails
+    }
+  },
+  requestBody: Parameters.dpsFailoverDescription,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.provisioningServiceName1
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
