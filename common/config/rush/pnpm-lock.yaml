@@ -3960,7 +3960,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230501
+      typescript: 5.1.0-dev.20230502
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8693,8 +8693,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230501:
-    resolution: {integrity: sha512-do/P7zywbVm6xrjV7Sa7jqgqBfME/FhvtECzxfLpAxyqYY5SFPPWb5NTposRUVKw/0hLOxAoCbvYzNHa22VOMg==}
+  /typescript/5.1.0-dev.20230502:
+    resolution: {integrity: sha512-xhGigho37UgtjMkTWMKDtIBV6ElFjcMFdzwTPQ0knTCSJ8tq0ENGsQPeTe0E7Db7mgZYWULEZnzs8KZ8IlHHLQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -13480,7 +13480,7 @@ packages:
     dev: false
 
   file:projects/arm-newrelicobservability.tgz:
-    resolution: {integrity: sha512-tB1estGjhKpP/Vs9bdVNj6p6lNGZHgCWm30b3WAYaILVcekpQ5s0cZy21ymznb8d3xY88hYxiZSEXwkYORapeA==, tarball: file:projects/arm-newrelicobservability.tgz}
+    resolution: {integrity: sha512-LmrvBWJ+OebmXjF6lOR1y6vJ046P5xTHpT2YmIkGFBCFMutjoap2SgJPlvfcTpITxnbJhQIboh+gfymCxNrzZA==, tarball: file:projects/arm-newrelicobservability.tgz}
     name: '@rush-temp/arm-newrelicobservability'
     version: 0.0.0
     dependencies:
@@ -13501,7 +13501,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_mn2f3gd3jpedkkr23obcmzv5eq
       tslib: 2.5.0
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
