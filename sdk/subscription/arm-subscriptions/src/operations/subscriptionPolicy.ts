@@ -213,7 +213,6 @@ const listPolicyForTenantNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseBody
     }
   },
-  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

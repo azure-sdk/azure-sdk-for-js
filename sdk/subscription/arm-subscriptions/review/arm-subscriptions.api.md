@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AcceptOwnership = string;
@@ -42,7 +42,7 @@ export interface AcceptOwnershipStatusResponse {
 
 // @public
 export interface Alias {
-    beginCreate(aliasName: string, body: PutAliasRequest, options?: AliasCreateOptionalParams): Promise<PollerLike<PollOperationState<AliasCreateResponse>, AliasCreateResponse>>;
+    beginCreate(aliasName: string, body: PutAliasRequest, options?: AliasCreateOptionalParams): Promise<SimplePollerLike<OperationState<AliasCreateResponse>, AliasCreateResponse>>;
     beginCreateAndWait(aliasName: string, body: PutAliasRequest, options?: AliasCreateOptionalParams): Promise<AliasCreateResponse>;
     delete(aliasName: string, options?: AliasDeleteOptionalParams): Promise<void>;
     get(aliasName: string, options?: AliasGetOptionalParams): Promise<AliasGetResponse>;
@@ -414,7 +414,7 @@ export interface SubscriptionName {
 // @public
 export interface SubscriptionOperations {
     acceptOwnershipStatus(subscriptionId: string, options?: SubscriptionAcceptOwnershipStatusOptionalParams): Promise<SubscriptionAcceptOwnershipStatusResponse>;
-    beginAcceptOwnership(subscriptionId: string, body: AcceptOwnershipRequest, options?: SubscriptionAcceptOwnershipOptionalParams): Promise<PollerLike<PollOperationState<SubscriptionAcceptOwnershipResponse>, SubscriptionAcceptOwnershipResponse>>;
+    beginAcceptOwnership(subscriptionId: string, body: AcceptOwnershipRequest, options?: SubscriptionAcceptOwnershipOptionalParams): Promise<SimplePollerLike<OperationState<SubscriptionAcceptOwnershipResponse>, SubscriptionAcceptOwnershipResponse>>;
     beginAcceptOwnershipAndWait(subscriptionId: string, body: AcceptOwnershipRequest, options?: SubscriptionAcceptOwnershipOptionalParams): Promise<SubscriptionAcceptOwnershipResponse>;
     cancel(subscriptionId: string, options?: SubscriptionCancelOptionalParams): Promise<SubscriptionCancelResponse>;
     enable(subscriptionId: string, options?: SubscriptionEnableOptionalParams): Promise<SubscriptionEnableResponse>;
