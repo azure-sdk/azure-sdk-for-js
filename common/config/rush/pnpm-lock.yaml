@@ -3859,7 +3859,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230501
+      typescript: 5.1.0-dev.20230502
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8570,8 +8570,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230501:
-    resolution: {integrity: sha512-do/P7zywbVm6xrjV7Sa7jqgqBfME/FhvtECzxfLpAxyqYY5SFPPWb5NTposRUVKw/0hLOxAoCbvYzNHa22VOMg==}
+  /typescript/5.1.0-dev.20230502:
+    resolution: {integrity: sha512-xhGigho37UgtjMkTWMKDtIBV6ElFjcMFdzwTPQ0knTCSJ8tq0ENGsQPeTe0E7Db7mgZYWULEZnzs8KZ8IlHHLQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10438,7 +10438,7 @@ packages:
     dev: false
 
   file:projects/arm-cdn.tgz:
-    resolution: {integrity: sha512-ujthAX/7DQPJMepfWPWBfBotg6MBWfP6QLli+dQAyZLHnb5y8Xz0/i5Fy7/PlOVtHT3wP1F+0eaiPZf0K1FOxQ==, tarball: file:projects/arm-cdn.tgz}
+    resolution: {integrity: sha512-Eya1CIiOFzZRYJji5v+6hSfrKM9bn81AojuEvmy8Zr36Ckl7PT94RnxGFOxGzMbmeG27m9SXXO0IRO7Pg8gsqg==, tarball: file:projects/arm-cdn.tgz}
     name: '@rush-temp/arm-cdn'
     version: 0.0.0
     dependencies:
@@ -10452,13 +10452,14 @@ packages:
       '@types/node': 14.18.43
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_mn2f3gd3jpedkkr23obcmzv5eq
       tslib: 2.5.0
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
