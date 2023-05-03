@@ -10,6 +10,8 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  AzureMonitorWorkspacesImpl,
+  MonitorOperationsImpl,
   AutoscaleSettingsImpl,
   PredictiveMetricImpl,
   OperationsImpl,
@@ -19,6 +21,7 @@ import {
   DiagnosticSettingsImpl,
   DiagnosticSettingsCategoryImpl,
   ActionGroupsImpl,
+  TenantActionGroupsImpl,
   ActivityLogsImpl,
   EventCategoriesImpl,
   TenantActivityLogsImpl,
@@ -38,11 +41,11 @@ import {
   ActivityLogAlertsImpl,
   DataCollectionEndpointsImpl,
   DataCollectionRuleAssociationsImpl,
-  DataCollectionRulesImpl,
-  AzureMonitorWorkspacesImpl,
-  MonitorOperationsImpl
+  DataCollectionRulesImpl
 } from "./operations";
 import {
+  AzureMonitorWorkspaces,
+  MonitorOperations,
   AutoscaleSettings,
   PredictiveMetric,
   Operations,
@@ -52,6 +55,7 @@ import {
   DiagnosticSettings,
   DiagnosticSettingsCategory,
   ActionGroups,
+  TenantActionGroups,
   ActivityLogs,
   EventCategories,
   TenantActivityLogs,
@@ -71,9 +75,7 @@ import {
   ActivityLogAlerts,
   DataCollectionEndpoints,
   DataCollectionRuleAssociations,
-  DataCollectionRules,
-  AzureMonitorWorkspaces,
-  MonitorOperations
+  DataCollectionRules
 } from "./operationsInterfaces";
 import { MonitorClientOptionalParams } from "./models";
 
@@ -161,6 +163,8 @@ export class MonitorClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
+    this.azureMonitorWorkspaces = new AzureMonitorWorkspacesImpl(this);
+    this.monitorOperations = new MonitorOperationsImpl(this);
     this.autoscaleSettings = new AutoscaleSettingsImpl(this);
     this.predictiveMetric = new PredictiveMetricImpl(this);
     this.operations = new OperationsImpl(this);
@@ -170,6 +174,7 @@ export class MonitorClient extends coreClient.ServiceClient {
     this.diagnosticSettings = new DiagnosticSettingsImpl(this);
     this.diagnosticSettingsCategory = new DiagnosticSettingsCategoryImpl(this);
     this.actionGroups = new ActionGroupsImpl(this);
+    this.tenantActionGroups = new TenantActionGroupsImpl(this);
     this.activityLogs = new ActivityLogsImpl(this);
     this.eventCategories = new EventCategoriesImpl(this);
     this.tenantActivityLogs = new TenantActivityLogsImpl(this);
@@ -194,10 +199,10 @@ export class MonitorClient extends coreClient.ServiceClient {
       this
     );
     this.dataCollectionRules = new DataCollectionRulesImpl(this);
-    this.azureMonitorWorkspaces = new AzureMonitorWorkspacesImpl(this);
-    this.monitorOperations = new MonitorOperationsImpl(this);
   }
 
+  azureMonitorWorkspaces: AzureMonitorWorkspaces;
+  monitorOperations: MonitorOperations;
   autoscaleSettings: AutoscaleSettings;
   predictiveMetric: PredictiveMetric;
   operations: Operations;
@@ -207,6 +212,7 @@ export class MonitorClient extends coreClient.ServiceClient {
   diagnosticSettings: DiagnosticSettings;
   diagnosticSettingsCategory: DiagnosticSettingsCategory;
   actionGroups: ActionGroups;
+  tenantActionGroups: TenantActionGroups;
   activityLogs: ActivityLogs;
   eventCategories: EventCategories;
   tenantActivityLogs: TenantActivityLogs;
@@ -227,6 +233,4 @@ export class MonitorClient extends coreClient.ServiceClient {
   dataCollectionEndpoints: DataCollectionEndpoints;
   dataCollectionRuleAssociations: DataCollectionRuleAssociations;
   dataCollectionRules: DataCollectionRules;
-  azureMonitorWorkspaces: AzureMonitorWorkspaces;
-  monitorOperations: MonitorOperations;
 }
