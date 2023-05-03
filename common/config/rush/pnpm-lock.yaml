@@ -3874,7 +3874,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230501
+      typescript: 5.1.0-dev.20230502
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8585,8 +8585,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230501:
-    resolution: {integrity: sha512-do/P7zywbVm6xrjV7Sa7jqgqBfME/FhvtECzxfLpAxyqYY5SFPPWb5NTposRUVKw/0hLOxAoCbvYzNHa22VOMg==}
+  /typescript/5.1.0-dev.20230502:
+    resolution: {integrity: sha512-xhGigho37UgtjMkTWMKDtIBV6ElFjcMFdzwTPQ0knTCSJ8tq0ENGsQPeTe0E7Db7mgZYWULEZnzs8KZ8IlHHLQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9834,7 +9834,7 @@ packages:
     dev: false
 
   file:projects/arm-apimanagement.tgz:
-    resolution: {integrity: sha512-rFBL4LJBuCjy5/jIdjV5HKIzNPXbhFJZ+EFeGLn6oPCMZeaHEuIB3LklKUDD7MA/zZ7haHgQLpH7R7vn7UNH1A==, tarball: file:projects/arm-apimanagement.tgz}
+    resolution: {integrity: sha512-gf8xKvjJHddxrcN2UAo8YuFdfdIFAKIy5q1RQBCYuq/ouYTtM8bDxkOCvo/7lqBa0tlioe9EvUe7CeepAiMtQA==, tarball: file:projects/arm-apimanagement.tgz}
     name: '@rush-temp/arm-apimanagement'
     version: 0.0.0
     dependencies:
@@ -9848,14 +9848,14 @@ packages:
       '@types/node': 14.18.43
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_mn2f3gd3jpedkkr23obcmzv5eq
       tslib: 2.5.0
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -15926,7 +15926,7 @@ packages:
     dev: false
 
   file:projects/communication-rooms.tgz:
-    resolution: {integrity: sha512-MWKqSMfk8nSMa06UaTb9zmyhqNzJHHdxqKvtjLUGw3ULCN+SopfAL4owdy0rfkvZ+2UEH3OBmxnbwJbuASIIWA==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-1jxME+P4umHDyg1wNfAWpx4pTbspvARTojOKayxAUPp6cEj0FqFIxb/GAW62LQRE3RcHwH7oxPZQuEozv2Ocww==, tarball: file:projects/communication-rooms.tgz}
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
