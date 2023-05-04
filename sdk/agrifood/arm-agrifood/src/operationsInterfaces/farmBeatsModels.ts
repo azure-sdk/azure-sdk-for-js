@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   FarmBeats,
   FarmBeatsModelsListBySubscriptionOptionalParams,
@@ -19,9 +19,7 @@ import {
   FarmBeatsUpdateRequestModel,
   FarmBeatsModelsUpdateOptionalParams,
   FarmBeatsModelsUpdateResponse,
-  FarmBeatsModelsDeleteOptionalParams,
-  FarmBeatsModelsGetOperationResultOptionalParams,
-  FarmBeatsModelsGetOperationResultResponse
+  FarmBeatsModelsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -80,8 +78,8 @@ export interface FarmBeatsModels {
     body: FarmBeatsUpdateRequestModel,
     options?: FarmBeatsModelsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<FarmBeatsModelsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<FarmBeatsModelsUpdateResponse>,
       FarmBeatsModelsUpdateResponse
     >
   >;
@@ -109,17 +107,4 @@ export interface FarmBeatsModels {
     farmBeatsResourceName: string,
     options?: FarmBeatsModelsDeleteOptionalParams
   ): Promise<void>;
-  /**
-   * Get operationResults for a FarmBeats resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
-   * @param operationResultsId The operation results id.
-   * @param options The options parameters.
-   */
-  getOperationResult(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
-    operationResultsId: string,
-    options?: FarmBeatsModelsGetOperationResultOptionalParams
-  ): Promise<FarmBeatsModelsGetOperationResultResponse>;
 }

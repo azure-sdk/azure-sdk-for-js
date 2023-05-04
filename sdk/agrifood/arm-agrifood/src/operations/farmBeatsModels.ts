@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AgriFoodMgmtClient } from "../agriFoodMgmtClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   FarmBeats,
   FarmBeatsModelsListBySubscriptionNextOptionalParams,
@@ -31,8 +35,6 @@ import {
   FarmBeatsModelsUpdateOptionalParams,
   FarmBeatsModelsUpdateResponse,
   FarmBeatsModelsDeleteOptionalParams,
-  FarmBeatsModelsGetOperationResultOptionalParams,
-  FarmBeatsModelsGetOperationResultResponse,
   FarmBeatsModelsListBySubscriptionNextResponse,
   FarmBeatsModelsListByResourceGroupNextResponse
 } from "../models";
@@ -222,8 +224,8 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
     body: FarmBeatsUpdateRequestModel,
     options?: FarmBeatsModelsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<FarmBeatsModelsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<FarmBeatsModelsUpdateResponse>,
       FarmBeatsModelsUpdateResponse
     >
   > {
@@ -233,7 +235,7 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
     ): Promise<FarmBeatsModelsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -266,15 +268,18 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, farmBeatsResourceName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, farmBeatsResourceName, body, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      FarmBeatsModelsUpdateResponse,
+      OperationState<FarmBeatsModelsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -344,25 +349,6 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
-    );
-  }
-
-  /**
-   * Get operationResults for a FarmBeats resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
-   * @param operationResultsId The operation results id.
-   * @param options The options parameters.
-   */
-  getOperationResult(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
-    operationResultsId: string,
-    options?: FarmBeatsModelsGetOperationResultOptionalParams
-  ): Promise<FarmBeatsModelsGetOperationResultResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, farmBeatsResourceName, operationResultsId, options },
-      getOperationResultOperationSpec
     );
   }
 
@@ -446,7 +432,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.farmBeatsResourceName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -479,7 +465,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.farmBeatsResourceName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -550,29 +536,6 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getOperationResultOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}/operationResults/{operationResultsId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ArmAsyncOperation
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.farmBeatsResourceName,
-    Parameters.operationResultsId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -584,11 +547,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxPageSize,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -608,11 +566,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxPageSize,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
