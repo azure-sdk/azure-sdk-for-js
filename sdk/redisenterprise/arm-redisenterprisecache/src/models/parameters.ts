@@ -14,6 +14,7 @@ import {
 import {
   Cluster as ClusterMapper,
   ClusterUpdate as ClusterUpdateMapper,
+  CheckNameAvailabilityParameters as CheckNameAvailabilityParametersMapper,
   Database as DatabaseMapper,
   DatabaseUpdate as DatabaseUpdateMapper,
   RegenerateKeyParameters as RegenerateKeyParametersMapper,
@@ -51,7 +52,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-03-01-preview",
+    defaultValue: "2023-05-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -164,6 +165,11 @@ export const parameters1: OperationParameter = {
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
+  mapper: CheckNameAvailabilityParametersMapper
+};
+
+export const parameters3: OperationParameter = {
+  parameterPath: "parameters",
   mapper: DatabaseMapper
 };
 
@@ -178,32 +184,32 @@ export const databaseName: OperationURLParameter = {
   }
 };
 
-export const parameters3: OperationParameter = {
+export const parameters4: OperationParameter = {
   parameterPath: "parameters",
   mapper: DatabaseUpdateMapper
 };
 
-export const parameters4: OperationParameter = {
+export const parameters5: OperationParameter = {
   parameterPath: "parameters",
   mapper: RegenerateKeyParametersMapper
 };
 
-export const parameters5: OperationParameter = {
+export const parameters6: OperationParameter = {
   parameterPath: "parameters",
   mapper: ImportClusterParametersMapper
 };
 
-export const parameters6: OperationParameter = {
+export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: ExportClusterParametersMapper
 };
 
-export const parameters7: OperationParameter = {
+export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: ForceUnlinkParametersMapper
 };
 
-export const parameters8: OperationParameter = {
+export const parameters9: OperationParameter = {
   parameterPath: "parameters",
   mapper: FlushParametersMapper
 };
