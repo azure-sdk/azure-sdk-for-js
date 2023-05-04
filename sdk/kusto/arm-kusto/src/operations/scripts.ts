@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { KustoManagementClient } from "../kustoManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Script,
   ScriptsListByDatabaseOptionalParams,
@@ -174,8 +178,8 @@ export class ScriptsImpl implements Scripts {
     parameters: Script,
     options?: ScriptsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ScriptsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ScriptsCreateOrUpdateResponse>,
       ScriptsCreateOrUpdateResponse
     >
   > {
@@ -185,7 +189,7 @@ export class ScriptsImpl implements Scripts {
     ): Promise<ScriptsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -218,9 +222,9 @@ export class ScriptsImpl implements Scripts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         databaseName,
@@ -228,10 +232,13 @@ export class ScriptsImpl implements Scripts {
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ScriptsCreateOrUpdateResponse,
+      OperationState<ScriptsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -283,7 +290,10 @@ export class ScriptsImpl implements Scripts {
     parameters: Script,
     options?: ScriptsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<ScriptsUpdateResponse>, ScriptsUpdateResponse>
+    SimplePollerLike<
+      OperationState<ScriptsUpdateResponse>,
+      ScriptsUpdateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -291,7 +301,7 @@ export class ScriptsImpl implements Scripts {
     ): Promise<ScriptsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -324,9 +334,9 @@ export class ScriptsImpl implements Scripts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         databaseName,
@@ -334,10 +344,13 @@ export class ScriptsImpl implements Scripts {
         parameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ScriptsUpdateResponse,
+      OperationState<ScriptsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -373,7 +386,7 @@ export class ScriptsImpl implements Scripts {
   }
 
   /**
-   * Deletes a Kusto principalAssignment.
+   * Deletes a Kusto database script.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
@@ -386,14 +399,14 @@ export class ScriptsImpl implements Scripts {
     databaseName: string,
     scriptName: string,
     options?: ScriptsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -426,13 +439,19 @@ export class ScriptsImpl implements Scripts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, databaseName, scriptName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        databaseName,
+        scriptName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -440,7 +459,7 @@ export class ScriptsImpl implements Scripts {
   }
 
   /**
-   * Deletes a Kusto principalAssignment.
+   * Deletes a Kusto database script.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.

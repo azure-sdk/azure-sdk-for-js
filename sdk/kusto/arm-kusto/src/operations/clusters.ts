@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { KustoManagementClient } from "../kustoManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   FollowerDatabaseDefinition,
   ClustersListFollowerDatabasesOptionalParams,
@@ -518,8 +522,8 @@ export class ClustersImpl implements Clusters {
     parameters: Cluster,
     options?: ClustersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ClustersCreateOrUpdateResponse>,
       ClustersCreateOrUpdateResponse
     >
   > {
@@ -529,7 +533,7 @@ export class ClustersImpl implements Clusters {
     ): Promise<ClustersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -562,13 +566,16 @@ export class ClustersImpl implements Clusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ClustersCreateOrUpdateResponse,
+      OperationState<ClustersCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -610,8 +617,8 @@ export class ClustersImpl implements Clusters {
     parameters: ClusterUpdate,
     options?: ClustersUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ClustersUpdateResponse>,
       ClustersUpdateResponse
     >
   > {
@@ -621,7 +628,7 @@ export class ClustersImpl implements Clusters {
     ): Promise<ClustersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -654,13 +661,16 @@ export class ClustersImpl implements Clusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, parameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ClustersUpdateResponse,
+      OperationState<ClustersUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -699,14 +709,14 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -739,13 +749,13 @@ export class ClustersImpl implements Clusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -781,14 +791,14 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -821,13 +831,13 @@ export class ClustersImpl implements Clusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, options },
-      stopOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, options },
+      spec: stopOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -863,14 +873,14 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -903,13 +913,13 @@ export class ClustersImpl implements Clusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, options },
-      startOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, options },
+      spec: startOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -964,14 +974,14 @@ export class ClustersImpl implements Clusters {
     clusterName: string,
     followerDatabaseToRemove: FollowerDatabaseDefinition,
     options?: ClustersDetachFollowerDatabasesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1004,13 +1014,18 @@ export class ClustersImpl implements Clusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, followerDatabaseToRemove, options },
-      detachFollowerDatabasesOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        followerDatabaseToRemove,
+        options
+      },
+      spec: detachFollowerDatabasesOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1050,8 +1065,8 @@ export class ClustersImpl implements Clusters {
     clusterName: string,
     options?: ClustersDiagnoseVirtualNetworkOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersDiagnoseVirtualNetworkResponse>,
+    SimplePollerLike<
+      OperationState<ClustersDiagnoseVirtualNetworkResponse>,
       ClustersDiagnoseVirtualNetworkResponse
     >
   > {
@@ -1061,7 +1076,7 @@ export class ClustersImpl implements Clusters {
     ): Promise<ClustersDiagnoseVirtualNetworkResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1094,15 +1109,18 @@ export class ClustersImpl implements Clusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, options },
-      diagnoseVirtualNetworkOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, options },
+      spec: diagnoseVirtualNetworkOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ClustersDiagnoseVirtualNetworkResponse,
+      OperationState<ClustersDiagnoseVirtualNetworkResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1242,14 +1260,14 @@ export class ClustersImpl implements Clusters {
     clusterName: string,
     languageExtensionsToAdd: LanguageExtensionsList,
     options?: ClustersAddLanguageExtensionsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1282,13 +1300,18 @@ export class ClustersImpl implements Clusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, languageExtensionsToAdd, options },
-      addLanguageExtensionsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        languageExtensionsToAdd,
+        options
+      },
+      spec: addLanguageExtensionsOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1329,14 +1352,14 @@ export class ClustersImpl implements Clusters {
     clusterName: string,
     languageExtensionsToRemove: LanguageExtensionsList,
     options?: ClustersRemoveLanguageExtensionsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1369,13 +1392,18 @@ export class ClustersImpl implements Clusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, languageExtensionsToRemove, options },
-      removeLanguageExtensionsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        languageExtensionsToRemove,
+        options
+      },
+      spec: removeLanguageExtensionsOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

@@ -1,15 +1,13 @@
 # Release History
+    
+## 8.0.0 (2023-05-04)
+    
+**Breaking Changes**
 
-## 7.3.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Enum KnownLanguageExtensionImageName no longer has value Python3912
+  - Enum KnownLanguageExtensionImageName no longer has value Python3912IncludeDeepLearning
+    
+    
 ## 7.3.0 (2023-02-07)
     
 **Features**
