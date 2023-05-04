@@ -1132,6 +1132,13 @@ export interface BenchmarkReference {
 }
 
 // @public
+export interface BuiltInInfoType {
+    id?: string;
+    name?: string;
+    type?: string;
+}
+
+// @public
 export type BundleType = string;
 
 // @public
@@ -2295,6 +2302,43 @@ export interface GcpProjectEnvironmentData extends EnvironmentData {
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export interface GetSensitivitySettingsListResponse {
+    // (undocumented)
+    value?: GetSensitivitySettingsResponse[];
+}
+
+// @public
+export type GetSensitivitySettingsOperationResponse = GetSensitivitySettingsResponse;
+
+// @public
+export interface GetSensitivitySettingsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface GetSensitivitySettingsResponse {
+    readonly id?: string;
+    readonly name?: string;
+    properties?: GetSensitivitySettingsResponseProperties;
+    readonly type?: string;
+}
+
+// @public
+export interface GetSensitivitySettingsResponseProperties {
+    mipInformation?: GetSensitivitySettingsResponsePropertiesMipInformation;
+    sensitiveInfoTypesIds?: string[];
+    sensitivityThresholdLabelId?: string;
+    sensitivityThresholdLabelOrder?: number;
+}
+
+// @public
+export interface GetSensitivitySettingsResponsePropertiesMipInformation {
+    builtInInfoTypes?: BuiltInInfoType[];
+    customInfoTypes?: InfoType[];
+    labels?: Label[];
+    mipIntegrationStatus?: MipIntegrationStatus;
+}
+
+// @public
 export interface GithubScopeEnvironmentData extends EnvironmentData {
     environmentType: "GithubScope";
 }
@@ -2684,6 +2728,13 @@ export interface InformationType {
     keywords?: InformationProtectionKeyword[];
     order?: number;
     recommendedLabelId?: string;
+}
+
+// @public
+export interface InfoType {
+    description?: string;
+    id?: string;
+    name?: string;
 }
 
 // @public
@@ -3578,6 +3629,14 @@ export enum KnownMinimalSeverity {
 }
 
 // @public
+export enum KnownMipIntegrationStatus {
+    NoAutoLabelingRules = "noAutoLabelingRules",
+    NoConsent = "noConsent",
+    NoMipLabels = "noMipLabels",
+    Ok = "Ok"
+}
+
+// @public
 export enum KnownOfferingType {
     CspmMonitorAws = "CspmMonitorAws",
     CspmMonitorAzureDevOps = "CspmMonitorAzureDevOps",
@@ -4077,6 +4136,13 @@ export enum KnownValueType {
 }
 
 // @public
+export interface Label {
+    id?: string;
+    name?: string;
+    order?: number;
+}
+
+// @public
 export interface ListCustomAlertRule extends CustomAlertRule {
     ruleType: "ListCustomAlertRule" | "AllowlistCustomAlertRule" | "DenylistCustomAlertRule" | "ConnectionToIpNotAllowed" | "ConnectionFromIpNotAllowed" | "LocalUserNotAllowed" | "ProcessNotAllowed";
     readonly valueType?: ValueType;
@@ -4165,6 +4231,9 @@ export type MdeOnboardingsListResponse = MdeOnboardingDataList;
 
 // @public
 export type MinimalSeverity = string;
+
+// @public
+export type MipIntegrationStatus = string;
 
 // @public
 export interface MqttC2DMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
@@ -5070,6 +5139,7 @@ export class SecurityCenter extends coreClient.ServiceClient {
     discoveredSecuritySolutions: DiscoveredSecuritySolutions;
     // (undocumented)
     externalSecuritySolutions: ExternalSecuritySolutions;
+    getSensitivitySettings(options?: GetSensitivitySettingsOptionalParams): Promise<GetSensitivitySettingsOperationResponse>;
     // (undocumented)
     governanceAssignments: GovernanceAssignments;
     // (undocumented)
@@ -5127,6 +5197,8 @@ export class SecurityCenter extends coreClient.ServiceClient {
     // (undocumented)
     securitySolutionsReferenceDataOperations: SecuritySolutionsReferenceDataOperations;
     // (undocumented)
+    sensitivitySettings: SensitivitySettings;
+    // (undocumented)
     serverVulnerabilityAssessmentOperations: ServerVulnerabilityAssessmentOperations;
     // (undocumented)
     settings: Settings;
@@ -5146,6 +5218,7 @@ export class SecurityCenter extends coreClient.ServiceClient {
     tasks: Tasks;
     // (undocumented)
     topology: Topology;
+    updateSensitivitySettings(sensitivitySettings: UpdateSensitivitySettingsRequest, options?: UpdateSensitivitySettingsOptionalParams): Promise<UpdateSensitivitySettingsResponse>;
     // (undocumented)
     workspaceSettings: WorkspaceSettings;
 }
@@ -5522,6 +5595,18 @@ export interface SensitivityLabel {
     order?: number;
     rank?: Rank;
 }
+
+// @public
+export interface SensitivitySettings {
+    list(options?: SensitivitySettingsListOptionalParams): Promise<SensitivitySettingsListResponse>;
+}
+
+// @public
+export interface SensitivitySettingsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SensitivitySettingsListResponse = GetSensitivitySettingsListResponse;
 
 // @public
 export interface ServerVulnerabilityAssessment extends Resource {
@@ -6132,6 +6217,20 @@ export interface UpdateIotSecuritySolutionData extends TagsResource {
     recommendationsConfiguration?: RecommendationConfigurationProperties[];
     userDefinedResources?: UserDefinedResourcesProperties;
 }
+
+// @public
+export interface UpdateSensitivitySettingsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface UpdateSensitivitySettingsRequest {
+    sensitiveInfoTypesIds: string[];
+    sensitivityThresholdLabelId?: string;
+    sensitivityThresholdLabelOrder?: number;
+}
+
+// @public
+export type UpdateSensitivitySettingsResponse = GetSensitivitySettingsResponse;
 
 // @public
 export interface UserDefinedResourcesProperties {

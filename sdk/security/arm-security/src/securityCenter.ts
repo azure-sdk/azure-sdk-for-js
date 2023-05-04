@@ -51,6 +51,7 @@ import {
   SecureScoreControlDefinitionsImpl,
   SecuritySolutionsImpl,
   ConnectorsImpl,
+  SensitivitySettingsImpl,
   AlertsImpl,
   SettingsImpl,
   IngestionSettingsImpl,
@@ -114,6 +115,7 @@ import {
   SecureScoreControlDefinitions,
   SecuritySolutions,
   Connectors,
+  SensitivitySettings,
   Alerts,
   Settings,
   IngestionSettings,
@@ -135,7 +137,16 @@ import {
   SecurityConnectors,
   SecurityOperators
 } from "./operationsInterfaces";
-import { SecurityCenterOptionalParams } from "./models";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
+import {
+  SecurityCenterOptionalParams,
+  UpdateSensitivitySettingsRequest,
+  UpdateSensitivitySettingsOptionalParams,
+  UpdateSensitivitySettingsResponse,
+  GetSensitivitySettingsOptionalParams,
+  GetSensitivitySettingsOperationResponse
+} from "./models";
 
 export class SecurityCenter extends coreClient.ServiceClient {
   $host: string;
@@ -168,7 +179,7 @@ export class SecurityCenter extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-security/6.0.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-security/6.0.0-beta.5`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -290,6 +301,7 @@ export class SecurityCenter extends coreClient.ServiceClient {
     );
     this.securitySolutions = new SecuritySolutionsImpl(this);
     this.connectors = new ConnectorsImpl(this);
+    this.sensitivitySettings = new SensitivitySettingsImpl(this);
     this.alerts = new AlertsImpl(this);
     this.settings = new SettingsImpl(this);
     this.ingestionSettings = new IngestionSettingsImpl(this);
@@ -320,6 +332,34 @@ export class SecurityCenter extends coreClient.ServiceClient {
     );
     this.securityConnectors = new SecurityConnectorsImpl(this);
     this.securityOperators = new SecurityOperatorsImpl(this);
+  }
+
+  /**
+   * Updates data sensitivity settings for sensitive data discovery
+   * @param sensitivitySettings The data sensitivity settings to update
+   * @param options The options parameters.
+   */
+  updateSensitivitySettings(
+    sensitivitySettings: UpdateSensitivitySettingsRequest,
+    options?: UpdateSensitivitySettingsOptionalParams
+  ): Promise<UpdateSensitivitySettingsResponse> {
+    return this.sendOperationRequest(
+      { sensitivitySettings, options },
+      updateSensitivitySettingsOperationSpec
+    );
+  }
+
+  /**
+   * Gets data sensitivity settings for sensitive data discovery
+   * @param options The options parameters.
+   */
+  getSensitivitySettings(
+    options?: GetSensitivitySettingsOptionalParams
+  ): Promise<GetSensitivitySettingsOperationResponse> {
+    return this.sendOperationRequest(
+      { options },
+      getSensitivitySettingsOperationSpec
+    );
   }
 
   mdeOnboardings: MdeOnboardings;
@@ -363,6 +403,7 @@ export class SecurityCenter extends coreClient.ServiceClient {
   secureScoreControlDefinitions: SecureScoreControlDefinitions;
   securitySolutions: SecuritySolutions;
   connectors: Connectors;
+  sensitivitySettings: SensitivitySettings;
   alerts: Alerts;
   settings: Settings;
   ingestionSettings: IngestionSettings;
@@ -384,3 +425,40 @@ export class SecurityCenter extends coreClient.ServiceClient {
   securityConnectors: SecurityConnectors;
   securityOperators: SecurityOperators;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const updateSensitivitySettingsOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Security/sensitivitySettings/current",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GetSensitivitySettingsResponse
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.sensitivitySettings,
+  queryParameters: [Parameters.apiVersion12],
+  urlParameters: [Parameters.$host],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getSensitivitySettingsOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Security/sensitivitySettings/current",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GetSensitivitySettingsResponse
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion12],
+  urlParameters: [Parameters.$host],
+  headerParameters: [Parameters.accept],
+  serializer
+};

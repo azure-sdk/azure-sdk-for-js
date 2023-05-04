@@ -47,6 +47,7 @@ export * from "./secureScoreControls";
 export * from "./secureScoreControlDefinitions";
 export * from "./securitySolutions";
 export * from "./connectors";
+export * from "./sensitivitySettings";
 export * from "./alerts";
 export * from "./settings";
 export * from "./ingestionSettings";
