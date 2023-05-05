@@ -24,6 +24,7 @@ import {
   OperationsImpl,
   FirewallsImpl,
   LocalRulestacksImpl,
+  FirewallStatusImpl,
   CertificateObjectLocalRulestackImpl,
   FqdnListLocalRulestackImpl,
   LocalRulesImpl,
@@ -39,6 +40,7 @@ import {
   Operations,
   Firewalls,
   LocalRulestacks,
+  FirewallStatus,
   CertificateObjectLocalRulestack,
   FqdnListLocalRulestack,
   LocalRules,
@@ -78,7 +80,7 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -143,6 +145,7 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
     this.operations = new OperationsImpl(this);
     this.firewalls = new FirewallsImpl(this);
     this.localRulestacks = new LocalRulestacksImpl(this);
+    this.firewallStatus = new FirewallStatusImpl(this);
     this.certificateObjectLocalRulestack = new CertificateObjectLocalRulestackImpl(
       this
     );
@@ -189,6 +192,7 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
   operations: Operations;
   firewalls: Firewalls;
   localRulestacks: LocalRulestacks;
+  firewallStatus: FirewallStatus;
   certificateObjectLocalRulestack: CertificateObjectLocalRulestack;
   fqdnListLocalRulestack: FqdnListLocalRulestack;
   localRules: LocalRules;
