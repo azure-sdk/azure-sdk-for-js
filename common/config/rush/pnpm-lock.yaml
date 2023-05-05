@@ -14391,7 +14391,7 @@ packages:
     dev: false
 
   file:projects/arm-securityinsight.tgz:
-    resolution: {integrity: sha512-Aud3W52dRSgpgYe3rZRXrbxW8Tvfwu8+Wm4Efi3qUS4W9kgsPaKMU9sEgRRcu6v2KfZ4wnx8b6Sr5XpZIVIS7A==, tarball: file:projects/arm-securityinsight.tgz}
+    resolution: {integrity: sha512-siy2bX/cICza7AI6UkGPZoGm8rAdexoeXY4HtHb/jnkFwUJt9cNWOU0APs0+ZIbX56au0JKEXfrkFy39hehrJQ==, tarball: file:projects/arm-securityinsight.tgz}
     name: '@rush-temp/arm-securityinsight'
     version: 0.0.0
     dependencies:
@@ -14405,14 +14405,14 @@ packages:
       '@types/node': 14.18.43
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_mn2f3gd3jpedkkr23obcmzv5eq
       tslib: 2.5.0
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -15895,7 +15895,7 @@ packages:
     dev: false
 
   file:projects/communication-rooms.tgz:
-    resolution: {integrity: sha512-MWKqSMfk8nSMa06UaTb9zmyhqNzJHHdxqKvtjLUGw3ULCN+SopfAL4owdy0rfkvZ+2UEH3OBmxnbwJbuASIIWA==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-1jxME+P4umHDyg1wNfAWpx4pTbspvARTojOKayxAUPp6cEj0FqFIxb/GAW62LQRE3RcHwH7oxPZQuEozv2Ocww==, tarball: file:projects/communication-rooms.tgz}
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
