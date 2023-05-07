@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SkuDescription,
   KustoPoolsListSkusOptionalParams,
@@ -33,6 +33,8 @@ import {
   KustoPoolsDeleteOptionalParams,
   KustoPoolsStopOptionalParams,
   KustoPoolsStartOptionalParams,
+  KustoPoolMigrateRequest,
+  KustoPoolsMigrateOptionalParams,
   LanguageExtensionsList,
   KustoPoolsAddLanguageExtensionsOptionalParams,
   KustoPoolsRemoveLanguageExtensionsOptionalParams,
@@ -139,8 +141,8 @@ export interface KustoPools {
     parameters: KustoPool,
     options?: KustoPoolsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<KustoPoolsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<KustoPoolsCreateOrUpdateResponse>,
       KustoPoolsCreateOrUpdateResponse
     >
   >;
@@ -174,8 +176,8 @@ export interface KustoPools {
     parameters: KustoPoolUpdate,
     options?: KustoPoolsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<KustoPoolsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<KustoPoolsUpdateResponse>,
       KustoPoolsUpdateResponse
     >
   >;
@@ -206,7 +208,7 @@ export interface KustoPools {
     resourceGroupName: string,
     kustoPoolName: string,
     options?: KustoPoolsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Kusto pool.
    * @param workspaceName The name of the workspace.
@@ -232,7 +234,7 @@ export interface KustoPools {
     kustoPoolName: string,
     resourceGroupName: string,
     options?: KustoPoolsStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stops a Kusto pool.
    * @param workspaceName The name of the workspace.
@@ -258,7 +260,7 @@ export interface KustoPools {
     kustoPoolName: string,
     resourceGroupName: string,
     options?: KustoPoolsStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts a Kusto pool.
    * @param workspaceName The name of the workspace.
@@ -271,6 +273,36 @@ export interface KustoPools {
     kustoPoolName: string,
     resourceGroupName: string,
     options?: KustoPoolsStartOptionalParams
+  ): Promise<void>;
+  /**
+   * Migrate data from a Kusto pool to another cluster.
+   * @param workspaceName The name of the workspace.
+   * @param kustoPoolName The name of the Kusto pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param kustoPoolMigrateRequest The kusto pool migrate request parameters.
+   * @param options The options parameters.
+   */
+  beginMigrate(
+    workspaceName: string,
+    kustoPoolName: string,
+    resourceGroupName: string,
+    kustoPoolMigrateRequest: KustoPoolMigrateRequest,
+    options?: KustoPoolsMigrateOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Migrate data from a Kusto pool to another cluster.
+   * @param workspaceName The name of the workspace.
+   * @param kustoPoolName The name of the Kusto pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param kustoPoolMigrateRequest The kusto pool migrate request parameters.
+   * @param options The options parameters.
+   */
+  beginMigrateAndWait(
+    workspaceName: string,
+    kustoPoolName: string,
+    resourceGroupName: string,
+    kustoPoolMigrateRequest: KustoPoolMigrateRequest,
+    options?: KustoPoolsMigrateOptionalParams
   ): Promise<void>;
   /**
    * Add a list of language extensions that can run within KQL queries.
@@ -286,7 +318,7 @@ export interface KustoPools {
     resourceGroupName: string,
     languageExtensionsToAdd: LanguageExtensionsList,
     options?: KustoPoolsAddLanguageExtensionsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Add a list of language extensions that can run within KQL queries.
    * @param workspaceName The name of the workspace.
@@ -316,7 +348,7 @@ export interface KustoPools {
     resourceGroupName: string,
     languageExtensionsToRemove: LanguageExtensionsList,
     options?: KustoPoolsRemoveLanguageExtensionsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Remove a list of language extensions that can run within KQL queries.
    * @param workspaceName The name of the workspace.
@@ -346,7 +378,7 @@ export interface KustoPools {
     resourceGroupName: string,
     followerDatabaseToRemove: FollowerDatabaseDefinition,
     options?: KustoPoolsDetachFollowerDatabasesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Detaches all followers of a database owned by this Kusto Pool.
    * @param workspaceName The name of the workspace.

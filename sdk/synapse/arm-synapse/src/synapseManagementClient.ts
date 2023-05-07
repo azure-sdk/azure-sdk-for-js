@@ -83,6 +83,7 @@ import {
   KustoPoolDatabasesImpl,
   KustoPoolDataConnectionsImpl,
   KustoPoolPrincipalAssignmentsImpl,
+  KustoPoolDatabaseImpl,
   KustoPoolDatabasePrincipalAssignmentsImpl,
   KustoPoolPrivateLinkResourcesOperationsImpl
 } from "./operations";
@@ -160,6 +161,7 @@ import {
   KustoPoolDatabases,
   KustoPoolDataConnections,
   KustoPoolPrincipalAssignments,
+  KustoPoolDatabase,
   KustoPoolDatabasePrincipalAssignments,
   KustoPoolPrivateLinkResourcesOperations
 } from "./operationsInterfaces";
@@ -384,6 +386,7 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     this.kustoPoolPrincipalAssignments = new KustoPoolPrincipalAssignmentsImpl(
       this
     );
+    this.kustoPoolDatabase = new KustoPoolDatabaseImpl(this);
     this.kustoPoolDatabasePrincipalAssignments = new KustoPoolDatabasePrincipalAssignmentsImpl(
       this
     );
@@ -465,6 +468,7 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
   kustoPoolDatabases: KustoPoolDatabases;
   kustoPoolDataConnections: KustoPoolDataConnections;
   kustoPoolPrincipalAssignments: KustoPoolPrincipalAssignments;
+  kustoPoolDatabase: KustoPoolDatabase;
   kustoPoolDatabasePrincipalAssignments: KustoPoolDatabasePrincipalAssignments;
   kustoPoolPrivateLinkResourcesOperations: KustoPoolPrivateLinkResourcesOperations;
 }

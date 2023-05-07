@@ -60,6 +60,7 @@ import {
   KustoPoolCheckNameRequest as KustoPoolCheckNameRequestMapper,
   KustoPool as KustoPoolMapper,
   KustoPoolUpdate as KustoPoolUpdateMapper,
+  KustoPoolMigrateRequest as KustoPoolMigrateRequestMapper,
   LanguageExtensionsList as LanguageExtensionsListMapper,
   FollowerDatabaseDefinition as FollowerDatabaseDefinitionMapper,
   DatabaseCheckNameRequest as DatabaseCheckNameRequestMapper,
@@ -70,6 +71,7 @@ import {
   DataConnection as DataConnectionMapper,
   ClusterPrincipalAssignmentCheckNameRequest as ClusterPrincipalAssignmentCheckNameRequestMapper,
   ClusterPrincipalAssignment as ClusterPrincipalAssignmentMapper,
+  DatabaseInviteFollowerRequest as DatabaseInviteFollowerRequestMapper,
   DatabasePrincipalAssignmentCheckNameRequest as DatabasePrincipalAssignmentCheckNameRequestMapper,
   DatabasePrincipalAssignment as DatabasePrincipalAssignmentMapper
 } from "../models/mappers";
@@ -1002,6 +1004,11 @@ export const parameters24: OperationParameter = {
   mapper: KustoPoolUpdateMapper
 };
 
+export const kustoPoolMigrateRequest: OperationParameter = {
+  parameterPath: "kustoPoolMigrateRequest",
+  mapper: KustoPoolMigrateRequestMapper
+};
+
 export const languageExtensionsToAdd: OperationParameter = {
   parameterPath: "languageExtensionsToAdd",
   mapper: LanguageExtensionsListMapper
@@ -1101,12 +1108,17 @@ export const parameters29: OperationParameter = {
   mapper: ClusterPrincipalAssignmentMapper
 };
 
+export const parameters30: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DatabaseInviteFollowerRequestMapper
+};
+
 export const principalAssignmentName2: OperationParameter = {
   parameterPath: "principalAssignmentName",
   mapper: DatabasePrincipalAssignmentCheckNameRequestMapper
 };
 
-export const parameters30: OperationParameter = {
+export const parameters31: OperationParameter = {
   parameterPath: "parameters",
   mapper: DatabasePrincipalAssignmentMapper
 };

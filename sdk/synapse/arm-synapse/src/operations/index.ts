@@ -79,5 +79,6 @@ export * from "./kustoPoolAttachedDatabaseConfigurations";
 export * from "./kustoPoolDatabases";
 export * from "./kustoPoolDataConnections";
 export * from "./kustoPoolPrincipalAssignments";
+export * from "./kustoPoolDatabase";
 export * from "./kustoPoolDatabasePrincipalAssignments";
 export * from "./kustoPoolPrivateLinkResourcesOperations";
