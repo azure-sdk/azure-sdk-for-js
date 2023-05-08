@@ -269,7 +269,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TransparentDataEncryption
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorDetail
     }
   },
   requestBody: Parameters.parameters4,
