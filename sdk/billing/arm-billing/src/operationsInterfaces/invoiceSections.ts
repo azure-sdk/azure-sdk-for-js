@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   InvoiceSection,
   InvoiceSectionsListByBillingProfileOptionalParams,
@@ -62,8 +62,8 @@ export interface InvoiceSections {
     parameters: InvoiceSection,
     options?: InvoiceSectionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<InvoiceSectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<InvoiceSectionsCreateOrUpdateResponse>,
       InvoiceSectionsCreateOrUpdateResponse
     >
   >;
