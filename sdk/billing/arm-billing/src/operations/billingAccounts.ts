@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { BillingManagementClient } from "../billingManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   BillingAccount,
   BillingAccountsListNextOptionalParams,
@@ -213,8 +217,8 @@ export class BillingAccountsImpl implements BillingAccounts {
     parameters: BillingAccountUpdateRequest,
     options?: BillingAccountsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BillingAccountsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BillingAccountsUpdateResponse>,
       BillingAccountsUpdateResponse
     >
   > {
@@ -224,7 +228,7 @@ export class BillingAccountsImpl implements BillingAccounts {
     ): Promise<BillingAccountsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -257,15 +261,18 @@ export class BillingAccountsImpl implements BillingAccounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { billingAccountName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { billingAccountName, parameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BillingAccountsUpdateResponse,
+      OperationState<BillingAccountsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -355,7 +362,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BillingAccountListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
@@ -371,7 +378,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BillingAccount
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
@@ -396,7 +403,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BillingAccount
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   requestBody: Parameters.parameters,
@@ -415,7 +422,7 @@ const listInvoiceSectionsByCreateSubscriptionPermissionOperationSpec: coreClient
       bodyMapper: Mappers.InvoiceSectionListWithCreateSubPermissionResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -431,10 +438,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BillingAccountListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -447,10 +453,9 @@ const listInvoiceSectionsByCreateSubscriptionPermissionNextOperationSpec: coreCl
       bodyMapper: Mappers.InvoiceSectionListWithCreateSubPermissionResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,

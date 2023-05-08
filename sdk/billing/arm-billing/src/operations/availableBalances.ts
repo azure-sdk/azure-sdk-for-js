@@ -59,7 +59,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AvailableBalance
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion],

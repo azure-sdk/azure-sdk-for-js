@@ -9,26 +9,15 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   BillingPermissionsProperties,
-  BillingPermissionsListByCustomerOptionalParams,
   BillingPermissionsListByBillingAccountOptionalParams,
+  BillingPermissionsListByBillingProfileOptionalParams,
   BillingPermissionsListByInvoiceSectionsOptionalParams,
-  BillingPermissionsListByBillingProfileOptionalParams
+  BillingPermissionsListByCustomerOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BillingPermissions. */
 export interface BillingPermissions {
-  /**
-   * Lists the billing permissions the caller has for a customer.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param customerName The ID that uniquely identifies a customer.
-   * @param options The options parameters.
-   */
-  listByCustomer(
-    billingAccountName: string,
-    customerName: string,
-    options?: BillingPermissionsListByCustomerOptionalParams
-  ): PagedAsyncIterableIterator<BillingPermissionsProperties>;
   /**
    * Lists the billing permissions the caller has on a billing account.
    * @param billingAccountName The ID that uniquely identifies a billing account.
@@ -37,6 +26,17 @@ export interface BillingPermissions {
   listByBillingAccount(
     billingAccountName: string,
     options?: BillingPermissionsListByBillingAccountOptionalParams
+  ): PagedAsyncIterableIterator<BillingPermissionsProperties>;
+  /**
+   * Lists the billing permissions the caller has on a billing profile.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param options The options parameters.
+   */
+  listByBillingProfile(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: BillingPermissionsListByBillingProfileOptionalParams
   ): PagedAsyncIterableIterator<BillingPermissionsProperties>;
   /**
    * Lists the billing permissions the caller has on an invoice section.
@@ -52,14 +52,14 @@ export interface BillingPermissions {
     options?: BillingPermissionsListByInvoiceSectionsOptionalParams
   ): PagedAsyncIterableIterator<BillingPermissionsProperties>;
   /**
-   * Lists the billing permissions the caller has on a billing profile.
+   * Lists the billing permissions the caller has for a customer.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
    * @param options The options parameters.
    */
-  listByBillingProfile(
+  listByCustomer(
     billingAccountName: string,
-    billingProfileName: string,
-    options?: BillingPermissionsListByBillingProfileOptionalParams
+    customerName: string,
+    options?: BillingPermissionsListByCustomerOptionalParams
   ): PagedAsyncIterableIterator<BillingPermissionsProperties>;
 }
