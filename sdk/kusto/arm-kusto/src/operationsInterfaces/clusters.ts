@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   FollowerDatabaseDefinition,
   ClustersListFollowerDatabasesOptionalParams,
@@ -137,8 +137,8 @@ export interface Clusters {
     parameters: Cluster,
     options?: ClustersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ClustersCreateOrUpdateResponse>,
       ClustersCreateOrUpdateResponse
     >
   >;
@@ -168,8 +168,8 @@ export interface Clusters {
     parameters: ClusterUpdate,
     options?: ClustersUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ClustersUpdateResponse>,
       ClustersUpdateResponse
     >
   >;
@@ -196,7 +196,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Kusto cluster.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
@@ -218,7 +218,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stops a Kusto cluster.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
@@ -240,7 +240,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts a Kusto cluster.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
@@ -264,7 +264,7 @@ export interface Clusters {
     clusterName: string,
     followerDatabaseToRemove: FollowerDatabaseDefinition,
     options?: ClustersDetachFollowerDatabasesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Detaches all followers of a database owned by this cluster.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
@@ -289,8 +289,8 @@ export interface Clusters {
     clusterName: string,
     options?: ClustersDiagnoseVirtualNetworkOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersDiagnoseVirtualNetworkResponse>,
+    SimplePollerLike<
+      OperationState<ClustersDiagnoseVirtualNetworkResponse>,
       ClustersDiagnoseVirtualNetworkResponse
     >
   >;
@@ -328,7 +328,7 @@ export interface Clusters {
     clusterName: string,
     languageExtensionsToAdd: LanguageExtensionsList,
     options?: ClustersAddLanguageExtensionsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Add a list of language extensions that can run within KQL queries.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
@@ -354,7 +354,7 @@ export interface Clusters {
     clusterName: string,
     languageExtensionsToRemove: LanguageExtensionsList,
     options?: ClustersRemoveLanguageExtensionsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Remove a list of language extensions that can run within KQL queries.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.

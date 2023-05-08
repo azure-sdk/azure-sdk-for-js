@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AttachedDatabaseConfiguration,
   AttachedDatabaseConfigurationsListByClusterOptionalParams,
@@ -76,8 +76,8 @@ export interface AttachedDatabaseConfigurations {
     parameters: AttachedDatabaseConfiguration,
     options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AttachedDatabaseConfigurationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AttachedDatabaseConfigurationsCreateOrUpdateResponse>,
       AttachedDatabaseConfigurationsCreateOrUpdateResponse
     >
   >;
@@ -108,7 +108,7 @@ export interface AttachedDatabaseConfigurations {
     clusterName: string,
     attachedDatabaseConfigurationName: string,
     options?: AttachedDatabaseConfigurationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the attached database configuration with the given name.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.

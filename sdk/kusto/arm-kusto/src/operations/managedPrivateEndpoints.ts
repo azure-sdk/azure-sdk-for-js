@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { KustoManagementClient } from "../kustoManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ManagedPrivateEndpoint,
   ManagedPrivateEndpointsListOptionalParams,
@@ -171,8 +175,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     parameters: ManagedPrivateEndpoint,
     options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedPrivateEndpointsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ManagedPrivateEndpointsCreateOrUpdateResponse>,
       ManagedPrivateEndpointsCreateOrUpdateResponse
     >
   > {
@@ -182,7 +186,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     ): Promise<ManagedPrivateEndpointsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -215,19 +219,22 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         managedPrivateEndpointName,
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedPrivateEndpointsCreateOrUpdateResponse,
+      OperationState<ManagedPrivateEndpointsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -274,8 +281,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     parameters: ManagedPrivateEndpoint,
     options?: ManagedPrivateEndpointsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedPrivateEndpointsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ManagedPrivateEndpointsUpdateResponse>,
       ManagedPrivateEndpointsUpdateResponse
     >
   > {
@@ -285,7 +292,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     ): Promise<ManagedPrivateEndpointsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -318,19 +325,22 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         managedPrivateEndpointName,
         parameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedPrivateEndpointsUpdateResponse,
+      OperationState<ManagedPrivateEndpointsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -374,14 +384,14 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     clusterName: string,
     managedPrivateEndpointName: string,
     options?: ManagedPrivateEndpointsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -414,13 +424,18 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, managedPrivateEndpointName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        managedPrivateEndpointName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

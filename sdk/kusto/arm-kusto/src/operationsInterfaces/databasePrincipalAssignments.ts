@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DatabasePrincipalAssignment,
   DatabasePrincipalAssignmentsListOptionalParams,
@@ -84,8 +84,8 @@ export interface DatabasePrincipalAssignments {
     parameters: DatabasePrincipalAssignment,
     options?: DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DatabasePrincipalAssignmentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DatabasePrincipalAssignmentsCreateOrUpdateResponse>,
       DatabasePrincipalAssignmentsCreateOrUpdateResponse
     >
   >;
@@ -120,7 +120,7 @@ export interface DatabasePrincipalAssignments {
     databaseName: string,
     principalAssignmentName: string,
     options?: DatabasePrincipalAssignmentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Kusto principalAssignment.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
