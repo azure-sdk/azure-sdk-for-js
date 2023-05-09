@@ -19,6 +19,7 @@ import {
   WorkspacesImpl,
   ScalingPlansImpl,
   ScalingPlanPooledSchedulesImpl,
+  ScalingPlanPersonalSchedulesImpl,
   ApplicationGroupsImpl,
   StartMenuItemsImpl,
   ApplicationsImpl,
@@ -34,6 +35,7 @@ import {
   Workspaces,
   ScalingPlans,
   ScalingPlanPooledSchedules,
+  ScalingPlanPersonalSchedules,
   ApplicationGroups,
   StartMenuItems,
   Applications,
@@ -78,7 +80,7 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-desktopvirtualization/1.0.1`;
+    const packageDetails = `azsdk-js-arm-desktopvirtualization/2.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -131,11 +133,14 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-09";
+    this.apiVersion = options.apiVersion || "2023-01-30-preview";
     this.operations = new OperationsImpl(this);
     this.workspaces = new WorkspacesImpl(this);
     this.scalingPlans = new ScalingPlansImpl(this);
     this.scalingPlanPooledSchedules = new ScalingPlanPooledSchedulesImpl(this);
+    this.scalingPlanPersonalSchedules = new ScalingPlanPersonalSchedulesImpl(
+      this
+    );
     this.applicationGroups = new ApplicationGroupsImpl(this);
     this.startMenuItems = new StartMenuItemsImpl(this);
     this.applications = new ApplicationsImpl(this);
@@ -180,6 +185,7 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
   workspaces: Workspaces;
   scalingPlans: ScalingPlans;
   scalingPlanPooledSchedules: ScalingPlanPooledSchedules;
+  scalingPlanPersonalSchedules: ScalingPlanPersonalSchedules;
   applicationGroups: ApplicationGroups;
   startMenuItems: StartMenuItems;
   applications: Applications;

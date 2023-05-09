@@ -10,6 +10,7 @@ export * from "./operations";
 export * from "./workspaces";
 export * from "./scalingPlans";
 export * from "./scalingPlanPooledSchedules";
+export * from "./scalingPlanPersonalSchedules";
 export * from "./applicationGroups";
 export * from "./startMenuItems";
 export * from "./applications";

@@ -10,7 +10,6 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
 export interface AgentUpdatePatchProperties {
-    maintenanceWindows?: MaintenanceWindowPatchProperties[];
     maintenanceWindowTimeZone?: string;
     type?: SessionHostComponentUpdateType;
     useSessionHostLocalTime?: boolean;
@@ -18,7 +17,6 @@ export interface AgentUpdatePatchProperties {
 
 // @public
 export interface AgentUpdateProperties {
-    maintenanceWindows?: MaintenanceWindowProperties[];
     maintenanceWindowTimeZone?: string;
     type?: SessionHostComponentUpdateType;
     useSessionHostLocalTime?: boolean;
@@ -327,6 +325,8 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
     // (undocumented)
     operations: Operations;
     // (undocumented)
+    scalingPlanPersonalSchedules: ScalingPlanPersonalSchedules;
+    // (undocumented)
     scalingPlanPooledSchedules: ScalingPlanPooledSchedules;
     // (undocumented)
     scalingPlans: ScalingPlans;
@@ -618,6 +618,7 @@ export enum KnownRemoteApplicationType {
 
 // @public
 export enum KnownScalingHostPoolType {
+    Personal = "Personal",
     Pooled = "Pooled"
 }
 
@@ -630,6 +631,13 @@ export enum KnownScalingScheduleDaysOfWeekItem {
     Thursday = "Thursday",
     Tuesday = "Tuesday",
     Wednesday = "Wednesday"
+}
+
+// @public
+export enum KnownSessionHandlingOperation {
+    Deallocate = "Deallocate",
+    Hibernate = "Hibernate",
+    None = "None"
 }
 
 // @public
@@ -655,11 +663,24 @@ export enum KnownSessionState {
 }
 
 // @public
+export enum KnownSetStartVMOnConnect {
+    Disable = "Disable",
+    Enable = "Enable"
+}
+
+// @public
 export enum KnownSSOSecretType {
     Certificate = "Certificate",
     CertificateInKeyVault = "CertificateInKeyVault",
     SharedKey = "SharedKey",
     SharedKeyInKeyVault = "SharedKeyInKeyVault"
+}
+
+// @public
+export enum KnownStartupBehavior {
+    All = "All",
+    None = "None",
+    WithAssignedUser = "WithAssignedUser"
 }
 
 // @public
@@ -878,6 +899,10 @@ export interface Plan {
 export type PreferredAppGroupType = string;
 
 // @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export interface RegistrationInfo {
     expirationTime?: Date;
     registrationTokenOperation?: RegistrationTokenOperation;
@@ -997,6 +1022,125 @@ export interface ScalingPlanPatch {
     };
     timeZone?: string;
 }
+
+// @public
+export interface ScalingPlanPersonalSchedule extends ProxyResource {
+    daysOfWeek?: DayOfWeek[];
+    offPeakActionOnDisconnect?: SessionHandlingOperation;
+    offPeakActionOnLogoff?: SessionHandlingOperation;
+    offPeakMinutesToWaitOnDisconnect?: number;
+    offPeakMinutesToWaitOnLogoff?: number;
+    offPeakStartTime?: Time;
+    offPeakStartVMOnConnect?: SetStartVMOnConnect;
+    peakActionOnDisconnect?: SessionHandlingOperation;
+    peakActionOnLogoff?: SessionHandlingOperation;
+    peakMinutesToWaitOnDisconnect?: number;
+    peakMinutesToWaitOnLogoff?: number;
+    peakStartTime?: Time;
+    peakStartVMOnConnect?: SetStartVMOnConnect;
+    rampDownActionOnDisconnect?: SessionHandlingOperation;
+    rampDownActionOnLogoff?: SessionHandlingOperation;
+    rampDownMinutesToWaitOnDisconnect?: number;
+    rampDownMinutesToWaitOnLogoff?: number;
+    rampDownStartTime?: Time;
+    rampDownStartVMOnConnect?: SetStartVMOnConnect;
+    rampUpActionOnDisconnect?: SessionHandlingOperation;
+    rampUpActionOnLogoff?: SessionHandlingOperation;
+    rampUpAutoStartHosts?: StartupBehavior;
+    rampUpMinutesToWaitOnDisconnect?: number;
+    rampUpMinutesToWaitOnLogoff?: number;
+    rampUpStartTime?: Time;
+    rampUpStartVMOnConnect?: SetStartVMOnConnect;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface ScalingPlanPersonalScheduleList {
+    readonly nextLink?: string;
+    value?: ScalingPlanPersonalSchedule[];
+}
+
+// @public
+export interface ScalingPlanPersonalSchedulePatch {
+    daysOfWeek?: DayOfWeek[];
+    offPeakActionOnDisconnect?: SessionHandlingOperation;
+    offPeakActionOnLogoff?: SessionHandlingOperation;
+    offPeakMinutesToWaitOnDisconnect?: number;
+    offPeakMinutesToWaitOnLogoff?: number;
+    offPeakStartTime?: Time;
+    offPeakStartVMOnConnect?: SetStartVMOnConnect;
+    peakActionOnDisconnect?: SessionHandlingOperation;
+    peakActionOnLogoff?: SessionHandlingOperation;
+    peakMinutesToWaitOnDisconnect?: number;
+    peakMinutesToWaitOnLogoff?: number;
+    peakStartTime?: Time;
+    peakStartVMOnConnect?: SetStartVMOnConnect;
+    rampDownActionOnDisconnect?: SessionHandlingOperation;
+    rampDownActionOnLogoff?: SessionHandlingOperation;
+    rampDownMinutesToWaitOnDisconnect?: number;
+    rampDownMinutesToWaitOnLogoff?: number;
+    rampDownStartTime?: Time;
+    rampDownStartVMOnConnect?: SetStartVMOnConnect;
+    rampUpActionOnDisconnect?: SessionHandlingOperation;
+    rampUpActionOnLogoff?: SessionHandlingOperation;
+    rampUpAutoStartHosts?: StartupBehavior;
+    rampUpMinutesToWaitOnDisconnect?: number;
+    rampUpMinutesToWaitOnLogoff?: number;
+    rampUpStartTime?: Time;
+    rampUpStartVMOnConnect?: SetStartVMOnConnect;
+}
+
+// @public
+export interface ScalingPlanPersonalSchedules {
+    create(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, scalingPlanSchedule: ScalingPlanPersonalSchedule, options?: ScalingPlanPersonalSchedulesCreateOptionalParams): Promise<ScalingPlanPersonalSchedulesCreateResponse>;
+    delete(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, options?: ScalingPlanPersonalSchedulesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, options?: ScalingPlanPersonalSchedulesGetOptionalParams): Promise<ScalingPlanPersonalSchedulesGetResponse>;
+    list(resourceGroupName: string, scalingPlanName: string, options?: ScalingPlanPersonalSchedulesListOptionalParams): PagedAsyncIterableIterator<ScalingPlanPersonalSchedule>;
+    update(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, options?: ScalingPlanPersonalSchedulesUpdateOptionalParams): Promise<ScalingPlanPersonalSchedulesUpdateResponse>;
+}
+
+// @public
+export interface ScalingPlanPersonalSchedulesCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ScalingPlanPersonalSchedulesCreateResponse = ScalingPlanPersonalSchedule;
+
+// @public
+export interface ScalingPlanPersonalSchedulesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ScalingPlanPersonalSchedulesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ScalingPlanPersonalSchedulesGetResponse = ScalingPlanPersonalSchedule;
+
+// @public
+export interface ScalingPlanPersonalSchedulesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ScalingPlanPersonalSchedulesListNextResponse = ScalingPlanPersonalScheduleList;
+
+// @public
+export interface ScalingPlanPersonalSchedulesListOptionalParams extends coreClient.OperationOptions {
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
+}
+
+// @public
+export type ScalingPlanPersonalSchedulesListResponse = ScalingPlanPersonalScheduleList;
+
+// @public
+export interface ScalingPlanPersonalSchedulesUpdateOptionalParams extends coreClient.OperationOptions {
+    scalingPlanSchedule?: ScalingPlanPersonalSchedulePatch;
+}
+
+// @public
+export type ScalingPlanPersonalSchedulesUpdateResponse = ScalingPlanPersonalSchedule;
 
 // @public
 export interface ScalingPlanPooledSchedule extends Resource {
@@ -1224,6 +1368,9 @@ export interface ServiceSpecification {
 }
 
 // @public
+export type SessionHandlingOperation = string;
+
+// @public
 export interface SessionHost extends Resource {
     agentVersion?: string;
     allowNewSession?: boolean;
@@ -1328,6 +1475,9 @@ export type SessionHostsUpdateResponse = SessionHost;
 export type SessionState = string;
 
 // @public
+export type SetStartVMOnConnect = string;
+
+// @public
 export interface Sku {
     capacity?: number;
     family?: string;
@@ -1378,6 +1528,9 @@ export interface StartMenuItemsListOptionalParams extends coreClient.OperationOp
 
 // @public
 export type StartMenuItemsListResponse = StartMenuItemList;
+
+// @public
+export type StartupBehavior = string;
 
 // @public
 export type Status = string;

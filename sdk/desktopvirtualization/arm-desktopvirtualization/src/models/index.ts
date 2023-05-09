@@ -312,6 +312,73 @@ export interface ScalingPlanPooledScheduleList {
   readonly nextLink?: string;
 }
 
+/** ScalingPlanPersonalSchedule properties that can be patched. */
+export interface ScalingPlanPersonalSchedulePatch {
+  /** Set of days of the week on which this schedule is active. */
+  daysOfWeek?: DayOfWeek[];
+  /** Starting time for ramp up period. */
+  rampUpStartTime?: Time;
+  /** The desired startup behavior during the ramp up period for personal vms in the hostpool. */
+  rampUpAutoStartHosts?: StartupBehavior;
+  /** The desired configuration of Start VM On Connect for the hostpool during the ramp up phase. If this is disabled, session hosts must be turned on using rampUpAutoStartHosts or by turning them on manually. */
+  rampUpStartVMOnConnect?: SetStartVMOnConnect;
+  /** Action to be taken after a user disconnect during the ramp up period. */
+  rampUpActionOnDisconnect?: SessionHandlingOperation;
+  /** The time in minutes to wait before performing the desired session handling action when a user disconnects during the ramp up period. */
+  rampUpMinutesToWaitOnDisconnect?: number;
+  /** Action to be taken after a logoff during the ramp up period. */
+  rampUpActionOnLogoff?: SessionHandlingOperation;
+  /** The time in minutes to wait before performing the desired session handling action when a user logs off during the ramp up period. */
+  rampUpMinutesToWaitOnLogoff?: number;
+  /** Starting time for peak period. */
+  peakStartTime?: Time;
+  /** The desired configuration of Start VM On Connect for the hostpool during the peak phase. */
+  peakStartVMOnConnect?: SetStartVMOnConnect;
+  /** Action to be taken after a user disconnect during the peak period. */
+  peakActionOnDisconnect?: SessionHandlingOperation;
+  /** The time in minutes to wait before performing the desired session handling action when a user disconnects during the peak period. */
+  peakMinutesToWaitOnDisconnect?: number;
+  /** Action to be taken after a logoff during the peak period. */
+  peakActionOnLogoff?: SessionHandlingOperation;
+  /** The time in minutes to wait before performing the desired session handling action when a user logs off during the peak period. */
+  peakMinutesToWaitOnLogoff?: number;
+  /** Starting time for ramp down period. */
+  rampDownStartTime?: Time;
+  /** The desired configuration of Start VM On Connect for the hostpool during the ramp down phase. */
+  rampDownStartVMOnConnect?: SetStartVMOnConnect;
+  /** Action to be taken after a user disconnect during the ramp down period. */
+  rampDownActionOnDisconnect?: SessionHandlingOperation;
+  /** The time in minutes to wait before performing the desired session handling action when a user disconnects during the ramp down period. */
+  rampDownMinutesToWaitOnDisconnect?: number;
+  /** Action to be taken after a logoff during the ramp down period. */
+  rampDownActionOnLogoff?: SessionHandlingOperation;
+  /** The time in minutes to wait before performing the desired session handling action when a user logs off during the ramp down period. */
+  rampDownMinutesToWaitOnLogoff?: number;
+  /** Starting time for off-peak period. */
+  offPeakStartTime?: Time;
+  /** The desired configuration of Start VM On Connect for the hostpool during the off-peak phase. */
+  offPeakStartVMOnConnect?: SetStartVMOnConnect;
+  /** Action to be taken after a user disconnect during the off-peak period. */
+  offPeakActionOnDisconnect?: SessionHandlingOperation;
+  /** The time in minutes to wait before performing the desired session handling action when a user disconnects during the off-peak period. */
+  offPeakMinutesToWaitOnDisconnect?: number;
+  /** Action to be taken after a logoff during the off-peak period. */
+  offPeakActionOnLogoff?: SessionHandlingOperation;
+  /** The time in minutes to wait before performing the desired session handling action when a user logs off during the off-peak period. */
+  offPeakMinutesToWaitOnLogoff?: number;
+}
+
+/** List of ScalingPlanPersonalSchedule definitions. */
+export interface ScalingPlanPersonalScheduleList {
+  /** List of ScalingPlanPersonalSchedule definitions. */
+  value?: ScalingPlanPersonalSchedule[];
+  /**
+   * Link to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** List of ApplicationGroup definitions. */
 export interface ApplicationGroupList {
   /** List of ApplicationGroup definitions. */
@@ -412,16 +479,6 @@ export interface AgentUpdateProperties {
   useSessionHostLocalTime?: boolean;
   /** Time zone for maintenance as defined in https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=net-5.0. Must be set if useLocalTime is true. */
   maintenanceWindowTimeZone?: string;
-  /** List of maintenance windows. Maintenance windows are 2 hours long. */
-  maintenanceWindows?: MaintenanceWindowProperties[];
-}
-
-/** Maintenance window starting hour and day of week. */
-export interface MaintenanceWindowProperties {
-  /** The update start hour of the day. (0 - 23) */
-  hour?: number;
-  /** Day of the week. */
-  dayOfWeek?: DayOfWeek;
 }
 
 /** Represents a RegistrationInfo definition. */
@@ -440,16 +497,6 @@ export interface AgentUpdatePatchProperties {
   useSessionHostLocalTime?: boolean;
   /** Time zone for maintenance as defined in https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=net-5.0. Must be set if useLocalTime is true. */
   maintenanceWindowTimeZone?: string;
-  /** List of maintenance windows. Maintenance windows are 2 hours long. */
-  maintenanceWindows?: MaintenanceWindowPatchProperties[];
-}
-
-/** Maintenance window starting hour and day of week. */
-export interface MaintenanceWindowPatchProperties {
-  /** The update start hour of the day. (0 - 23) */
-  hour?: number;
-  /** Day of the week. */
-  dayOfWeek?: DayOfWeek;
 }
 
 /** List of HostPool definitions. */
@@ -585,6 +632,22 @@ export interface SendMessage {
   messageTitle?: string;
   /** Body of message. */
   messageBody?: string;
+}
+
+/** Maintenance window starting hour and day of week. */
+export interface MaintenanceWindowProperties {
+  /** The update start hour of the day. (0 - 23) */
+  hour?: number;
+  /** Day of the week. */
+  dayOfWeek?: DayOfWeek;
+}
+
+/** Maintenance window starting hour and day of week. */
+export interface MaintenanceWindowPatchProperties {
+  /** The update start hour of the day. (0 - 23) */
+  hour?: number;
+  /** Day of the week. */
+  dayOfWeek?: DayOfWeek;
 }
 
 /** Represents a Workspace definition. */
@@ -818,6 +881,9 @@ export interface ScalingPlanPooledSchedulePatch extends Resource {
   /** Load balancing algorithm for off-peak period. */
   offPeakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
 }
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
 
 /** ApplicationGroup properties that can be patched. */
 export interface ApplicationGroupPatch extends Resource {
@@ -1123,6 +1189,67 @@ export interface ExpandMsixImage extends Resource {
   packageApplications?: MsixPackageApplications[];
 }
 
+/** Represents a ScalingPlanPersonalSchedule definition. */
+export interface ScalingPlanPersonalSchedule extends ProxyResource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Set of days of the week on which this schedule is active. */
+  daysOfWeek?: DayOfWeek[];
+  /** Starting time for ramp up period. */
+  rampUpStartTime?: Time;
+  /** The desired startup behavior during the ramp up period for personal vms in the hostpool. */
+  rampUpAutoStartHosts?: StartupBehavior;
+  /** The desired configuration of Start VM On Connect for the hostpool during the ramp up phase. If this is disabled, session hosts must be turned on using rampUpAutoStartHosts or by turning them on manually. */
+  rampUpStartVMOnConnect?: SetStartVMOnConnect;
+  /** Action to be taken after a user disconnect during the ramp up period. */
+  rampUpActionOnDisconnect?: SessionHandlingOperation;
+  /** The time in minutes to wait before performing the desired session handling action when a user disconnects during the ramp up period. */
+  rampUpMinutesToWaitOnDisconnect?: number;
+  /** Action to be taken after a logoff during the ramp up period. */
+  rampUpActionOnLogoff?: SessionHandlingOperation;
+  /** The time in minutes to wait before performing the desired session handling action when a user logs off during the ramp up period. */
+  rampUpMinutesToWaitOnLogoff?: number;
+  /** Starting time for peak period. */
+  peakStartTime?: Time;
+  /** The desired configuration of Start VM On Connect for the hostpool during the peak phase. */
+  peakStartVMOnConnect?: SetStartVMOnConnect;
+  /** Action to be taken after a user disconnect during the peak period. */
+  peakActionOnDisconnect?: SessionHandlingOperation;
+  /** The time in minutes to wait before performing the desired session handling action when a user disconnects during the peak period. */
+  peakMinutesToWaitOnDisconnect?: number;
+  /** Action to be taken after a logoff during the peak period. */
+  peakActionOnLogoff?: SessionHandlingOperation;
+  /** The time in minutes to wait before performing the desired session handling action when a user logs off during the peak period. */
+  peakMinutesToWaitOnLogoff?: number;
+  /** Starting time for ramp down period. */
+  rampDownStartTime?: Time;
+  /** The desired configuration of Start VM On Connect for the hostpool during the ramp down phase. */
+  rampDownStartVMOnConnect?: SetStartVMOnConnect;
+  /** Action to be taken after a user disconnect during the ramp down period. */
+  rampDownActionOnDisconnect?: SessionHandlingOperation;
+  /** The time in minutes to wait before performing the desired session handling action when a user disconnects during the ramp down period. */
+  rampDownMinutesToWaitOnDisconnect?: number;
+  /** Action to be taken after a logoff during the ramp down period. */
+  rampDownActionOnLogoff?: SessionHandlingOperation;
+  /** The time in minutes to wait before performing the desired session handling action when a user logs off during the ramp down period. */
+  rampDownMinutesToWaitOnLogoff?: number;
+  /** Starting time for off-peak period. */
+  offPeakStartTime?: Time;
+  /** The desired configuration of Start VM On Connect for the hostpool during the off-peak phase. */
+  offPeakStartVMOnConnect?: SetStartVMOnConnect;
+  /** Action to be taken after a user disconnect during the off-peak period. */
+  offPeakActionOnDisconnect?: SessionHandlingOperation;
+  /** The time in minutes to wait before performing the desired session handling action when a user disconnects during the off-peak period. */
+  offPeakMinutesToWaitOnDisconnect?: number;
+  /** Action to be taken after a logoff during the off-peak period. */
+  offPeakActionOnLogoff?: SessionHandlingOperation;
+  /** The time in minutes to wait before performing the desired session handling action when a user logs off during the off-peak period. */
+  offPeakMinutesToWaitOnLogoff?: number;
+}
+
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -1150,7 +1277,9 @@ export type CreatedByType = string;
 /** Known values of {@link ScalingHostPoolType} that the service accepts. */
 export enum KnownScalingHostPoolType {
   /** Users get a new (random) SessionHost every time it connects to the HostPool. */
-  Pooled = "Pooled"
+  Pooled = "Pooled",
+  /** Users will be assigned a SessionHost either by administrators (PersonalDesktopAssignmentType = Direct) or upon connecting to the pool (PersonalDesktopAssignmentType = Automatic). They will always be redirected to their assigned SessionHost. */
+  Personal = "Personal"
 }
 
 /**
@@ -1158,7 +1287,8 @@ export enum KnownScalingHostPoolType {
  * {@link KnownScalingHostPoolType} can be used interchangeably with ScalingHostPoolType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Pooled**: Users get a new (random) SessionHost every time it connects to the HostPool.
+ * **Pooled**: Users get a new (random) SessionHost every time it connects to the HostPool. \
+ * **Personal**: Users will be assigned a SessionHost either by administrators (PersonalDesktopAssignmentType = Direct) or upon connecting to the pool (PersonalDesktopAssignmentType = Automatic). They will always be redirected to their assigned SessionHost.
  */
 export type ScalingHostPoolType = string;
 
@@ -1230,6 +1360,66 @@ export enum KnownStopHostsWhen {
  * **ZeroActiveSessions**
  */
 export type StopHostsWhen = string;
+
+/** Known values of {@link StartupBehavior} that the service accepts. */
+export enum KnownStartupBehavior {
+  /** Session hosts will not be started by the service. This setting depends on Start VM on Connect to be enabled to start the session hosts. */
+  None = "None",
+  /** Session hosts with an assigned user will be started during Ramp Up */
+  WithAssignedUser = "WithAssignedUser",
+  /** All personal session hosts in the hostpool will be started during ramp up. */
+  All = "All"
+}
+
+/**
+ * Defines values for StartupBehavior. \
+ * {@link KnownStartupBehavior} can be used interchangeably with StartupBehavior,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: Session hosts will not be started by the service. This setting depends on Start VM on Connect to be enabled to start the session hosts. \
+ * **WithAssignedUser**: Session hosts with an assigned user will be started during Ramp Up \
+ * **All**: All personal session hosts in the hostpool will be started during ramp up.
+ */
+export type StartupBehavior = string;
+
+/** Known values of {@link SetStartVMOnConnect} that the service accepts. */
+export enum KnownSetStartVMOnConnect {
+  /** Enable */
+  Enable = "Enable",
+  /** Disable */
+  Disable = "Disable"
+}
+
+/**
+ * Defines values for SetStartVMOnConnect. \
+ * {@link KnownSetStartVMOnConnect} can be used interchangeably with SetStartVMOnConnect,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enable** \
+ * **Disable**
+ */
+export type SetStartVMOnConnect = string;
+
+/** Known values of {@link SessionHandlingOperation} that the service accepts. */
+export enum KnownSessionHandlingOperation {
+  /** None */
+  None = "None",
+  /** Deallocate */
+  Deallocate = "Deallocate",
+  /** Hibernate */
+  Hibernate = "Hibernate"
+}
+
+/**
+ * Defines values for SessionHandlingOperation. \
+ * {@link KnownSessionHandlingOperation} can be used interchangeably with SessionHandlingOperation,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Deallocate** \
+ * **Hibernate**
+ */
+export type SessionHandlingOperation = string;
 
 /** Known values of {@link ApplicationGroupType} that the service accepts. */
 export enum KnownApplicationGroupType {
@@ -1851,6 +2041,55 @@ export interface ScalingPlanPooledSchedulesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type ScalingPlanPooledSchedulesListNextResponse = ScalingPlanPooledScheduleList;
+
+/** Optional parameters. */
+export interface ScalingPlanPersonalSchedulesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ScalingPlanPersonalSchedulesGetResponse = ScalingPlanPersonalSchedule;
+
+/** Optional parameters. */
+export interface ScalingPlanPersonalSchedulesCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type ScalingPlanPersonalSchedulesCreateResponse = ScalingPlanPersonalSchedule;
+
+/** Optional parameters. */
+export interface ScalingPlanPersonalSchedulesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ScalingPlanPersonalSchedulesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Object containing ScalingPlanPersonalSchedule definitions. */
+  scalingPlanSchedule?: ScalingPlanPersonalSchedulePatch;
+}
+
+/** Contains response data for the update operation. */
+export type ScalingPlanPersonalSchedulesUpdateResponse = ScalingPlanPersonalSchedule;
+
+/** Optional parameters. */
+export interface ScalingPlanPersonalSchedulesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Number of items per page. */
+  pageSize?: number;
+  /** Indicates whether the collection is descending. */
+  isDescending?: boolean;
+  /** Initial number of items to skip. */
+  initialSkip?: number;
+}
+
+/** Contains response data for the list operation. */
+export type ScalingPlanPersonalSchedulesListResponse = ScalingPlanPersonalScheduleList;
+
+/** Optional parameters. */
+export interface ScalingPlanPersonalSchedulesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ScalingPlanPersonalSchedulesListNextResponse = ScalingPlanPersonalScheduleList;
 
 /** Optional parameters. */
 export interface ApplicationGroupsGetOptionalParams

@@ -18,6 +18,8 @@ import {
   ScalingPlanPatch as ScalingPlanPatchMapper,
   ScalingPlanPooledSchedule as ScalingPlanPooledScheduleMapper,
   ScalingPlanPooledSchedulePatch as ScalingPlanPooledSchedulePatchMapper,
+  ScalingPlanPersonalSchedule as ScalingPlanPersonalScheduleMapper,
+  ScalingPlanPersonalSchedulePatch as ScalingPlanPersonalSchedulePatchMapper,
   ApplicationGroup as ApplicationGroupMapper,
   ApplicationGroupPatch as ApplicationGroupPatchMapper,
   Application as ApplicationMapper,
@@ -59,7 +61,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-09",
+    defaultValue: "2023-01-30-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -239,6 +241,16 @@ export const scalingPlanSchedule: OperationParameter = {
 export const scalingPlanSchedule1: OperationParameter = {
   parameterPath: ["options", "scalingPlanSchedule"],
   mapper: ScalingPlanPooledSchedulePatchMapper
+};
+
+export const scalingPlanSchedule2: OperationParameter = {
+  parameterPath: "scalingPlanSchedule",
+  mapper: ScalingPlanPersonalScheduleMapper
+};
+
+export const scalingPlanSchedule3: OperationParameter = {
+  parameterPath: ["options", "scalingPlanSchedule"],
+  mapper: ScalingPlanPersonalSchedulePatchMapper
 };
 
 export const applicationGroupName: OperationURLParameter = {

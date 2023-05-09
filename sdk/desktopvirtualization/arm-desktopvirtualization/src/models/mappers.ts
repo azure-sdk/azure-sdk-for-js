@@ -611,7 +611,7 @@ export const ScalingSchedule: coreClient.CompositeMapper = {
       rampDownCapacityThresholdPct: {
         constraints: {
           InclusiveMaximum: 100,
-          InclusiveMinimum: 0
+          InclusiveMinimum: 1
         },
         serializedName: "rampDownCapacityThresholdPct",
         type: {
@@ -846,6 +846,241 @@ export const ScalingPlanPooledScheduleList: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ScalingPlanPooledSchedule"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ScalingPlanPersonalSchedulePatch: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ScalingPlanPersonalSchedulePatch",
+    modelProperties: {
+      daysOfWeek: {
+        serializedName: "properties.daysOfWeek",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Enum",
+              allowedValues: [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday"
+              ]
+            }
+          }
+        }
+      },
+      rampUpStartTime: {
+        serializedName: "properties.rampUpStartTime",
+        type: {
+          name: "Composite",
+          className: "Time"
+        }
+      },
+      rampUpAutoStartHosts: {
+        serializedName: "properties.rampUpAutoStartHosts",
+        type: {
+          name: "String"
+        }
+      },
+      rampUpStartVMOnConnect: {
+        serializedName: "properties.rampUpStartVMOnConnect",
+        type: {
+          name: "String"
+        }
+      },
+      rampUpActionOnDisconnect: {
+        serializedName: "properties.rampUpActionOnDisconnect",
+        type: {
+          name: "String"
+        }
+      },
+      rampUpMinutesToWaitOnDisconnect: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "properties.rampUpMinutesToWaitOnDisconnect",
+        type: {
+          name: "Number"
+        }
+      },
+      rampUpActionOnLogoff: {
+        serializedName: "properties.rampUpActionOnLogoff",
+        type: {
+          name: "String"
+        }
+      },
+      rampUpMinutesToWaitOnLogoff: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "properties.rampUpMinutesToWaitOnLogoff",
+        type: {
+          name: "Number"
+        }
+      },
+      peakStartTime: {
+        serializedName: "properties.peakStartTime",
+        type: {
+          name: "Composite",
+          className: "Time"
+        }
+      },
+      peakStartVMOnConnect: {
+        serializedName: "properties.peakStartVMOnConnect",
+        type: {
+          name: "String"
+        }
+      },
+      peakActionOnDisconnect: {
+        serializedName: "properties.peakActionOnDisconnect",
+        type: {
+          name: "String"
+        }
+      },
+      peakMinutesToWaitOnDisconnect: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "properties.peakMinutesToWaitOnDisconnect",
+        type: {
+          name: "Number"
+        }
+      },
+      peakActionOnLogoff: {
+        serializedName: "properties.peakActionOnLogoff",
+        type: {
+          name: "String"
+        }
+      },
+      peakMinutesToWaitOnLogoff: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "properties.peakMinutesToWaitOnLogoff",
+        type: {
+          name: "Number"
+        }
+      },
+      rampDownStartTime: {
+        serializedName: "properties.rampDownStartTime",
+        type: {
+          name: "Composite",
+          className: "Time"
+        }
+      },
+      rampDownStartVMOnConnect: {
+        serializedName: "properties.rampDownStartVMOnConnect",
+        type: {
+          name: "String"
+        }
+      },
+      rampDownActionOnDisconnect: {
+        serializedName: "properties.rampDownActionOnDisconnect",
+        type: {
+          name: "String"
+        }
+      },
+      rampDownMinutesToWaitOnDisconnect: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "properties.rampDownMinutesToWaitOnDisconnect",
+        type: {
+          name: "Number"
+        }
+      },
+      rampDownActionOnLogoff: {
+        serializedName: "properties.rampDownActionOnLogoff",
+        type: {
+          name: "String"
+        }
+      },
+      rampDownMinutesToWaitOnLogoff: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "properties.rampDownMinutesToWaitOnLogoff",
+        type: {
+          name: "Number"
+        }
+      },
+      offPeakStartTime: {
+        serializedName: "properties.offPeakStartTime",
+        type: {
+          name: "Composite",
+          className: "Time"
+        }
+      },
+      offPeakStartVMOnConnect: {
+        serializedName: "properties.offPeakStartVMOnConnect",
+        type: {
+          name: "String"
+        }
+      },
+      offPeakActionOnDisconnect: {
+        serializedName: "properties.offPeakActionOnDisconnect",
+        type: {
+          name: "String"
+        }
+      },
+      offPeakMinutesToWaitOnDisconnect: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "properties.offPeakMinutesToWaitOnDisconnect",
+        type: {
+          name: "Number"
+        }
+      },
+      offPeakActionOnLogoff: {
+        serializedName: "properties.offPeakActionOnLogoff",
+        type: {
+          name: "String"
+        }
+      },
+      offPeakMinutesToWaitOnLogoff: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "properties.offPeakMinutesToWaitOnLogoff",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ScalingPlanPersonalScheduleList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ScalingPlanPersonalScheduleList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ScalingPlanPersonalSchedule"
             }
           }
         }
@@ -1134,48 +1369,6 @@ export const AgentUpdateProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      maintenanceWindows: {
-        serializedName: "maintenanceWindows",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MaintenanceWindowProperties"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const MaintenanceWindowProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MaintenanceWindowProperties",
-    modelProperties: {
-      hour: {
-        serializedName: "hour",
-        type: {
-          name: "Number"
-        }
-      },
-      dayOfWeek: {
-        serializedName: "dayOfWeek",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday"
-          ]
-        }
       }
     }
   }
@@ -1223,48 +1416,6 @@ export const AgentUpdatePatchProperties: coreClient.CompositeMapper = {
         serializedName: "maintenanceWindowTimeZone",
         type: {
           name: "String"
-        }
-      },
-      maintenanceWindows: {
-        serializedName: "maintenanceWindows",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MaintenanceWindowPatchProperties"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const MaintenanceWindowPatchProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MaintenanceWindowPatchProperties",
-    modelProperties: {
-      hour: {
-        serializedName: "hour",
-        type: {
-          name: "Number"
-        }
-      },
-      dayOfWeek: {
-        serializedName: "dayOfWeek",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday"
-          ]
         }
       }
     }
@@ -1579,6 +1730,66 @@ export const SendMessage: coreClient.CompositeMapper = {
         serializedName: "messageBody",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MaintenanceWindowProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MaintenanceWindowProperties",
+    modelProperties: {
+      hour: {
+        serializedName: "hour",
+        type: {
+          name: "Number"
+        }
+      },
+      dayOfWeek: {
+        serializedName: "dayOfWeek",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ]
+        }
+      }
+    }
+  }
+};
+
+export const MaintenanceWindowPatchProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MaintenanceWindowPatchProperties",
+    modelProperties: {
+      hour: {
+        serializedName: "hour",
+        type: {
+          name: "Number"
+        }
+      },
+      dayOfWeek: {
+        serializedName: "dayOfWeek",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ]
         }
       }
     }
@@ -2074,7 +2285,7 @@ export const ScalingPlanPooledSchedule: coreClient.CompositeMapper = {
       rampDownCapacityThresholdPct: {
         constraints: {
           InclusiveMaximum: 100,
-          InclusiveMinimum: 0
+          InclusiveMinimum: 1
         },
         serializedName: "properties.rampDownCapacityThresholdPct",
         type: {
@@ -2220,7 +2431,7 @@ export const ScalingPlanPooledSchedulePatch: coreClient.CompositeMapper = {
       rampDownCapacityThresholdPct: {
         constraints: {
           InclusiveMaximum: 100,
-          InclusiveMinimum: 0
+          InclusiveMinimum: 1
         },
         serializedName: "properties.rampDownCapacityThresholdPct",
         type: {
@@ -2264,6 +2475,16 @@ export const ScalingPlanPooledSchedulePatch: coreClient.CompositeMapper = {
           name: "String"
         }
       }
+    }
+  }
+};
+
+export const ProxyResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProxyResource",
+    modelProperties: {
+      ...Resource.type.modelProperties
     }
   }
 };
@@ -3048,6 +3269,221 @@ export const ExpandMsixImage: coreClient.CompositeMapper = {
               className: "MsixPackageApplications"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const ScalingPlanPersonalSchedule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ScalingPlanPersonalSchedule",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      daysOfWeek: {
+        serializedName: "properties.daysOfWeek",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Enum",
+              allowedValues: [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday"
+              ]
+            }
+          }
+        }
+      },
+      rampUpStartTime: {
+        serializedName: "properties.rampUpStartTime",
+        type: {
+          name: "Composite",
+          className: "Time"
+        }
+      },
+      rampUpAutoStartHosts: {
+        serializedName: "properties.rampUpAutoStartHosts",
+        type: {
+          name: "String"
+        }
+      },
+      rampUpStartVMOnConnect: {
+        serializedName: "properties.rampUpStartVMOnConnect",
+        type: {
+          name: "String"
+        }
+      },
+      rampUpActionOnDisconnect: {
+        serializedName: "properties.rampUpActionOnDisconnect",
+        type: {
+          name: "String"
+        }
+      },
+      rampUpMinutesToWaitOnDisconnect: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "properties.rampUpMinutesToWaitOnDisconnect",
+        type: {
+          name: "Number"
+        }
+      },
+      rampUpActionOnLogoff: {
+        serializedName: "properties.rampUpActionOnLogoff",
+        type: {
+          name: "String"
+        }
+      },
+      rampUpMinutesToWaitOnLogoff: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "properties.rampUpMinutesToWaitOnLogoff",
+        type: {
+          name: "Number"
+        }
+      },
+      peakStartTime: {
+        serializedName: "properties.peakStartTime",
+        type: {
+          name: "Composite",
+          className: "Time"
+        }
+      },
+      peakStartVMOnConnect: {
+        serializedName: "properties.peakStartVMOnConnect",
+        type: {
+          name: "String"
+        }
+      },
+      peakActionOnDisconnect: {
+        serializedName: "properties.peakActionOnDisconnect",
+        type: {
+          name: "String"
+        }
+      },
+      peakMinutesToWaitOnDisconnect: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "properties.peakMinutesToWaitOnDisconnect",
+        type: {
+          name: "Number"
+        }
+      },
+      peakActionOnLogoff: {
+        serializedName: "properties.peakActionOnLogoff",
+        type: {
+          name: "String"
+        }
+      },
+      peakMinutesToWaitOnLogoff: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "properties.peakMinutesToWaitOnLogoff",
+        type: {
+          name: "Number"
+        }
+      },
+      rampDownStartTime: {
+        serializedName: "properties.rampDownStartTime",
+        type: {
+          name: "Composite",
+          className: "Time"
+        }
+      },
+      rampDownStartVMOnConnect: {
+        serializedName: "properties.rampDownStartVMOnConnect",
+        type: {
+          name: "String"
+        }
+      },
+      rampDownActionOnDisconnect: {
+        serializedName: "properties.rampDownActionOnDisconnect",
+        type: {
+          name: "String"
+        }
+      },
+      rampDownMinutesToWaitOnDisconnect: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "properties.rampDownMinutesToWaitOnDisconnect",
+        type: {
+          name: "Number"
+        }
+      },
+      rampDownActionOnLogoff: {
+        serializedName: "properties.rampDownActionOnLogoff",
+        type: {
+          name: "String"
+        }
+      },
+      rampDownMinutesToWaitOnLogoff: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "properties.rampDownMinutesToWaitOnLogoff",
+        type: {
+          name: "Number"
+        }
+      },
+      offPeakStartTime: {
+        serializedName: "properties.offPeakStartTime",
+        type: {
+          name: "Composite",
+          className: "Time"
+        }
+      },
+      offPeakStartVMOnConnect: {
+        serializedName: "properties.offPeakStartVMOnConnect",
+        type: {
+          name: "String"
+        }
+      },
+      offPeakActionOnDisconnect: {
+        serializedName: "properties.offPeakActionOnDisconnect",
+        type: {
+          name: "String"
+        }
+      },
+      offPeakMinutesToWaitOnDisconnect: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "properties.offPeakMinutesToWaitOnDisconnect",
+        type: {
+          name: "Number"
+        }
+      },
+      offPeakActionOnLogoff: {
+        serializedName: "properties.offPeakActionOnLogoff",
+        type: {
+          name: "String"
+        }
+      },
+      offPeakMinutesToWaitOnLogoff: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "properties.offPeakMinutesToWaitOnLogoff",
+        type: {
+          name: "Number"
         }
       }
     }
