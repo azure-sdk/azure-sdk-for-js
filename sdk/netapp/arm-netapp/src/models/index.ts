@@ -1829,38 +1829,6 @@ export interface VolumeQuotaRule extends TrackedResource {
   quotaTarget?: string;
 }
 
-/** Backup policy properties */
-export interface BackupPolicyDetails extends TrackedResource {
-  /**
-   * Backup Policy Resource ID
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly backupPolicyId?: string;
-  /**
-   * Azure lifecycle management
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /** Daily backups count to keep */
-  dailyBackupsToKeep?: number;
-  /** Weekly backups count to keep */
-  weeklyBackupsToKeep?: number;
-  /** Monthly backups count to keep */
-  monthlyBackupsToKeep?: number;
-  /**
-   * Volumes using current backup policy
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly volumesAssigned?: number;
-  /** The property to decide policy is enabled or not */
-  enabled?: boolean;
-  /**
-   * A list of volumes assigned to this policy
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly volumeBackups?: VolumeBackups[];
-}
-
 /** Defines headers for Volumes_breakFileLocks operation. */
 export interface VolumesBreakFileLocksHeaders {
   location?: string;
