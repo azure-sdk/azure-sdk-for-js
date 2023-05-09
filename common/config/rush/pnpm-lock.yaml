@@ -3813,7 +3813,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230508
+      typescript: 5.1.0-dev.20230509
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8381,8 +8381,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230508:
-    resolution: {integrity: sha512-87gFJLsUB0IWN6/MUhh0QHS+qnLR5gTGwZr5vU5dYEVPv+VTNv/g2oXLWr5LCEP+hyj+a4LXx8QjCD7x6v+5wg==}
+  /typescript/5.1.0-dev.20230509:
+    resolution: {integrity: sha512-ZOIqXGpzmqUPr0Mgi5dP1NMTH6AcbKqojL7ChJk1AyE3I0zfce04xH5vpjtNOl4UcGWyZoz1xI7HOvmJhy/yng==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -13012,7 +13012,7 @@ packages:
     dev: false
 
   file:projects/arm-netapp.tgz:
-    resolution: {integrity: sha512-eAA5CAFaYQJp6nAofkbgZxDPN05r+umL1LjMc/2vrLVKA1foN0Wj8upTHJR04RcNIEZnUv5VmFrCbcnRrKRpOQ==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-DW78AFloIAfE7fEWZj07fYKhMQDke9ztmCi5SBIpJS7J6AjevKMw5nwxUUZWyzE6R6dpXPe/OcQptTN1ubdOsw==, tarball: file:projects/arm-netapp.tgz}
     name: '@rush-temp/arm-netapp'
     version: 0.0.0
     dependencies:
@@ -13033,7 +13033,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_mn2f3gd3jpedkkr23obcmzv5eq
       tslib: 2.5.0
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
