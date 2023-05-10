@@ -382,18 +382,6 @@ export const skip: OperationQueryParameter = {
   }
 };
 
-export const apiVersion2: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-08-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: ElasticPoolMapper
@@ -431,7 +419,7 @@ export const serviceObjectiveName: OperationURLParameter = {
   }
 };
 
-export const apiVersion3: OperationQueryParameter = {
+export const apiVersion2: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2020-11-01-preview",
@@ -1270,7 +1258,7 @@ export const parameters48: OperationParameter = {
   mapper: ServerAzureADOnlyAuthenticationMapper
 };
 
-export const apiVersion4: OperationQueryParameter = {
+export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-02-01-preview",
@@ -1522,7 +1510,7 @@ export const policyName3: OperationURLParameter = {
   }
 };
 
-export const apiVersion5: OperationQueryParameter = {
+export const apiVersion4: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-02-01-preview",
@@ -1635,7 +1623,7 @@ export const backupName: OperationURLParameter = {
   }
 };
 
-export const apiVersion6: OperationQueryParameter = {
+export const apiVersion5: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-05-01-preview",
@@ -1688,7 +1676,7 @@ export const parameters68: OperationParameter = {
   mapper: ServerConnectionPolicyMapper
 };
 
-export const apiVersion7: OperationQueryParameter = {
+export const apiVersion6: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-11-01-preview",
@@ -1974,7 +1962,7 @@ export const parameters87: OperationParameter = {
   mapper: SqlVulnerabilityAssessmentMapper
 };
 
-export const apiVersion8: OperationQueryParameter = {
+export const apiVersion7: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-05-01-preview",

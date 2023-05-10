@@ -149,8 +149,8 @@ import {
   VirtualClustersImpl,
   InstanceFailoverGroupsImpl,
   ManagedDatabaseRestoreDetailsImpl,
-  ManagedDatabasesImpl,
   DatabaseEncryptionProtectorsImpl,
+  ManagedDatabasesImpl,
   ManagedInstancesImpl,
   ManagedLedgerDigestUploadsOperationsImpl,
   RecoverableDatabasesImpl,
@@ -300,8 +300,8 @@ import {
   VirtualClusters,
   InstanceFailoverGroups,
   ManagedDatabaseRestoreDetails,
-  ManagedDatabases,
   DatabaseEncryptionProtectors,
+  ManagedDatabases,
   ManagedInstances,
   ManagedLedgerDigestUploadsOperations,
   RecoverableDatabases,
@@ -344,7 +344,7 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-sql/10.0.0`;
+    const packageDetails = `azsdk-js-arm-sql/10.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -666,10 +666,10 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     this.managedDatabaseRestoreDetails = new ManagedDatabaseRestoreDetailsImpl(
       this
     );
-    this.managedDatabases = new ManagedDatabasesImpl(this);
     this.databaseEncryptionProtectors = new DatabaseEncryptionProtectorsImpl(
       this
     );
+    this.managedDatabases = new ManagedDatabasesImpl(this);
     this.managedInstances = new ManagedInstancesImpl(this);
     this.managedLedgerDigestUploadsOperations = new ManagedLedgerDigestUploadsOperationsImpl(
       this
@@ -823,8 +823,8 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   virtualClusters: VirtualClusters;
   instanceFailoverGroups: InstanceFailoverGroups;
   managedDatabaseRestoreDetails: ManagedDatabaseRestoreDetails;
-  managedDatabases: ManagedDatabases;
   databaseEncryptionProtectors: DatabaseEncryptionProtectors;
+  managedDatabases: ManagedDatabases;
   managedInstances: ManagedInstances;
   managedLedgerDigestUploadsOperations: ManagedLedgerDigestUploadsOperations;
   recoverableDatabases: RecoverableDatabases;
