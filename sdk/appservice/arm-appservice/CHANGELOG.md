@@ -1,15 +1,12 @@
 # Release History
+    
+## 14.1.0 (2023-05-10)
+    
+**Features**
 
-## 14.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Enum KnownWorkflowState
+    
+    
 ## 14.0.0 (2023-03-10)
     
 **Features**
