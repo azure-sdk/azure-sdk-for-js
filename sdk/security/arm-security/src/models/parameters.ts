@@ -32,6 +32,8 @@ import {
   JitNetworkAccessPolicy as JitNetworkAccessPolicyMapper,
   JitNetworkAccessPolicyInitiateRequest as JitNetworkAccessPolicyInitiateRequestMapper,
   ConnectorSetting as ConnectorSettingMapper,
+  UpdateSensitivitySettingsRequest as UpdateSensitivitySettingsRequestMapper,
+  AggregationRequest as AggregationRequestMapper,
   AlertSimulatorRequestBody as AlertSimulatorRequestBodyMapper,
   Setting as SettingMapper,
   IngestionSetting as IngestionSettingMapper,
@@ -917,7 +919,41 @@ export const connectorSetting: OperationParameter = {
   mapper: ConnectorSettingMapper
 };
 
+export const sensitivitySettings: OperationParameter = {
+  parameterPath: "sensitivitySettings",
+  mapper: UpdateSensitivitySettingsRequestMapper
+};
+
 export const apiVersion12: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2023-02-15-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const aggregations: OperationParameter = {
+  parameterPath: "aggregations",
+  mapper: AggregationRequestMapper
+};
+
+export const apiVersion13: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2023-06-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion14: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-01-01",
@@ -945,7 +981,7 @@ export const alertSimulatorRequestBody: OperationParameter = {
   mapper: AlertSimulatorRequestBodyMapper
 };
 
-export const apiVersion13: OperationQueryParameter = {
+export const apiVersion15: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-05-01",
@@ -973,7 +1009,7 @@ export const setting1: OperationParameter = {
   mapper: SettingMapper
 };
 
-export const apiVersion14: OperationQueryParameter = {
+export const apiVersion16: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-01-15-preview",
@@ -1001,7 +1037,7 @@ export const ingestionSetting: OperationParameter = {
   mapper: IngestionSettingMapper
 };
 
-export const apiVersion15: OperationQueryParameter = {
+export const apiVersion17: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-05-01-preview",
@@ -1024,7 +1060,7 @@ export const softwareName: OperationURLParameter = {
   }
 };
 
-export const apiVersion16: OperationQueryParameter = {
+export const apiVersion18: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-01-01-preview",
@@ -1109,7 +1145,7 @@ export const governanceAssignment: OperationParameter = {
   mapper: GovernanceAssignmentMapper
 };
 
-export const apiVersion17: OperationQueryParameter = {
+export const apiVersion19: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-07-01-preview",
@@ -1179,7 +1215,7 @@ export const serviceName: OperationURLParameter = {
   }
 };
 
-export const apiVersion18: OperationQueryParameter = {
+export const apiVersion20: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-11-20-preview",
@@ -1206,7 +1242,7 @@ export const apiCollectionId: OperationURLParameter = {
   }
 };
 
-export const apiVersion19: OperationQueryParameter = {
+export const apiVersion21: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2023-02-01-preview",
@@ -1293,7 +1329,7 @@ export const body5: OperationParameter = {
   mapper: RulesResultsInputMapper
 };
 
-export const apiVersion20: OperationQueryParameter = {
+export const apiVersion22: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2023-03-01-preview",
@@ -1310,7 +1346,7 @@ export const securityConnector: OperationParameter = {
   mapper: SecurityConnectorMapper
 };
 
-export const apiVersion21: OperationQueryParameter = {
+export const apiVersion23: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2023-01-01-preview",

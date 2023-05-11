@@ -1520,6 +1520,96 @@ export interface AuthenticationDetailsProperties {
   readonly grantedPermissions?: PermissionProperty[];
 }
 
+/** Request to update data sensitivity settings for sensitive data discovery */
+export interface UpdateSensitivitySettingsRequest {
+  /** List of selected sensitive info types' IDs. */
+  sensitiveInfoTypesIds: string[];
+  /** The order of the sensitivity threshold label. Any label at or above this order will be considered sensitive. If set to -1, sensitivity by labels is turned off */
+  sensitivityThresholdLabelOrder?: number;
+  /** The id of the sensitivity threshold label. Any label at or above this rank will be considered sensitive. */
+  sensitivityThresholdLabelId?: string;
+}
+
+/** Data sensitivity settings for sensitive data discovery */
+export interface GetSensitivitySettingsResponse {
+  /**
+   * The ID of the sensitivity settings
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The type of the sensitivity settings
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The name of the sensitivity settings
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /** The sensitivity settings properties */
+  properties?: GetSensitivitySettingsResponseProperties;
+}
+
+/** The sensitivity settings properties */
+export interface GetSensitivitySettingsResponseProperties {
+  /** List of selected sensitive info types' IDs. */
+  sensitiveInfoTypesIds?: string[];
+  /** The order of the sensitivity threshold label. Any label at or above this order will be considered sensitive. If set to -1, sensitivity by labels is turned off */
+  sensitivityThresholdLabelOrder?: number;
+  /** The id of the sensitivity threshold label. Any label at or above this rank will be considered sensitive. */
+  sensitivityThresholdLabelId?: string;
+  /** Microsoft information protection built-in and custom information types, labels, and integration status. */
+  mipInformation?: GetSensitivitySettingsResponsePropertiesMipInformation;
+}
+
+/** Microsoft information protection built-in and custom information types, labels, and integration status. */
+export interface GetSensitivitySettingsResponsePropertiesMipInformation {
+  /** Microsoft information protection integration status */
+  mipIntegrationStatus?: MipIntegrationStatus;
+  /** List of Microsoft information protection sensitivity labels */
+  labels?: Label[];
+  /** List of custom user-defined information types */
+  customInfoTypes?: InfoType[];
+  /** List of pre-configured sensitive information types */
+  builtInInfoTypes?: BuiltInInfoType[];
+}
+
+/** Microsoft information protection sensitivity label */
+export interface Label {
+  /** The display name of the label */
+  name?: string;
+  /** The ID of the label */
+  id?: string;
+  /** Labels are ordered by sensitivity level. The higher the order of the label, the more sensitive it is. */
+  order?: number;
+}
+
+/** Custom user-defined information type */
+export interface InfoType {
+  /** Display name of the info type */
+  name?: string;
+  /** Id of the info type */
+  id?: string;
+  /** Description of the info type */
+  description?: string;
+}
+
+/** Pre-configured sensitive information type */
+export interface BuiltInInfoType {
+  /** Display name of the info type */
+  name?: string;
+  /** Id of the info type */
+  id?: string;
+  /** Category of the built-in info type */
+  type?: string;
+}
+
+/** A list with a single sensitivity settings resource */
+export interface GetSensitivitySettingsListResponse {
+  value?: GetSensitivitySettingsResponse[];
+}
+
 /** List of security alerts */
 export interface AlertList {
   /** describes security alert properties. */
@@ -2172,6 +2262,24 @@ export interface Identity {
   readonly tenantId?: string;
   /** The identity type. */
   type?: "SystemAssigned";
+}
+
+/** Aggregation query type and scopes. */
+export interface AggregationRequest {
+  /** The azure scopes in which the query will be executed - List of subscription IDs. */
+  azureScopes?: string[];
+  /** The aws scopes in which the query will be executed - list of cloud connector IDs. */
+  awsScopes?: string[];
+  /** The GCP scopes in which the query will be executed - list of GCP connector IDs. */
+  gcpScopes?: string[];
+  /** The aggregation query type */
+  aggregationType: AggregationType;
+}
+
+/** Aggregation query result. */
+export interface AggregationResponse {
+  /** Query output in JObject array. */
+  data: Record<string, unknown>;
 }
 
 /** CVSS details */
@@ -6500,6 +6608,30 @@ export enum KnownAuthenticationType {
  */
 export type AuthenticationType = string;
 
+/** Known values of {@link MipIntegrationStatus} that the service accepts. */
+export enum KnownMipIntegrationStatus {
+  /** Ok */
+  Ok = "Ok",
+  /** NoConsent */
+  NoConsent = "noConsent",
+  /** NoAutoLabelingRules */
+  NoAutoLabelingRules = "noAutoLabelingRules",
+  /** NoMipLabels */
+  NoMipLabels = "noMipLabels"
+}
+
+/**
+ * Defines values for MipIntegrationStatus. \
+ * {@link KnownMipIntegrationStatus} can be used interchangeably with MipIntegrationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Ok** \
+ * **noConsent** \
+ * **noAutoLabelingRules** \
+ * **noMipLabels**
+ */
+export type MipIntegrationStatus = string;
+
 /** Known values of {@link AlertSeverity} that the service accepts. */
 export enum KnownAlertSeverity {
   /** Informational */
@@ -7081,6 +7213,33 @@ export enum KnownEnvironmentType {
  * **GitlabScope**
  */
 export type EnvironmentType = string;
+
+/** Known values of {@link AggregationType} that the service accepts. */
+export enum KnownAggregationType {
+  /** Alerts */
+  Alerts = "Alerts",
+  /** AttackPaths */
+  AttackPaths = "AttackPaths",
+  /** UsefulQueries */
+  UsefulQueries = "UsefulQueries",
+  /** AllDataResources */
+  AllDataResources = "AllDataResources",
+  /** ScopeDetails */
+  ScopeDetails = "ScopeDetails"
+}
+
+/**
+ * Defines values for AggregationType. \
+ * {@link KnownAggregationType} can be used interchangeably with AggregationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Alerts** \
+ * **AttackPaths** \
+ * **UsefulQueries** \
+ * **AllDataResources** \
+ * **ScopeDetails**
+ */
+export type AggregationType = string;
 
 /** Known values of {@link AadConnectivityState} that the service accepts. */
 export enum KnownAadConnectivityState {
@@ -8571,6 +8730,34 @@ export interface ConnectorsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type ConnectorsListNextResponse = ConnectorSettingList;
+
+/** Optional parameters. */
+export interface UpdateSensitivitySettingsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateSensitivitySettings operation. */
+export type UpdateSensitivitySettingsResponse = GetSensitivitySettingsResponse;
+
+/** Optional parameters. */
+export interface GetSensitivitySettingsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSensitivitySettings operation. */
+export type GetSensitivitySettingsOperationResponse = GetSensitivitySettingsResponse;
+
+/** Optional parameters. */
+export interface AggregationsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the aggregations operation. */
+export type AggregationsResponse = AggregationResponse;
+
+/** Optional parameters. */
+export interface SensitivitySettingsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SensitivitySettingsListResponse = GetSensitivitySettingsListResponse;
 
 /** Optional parameters. */
 export interface AlertsListOptionalParams extends coreClient.OperationOptions {}

@@ -200,6 +200,29 @@ export interface AdvancedThreatProtectionSetting extends Resource {
 }
 
 // @public
+export interface AggregationRequest {
+    aggregationType: AggregationType;
+    awsScopes?: string[];
+    azureScopes?: string[];
+    gcpScopes?: string[];
+}
+
+// @public
+export interface AggregationResponse {
+    data: Record<string, unknown>;
+}
+
+// @public
+export interface AggregationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AggregationsResponse = AggregationResponse;
+
+// @public
+export type AggregationType = string;
+
+// @public
 export interface Alert extends Resource {
     readonly alertDisplayName?: string;
     readonly alertType?: string;
@@ -1129,6 +1152,13 @@ export interface BaselineAdjustedResult {
 export interface BenchmarkReference {
     benchmark?: string;
     reference?: string;
+}
+
+// @public
+export interface BuiltInInfoType {
+    id?: string;
+    name?: string;
+    type?: string;
 }
 
 // @public
@@ -2295,6 +2325,43 @@ export interface GcpProjectEnvironmentData extends EnvironmentData {
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export interface GetSensitivitySettingsListResponse {
+    // (undocumented)
+    value?: GetSensitivitySettingsResponse[];
+}
+
+// @public
+export type GetSensitivitySettingsOperationResponse = GetSensitivitySettingsResponse;
+
+// @public
+export interface GetSensitivitySettingsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface GetSensitivitySettingsResponse {
+    readonly id?: string;
+    readonly name?: string;
+    properties?: GetSensitivitySettingsResponseProperties;
+    readonly type?: string;
+}
+
+// @public
+export interface GetSensitivitySettingsResponseProperties {
+    mipInformation?: GetSensitivitySettingsResponsePropertiesMipInformation;
+    sensitiveInfoTypesIds?: string[];
+    sensitivityThresholdLabelId?: string;
+    sensitivityThresholdLabelOrder?: number;
+}
+
+// @public
+export interface GetSensitivitySettingsResponsePropertiesMipInformation {
+    builtInInfoTypes?: BuiltInInfoType[];
+    customInfoTypes?: InfoType[];
+    labels?: Label[];
+    mipIntegrationStatus?: MipIntegrationStatus;
+}
+
+// @public
 export interface GithubScopeEnvironmentData extends EnvironmentData {
     environmentType: "GithubScope";
 }
@@ -2684,6 +2751,13 @@ export interface InformationType {
     keywords?: InformationProtectionKeyword[];
     order?: number;
     recommendedLabelId?: string;
+}
+
+// @public
+export interface InfoType {
+    description?: string;
+    id?: string;
+    name?: string;
 }
 
 // @public
@@ -3268,6 +3342,15 @@ export enum KnownAdditionalWorkspaceType {
 }
 
 // @public
+export enum KnownAggregationType {
+    Alerts = "Alerts",
+    AllDataResources = "AllDataResources",
+    AttackPaths = "AttackPaths",
+    ScopeDetails = "ScopeDetails",
+    UsefulQueries = "UsefulQueries"
+}
+
+// @public
 export enum KnownAlertSeverity {
     High = "High",
     Informational = "Informational",
@@ -3575,6 +3658,14 @@ export enum KnownMinimalSeverity {
     High = "High",
     Low = "Low",
     Medium = "Medium"
+}
+
+// @public
+export enum KnownMipIntegrationStatus {
+    NoAutoLabelingRules = "noAutoLabelingRules",
+    NoConsent = "noConsent",
+    NoMipLabels = "noMipLabels",
+    Ok = "Ok"
 }
 
 // @public
@@ -4077,6 +4168,13 @@ export enum KnownValueType {
 }
 
 // @public
+export interface Label {
+    id?: string;
+    name?: string;
+    order?: number;
+}
+
+// @public
 export interface ListCustomAlertRule extends CustomAlertRule {
     ruleType: "ListCustomAlertRule" | "AllowlistCustomAlertRule" | "DenylistCustomAlertRule" | "ConnectionToIpNotAllowed" | "ConnectionFromIpNotAllowed" | "LocalUserNotAllowed" | "ProcessNotAllowed";
     readonly valueType?: ValueType;
@@ -4165,6 +4263,9 @@ export type MdeOnboardingsListResponse = MdeOnboardingDataList;
 
 // @public
 export type MinimalSeverity = string;
+
+// @public
+export type MipIntegrationStatus = string;
 
 // @public
 export interface MqttC2DMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
@@ -5030,6 +5131,7 @@ export class SecurityCenter extends coreClient.ServiceClient {
     adaptiveNetworkHardenings: AdaptiveNetworkHardenings;
     // (undocumented)
     advancedThreatProtection: AdvancedThreatProtection;
+    aggregations(aggregations: AggregationRequest, options?: AggregationsOptionalParams): Promise<AggregationsResponse>;
     // (undocumented)
     alerts: Alerts;
     // (undocumented)
@@ -5070,6 +5172,7 @@ export class SecurityCenter extends coreClient.ServiceClient {
     discoveredSecuritySolutions: DiscoveredSecuritySolutions;
     // (undocumented)
     externalSecuritySolutions: ExternalSecuritySolutions;
+    getSensitivitySettings(options?: GetSensitivitySettingsOptionalParams): Promise<GetSensitivitySettingsOperationResponse>;
     // (undocumented)
     governanceAssignments: GovernanceAssignments;
     // (undocumented)
@@ -5127,6 +5230,8 @@ export class SecurityCenter extends coreClient.ServiceClient {
     // (undocumented)
     securitySolutionsReferenceDataOperations: SecuritySolutionsReferenceDataOperations;
     // (undocumented)
+    sensitivitySettings: SensitivitySettings;
+    // (undocumented)
     serverVulnerabilityAssessmentOperations: ServerVulnerabilityAssessmentOperations;
     // (undocumented)
     settings: Settings;
@@ -5146,6 +5251,7 @@ export class SecurityCenter extends coreClient.ServiceClient {
     tasks: Tasks;
     // (undocumented)
     topology: Topology;
+    updateSensitivitySettings(sensitivitySettings: UpdateSensitivitySettingsRequest, options?: UpdateSensitivitySettingsOptionalParams): Promise<UpdateSensitivitySettingsResponse>;
     // (undocumented)
     workspaceSettings: WorkspaceSettings;
 }
@@ -5522,6 +5628,18 @@ export interface SensitivityLabel {
     order?: number;
     rank?: Rank;
 }
+
+// @public
+export interface SensitivitySettings {
+    list(options?: SensitivitySettingsListOptionalParams): Promise<SensitivitySettingsListResponse>;
+}
+
+// @public
+export interface SensitivitySettingsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SensitivitySettingsListResponse = GetSensitivitySettingsListResponse;
 
 // @public
 export interface ServerVulnerabilityAssessment extends Resource {
@@ -6132,6 +6250,20 @@ export interface UpdateIotSecuritySolutionData extends TagsResource {
     recommendationsConfiguration?: RecommendationConfigurationProperties[];
     userDefinedResources?: UserDefinedResourcesProperties;
 }
+
+// @public
+export interface UpdateSensitivitySettingsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface UpdateSensitivitySettingsRequest {
+    sensitiveInfoTypesIds: string[];
+    sensitivityThresholdLabelId?: string;
+    sensitivityThresholdLabelOrder?: number;
+}
+
+// @public
+export type UpdateSensitivitySettingsResponse = GetSensitivitySettingsResponse;
 
 // @public
 export interface UserDefinedResourcesProperties {

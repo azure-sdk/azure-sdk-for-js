@@ -3609,6 +3609,268 @@ export const AuthenticationDetailsProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const UpdateSensitivitySettingsRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UpdateSensitivitySettingsRequest",
+    modelProperties: {
+      sensitiveInfoTypesIds: {
+        serializedName: "sensitiveInfoTypesIds",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Uuid"
+            }
+          }
+        }
+      },
+      sensitivityThresholdLabelOrder: {
+        serializedName: "sensitivityThresholdLabelOrder",
+        type: {
+          name: "Number"
+        }
+      },
+      sensitivityThresholdLabelId: {
+        serializedName: "sensitivityThresholdLabelId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    }
+  }
+};
+
+export const GetSensitivitySettingsResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GetSensitivitySettingsResponse",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "GetSensitivitySettingsResponseProperties"
+        }
+      }
+    }
+  }
+};
+
+export const GetSensitivitySettingsResponseProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GetSensitivitySettingsResponseProperties",
+    modelProperties: {
+      sensitiveInfoTypesIds: {
+        serializedName: "sensitiveInfoTypesIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Uuid"
+            }
+          }
+        }
+      },
+      sensitivityThresholdLabelOrder: {
+        serializedName: "sensitivityThresholdLabelOrder",
+        type: {
+          name: "Number"
+        }
+      },
+      sensitivityThresholdLabelId: {
+        serializedName: "sensitivityThresholdLabelId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      mipInformation: {
+        serializedName: "mipInformation",
+        type: {
+          name: "Composite",
+          className: "GetSensitivitySettingsResponsePropertiesMipInformation"
+        }
+      }
+    }
+  }
+};
+
+export const GetSensitivitySettingsResponsePropertiesMipInformation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GetSensitivitySettingsResponsePropertiesMipInformation",
+    modelProperties: {
+      mipIntegrationStatus: {
+        serializedName: "mipIntegrationStatus",
+        type: {
+          name: "String"
+        }
+      },
+      labels: {
+        serializedName: "labels",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Label"
+            }
+          }
+        }
+      },
+      customInfoTypes: {
+        serializedName: "customInfoTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InfoType"
+            }
+          }
+        }
+      },
+      builtInInfoTypes: {
+        serializedName: "builtInInfoTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BuiltInInfoType"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Label: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Label",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        type: {
+          name: "Uuid"
+        }
+      },
+      order: {
+        serializedName: "order",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const InfoType: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InfoType",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        type: {
+          name: "Uuid"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BuiltInInfoType: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BuiltInInfoType",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        type: {
+          name: "Uuid"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GetSensitivitySettingsListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GetSensitivitySettingsListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GetSensitivitySettingsResponse"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const AlertList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5227,6 +5489,72 @@ export const Identity: coreClient.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AggregationRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AggregationRequest",
+    modelProperties: {
+      azureScopes: {
+        serializedName: "azureScopes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      awsScopes: {
+        serializedName: "awsScopes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      gcpScopes: {
+        serializedName: "gcpScopes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      aggregationType: {
+        serializedName: "aggregationType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AggregationResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AggregationResponse",
+    modelProperties: {
+      data: {
+        serializedName: "data",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
