@@ -96,7 +96,7 @@ export const top: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10-01",
+    defaultValue: "2023-05-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -240,6 +240,18 @@ export const reservationId: OperationURLParameter = {
   }
 };
 
+export const resourceScope: OperationURLParameter = {
+  parameterPath: "resourceScope",
+  mapper: {
+    serializedName: "resourceScope",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
 export const reservationId1: OperationQueryParameter = {
   parameterPath: ["options", "reservationId"],
   mapper: {
@@ -271,46 +283,22 @@ export const filter1: OperationQueryParameter = {
   }
 };
 
-export const region: OperationQueryParameter = {
-  parameterPath: "region",
+export const useMarkupIfPartner: OperationQueryParameter = {
+  parameterPath: ["options", "useMarkupIfPartner"],
   mapper: {
-    serializedName: "region",
-    required: true,
+    serializedName: "useMarkupIfPartner",
     type: {
-      name: "String"
+      name: "Boolean"
     }
   }
 };
 
-export const term: OperationQueryParameter = {
-  parameterPath: "term",
+export const previewMarkupPercentage: OperationQueryParameter = {
+  parameterPath: ["options", "previewMarkupPercentage"],
   mapper: {
-    serializedName: "term",
-    required: true,
+    serializedName: "previewMarkupPercentage",
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const lookBackPeriod: OperationQueryParameter = {
-  parameterPath: "lookBackPeriod",
-  mapper: {
-    serializedName: "lookBackPeriod",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const product: OperationQueryParameter = {
-  parameterPath: "product",
-  mapper: {
-    serializedName: "product",
-    required: true,
-    type: {
-      name: "String"
+      name: "Number"
     }
   }
 };
@@ -363,6 +351,17 @@ export const endDate1: OperationQueryParameter = {
   parameterPath: "endDate",
   mapper: {
     serializedName: "endDate",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const customerId: OperationURLParameter = {
+  parameterPath: "customerId",
+  mapper: {
+    serializedName: "customerId",
     required: true,
     type: {
       name: "String"

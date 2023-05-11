@@ -7,8 +7,6 @@
  */
 
 import {
-  Term,
-  LookBackPeriod,
   ReservationRecommendationDetailsGetOptionalParams,
   ReservationRecommendationDetailsGetResponse
 } from "../models";
@@ -17,25 +15,22 @@ import {
 export interface ReservationRecommendationDetails {
   /**
    * Details of a reservation recommendation for what-if analysis of reserved instances.
-   * @param scope The scope associated with reservation recommendation details operations. This includes
-   *              '/subscriptions/{subscriptionId}/' for subscription scope,
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resource group scope,
-   *              /providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
-   *              for billingProfile scope
-   * @param region Used to select the region the recommendation should be generated for.
-   * @param term Specify length of reservation recommendation term.
-   * @param lookBackPeriod Filter the time period on which reservation recommendation results are based.
-   * @param product Filter the products for which reservation recommendation results are generated.
-   *                Examples: Standard_DS1_v2 (for VM), Premium_SSD_Managed_Disks_P30 (for Managed Disks)
+   * @param resourceScope The scope associated with reservation recommendation details operations. This
+   *                      includes '/subscriptions/{subscriptionId}/' for subscription scope,
+   *                      '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resource group scope,
+   *                      /providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   *                      for billingProfile scope
+   * @param filter Used to filter reservation recommendation details by: properties/scope with allowed
+   *               values ['Single', 'Shared']; properties/savings/lookBackPeriod with allowed values [7, 30, 60];
+   *               properties/savings/reservationOrderTerm with allowed values ['P1Y', 'P3Y'];
+   *               properties/resource/region; properties/resource/product; and optional filter
+   *               properties/subscriptionId can be specified for billing account and billing profile paths.
    * @param options The options parameters.
    */
   get(
-    scope: string,
-    region: string,
-    term: Term,
-    lookBackPeriod: LookBackPeriod,
-    product: string,
+    resourceScope: string,
+    filter: string,
     options?: ReservationRecommendationDetailsGetOptionalParams
   ): Promise<ReservationRecommendationDetailsGetResponse>;
 }
