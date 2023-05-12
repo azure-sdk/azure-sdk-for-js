@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { BillingBenefitsRP } from "../billingBenefitsRP";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ReservationOrderAliasRequest,
   ReservationOrderAliasCreateOptionalParams,
@@ -44,8 +48,8 @@ export class ReservationOrderAliasImpl implements ReservationOrderAlias {
     body: ReservationOrderAliasRequest,
     options?: ReservationOrderAliasCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationOrderAliasCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReservationOrderAliasCreateResponse>,
       ReservationOrderAliasCreateResponse
     >
   > {
@@ -55,7 +59,7 @@ export class ReservationOrderAliasImpl implements ReservationOrderAlias {
     ): Promise<ReservationOrderAliasCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -88,15 +92,18 @@ export class ReservationOrderAliasImpl implements ReservationOrderAlias {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { reservationOrderAliasName, body, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reservationOrderAliasName, body, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReservationOrderAliasCreateResponse,
+      OperationState<ReservationOrderAliasCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
