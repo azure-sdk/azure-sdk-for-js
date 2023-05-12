@@ -1,15 +1,45 @@
 # Release History
+    
+## 4.0.0 (2023-05-12)
+    
+**Features**
 
-## 3.1.1 (Unreleased)
+  - Added operation group AdvisorScores
+  - Added Interface AdvisorScoreEntity
+  - Added Interface AdvisorScoreEntityProperties
+  - Added Interface AdvisorScoreResponse
+  - Added Interface AdvisorScoresGetOptionalParams
+  - Added Interface AdvisorScoresListOptionalParams
+  - Added Interface PredictionRequest
+  - Added Interface PredictionResponse
+  - Added Interface PredictOptionalParams
+  - Added Interface ProxyResource
+  - Added Interface ScoreEntity
+  - Added Interface SystemData
+  - Added Interface TimeSeriesEntityItem
+  - Added Type Alias AdvisorScoresGetResponse
+  - Added Type Alias AdvisorScoresListResponse
+  - Added Type Alias Aggregated
+  - Added Type Alias CreatedByType
+  - Added Type Alias Duration
+  - Added Type Alias PredictionType
+  - Added Type Alias PredictResponse
+  - Interface ConfigData has a new optional parameter duration
+  - Interface Resource has a new optional parameter systemData
+  - Added Enum KnownAggregated
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDuration
+  - Added Enum KnownPredictionType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface RecommendationsListNextOptionalParams no longer has parameter filter
+  - Interface RecommendationsListNextOptionalParams no longer has parameter skipToken
+  - Interface RecommendationsListNextOptionalParams no longer has parameter top
+  - Interface SuppressionsListNextOptionalParams no longer has parameter skipToken
+  - Interface SuppressionsListNextOptionalParams no longer has parameter top
+    
+    
 ## 3.1.0 (2022-11-14)
     
 **Features**
