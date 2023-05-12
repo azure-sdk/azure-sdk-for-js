@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ContainerAppsSourceControls } from "../operationsInterfaces";
+import { Builds } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,26 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  SourceControl,
-  ContainerAppsSourceControlsListByContainerAppNextOptionalParams,
-  ContainerAppsSourceControlsListByContainerAppOptionalParams,
-  ContainerAppsSourceControlsListByContainerAppResponse,
-  ContainerAppsSourceControlsGetOptionalParams,
-  ContainerAppsSourceControlsGetResponse,
-  ContainerAppsSourceControlsCreateOrUpdateOptionalParams,
-  ContainerAppsSourceControlsCreateOrUpdateResponse,
-  ContainerAppsSourceControlsDeleteOptionalParams,
-  ContainerAppsSourceControlsListByContainerAppNextResponse
+  BuildResource,
+  BuildsListByBuilderResourceNextOptionalParams,
+  BuildsListByBuilderResourceOptionalParams,
+  BuildsListByBuilderResourceResponse,
+  BuildsGetOptionalParams,
+  BuildsGetResponse,
+  BuildsCreateOrUpdateOptionalParams,
+  BuildsCreateOrUpdateResponse,
+  BuildsDeleteOptionalParams,
+  BuildsListByBuilderResourceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ContainerAppsSourceControls operations. */
-export class ContainerAppsSourceControlsImpl
-  implements ContainerAppsSourceControls {
+/** Class containing Builds operations. */
+export class BuildsImpl implements Builds {
   private readonly client: ContainerAppsAPIClient;
 
   /**
-   * Initialize a new instance of the class ContainerAppsSourceControls class.
+   * Initialize a new instance of the class Builds class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerAppsAPIClient) {
@@ -47,19 +46,19 @@ export class ContainerAppsSourceControlsImpl
   }
 
   /**
-   * Get the Container App SourceControls in a given resource group.
+   * List BuildResource resources by BuilderResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
+   * @param builderName The name of the builder.
    * @param options The options parameters.
    */
-  public listByContainerApp(
+  public listByBuilderResource(
     resourceGroupName: string,
-    containerAppName: string,
-    options?: ContainerAppsSourceControlsListByContainerAppOptionalParams
-  ): PagedAsyncIterableIterator<SourceControl> {
-    const iter = this.listByContainerAppPagingAll(
+    builderName: string,
+    options?: BuildsListByBuilderResourceOptionalParams
+  ): PagedAsyncIterableIterator<BuildResource> {
+    const iter = this.listByBuilderResourcePagingAll(
       resourceGroupName,
-      containerAppName,
+      builderName,
       options
     );
     return {
@@ -73,9 +72,9 @@ export class ContainerAppsSourceControlsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByContainerAppPagingPage(
+        return this.listByBuilderResourcePagingPage(
           resourceGroupName,
-          containerAppName,
+          builderName,
           options,
           settings
         );
@@ -83,18 +82,18 @@ export class ContainerAppsSourceControlsImpl
     };
   }
 
-  private async *listByContainerAppPagingPage(
+  private async *listByBuilderResourcePagingPage(
     resourceGroupName: string,
-    containerAppName: string,
-    options?: ContainerAppsSourceControlsListByContainerAppOptionalParams,
+    builderName: string,
+    options?: BuildsListByBuilderResourceOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<SourceControl[]> {
-    let result: ContainerAppsSourceControlsListByContainerAppResponse;
+  ): AsyncIterableIterator<BuildResource[]> {
+    let result: BuildsListByBuilderResourceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByContainerApp(
+      result = await this._listByBuilderResource(
         resourceGroupName,
-        containerAppName,
+        builderName,
         options
       );
       let page = result.value || [];
@@ -103,9 +102,9 @@ export class ContainerAppsSourceControlsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByContainerAppNext(
+      result = await this._listByBuilderResourceNext(
         resourceGroupName,
-        containerAppName,
+        builderName,
         continuationToken,
         options
       );
@@ -116,14 +115,14 @@ export class ContainerAppsSourceControlsImpl
     }
   }
 
-  private async *listByContainerAppPagingAll(
+  private async *listByBuilderResourcePagingAll(
     resourceGroupName: string,
-    containerAppName: string,
-    options?: ContainerAppsSourceControlsListByContainerAppOptionalParams
-  ): AsyncIterableIterator<SourceControl> {
-    for await (const page of this.listByContainerAppPagingPage(
+    builderName: string,
+    options?: BuildsListByBuilderResourceOptionalParams
+  ): AsyncIterableIterator<BuildResource> {
+    for await (const page of this.listByBuilderResourcePagingPage(
       resourceGroupName,
-      containerAppName,
+      builderName,
       options
     )) {
       yield* page;
@@ -131,65 +130,65 @@ export class ContainerAppsSourceControlsImpl
   }
 
   /**
-   * Get the Container App SourceControls in a given resource group.
+   * List BuildResource resources by BuilderResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
+   * @param builderName The name of the builder.
    * @param options The options parameters.
    */
-  private _listByContainerApp(
+  private _listByBuilderResource(
     resourceGroupName: string,
-    containerAppName: string,
-    options?: ContainerAppsSourceControlsListByContainerAppOptionalParams
-  ): Promise<ContainerAppsSourceControlsListByContainerAppResponse> {
+    builderName: string,
+    options?: BuildsListByBuilderResourceOptionalParams
+  ): Promise<BuildsListByBuilderResourceResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, containerAppName, options },
-      listByContainerAppOperationSpec
+      { resourceGroupName, builderName, options },
+      listByBuilderResourceOperationSpec
     );
   }
 
   /**
-   * Get a SourceControl of a Container App.
+   * Get a BuildResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param sourceControlName Name of the Container App SourceControl.
+   * @param builderName The name of the builder.
+   * @param buildName The name of a build.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    containerAppName: string,
-    sourceControlName: string,
-    options?: ContainerAppsSourceControlsGetOptionalParams
-  ): Promise<ContainerAppsSourceControlsGetResponse> {
+    builderName: string,
+    buildName: string,
+    options?: BuildsGetOptionalParams
+  ): Promise<BuildsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, containerAppName, sourceControlName, options },
+      { resourceGroupName, builderName, buildName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or update the SourceControl for a Container App.
+   * Create a BuildResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param sourceControlName Name of the Container App SourceControl.
-   * @param sourceControlEnvelope Properties used to create a Container App SourceControl
+   * @param builderName The name of the builder.
+   * @param buildName The name of a build.
+   * @param buildEnvelope Resource create or update parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    containerAppName: string,
-    sourceControlName: string,
-    sourceControlEnvelope: SourceControl,
-    options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams
+    builderName: string,
+    buildName: string,
+    buildEnvelope: BuildResource,
+    options?: BuildsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ContainerAppsSourceControlsCreateOrUpdateResponse>,
-      ContainerAppsSourceControlsCreateOrUpdateResponse
+      OperationState<BuildsCreateOrUpdateResponse>,
+      BuildsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ContainerAppsSourceControlsCreateOrUpdateResponse> => {
+    ): Promise<BuildsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -229,61 +228,62 @@ export class ContainerAppsSourceControlsImpl
       sendOperationFn,
       args: {
         resourceGroupName,
-        containerAppName,
-        sourceControlName,
-        sourceControlEnvelope,
+        builderName,
+        buildName,
+        buildEnvelope,
         options
       },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      ContainerAppsSourceControlsCreateOrUpdateResponse,
-      OperationState<ContainerAppsSourceControlsCreateOrUpdateResponse>
+      BuildsCreateOrUpdateResponse,
+      OperationState<BuildsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or update the SourceControl for a Container App.
+   * Create a BuildResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param sourceControlName Name of the Container App SourceControl.
-   * @param sourceControlEnvelope Properties used to create a Container App SourceControl
+   * @param builderName The name of the builder.
+   * @param buildName The name of a build.
+   * @param buildEnvelope Resource create or update parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    containerAppName: string,
-    sourceControlName: string,
-    sourceControlEnvelope: SourceControl,
-    options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams
-  ): Promise<ContainerAppsSourceControlsCreateOrUpdateResponse> {
+    builderName: string,
+    buildName: string,
+    buildEnvelope: BuildResource,
+    options?: BuildsCreateOrUpdateOptionalParams
+  ): Promise<BuildsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      containerAppName,
-      sourceControlName,
-      sourceControlEnvelope,
+      builderName,
+      buildName,
+      buildEnvelope,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete a Container App SourceControl.
+   * Delete a BuildResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param sourceControlName Name of the Container App SourceControl.
+   * @param builderName The name of the builder.
+   * @param buildName The name of a build.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    containerAppName: string,
-    sourceControlName: string,
-    options?: ContainerAppsSourceControlsDeleteOptionalParams
+    builderName: string,
+    buildName: string,
+    options?: BuildsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -326,68 +326,69 @@ export class ContainerAppsSourceControlsImpl
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, containerAppName, sourceControlName, options },
+      args: { resourceGroupName, builderName, buildName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete a Container App SourceControl.
+   * Delete a BuildResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param sourceControlName Name of the Container App SourceControl.
+   * @param builderName The name of the builder.
+   * @param buildName The name of a build.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    containerAppName: string,
-    sourceControlName: string,
-    options?: ContainerAppsSourceControlsDeleteOptionalParams
+    builderName: string,
+    buildName: string,
+    options?: BuildsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      containerAppName,
-      sourceControlName,
+      builderName,
+      buildName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListByContainerAppNext
+   * ListByBuilderResourceNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param nextLink The nextLink from the previous successful call to the ListByContainerApp method.
+   * @param builderName The name of the builder.
+   * @param nextLink The nextLink from the previous successful call to the ListByBuilderResource method.
    * @param options The options parameters.
    */
-  private _listByContainerAppNext(
+  private _listByBuilderResourceNext(
     resourceGroupName: string,
-    containerAppName: string,
+    builderName: string,
     nextLink: string,
-    options?: ContainerAppsSourceControlsListByContainerAppNextOptionalParams
-  ): Promise<ContainerAppsSourceControlsListByContainerAppNextResponse> {
+    options?: BuildsListByBuilderResourceNextOptionalParams
+  ): Promise<BuildsListByBuilderResourceNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, containerAppName, nextLink, options },
-      listByContainerAppNextOperationSpec
+      { resourceGroupName, builderName, nextLink, options },
+      listByBuilderResourceNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByContainerAppOperationSpec: coreClient.OperationSpec = {
+const listByBuilderResourceOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/sourcecontrols",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/builders/{builderName}/builds",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControlCollection
+      bodyMapper: Mappers.BuildCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -398,18 +399,18 @@ const listByContainerAppOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
+    Parameters.builderName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/sourcecontrols/{sourceControlName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/builders/{builderName}/builds/{buildName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControl
+      bodyMapper: Mappers.BuildResource
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -420,41 +421,41 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName,
-    Parameters.sourceControlName
+    Parameters.builderName,
+    Parameters.buildName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/sourcecontrols/{sourceControlName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/builders/{builderName}/builds/{buildName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControl
+      bodyMapper: Mappers.BuildResource
     },
     201: {
-      bodyMapper: Mappers.SourceControl
+      bodyMapper: Mappers.BuildResource
     },
     202: {
-      bodyMapper: Mappers.SourceControl
+      bodyMapper: Mappers.BuildResource
     },
     204: {
-      bodyMapper: Mappers.SourceControl
+      bodyMapper: Mappers.BuildResource
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.sourceControlEnvelope,
+  requestBody: Parameters.buildEnvelope,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName,
-    Parameters.sourceControlName
+    Parameters.builderName,
+    Parameters.buildName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -462,7 +463,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/sourcecontrols/{sourceControlName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/builders/{builderName}/builds/{buildName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -478,18 +479,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName,
-    Parameters.sourceControlName
+    Parameters.builderName,
+    Parameters.buildName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByContainerAppNextOperationSpec: coreClient.OperationSpec = {
+const listByBuilderResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControlCollection
+      bodyMapper: Mappers.BuildCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -499,8 +500,8 @@ const listByContainerAppNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.builderName
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AccessMode = string;
@@ -18,6 +18,9 @@ export type Action = string;
 
 // @public
 export type ActiveRevisionsMode = string;
+
+// @public
+export type Affinity = string;
 
 // @public
 export interface AllowedAudiencesValidation {
@@ -97,7 +100,7 @@ export interface AvailableWorkloadProfile extends ProxyResource {
 // @public
 export interface AvailableWorkloadProfileProperties {
     applicability?: Applicability;
-    billingMeterCategory?: Category;
+    category?: string;
     cores?: number;
     displayName?: string;
     memoryGiB?: number;
@@ -211,7 +214,7 @@ export interface BillingMeterCollection {
 
 // @public
 export interface BillingMeterProperties {
-    category?: Category;
+    category?: string;
     displayName?: string;
     meterType?: string;
 }
@@ -232,7 +235,203 @@ export type BillingMetersGetResponse = BillingMeterCollection;
 export type BindingType = string;
 
 // @public
-export type Category = string;
+export interface BuildCollection {
+    nextLink?: string;
+    value: BuildResource[];
+}
+
+// @public
+export interface BuildConfiguration {
+    baseOs?: string;
+    environmentVariables?: EnvironmentVariable[];
+    platform?: string;
+    platformVersion?: string;
+    preBuildSteps?: PreBuildStep[];
+}
+
+// @public
+export interface BuilderCollection {
+    nextLink?: string;
+    value: BuilderResource[];
+}
+
+// @public
+export interface BuilderResource extends TrackedResource {
+    readonly buildComputeId?: string;
+    environmentId?: string;
+    identity?: ManagedServiceIdentity;
+    readonly patchComputeId?: string;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface BuilderResourceUpdate {
+    environmentId?: string;
+    identity?: ManagedServiceIdentity;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface Builders {
+    beginCreateOrUpdate(resourceGroupName: string, builderName: string, builderEnvelope: BuilderResource, options?: BuildersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BuildersCreateOrUpdateResponse>, BuildersCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, builderName: string, builderEnvelope: BuilderResource, options?: BuildersCreateOrUpdateOptionalParams): Promise<BuildersCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, builderName: string, options?: BuildersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, builderName: string, options?: BuildersDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, builderName: string, builderEnvelope: BuilderResourceUpdate, options?: BuildersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BuildersUpdateResponse>, BuildersUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, builderName: string, builderEnvelope: BuilderResourceUpdate, options?: BuildersUpdateOptionalParams): Promise<BuildersUpdateResponse>;
+    get(resourceGroupName: string, builderName: string, options?: BuildersGetOptionalParams): Promise<BuildersGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: BuildersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<BuilderResource>;
+    listBySubscription(options?: BuildersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<BuilderResource>;
+}
+
+// @public
+export interface BuildersCreateOrUpdateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface BuildersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BuildersCreateOrUpdateResponse = BuilderResource;
+
+// @public
+export interface BuildersDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface BuildersDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BuildersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildersGetResponse = BuilderResource;
+
+// @public
+export interface BuildersListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildersListByResourceGroupNextResponse = BuilderCollection;
+
+// @public
+export interface BuildersListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildersListByResourceGroupResponse = BuilderCollection;
+
+// @public
+export interface BuildersListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildersListBySubscriptionNextResponse = BuilderCollection;
+
+// @public
+export interface BuildersListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildersListBySubscriptionResponse = BuilderCollection;
+
+// @public
+export interface BuildersUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface BuildersUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BuildersUpdateResponse = BuilderResource;
+
+// @public
+export interface BuildResource extends ProxyResource {
+    readonly buildStatus?: BuildStatus;
+    configuration?: BuildConfiguration;
+    destinationContainerRegistry?: ContainerRegistryWithCustomImage;
+    readonly provisioningState?: ProvisioningState;
+    readonly uploadEndpoint?: string;
+}
+
+// @public
+export interface Builds {
+    beginCreateOrUpdate(resourceGroupName: string, builderName: string, buildName: string, buildEnvelope: BuildResource, options?: BuildsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BuildsCreateOrUpdateResponse>, BuildsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, builderName: string, buildName: string, buildEnvelope: BuildResource, options?: BuildsCreateOrUpdateOptionalParams): Promise<BuildsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, builderName: string, buildName: string, options?: BuildsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, builderName: string, buildName: string, options?: BuildsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, builderName: string, buildName: string, options?: BuildsGetOptionalParams): Promise<BuildsGetResponse>;
+    listByBuilderResource(resourceGroupName: string, builderName: string, options?: BuildsListByBuilderResourceOptionalParams): PagedAsyncIterableIterator<BuildResource>;
+}
+
+// @public
+export interface BuildsCreateOrUpdateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface BuildsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BuildsCreateOrUpdateResponse = BuildResource;
+
+// @public
+export interface BuildsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface BuildsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BuildsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildsGetResponse = BuildResource;
+
+// @public
+export interface BuildsListByBuilderResourceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildsListByBuilderResourceNextResponse = BuildCollection;
+
+// @public
+export interface BuildsListByBuilderResourceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildsListByBuilderResourceResponse = BuildCollection;
+
+// @public
+export type BuildStatus = string;
 
 // @public
 export interface Certificate extends TrackedResource {
@@ -373,9 +572,9 @@ export type ConnectedEnvironmentProvisioningState = string;
 
 // @public
 export interface ConnectedEnvironments {
-    beginCreateOrUpdate(resourceGroupName: string, connectedEnvironmentName: string, environmentEnvelope: ConnectedEnvironment, options?: ConnectedEnvironmentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ConnectedEnvironmentsCreateOrUpdateResponse>, ConnectedEnvironmentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, connectedEnvironmentName: string, environmentEnvelope: ConnectedEnvironment, options?: ConnectedEnvironmentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConnectedEnvironmentsCreateOrUpdateResponse>, ConnectedEnvironmentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, connectedEnvironmentName: string, environmentEnvelope: ConnectedEnvironment, options?: ConnectedEnvironmentsCreateOrUpdateOptionalParams): Promise<ConnectedEnvironmentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, connectedEnvironmentName: string, options?: ConnectedEnvironmentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, connectedEnvironmentName: string, options?: ConnectedEnvironmentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, connectedEnvironmentName: string, options?: ConnectedEnvironmentsDeleteOptionalParams): Promise<void>;
     checkNameAvailability(resourceGroupName: string, connectedEnvironmentName: string, checkNameAvailabilityRequest: CheckNameAvailabilityRequest, options?: ConnectedEnvironmentsCheckNameAvailabilityOptionalParams): Promise<ConnectedEnvironmentsCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, connectedEnvironmentName: string, options?: ConnectedEnvironmentsGetOptionalParams): Promise<ConnectedEnvironmentsGetResponse>;
@@ -498,6 +697,12 @@ export interface ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams ex
 export type ConnectedEnvironmentsDaprComponentsListSecretsResponse = DaprSecretsCollection;
 
 // @public
+export interface ConnectedEnvironmentsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface ConnectedEnvironmentsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -606,13 +811,15 @@ export interface ContainerApp extends TrackedResource {
     readonly eventStreamEndpoint?: string;
     extendedLocation?: ExtendedLocation;
     identity?: ManagedServiceIdentity;
+    readonly latestReadyRevisionName?: string;
     readonly latestRevisionFqdn?: string;
     readonly latestRevisionName?: string;
+    managedBy?: string;
     managedEnvironmentId?: string;
     readonly outboundIpAddresses?: string[];
     readonly provisioningState?: ContainerAppProvisioningState;
     template?: Template;
-    workloadProfileType?: string;
+    workloadProfileName?: string;
 }
 
 // @public
@@ -625,6 +832,15 @@ export interface ContainerAppAuthToken extends TrackedResource {
 export interface ContainerAppCollection {
     readonly nextLink?: string;
     value: ContainerApp[];
+}
+
+// @public
+export type ContainerAppContainerRunningState = string;
+
+// @public
+export interface ContainerAppJobExecutions {
+    readonly nextLink?: string;
+    value: JobExecution[];
 }
 
 // @public
@@ -665,13 +881,16 @@ export interface ContainerAppProbeTcpSocket {
 export type ContainerAppProvisioningState = string;
 
 // @public
+export type ContainerAppReplicaRunningState = string;
+
+// @public
 export interface ContainerApps {
-    beginCreateOrUpdate(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ContainerAppsCreateOrUpdateResponse>, ContainerAppsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsCreateOrUpdateResponse>, ContainerAppsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams): Promise<ContainerAppsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginUpdateAndWait(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsUpdateResponse>, ContainerAppsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<ContainerAppsUpdateResponse>;
     get(resourceGroupName: string, containerAppName: string, options?: ContainerAppsGetOptionalParams): Promise<ContainerAppsGetResponse>;
     getAuthToken(resourceGroupName: string, containerAppName: string, options?: ContainerAppsGetAuthTokenOptionalParams): Promise<ContainerAppsGetAuthTokenResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ContainerAppsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ContainerApp>;
@@ -691,6 +910,10 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     availableWorkloadProfiles: AvailableWorkloadProfiles;
     // (undocumented)
     billingMeters: BillingMeters;
+    // (undocumented)
+    builders: Builders;
+    // (undocumented)
+    builds: Builds;
     // (undocumented)
     certificates: Certificates;
     // (undocumented)
@@ -715,6 +938,12 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     containerAppsSourceControls: ContainerAppsSourceControls;
     // (undocumented)
     daprComponents: DaprComponents;
+    // (undocumented)
+    jobs: Jobs;
+    // (undocumented)
+    jobsExecutions: JobsExecutions;
+    // (undocumented)
+    managedCertificates: ManagedCertificates;
     // (undocumented)
     managedEnvironmentDiagnostics: ManagedEnvironmentDiagnostics;
     // (undocumented)
@@ -788,6 +1017,12 @@ export interface ContainerAppsCreateOrUpdateOptionalParams extends coreClient.Op
 export type ContainerAppsCreateOrUpdateResponse = ContainerApp;
 
 // @public
+export interface ContainerAppsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface ContainerAppsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -839,7 +1074,6 @@ export type ContainerAppsDiagnosticsListDetectorsResponse = DiagnosticsCollectio
 
 // @public
 export interface ContainerAppsDiagnosticsListRevisionsNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -855,6 +1089,8 @@ export type ContainerAppsDiagnosticsListRevisionsResponse = RevisionCollection;
 
 // @public
 export interface ContainerAppSecret {
+    readonly identity?: string;
+    readonly keyVaultUrl?: string;
     readonly name?: string;
     readonly value?: string;
 }
@@ -962,7 +1198,6 @@ export type ContainerAppsRevisionsGetRevisionResponse = Revision;
 
 // @public
 export interface ContainerAppsRevisionsListRevisionsNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -982,9 +1217,9 @@ export interface ContainerAppsRevisionsRestartRevisionOptionalParams extends cor
 
 // @public
 export interface ContainerAppsSourceControls {
-    beginCreateOrUpdate(resourceGroupName: string, containerAppName: string, sourceControlName: string, sourceControlEnvelope: SourceControl, options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ContainerAppsSourceControlsCreateOrUpdateResponse>, ContainerAppsSourceControlsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, containerAppName: string, sourceControlName: string, sourceControlEnvelope: SourceControl, options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsSourceControlsCreateOrUpdateResponse>, ContainerAppsSourceControlsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, containerAppName: string, sourceControlName: string, sourceControlEnvelope: SourceControl, options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams): Promise<ContainerAppsSourceControlsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, containerAppName: string, sourceControlName: string, options?: ContainerAppsSourceControlsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, containerAppName: string, sourceControlName: string, options?: ContainerAppsSourceControlsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, containerAppName: string, sourceControlName: string, options?: ContainerAppsSourceControlsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, containerAppName: string, sourceControlName: string, options?: ContainerAppsSourceControlsGetOptionalParams): Promise<ContainerAppsSourceControlsGetResponse>;
     listByContainerApp(resourceGroupName: string, containerAppName: string, options?: ContainerAppsSourceControlsListByContainerAppOptionalParams): PagedAsyncIterableIterator<SourceControl>;
@@ -1027,9 +1262,25 @@ export interface ContainerAppsSourceControlsListByContainerAppOptionalParams ext
 export type ContainerAppsSourceControlsListByContainerAppResponse = SourceControlCollection;
 
 // @public
+export interface ContainerAppsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface ContainerAppsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export type ContainerAppsUpdateResponse = ContainerApp;
+
+// @public
+export interface ContainerRegistryWithCustomImage {
+    identity: string;
+    image?: string;
+    server: string;
 }
 
 // @public
@@ -1049,18 +1300,28 @@ export interface CookieExpiration {
 export type CookieExpirationConvention = "FixedTime" | "IdentityProviderDerived";
 
 // @public
+export interface CorsPolicy {
+    allowCredentials?: boolean;
+    allowedHeaders?: string[];
+    allowedMethods?: string[];
+    allowedOrigins: string[];
+    exposeHeaders?: string[];
+    maxAge?: number;
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
 export interface CustomDomain {
     bindingType?: BindingType;
-    certificateId: string;
+    certificateId?: string;
     name: string;
 }
 
 // @public
 export interface CustomDomainConfiguration {
-    certificatePassword?: Uint8Array;
+    certificatePassword?: string;
     certificateValue?: Uint8Array;
     readonly customDomainVerificationId?: string;
     dnsSuffix?: string;
@@ -1195,6 +1456,11 @@ export interface DaprComponentsListSecretsOptionalParams extends coreClient.Oper
 export type DaprComponentsListSecretsResponse = DaprSecretsCollection;
 
 // @public
+export interface DaprConfiguration {
+    readonly version?: string;
+}
+
+// @public
 export interface DaprMetadata {
     name?: string;
     secretRef?: string;
@@ -1209,7 +1475,7 @@ export interface DaprSecret {
 
 // @public
 export interface DaprSecretsCollection {
-    value: Secret[];
+    value: DaprSecret[];
 }
 
 // @public
@@ -1336,15 +1602,16 @@ export interface EnvironmentAuthToken extends TrackedResource {
 export type EnvironmentProvisioningState = string;
 
 // @public
-export interface EnvironmentSkuProperties {
-    name: SkuName;
-}
-
-// @public
 export interface EnvironmentVar {
     name?: string;
     secretRef?: string;
     value?: string;
+}
+
+// @public
+export interface EnvironmentVariable {
+    name: string;
+    value: string;
 }
 
 // @public
@@ -1432,6 +1699,13 @@ export interface Google {
 }
 
 // @public
+export interface HttpGet {
+    fileName?: string;
+    headers?: string[];
+    url: string;
+}
+
+// @public
 export interface HttpScaleRule {
     auth?: ScaleRuleAuth[];
     metadata?: {
@@ -1468,14 +1742,25 @@ export interface IdentityProviders {
 // @public
 export interface Ingress {
     allowInsecure?: boolean;
+    clientCertificateMode?: IngressClientCertificateMode;
+    corsPolicy?: CorsPolicy;
     customDomains?: CustomDomain[];
     exposedPort?: number;
     external?: boolean;
     readonly fqdn?: string;
     ipSecurityRestrictions?: IpSecurityRestrictionRule[];
+    stickySessions?: IngressStickySessions;
     targetPort?: number;
     traffic?: TrafficWeight[];
     transport?: IngressTransportMethod;
+}
+
+// @public
+export type IngressClientCertificateMode = string;
+
+// @public
+export interface IngressStickySessions {
+    affinity?: Affinity;
 }
 
 // @public
@@ -1494,9 +1779,291 @@ export interface IpSecurityRestrictionRule {
 }
 
 // @public
+export interface Job extends TrackedResource {
+    configuration?: JobConfiguration;
+    environmentId?: string;
+    readonly eventStreamEndpoint?: string;
+    identity?: ManagedServiceIdentity;
+    readonly outboundIpAddresses?: string[];
+    readonly provisioningState?: JobProvisioningState;
+    template?: JobTemplate;
+    workloadProfileName?: string;
+}
+
+// @public
+export interface JobConfiguration {
+    manualTriggerConfig?: JobConfigurationManualTriggerConfig;
+    registries?: RegistryCredentials[];
+    replicaRetryLimit?: number;
+    replicaTimeout: number;
+    scheduleTriggerConfig?: JobConfigurationScheduleTriggerConfig;
+    secrets?: Secret[];
+    triggerType: TriggerType;
+}
+
+// @public
+export interface JobConfigurationManualTriggerConfig {
+    parallelism?: number;
+    replicaCompletionCount?: number;
+}
+
+// @public
+export interface JobConfigurationScheduleTriggerConfig {
+    cronExpression: string;
+    parallelism?: number;
+    replicaCompletionCount?: number;
+}
+
+// @public
+export interface JobExecution {
+    endTime?: Date;
+    id?: string;
+    name?: string;
+    startTime?: Date;
+    readonly status?: JobExecutionRunningState;
+    template?: JobExecutionTemplate;
+    type?: string;
+}
+
+// @public
+export interface JobExecutionBase {
+    id?: string;
+    name?: string;
+}
+
+// @public
+export interface JobExecutionContainer {
+    args?: string[];
+    command?: string[];
+    env?: EnvironmentVar[];
+    image?: string;
+    name?: string;
+    resources?: ContainerResources;
+}
+
+// @public
+export interface JobExecutionNamesCollection {
+    value: JobExecutionBase[];
+}
+
+// @public
+export type JobExecutionRunningState = string;
+
+// @public
+export interface JobExecutionTemplate {
+    containers?: JobExecutionContainer[];
+    initContainers?: JobExecutionContainer[];
+}
+
+// @public
+export interface JobPatchProperties {
+    identity?: ManagedServiceIdentity;
+    // (undocumented)
+    properties?: JobPatchPropertiesProperties;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public (undocumented)
+export interface JobPatchPropertiesProperties {
+    configuration?: JobConfiguration;
+    environmentId?: string;
+    eventStreamEndpoint?: string;
+    outboundIpAddresses?: string[];
+    template?: JobTemplate;
+}
+
+// @public
+export type JobProvisioningState = string;
+
+// @public
+export interface Jobs {
+    beginCreateOrUpdate(resourceGroupName: string, jobName: string, jobEnvelope: Job, options?: JobsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<JobsCreateOrUpdateResponse>, JobsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, jobName: string, jobEnvelope: Job, options?: JobsCreateOrUpdateOptionalParams): Promise<JobsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams): Promise<void>;
+    beginStart(resourceGroupName: string, jobName: string, template: JobExecutionTemplate, options?: JobsStartOptionalParams): Promise<SimplePollerLike<OperationState<JobsStartResponse>, JobsStartResponse>>;
+    beginStartAndWait(resourceGroupName: string, jobName: string, template: JobExecutionTemplate, options?: JobsStartOptionalParams): Promise<JobsStartResponse>;
+    beginStopExecution(resourceGroupName: string, jobName: string, jobExecutionName: string, options?: JobsStopExecutionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginStopExecutionAndWait(resourceGroupName: string, jobName: string, jobExecutionName: string, options?: JobsStopExecutionOptionalParams): Promise<void>;
+    beginStopMultipleExecutions(resourceGroupName: string, jobName: string, jobExecutionName: JobExecutionNamesCollection, options?: JobsStopMultipleExecutionsOptionalParams): Promise<SimplePollerLike<OperationState<JobsStopMultipleExecutionsResponse>, JobsStopMultipleExecutionsResponse>>;
+    beginStopMultipleExecutionsAndWait(resourceGroupName: string, jobName: string, jobExecutionName: JobExecutionNamesCollection, options?: JobsStopMultipleExecutionsOptionalParams): Promise<JobsStopMultipleExecutionsResponse>;
+    beginUpdate(resourceGroupName: string, jobName: string, jobEnvelope: JobPatchProperties, options?: JobsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<JobsUpdateResponse>, JobsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, jobName: string, jobEnvelope: JobPatchProperties, options?: JobsUpdateOptionalParams): Promise<JobsUpdateResponse>;
+    get(resourceGroupName: string, jobName: string, options?: JobsGetOptionalParams): Promise<JobsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: JobsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Job>;
+    listBySubscription(options?: JobsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Job>;
+    listSecrets(resourceGroupName: string, jobName: string, options?: JobsListSecretsOptionalParams): Promise<JobsListSecretsResponse>;
+}
+
+// @public
+export interface JobsCollection {
+    readonly nextLink?: string;
+    value: Job[];
+}
+
+// @public
+export interface JobsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type JobsCreateOrUpdateResponse = Job;
+
+// @public
+export interface JobsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface JobsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface JobSecretsCollection {
+    value: Secret[];
+}
+
+// @public
+export interface JobsExecutions {
+    list(resourceGroupName: string, jobName: string, options?: JobsExecutionsListOptionalParams): PagedAsyncIterableIterator<JobExecution>;
+}
+
+// @public
+export interface JobsExecutionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobsExecutionsListNextResponse = ContainerAppJobExecutions;
+
+// @public
+export interface JobsExecutionsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type JobsExecutionsListResponse = ContainerAppJobExecutions;
+
+// @public
+export interface JobsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobsGetResponse = Job;
+
+// @public
+export interface JobsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobsListByResourceGroupNextResponse = JobsCollection;
+
+// @public
+export interface JobsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobsListByResourceGroupResponse = JobsCollection;
+
+// @public
+export interface JobsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobsListBySubscriptionNextResponse = JobsCollection;
+
+// @public
+export interface JobsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobsListBySubscriptionResponse = JobsCollection;
+
+// @public
+export interface JobsListSecretsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobsListSecretsResponse = JobSecretsCollection;
+
+// @public
+export interface JobsStartHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface JobsStartOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type JobsStartResponse = JobExecutionBase;
+
+// @public
+export interface JobsStopExecutionHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface JobsStopExecutionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface JobsStopMultipleExecutionsHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface JobsStopMultipleExecutionsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type JobsStopMultipleExecutionsResponse = ContainerAppJobExecutions;
+
+// @public
+export interface JobsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface JobsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type JobsUpdateResponse = Job;
+
+// @public
+export interface JobTemplate {
+    containers?: Container[];
+    initContainers?: InitContainer[];
+    volumes?: Volume[];
+}
+
+// @public
 export interface JwtClaimChecks {
     allowedClientApplications?: string[];
     allowedGroups?: string[];
+}
+
+// @public
+export interface KedaConfiguration {
+    readonly version?: string;
 }
 
 // @public
@@ -1518,6 +2085,12 @@ export enum KnownActiveRevisionsMode {
 }
 
 // @public
+export enum KnownAffinity {
+    None = "none",
+    Sticky = "sticky"
+}
+
+// @public
 export enum KnownApplicability {
     Custom = "Custom",
     LocationDefault = "LocationDefault"
@@ -1536,10 +2109,12 @@ export enum KnownBindingType {
 }
 
 // @public
-export enum KnownCategory {
-    PremiumSkuComputeOptimized = "PremiumSkuComputeOptimized",
-    PremiumSkuGeneralPurpose = "PremiumSkuGeneralPurpose",
-    PremiumSkuMemoryOptimized = "PremiumSkuMemoryOptimized"
+export enum KnownBuildStatus {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    NotStarted = "NotStarted",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -1570,12 +2145,26 @@ export enum KnownConnectedEnvironmentProvisioningState {
 }
 
 // @public
+export enum KnownContainerAppContainerRunningState {
+    Running = "Running",
+    Terminated = "Terminated",
+    Waiting = "Waiting"
+}
+
+// @public
 export enum KnownContainerAppProvisioningState {
     Canceled = "Canceled",
     Deleting = "Deleting",
     Failed = "Failed",
     InProgress = "InProgress",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownContainerAppReplicaRunningState {
+    NotRunning = "NotRunning",
+    Running = "Running",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -1606,11 +2195,38 @@ export enum KnownExtendedLocationTypes {
 }
 
 // @public
+export enum KnownIngressClientCertificateMode {
+    Accept = "accept",
+    Ignore = "ignore",
+    Require = "require"
+}
+
+// @public
 export enum KnownIngressTransportMethod {
     Auto = "auto",
     Http = "http",
     Http2 = "http2",
     Tcp = "tcp"
+}
+
+// @public
+export enum KnownJobExecutionRunningState {
+    Degraded = "Degraded",
+    Failed = "Failed",
+    Processing = "Processing",
+    Running = "Running",
+    Stopped = "Stopped",
+    Succeeded = "Succeeded",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownJobProvisioningState {
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -1622,9 +2238,10 @@ export enum KnownLogLevel {
 }
 
 // @public
-export enum KnownManagedEnvironmentOutBoundType {
-    LoadBalancer = "LoadBalancer",
-    UserDefinedRouting = "UserDefinedRouting"
+export enum KnownManagedCertificateDomainControlValidation {
+    Cname = "CNAME",
+    Http = "HTTP",
+    TXT = "TXT"
 }
 
 // @public
@@ -1633,6 +2250,15 @@ export enum KnownManagedServiceIdentityType {
     SystemAssigned = "SystemAssigned",
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownProvisioningState {
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -1658,12 +2284,6 @@ export enum KnownScheme {
 }
 
 // @public
-export enum KnownSkuName {
-    Consumption = "Consumption",
-    Premium = "Premium"
-}
-
-// @public
 export enum KnownSourceControlOperationState {
     Canceled = "Canceled",
     Failed = "Failed",
@@ -1674,7 +2294,15 @@ export enum KnownSourceControlOperationState {
 // @public
 export enum KnownStorageType {
     AzureFile = "AzureFile",
-    EmptyDir = "EmptyDir"
+    EmptyDir = "EmptyDir",
+    Secret = "Secret"
+}
+
+// @public
+export enum KnownTriggerType {
+    Event = "Event",
+    Manual = "Manual",
+    Scheduled = "Scheduled"
 }
 
 // @public
@@ -1713,16 +2341,101 @@ export interface LoginScopes {
 export type LogLevel = string;
 
 // @public
+export interface ManagedCertificate extends TrackedResource {
+    properties?: ManagedCertificateProperties;
+}
+
+// @public
+export interface ManagedCertificateCollection {
+    readonly nextLink?: string;
+    value: ManagedCertificate[];
+}
+
+// @public
+export type ManagedCertificateDomainControlValidation = string;
+
+// @public
+export interface ManagedCertificatePatch {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface ManagedCertificateProperties {
+    domainControlValidation?: ManagedCertificateDomainControlValidation;
+    readonly error?: string;
+    readonly provisioningState?: CertificateProvisioningState;
+    subjectName?: string;
+    readonly validationToken?: string;
+}
+
+// @public
+export interface ManagedCertificates {
+    beginCreateOrUpdate(resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedCertificatesCreateOrUpdateResponse>, ManagedCertificatesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesCreateOrUpdateOptionalParams): Promise<ManagedCertificatesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesGetOptionalParams): Promise<ManagedCertificatesGetResponse>;
+    list(resourceGroupName: string, environmentName: string, options?: ManagedCertificatesListOptionalParams): PagedAsyncIterableIterator<ManagedCertificate>;
+    update(resourceGroupName: string, environmentName: string, managedCertificateName: string, managedCertificateEnvelope: ManagedCertificatePatch, options?: ManagedCertificatesUpdateOptionalParams): Promise<ManagedCertificatesUpdateResponse>;
+}
+
+// @public
+export interface ManagedCertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    managedCertificateEnvelope?: ManagedCertificate;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ManagedCertificatesCreateOrUpdateResponse = ManagedCertificate;
+
+// @public
+export interface ManagedCertificatesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ManagedCertificatesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedCertificatesGetResponse = ManagedCertificate;
+
+// @public
+export interface ManagedCertificatesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedCertificatesListNextResponse = ManagedCertificateCollection;
+
+// @public
+export interface ManagedCertificatesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedCertificatesListResponse = ManagedCertificateCollection;
+
+// @public
+export interface ManagedCertificatesUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedCertificatesUpdateResponse = ManagedCertificate;
+
+// @public
 export interface ManagedEnvironment extends TrackedResource {
     appLogsConfiguration?: AppLogsConfiguration;
     customDomainConfiguration?: CustomDomainConfiguration;
     daprAIConnectionString?: string;
     daprAIInstrumentationKey?: string;
+    daprConfiguration?: DaprConfiguration;
     readonly defaultDomain?: string;
     readonly deploymentErrors?: string;
     readonly eventStreamEndpoint?: string;
+    infrastructureResourceGroup?: string;
+    kedaConfiguration?: KedaConfiguration;
+    kind?: string;
     readonly provisioningState?: EnvironmentProvisioningState;
-    sku?: EnvironmentSkuProperties;
     readonly staticIp?: string;
     vnetConfiguration?: VnetConfiguration;
     workloadProfiles?: WorkloadProfile[];
@@ -1750,22 +2463,13 @@ export interface ManagedEnvironmentDiagnosticsListDetectorsOptionalParams extend
 export type ManagedEnvironmentDiagnosticsListDetectorsResponse = DiagnosticsCollection;
 
 // @public
-export interface ManagedEnvironmentOutboundSettings {
-    outBoundType?: ManagedEnvironmentOutBoundType;
-    virtualNetworkApplianceIp?: string;
-}
-
-// @public
-export type ManagedEnvironmentOutBoundType = string;
-
-// @public
 export interface ManagedEnvironments {
-    beginCreateOrUpdate(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ManagedEnvironmentsCreateOrUpdateResponse>, ManagedEnvironmentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedEnvironmentsCreateOrUpdateResponse>, ManagedEnvironmentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsCreateOrUpdateOptionalParams): Promise<ManagedEnvironmentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginUpdateAndWait(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedEnvironmentsUpdateResponse>, ManagedEnvironmentsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<ManagedEnvironmentsUpdateResponse>;
     get(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsGetOptionalParams): Promise<ManagedEnvironmentsGetResponse>;
     getAuthToken(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsGetAuthTokenOptionalParams): Promise<ManagedEnvironmentsGetAuthTokenResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ManagedEnvironmentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ManagedEnvironment>;
@@ -1917,6 +2621,9 @@ export interface ManagedEnvironmentsUpdateOptionalParams extends coreClient.Oper
 }
 
 // @public
+export type ManagedEnvironmentsUpdateResponse = ManagedEnvironment;
+
+// @public
 export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -2011,6 +2718,16 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = AvailableOperations;
 
 // @public
+export interface PreBuildStep {
+    description?: string;
+    httpGet?: HttpGet;
+    scripts?: string[];
+}
+
+// @public
+export type ProvisioningState = string;
+
+// @public
 export interface ProxyResource extends Resource {
 }
 
@@ -2040,6 +2757,9 @@ export interface RegistryInfo {
 export interface Replica extends ProxyResource {
     containers?: ReplicaContainer[];
     readonly createdTime?: Date;
+    initContainers?: ReplicaContainer[];
+    readonly runningState?: ContainerAppReplicaRunningState;
+    readonly runningStateDetails?: string;
 }
 
 // @public
@@ -2055,6 +2775,8 @@ export interface ReplicaContainer {
     name?: string;
     ready?: boolean;
     restartCount?: number;
+    readonly runningState?: ContainerAppContainerRunningState;
+    readonly runningStateDetails?: string;
     started?: boolean;
 }
 
@@ -2119,6 +2841,8 @@ export type Scheme = string;
 
 // @public
 export interface Secret {
+    identity?: string;
+    keyVaultUrl?: string;
     name?: string;
     value?: string;
 }
@@ -2129,7 +2853,10 @@ export interface SecretsCollection {
 }
 
 // @public
-export type SkuName = string;
+export interface SecretVolumeItem {
+    path?: string;
+    secretRef?: string;
+}
 
 // @public
 export interface SourceControl extends ProxyResource {
@@ -2175,6 +2902,7 @@ export interface Template {
     initContainers?: InitContainer[];
     revisionSuffix?: string;
     scale?: Scale;
+    terminationGracePeriodSeconds?: number;
     volumes?: Volume[];
 }
 
@@ -2193,6 +2921,9 @@ export interface TrafficWeight {
     revisionName?: string;
     weight?: number;
 }
+
+// @public
+export type TriggerType = string;
 
 // @public
 export interface Twitter {
@@ -2223,15 +2954,15 @@ export interface VnetConfiguration {
     dockerBridgeCidr?: string;
     infrastructureSubnetId?: string;
     internal?: boolean;
-    outboundSettings?: ManagedEnvironmentOutboundSettings;
     platformReservedCidr?: string;
     platformReservedDnsIP?: string;
-    runtimeSubnetId?: string;
 }
 
 // @public
 export interface Volume {
+    mountOptions?: string;
     name?: string;
+    secrets?: SecretVolumeItem[];
     storageName?: string;
     storageType?: StorageType;
 }
@@ -2239,13 +2970,15 @@ export interface Volume {
 // @public
 export interface VolumeMount {
     mountPath?: string;
+    subPath?: string;
     volumeName?: string;
 }
 
 // @public
 export interface WorkloadProfile {
-    maximumCount: number;
-    minimumCount: number;
+    maximumCount?: number;
+    minimumCount?: number;
+    name: string;
     workloadProfileType: string;
 }
 
