@@ -1773,13 +1773,16 @@ export interface EditionCapability {
 
 // @public
 export interface ElasticPool extends TrackedResource {
+    availabilityZone?: AvailabilityZoneType;
     readonly creationDate?: Date;
     highAvailabilityReplicaCount?: number;
     readonly kind?: string;
     licenseType?: ElasticPoolLicenseType;
     maintenanceConfigurationId?: string;
     maxSizeBytes?: number;
+    minCapacity?: number;
     perDatabaseSettings?: ElasticPoolPerDatabaseSettings;
+    preferredEnclaveType?: AlwaysEncryptedEnclaveType;
     sku?: Sku;
     readonly state?: ElasticPoolState;
     zoneRedundant?: boolean;
@@ -2056,11 +2059,14 @@ export type ElasticPoolsUpdateResponse = ElasticPool;
 
 // @public
 export interface ElasticPoolUpdate {
+    availabilityZone?: AvailabilityZoneType;
     highAvailabilityReplicaCount?: number;
     licenseType?: ElasticPoolLicenseType;
     maintenanceConfigurationId?: string;
     maxSizeBytes?: number;
+    minCapacity?: number;
     perDatabaseSettings?: ElasticPoolPerDatabaseSettings;
+    preferredEnclaveType?: AlwaysEncryptedEnclaveType;
     sku?: Sku;
     tags?: {
         [propertyName: string]: string;
@@ -4200,6 +4206,12 @@ export enum KnownServerConnectionType {
 }
 
 // @public
+export enum KnownServerIPv6EnabledFlag {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownServerKeyType {
     AzureKeyVault = "AzureKeyVault",
     ServiceManaged = "ServiceManaged"
@@ -5141,6 +5153,7 @@ export interface ManagedDatabase extends TrackedResource {
     readonly defaultSecondaryLocation?: string;
     readonly earliestRestorePoint?: Date;
     readonly failoverGroupId?: string;
+    isLedgerOn?: boolean;
     lastBackupName?: string;
     longTermRetentionBackupResourceId?: string;
     recoverableDatabaseId?: string;
@@ -5782,6 +5795,7 @@ export interface ManagedDatabaseUpdate {
     readonly defaultSecondaryLocation?: string;
     readonly earliestRestorePoint?: Date;
     readonly failoverGroupId?: string;
+    isLedgerOn?: boolean;
     lastBackupName?: string;
     longTermRetentionBackupResourceId?: string;
     recoverableDatabaseId?: string;
@@ -8369,6 +8383,7 @@ export interface Server extends TrackedResource {
     federatedClientId?: string;
     readonly fullyQualifiedDomainName?: string;
     identity?: ResourceIdentity;
+    isIPv6Enabled?: ServerIPv6EnabledFlag;
     keyId?: string;
     readonly kind?: string;
     minimalTlsVersion?: string;
@@ -8949,6 +8964,9 @@ export interface ServerInfo {
 }
 
 // @public
+export type ServerIPv6EnabledFlag = string;
+
+// @public
 export interface ServerKey extends ProxyResource {
     readonly autoRotationEnabled?: boolean;
     readonly creationDate?: Date;
@@ -9375,6 +9393,7 @@ export interface ServerUpdate {
     federatedClientId?: string;
     readonly fullyQualifiedDomainName?: string;
     identity?: ResourceIdentity;
+    isIPv6Enabled?: ServerIPv6EnabledFlag;
     keyId?: string;
     minimalTlsVersion?: string;
     primaryUserAssignedIdentityId?: string;

@@ -1,5 +1,23 @@
 # Release History
     
+## 10.1.0-beta.1 (2023-05-12)
+    
+**Features**
+
+  - Added Type Alias ServerIPv6EnabledFlag
+  - Interface ElasticPool has a new optional parameter availabilityZone
+  - Interface ElasticPool has a new optional parameter minCapacity
+  - Interface ElasticPool has a new optional parameter preferredEnclaveType
+  - Interface ElasticPoolUpdate has a new optional parameter availabilityZone
+  - Interface ElasticPoolUpdate has a new optional parameter minCapacity
+  - Interface ElasticPoolUpdate has a new optional parameter preferredEnclaveType
+  - Interface ManagedDatabase has a new optional parameter isLedgerOn
+  - Interface ManagedDatabaseUpdate has a new optional parameter isLedgerOn
+  - Interface Server has a new optional parameter isIPv6Enabled
+  - Interface ServerUpdate has a new optional parameter isIPv6Enabled
+  - Added Enum KnownServerIPv6EnabledFlag
+    
+    
 ## 10.0.0 (2023-03-22)
     
 **Features**
