@@ -377,6 +377,11 @@ export interface BillingProfileListResult {
    */
   readonly value?: BillingProfile[];
   /**
+   * Total number of records.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalCount?: number;
+  /**
    * The link (url) to the next page of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -671,60 +676,6 @@ export interface TransactionListResult {
   readonly nextLink?: string;
 }
 
-/** The list of billing operations and a URL link to get the next set of results. */
-export interface OperationListResult {
-  /**
-   * The list of billing operations supported by the Microsoft.Billing resource provider.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Operation[];
-  /**
-   * URL to get the next set of operation list results if there are any.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** A Billing REST API operation. */
-export interface Operation {
-  /**
-   * Operation name: {provider}/{resource}/{operation}.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Identifies if the operation is a data operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isDataAction?: boolean;
-  /** The object that represents the operation. */
-  display?: OperationDisplay;
-}
-
-/** The object that represents the operation. */
-export interface OperationDisplay {
-  /**
-   * Service provider: Microsoft.Billing.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provider?: string;
-  /**
-   * Resource on which the operation is performed such as invoice and billing subscription.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resource?: string;
-  /**
-   * Operation type such as read, write and delete.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operation?: string;
-  /**
-   * Description of operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-}
-
 /** The list of role definitions. */
 export interface BillingRoleDefinitionListResult {
   /**
@@ -765,6 +716,16 @@ export interface AgreementListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** Details about billing profile associated with agreement and available only for specific agreements. */
+export interface BillingProfileInfo {
+  /** The unique identifier for the billing profile. */
+  billingProfileId?: string;
+  /** The name of the billing profile */
+  billingProfileDisplayName?: string;
+  /** Billing account name. This property is available for a specific type of agreement. */
+  indirectRelationshipOrganizationName?: string;
 }
 
 /** The details about a participant. */
@@ -1014,6 +975,85 @@ export interface BillingPeriodsListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** The list of billing operations and a URL link to get the next set of results. */
+export interface OperationListResult {
+  /**
+   * The list of billing operations supported by the Microsoft.Billing resource provider.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Operation[];
+  /**
+   * URL to get the next set of operation list results if there are any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** A Billing REST API operation. */
+export interface Operation {
+  /**
+   * Operation name: {provider}/{resource}/{operation}.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Identifies if the operation is a data operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** The object that represents the operation. */
+  display?: OperationDisplay;
+}
+
+/** The object that represents the operation. */
+export interface OperationDisplay {
+  /**
+   * Service provider: Microsoft.Billing.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * Resource on which the operation is performed such as invoice and billing subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * Operation type such as read, write and delete.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * Description of operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+}
+
+/** Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. */
+export interface OperationsErrorResponse {
+  /** The details of the error. */
+  error?: OperationsErrorDetails;
+}
+
+/** The details of the error. */
+export interface OperationsErrorDetails {
+  /**
+   * Error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Error message indicating why the operation failed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The target of the particular error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
 }
 
 /** The request parameters for creating a new billing profile. */
@@ -1916,6 +1956,11 @@ export interface Agreement extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly acceptanceMode?: AcceptanceMode;
+  /**
+   * The list of billing profiles associated with agreement and present only for specific agreements.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileInfo?: BillingProfileInfo;
   /**
    * The date from which the agreement is effective.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2860,10 +2905,7 @@ export type BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionResp
 
 /** Optional parameters. */
 export interface BillingAccountsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to expand the soldTo, invoice sections and billing profiles. */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BillingAccountsListNextResponse = BillingAccountListResult;
@@ -2951,10 +2993,7 @@ export type BillingProfilesCreateOrUpdateResponse = BillingProfile;
 
 /** Optional parameters. */
 export interface BillingProfilesListByBillingAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to expand the invoice sections. */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
 export type BillingProfilesListByBillingAccountNextResponse = BillingProfileListResult;
@@ -2995,24 +3034,14 @@ export type CustomersGetResponse = Customer;
 
 /** Optional parameters. */
 export interface CustomersListByBillingProfileNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Used for searching customers by their name. Any customer with name containing the search text will be included in the response */
-  search?: string;
-  /** May be used to filter the list of customers. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfileNext operation. */
 export type CustomersListByBillingProfileNextResponse = CustomerListResult;
 
 /** Optional parameters. */
 export interface CustomersListByBillingAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Used for searching customers by their name. Any customer with name containing the search text will be included in the response */
-  search?: string;
-  /** May be used to filter the list of customers. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
 export type CustomersListByBillingAccountNextResponse = CustomerListResult;
@@ -3269,30 +3298,21 @@ export type ProductsListByCustomerNextResponse = ProductsListResult;
 
 /** Optional parameters. */
 export interface ProductsListByBillingAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter by product type. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value are separated by a colon (:). */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
 export type ProductsListByBillingAccountNextResponse = ProductsListResult;
 
 /** Optional parameters. */
 export interface ProductsListByBillingProfileNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter by product type. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value are separated by a colon (:). */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfileNext operation. */
 export type ProductsListByBillingProfileNextResponse = ProductsListResult;
 
 /** Optional parameters. */
 export interface ProductsListByInvoiceSectionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter by product type. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value are separated by a colon (:). */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByInvoiceSectionNext operation. */
 export type ProductsListByInvoiceSectionNextResponse = ProductsListResult;
@@ -3465,20 +3485,6 @@ export interface BillingPropertyUpdateOptionalParams
 export type BillingPropertyUpdateResponse = BillingProperty;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationListResult;
-
-/** Optional parameters. */
 export interface BillingRoleDefinitionsGetByBillingAccountOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3647,10 +3653,7 @@ export type AgreementsGetResponse = Agreement;
 
 /** Optional parameters. */
 export interface AgreementsListByBillingAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to expand the participants. */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
 export type AgreementsListByBillingAccountNextResponse = AgreementListResult;
@@ -3689,32 +3692,14 @@ export type ReservationsListByBillingProfileResponse = ReservationsListResult;
 
 /** Optional parameters. */
 export interface ReservationsListByBillingAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter by reservation properties. The filter supports 'eq', 'or', and 'and'. It does not currently support 'ne', 'gt', 'le', 'ge', or 'not'. */
-  filter?: string;
-  /** May be used to sort order by reservation properties. */
-  orderby?: string;
-  /** To indicate whether to refresh the roll up counts of the reservations group by provisioning states */
-  refreshSummary?: string;
-  /** The selected provisioning state */
-  selectedState?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
 export type ReservationsListByBillingAccountNextResponse = ReservationsListResult;
 
 /** Optional parameters. */
 export interface ReservationsListByBillingProfileNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter by reservation properties. The filter supports 'eq', 'or', and 'and'. It does not currently support 'ne', 'gt', 'le', 'ge', or 'not'. */
-  filter?: string;
-  /** May be used to sort order by reservation properties. */
-  orderby?: string;
-  /** To indicate whether to refresh the roll up counts of the reservations group by provisioning state */
-  refreshSummary?: string;
-  /** The selected provisioning state */
-  selectedState?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfileNext operation. */
 export type ReservationsListByBillingProfileNextResponse = ReservationsListResult;
@@ -3763,17 +3748,24 @@ export type BillingPeriodsGetResponse = BillingPeriod;
 
 /** Optional parameters. */
 export interface BillingPeriodsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter billing periods by billingPeriodEndDate. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. */
-  filter?: string;
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-  /** May be used to limit the number of results to the most recent N billing periods. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BillingPeriodsListNextResponse = BillingPeriodsListResult;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface BillingManagementClientOptionalParams

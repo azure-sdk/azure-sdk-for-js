@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BillingSubscription,
   BillingSubscriptionsListByCustomerOptionalParams,
@@ -111,8 +111,8 @@ export interface BillingSubscriptions {
     parameters: TransferBillingSubscriptionRequestProperties,
     options?: BillingSubscriptionsMoveOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BillingSubscriptionsMoveResponse>,
+    SimplePollerLike<
+      OperationState<BillingSubscriptionsMoveResponse>,
       BillingSubscriptionsMoveResponse
     >
   >;

@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AcceptanceMode = string;
@@ -56,6 +56,7 @@ export type AddressValidationStatus = string;
 export interface Agreement extends Resource {
     readonly acceptanceMode?: AcceptanceMode;
     readonly agreementLink?: string;
+    readonly billingProfileInfo?: BillingProfileInfo;
     readonly category?: Category;
     readonly effectiveDate?: Date;
     readonly expirationDate?: Date;
@@ -85,7 +86,6 @@ export type AgreementsGetResponse = Agreement;
 
 // @public
 export interface AgreementsListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -157,7 +157,7 @@ export interface BillingAccountListResult {
 
 // @public
 export interface BillingAccounts {
-    beginUpdate(billingAccountName: string, parameters: BillingAccountUpdateRequest, options?: BillingAccountsUpdateOptionalParams): Promise<PollerLike<PollOperationState<BillingAccountsUpdateResponse>, BillingAccountsUpdateResponse>>;
+    beginUpdate(billingAccountName: string, parameters: BillingAccountUpdateRequest, options?: BillingAccountsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BillingAccountsUpdateResponse>, BillingAccountsUpdateResponse>>;
     beginUpdateAndWait(billingAccountName: string, parameters: BillingAccountUpdateRequest, options?: BillingAccountsUpdateOptionalParams): Promise<BillingAccountsUpdateResponse>;
     get(billingAccountName: string, options?: BillingAccountsGetOptionalParams): Promise<BillingAccountsGetResponse>;
     list(options?: BillingAccountsListOptionalParams): PagedAsyncIterableIterator<BillingAccount>;
@@ -188,7 +188,6 @@ export type BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionResp
 
 // @public
 export interface BillingAccountsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -308,9 +307,6 @@ export type BillingPeriodsGetResponse = BillingPeriod;
 
 // @public
 export interface BillingPeriodsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skiptoken?: string;
-    top?: number;
 }
 
 // @public
@@ -441,14 +437,22 @@ export interface BillingProfileCreationRequest {
 }
 
 // @public
+export interface BillingProfileInfo {
+    billingProfileDisplayName?: string;
+    billingProfileId?: string;
+    indirectRelationshipOrganizationName?: string;
+}
+
+// @public
 export interface BillingProfileListResult {
     readonly nextLink?: string;
+    readonly totalCount?: number;
     readonly value?: BillingProfile[];
 }
 
 // @public
 export interface BillingProfiles {
-    beginCreateOrUpdate(billingAccountName: string, billingProfileName: string, parameters: BillingProfile, options?: BillingProfilesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<BillingProfilesCreateOrUpdateResponse>, BillingProfilesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(billingAccountName: string, billingProfileName: string, parameters: BillingProfile, options?: BillingProfilesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BillingProfilesCreateOrUpdateResponse>, BillingProfilesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(billingAccountName: string, billingProfileName: string, parameters: BillingProfile, options?: BillingProfilesCreateOrUpdateOptionalParams): Promise<BillingProfilesCreateOrUpdateResponse>;
     get(billingAccountName: string, billingProfileName: string, options?: BillingProfilesGetOptionalParams): Promise<BillingProfilesGetResponse>;
     listByBillingAccount(billingAccountName: string, options?: BillingProfilesListByBillingAccountOptionalParams): PagedAsyncIterableIterator<BillingProfile>;
@@ -479,7 +483,6 @@ export type BillingProfilesGetResponse = BillingProfile;
 
 // @public
 export interface BillingProfilesListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -777,7 +780,7 @@ export interface BillingSubscription extends Resource {
 
 // @public
 export interface BillingSubscriptions {
-    beginMove(billingAccountName: string, parameters: TransferBillingSubscriptionRequestProperties, options?: BillingSubscriptionsMoveOptionalParams): Promise<PollerLike<PollOperationState<BillingSubscriptionsMoveResponse>, BillingSubscriptionsMoveResponse>>;
+    beginMove(billingAccountName: string, parameters: TransferBillingSubscriptionRequestProperties, options?: BillingSubscriptionsMoveOptionalParams): Promise<SimplePollerLike<OperationState<BillingSubscriptionsMoveResponse>, BillingSubscriptionsMoveResponse>>;
     beginMoveAndWait(billingAccountName: string, parameters: TransferBillingSubscriptionRequestProperties, options?: BillingSubscriptionsMoveOptionalParams): Promise<BillingSubscriptionsMoveResponse>;
     get(billingAccountName: string, options?: BillingSubscriptionsGetOptionalParams): Promise<BillingSubscriptionsGetResponse>;
     listByBillingAccount(billingAccountName: string, options?: BillingSubscriptionsListByBillingAccountOptionalParams): PagedAsyncIterableIterator<BillingSubscription>;
@@ -931,8 +934,6 @@ export type CustomersGetResponse = Customer;
 
 // @public
 export interface CustomersListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    search?: string;
 }
 
 // @public
@@ -949,8 +950,6 @@ export type CustomersListByBillingAccountResponse = CustomerListResult;
 
 // @public
 export interface CustomersListByBillingProfileNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    search?: string;
 }
 
 // @public
@@ -1195,13 +1194,13 @@ export interface InvoiceListResult {
 
 // @public
 export interface Invoices {
-    beginDownloadBillingSubscriptionInvoice(invoiceName: string, downloadToken: string, options?: InvoicesDownloadBillingSubscriptionInvoiceOptionalParams): Promise<PollerLike<PollOperationState<InvoicesDownloadBillingSubscriptionInvoiceResponse>, InvoicesDownloadBillingSubscriptionInvoiceResponse>>;
+    beginDownloadBillingSubscriptionInvoice(invoiceName: string, downloadToken: string, options?: InvoicesDownloadBillingSubscriptionInvoiceOptionalParams): Promise<SimplePollerLike<OperationState<InvoicesDownloadBillingSubscriptionInvoiceResponse>, InvoicesDownloadBillingSubscriptionInvoiceResponse>>;
     beginDownloadBillingSubscriptionInvoiceAndWait(invoiceName: string, downloadToken: string, options?: InvoicesDownloadBillingSubscriptionInvoiceOptionalParams): Promise<InvoicesDownloadBillingSubscriptionInvoiceResponse>;
-    beginDownloadInvoice(billingAccountName: string, invoiceName: string, downloadToken: string, options?: InvoicesDownloadInvoiceOptionalParams): Promise<PollerLike<PollOperationState<InvoicesDownloadInvoiceResponse>, InvoicesDownloadInvoiceResponse>>;
+    beginDownloadInvoice(billingAccountName: string, invoiceName: string, downloadToken: string, options?: InvoicesDownloadInvoiceOptionalParams): Promise<SimplePollerLike<OperationState<InvoicesDownloadInvoiceResponse>, InvoicesDownloadInvoiceResponse>>;
     beginDownloadInvoiceAndWait(billingAccountName: string, invoiceName: string, downloadToken: string, options?: InvoicesDownloadInvoiceOptionalParams): Promise<InvoicesDownloadInvoiceResponse>;
-    beginDownloadMultipleBillingProfileInvoices(billingAccountName: string, downloadUrls: string[], options?: InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams): Promise<PollerLike<PollOperationState<InvoicesDownloadMultipleBillingProfileInvoicesResponse>, InvoicesDownloadMultipleBillingProfileInvoicesResponse>>;
+    beginDownloadMultipleBillingProfileInvoices(billingAccountName: string, downloadUrls: string[], options?: InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams): Promise<SimplePollerLike<OperationState<InvoicesDownloadMultipleBillingProfileInvoicesResponse>, InvoicesDownloadMultipleBillingProfileInvoicesResponse>>;
     beginDownloadMultipleBillingProfileInvoicesAndWait(billingAccountName: string, downloadUrls: string[], options?: InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams): Promise<InvoicesDownloadMultipleBillingProfileInvoicesResponse>;
-    beginDownloadMultipleBillingSubscriptionInvoices(downloadUrls: string[], options?: InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams): Promise<PollerLike<PollOperationState<InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse>, InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse>>;
+    beginDownloadMultipleBillingSubscriptionInvoices(downloadUrls: string[], options?: InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams): Promise<SimplePollerLike<OperationState<InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse>, InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse>>;
     beginDownloadMultipleBillingSubscriptionInvoicesAndWait(downloadUrls: string[], options?: InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams): Promise<InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse>;
     get(billingAccountName: string, invoiceName: string, options?: InvoicesGetOptionalParams): Promise<InvoicesGetResponse>;
     getById(invoiceName: string, options?: InvoicesGetByIdOptionalParams): Promise<InvoicesGetByIdResponse>;
@@ -1305,7 +1304,7 @@ export interface InvoiceSectionListWithCreateSubPermissionResult {
 
 // @public
 export interface InvoiceSections {
-    beginCreateOrUpdate(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, parameters: InvoiceSection, options?: InvoiceSectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<InvoiceSectionsCreateOrUpdateResponse>, InvoiceSectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, parameters: InvoiceSection, options?: InvoiceSectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<InvoiceSectionsCreateOrUpdateResponse>, InvoiceSectionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, parameters: InvoiceSection, options?: InvoiceSectionsCreateOrUpdateOptionalParams): Promise<InvoiceSectionsCreateOrUpdateResponse>;
     get(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, options?: InvoiceSectionsGetOptionalParams): Promise<InvoiceSectionsGetResponse>;
     listByBillingProfile(billingAccountName: string, billingProfileName: string, options?: InvoiceSectionsListByBillingProfileOptionalParams): PagedAsyncIterableIterator<InvoiceSection>;
@@ -1733,6 +1732,18 @@ export interface Operations {
 }
 
 // @public
+export interface OperationsErrorDetails {
+    readonly code?: string;
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface OperationsErrorResponse {
+    error?: OperationsErrorDetails;
+}
+
+// @public
 export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -1855,7 +1866,6 @@ export type ProductsGetResponse = Product;
 
 // @public
 export interface ProductsListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1871,7 +1881,6 @@ export type ProductsListByBillingAccountResponse = ProductsListResult;
 
 // @public
 export interface ProductsListByBillingProfileNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1901,7 +1910,6 @@ export type ProductsListByCustomerResponse = ProductsListResult;
 
 // @public
 export interface ProductsListByInvoiceSectionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -2018,10 +2026,6 @@ export interface ReservationSkuProperty {
 
 // @public
 export interface ReservationsListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    refreshSummary?: string;
-    selectedState?: string;
 }
 
 // @public
@@ -2040,10 +2044,6 @@ export type ReservationsListByBillingAccountResponse = ReservationsListResult;
 
 // @public
 export interface ReservationsListByBillingProfileNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    refreshSummary?: string;
-    selectedState?: string;
 }
 
 // @public
