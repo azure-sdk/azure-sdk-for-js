@@ -265,18 +265,6 @@ export interface BackupPolicy extends TrackedResource {
 }
 
 // @public
-export interface BackupPolicyDetails extends TrackedResource {
-    readonly backupPolicyId?: string;
-    dailyBackupsToKeep?: number;
-    enabled?: boolean;
-    monthlyBackupsToKeep?: number;
-    readonly provisioningState?: string;
-    readonly volumeBackups?: VolumeBackups[];
-    readonly volumesAssigned?: number;
-    weeklyBackupsToKeep?: number;
-}
-
-// @public
 export interface BackupPolicyPatch {
     readonly backupPolicyId?: string;
     dailyBackupsToKeep?: number;
