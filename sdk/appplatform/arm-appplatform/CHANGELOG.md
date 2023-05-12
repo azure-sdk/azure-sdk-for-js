@@ -1,16 +1,6 @@
 # Release History
-
-## 3.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 3.0.0-beta.1 (2023-03-28)
+    
+## 3.0.0-beta.2 (2023-05-12)
     
 **Features**
 
@@ -386,11 +376,11 @@
   - Added Enum KnownType
   - Enum KnownBindingType has a new value CACertificates
   - Added function getContinuationToken
-  - Interface DeploymentsListForClusterNextOptionalParams no longer has parameter version
-  - Interface DeploymentsListNextOptionalParams no longer has parameter version
 
 **Breaking Changes**
 
+  - Interface DeploymentsListForClusterNextOptionalParams no longer has parameter version
+  - Interface DeploymentsListNextOptionalParams no longer has parameter version
   - Type of parameter addonConfigs of interface AppResourceProperties is changed from {
         [propertyName: string]: {
             [propertyName: string]: Record<string, unknown>;
