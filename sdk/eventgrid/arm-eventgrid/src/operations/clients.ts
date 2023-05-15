@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { DomainTopics } from "../operationsInterfaces";
+import { Clients } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,25 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  DomainTopic,
-  DomainTopicsListByDomainNextOptionalParams,
-  DomainTopicsListByDomainOptionalParams,
-  DomainTopicsListByDomainResponse,
-  DomainTopicsGetOptionalParams,
-  DomainTopicsGetResponse,
-  DomainTopicsCreateOrUpdateOptionalParams,
-  DomainTopicsCreateOrUpdateResponse,
-  DomainTopicsDeleteOptionalParams,
-  DomainTopicsListByDomainNextResponse
+  Client,
+  ClientsListByNamespaceNextOptionalParams,
+  ClientsListByNamespaceOptionalParams,
+  ClientsListByNamespaceResponse,
+  ClientsGetOptionalParams,
+  ClientsGetResponse,
+  ClientsCreateOrUpdateOptionalParams,
+  ClientsCreateOrUpdateResponse,
+  ClientsDeleteOptionalParams,
+  ClientsListByNamespaceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DomainTopics operations. */
-export class DomainTopicsImpl implements DomainTopics {
+/** Class containing Clients operations. */
+export class ClientsImpl implements Clients {
   private readonly client: EventGridManagementClient;
 
   /**
-   * Initialize a new instance of the class DomainTopics class.
+   * Initialize a new instance of the class Clients class.
    * @param client Reference to the service client
    */
   constructor(client: EventGridManagementClient) {
@@ -46,19 +46,19 @@ export class DomainTopicsImpl implements DomainTopics {
   }
 
   /**
-   * List all the topics in a domain.
+   * Get all the permission bindings under a namespace.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Domain name.
+   * @param namespaceName Name of the namespace.
    * @param options The options parameters.
    */
-  public listByDomain(
+  public listByNamespace(
     resourceGroupName: string,
-    domainName: string,
-    options?: DomainTopicsListByDomainOptionalParams
-  ): PagedAsyncIterableIterator<DomainTopic> {
-    const iter = this.listByDomainPagingAll(
+    namespaceName: string,
+    options?: ClientsListByNamespaceOptionalParams
+  ): PagedAsyncIterableIterator<Client> {
+    const iter = this.listByNamespacePagingAll(
       resourceGroupName,
-      domainName,
+      namespaceName,
       options
     );
     return {
@@ -72,9 +72,9 @@ export class DomainTopicsImpl implements DomainTopics {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByDomainPagingPage(
+        return this.listByNamespacePagingPage(
           resourceGroupName,
-          domainName,
+          namespaceName,
           options,
           settings
         );
@@ -82,25 +82,29 @@ export class DomainTopicsImpl implements DomainTopics {
     };
   }
 
-  private async *listByDomainPagingPage(
+  private async *listByNamespacePagingPage(
     resourceGroupName: string,
-    domainName: string,
-    options?: DomainTopicsListByDomainOptionalParams,
+    namespaceName: string,
+    options?: ClientsListByNamespaceOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<DomainTopic[]> {
-    let result: DomainTopicsListByDomainResponse;
+  ): AsyncIterableIterator<Client[]> {
+    let result: ClientsListByNamespaceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDomain(resourceGroupName, domainName, options);
+      result = await this._listByNamespace(
+        resourceGroupName,
+        namespaceName,
+        options
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByDomainNext(
+      result = await this._listByNamespaceNext(
         resourceGroupName,
-        domainName,
+        namespaceName,
         continuationToken,
         options
       );
@@ -111,14 +115,14 @@ export class DomainTopicsImpl implements DomainTopics {
     }
   }
 
-  private async *listByDomainPagingAll(
+  private async *listByNamespacePagingAll(
     resourceGroupName: string,
-    domainName: string,
-    options?: DomainTopicsListByDomainOptionalParams
-  ): AsyncIterableIterator<DomainTopic> {
-    for await (const page of this.listByDomainPagingPage(
+    namespaceName: string,
+    options?: ClientsListByNamespaceOptionalParams
+  ): AsyncIterableIterator<Client> {
+    for await (const page of this.listByNamespacePagingPage(
       resourceGroupName,
-      domainName,
+      namespaceName,
       options
     )) {
       yield* page;
@@ -126,46 +130,48 @@ export class DomainTopicsImpl implements DomainTopics {
   }
 
   /**
-   * Get properties of a domain topic.
+   * Get properties of a client.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain.
-   * @param domainTopicName Name of the topic.
+   * @param namespaceName Name of the namespace.
+   * @param clientName Name of the client.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    domainName: string,
-    domainTopicName: string,
-    options?: DomainTopicsGetOptionalParams
-  ): Promise<DomainTopicsGetResponse> {
+    namespaceName: string,
+    clientName: string,
+    options?: ClientsGetOptionalParams
+  ): Promise<ClientsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, domainName, domainTopicName, options },
+      { resourceGroupName, namespaceName, clientName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Asynchronously creates or updates a new domain topic with the specified parameters.
+   * Create or update a client with the specified parameters.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain.
-   * @param domainTopicName Name of the domain topic.
+   * @param namespaceName Name of the namespace.
+   * @param clientName The client name.
+   * @param clientInfo Client information.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    domainName: string,
-    domainTopicName: string,
-    options?: DomainTopicsCreateOrUpdateOptionalParams
+    namespaceName: string,
+    clientName: string,
+    clientInfo: Client,
+    options?: ClientsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<DomainTopicsCreateOrUpdateResponse>,
-      DomainTopicsCreateOrUpdateResponse
+      OperationState<ClientsCreateOrUpdateResponse>,
+      ClientsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<DomainTopicsCreateOrUpdateResponse> => {
+    ): Promise<ClientsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -203,54 +209,64 @@ export class DomainTopicsImpl implements DomainTopics {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, domainName, domainTopicName, options },
+      args: {
+        resourceGroupName,
+        namespaceName,
+        clientName,
+        clientInfo,
+        options
+      },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      DomainTopicsCreateOrUpdateResponse,
-      OperationState<DomainTopicsCreateOrUpdateResponse>
+      ClientsCreateOrUpdateResponse,
+      OperationState<ClientsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Asynchronously creates or updates a new domain topic with the specified parameters.
+   * Create or update a client with the specified parameters.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain.
-   * @param domainTopicName Name of the domain topic.
+   * @param namespaceName Name of the namespace.
+   * @param clientName The client name.
+   * @param clientInfo Client information.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    domainName: string,
-    domainTopicName: string,
-    options?: DomainTopicsCreateOrUpdateOptionalParams
-  ): Promise<DomainTopicsCreateOrUpdateResponse> {
+    namespaceName: string,
+    clientName: string,
+    clientInfo: Client,
+    options?: ClientsCreateOrUpdateOptionalParams
+  ): Promise<ClientsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      domainName,
-      domainTopicName,
+      namespaceName,
+      clientName,
+      clientInfo,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete existing domain topic.
+   * Delete an existing client.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain.
-   * @param domainTopicName Name of the domain topic.
+   * @param namespaceName Name of the namespace.
+   * @param clientName Name of the client.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    domainName: string,
-    domainTopicName: string,
-    options?: DomainTopicsDeleteOptionalParams
+    namespaceName: string,
+    clientName: string,
+    options?: ClientsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -293,72 +309,73 @@ export class DomainTopicsImpl implements DomainTopics {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, domainName, domainTopicName, options },
+      args: { resourceGroupName, namespaceName, clientName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete existing domain topic.
+   * Delete an existing client.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain.
-   * @param domainTopicName Name of the domain topic.
+   * @param namespaceName Name of the namespace.
+   * @param clientName Name of the client.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    domainName: string,
-    domainTopicName: string,
-    options?: DomainTopicsDeleteOptionalParams
+    namespaceName: string,
+    clientName: string,
+    options?: ClientsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      domainName,
-      domainTopicName,
+      namespaceName,
+      clientName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * List all the topics in a domain.
+   * Get all the permission bindings under a namespace.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Domain name.
+   * @param namespaceName Name of the namespace.
    * @param options The options parameters.
    */
-  private _listByDomain(
+  private _listByNamespace(
     resourceGroupName: string,
-    domainName: string,
-    options?: DomainTopicsListByDomainOptionalParams
-  ): Promise<DomainTopicsListByDomainResponse> {
+    namespaceName: string,
+    options?: ClientsListByNamespaceOptionalParams
+  ): Promise<ClientsListByNamespaceResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, domainName, options },
-      listByDomainOperationSpec
+      { resourceGroupName, namespaceName, options },
+      listByNamespaceOperationSpec
     );
   }
 
   /**
-   * ListByDomainNext
+   * ListByNamespaceNext
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Domain name.
-   * @param nextLink The nextLink from the previous successful call to the ListByDomain method.
+   * @param namespaceName Name of the namespace.
+   * @param nextLink The nextLink from the previous successful call to the ListByNamespace method.
    * @param options The options parameters.
    */
-  private _listByDomainNext(
+  private _listByNamespaceNext(
     resourceGroupName: string,
-    domainName: string,
+    namespaceName: string,
     nextLink: string,
-    options?: DomainTopicsListByDomainNextOptionalParams
-  ): Promise<DomainTopicsListByDomainNextResponse> {
+    options?: ClientsListByNamespaceNextOptionalParams
+  ): Promise<ClientsListByNamespaceNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, domainName, nextLink, options },
-      listByDomainNextOperationSpec
+      { resourceGroupName, namespaceName, nextLink, options },
+      listByNamespaceNextOperationSpec
     );
   }
 }
@@ -367,105 +384,124 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{domainTopicName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/clients/{clientName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DomainTopic
+      bodyMapper: Mappers.Client
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.domainName,
-    Parameters.domainTopicName
+    Parameters.namespaceName,
+    Parameters.clientName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{domainTopicName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/clients/{clientName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DomainTopic
+      bodyMapper: Mappers.Client
     },
     201: {
-      bodyMapper: Mappers.DomainTopic
+      bodyMapper: Mappers.Client
     },
     202: {
-      bodyMapper: Mappers.DomainTopic
+      bodyMapper: Mappers.Client
     },
     204: {
-      bodyMapper: Mappers.DomainTopic
+      bodyMapper: Mappers.Client
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.clientInfo,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.clientName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/clients/{clientName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.domainName,
-    Parameters.domainTopicName
+    Parameters.namespaceName,
+    Parameters.clientName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
+const listByNamespaceOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{domainTopicName}",
-  httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.domainName,
-    Parameters.domainTopicName
-  ],
-  serializer
-};
-const listByDomainOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/clients",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DomainTopicsListResult
+      bodyMapper: Mappers.ClientsListResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.domainName
+    Parameters.namespaceName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByDomainNextOperationSpec: coreClient.OperationSpec = {
+const listByNamespaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DomainTopicsListResult
+      bodyMapper: Mappers.ClientsListResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.domainName
+    Parameters.namespaceName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

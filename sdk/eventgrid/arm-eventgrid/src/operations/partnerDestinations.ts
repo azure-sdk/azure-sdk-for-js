@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Domains } from "../operationsInterfaces";
+import { PartnerDestinations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,36 +20,34 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Domain,
-  DomainsListBySubscriptionNextOptionalParams,
-  DomainsListBySubscriptionOptionalParams,
-  DomainsListBySubscriptionResponse,
-  DomainsListByResourceGroupNextOptionalParams,
-  DomainsListByResourceGroupOptionalParams,
-  DomainsListByResourceGroupResponse,
-  DomainsGetOptionalParams,
-  DomainsGetResponse,
-  DomainsCreateOrUpdateOptionalParams,
-  DomainsCreateOrUpdateResponse,
-  DomainsDeleteOptionalParams,
-  DomainUpdateParameters,
-  DomainsUpdateOptionalParams,
-  DomainsListSharedAccessKeysOptionalParams,
-  DomainsListSharedAccessKeysResponse,
-  DomainRegenerateKeyRequest,
-  DomainsRegenerateKeyOptionalParams,
-  DomainsRegenerateKeyResponse,
-  DomainsListBySubscriptionNextResponse,
-  DomainsListByResourceGroupNextResponse
+  PartnerDestination,
+  PartnerDestinationsListBySubscriptionNextOptionalParams,
+  PartnerDestinationsListBySubscriptionOptionalParams,
+  PartnerDestinationsListBySubscriptionResponse,
+  PartnerDestinationsListByResourceGroupNextOptionalParams,
+  PartnerDestinationsListByResourceGroupOptionalParams,
+  PartnerDestinationsListByResourceGroupResponse,
+  PartnerDestinationsGetOptionalParams,
+  PartnerDestinationsGetResponse,
+  PartnerDestinationsCreateOrUpdateOptionalParams,
+  PartnerDestinationsCreateOrUpdateResponse,
+  PartnerDestinationsDeleteOptionalParams,
+  PartnerDestinationUpdateParameters,
+  PartnerDestinationsUpdateOptionalParams,
+  PartnerDestinationsUpdateResponse,
+  PartnerDestinationsActivateOptionalParams,
+  PartnerDestinationsActivateResponse,
+  PartnerDestinationsListBySubscriptionNextResponse,
+  PartnerDestinationsListByResourceGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Domains operations. */
-export class DomainsImpl implements Domains {
+/** Class containing PartnerDestinations operations. */
+export class PartnerDestinationsImpl implements PartnerDestinations {
   private readonly client: EventGridManagementClient;
 
   /**
-   * Initialize a new instance of the class Domains class.
+   * Initialize a new instance of the class PartnerDestinations class.
    * @param client Reference to the service client
    */
   constructor(client: EventGridManagementClient) {
@@ -57,12 +55,12 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * List all the domains under an Azure subscription.
+   * List all the partner destinations under an Azure subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: DomainsListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<Domain> {
+    options?: PartnerDestinationsListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<PartnerDestination> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -81,10 +79,10 @@ export class DomainsImpl implements Domains {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: DomainsListBySubscriptionOptionalParams,
+    options?: PartnerDestinationsListBySubscriptionOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Domain[]> {
-    let result: DomainsListBySubscriptionResponse;
+  ): AsyncIterableIterator<PartnerDestination[]> {
+    let result: PartnerDestinationsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -103,22 +101,22 @@ export class DomainsImpl implements Domains {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: DomainsListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<Domain> {
+    options?: PartnerDestinationsListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<PartnerDestination> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * List all the domains under a resource group.
+   * List all the partner destinations under a resource group.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: DomainsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<Domain> {
+    options?: PartnerDestinationsListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<PartnerDestination> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -142,10 +140,10 @@ export class DomainsImpl implements Domains {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: DomainsListByResourceGroupOptionalParams,
+    options?: PartnerDestinationsListByResourceGroupOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Domain[]> {
-    let result: DomainsListByResourceGroupResponse;
+  ): AsyncIterableIterator<PartnerDestination[]> {
+    let result: PartnerDestinationsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -169,8 +167,8 @@ export class DomainsImpl implements Domains {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: DomainsListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<Domain> {
+    options?: PartnerDestinationsListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<PartnerDestination> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options
@@ -180,44 +178,44 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Get properties of a domain.
+   * Get properties of a partner destination.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain.
+   * @param partnerDestinationName Name of the partner destination.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    domainName: string,
-    options?: DomainsGetOptionalParams
-  ): Promise<DomainsGetResponse> {
+    partnerDestinationName: string,
+    options?: PartnerDestinationsGetOptionalParams
+  ): Promise<PartnerDestinationsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, domainName, options },
+      { resourceGroupName, partnerDestinationName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Asynchronously creates or updates a new domain with the specified parameters.
+   * Asynchronously creates a new partner destination with the specified parameters.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain.
-   * @param domainInfo Domain information.
+   * @param partnerDestinationName Name of the partner destination.
+   * @param partnerDestination Partner destination create information.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    domainName: string,
-    domainInfo: Domain,
-    options?: DomainsCreateOrUpdateOptionalParams
+    partnerDestinationName: string,
+    partnerDestination: PartnerDestination,
+    options?: PartnerDestinationsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<DomainsCreateOrUpdateResponse>,
-      DomainsCreateOrUpdateResponse
+      OperationState<PartnerDestinationsCreateOrUpdateResponse>,
+      PartnerDestinationsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<DomainsCreateOrUpdateResponse> => {
+    ): Promise<PartnerDestinationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -255,52 +253,58 @@ export class DomainsImpl implements Domains {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, domainName, domainInfo, options },
+      args: {
+        resourceGroupName,
+        partnerDestinationName,
+        partnerDestination,
+        options
+      },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      DomainsCreateOrUpdateResponse,
-      OperationState<DomainsCreateOrUpdateResponse>
+      PartnerDestinationsCreateOrUpdateResponse,
+      OperationState<PartnerDestinationsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Asynchronously creates or updates a new domain with the specified parameters.
+   * Asynchronously creates a new partner destination with the specified parameters.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain.
-   * @param domainInfo Domain information.
+   * @param partnerDestinationName Name of the partner destination.
+   * @param partnerDestination Partner destination create information.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    domainName: string,
-    domainInfo: Domain,
-    options?: DomainsCreateOrUpdateOptionalParams
-  ): Promise<DomainsCreateOrUpdateResponse> {
+    partnerDestinationName: string,
+    partnerDestination: PartnerDestination,
+    options?: PartnerDestinationsCreateOrUpdateOptionalParams
+  ): Promise<PartnerDestinationsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      domainName,
-      domainInfo,
+      partnerDestinationName,
+      partnerDestination,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete existing domain.
+   * Delete existing partner destination.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain.
+   * @param partnerDestinationName Name of the partner destination.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    domainName: string,
-    options?: DomainsDeleteOptionalParams
+    partnerDestinationName: string,
+    options?: PartnerDestinationsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -343,53 +347,59 @@ export class DomainsImpl implements Domains {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, domainName, options },
+      args: { resourceGroupName, partnerDestinationName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete existing domain.
+   * Delete existing partner destination.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain.
+   * @param partnerDestinationName Name of the partner destination.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    domainName: string,
-    options?: DomainsDeleteOptionalParams
+    partnerDestinationName: string,
+    options?: PartnerDestinationsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      domainName,
+      partnerDestinationName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Asynchronously updates a domain with the specified parameters.
+   * Asynchronously updates a partner destination with the specified parameters.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain.
-   * @param domainUpdateParameters Domain update information.
+   * @param partnerDestinationName Name of the partner destination.
+   * @param partnerDestinationUpdateParameters Partner destination update information.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    domainName: string,
-    domainUpdateParameters: DomainUpdateParameters,
-    options?: DomainsUpdateOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    partnerDestinationName: string,
+    partnerDestinationUpdateParameters: PartnerDestinationUpdateParameters,
+    options?: PartnerDestinationsUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PartnerDestinationsUpdateResponse>,
+      PartnerDestinationsUpdateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<PartnerDestinationsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -427,46 +437,55 @@ export class DomainsImpl implements Domains {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, domainName, domainUpdateParameters, options },
+      args: {
+        resourceGroupName,
+        partnerDestinationName,
+        partnerDestinationUpdateParameters,
+        options
+      },
       spec: updateOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      PartnerDestinationsUpdateResponse,
+      OperationState<PartnerDestinationsUpdateResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Asynchronously updates a domain with the specified parameters.
+   * Asynchronously updates a partner destination with the specified parameters.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain.
-   * @param domainUpdateParameters Domain update information.
+   * @param partnerDestinationName Name of the partner destination.
+   * @param partnerDestinationUpdateParameters Partner destination update information.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    domainName: string,
-    domainUpdateParameters: DomainUpdateParameters,
-    options?: DomainsUpdateOptionalParams
-  ): Promise<void> {
+    partnerDestinationName: string,
+    partnerDestinationUpdateParameters: PartnerDestinationUpdateParameters,
+    options?: PartnerDestinationsUpdateOptionalParams
+  ): Promise<PartnerDestinationsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      domainName,
-      domainUpdateParameters,
+      partnerDestinationName,
+      partnerDestinationUpdateParameters,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * List all the domains under an Azure subscription.
+   * List all the partner destinations under an Azure subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: DomainsListBySubscriptionOptionalParams
-  ): Promise<DomainsListBySubscriptionResponse> {
+    options?: PartnerDestinationsListBySubscriptionOptionalParams
+  ): Promise<PartnerDestinationsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec
@@ -474,14 +493,14 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * List all the domains under a resource group.
+   * List all the partner destinations under a resource group.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: DomainsListByResourceGroupOptionalParams
-  ): Promise<DomainsListByResourceGroupResponse> {
+    options?: PartnerDestinationsListByResourceGroupOptionalParams
+  ): Promise<PartnerDestinationsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
@@ -489,38 +508,19 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * List the two keys used to publish to a domain.
+   * Activate a newly created partner destination.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain.
+   * @param partnerDestinationName Name of the partner destination.
    * @param options The options parameters.
    */
-  listSharedAccessKeys(
+  activate(
     resourceGroupName: string,
-    domainName: string,
-    options?: DomainsListSharedAccessKeysOptionalParams
-  ): Promise<DomainsListSharedAccessKeysResponse> {
+    partnerDestinationName: string,
+    options?: PartnerDestinationsActivateOptionalParams
+  ): Promise<PartnerDestinationsActivateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, domainName, options },
-      listSharedAccessKeysOperationSpec
-    );
-  }
-
-  /**
-   * Regenerate a shared access key for a domain.
-   * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain.
-   * @param regenerateKeyRequest Request body to regenerate key.
-   * @param options The options parameters.
-   */
-  regenerateKey(
-    resourceGroupName: string,
-    domainName: string,
-    regenerateKeyRequest: DomainRegenerateKeyRequest,
-    options?: DomainsRegenerateKeyOptionalParams
-  ): Promise<DomainsRegenerateKeyResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, domainName, regenerateKeyRequest, options },
-      regenerateKeyOperationSpec
+      { resourceGroupName, partnerDestinationName, options },
+      activateOperationSpec
     );
   }
 
@@ -531,8 +531,8 @@ export class DomainsImpl implements Domains {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: DomainsListBySubscriptionNextOptionalParams
-  ): Promise<DomainsListBySubscriptionNextResponse> {
+    options?: PartnerDestinationsListBySubscriptionNextOptionalParams
+  ): Promise<PartnerDestinationsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec
@@ -548,8 +548,8 @@ export class DomainsImpl implements Domains {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: DomainsListByResourceGroupNextOptionalParams
-  ): Promise<DomainsListByResourceGroupNextResponse> {
+    options?: PartnerDestinationsListByResourceGroupNextOptionalParams
+  ): Promise<PartnerDestinationsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
@@ -561,50 +561,54 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerDestinations/{partnerDestinationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Domain
+      bodyMapper: Mappers.PartnerDestination
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.domainName
+    Parameters.partnerDestinationName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerDestinations/{partnerDestinationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Domain
+      bodyMapper: Mappers.PartnerDestination
     },
     201: {
-      bodyMapper: Mappers.Domain
+      bodyMapper: Mappers.PartnerDestination
     },
     202: {
-      bodyMapper: Mappers.Domain
+      bodyMapper: Mappers.PartnerDestination
     },
     204: {
-      bodyMapper: Mappers.Domain
+      bodyMapper: Mappers.PartnerDestination
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
-  requestBody: Parameters.domainInfo,
+  requestBody: Parameters.partnerDestination,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.domainName
+    Parameters.partnerDestinationName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -612,43 +616,71 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerDestinations/{partnerDestinationName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.domainName
+    Parameters.partnerDestinationName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerDestinations/{partnerDestinationName}",
   httpMethod: "PATCH",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.domainUpdateParameters,
+  responses: {
+    200: {
+      bodyMapper: Mappers.PartnerDestination
+    },
+    201: {
+      bodyMapper: Mappers.PartnerDestination
+    },
+    202: {
+      bodyMapper: Mappers.PartnerDestination
+    },
+    204: {
+      bodyMapper: Mappers.PartnerDestination
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.partnerDestinationUpdateParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.domainName
+    Parameters.partnerDestinationName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.EventGrid/domains",
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.EventGrid/partnerDestinations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DomainsListResult
+      bodyMapper: Mappers.PartnerDestinationsListResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
@@ -657,13 +689,15 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerDestinations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DomainsListResult
+      bodyMapper: Mappers.PartnerDestinationsListResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
@@ -674,46 +708,26 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listSharedAccessKeysOperationSpec: coreClient.OperationSpec = {
+const activateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/listKeys",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerDestinations/{partnerDestinationName}/activate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DomainSharedAccessKeys
+      bodyMapper: Mappers.PartnerDestination
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.domainName
+    Parameters.partnerDestinationName
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const regenerateKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/regenerateKey",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DomainSharedAccessKeys
-    },
-    default: {}
-  },
-  requestBody: Parameters.regenerateKeyRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.domainName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
@@ -721,9 +735,11 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DomainsListResult
+      bodyMapper: Mappers.PartnerDestinationsListResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,
@@ -738,9 +754,11 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DomainsListResult
+      bodyMapper: Mappers.PartnerDestinationsListResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,
