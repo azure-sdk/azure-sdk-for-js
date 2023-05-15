@@ -97,6 +97,11 @@ export interface BackupVault {
   readonly isVaultProtectedByResourceGuard?: boolean;
   /** Feature Settings */
   featureSettings?: FeatureSettings;
+  /**
+   * Secure Score of Backup Vault
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secureScore?: SecureScoreLevel;
 }
 
 /** Monitoring Settings */
@@ -158,12 +163,18 @@ export interface StorageSetting {
 export interface FeatureSettings {
   /** CrossSubscriptionRestore Settings */
   crossSubscriptionRestoreSettings?: CrossSubscriptionRestoreSettings;
+  crossRegionRestoreSettings?: CrossRegionRestoreSettings;
 }
 
 /** CrossSubscriptionRestore Settings */
 export interface CrossSubscriptionRestoreSettings {
   /** CrossSubscriptionRestore state */
   state?: CrossSubscriptionRestoreState;
+}
+
+export interface CrossRegionRestoreSettings {
+  /** CrossRegionRestore state */
+  state?: CrossRegionRestoreState;
 }
 
 /** Identity details */
@@ -178,8 +189,26 @@ export interface DppIdentityDetails {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
-  /** The identityType which can be either SystemAssigned or None */
+  /** The identityType which can be either SystemAssigned, UserAssigned, 'SystemAssigned,UserAssigned' or None */
   type?: string;
+  /** Gets or sets the user assigned identities. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentityDetails;
+  };
+}
+
+/** User Assigned Identity Details */
+export interface UserAssignedIdentityDetails {
+  /**
+   * The Client Id of the User Assigned Managed Identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+  /**
+   * The Object Id of the User Assigned Managed Identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
 }
 
 export interface DppBaseTrackedResource {
@@ -480,6 +509,11 @@ export interface BackupInstance {
   datasourceAuthCredentials?: AuthCredentialsUnion;
   /** Specifies the type of validation. In case of DeepValidation, all validations from /validateForBackup API will run again. */
   validationType?: ValidationType;
+  /**
+   * Contains information of the Identity Details for the BI.
+   * If it is null, default will be considered as System Assigned.
+   */
+  identityDetails?: IdentityDetails;
   objectType: string;
 }
 
@@ -597,6 +631,13 @@ export interface AuthCredentials {
   objectType: "SecretStoreBasedAuthCredentials";
 }
 
+export interface IdentityDetails {
+  /** Specifies if the BI is protected by System Identity. */
+  useSystemAssignedIdentity?: boolean;
+  /** ARM URL for User Assigned Identity. */
+  userAssignedIdentityArmUrl?: string;
+}
+
 export interface DppProxyResource {
   /**
    * Proxy Resource Id represents the complete path to the resource.
@@ -652,14 +693,24 @@ export interface AzureBackupRecoveryPoint {
   objectType: "AzureBackupDiscreteRecoveryPoint";
 }
 
-/** Azure Backup Rehydrate Request */
-export interface AzureBackupRehydrationRequest {
-  /** Id of the recovery point to be recovered */
-  recoveryPointId: string;
-  /** Priority to be used for rehydration. Values High or Standard */
-  rehydrationPriority?: RehydrationPriority;
-  /** Retention duration in ISO 8601 format i.e P10D . */
-  rehydrationRetentionDuration: string;
+/**
+ * Information about BI whose secondary RecoveryPoints are requested
+ * Source region and
+ * BI ARM path
+ */
+export interface FetchSecondaryRPsRequestParameters {
+  /** Source region in which BackupInstance is located */
+  sourceRegion?: string;
+  /** ARM Path of BackupInstance */
+  sourceBackupInstanceId?: string;
+}
+
+/** Cross Region Restore Request Object */
+export interface CrossRegionRestoreRequestObject {
+  /** Gets or sets the restore request object. */
+  restoreRequestObject: AzureBackupRestoreRequestUnion;
+  /** Cross region restore details. */
+  crossRegionRestoreDetails: CrossRegionRestoreDetails;
 }
 
 /** Azure backup restore request */
@@ -675,6 +726,11 @@ export interface AzureBackupRestoreRequest {
   sourceDataStoreType: SourceDataStoreType;
   /** Fully qualified Azure Resource Manager ID of the datasource which is being recovered. */
   sourceResourceId?: string;
+  /**
+   * Contains information of the Identity Details for the BI.
+   * If it is null, default will be considered as System Assigned.
+   */
+  identityDetails?: IdentityDetails;
 }
 
 /** Base class common to RestoreTargetInfo and RestoreFilesTargetInfo */
@@ -690,16 +746,24 @@ export interface RestoreTargetInfoBase {
   restoreLocation?: string;
 }
 
-/** Sync BackupInstance Request */
-export interface SyncBackupInstanceRequest {
-  /** Field indicating sync type e.g. to sync only in case of failure or in all cases */
-  syncType?: SyncType;
+/** Cross Region Restore details */
+export interface CrossRegionRestoreDetails {
+  sourceRegion: string;
+  sourceBackupInstanceId: string;
 }
 
-/** Validate restore request object */
-export interface ValidateRestoreRequestObject {
+/** Cross Region Restore Request Object */
+export interface ValidateCrossRegionRestoreRequestObject {
   /** Gets or sets the restore request object. */
   restoreRequestObject: AzureBackupRestoreRequestUnion;
+  /** Cross region restore details. */
+  crossRegionRestoreDetails: CrossRegionRestoreDetails;
+}
+
+export interface CrossRegionRestoreJobRequest {
+  sourceRegion: string;
+  sourceBackupVaultId: string;
+  jobId: string;
 }
 
 /** AzureBackup Job Class */
@@ -843,6 +907,33 @@ export interface JobSubTask {
   readonly taskProgress?: string;
   /** Status of the Sub Task */
   taskStatus: string;
+}
+
+export interface CrossRegionRestoreJobsRequest {
+  sourceRegion: string;
+  sourceBackupVaultId: string;
+}
+
+/** Azure Backup Rehydrate Request */
+export interface AzureBackupRehydrationRequest {
+  /** Id of the recovery point to be recovered */
+  recoveryPointId: string;
+  /** Priority to be used for rehydration. Values High or Standard */
+  rehydrationPriority?: RehydrationPriority;
+  /** Retention duration in ISO 8601 format i.e P10D . */
+  rehydrationRetentionDuration: string;
+}
+
+/** Sync BackupInstance Request */
+export interface SyncBackupInstanceRequest {
+  /** Field indicating sync type e.g. to sync only in case of failure or in all cases */
+  syncType?: SyncType;
+}
+
+/** Validate restore request object */
+export interface ValidateRestoreRequestObject {
+  /** Gets or sets the restore request object. */
+  restoreRequestObject: AzureBackupRestoreRequestUnion;
 }
 
 /** List Restore Ranges Request */
@@ -993,6 +1084,32 @@ export interface DppBaseResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+}
+
+/** ResourceGuardProxyBase object, used in ResourceGuardProxyBaseResource */
+export interface ResourceGuardProxyBase {
+  resourceGuardResourceId?: string;
+  resourceGuardOperationDetails?: ResourceGuardOperationDetail[];
+  lastUpdatedTime?: string;
+  description?: string;
+}
+
+/** VaultCritical Operation protected by a resource guard */
+export interface ResourceGuardOperationDetail {
+  vaultCriticalOperation?: string;
+  defaultResourceRequest?: string;
+}
+
+/** Request body of unlock delete API. */
+export interface UnlockDeleteRequest {
+  resourceGuardOperationRequests?: string[];
+  resourceToBeDeleted?: string;
+}
+
+/** Response of Unlock Delete API. */
+export interface UnlockDeleteResponse {
+  /** This is the time when unlock delete privileges will get expired. */
+  unlockDeleteExpiryTime?: string;
 }
 
 /** Delete Option */
@@ -1244,6 +1361,12 @@ export interface DeletedBackupInstanceResourceList extends DppResourceList {
   value?: DeletedBackupInstanceResource[];
 }
 
+/** List of ResourceGuardProxyBase resources */
+export interface ResourceGuardProxyBaseResourceList extends DppResourceList {
+  /** List of resources. */
+  value?: ResourceGuardProxyBaseResource[];
+}
+
 /** Operation Job Extended Info */
 export interface OperationJobExtendedInfo extends OperationExtendedInfo {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1310,6 +1433,12 @@ export interface AzureBackupFindRestorableTimeRangesResponseResource
 export interface DeletedBackupInstanceResource extends DppResource {
   /** DeletedBackupInstanceResource properties */
   properties?: DeletedBackupInstance;
+}
+
+/** ResourceGuardProxyBaseResource object, used for response and request bodies for ResourceGuardProxy APIs */
+export interface ResourceGuardProxyBaseResource extends DppResource {
+  /** ResourceGuardProxyBaseResource properties */
+  properties?: ResourceGuardProxyBase;
 }
 
 /** Deleted Backup Instance */
@@ -1694,6 +1823,26 @@ export interface BackupInstancesValidateForBackupHeaders {
   retryAfter?: number;
 }
 
+/** Defines headers for BackupInstances_triggerCrossRegionRestore operation. */
+export interface BackupInstancesTriggerCrossRegionRestoreHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+  /** Suggested delay to check the status of the asynchronous operation. The value is an integer that represents the seconds. */
+  retryAfter?: number;
+}
+
+/** Defines headers for BackupInstances_validateCrossRegionRestore operation. */
+export interface BackupInstancesValidateCrossRegionRestoreHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+  /** Suggested delay to check the status of the asynchronous operation. The value is an integer that represents the seconds. */
+  retryAfter?: number;
+}
+
 /** Defines headers for BackupInstances_triggerRehydrate operation. */
 export interface BackupInstancesTriggerRehydrateHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
@@ -1974,6 +2123,51 @@ export enum KnownCrossSubscriptionRestoreState {
  */
 export type CrossSubscriptionRestoreState = string;
 
+/** Known values of {@link CrossRegionRestoreState} that the service accepts. */
+export enum KnownCrossRegionRestoreState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled"
+}
+
+/**
+ * Defines values for CrossRegionRestoreState. \
+ * {@link KnownCrossRegionRestoreState} can be used interchangeably with CrossRegionRestoreState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type CrossRegionRestoreState = string;
+
+/** Known values of {@link SecureScoreLevel} that the service accepts. */
+export enum KnownSecureScoreLevel {
+  /** None */
+  None = "None",
+  /** Minimum */
+  Minimum = "Minimum",
+  /** Adequate */
+  Adequate = "Adequate",
+  /** Maximum */
+  Maximum = "Maximum",
+  /** NotSupported */
+  NotSupported = "NotSupported"
+}
+
+/**
+ * Defines values for SecureScoreLevel. \
+ * {@link KnownSecureScoreLevel} can be used interchangeably with SecureScoreLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Minimum** \
+ * **Adequate** \
+ * **Maximum** \
+ * **NotSupported**
+ */
+export type SecureScoreLevel = string;
+
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -2115,27 +2309,6 @@ export enum KnownValidationType {
  */
 export type ValidationType = string;
 
-/** Known values of {@link RehydrationPriority} that the service accepts. */
-export enum KnownRehydrationPriority {
-  /** Invalid */
-  Invalid = "Invalid",
-  /** High */
-  High = "High",
-  /** Standard */
-  Standard = "Standard"
-}
-
-/**
- * Defines values for RehydrationPriority. \
- * {@link KnownRehydrationPriority} can be used interchangeably with RehydrationPriority,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Invalid** \
- * **High** \
- * **Standard**
- */
-export type RehydrationPriority = string;
-
 /** Known values of {@link RecoveryOption} that the service accepts. */
 export enum KnownRecoveryOption {
   /** FailIfExists */
@@ -2174,6 +2347,27 @@ export enum KnownSourceDataStoreType {
  * **VaultStore**
  */
 export type SourceDataStoreType = string;
+
+/** Known values of {@link RehydrationPriority} that the service accepts. */
+export enum KnownRehydrationPriority {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** High */
+  High = "High",
+  /** Standard */
+  Standard = "Standard"
+}
+
+/**
+ * Defines values for RehydrationPriority. \
+ * {@link KnownRehydrationPriority} can be used interchangeably with RehydrationPriority,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **High** \
+ * **Standard**
+ */
+export type RehydrationPriority = string;
 
 /** Known values of {@link SyncType} that the service accepts. */
 export enum KnownSyncType {
@@ -2729,6 +2923,30 @@ export interface BackupInstancesGetBackupInstanceOperationResultOptionalParams
 export type BackupInstancesGetBackupInstanceOperationResultResponse = BackupInstanceResource;
 
 /** Optional parameters. */
+export interface BackupInstancesTriggerCrossRegionRestoreOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the triggerCrossRegionRestore operation. */
+export type BackupInstancesTriggerCrossRegionRestoreResponse = OperationJobExtendedInfo;
+
+/** Optional parameters. */
+export interface BackupInstancesValidateCrossRegionRestoreOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the validateCrossRegionRestore operation. */
+export type BackupInstancesValidateCrossRegionRestoreResponse = OperationJobExtendedInfo;
+
+/** Optional parameters. */
 export interface BackupInstancesTriggerRehydrateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -2841,6 +3059,60 @@ export interface RecoveryPointsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type RecoveryPointsListNextResponse = AzureBackupRecoveryPointResourceList;
+
+/** Optional parameters. */
+export interface SecondaryRPsFetchOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter options. */
+  filter?: string;
+  /** skipToken Filter. */
+  skipToken?: string;
+}
+
+/** Contains response data for the fetch operation. */
+export type SecondaryRPsFetchResponse = AzureBackupRecoveryPointResourceList;
+
+/** Optional parameters. */
+export interface SecondaryRPsFetchNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the fetchNext operation. */
+export type SecondaryRPsFetchNextResponse = AzureBackupRecoveryPointResourceList;
+
+/** Optional parameters. */
+export interface CrossRegionRestoreJobGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CrossRegionRestoreJobGetResponse = AzureBackupJobResource;
+
+/** Optional parameters. */
+export interface CrossRegionRestoreJobsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type CrossRegionRestoreJobsListResponse = AzureBackupJobResourceList;
+
+/** Optional parameters. */
+export interface CrossRegionRestoreJobsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type CrossRegionRestoreJobsListNextResponse = AzureBackupJobResourceList;
+
+/** Optional parameters. */
+export interface BackupInstancesExtensionRoutingListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type BackupInstancesExtensionRoutingListResponse = BackupInstanceResourceList;
+
+/** Optional parameters. */
+export interface BackupInstancesExtensionRoutingListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type BackupInstancesExtensionRoutingListNextResponse = BackupInstanceResourceList;
 
 /** Optional parameters. */
 export interface JobsListOptionalParams extends coreClient.OperationOptions {}
@@ -3095,6 +3367,45 @@ export interface ResourceGuardsGetUpdateProtectedItemRequestsObjectsNextOptional
 
 /** Contains response data for the getUpdateProtectedItemRequestsObjectsNext operation. */
 export type ResourceGuardsGetUpdateProtectedItemRequestsObjectsNextResponse = DppBaseResourceList;
+
+/** Optional parameters. */
+export interface DppResourceGuardProxyListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type DppResourceGuardProxyListResponse = ResourceGuardProxyBaseResourceList;
+
+/** Optional parameters. */
+export interface DppResourceGuardProxyGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DppResourceGuardProxyGetResponse = ResourceGuardProxyBaseResource;
+
+/** Optional parameters. */
+export interface DppResourceGuardProxyCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DppResourceGuardProxyCreateOrUpdateResponse = ResourceGuardProxyBaseResource;
+
+/** Optional parameters. */
+export interface DppResourceGuardProxyDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DppResourceGuardProxyUnlockDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the unlockDelete operation. */
+export type DppResourceGuardProxyUnlockDeleteResponse = UnlockDeleteResponse;
+
+/** Optional parameters. */
+export interface DppResourceGuardProxyListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type DppResourceGuardProxyListNextResponse = ResourceGuardProxyBaseResourceList;
 
 /** Optional parameters. */
 export interface DataProtectionClientOptionalParams
