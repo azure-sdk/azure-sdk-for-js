@@ -899,7 +899,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NotificationHubListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -918,7 +917,6 @@ const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SharedAccessAuthorizationRuleListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

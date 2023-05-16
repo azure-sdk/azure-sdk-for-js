@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NamespaceResource,
   NamespacesListOptionalParams,
@@ -118,7 +118,7 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     options?: NamespacesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing namespace. This operation also removes all associated notificationHubs under the
    * namespace.
