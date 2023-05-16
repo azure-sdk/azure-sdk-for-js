@@ -3635,6 +3635,13 @@ export interface GetSubscriptionDeploymentLocationsOptionalParams extends coreCl
 export type GetSubscriptionDeploymentLocationsResponse = DeploymentLocations;
 
 // @public
+export interface GetUsagesInLocationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetUsagesInLocationResponse = CsmUsageQuotaCollection;
+
+// @public
 export interface GitHub {
     enabled?: boolean;
     login?: LoginScopes;
@@ -4325,6 +4332,16 @@ export enum KnownWorkflowSkuName {
 }
 
 // @public
+export enum KnownWorkflowState {
+    Completed = "Completed",
+    Deleted = "Deleted",
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    NotSpecified = "NotSpecified",
+    Suspended = "Suspended"
+}
+
+// @public
 export enum KnownWorkflowStatus {
     Aborted = "Aborted",
     Cancelled = "Cancelled",
@@ -4810,6 +4827,18 @@ export interface Nonce {
 
 // @public
 export type NotificationLevel = "Critical" | "Warning" | "Information" | "NonUrgentSuggestion";
+
+// @public
+export interface OneDeployRequest extends ProxyOnlyResource {
+    async?: boolean;
+    clean?: boolean;
+    ignoreStack?: boolean;
+    packageUri?: string;
+    path?: string;
+    reset?: boolean;
+    restart?: boolean;
+    trackDeploymentProgress?: boolean;
+}
 
 // @public
 export interface OpenAuthenticationAccessPolicies {
@@ -8653,10 +8682,11 @@ export type WebAppsCreateMSDeployOperationSlotResponse = MSDeployStatus;
 
 // @public
 export interface WebAppsCreateOneDeployOperationOptionalParams extends coreClient.OperationOptions {
+    request?: OneDeployRequest;
 }
 
 // @public
-export type WebAppsCreateOneDeployOperationResponse = Record<string, unknown>;
+export type WebAppsCreateOneDeployOperationResponse = Deployment;
 
 // @public
 export interface WebAppsCreateOrUpdateConfigurationOptionalParams extends coreClient.OperationOptions {
@@ -9564,7 +9594,7 @@ export interface WebAppsGetOneDeployStatusOptionalParams extends coreClient.Oper
 }
 
 // @public
-export type WebAppsGetOneDeployStatusResponse = Record<string, unknown>;
+export type WebAppsGetOneDeployStatusResponse = Deployment;
 
 // @public
 export interface WebAppsGetOptionalParams extends coreClient.OperationOptions {
@@ -11807,6 +11837,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     getPublishingUser(options?: GetPublishingUserOptionalParams): Promise<GetPublishingUserResponse>;
     getSourceControl(sourceControlType: string, options?: GetSourceControlOptionalParams): Promise<GetSourceControlResponse>;
     getSubscriptionDeploymentLocations(options?: GetSubscriptionDeploymentLocationsOptionalParams): Promise<GetSubscriptionDeploymentLocationsResponse>;
+    getUsagesInLocation(location: string, options?: GetUsagesInLocationOptionalParams): Promise<GetUsagesInLocationResponse>;
     // (undocumented)
     global: Global_2;
     // (undocumented)
@@ -12301,7 +12332,7 @@ export interface WorkflowsRegenerateAccessKeyOptionalParams extends coreClient.O
 }
 
 // @public
-export type WorkflowState = "NotSpecified" | "Completed" | "Enabled" | "Disabled" | "Deleted" | "Suspended";
+export type WorkflowState = string;
 
 // @public
 export type WorkflowStatus = string;

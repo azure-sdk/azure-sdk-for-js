@@ -123,6 +123,8 @@ import {
   GetSubscriptionDeploymentLocationsResponse,
   ListSkusOptionalParams,
   ListSkusResponse,
+  GetUsagesInLocationOptionalParams,
+  GetUsagesInLocationResponse,
   VnetParameters,
   VerifyHostingEnvironmentVnetOptionalParams,
   VerifyHostingEnvironmentVnetResponse,
@@ -174,7 +176,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/14.0.1`;
+    const packageDetails = `azsdk-js-arm-appservice/14.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -227,7 +229,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-01";
+    this.apiVersion = options.apiVersion || "2023-01-01";
     this.appServiceCertificateOrders = new AppServiceCertificateOrdersImpl(
       this
     );
@@ -829,6 +831,21 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
+   * Gets the usage in cores for a subscription in a given location.
+   * @param location The location for which to check usages
+   * @param options The options parameters.
+   */
+  getUsagesInLocation(
+    location: string,
+    options?: GetUsagesInLocationOptionalParams
+  ): Promise<GetUsagesInLocationResponse> {
+    return this.sendOperationRequest(
+      { location, options },
+      getUsagesInLocationOperationSpec
+    );
+  }
+
+  /**
    * Description for Verifies if this VNET is compatible with an App Service Environment by analyzing the
    * Network Security Group rules.
    * @param parameters VNET information
@@ -1257,6 +1274,27 @@ const listSkusOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getUsagesInLocationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/usages",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmUsageQuotaCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };

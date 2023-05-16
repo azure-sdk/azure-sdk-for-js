@@ -8220,6 +8220,26 @@ export interface MSDeployLog extends ProxyOnlyResource {
   readonly entries?: MSDeployLogEntry[];
 }
 
+/** OneDeploy settings defined by user */
+export interface OneDeployRequest extends ProxyOnlyResource {
+  /** The Uri where the source artifact can be pulled from */
+  packageUri?: string;
+  /** Specifies whether the deployment should be performed asynchronously */
+  async?: boolean;
+  /** The absolute path to deploy the artifact to */
+  path?: string;
+  /** Specifies whether to restart the app following the deployment */
+  restart?: boolean;
+  /** Specifies whether to clean the target deployment directory */
+  clean?: boolean;
+  /** Disables any language-specific defaults */
+  ignoreStack?: boolean;
+  /** The type of the artifact being deployed */
+  trackDeploymentProgress?: boolean;
+  /** Resets Java apps to the default parking page if set to true with no type specified */
+  reset?: boolean;
+}
+
 /** Function information. */
 export interface FunctionEnvelope extends ProxyOnlyResource {
   /** Function App ID. */
@@ -10021,6 +10041,36 @@ export enum KnownPublishingProfileFormat {
  */
 export type PublishingProfileFormat = string;
 
+/** Known values of {@link WorkflowState} that the service accepts. */
+export enum KnownWorkflowState {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** Completed */
+  Completed = "Completed",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** Suspended */
+  Suspended = "Suspended"
+}
+
+/**
+ * Defines values for WorkflowState. \
+ * {@link KnownWorkflowState} can be used interchangeably with WorkflowState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **Completed** \
+ * **Enabled** \
+ * **Disabled** \
+ * **Deleted** \
+ * **Suspended**
+ */
+export type WorkflowState = string;
+
 /** Known values of {@link KeyType} that the service accepts. */
 export enum KnownKeyType {
   /** NotSpecified */
@@ -10743,14 +10793,6 @@ export type PublicCertificateLocation =
 export type SiteExtensionType = "Gallery" | "WebRoot";
 /** Defines values for TriggeredWebJobStatus. */
 export type TriggeredWebJobStatus = "Success" | "Failed" | "Error";
-/** Defines values for WorkflowState. */
-export type WorkflowState =
-  | "NotSpecified"
-  | "Completed"
-  | "Enabled"
-  | "Disabled"
-  | "Deleted"
-  | "Suspended";
 /** Defines values for WorkflowHealthState. */
 export type WorkflowHealthState =
   | "NotSpecified"
@@ -12914,6 +12956,13 @@ export interface ListSkusOptionalParams extends coreClient.OperationOptions {}
 export type ListSkusResponse = SkuInfos;
 
 /** Optional parameters. */
+export interface GetUsagesInLocationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getUsagesInLocation operation. */
+export type GetUsagesInLocationResponse = CsmUsageQuotaCollection;
+
+/** Optional parameters. */
 export interface VerifyHostingEnvironmentVnetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -14235,14 +14284,17 @@ export interface WebAppsGetOneDeployStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOneDeployStatus operation. */
-export type WebAppsGetOneDeployStatusResponse = Record<string, unknown>;
+export type WebAppsGetOneDeployStatusResponse = Deployment;
 
 /** Optional parameters. */
 export interface WebAppsCreateOneDeployOperationOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Information on OneDeploy request */
+  request?: OneDeployRequest;
+}
 
 /** Contains response data for the createOneDeployOperation operation. */
-export type WebAppsCreateOneDeployOperationResponse = Record<string, unknown>;
+export type WebAppsCreateOneDeployOperationResponse = Deployment;
 
 /** Optional parameters. */
 export interface WebAppsListFunctionsOptionalParams
