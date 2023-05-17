@@ -52,9 +52,9 @@ export class RecordSetsImpl implements RecordSets {
 
   /**
    * Lists the record sets of a specified type in a DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
-   * @param recordType The type of record sets to enumerate.
+   * @param recordType The type of DNS record in this record set.
    * @param options The options parameters.
    */
   public listByType(
@@ -145,7 +145,7 @@ export class RecordSetsImpl implements RecordSets {
 
   /**
    * Lists all record sets in a DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param options The options parameters.
    */
@@ -225,7 +225,7 @@ export class RecordSetsImpl implements RecordSets {
 
   /**
    * Lists all record sets in a DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param options The options parameters.
    */
@@ -309,7 +309,7 @@ export class RecordSetsImpl implements RecordSets {
 
   /**
    * Updates a record set within a DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
    * @param recordType The type of DNS record in this record set.
@@ -338,12 +338,12 @@ export class RecordSetsImpl implements RecordSets {
   }
 
   /**
-   * Creates or updates a record set within a DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not
+   * created (they are created when the DNS zone is created).
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
-   * @param recordType The type of DNS record in this record set. Record sets of type SOA can be updated
-   *                   but not created (they are created when the DNS zone is created).
+   * @param recordType The type of DNS record in this record set.
    * @param parameters Parameters supplied to the CreateOrUpdate operation.
    * @param options The options parameters.
    */
@@ -369,12 +369,12 @@ export class RecordSetsImpl implements RecordSets {
   }
 
   /**
-   * Deletes a record set from a DNS zone. This operation cannot be undone.
-   * @param resourceGroupName The name of the resource group.
+   * Deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA
+   * cannot be deleted (they are deleted when the DNS zone is deleted).
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
-   * @param recordType The type of DNS record in this record set. Record sets of type SOA cannot be
-   *                   deleted (they are deleted when the DNS zone is deleted).
+   * @param recordType The type of DNS record in this record set.
    * @param options The options parameters.
    */
   delete(
@@ -398,7 +398,7 @@ export class RecordSetsImpl implements RecordSets {
 
   /**
    * Gets a record set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
    * @param recordType The type of DNS record in this record set.
@@ -425,9 +425,9 @@ export class RecordSetsImpl implements RecordSets {
 
   /**
    * Lists the record sets of a specified type in a DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
-   * @param recordType The type of record sets to enumerate.
+   * @param recordType The type of DNS record in this record set.
    * @param options The options parameters.
    */
   private _listByType(
@@ -444,7 +444,7 @@ export class RecordSetsImpl implements RecordSets {
 
   /**
    * Lists all record sets in a DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param options The options parameters.
    */
@@ -461,7 +461,7 @@ export class RecordSetsImpl implements RecordSets {
 
   /**
    * Lists all record sets in a DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param options The options parameters.
    */
@@ -478,9 +478,9 @@ export class RecordSetsImpl implements RecordSets {
 
   /**
    * ListByTypeNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
-   * @param recordType The type of record sets to enumerate.
+   * @param recordType The type of DNS record in this record set.
    * @param nextLink The nextLink from the previous successful call to the ListByType method.
    * @param options The options parameters.
    */
@@ -499,7 +499,7 @@ export class RecordSetsImpl implements RecordSets {
 
   /**
    * ListByDnsZoneNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param nextLink The nextLink from the previous successful call to the ListByDnsZone method.
    * @param options The options parameters.
@@ -518,7 +518,7 @@ export class RecordSetsImpl implements RecordSets {
 
   /**
    * ListAllByDnsZoneNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param nextLink The nextLink from the previous successful call to the ListAllByDnsZone method.
    * @param options The options parameters.
@@ -556,14 +556,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.zoneName,
+    Parameters.subscriptionId,
     Parameters.relativeRecordSetName,
-    Parameters.recordType,
-    Parameters.subscriptionId
+    Parameters.recordType
   ],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
-    Parameters.ifMatch
+    Parameters.ifMatch,
+    Parameters.contentType
   ],
   mediaType: "json",
   serializer
@@ -589,15 +589,15 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.zoneName,
+    Parameters.subscriptionId,
     Parameters.relativeRecordSetName,
-    Parameters.recordType,
-    Parameters.subscriptionId
+    Parameters.recordType
   ],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.contentType
   ],
   mediaType: "json",
   serializer
@@ -618,9 +618,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.zoneName,
+    Parameters.subscriptionId,
     Parameters.relativeRecordSetName,
-    Parameters.recordType,
-    Parameters.subscriptionId
+    Parameters.recordType
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch],
   serializer
@@ -642,9 +642,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.zoneName,
+    Parameters.subscriptionId,
     Parameters.relativeRecordSetName,
-    Parameters.recordType,
-    Parameters.subscriptionId
+    Parameters.recordType
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -670,8 +670,8 @@ const listByTypeOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.zoneName,
-    Parameters.recordType,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.recordType
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -739,18 +739,13 @@ const listByTypeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.recordsetnamesuffix
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.zoneName,
-    Parameters.recordType,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.recordType
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -766,11 +761,6 @@ const listByDnsZoneNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.recordsetnamesuffix
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -792,11 +782,6 @@ const listAllByDnsZoneNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.recordSetNameSuffix
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

@@ -8,6 +8,284 @@
 
 import * as coreClient from "@azure/core-client";
 
+export const DnssecConfig: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DnssecConfig",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      signingKeys: {
+        serializedName: "properties.signingKeys",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SigningKey"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SigningKey: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SigningKey",
+    modelProperties: {
+      delegationSignerInfo: {
+        serializedName: "delegationSignerInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DelegationSignerInfo"
+            }
+          }
+        }
+      },
+      flags: {
+        serializedName: "flags",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      keyTag: {
+        serializedName: "keyTag",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      protocol: {
+        serializedName: "protocol",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      publicKey: {
+        serializedName: "publicKey",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      securityAlgorithmType: {
+        serializedName: "securityAlgorithmType",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const DelegationSignerInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DelegationSignerInfo",
+    modelProperties: {
+      digestAlgorithmType: {
+        serializedName: "digestAlgorithmType",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      digestValue: {
+        serializedName: "digestValue",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      record: {
+        serializedName: "record",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const CloudError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudError",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "CloudErrorBody"
+        }
+      }
+    }
+  }
+};
+
+export const CloudErrorBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudErrorBody",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CloudErrorBody"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DnssecConfigListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DnssecConfigListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DnssecConfig"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const RecordSet: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -180,6 +458,42 @@ export const RecordSet: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "CaaRecord"
+            }
+          }
+        }
+      },
+      dsRecords: {
+        serializedName: "properties.DSRecords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DsRecord"
+            }
+          }
+        }
+      },
+      tlsaRecords: {
+        serializedName: "properties.TLSARecords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TlsaRecord"
+            }
+          }
+        }
+      },
+      naptrRecords: {
+        serializedName: "properties.NAPTRRecords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NaptrRecord"
             }
           }
         }
@@ -430,55 +744,127 @@ export const CaaRecord: coreClient.CompositeMapper = {
   }
 };
 
-export const CloudError: coreClient.CompositeMapper = {
+export const DsRecord: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CloudError",
+    className: "DsRecord",
     modelProperties: {
-      error: {
-        serializedName: "error",
+      keyTag: {
+        serializedName: "keyTag",
+        type: {
+          name: "Number"
+        }
+      },
+      algorithm: {
+        serializedName: "algorithm",
+        type: {
+          name: "Number"
+        }
+      },
+      digest: {
+        serializedName: "digest",
         type: {
           name: "Composite",
-          className: "CloudErrorBody"
+          className: "Digest"
         }
       }
     }
   }
 };
 
-export const CloudErrorBody: coreClient.CompositeMapper = {
+export const Digest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CloudErrorBody",
+    className: "Digest",
     modelProperties: {
-      code: {
-        serializedName: "code",
+      algorithmType: {
+        serializedName: "algorithmType",
+        type: {
+          name: "Number"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TlsaRecord: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TlsaRecord",
+    modelProperties: {
+      usage: {
+        serializedName: "usage",
+        type: {
+          name: "Number"
+        }
+      },
+      selector: {
+        serializedName: "selector",
+        type: {
+          name: "Number"
+        }
+      },
+      matchingType: {
+        serializedName: "matchingType",
+        type: {
+          name: "Number"
+        }
+      },
+      certAssociationData: {
+        serializedName: "certAssociationData",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NaptrRecord: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NaptrRecord",
+    modelProperties: {
+      order: {
+        serializedName: "order",
+        type: {
+          name: "Number"
+        }
+      },
+      preference: {
+        serializedName: "preference",
+        type: {
+          name: "Number"
+        }
+      },
+      flags: {
+        serializedName: "flags",
         type: {
           name: "String"
         }
       },
-      message: {
-        serializedName: "message",
+      services: {
+        serializedName: "services",
         type: {
           name: "String"
         }
       },
-      target: {
-        serializedName: "target",
+      regexp: {
+        serializedName: "regexp",
         type: {
           name: "String"
         }
       },
-      details: {
-        serializedName: "details",
+      replacement: {
+        serializedName: "replacement",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CloudErrorBody"
-            }
-          }
+          name: "String"
         }
       }
     }
@@ -699,6 +1085,13 @@ export const Zone: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       maxNumberOfRecordSets: {
         serializedName: "properties.maxNumberOfRecordSets",
         readOnly: true,
@@ -762,6 +1155,49 @@ export const Zone: coreClient.CompositeMapper = {
               className: "SubResource"
             }
           }
+        }
+      },
+      signingKeys: {
+        serializedName: "properties.signingKeys",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SigningKey"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DnssecConfigsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DnssecConfigsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ZonesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ZonesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
         }
       }
     }

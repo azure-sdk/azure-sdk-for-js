@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DnsManagementClient } from "../dnsManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Zone,
   ZonesListByResourceGroupNextOptionalParams,
@@ -50,7 +54,7 @@ export class ZonesImpl implements Zones {
 
   /**
    * Lists the DNS zones within a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -173,7 +177,7 @@ export class ZonesImpl implements Zones {
 
   /**
    * Creates or updates a DNS zone. Does not modify DNS records within the zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param parameters Parameters supplied to the CreateOrUpdate operation.
    * @param options The options parameters.
@@ -193,7 +197,7 @@ export class ZonesImpl implements Zones {
   /**
    * Deletes a DNS zone. WARNING: All DNS records in the zone will also be deleted. This operation cannot
    * be undone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param options The options parameters.
    */
@@ -201,14 +205,14 @@ export class ZonesImpl implements Zones {
     resourceGroupName: string,
     zoneName: string,
     options?: ZonesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -241,13 +245,13 @@ export class ZonesImpl implements Zones {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, zoneName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, zoneName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -257,7 +261,7 @@ export class ZonesImpl implements Zones {
   /**
    * Deletes a DNS zone. WARNING: All DNS records in the zone will also be deleted. This operation cannot
    * be undone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param options The options parameters.
    */
@@ -272,7 +276,7 @@ export class ZonesImpl implements Zones {
 
   /**
    * Gets a DNS zone. Retrieves the zone properties, but not the record sets within the zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param options The options parameters.
    */
@@ -289,7 +293,7 @@ export class ZonesImpl implements Zones {
 
   /**
    * Updates a DNS zone. Does not modify DNS records within the zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param parameters Parameters supplied to the Update operation.
    * @param options The options parameters.
@@ -308,7 +312,7 @@ export class ZonesImpl implements Zones {
 
   /**
    * Lists the DNS zones within a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -331,7 +335,7 @@ export class ZonesImpl implements Zones {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -388,10 +392,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId
   ],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.contentType
   ],
   mediaType: "json",
   serializer
@@ -462,9 +466,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId
   ],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
-    Parameters.ifMatch
+    Parameters.ifMatch,
+    Parameters.contentType
   ],
   mediaType: "json",
   serializer
@@ -517,7 +521,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -538,7 +541,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

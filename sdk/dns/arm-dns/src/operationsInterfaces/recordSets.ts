@@ -27,9 +27,9 @@ import {
 export interface RecordSets {
   /**
    * Lists the record sets of a specified type in a DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
-   * @param recordType The type of record sets to enumerate.
+   * @param recordType The type of DNS record in this record set.
    * @param options The options parameters.
    */
   listByType(
@@ -40,7 +40,7 @@ export interface RecordSets {
   ): PagedAsyncIterableIterator<RecordSet>;
   /**
    * Lists all record sets in a DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param options The options parameters.
    */
@@ -51,7 +51,7 @@ export interface RecordSets {
   ): PagedAsyncIterableIterator<RecordSet>;
   /**
    * Lists all record sets in a DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param options The options parameters.
    */
@@ -62,7 +62,7 @@ export interface RecordSets {
   ): PagedAsyncIterableIterator<RecordSet>;
   /**
    * Updates a record set within a DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
    * @param recordType The type of DNS record in this record set.
@@ -78,12 +78,12 @@ export interface RecordSets {
     options?: RecordSetsUpdateOptionalParams
   ): Promise<RecordSetsUpdateResponse>;
   /**
-   * Creates or updates a record set within a DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not
+   * created (they are created when the DNS zone is created).
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
-   * @param recordType The type of DNS record in this record set. Record sets of type SOA can be updated
-   *                   but not created (they are created when the DNS zone is created).
+   * @param recordType The type of DNS record in this record set.
    * @param parameters Parameters supplied to the CreateOrUpdate operation.
    * @param options The options parameters.
    */
@@ -96,12 +96,12 @@ export interface RecordSets {
     options?: RecordSetsCreateOrUpdateOptionalParams
   ): Promise<RecordSetsCreateOrUpdateResponse>;
   /**
-   * Deletes a record set from a DNS zone. This operation cannot be undone.
-   * @param resourceGroupName The name of the resource group.
+   * Deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA
+   * cannot be deleted (they are deleted when the DNS zone is deleted).
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
-   * @param recordType The type of DNS record in this record set. Record sets of type SOA cannot be
-   *                   deleted (they are deleted when the DNS zone is deleted).
+   * @param recordType The type of DNS record in this record set.
    * @param options The options parameters.
    */
   delete(
@@ -113,7 +113,7 @@ export interface RecordSets {
   ): Promise<void>;
   /**
    * Gets a record set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
    * @param recordType The type of DNS record in this record set.
