@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Workspaces } from "../operationsInterfaces";
+import { AccessConnectors } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,32 +20,32 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Workspace,
-  WorkspacesListByResourceGroupNextOptionalParams,
-  WorkspacesListByResourceGroupOptionalParams,
-  WorkspacesListByResourceGroupResponse,
-  WorkspacesListBySubscriptionNextOptionalParams,
-  WorkspacesListBySubscriptionOptionalParams,
-  WorkspacesListBySubscriptionResponse,
-  WorkspacesGetOptionalParams,
-  WorkspacesGetResponse,
-  WorkspacesDeleteOptionalParams,
-  WorkspacesCreateOrUpdateOptionalParams,
-  WorkspacesCreateOrUpdateResponse,
-  WorkspaceUpdate,
-  WorkspacesUpdateOptionalParams,
-  WorkspacesUpdateResponse,
-  WorkspacesListByResourceGroupNextResponse,
-  WorkspacesListBySubscriptionNextResponse
+  AccessConnector,
+  AccessConnectorsListByResourceGroupNextOptionalParams,
+  AccessConnectorsListByResourceGroupOptionalParams,
+  AccessConnectorsListByResourceGroupResponse,
+  AccessConnectorsListBySubscriptionNextOptionalParams,
+  AccessConnectorsListBySubscriptionOptionalParams,
+  AccessConnectorsListBySubscriptionResponse,
+  AccessConnectorsGetOptionalParams,
+  AccessConnectorsGetResponse,
+  AccessConnectorsDeleteOptionalParams,
+  AccessConnectorsCreateOrUpdateOptionalParams,
+  AccessConnectorsCreateOrUpdateResponse,
+  AccessConnectorUpdate,
+  AccessConnectorsUpdateOptionalParams,
+  AccessConnectorsUpdateResponse,
+  AccessConnectorsListByResourceGroupNextResponse,
+  AccessConnectorsListBySubscriptionNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Workspaces operations. */
-export class WorkspacesImpl implements Workspaces {
+/** Class containing AccessConnectors operations. */
+export class AccessConnectorsImpl implements AccessConnectors {
   private readonly client: AzureDatabricksManagementClient;
 
   /**
-   * Initialize a new instance of the class Workspaces class.
+   * Initialize a new instance of the class AccessConnectors class.
    * @param client Reference to the service client
    */
   constructor(client: AzureDatabricksManagementClient) {
@@ -53,14 +53,14 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
-   * Gets all the workspaces within a resource group.
+   * Gets all the azure databricks accessConnectors within a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<Workspace> {
+    options?: AccessConnectorsListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<AccessConnector> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -84,10 +84,10 @@ export class WorkspacesImpl implements Workspaces {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams,
+    options?: AccessConnectorsListByResourceGroupOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Workspace[]> {
-    let result: WorkspacesListByResourceGroupResponse;
+  ): AsyncIterableIterator<AccessConnector[]> {
+    let result: AccessConnectorsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -111,8 +111,8 @@ export class WorkspacesImpl implements Workspaces {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<Workspace> {
+    options?: AccessConnectorsListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<AccessConnector> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options
@@ -122,12 +122,12 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
-   * Gets all the workspaces within a subscription.
+   * Gets all the azure databricks accessConnectors within a subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: WorkspacesListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<Workspace> {
+    options?: AccessConnectorsListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<AccessConnector> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -146,10 +146,10 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: WorkspacesListBySubscriptionOptionalParams,
+    options?: AccessConnectorsListBySubscriptionOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Workspace[]> {
-    let result: WorkspacesListBySubscriptionResponse;
+  ): AsyncIterableIterator<AccessConnector[]> {
+    let result: AccessConnectorsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -168,40 +168,40 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: WorkspacesListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<Workspace> {
+    options?: AccessConnectorsListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<AccessConnector> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Gets the workspace.
+   * Gets an azure databricks accessConnector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param connectorName The name of the azure databricks accessConnector.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    workspaceName: string,
-    options?: WorkspacesGetOptionalParams
-  ): Promise<WorkspacesGetResponse> {
+    connectorName: string,
+    options?: AccessConnectorsGetOptionalParams
+  ): Promise<AccessConnectorsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, options },
+      { resourceGroupName, connectorName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Deletes the workspace.
+   * Deletes the azure databricks accessConnector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param connectorName The name of the azure databricks accessConnector.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    workspaceName: string,
-    options?: WorkspacesDeleteOptionalParams
+    connectorName: string,
+    options?: AccessConnectorsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -244,7 +244,7 @@ export class WorkspacesImpl implements Workspaces {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, workspaceName, options },
+      args: { resourceGroupName, connectorName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -256,46 +256,46 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
-   * Deletes the workspace.
+   * Deletes the azure databricks accessConnector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param connectorName The name of the azure databricks accessConnector.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    workspaceName: string,
-    options?: WorkspacesDeleteOptionalParams
+    connectorName: string,
+    options?: AccessConnectorsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      workspaceName,
+      connectorName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Creates a new workspace.
+   * Creates or updates azure databricks accessConnector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param parameters Parameters supplied to the create or update a workspace.
+   * @param connectorName The name of the azure databricks accessConnector.
+   * @param parameters Parameters supplied to the create or update an azure databricks accessConnector.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    workspaceName: string,
-    parameters: Workspace,
-    options?: WorkspacesCreateOrUpdateOptionalParams
+    connectorName: string,
+    parameters: AccessConnector,
+    options?: AccessConnectorsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<WorkspacesCreateOrUpdateResponse>,
-      WorkspacesCreateOrUpdateResponse
+      OperationState<AccessConnectorsCreateOrUpdateResponse>,
+      AccessConnectorsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<WorkspacesCreateOrUpdateResponse> => {
+    ): Promise<AccessConnectorsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -333,12 +333,12 @@ export class WorkspacesImpl implements Workspaces {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, workspaceName, parameters, options },
+      args: { resourceGroupName, connectorName, parameters, options },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      WorkspacesCreateOrUpdateResponse,
-      OperationState<WorkspacesCreateOrUpdateResponse>
+      AccessConnectorsCreateOrUpdateResponse,
+      OperationState<AccessConnectorsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
@@ -348,21 +348,21 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
-   * Creates a new workspace.
+   * Creates or updates azure databricks accessConnector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param parameters Parameters supplied to the create or update a workspace.
+   * @param connectorName The name of the azure databricks accessConnector.
+   * @param parameters Parameters supplied to the create or update an azure databricks accessConnector.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    workspaceName: string,
-    parameters: Workspace,
-    options?: WorkspacesCreateOrUpdateOptionalParams
-  ): Promise<WorkspacesCreateOrUpdateResponse> {
+    connectorName: string,
+    parameters: AccessConnector,
+    options?: AccessConnectorsCreateOrUpdateOptionalParams
+  ): Promise<AccessConnectorsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      workspaceName,
+      connectorName,
       parameters,
       options
     );
@@ -370,27 +370,27 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
-   * Updates a workspace.
+   * Updates an azure databricks accessConnector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param parameters The update to the workspace.
+   * @param connectorName The name of the azure databricks accessConnector.
+   * @param parameters The update to the azure databricks accessConnector.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    workspaceName: string,
-    parameters: WorkspaceUpdate,
-    options?: WorkspacesUpdateOptionalParams
+    connectorName: string,
+    parameters: AccessConnectorUpdate,
+    options?: AccessConnectorsUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<WorkspacesUpdateResponse>,
-      WorkspacesUpdateResponse
+      OperationState<AccessConnectorsUpdateResponse>,
+      AccessConnectorsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<WorkspacesUpdateResponse> => {
+    ): Promise<AccessConnectorsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -428,12 +428,12 @@ export class WorkspacesImpl implements Workspaces {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, workspaceName, parameters, options },
+      args: { resourceGroupName, connectorName, parameters, options },
       spec: updateOperationSpec
     });
     const poller = await createHttpPoller<
-      WorkspacesUpdateResponse,
-      OperationState<WorkspacesUpdateResponse>
+      AccessConnectorsUpdateResponse,
+      OperationState<AccessConnectorsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
@@ -443,21 +443,21 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
-   * Updates a workspace.
+   * Updates an azure databricks accessConnector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param parameters The update to the workspace.
+   * @param connectorName The name of the azure databricks accessConnector.
+   * @param parameters The update to the azure databricks accessConnector.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    workspaceName: string,
-    parameters: WorkspaceUpdate,
-    options?: WorkspacesUpdateOptionalParams
-  ): Promise<WorkspacesUpdateResponse> {
+    connectorName: string,
+    parameters: AccessConnectorUpdate,
+    options?: AccessConnectorsUpdateOptionalParams
+  ): Promise<AccessConnectorsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      workspaceName,
+      connectorName,
       parameters,
       options
     );
@@ -465,14 +465,14 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
-   * Gets all the workspaces within a resource group.
+   * Gets all the azure databricks accessConnectors within a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams
-  ): Promise<WorkspacesListByResourceGroupResponse> {
+    options?: AccessConnectorsListByResourceGroupOptionalParams
+  ): Promise<AccessConnectorsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
@@ -480,12 +480,12 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
-   * Gets all the workspaces within a subscription.
+   * Gets all the azure databricks accessConnectors within a subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: WorkspacesListBySubscriptionOptionalParams
-  ): Promise<WorkspacesListBySubscriptionResponse> {
+    options?: AccessConnectorsListBySubscriptionOptionalParams
+  ): Promise<AccessConnectorsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec
@@ -501,8 +501,8 @@ export class WorkspacesImpl implements Workspaces {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: WorkspacesListByResourceGroupNextOptionalParams
-  ): Promise<WorkspacesListByResourceGroupNextResponse> {
+    options?: AccessConnectorsListByResourceGroupNextOptionalParams
+  ): Promise<AccessConnectorsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
@@ -516,8 +516,8 @@ export class WorkspacesImpl implements Workspaces {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: WorkspacesListBySubscriptionNextOptionalParams
-  ): Promise<WorkspacesListBySubscriptionNextResponse> {
+    options?: AccessConnectorsListBySubscriptionNextOptionalParams
+  ): Promise<AccessConnectorsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec
@@ -529,29 +529,29 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/accessConnectors/{connectorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Workspace
+      bodyMapper: Mappers.AccessConnector
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.connectorName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/accessConnectors/{connectorName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -562,44 +562,44 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.connectorName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/accessConnectors/{connectorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Workspace
+      bodyMapper: Mappers.AccessConnector
     },
     201: {
-      bodyMapper: Mappers.Workspace
+      bodyMapper: Mappers.AccessConnector
     },
     202: {
-      bodyMapper: Mappers.Workspace
+      bodyMapper: Mappers.AccessConnector
     },
     204: {
-      bodyMapper: Mappers.Workspace
+      bodyMapper: Mappers.AccessConnector
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.connectorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -607,32 +607,32 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/accessConnectors/{connectorName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Workspace
+      bodyMapper: Mappers.AccessConnector
     },
     201: {
-      bodyMapper: Mappers.Workspace
+      bodyMapper: Mappers.AccessConnector
     },
     202: {
-      bodyMapper: Mappers.Workspace
+      bodyMapper: Mappers.AccessConnector
     },
     204: {
-      bodyMapper: Mappers.Workspace
+      bodyMapper: Mappers.AccessConnector
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.connectorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -640,17 +640,17 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/accessConnectors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceListResult
+      bodyMapper: Mappers.AccessConnectorListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -661,17 +661,17 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Databricks/workspaces",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Databricks/accessConnectors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceListResult
+      bodyMapper: Mappers.AccessConnectorListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -681,7 +681,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceListResult
+      bodyMapper: Mappers.AccessConnectorListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -701,7 +701,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceListResult
+      bodyMapper: Mappers.AccessConnectorListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
