@@ -8,26 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Operations } from "../operationsInterfaces";
+import { JobsExecutions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
-  OperationDetail,
-  OperationsListNextOptionalParams,
-  OperationsListOptionalParams,
-  OperationsListResponse,
-  OperationsListNextResponse
+  JobExecution,
+  JobsExecutionsListNextOptionalParams,
+  JobsExecutionsListOptionalParams,
+  JobsExecutionsListResponse,
+  JobsExecutionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Operations operations. */
-export class OperationsImpl implements Operations {
+/** Class containing JobsExecutions operations. */
+export class JobsExecutionsImpl implements JobsExecutions {
   private readonly client: ContainerAppsAPIClient;
 
   /**
-   * Initialize a new instance of the class Operations class.
+   * Initialize a new instance of the class JobsExecutions class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerAppsAPIClient) {
@@ -35,13 +35,15 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists all of the available RP operations.
+   * Get a Container Apps Job's executions
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public list(
-    options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<OperationDetail> {
-    const iter = this.listPagingAll(options);
+    resourceGroupName: string,
+    options?: JobsExecutionsListOptionalParams
+  ): PagedAsyncIterableIterator<JobExecution> {
+    const iter = this.listPagingAll(resourceGroupName, options);
     return {
       next() {
         return iter.next();
@@ -53,26 +55,31 @@ export class OperationsImpl implements Operations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(options, settings);
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: OperationsListOptionalParams,
+    resourceGroupName: string,
+    options?: JobsExecutionsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<OperationDetail[]> {
-    let result: OperationsListResponse;
+  ): AsyncIterableIterator<JobExecution[]> {
+    let result: JobsExecutionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(options);
+      result = await this._list(resourceGroupName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
+      result = await this._listNext(
+        resourceGroupName,
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -81,34 +88,42 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingAll(
-    options?: OperationsListOptionalParams
-  ): AsyncIterableIterator<OperationDetail> {
-    for await (const page of this.listPagingPage(options)) {
+    resourceGroupName: string,
+    options?: JobsExecutionsListOptionalParams
+  ): AsyncIterableIterator<JobExecution> {
+    for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists all of the available RP operations.
+   * Get a Container Apps Job's executions
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _list(
-    options?: OperationsListOptionalParams
-  ): Promise<OperationsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
+    resourceGroupName: string,
+    options?: JobsExecutionsListOptionalParams
+  ): Promise<JobsExecutionsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listOperationSpec
+    );
   }
 
   /**
    * ListNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
+    resourceGroupName: string,
     nextLink: string,
-    options?: OperationsListNextOptionalParams
-  ): Promise<OperationsListNextResponse> {
+    options?: JobsExecutionsListNextOptionalParams
+  ): Promise<JobsExecutionsListNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
+      { resourceGroupName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -117,18 +132,24 @@ export class OperationsImpl implements Operations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.App/operations",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/executions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableOperations
+      bodyMapper: Mappers.ContainerAppJobExecutions
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.jobName
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -137,13 +158,19 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableOperations
+      bodyMapper: Mappers.ContainerAppJobExecutions
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.jobName
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
