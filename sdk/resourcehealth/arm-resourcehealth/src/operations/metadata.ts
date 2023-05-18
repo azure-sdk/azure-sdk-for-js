@@ -8,29 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { EmergingIssues } from "../operationsInterfaces";
+import { Metadata } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MicrosoftResourceHealth } from "../microsoftResourceHealth";
 import {
-  EmergingIssuesGetResult,
-  EmergingIssuesListNextOptionalParams,
-  EmergingIssuesListOptionalParams,
-  EmergingIssuesListResponse,
-  IssueNameParameter,
-  EmergingIssuesGetOptionalParams,
-  EmergingIssuesGetResponse,
-  EmergingIssuesListNextResponse
+  MetadataEntity,
+  MetadataListNextOptionalParams,
+  MetadataListOptionalParams,
+  MetadataListResponse,
+  MetadataGetEntityOptionalParams,
+  MetadataGetEntityResponse,
+  MetadataListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing EmergingIssues operations. */
-export class EmergingIssuesImpl implements EmergingIssues {
+/** Class containing Metadata operations. */
+export class MetadataImpl implements Metadata {
   private readonly client: MicrosoftResourceHealth;
 
   /**
-   * Initialize a new instance of the class EmergingIssues class.
+   * Initialize a new instance of the class Metadata class.
    * @param client Reference to the service client
    */
   constructor(client: MicrosoftResourceHealth) {
@@ -38,12 +37,12 @@ export class EmergingIssuesImpl implements EmergingIssues {
   }
 
   /**
-   * Lists Azure services' emerging issues.
+   * Gets the list of metadata entities.
    * @param options The options parameters.
    */
   public list(
-    options?: EmergingIssuesListOptionalParams
-  ): PagedAsyncIterableIterator<EmergingIssuesGetResult> {
+    options?: MetadataListOptionalParams
+  ): PagedAsyncIterableIterator<MetadataEntity> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -62,10 +61,10 @@ export class EmergingIssuesImpl implements EmergingIssues {
   }
 
   private async *listPagingPage(
-    options?: EmergingIssuesListOptionalParams,
+    options?: MetadataListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<EmergingIssuesGetResult[]> {
-    let result: EmergingIssuesListResponse;
+  ): AsyncIterableIterator<MetadataEntity[]> {
+    let result: MetadataListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
@@ -84,35 +83,35 @@ export class EmergingIssuesImpl implements EmergingIssues {
   }
 
   private async *listPagingAll(
-    options?: EmergingIssuesListOptionalParams
-  ): AsyncIterableIterator<EmergingIssuesGetResult> {
+    options?: MetadataListOptionalParams
+  ): AsyncIterableIterator<MetadataEntity> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists Azure services' emerging issues.
+   * Gets the list of metadata entities.
    * @param options The options parameters.
    */
   private _list(
-    options?: EmergingIssuesListOptionalParams
-  ): Promise<EmergingIssuesListResponse> {
+    options?: MetadataListOptionalParams
+  ): Promise<MetadataListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
-   * Gets Azure services' emerging issues.
-   * @param issueName The name of the emerging issue.
+   * Gets the list of metadata entities.
+   * @param name Name of metadata entity.
    * @param options The options parameters.
    */
-  get(
-    issueName: IssueNameParameter,
-    options?: EmergingIssuesGetOptionalParams
-  ): Promise<EmergingIssuesGetResponse> {
+  getEntity(
+    name: string,
+    options?: MetadataGetEntityOptionalParams
+  ): Promise<MetadataGetEntityResponse> {
     return this.client.sendOperationRequest(
-      { issueName, options },
-      getOperationSpec
+      { name, options },
+      getEntityOperationSpec
     );
   }
 
@@ -123,8 +122,8 @@ export class EmergingIssuesImpl implements EmergingIssues {
    */
   private _listNext(
     nextLink: string,
-    options?: EmergingIssuesListNextOptionalParams
-  ): Promise<EmergingIssuesListNextResponse> {
+    options?: MetadataListNextOptionalParams
+  ): Promise<MetadataListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
@@ -135,11 +134,11 @@ export class EmergingIssuesImpl implements EmergingIssues {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.ResourceHealth/emergingIssues",
+  path: "/providers/Microsoft.ResourceHealth/metadata",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EmergingIssueListResult
+      bodyMapper: Mappers.MetadataEntityListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -150,19 +149,19 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.ResourceHealth/emergingIssues/{issueName}",
+const getEntityOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.ResourceHealth/metadata/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EmergingIssuesGetResult
+      bodyMapper: Mappers.MetadataEntity
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.issueName],
+  urlParameters: [Parameters.$host, Parameters.name],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -171,7 +170,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EmergingIssueListResult
+      bodyMapper: Mappers.MetadataEntityListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
