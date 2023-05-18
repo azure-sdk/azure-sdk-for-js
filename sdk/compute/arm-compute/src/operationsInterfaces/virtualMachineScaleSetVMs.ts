@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualMachineScaleSetVM,
   VirtualMachineScaleSetVMsListOptionalParams,
@@ -29,6 +29,9 @@ import {
   VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse,
   VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams,
   VirtualMachineScaleSetVMsSimulateEvictionOptionalParams,
+  AttachDetachDataDisksRequest,
+  VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams,
+  VirtualMachineScaleSetVMsAttachDetachDataDisksResponse,
   RunCommandInput,
   VirtualMachineScaleSetVMsRunCommandOptionalParams,
   VirtualMachineScaleSetVMsRunCommandResponse
@@ -60,7 +63,7 @@ export interface VirtualMachineScaleSetVMs {
     vmScaleSetName: string,
     instanceId: string,
     options?: VirtualMachineScaleSetVMsReimageOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
    * @param resourceGroupName The name of the resource group.
@@ -87,7 +90,7 @@ export interface VirtualMachineScaleSetVMs {
     vmScaleSetName: string,
     instanceId: string,
     options?: VirtualMachineScaleSetVMsReimageAllOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This
    * operation is only supported for managed disks.
@@ -116,7 +119,7 @@ export interface VirtualMachineScaleSetVMs {
     vmScaleSetName: string,
     instanceId: string,
     options?: VirtualMachineScaleSetVMsDeallocateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and
    * releases the compute resources it uses. You are not billed for the compute resources of this virtual
@@ -147,8 +150,8 @@ export interface VirtualMachineScaleSetVMs {
     parameters: VirtualMachineScaleSetVM,
     options?: VirtualMachineScaleSetVMsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineScaleSetVMsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetVMsUpdateResponse>,
       VirtualMachineScaleSetVMsUpdateResponse
     >
   >;
@@ -179,7 +182,7 @@ export interface VirtualMachineScaleSetVMs {
     vmScaleSetName: string,
     instanceId: string,
     options?: VirtualMachineScaleSetVMsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a virtual machine from a VM scale set.
    * @param resourceGroupName The name of the resource group.
@@ -233,7 +236,7 @@ export interface VirtualMachineScaleSetVMs {
     vmScaleSetName: string,
     instanceId: string,
     options?: VirtualMachineScaleSetVMsPowerOffOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you
    * are getting charged for the resources. Instead, use deallocate to release resources and avoid
@@ -261,7 +264,7 @@ export interface VirtualMachineScaleSetVMs {
     vmScaleSetName: string,
     instanceId: string,
     options?: VirtualMachineScaleSetVMsRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restarts a virtual machine in a VM scale set.
    * @param resourceGroupName The name of the resource group.
@@ -287,7 +290,7 @@ export interface VirtualMachineScaleSetVMs {
     vmScaleSetName: string,
     instanceId: string,
     options?: VirtualMachineScaleSetVMsStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts a virtual machine in a VM scale set.
    * @param resourceGroupName The name of the resource group.
@@ -314,7 +317,7 @@ export interface VirtualMachineScaleSetVMs {
     vmScaleSetName: string,
     instanceId: string,
     options?: VirtualMachineScaleSetVMsRedeployOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers
    * it back on.
@@ -354,7 +357,7 @@ export interface VirtualMachineScaleSetVMs {
     vmScaleSetName: string,
     instanceId: string,
     options?: VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Performs maintenance on a virtual machine in a VM scale set.
    * @param resourceGroupName The name of the resource group.
@@ -382,6 +385,43 @@ export interface VirtualMachineScaleSetVMs {
     options?: VirtualMachineScaleSetVMsSimulateEvictionOptionalParams
   ): Promise<void>;
   /**
+   * Attach and detach data disks to/from a virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param parameters Parameters supplied to the attach and detach data disks operation on a Virtual
+   *                   Machine Scale Sets VM.
+   * @param options The options parameters.
+   */
+  beginAttachDetachDataDisks(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    parameters: AttachDetachDataDisksRequest,
+    options?: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetVMsAttachDetachDataDisksResponse>,
+      VirtualMachineScaleSetVMsAttachDetachDataDisksResponse
+    >
+  >;
+  /**
+   * Attach and detach data disks to/from a virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param parameters Parameters supplied to the attach and detach data disks operation on a Virtual
+   *                   Machine Scale Sets VM.
+   * @param options The options parameters.
+   */
+  beginAttachDetachDataDisksAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    parameters: AttachDetachDataDisksRequest,
+    options?: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams
+  ): Promise<VirtualMachineScaleSetVMsAttachDetachDataDisksResponse>;
+  /**
    * Run command on a virtual machine in a VM scale set.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
@@ -396,8 +436,8 @@ export interface VirtualMachineScaleSetVMs {
     parameters: RunCommandInput,
     options?: VirtualMachineScaleSetVMsRunCommandOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineScaleSetVMsRunCommandResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetVMsRunCommandResponse>,
       VirtualMachineScaleSetVMsRunCommandResponse
     >
   >;
