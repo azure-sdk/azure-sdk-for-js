@@ -169,7 +169,7 @@ const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AgreementListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
@@ -186,7 +186,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Agreement
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
@@ -206,10 +206,9 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AgreementListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
