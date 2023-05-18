@@ -14198,7 +14198,7 @@ packages:
     dev: false
 
   file:projects/arm-selfhelp.tgz:
-    resolution: {integrity: sha512-p8aapHDpKa8OpG/SM/+3ZVTZOk2UqRru20IRlBe++/8BVqP3PaOqyaX1FBM9L9v0AaetNazNSd819VRM4QehjA==, tarball: file:projects/arm-selfhelp.tgz}
+    resolution: {integrity: sha512-WryVDsrQfP69Zi4rvuk2+hv8QZ2Bnpf0IY5Wv4dez/66SA4cSmEuI5RmPmw+NKxhJ/vd6VPhHJZsLHyqmLwibw==, tarball: file:projects/arm-selfhelp.tgz}
     name: '@rush-temp/arm-selfhelp'
     version: 0.0.0
     dependencies:
@@ -14219,7 +14219,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_m742s5qpci6ulntpyriekwplh4
       tslib: 2.5.0
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
