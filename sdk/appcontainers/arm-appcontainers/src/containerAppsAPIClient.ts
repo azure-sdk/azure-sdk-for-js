@@ -16,47 +16,57 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   ContainerAppsAuthConfigsImpl,
-  ContainerAppsImpl,
-  ContainerAppsRevisionsImpl,
-  ContainerAppsRevisionReplicasImpl,
-  DaprComponentsImpl,
-  ContainerAppsDiagnosticsImpl,
-  ManagedEnvironmentDiagnosticsImpl,
-  ManagedEnvironmentsDiagnosticsImpl,
-  OperationsImpl,
-  ManagedEnvironmentsImpl,
-  CertificatesImpl,
-  NamespacesImpl,
-  ManagedEnvironmentsStoragesImpl,
-  ContainerAppsSourceControlsImpl,
+  AvailableWorkloadProfilesImpl,
+  BillingMetersImpl,
+  BuildersImpl,
+  BuildsImpl,
   ConnectedEnvironmentsImpl,
   ConnectedEnvironmentsCertificatesImpl,
   ConnectedEnvironmentsDaprComponentsImpl,
   ConnectedEnvironmentsStoragesImpl,
-  AvailableWorkloadProfilesImpl,
-  BillingMetersImpl
+  ContainerAppsImpl,
+  ContainerAppsRevisionsImpl,
+  ContainerAppsRevisionReplicasImpl,
+  ContainerAppsDiagnosticsImpl,
+  ManagedEnvironmentDiagnosticsImpl,
+  ManagedEnvironmentsDiagnosticsImpl,
+  OperationsImpl,
+  JobsImpl,
+  JobsExecutionsImpl,
+  ManagedEnvironmentsImpl,
+  CertificatesImpl,
+  ManagedCertificatesImpl,
+  NamespacesImpl,
+  DaprComponentsImpl,
+  ManagedEnvironmentsStoragesImpl,
+  ContainerAppsSourceControlsImpl
 } from "./operations";
 import {
   ContainerAppsAuthConfigs,
-  ContainerApps,
-  ContainerAppsRevisions,
-  ContainerAppsRevisionReplicas,
-  DaprComponents,
-  ContainerAppsDiagnostics,
-  ManagedEnvironmentDiagnostics,
-  ManagedEnvironmentsDiagnostics,
-  Operations,
-  ManagedEnvironments,
-  Certificates,
-  Namespaces,
-  ManagedEnvironmentsStorages,
-  ContainerAppsSourceControls,
+  AvailableWorkloadProfiles,
+  BillingMeters,
+  Builders,
+  Builds,
   ConnectedEnvironments,
   ConnectedEnvironmentsCertificates,
   ConnectedEnvironmentsDaprComponents,
   ConnectedEnvironmentsStorages,
-  AvailableWorkloadProfiles,
-  BillingMeters
+  ContainerApps,
+  ContainerAppsRevisions,
+  ContainerAppsRevisionReplicas,
+  ContainerAppsDiagnostics,
+  ManagedEnvironmentDiagnostics,
+  ManagedEnvironmentsDiagnostics,
+  Operations,
+  Jobs,
+  JobsExecutions,
+  ManagedEnvironments,
+  Certificates,
+  ManagedCertificates,
+  Namespaces,
+  DaprComponents,
+  ManagedEnvironmentsStorages,
+  ContainerAppsSourceControls
 } from "./operationsInterfaces";
 import { ContainerAppsAPIClientOptionalParams } from "./models";
 
@@ -145,31 +155,12 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-06-01-preview";
+    this.apiVersion = options.apiVersion || "2023-05-02-preview";
     this.containerAppsAuthConfigs = new ContainerAppsAuthConfigsImpl(this);
-    this.containerApps = new ContainerAppsImpl(this);
-    this.containerAppsRevisions = new ContainerAppsRevisionsImpl(this);
-    this.containerAppsRevisionReplicas = new ContainerAppsRevisionReplicasImpl(
-      this
-    );
-    this.daprComponents = new DaprComponentsImpl(this);
-    this.containerAppsDiagnostics = new ContainerAppsDiagnosticsImpl(this);
-    this.managedEnvironmentDiagnostics = new ManagedEnvironmentDiagnosticsImpl(
-      this
-    );
-    this.managedEnvironmentsDiagnostics = new ManagedEnvironmentsDiagnosticsImpl(
-      this
-    );
-    this.operations = new OperationsImpl(this);
-    this.managedEnvironments = new ManagedEnvironmentsImpl(this);
-    this.certificates = new CertificatesImpl(this);
-    this.namespaces = new NamespacesImpl(this);
-    this.managedEnvironmentsStorages = new ManagedEnvironmentsStoragesImpl(
-      this
-    );
-    this.containerAppsSourceControls = new ContainerAppsSourceControlsImpl(
-      this
-    );
+    this.availableWorkloadProfiles = new AvailableWorkloadProfilesImpl(this);
+    this.billingMeters = new BillingMetersImpl(this);
+    this.builders = new BuildersImpl(this);
+    this.builds = new BuildsImpl(this);
     this.connectedEnvironments = new ConnectedEnvironmentsImpl(this);
     this.connectedEnvironmentsCertificates = new ConnectedEnvironmentsCertificatesImpl(
       this
@@ -180,8 +171,32 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     this.connectedEnvironmentsStorages = new ConnectedEnvironmentsStoragesImpl(
       this
     );
-    this.availableWorkloadProfiles = new AvailableWorkloadProfilesImpl(this);
-    this.billingMeters = new BillingMetersImpl(this);
+    this.containerApps = new ContainerAppsImpl(this);
+    this.containerAppsRevisions = new ContainerAppsRevisionsImpl(this);
+    this.containerAppsRevisionReplicas = new ContainerAppsRevisionReplicasImpl(
+      this
+    );
+    this.containerAppsDiagnostics = new ContainerAppsDiagnosticsImpl(this);
+    this.managedEnvironmentDiagnostics = new ManagedEnvironmentDiagnosticsImpl(
+      this
+    );
+    this.managedEnvironmentsDiagnostics = new ManagedEnvironmentsDiagnosticsImpl(
+      this
+    );
+    this.operations = new OperationsImpl(this);
+    this.jobs = new JobsImpl(this);
+    this.jobsExecutions = new JobsExecutionsImpl(this);
+    this.managedEnvironments = new ManagedEnvironmentsImpl(this);
+    this.certificates = new CertificatesImpl(this);
+    this.managedCertificates = new ManagedCertificatesImpl(this);
+    this.namespaces = new NamespacesImpl(this);
+    this.daprComponents = new DaprComponentsImpl(this);
+    this.managedEnvironmentsStorages = new ManagedEnvironmentsStoragesImpl(
+      this
+    );
+    this.containerAppsSourceControls = new ContainerAppsSourceControlsImpl(
+      this
+    );
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -214,23 +229,28 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
   }
 
   containerAppsAuthConfigs: ContainerAppsAuthConfigs;
-  containerApps: ContainerApps;
-  containerAppsRevisions: ContainerAppsRevisions;
-  containerAppsRevisionReplicas: ContainerAppsRevisionReplicas;
-  daprComponents: DaprComponents;
-  containerAppsDiagnostics: ContainerAppsDiagnostics;
-  managedEnvironmentDiagnostics: ManagedEnvironmentDiagnostics;
-  managedEnvironmentsDiagnostics: ManagedEnvironmentsDiagnostics;
-  operations: Operations;
-  managedEnvironments: ManagedEnvironments;
-  certificates: Certificates;
-  namespaces: Namespaces;
-  managedEnvironmentsStorages: ManagedEnvironmentsStorages;
-  containerAppsSourceControls: ContainerAppsSourceControls;
+  availableWorkloadProfiles: AvailableWorkloadProfiles;
+  billingMeters: BillingMeters;
+  builders: Builders;
+  builds: Builds;
   connectedEnvironments: ConnectedEnvironments;
   connectedEnvironmentsCertificates: ConnectedEnvironmentsCertificates;
   connectedEnvironmentsDaprComponents: ConnectedEnvironmentsDaprComponents;
   connectedEnvironmentsStorages: ConnectedEnvironmentsStorages;
-  availableWorkloadProfiles: AvailableWorkloadProfiles;
-  billingMeters: BillingMeters;
+  containerApps: ContainerApps;
+  containerAppsRevisions: ContainerAppsRevisions;
+  containerAppsRevisionReplicas: ContainerAppsRevisionReplicas;
+  containerAppsDiagnostics: ContainerAppsDiagnostics;
+  managedEnvironmentDiagnostics: ManagedEnvironmentDiagnostics;
+  managedEnvironmentsDiagnostics: ManagedEnvironmentsDiagnostics;
+  operations: Operations;
+  jobs: Jobs;
+  jobsExecutions: JobsExecutions;
+  managedEnvironments: ManagedEnvironments;
+  certificates: Certificates;
+  managedCertificates: ManagedCertificates;
+  namespaces: Namespaces;
+  daprComponents: DaprComponents;
+  managedEnvironmentsStorages: ManagedEnvironmentsStorages;
+  containerAppsSourceControls: ContainerAppsSourceControls;
 }
