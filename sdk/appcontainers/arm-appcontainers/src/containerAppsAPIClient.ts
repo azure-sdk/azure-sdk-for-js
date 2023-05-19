@@ -16,64 +16,82 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   ContainerAppsAuthConfigsImpl,
-  ContainerAppsImpl,
-  ContainerAppsRevisionsImpl,
-  ContainerAppsRevisionReplicasImpl,
-  DaprComponentsImpl,
-  ContainerAppsDiagnosticsImpl,
-  ManagedEnvironmentDiagnosticsImpl,
-  ManagedEnvironmentsDiagnosticsImpl,
-  OperationsImpl,
-  ManagedEnvironmentsImpl,
-  CertificatesImpl,
-  NamespacesImpl,
-  ManagedEnvironmentsStoragesImpl,
-  ContainerAppsSourceControlsImpl,
+  AvailableWorkloadProfilesImpl,
+  BillingMetersImpl,
   ConnectedEnvironmentsImpl,
   ConnectedEnvironmentsCertificatesImpl,
   ConnectedEnvironmentsDaprComponentsImpl,
   ConnectedEnvironmentsStoragesImpl,
-  AvailableWorkloadProfilesImpl,
-  BillingMetersImpl
+  ContainerAppsImpl,
+  ContainerAppsRevisionsImpl,
+  ContainerAppsRevisionReplicasImpl,
+  ContainerAppsDiagnosticsImpl,
+  ManagedEnvironmentDiagnosticsImpl,
+  ManagedEnvironmentsDiagnosticsImpl,
+  OperationsImpl,
+  JobsImpl,
+  JobsExecutionsImpl,
+  ManagedEnvironmentsImpl,
+  CertificatesImpl,
+  ManagedCertificatesImpl,
+  NamespacesImpl,
+  DaprComponentsImpl,
+  ManagedEnvironmentsStoragesImpl,
+  ContainerAppsSourceControlsImpl
 } from "./operations";
 import {
   ContainerAppsAuthConfigs,
-  ContainerApps,
-  ContainerAppsRevisions,
-  ContainerAppsRevisionReplicas,
-  DaprComponents,
-  ContainerAppsDiagnostics,
-  ManagedEnvironmentDiagnostics,
-  ManagedEnvironmentsDiagnostics,
-  Operations,
-  ManagedEnvironments,
-  Certificates,
-  Namespaces,
-  ManagedEnvironmentsStorages,
-  ContainerAppsSourceControls,
+  AvailableWorkloadProfiles,
+  BillingMeters,
   ConnectedEnvironments,
   ConnectedEnvironmentsCertificates,
   ConnectedEnvironmentsDaprComponents,
   ConnectedEnvironmentsStorages,
-  AvailableWorkloadProfiles,
-  BillingMeters
+  ContainerApps,
+  ContainerAppsRevisions,
+  ContainerAppsRevisionReplicas,
+  ContainerAppsDiagnostics,
+  ManagedEnvironmentDiagnostics,
+  ManagedEnvironmentsDiagnostics,
+  Operations,
+  Jobs,
+  JobsExecutions,
+  ManagedEnvironments,
+  Certificates,
+  ManagedCertificates,
+  Namespaces,
+  DaprComponents,
+  ManagedEnvironmentsStorages,
+  ContainerAppsSourceControls
 } from "./operationsInterfaces";
-import { ContainerAppsAPIClientOptionalParams } from "./models";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
+import {
+  ContainerAppsAPIClientOptionalParams,
+  JobExecutionOptionalParams,
+  JobExecutionResponse
+} from "./models";
 
 export class ContainerAppsAPIClient extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
   apiVersion: string;
+  jobName: string;
+  jobExecutionName: string;
 
   /**
    * Initializes a new instance of the ContainerAppsAPIClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
+   * @param jobName Job Name
+   * @param jobExecutionName Job execution name.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
+    jobName: string,
+    jobExecutionName: string,
     options?: ContainerAppsAPIClientOptionalParams
   ) {
     if (credentials === undefined) {
@@ -81,6 +99,12 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     }
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
+    }
+    if (jobName === undefined) {
+      throw new Error("'jobName' cannot be null");
+    }
+    if (jobExecutionName === undefined) {
+      throw new Error("'jobExecutionName' cannot be null");
     }
 
     // Initializing default values for options
@@ -142,34 +166,15 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
+    this.jobName = jobName;
+    this.jobExecutionName = jobExecutionName;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-06-01-preview";
+    this.apiVersion = options.apiVersion || "2023-04-01-preview";
     this.containerAppsAuthConfigs = new ContainerAppsAuthConfigsImpl(this);
-    this.containerApps = new ContainerAppsImpl(this);
-    this.containerAppsRevisions = new ContainerAppsRevisionsImpl(this);
-    this.containerAppsRevisionReplicas = new ContainerAppsRevisionReplicasImpl(
-      this
-    );
-    this.daprComponents = new DaprComponentsImpl(this);
-    this.containerAppsDiagnostics = new ContainerAppsDiagnosticsImpl(this);
-    this.managedEnvironmentDiagnostics = new ManagedEnvironmentDiagnosticsImpl(
-      this
-    );
-    this.managedEnvironmentsDiagnostics = new ManagedEnvironmentsDiagnosticsImpl(
-      this
-    );
-    this.operations = new OperationsImpl(this);
-    this.managedEnvironments = new ManagedEnvironmentsImpl(this);
-    this.certificates = new CertificatesImpl(this);
-    this.namespaces = new NamespacesImpl(this);
-    this.managedEnvironmentsStorages = new ManagedEnvironmentsStoragesImpl(
-      this
-    );
-    this.containerAppsSourceControls = new ContainerAppsSourceControlsImpl(
-      this
-    );
+    this.availableWorkloadProfiles = new AvailableWorkloadProfilesImpl(this);
+    this.billingMeters = new BillingMetersImpl(this);
     this.connectedEnvironments = new ConnectedEnvironmentsImpl(this);
     this.connectedEnvironmentsCertificates = new ConnectedEnvironmentsCertificatesImpl(
       this
@@ -180,8 +185,32 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     this.connectedEnvironmentsStorages = new ConnectedEnvironmentsStoragesImpl(
       this
     );
-    this.availableWorkloadProfiles = new AvailableWorkloadProfilesImpl(this);
-    this.billingMeters = new BillingMetersImpl(this);
+    this.containerApps = new ContainerAppsImpl(this);
+    this.containerAppsRevisions = new ContainerAppsRevisionsImpl(this);
+    this.containerAppsRevisionReplicas = new ContainerAppsRevisionReplicasImpl(
+      this
+    );
+    this.containerAppsDiagnostics = new ContainerAppsDiagnosticsImpl(this);
+    this.managedEnvironmentDiagnostics = new ManagedEnvironmentDiagnosticsImpl(
+      this
+    );
+    this.managedEnvironmentsDiagnostics = new ManagedEnvironmentsDiagnosticsImpl(
+      this
+    );
+    this.operations = new OperationsImpl(this);
+    this.jobs = new JobsImpl(this);
+    this.jobsExecutions = new JobsExecutionsImpl(this);
+    this.managedEnvironments = new ManagedEnvironmentsImpl(this);
+    this.certificates = new CertificatesImpl(this);
+    this.managedCertificates = new ManagedCertificatesImpl(this);
+    this.namespaces = new NamespacesImpl(this);
+    this.daprComponents = new DaprComponentsImpl(this);
+    this.managedEnvironmentsStorages = new ManagedEnvironmentsStoragesImpl(
+      this
+    );
+    this.containerAppsSourceControls = new ContainerAppsSourceControlsImpl(
+      this
+    );
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -213,24 +242,68 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  /**
+   * Get details of a single job execution
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  jobExecution(
+    resourceGroupName: string,
+    options?: JobExecutionOptionalParams
+  ): Promise<JobExecutionResponse> {
+    return this.sendOperationRequest(
+      { resourceGroupName, options },
+      jobExecutionOperationSpec
+    );
+  }
+
   containerAppsAuthConfigs: ContainerAppsAuthConfigs;
-  containerApps: ContainerApps;
-  containerAppsRevisions: ContainerAppsRevisions;
-  containerAppsRevisionReplicas: ContainerAppsRevisionReplicas;
-  daprComponents: DaprComponents;
-  containerAppsDiagnostics: ContainerAppsDiagnostics;
-  managedEnvironmentDiagnostics: ManagedEnvironmentDiagnostics;
-  managedEnvironmentsDiagnostics: ManagedEnvironmentsDiagnostics;
-  operations: Operations;
-  managedEnvironments: ManagedEnvironments;
-  certificates: Certificates;
-  namespaces: Namespaces;
-  managedEnvironmentsStorages: ManagedEnvironmentsStorages;
-  containerAppsSourceControls: ContainerAppsSourceControls;
+  availableWorkloadProfiles: AvailableWorkloadProfiles;
+  billingMeters: BillingMeters;
   connectedEnvironments: ConnectedEnvironments;
   connectedEnvironmentsCertificates: ConnectedEnvironmentsCertificates;
   connectedEnvironmentsDaprComponents: ConnectedEnvironmentsDaprComponents;
   connectedEnvironmentsStorages: ConnectedEnvironmentsStorages;
-  availableWorkloadProfiles: AvailableWorkloadProfiles;
-  billingMeters: BillingMeters;
+  containerApps: ContainerApps;
+  containerAppsRevisions: ContainerAppsRevisions;
+  containerAppsRevisionReplicas: ContainerAppsRevisionReplicas;
+  containerAppsDiagnostics: ContainerAppsDiagnostics;
+  managedEnvironmentDiagnostics: ManagedEnvironmentDiagnostics;
+  managedEnvironmentsDiagnostics: ManagedEnvironmentsDiagnostics;
+  operations: Operations;
+  jobs: Jobs;
+  jobsExecutions: JobsExecutions;
+  managedEnvironments: ManagedEnvironments;
+  certificates: Certificates;
+  managedCertificates: ManagedCertificates;
+  namespaces: Namespaces;
+  daprComponents: DaprComponents;
+  managedEnvironmentsStorages: ManagedEnvironmentsStorages;
+  containerAppsSourceControls: ContainerAppsSourceControls;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const jobExecutionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/executions/{jobExecutionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobExecution
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.jobName,
+    Parameters.jobExecutionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
