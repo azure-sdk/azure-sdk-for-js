@@ -8,28 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { FarmBeatsExtensions } from "../operationsInterfaces";
+import { SolutionsDiscoverability } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AgriFoodMgmtClient } from "../agriFoodMgmtClient";
 import {
-  FarmBeatsExtension,
-  FarmBeatsExtensionsListNextOptionalParams,
-  FarmBeatsExtensionsListOptionalParams,
-  FarmBeatsExtensionsListResponse,
-  FarmBeatsExtensionsGetOptionalParams,
-  FarmBeatsExtensionsGetResponse,
-  FarmBeatsExtensionsListNextResponse
+  FarmBeatsSolution,
+  SolutionsDiscoverabilityListNextOptionalParams,
+  SolutionsDiscoverabilityListOptionalParams,
+  SolutionsDiscoverabilityListResponse,
+  SolutionsDiscoverabilityGetOptionalParams,
+  SolutionsDiscoverabilityGetResponse,
+  SolutionsDiscoverabilityListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing FarmBeatsExtensions operations. */
-export class FarmBeatsExtensionsImpl implements FarmBeatsExtensions {
+/** Class containing SolutionsDiscoverability operations. */
+export class SolutionsDiscoverabilityImpl implements SolutionsDiscoverability {
   private readonly client: AgriFoodMgmtClient;
 
   /**
-   * Initialize a new instance of the class FarmBeatsExtensions class.
+   * Initialize a new instance of the class SolutionsDiscoverability class.
    * @param client Reference to the service client
    */
   constructor(client: AgriFoodMgmtClient) {
@@ -37,12 +37,12 @@ export class FarmBeatsExtensionsImpl implements FarmBeatsExtensions {
   }
 
   /**
-   * Get list of farmBeats extension.
+   * Get list of farmBeats solutions.
    * @param options The options parameters.
    */
   public list(
-    options?: FarmBeatsExtensionsListOptionalParams
-  ): PagedAsyncIterableIterator<FarmBeatsExtension> {
+    options?: SolutionsDiscoverabilityListOptionalParams
+  ): PagedAsyncIterableIterator<FarmBeatsSolution> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -61,10 +61,10 @@ export class FarmBeatsExtensionsImpl implements FarmBeatsExtensions {
   }
 
   private async *listPagingPage(
-    options?: FarmBeatsExtensionsListOptionalParams,
+    options?: SolutionsDiscoverabilityListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<FarmBeatsExtension[]> {
-    let result: FarmBeatsExtensionsListResponse;
+  ): AsyncIterableIterator<FarmBeatsSolution[]> {
+    let result: SolutionsDiscoverabilityListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
@@ -83,34 +83,34 @@ export class FarmBeatsExtensionsImpl implements FarmBeatsExtensions {
   }
 
   private async *listPagingAll(
-    options?: FarmBeatsExtensionsListOptionalParams
-  ): AsyncIterableIterator<FarmBeatsExtension> {
+    options?: SolutionsDiscoverabilityListOptionalParams
+  ): AsyncIterableIterator<FarmBeatsSolution> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Get list of farmBeats extension.
+   * Get list of farmBeats solutions.
    * @param options The options parameters.
    */
   private _list(
-    options?: FarmBeatsExtensionsListOptionalParams
-  ): Promise<FarmBeatsExtensionsListResponse> {
+    options?: SolutionsDiscoverabilityListOptionalParams
+  ): Promise<SolutionsDiscoverabilityListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
-   * Get farmBeats extension.
-   * @param farmBeatsExtensionId farmBeatsExtensionId to be queried.
+   * Get farmBeats solution by id.
+   * @param farmBeatsSolutionId farmBeatsSolutionId to be queried.
    * @param options The options parameters.
    */
   get(
-    farmBeatsExtensionId: string,
-    options?: FarmBeatsExtensionsGetOptionalParams
-  ): Promise<FarmBeatsExtensionsGetResponse> {
+    farmBeatsSolutionId: string,
+    options?: SolutionsDiscoverabilityGetOptionalParams
+  ): Promise<SolutionsDiscoverabilityGetResponse> {
     return this.client.sendOperationRequest(
-      { farmBeatsExtensionId, options },
+      { farmBeatsSolutionId, options },
       getOperationSpec
     );
   }
@@ -122,8 +122,8 @@ export class FarmBeatsExtensionsImpl implements FarmBeatsExtensions {
    */
   private _listNext(
     nextLink: string,
-    options?: FarmBeatsExtensionsListNextOptionalParams
-  ): Promise<FarmBeatsExtensionsListNextResponse> {
+    options?: SolutionsDiscoverabilityListNextOptionalParams
+  ): Promise<SolutionsDiscoverabilityListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
@@ -134,11 +134,11 @@ export class FarmBeatsExtensionsImpl implements FarmBeatsExtensions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.AgFoodPlatform/farmBeatsExtensionDefinitions",
+  path: "/providers/Microsoft.AgFoodPlatform/farmBeatsSolutionDefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FarmBeatsExtensionListResponse
+      bodyMapper: Mappers.FarmBeatsSolutionListResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -146,11 +146,9 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.extensionCategories,
     Parameters.maxPageSize,
-    Parameters.farmBeatsExtensionIds,
-    Parameters.farmBeatsExtensionNames,
-    Parameters.publisherIds
+    Parameters.farmBeatsSolutionIds,
+    Parameters.farmBeatsSolutionNames
   ],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
@@ -158,18 +156,18 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/providers/Microsoft.AgFoodPlatform/farmBeatsExtensionDefinitions/{farmBeatsExtensionId}",
+    "/providers/Microsoft.AgFoodPlatform/farmBeatsSolutionDefinitions/{farmBeatsSolutionId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FarmBeatsExtension
+      bodyMapper: Mappers.FarmBeatsSolution
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.farmBeatsExtensionId],
+  urlParameters: [Parameters.$host, Parameters.farmBeatsSolutionId],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -178,7 +176,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FarmBeatsExtensionListResponse
+      bodyMapper: Mappers.FarmBeatsSolutionListResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
