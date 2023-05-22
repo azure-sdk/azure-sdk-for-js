@@ -1221,15 +1221,15 @@ export interface DdosProtectionPlan {
    */
   readonly provisioningState?: ProvisioningState;
   /**
-   * The list of public IPs associated with the DDoS protection plan resource. This list is read-only.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicIPAddresses?: SubResource[];
-  /**
    * The list of virtual networks associated with the DDoS protection plan resource. This list is read-only.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly virtualNetworks?: SubResource[];
+  /**
+   * The list of public IPs associated with the DDoS protection plan resource. This list is read-only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicIpAddresses?: SubResource[];
 }
 
 /** A list of DDoS protection plans. */
@@ -12411,8 +12411,6 @@ export enum KnownApplicationGatewayCustomErrorStatusCode {
   HttpStatus405 = "HttpStatus405",
   /** HttpStatus408 */
   HttpStatus408 = "HttpStatus408",
-  /** HttpStatus499 */
-  HttpStatus499 = "HttpStatus499",
   /** HttpStatus500 */
   HttpStatus500 = "HttpStatus500",
   /** HttpStatus502 */
@@ -12433,7 +12431,6 @@ export enum KnownApplicationGatewayCustomErrorStatusCode {
  * **HttpStatus404** \
  * **HttpStatus405** \
  * **HttpStatus408** \
- * **HttpStatus499** \
  * **HttpStatus500** \
  * **HttpStatus502** \
  * **HttpStatus503** \

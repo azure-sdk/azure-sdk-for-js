@@ -2951,7 +2951,7 @@ export interface DdosProtectionPlan {
     location?: string;
     readonly name?: string;
     readonly provisioningState?: ProvisioningState;
-    readonly publicIPAddresses?: SubResource[];
+    readonly publicIpAddresses?: SubResource[];
     readonly resourceGuid?: string;
     tags?: {
         [propertyName: string]: string;
@@ -5977,7 +5977,6 @@ export enum KnownApplicationGatewayCustomErrorStatusCode {
     HttpStatus404 = "HttpStatus404",
     HttpStatus405 = "HttpStatus405",
     HttpStatus408 = "HttpStatus408",
-    HttpStatus499 = "HttpStatus499",
     HttpStatus500 = "HttpStatus500",
     HttpStatus502 = "HttpStatus502",
     HttpStatus503 = "HttpStatus503",
