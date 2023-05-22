@@ -209,7 +209,6 @@ export type ManagementLocksGetByScopeResponse = ManagementLockObject;
 
 // @public
 export interface ManagementLocksListAtResourceGroupLevelNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -225,7 +224,6 @@ export type ManagementLocksListAtResourceGroupLevelResponse = ManagementLockList
 
 // @public
 export interface ManagementLocksListAtResourceLevelNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -241,7 +239,6 @@ export type ManagementLocksListAtResourceLevelResponse = ManagementLockListResul
 
 // @public
 export interface ManagementLocksListAtSubscriptionLevelNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -257,7 +254,6 @@ export type ManagementLocksListAtSubscriptionLevelResponse = ManagementLockListR
 
 // @public
 export interface ManagementLocksListByScopeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
