@@ -1,15 +1,164 @@
 # Release History
+    
+## 12.0.0 (2023-05-22)
+    
+**Features**
 
-## 11.1.1 (Unreleased)
+  - Added Interface IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem
+  - Added Interface OutputColumn
+  - Added Type Alias ActivityOnInactiveMarkAs
+  - Added Type Alias ActivityState
+  - Interface Activity has a new optional parameter onInactiveMarkAs
+  - Interface Activity has a new optional parameter state
+  - Interface AmazonRdsForSqlServerSource has a new optional parameter isolationLevel
+  - Interface AzureSqlSource has a new optional parameter isolationLevel
+  - Interface HttpReadSettings has a new optional parameter additionalColumns
+  - Interface IntegrationRuntimeDataFlowProperties has a new optional parameter customProperties
+  - Interface MongoDbAtlasLinkedService has a new optional parameter mongoDbAtlasDriverVersion
+  - Interface SetVariableActivity has a new optional parameter setSystemVariable
+  - Interface SqlDWSource has a new optional parameter isolationLevel
+  - Interface SqlMISource has a new optional parameter isolationLevel
+  - Interface SqlServerSource has a new optional parameter isolationLevel
+  - Interface SynapseNotebookActivity has a new optional parameter configurationType
+  - Interface SynapseNotebookActivity has a new optional parameter sparkConfig
+  - Interface SynapseNotebookActivity has a new optional parameter targetSparkConfiguration
+  - Added Enum KnownActivityOnInactiveMarkAs
+  - Added Enum KnownActivityState
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface HttpReadSettings no longer has parameter enablePartitionDiscovery
+  - Interface HttpReadSettings no longer has parameter partitionRootPath
+  - Type of parameter encryptedCredential of interface AmazonMWSLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface AmazonRdsForOracleLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface AmazonRdsForSqlServerLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface AmazonRedshiftLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface AmazonS3CompatibleLinkedService is changed from any to string
+  - Type of parameter enablePartitionDiscovery of interface AmazonS3CompatibleReadSettings is changed from boolean to any
+  - Type of parameter encryptedCredential of interface AmazonS3LinkedService is changed from any to string
+  - Type of parameter enablePartitionDiscovery of interface AmazonS3ReadSettings is changed from boolean to any
+  - Type of parameter encryptedCredential of interface AsanaLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface AzureBatchLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface AzureBlobFSLinkedService is changed from any to string
+  - Type of parameter enablePartitionDiscovery of interface AzureBlobFSReadSettings is changed from boolean to any
+  - Type of parameter accountKind of interface AzureBlobStorageLinkedService is changed from string to any
+  - Type of parameter serviceEndpoint of interface AzureBlobStorageLinkedService is changed from string to any
+  - Type of parameter enablePartitionDiscovery of interface AzureBlobStorageReadSettings is changed from boolean to any
+  - Type of parameter encryptedCredential of interface AzureDatabricksDeltaLakeLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface AzureDatabricksLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface AzureDataLakeAnalyticsLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface AzureDataLakeStoreLinkedService is changed from any to string
+  - Type of parameter enablePartitionDiscovery of interface AzureDataLakeStoreReadSettings is changed from boolean to any
+  - Type of parameter encryptedCredential of interface AzureFileStorageLinkedService is changed from any to string
+  - Type of parameter enablePartitionDiscovery of interface AzureFileStorageReadSettings is changed from boolean to any
+  - Type of parameter encryptedCredential of interface AzureFunctionLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface AzureMariaDBLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface AzureMLLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface AzureMLServiceLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface AzureMySqlLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface AzurePostgreSqlLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface AzureSearchLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface AzureSqlDatabaseLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface AzureSqlDWLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface AzureSqlMILinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface CassandraLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface CommonDataServiceForAppsLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface ConcurLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface CosmosDbLinkedService is changed from any to string
+  - Type of parameter servicePrincipalCredentialType of interface CosmosDbLinkedService is changed from CosmosDbServicePrincipalCredentialType to any
+  - Type of parameter encryptedCredential of interface CouchbaseLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface DataworldLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface Db2LinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface DrillLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface DynamicsAXLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface DynamicsCrmLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface DynamicsLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface EloquaLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface FileServerLinkedService is changed from any to string
+  - Type of parameter enablePartitionDiscovery of interface FileServerReadSettings is changed from boolean to any
+  - Type of parameter enablePartitionDiscovery of interface FtpReadSettings is changed from boolean to any
+  - Type of parameter useBinaryTransfer of interface FtpReadSettings is changed from boolean to any
+  - Type of parameter encryptedCredential of interface FtpServerLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface GoogleAdWordsLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface GoogleBigQueryLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface GoogleCloudStorageLinkedService is changed from any to string
+  - Type of parameter enablePartitionDiscovery of interface GoogleCloudStorageReadSettings is changed from boolean to any
+  - Type of parameter encryptedCredential of interface GoogleSheetsLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface GreenplumLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface HBaseLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface HdfsLinkedService is changed from any to string
+  - Type of parameter enablePartitionDiscovery of interface HdfsReadSettings is changed from boolean to any
+  - Type of parameter variables of interface HDInsightHiveActivity is changed from any[] to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter encryptedCredential of interface HDInsightLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface HDInsightOnDemandLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface HiveLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface HttpLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface HubspotLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface ImpalaLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface InformixLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface JiraLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface MagentoLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface MariaDBLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface MarketoLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface MicrosoftAccessLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface MongoDbLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface MySqlLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface NetezzaLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface ODataLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface OdbcLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface Office365LinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface OracleCloudStorageLinkedService is changed from any to string
+  - Type of parameter enablePartitionDiscovery of interface OracleCloudStorageReadSettings is changed from boolean to any
+  - Type of parameter encryptedCredential of interface OracleLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface OracleServiceCloudLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface PaypalLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface PhoenixLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface PostgreSqlLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface PrestoLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface QuickbaseLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface QuickBooksLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface ResponsysLinkedService is changed from any to string
+  - Type of parameter additionalHeaders of interface RestResourceDataset is changed from any to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter paginationRules of interface RestResourceDataset is changed from any to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter encryptedCredential of interface RestServiceLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface SalesforceLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface SalesforceMarketingCloudLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface SalesforceServiceCloudLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface SapBWLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface SapCloudForCustomerLinkedService is changed from any to string
+  - Type of parameter url of interface SapEccLinkedService is changed from string to any
+  - Type of parameter username of interface SapEccLinkedService is changed from string to any
+  - Type of parameter encryptedCredential of interface SapHanaLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface SapOdpLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface SapOpenHubLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface SapTableLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface ServiceNowLinkedService is changed from any to string
+  - Type of parameter enablePartitionDiscovery of interface SftpReadSettings is changed from boolean to any
+  - Type of parameter encryptedCredential of interface SftpServerLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface SharePointOnlineListLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface ShopifyLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface SmartsheetLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface SnowflakeLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface SparkLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface SqlServerLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface SquareLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface SybaseLinkedService is changed from any to string
+  - Type of parameter numExecutors of interface SynapseNotebookActivity is changed from number to any
+  - Type of parameter encryptedCredential of interface TeamDeskLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface TeradataLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface VerticaLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface XeroLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface ZendeskLinkedService is changed from any to string
+  - Type of parameter encryptedCredential of interface ZohoLinkedService is changed from any to string
+  - Removed Enum KnownCosmosDbServicePrincipalCredentialType
+    
+    
 ## 11.1.0 (2023-03-02)
     
 **Features**
