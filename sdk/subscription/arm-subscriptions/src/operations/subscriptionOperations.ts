@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SubscriptionClient } from "../subscriptionClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SubscriptionCancelOptionalParams,
   SubscriptionCancelResponse,
@@ -98,8 +102,8 @@ export class SubscriptionOperationsImpl implements SubscriptionOperations {
     body: AcceptOwnershipRequest,
     options?: SubscriptionAcceptOwnershipOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SubscriptionAcceptOwnershipResponse>,
+    SimplePollerLike<
+      OperationState<SubscriptionAcceptOwnershipResponse>,
       SubscriptionAcceptOwnershipResponse
     >
   > {
@@ -109,7 +113,7 @@ export class SubscriptionOperationsImpl implements SubscriptionOperations {
     ): Promise<SubscriptionAcceptOwnershipResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -142,13 +146,16 @@ export class SubscriptionOperationsImpl implements SubscriptionOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { subscriptionId, body, options },
-      acceptOwnershipOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { subscriptionId, body, options },
+      spec: acceptOwnershipOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SubscriptionAcceptOwnershipResponse,
+      OperationState<SubscriptionAcceptOwnershipResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
