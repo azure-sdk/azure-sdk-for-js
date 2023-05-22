@@ -494,12 +494,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.policyDefinitionName
+    Parameters.policyDefinitionName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -519,8 +519,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.policyDefinitionName
+    Parameters.policyDefinitionName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -540,8 +540,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.policyDefinitionName
+    Parameters.policyDefinitionName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -575,12 +575,12 @@ const createOrUpdateAtManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.managementGroupId,
-    Parameters.policyDefinitionName
+    Parameters.policyDefinitionName,
+    Parameters.managementGroupId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -600,8 +600,8 @@ const deleteAtManagementGroupOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.managementGroupId,
-    Parameters.policyDefinitionName
+    Parameters.policyDefinitionName,
+    Parameters.managementGroupId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -621,8 +621,8 @@ const getAtManagementGroupOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.managementGroupId,
-    Parameters.policyDefinitionName
+    Parameters.policyDefinitionName,
+    Parameters.managementGroupId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -688,7 +688,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -708,7 +707,6 @@ const listBuiltInNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -724,7 +722,6 @@ const listByManagementGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
