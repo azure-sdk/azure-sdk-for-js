@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Vault,
   VaultsListBySubscriptionIdOptionalParams,
@@ -65,8 +65,8 @@ export interface Vaults {
     vault: Vault,
     options?: VaultsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VaultsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VaultsCreateOrUpdateResponse>,
       VaultsCreateOrUpdateResponse
     >
   >;
@@ -89,7 +89,18 @@ export interface Vaults {
    * @param vaultName The name of the recovery services vault.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
+    resourceGroupName: string,
+    vaultName: string,
+    options?: VaultsDeleteOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Deletes a vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the recovery services vault.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
     resourceGroupName: string,
     vaultName: string,
     options?: VaultsDeleteOptionalParams
@@ -107,7 +118,7 @@ export interface Vaults {
     vault: PatchVault,
     options?: VaultsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<VaultsUpdateResponse>, VaultsUpdateResponse>
+    SimplePollerLike<OperationState<VaultsUpdateResponse>, VaultsUpdateResponse>
   >;
   /**
    * Updates the vault.

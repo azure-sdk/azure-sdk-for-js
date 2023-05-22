@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AlertsState = string;
@@ -131,6 +131,15 @@ export type CreatedByType = string;
 export type CrossRegionRestore = string;
 
 // @public
+export interface CrossSubscriptionRestoreSettings {
+    // (undocumented)
+    crossSubscriptionRestoreState?: CrossSubscriptionRestoreState;
+}
+
+// @public
+export type CrossSubscriptionRestoreState = string;
+
+// @public
 export interface DNSZone {
     subResource?: VaultSubResourceType;
 }
@@ -147,12 +156,26 @@ export interface ErrorAdditionalInfo {
 }
 
 // @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
 export interface ErrorModel {
     readonly additionalInfo?: ErrorAdditionalInfo[];
     readonly code?: string;
     readonly details?: ErrorModel[];
     readonly message?: string;
     readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -238,6 +261,13 @@ export enum KnownCrossRegionRestore {
 }
 
 // @public
+export enum KnownCrossSubscriptionRestoreState {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    PermanentlyDisabled = "PermanentlyDisabled"
+}
+
+// @public
 export enum KnownImmutabilityState {
     Disabled = "Disabled",
     Locked = "Locked",
@@ -292,6 +322,14 @@ export enum KnownResourceMoveState {
     PrepareFailed = "PrepareFailed",
     PrepareTimedout = "PrepareTimedout",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownSecureScoreLevel {
+    Adequate = "Adequate",
+    Maximum = "Maximum",
+    Minimum = "Minimum",
+    None = "None"
 }
 
 // @public
@@ -652,6 +690,14 @@ export type ResourceIdentityType = string;
 export type ResourceMoveState = string;
 
 // @public
+export interface RestoreSettings {
+    crossSubscriptionRestoreSettings?: CrossSubscriptionRestoreSettings;
+}
+
+// @public
+export type SecureScoreLevel = string;
+
+// @public
 export interface SecuritySettings {
     immutabilitySettings?: ImmutabilitySettings;
 }
@@ -813,6 +859,8 @@ export interface VaultProperties {
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
     redundancySettings?: VaultPropertiesRedundancySettings;
+    restoreSettings?: RestoreSettings;
+    readonly secureScore?: SecureScoreLevel;
     securitySettings?: SecuritySettings;
     upgradeDetails?: UpgradeDetails;
 }
@@ -841,11 +889,12 @@ export interface VaultPropertiesRedundancySettings {
 
 // @public
 export interface Vaults {
-    beginCreateOrUpdate(resourceGroupName: string, vaultName: string, vault: Vault, options?: VaultsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<VaultsCreateOrUpdateResponse>, VaultsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, vaultName: string, vault: Vault, options?: VaultsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VaultsCreateOrUpdateResponse>, VaultsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, vaultName: string, vault: Vault, options?: VaultsCreateOrUpdateOptionalParams): Promise<VaultsCreateOrUpdateResponse>;
-    beginUpdate(resourceGroupName: string, vaultName: string, vault: PatchVault, options?: VaultsUpdateOptionalParams): Promise<PollerLike<PollOperationState<VaultsUpdateResponse>, VaultsUpdateResponse>>;
+    beginDelete(resourceGroupName: string, vaultName: string, options?: VaultsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, vaultName: string, options?: VaultsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, vaultName: string, vault: PatchVault, options?: VaultsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VaultsUpdateResponse>, VaultsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, vaultName: string, vault: PatchVault, options?: VaultsUpdateOptionalParams): Promise<VaultsUpdateResponse>;
-    delete(resourceGroupName: string, vaultName: string, options?: VaultsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, vaultName: string, options?: VaultsGetOptionalParams): Promise<VaultsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: VaultsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Vault>;
     listBySubscriptionId(options?: VaultsListBySubscriptionIdOptionalParams): PagedAsyncIterableIterator<Vault>;
@@ -861,7 +910,15 @@ export interface VaultsCreateOrUpdateOptionalParams extends coreClient.Operation
 export type VaultsCreateOrUpdateResponse = Vault;
 
 // @public
+export interface VaultsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface VaultsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public

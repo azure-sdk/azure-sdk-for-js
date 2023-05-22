@@ -1,15 +1,30 @@
 # Release History
+    
+## 6.0.0 (2023-05-22)
+    
+**Features**
 
-## 5.2.1 (Unreleased)
+  - Added operation Vaults.beginDelete
+  - Added operation Vaults.beginDeleteAndWait
+  - Added Interface CrossSubscriptionRestoreSettings
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface RestoreSettings
+  - Added Interface VaultsDeleteHeaders
+  - Added Type Alias CrossSubscriptionRestoreState
+  - Added Type Alias SecureScoreLevel
+  - Interface VaultProperties has a new optional parameter restoreSettings
+  - Interface VaultProperties has a new optional parameter secureScore
+  - Interface VaultsDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface VaultsDeleteOptionalParams has a new optional parameter updateIntervalInMs
+  - Added Enum KnownCrossSubscriptionRestoreState
+  - Added Enum KnownSecureScoreLevel
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation Vaults.delete
+    
+    
 ## 5.2.0 (2023-02-07)
     
 **Features**

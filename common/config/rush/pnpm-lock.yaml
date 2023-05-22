@@ -804,6 +804,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-recoveryservices/5.2.0:
+    resolution: {integrity: sha512-/zG91hENQwwFfAnA2K+ccD9F/CvLeXsDx2Nsbw05wTMZi2O9glEhMyfUsh6QhP+J/BEfhpf7ys/NuDot+IQ89g==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.7.2
+      '@azure/core-lro': 2.5.3
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.10.3
+      tslib: 2.5.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-storage/17.2.1:
     resolution: {integrity: sha512-J2jmTPv8ZraSHDTz9l2Bx8gNL3ktfDDWo2mxWfzarn64O9Fjhb+l85YWyubGy2xUdeGuZPKzvQLltGv8bSu8eQ==}
     engines: {node: '>=12.0.0'}
@@ -3793,7 +3808,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230517
+      typescript: 5.2.0-dev.20230522
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8337,8 +8352,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230517:
-    resolution: {integrity: sha512-mTT3ka5HTeudnNirocnOfr/0d2CEvZExrJpP8YXqAvdwlwjwNPJ4TqHHiL1y9lx3RfsUWu6HSX539ZxngUTqeA==}
+  /typescript/5.2.0-dev.20230522:
+    resolution: {integrity: sha512-t1ScfqYSrFOFNyHU0goJKPTE5z9FIx1WvjXMAl8JxBXUvAzPCqanT4XEMZq7e3GlgLSBrFpZtuvixbQSxVeaow==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10714,7 +10729,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-epUopDZF/h2mskn1cp+bG2R4hH4MWvGcLc7rnMbYLB9K3s5FhbJmc7RG+jVGZLUWZQOxMTn/IFwe3itoz3nW5w==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-r6G3gQeS9Z3dNfXiPvvlwBteDYIePYiZOiFrG/bUXIstTveG5sFEe+KpWO1GDF+zRKKugnA5IZ6YJx0rgDE/QQ==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -10816,13 +10831,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.6_@types+node@14.18.43
+      '@microsoft/api-extractor': 7.34.8_@types+node@14.18.46
       '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
       '@rollup/plugin-json': 6.0.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.5
-      '@types/node': 14.18.43
+      '@types/node': 14.18.46
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
@@ -10830,7 +10845,7 @@ packages:
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_mn2f3gd3jpedkkr23obcmzv5eq
+      rollup-plugin-sourcemaps: 0.6.3_m742s5qpci6ulntpyriekwplh4
       tslib: 2.5.0
       typescript: 5.0.4
       uglify-js: 3.17.4
@@ -13028,7 +13043,7 @@ packages:
     dev: false
 
   file:projects/arm-network-1.tgz:
-    resolution: {integrity: sha512-nXpqdA8VSaeag42S3M95ANDnxw2lbo20X2jflKuY51YrLbk/65nVaARI3OJ6CfEYNdwrR78d8e8W4ng/gmShgw==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-gGxn8y+MWnI9ZcjkEEyWvTRuta7sRLQ5ioIzsvxS3ojT8VqnGr2OGHhFiORHSivRZt8kjHNM/Cqab8RuLdVJDw==, tarball: file:projects/arm-network-1.tgz}
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
@@ -13729,7 +13744,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices.tgz:
-    resolution: {integrity: sha512-JfSr/qZBc5aqlc7j9am2UZiha8ZgsWXDEAZcKRc+Q3Z0KgU+sGjEPlatZK7Np32ObOoNgLe2XOYHDlVkF9gb9Q==, tarball: file:projects/arm-recoveryservices.tgz}
+    resolution: {integrity: sha512-g3xbd3aZQUuJEDL8r9KKaixUHooTDdQVvnzEEwMFENYC+x7KJQtV/ujOttSc0wkwgd+W9QMs9nD/Nh5ZIEtjEQ==, tarball: file:projects/arm-recoveryservices.tgz}
     name: '@rush-temp/arm-recoveryservices'
     version: 0.0.0
     dependencies:
@@ -13743,24 +13758,25 @@ packages:
       '@types/node': 14.18.46
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_m742s5qpci6ulntpyriekwplh4
       tslib: 2.5.0
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
     dev: false
 
   file:projects/arm-recoveryservicesbackup.tgz:
-    resolution: {integrity: sha512-QI8BpZ4AD0+9hQVbh8Alwjh1HJATPwkTLbXLbKC3N3zrCY1RVkB3+IFEuohes/LVjmHZBh5Iv3plTqu27Qppug==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
+    resolution: {integrity: sha512-xeTNlM+u1+GVltcw9Yc+HPvtPY5Pox4uZGJAgi4hT0nePiE4BUHnKDIRcIG4P/9WtMWkuMvNOrPv95rsb5bNQQ==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
     name: '@rush-temp/arm-recoveryservicesbackup'
     version: 0.0.0
     dependencies:
+      '@azure/arm-recoveryservices': 5.2.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.8_@types+node@14.18.46
       '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
